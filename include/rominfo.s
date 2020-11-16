@@ -18,7 +18,11 @@
 .endme
 
 .rombanksize $2000
-.rombanks $20
+.ifdef IS_EXTENDED_ROM
+    .rombanks $80
+.else
+    .rombanks $20
+.endif
 
 .asciitable
 .enda

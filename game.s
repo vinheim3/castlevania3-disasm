@@ -144,7 +144,11 @@
 .org 0
 .include "code/bank1e.s"
 
-.bank $1f slot 4
+.ifdef IS_EXTENDED_ROM
+    .bank $7f slot 4
+.else
+    .bank $1f slot 4
+.endif
 .org 0
 .include "code/bank1f.s"
 
