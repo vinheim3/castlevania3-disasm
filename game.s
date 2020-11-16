@@ -40,18 +40,28 @@
 
 .bank $08 slot 1
 .org 0
-.include "code/bank08.s"
+
+.db $88
+.include "code/soundCommon.s" namespace "b08_soundCommon"
+.include "data/soundData_b08.s"
 
 .bank $09 slot 2
 .org 0
+
+.include "data/soundData_b09.s"
 .include "code/bank09.s"
 
 .bank $0a slot 1
 .org 0
-.include "code/bank0a.s"
+
+.db $8a
+.include "code/soundCommon.s" namespace "b0a_soundCommon"
+.include "data/soundData_b0a.s"
 
 .bank $0b slot 2
 .org 0
+
+.include "data/soundData_b0b.s"
 .include "code/bank0b.s"
 
 .bank $0c
@@ -104,7 +114,11 @@
 
 .bank $18 slot 1
 .org 0
+
 .include "code/bank18.s"
+.include "data/soundPointers.s"
+.include "data/soundData_b18.s"
+.include "data/miscSoundData_b18.s"
 
 .bank $19 slot 2
 .org 0

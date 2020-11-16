@@ -45,7 +45,7 @@ for i, address in enumerate(groupAddresses[:-1]):
             isBGChr = True
             section += 1
 
-        sectionAddressLabelMap[sectionAddress] = label
+        sectionAddressLabelMap.setdefault(sectionAddress, []).append(label)
 
         offset += 2
     groupSectionAddresses.append(sectionAddresses)
@@ -57,13 +57,24 @@ s_addresses = sorted(allSectionAddresses)
 for i, address in enumerate(s_addresses[:-1]):
     nextAddress = s_addresses[i+1]
     sectionBytes = data[address:nextAddress]
-    joinedBytes = " ".join(f"${byte:02x}" for byte in sectionBytes)
-    if not joinedBytes:
+    if not sectionBytes:
         continue
-    comps.append(f"{sectionAddressLabelMap[address]}:")
-    comps.append(f"\t.db {joinedBytes}\n")
-    sectionBytesMap[address] = data[address:nextAddress]
+
+    if "bg" in sectionAddressLabelMap[address][0]:
+        byteGroup = 3
+    else:
+        byteGroup = 2
+    
+    for label in sectionAddressLabelMap[address]:
+        comps.append(f"{label}:")
+
+    for j in range(len(sectionBytes[::byteGroup])):
+        joinedBytes = " ".join(f"${byte:02x}" for byte in sectionBytes[j*byteGroup:(j+1)*byteGroup])
+        comps.append(f"\t.db {joinedBytes}")
+    comps.append('')
+    # sectionBytesMap[address] = data[address:nextAddress]
 
 final_str = '\n'.join(comps)
-print(final_str)
 clipboard.copy(final_str)
+with open('test.txt', 'w') as f:
+    f.write(final_str)

@@ -201,7 +201,7 @@ B28_0153:		rts				; 60
 
 B28_0154:		lda #$00		; a9 00
 B28_0156:		ldx #$10		; a2 10
-B28_0158:		jsr $fcdd		; 20 dd fc
+B28_0158:		jsr func_1f_1cdd		; 20 dd fc
 B28_015b:		beq B28_0172 ; f0 15
 
 B28_015d:		lda $32			; a5 32
@@ -513,12 +513,12 @@ B28_0352:		bpl B28_0356 ; 10 02
 B28_0354:		lda #$f8		; a9 f8
 B28_0356:		sta $08			; 85 08
 B28_0358:		ldx #$f0		; a2 f0
-B28_035a:		jsr $fcdd		; 20 dd fc
+B28_035a:		jsr func_1f_1cdd		; 20 dd fc
 B28_035d:		bne B28_0368 ; d0 09
 
 B28_035f:		lda $08			; a5 08
 B28_0361:		ldx #$00		; a2 00
-B28_0363:		jsr $fcdd		; 20 dd fc
+B28_0363:		jsr func_1f_1cdd		; 20 dd fc
 B28_0366:		beq B28_036e ; f0 06
 
 B28_0368:		jsr $97cf		; 20 cf 97
@@ -570,7 +570,7 @@ B28_03ac:		bne B28_03bd ; d0 0f
 
 B28_03ae:		ldx #$f8		; a2 f8
 B28_03b0:		lda #$00		; a9 00
-B28_03b2:		jsr $fcdd		; 20 dd fc
+B28_03b2:		jsr func_1f_1cdd		; 20 dd fc
 B28_03b5:		cmp #$05		; c9 05
 B28_03b7:		beq B28_03bf ; f0 06
 
@@ -598,7 +598,7 @@ B28_03d0:		beq B28_03dd ; f0 0b
 
 B28_03d2:		ldx #$0c		; a2 0c
 B28_03d4:		lda #$00		; a9 00
-B28_03d6:		jsr $fcdd		; 20 dd fc
+B28_03d6:		jsr func_1f_1cdd		; 20 dd fc
 B28_03d9:		bne B28_03dd ; d0 02
 
 B28_03db:		sec				; 38 
@@ -612,7 +612,7 @@ B28_03de:		rts				; 60
 B28_03df:		jsr $fbe8		; 20 e8 fb
 B28_03e2:		ldx $08			; a6 08
 B28_03e4:		lda #$fb		; a9 fb
-B28_03e6:		jsr $fcdd		; 20 dd fc
+B28_03e6:		jsr func_1f_1cdd		; 20 dd fc
 B28_03e9:		cmp #$04		; c9 04
 B28_03eb:		beq B28_03ef ; f0 02
 
@@ -633,7 +633,7 @@ B28_03fa:		sta $3c			; 85 3c
 B28_03fc:		jmp $820b		; 4c 0b 82
 
 
-B28_03ff:		jsr $fcdd		; 20 dd fc
+B28_03ff:		jsr func_1f_1cdd		; 20 dd fc
 B28_0402:		beq B28_040a ; f0 06
 
 B28_0404:		cmp #$01		; c9 01
@@ -643,7 +643,7 @@ B28_0408:		cmp #$08		; c9 08
 B28_040a:		rts				; 60 
 
 
-B28_040b:		jsr $fcdd		; 20 dd fc
+B28_040b:		jsr func_1f_1cdd		; 20 dd fc
 B28_040e:		beq B28_0412 ; f0 02
 
 B28_0410:		cmp #$01		; c9 01
@@ -684,7 +684,7 @@ B28_0439:		jmp $851e		; 4c 1e 85
 
 
 B28_043c:		lda #$05		; a9 05
-B28_043e:		jsr $fcdd		; 20 dd fc
+B28_043e:		jsr func_1f_1cdd		; 20 dd fc
 B28_0441:		beq B28_0461 ; f0 1e
 
 B28_0443:		cmp #$01		; c9 01
@@ -712,7 +712,7 @@ B28_045f:		bcc B28_048c ; 90 2b
 
 B28_0461:		ldx $08			; a6 08
 B28_0463:		lda #$fb		; a9 fb
-B28_0465:		jsr $fcdd		; 20 dd fc
+B28_0465:		jsr func_1f_1cdd		; 20 dd fc
 B28_0468:		beq B28_048e ; f0 24
 
 B28_046a:		cmp #$01		; c9 01
@@ -807,12 +807,12 @@ B28_04df:		rts				; 60
 
 B28_04e0:		ldx $08			; a6 08
 B28_04e2:		lda #$05		; a9 05
-B28_04e4:		jsr $fcdd		; 20 dd fc
+B28_04e4:		jsr func_1f_1cdd		; 20 dd fc
 B28_04e7:		bne B28_04f9 ; d0 10
 
 B28_04e9:		ldx $08			; a6 08
 B28_04eb:		lda #$fb		; a9 fb
-B28_04ed:		jsr $fcdd		; 20 dd fc
+B28_04ed:		jsr func_1f_1cdd		; 20 dd fc
 B28_04f0:		bne B28_04f9 ; d0 07
 
 B28_04f2:		ldx $91			; a6 91
@@ -1809,7 +1809,7 @@ B28_0a9c:		jsr $a5a8		; 20 a8 a5
 B28_0a9f:		jmp $8aa5		; 4c a5 8a
 
 
-B28_0aa2:		jsr $937b		; 20 7b 93
+B28_0aa2:		jsr func_1c_137b		; 20 7b 93
 B28_0aa5:		lda $0565		; ad 65 05
 B28_0aa8:		bmi B28_0ac4 ; 30 1a
 
@@ -2521,6 +2521,7 @@ B28_0efc:		ldy #$80		; a0 80
 B28_0efe:		jmp $8e7a		; 4c 7a 8e
 
 
+func_1c_0f01:
 B28_0f01:		lda $2a			; a5 2a
 B28_0f03:		cmp #$1b		; c9 1b
 B28_0f05:		beq B28_0f31 ; f0 2a
@@ -2877,7 +2878,7 @@ B28_115a:		bne B28_115e ; d0 02
 B28_115c:		lda #$f8		; a9 f8
 B28_115e:		sta $00			; 85 00
 B28_1160:		ldx #$00		; a2 00
-B28_1162:		jsr $fcdd		; 20 dd fc
+B28_1162:		jsr func_1f_1cdd		; 20 dd fc
 B28_1165:		beq B28_1169 ; f0 02
 
 B28_1167:		sec				; 38 
@@ -2889,7 +2890,7 @@ B28_116b:		sty $01			; 84 01
 B28_116d:		lda $9186, y	; b9 86 91
 B28_1170:		tax				; aa 
 B28_1171:		lda $00			; a5 00
-B28_1173:		jsr $fcdd		; 20 dd fc
+B28_1173:		jsr func_1f_1cdd		; 20 dd fc
 B28_1176:		bne B28_1167 ; d0 ef
 
 B28_1178:		lda $01			; a5 01
@@ -2987,12 +2988,12 @@ B28_11d8:		bpl B28_11d2 ; 10 f8
 
 B28_11da:		lda #$fb		; a9 fb
 B28_11dc:		ldx #$f8		; a2 f8
-B28_11de:		jsr $fcdd		; 20 dd fc
+B28_11de:		jsr func_1f_1cdd		; 20 dd fc
 B28_11e1:		bne B28_11ec ; d0 09
 
 B28_11e3:		lda #$05		; a9 05
 B28_11e5:		ldx #$f8		; a2 f8
-B28_11e7:		jsr $fcdd		; 20 dd fc
+B28_11e7:		jsr func_1f_1cdd		; 20 dd fc
 B28_11ea:		beq B28_11d2 ; f0 e6
 
 B28_11ec:		lda #$10		; a9 10
@@ -3020,14 +3021,14 @@ B28_1210:		bpl B28_121d ; 10 0b
 
 B28_1212:		lda #$f8		; a9 f8
 B28_1214:		ldx #$f0		; a2 f0
-B28_1216:		jsr $fcdd		; 20 dd fc
+B28_1216:		jsr func_1f_1cdd		; 20 dd fc
 B28_1219:		bne B28_1237 ; d0 1c
 
 B28_121b:		beq B28_1226 ; f0 09
 
 B28_121d:		lda #$08		; a9 08
 B28_121f:		ldx #$f0		; a2 f0
-B28_1221:		jsr $fcdd		; 20 dd fc
+B28_1221:		jsr func_1f_1cdd		; 20 dd fc
 B28_1224:		bne B28_1237 ; d0 11
 
 B28_1226:		ldx $91			; a6 91
@@ -3050,12 +3051,12 @@ B28_1246:		beq B28_125a ; f0 12
 
 B28_1248:		ldx #$01		; a2 01
 B28_124a:		lda #$f8		; a9 f8
-B28_124c:		jsr $fcdd		; 20 dd fc
+B28_124c:		jsr func_1f_1cdd		; 20 dd fc
 B28_124f:		bne B28_125a ; d0 09
 
 B28_1251:		ldx #$f0		; a2 f0
 B28_1253:		lda #$f8		; a9 f8
-B28_1255:		jsr $fcdd		; 20 dd fc
+B28_1255:		jsr func_1f_1cdd		; 20 dd fc
 B28_1258:		beq B28_125b ; f0 01
 
 B28_125a:		rts				; 60 
@@ -3088,12 +3089,12 @@ B28_1285:		jmp $873a		; 4c 3a 87
 
 B28_1288:		ldx #$01		; a2 01
 B28_128a:		lda #$08		; a9 08
-B28_128c:		jsr $fcdd		; 20 dd fc
+B28_128c:		jsr func_1f_1cdd		; 20 dd fc
 B28_128f:		bne B28_129a ; d0 09
 
 B28_1291:		ldx #$f0		; a2 f0
 B28_1293:		lda #$08		; a9 08
-B28_1295:		jsr $fcdd		; 20 dd fc
+B28_1295:		jsr func_1f_1cdd		; 20 dd fc
 B28_1298:		beq B28_129b ; f0 01
 
 B28_129a:		rts				; 60 
@@ -3119,12 +3120,12 @@ B28_12b8:		jmp $873a		; 4c 3a 87
 
 B28_12bb:		ldx #$01		; a2 01
 B28_12bd:		lda #$f8		; a9 f8
-B28_12bf:		jsr $fcdd		; 20 dd fc
+B28_12bf:		jsr func_1f_1cdd		; 20 dd fc
 B28_12c2:		bne B28_12cd ; d0 09
 
 B28_12c4:		ldx #$f0		; a2 f0
 B28_12c6:		lda #$f8		; a9 f8
-B28_12c8:		jsr $fcdd		; 20 dd fc
+B28_12c8:		jsr func_1f_1cdd		; 20 dd fc
 B28_12cb:		beq B28_12ce ; f0 01
 
 B28_12cd:		rts				; 60 
@@ -3150,12 +3151,12 @@ B28_12eb:		jmp $873a		; 4c 3a 87
 
 B28_12ee:		ldx #$01		; a2 01
 B28_12f0:		lda #$08		; a9 08
-B28_12f2:		jsr $fcdd		; 20 dd fc
+B28_12f2:		jsr func_1f_1cdd		; 20 dd fc
 B28_12f5:		bne B28_1300 ; d0 09
 
 B28_12f7:		ldx #$f0		; a2 f0
 B28_12f9:		lda #$08		; a9 08
-B28_12fb:		jsr $fcdd		; 20 dd fc
+B28_12fb:		jsr func_1f_1cdd		; 20 dd fc
 B28_12fe:		beq B28_1301 ; f0 01
 
 B28_1300:		rts				; 60 
@@ -3221,36 +3222,35 @@ B28_1373:		sta $0509		; 8d 09 05
 B28_1376:		sta $0537		; 8d 37 05
 B28_1379:		beq B28_135d ; f0 e2
 
+func_1c_137b:
 B28_137b:		ldy $0565		; ac 65 05
 B28_137e:		jsr jumpTableNoPreserveY		; 20 86 e8
-B28_1381:		cmp $8a			; c5 8a
-B28_1383:		sec				; 38 
-B28_1384:		sta $60, x		; 95 60
-B28_1386:		stx $1d, y		; 96 1d
-B28_1388:		stx $70, y		; 96 70
-B28_138a:	.db $97
-B28_138b:		ora $7099, y	; 19 99 70
-B28_138e:	.db $97
-B28_138f:	.db $53
-B28_1390:		sta $9967, y	; 99 67 99
-B28_1393:		stx $9399		; 8e 99 93
-B28_1396:		txs				; 9a 
-B28_1397:	.db $42
-B28_1398:		sta $9418, y	; 99 18 94
-B28_139b:	.db $3a
-B28_139c:		sty $65, x		; 94 65
-B28_139e:		sty $9e, x		; 94 9e
-B28_13a0:		sty $b8, x		; 94 b8
-B28_13a2:		sty $d4, x		; 94 d4
-B28_13a4:		sty $ff, x		; 94 ff
-B28_13a6:		sty $1c, x		; 94 1c
-B28_13a8:	.db $83
-B28_13a9:		lda ($93), y	; b1 93
-B28_13ab:		lda ($93), y	; b1 93
-B28_13ad:	.db $57
-B28_13ae:	.db $8b
-B28_13af:		dec $a98a, x	; de 8a a9
-B28_13b2:	.db $02
+	.dw $8ac5
+	.dw $9538
+	.dw $9660
+	.dw $961d
+	.dw $9770
+	.dw $9919
+	.dw $9770
+	.dw $9953
+	.dw $9967
+	.dw $998e
+	.dw $9a93
+	.dw $9942
+	.dw $9418
+	.dw $943a
+	.dw $9465
+	.dw $949e
+	.dw $94b8
+	.dw $94d4
+	.dw $94ff
+	.dw $831c
+	.dw $93b1
+	.dw $93b1
+	.dw $8b57
+	.dw $8ade
+
+B28_13b1:		lda #$02
 B28_13b3:		sta $0400		; 8d 00 04
 B28_13b6:		dec $05d4		; ce d4 05
 B28_13b9:		beq B28_13db ; f0 20
@@ -3288,12 +3288,12 @@ B28_13ec:		beq B28_13e5 ; f0 f7
 
 B28_13ee:		ldx #$10		; a2 10
 B28_13f0:		lda #$fb		; a9 fb
-B28_13f2:		jsr $fcdd		; 20 dd fc
+B28_13f2:		jsr func_1f_1cdd		; 20 dd fc
 B28_13f5:		bne B28_1401 ; d0 0a
 
 B28_13f7:		ldx #$10		; a2 10
 B28_13f9:		lda #$05		; a9 05
-B28_13fb:		jsr $fcdd		; 20 dd fc
+B28_13fb:		jsr func_1f_1cdd		; 20 dd fc
 B28_13fe:		bne B28_1401 ; d0 01
 
 B28_1400:		rts				; 60 
@@ -3752,7 +3752,6 @@ B28_16ab:		lda #$18		; a9 18
 B28_16ad:		jsr $940a		; 20 0a 94
 B28_16b0:		jmp $9683		; 4c 83 96
 
-
 B28_16b3:		jsr $ba69		; 20 69 ba
 B28_16b6:		bcc B28_1673 ; 90 bb
 
@@ -3765,25 +3764,24 @@ B28_16c2:		bcc B28_16d9 ; 90 15
 
 B28_16c4:		ldx #$00		; a2 00
 B28_16c6:		lda #$08		; a9 08
-B28_16c8:		jsr $fcdd		; 20 dd fc
+B28_16c8:		jsr func_1f_1cdd		; 20 dd fc
 B28_16cb:		bne B28_16f1 ; d0 24
 
 B28_16cd:		ldx #$f0		; a2 f0
 B28_16cf:		lda #$08		; a9 08
-B28_16d1:		jsr $fcdd		; 20 dd fc
+B28_16d1:		jsr func_1f_1cdd		; 20 dd fc
 B28_16d4:		bne B28_16f1 ; d0 1b
 
 B28_16d6:		jmp $9686		; 4c 86 96
 
-
 B28_16d9:		ldx #$00		; a2 00
 B28_16db:		lda #$08		; a9 08
-B28_16dd:		jsr $fcdd		; 20 dd fc
+B28_16dd:		jsr func_1f_1cdd		; 20 dd fc
 B28_16e0:		bne B28_16f1 ; d0 0f
 
 B28_16e2:		ldx #$f0		; a2 f0
 B28_16e4:		lda #$08		; a9 08
-B28_16e6:		jsr $fcdd		; 20 dd fc
+B28_16e6:		jsr func_1f_1cdd		; 20 dd fc
 B28_16e9:		bne B28_16f1 ; d0 06
 
 B28_16eb:		lda #$01		; a9 01
@@ -3796,34 +3794,34 @@ B28_16f4:		beq B28_172b ; f0 35
 
 B28_16f6:		lda #$01		; a9 01
 B28_16f8:		sta $04a8		; 8d a8 04
-B28_16fb:		jsr $8f01		; 20 01 8f
+B28_16fb:		jsr func_1c_0f01		; 20 01 8f
 B28_16fe:		bcc B28_1715 ; 90 15
 
 B28_1700:		ldx #$00		; a2 00
 B28_1702:		lda #$f8		; a9 f8
-B28_1704:		jsr $fcdd		; 20 dd fc
+B28_1704:		jsr func_1f_1cdd		; 20 dd fc
 B28_1707:		bne B28_16f1 ; d0 e8
 
 B28_1709:		ldx #$f0		; a2 f0
 B28_170b:		lda #$f8		; a9 f8
-B28_170d:		jsr $fcdd		; 20 dd fc
+B28_170d:		jsr func_1f_1cdd		; 20 dd fc
 B28_1710:		bne B28_16f1 ; d0 df
 
 B28_1712:		jmp $9686		; 4c 86 96
 
-
 B28_1715:		ldx #$00		; a2 00
 B28_1717:		lda #$f8		; a9 f8
-B28_1719:		jsr $fcdd		; 20 dd fc
+B28_1719:		jsr func_1f_1cdd		; 20 dd fc
 B28_171c:		bne B28_16f1 ; d0 d3
 
 B28_171e:		ldx #$f0		; a2 f0
 B28_1720:		lda #$f8		; a9 f8
-B28_1722:		jsr $fcdd		; 20 dd fc
+B28_1722:		jsr func_1f_1cdd		; 20 dd fc
 B28_1725:		bne B28_16f1 ; d0 ca
 
 B28_1727:		lda #$ff		; a9 ff
 B28_1729:		ldy #$00		; a0 00
+
 B28_172b:		sty $0509		; 8c 09 05
 B28_172e:		sta $04f2		; 8d f2 04
 B28_1731:		jmp $9683		; 4c 83 96
@@ -3899,24 +3897,24 @@ B28_17a4:		bpl B28_17ba ; 10 14
 
 B28_17a6:		ldx #$10		; a2 10
 B28_17a8:		lda #$f8		; a9 f8
-B28_17aa:		jsr $fcdd		; 20 dd fc
+B28_17aa:		jsr func_1f_1cdd		; 20 dd fc
 B28_17ad:		bne B28_17cf ; d0 20
 
 B28_17af:		ldx #$08		; a2 08
 B28_17b1:		lda #$f8		; a9 f8
-B28_17b3:		jsr $fcdd		; 20 dd fc
+B28_17b3:		jsr func_1f_1cdd		; 20 dd fc
 B28_17b6:		bne B28_17cf ; d0 17
 
 B28_17b8:		beq B28_17cc ; f0 12
 
 B28_17ba:		ldx #$10		; a2 10
 B28_17bc:		lda #$08		; a9 08
-B28_17be:		jsr $fcdd		; 20 dd fc
+B28_17be:		jsr func_1f_1cdd		; 20 dd fc
 B28_17c1:		bne B28_17cf ; d0 0c
 
 B28_17c3:		ldx #$08		; a2 08
 B28_17c5:		lda #$08		; a9 08
-B28_17c7:		jsr $fcdd		; 20 dd fc
+B28_17c7:		jsr func_1f_1cdd		; 20 dd fc
 B28_17ca:		bne B28_17cf ; d0 03
 
 B28_17cc:		jsr $873a		; 20 3a 87
@@ -3928,7 +3926,7 @@ B28_17da:		beq B28_1841 ; f0 65
 
 B28_17dc:		ldx #$10		; a2 10
 B28_17de:		lda #$fb		; a9 fb
-B28_17e0:		jsr $fcdd		; 20 dd fc
+B28_17e0:		jsr func_1f_1cdd		; 20 dd fc
 B28_17e3:		beq B28_17f1 ; f0 0c
 
 B28_17e5:		ldx #$08		; a2 08
@@ -3941,7 +3939,7 @@ B28_17ee:		jmp $9841		; 4c 41 98
 
 B28_17f1:		ldx #$10		; a2 10
 B28_17f3:		lda #$05		; a9 05
-B28_17f5:		jsr $fcdd		; 20 dd fc
+B28_17f5:		jsr func_1f_1cdd		; 20 dd fc
 B28_17f8:		beq B28_1806 ; f0 0c
 
 B28_17fa:		ldx #$08		; a2 08
@@ -4490,24 +4488,24 @@ B28_1b1e:		bmi B28_1b64 ; 30 44
 
 B28_1b20:		ldx #$12		; a2 12
 B28_1b22:		lda #$02		; a9 02
-B28_1b24:		jsr $fcdd		; 20 dd fc
+B28_1b24:		jsr func_1f_1cdd		; 20 dd fc
 B28_1b27:		bne B28_1b3d ; d0 14
 
 B28_1b29:		ldx #$12		; a2 12
 B28_1b2b:		lda #$fe		; a9 fe
-B28_1b2d:		jsr $fcdd		; 20 dd fc
+B28_1b2d:		jsr func_1f_1cdd		; 20 dd fc
 B28_1b30:		beq B28_1b88 ; f0 56
 
 B28_1b32:		ldx #$1a		; a2 1a
 B28_1b34:		lda #$fe		; a9 fe
-B28_1b36:		jsr $fcdd		; 20 dd fc
+B28_1b36:		jsr func_1f_1cdd		; 20 dd fc
 B28_1b39:		beq B28_1b88 ; f0 4d
 
 B28_1b3b:		bne B28_1b46 ; d0 09
 
 B28_1b3d:		ldx #$1a		; a2 1a
 B28_1b3f:		lda #$02		; a9 02
-B28_1b41:		jsr $fcdd		; 20 dd fc
+B28_1b41:		jsr func_1f_1cdd		; 20 dd fc
 B28_1b44:		beq B28_1b88 ; f0 42
 
 B28_1b46:		jsr $8a02		; 20 02 8a
@@ -4528,22 +4526,22 @@ B28_1b63:		rts				; 60
 
 B28_1b64:		ldx #$12		; a2 12
 B28_1b66:		lda #$02		; a9 02
-B28_1b68:		jsr $fcdd		; 20 dd fc
+B28_1b68:		jsr func_1f_1cdd		; 20 dd fc
 B28_1b6b:		bne B28_1b7f ; d0 12
 
 B28_1b6d:		ldx #$12		; a2 12
 B28_1b6f:		lda #$fe		; a9 fe
-B28_1b71:		jsr $fcdd		; 20 dd fc
+B28_1b71:		jsr func_1f_1cdd		; 20 dd fc
 B28_1b74:		beq B28_1b88 ; f0 12
 
 B28_1b76:		ldx #$0a		; a2 0a
 B28_1b78:		lda #$fe		; a9 fe
-B28_1b7a:		jsr $fcdd		; 20 dd fc
+B28_1b7a:		jsr func_1f_1cdd		; 20 dd fc
 B28_1b7d:		beq B28_1b46 ; f0 c7
 
 B28_1b7f:		ldx #$0a		; a2 0a
 B28_1b81:		lda #$02		; a9 02
-B28_1b83:		jsr $fcdd		; 20 dd fc
+B28_1b83:		jsr func_1f_1cdd		; 20 dd fc
 B28_1b86:		beq B28_1b46 ; f0 be
 
 B28_1b88:		lda #$12		; a9 12
@@ -4801,7 +4799,7 @@ B28_1d27:		rts				; 60
 
 B28_1d28:		lda #$05		; a9 05
 B28_1d2a:		ldx #$0c		; a2 0c
-B28_1d2c:		jsr $fcdd		; 20 dd fc
+B28_1d2c:		jsr func_1f_1cdd		; 20 dd fc
 B28_1d2f:		beq B28_1d35 ; f0 04
 
 B28_1d31:		lda #$01		; a9 01
@@ -4868,12 +4866,12 @@ B28_1d8d:		bcc B28_1da4 ; 90 15
 
 B28_1d8f:		ldx #$00		; a2 00
 B28_1d91:		lda #$08		; a9 08
-B28_1d93:		jsr $fcdd		; 20 dd fc
+B28_1d93:		jsr func_1f_1cdd		; 20 dd fc
 B28_1d96:		bne B28_1dfa ; d0 62
 
 B28_1d98:		ldx #$f4		; a2 f4
 B28_1d9a:		lda #$08		; a9 08
-B28_1d9c:		jsr $fcdd		; 20 dd fc
+B28_1d9c:		jsr func_1f_1cdd		; 20 dd fc
 B28_1d9f:		bne B28_1dfa ; d0 59
 
 B28_1da1:		jmp $9d5e		; 4c 5e 9d
@@ -4881,12 +4879,12 @@ B28_1da1:		jmp $9d5e		; 4c 5e 9d
 
 B28_1da4:		ldx #$00		; a2 00
 B28_1da6:		lda #$08		; a9 08
-B28_1da8:		jsr $fcdd		; 20 dd fc
+B28_1da8:		jsr func_1f_1cdd		; 20 dd fc
 B28_1dab:		bne B28_1e1b ; d0 6e
 
 B28_1dad:		ldx #$f4		; a2 f4
 B28_1daf:		lda #$08		; a9 08
-B28_1db1:		jsr $fcdd		; 20 dd fc
+B28_1db1:		jsr func_1f_1cdd		; 20 dd fc
 B28_1db4:		bne B28_1dfa ; d0 44
 
 B28_1db6:		lda #$01		; a9 01
@@ -4895,17 +4893,17 @@ B28_1dba:		bne B28_1df1 ; d0 35
 
 B28_1dbc:		lda #$01		; a9 01
 B28_1dbe:		sta $04a8		; 8d a8 04
-B28_1dc1:		jsr $8f01		; 20 01 8f
+B28_1dc1:		jsr func_1c_0f01		; 20 01 8f
 B28_1dc4:		bcc B28_1ddb ; 90 15
 
 B28_1dc6:		ldx #$00		; a2 00
 B28_1dc8:		lda #$f8		; a9 f8
-B28_1dca:		jsr $fcdd		; 20 dd fc
+B28_1dca:		jsr func_1f_1cdd		; 20 dd fc
 B28_1dcd:		bne B28_1dfa ; d0 2b
 
 B28_1dcf:		ldx #$f4		; a2 f4
 B28_1dd1:		lda #$f8		; a9 f8
-B28_1dd3:		jsr $fcdd		; 20 dd fc
+B28_1dd3:		jsr func_1f_1cdd		; 20 dd fc
 B28_1dd6:		bne B28_1dfa ; d0 22
 
 B28_1dd8:		jmp $9d5e		; 4c 5e 9d
@@ -4918,7 +4916,7 @@ B28_1de2:		bne B28_1e0b ; d0 27
 
 B28_1de4:		ldx #$f4		; a2 f4
 B28_1de6:		lda #$f8		; a9 f8
-B28_1de8:		jsr $fcdd		; 20 dd fc
+B28_1de8:		jsr func_1f_1cdd		; 20 dd fc
 B28_1deb:		bne B28_1dfa ; d0 0d
 
 B28_1ded:		lda #$fe		; a9 fe
@@ -5208,19 +5206,19 @@ B28_1fc4:		bpl B28_1fe3 ; 10 1d
 
 B28_1fc6:		ldx #$0c		; a2 0c
 B28_1fc8:		lda #$f8		; a9 f8
-B28_1fca:		jsr $fcdd		; 20 dd fc
+B28_1fca:		jsr func_1f_1cdd		; 20 dd fc
 B28_1fcd:		;removed
 	.db $d0 $2f
 
 B28_1fcf:		ldx #$00		; a2 00
 B28_1fd1:		lda #$f8		; a9 f8
-B28_1fd3:		jsr $fcdd		; 20 dd fc
+B28_1fd3:		jsr func_1f_1cdd		; 20 dd fc
 B28_1fd6:		;removed
 	.db $d0 $26
 
 B28_1fd8:		ldx #$f4		; a2 f4
 B28_1fda:		lda #$f8		; a9 f8
-B28_1fdc:		jsr $fcdd		; 20 dd fc
+B28_1fdc:		jsr func_1f_1cdd		; 20 dd fc
 B28_1fdf:		;removed
 	.db $f0 $25
 
@@ -5229,19 +5227,19 @@ B28_1fe1:		;removed
 
 B28_1fe3:		ldx #$0c		; a2 0c
 B28_1fe5:		lda #$08		; a9 08
-B28_1fe7:		jsr $fcdd		; 20 dd fc
+B28_1fe7:		jsr func_1f_1cdd		; 20 dd fc
 B28_1fea:		;removed
 	.db $d0 $12
 
 B28_1fec:		ldx #$00		; a2 00
 B28_1fee:		lda #$08		; a9 08
-B28_1ff0:		jsr $fcdd		; 20 dd fc
+B28_1ff0:		jsr func_1f_1cdd		; 20 dd fc
 B28_1ff3:		;removed
 	.db $d0 $09
 
 B28_1ff5:		ldx #$f4		; a2 f4
 B28_1ff7:		lda #$08		; a9 08
-B28_1ff9:		jsr $fcdd		; 20 dd fc
+B28_1ff9:		jsr func_1f_1cdd		; 20 dd fc
 B28_1ffc:		;removed
 	.db $f0 $08
 

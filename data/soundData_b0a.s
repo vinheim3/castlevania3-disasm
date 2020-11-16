@@ -1,9 +1,3 @@
-
-.db $8a 
-
-.include "code/soundCommon.s" namespace "b0a_soundCommon"
-
-
 sound4e_instrument00:
 	.db $d8 $76 $82 $14 $e9 $b1 $ed $02
 	.db $e3 $40 $30 $e4 $b0 $e3 $20 $10

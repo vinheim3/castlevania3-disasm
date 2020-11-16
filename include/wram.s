@@ -68,7 +68,13 @@ wNametableMapping: ; $25
     db
 
 w026:
-    dsb $32-$26
+    dsb $b-6
+
+wIsPaused: ; $2b
+    db
+
+w02c:
+    dsb $32-$2c
 
 wCurrRoomGroup: ; $32
     db
@@ -169,6 +175,15 @@ wCurrInstrumentDataAddr: ; $e0
 .nextu
     wNextInstrumentDataAddr_lo: ; $e2
         db
+.nextu
+    wGenericTempVar: ; $e2
+        db
+.nextu
+    wEnvelopeAddr: ; $e2
+        dw
+.nextu
+    wFreqAdjustFromEnvelope: ; $e2
+        db
 .endu
 
 wSoundBankTempX: ; $e4
@@ -219,8 +234,7 @@ wPPUMask: ; $fe
 wPPUCtrl: ; $ff
     db
 
-; delay until next byte?
-w100:
+wInstrumentsFramesUntilNextByteProcessed:
     dsb 7
 
 wInstrumentsSoundIdxes: ; $107
@@ -257,7 +271,13 @@ wInstrumentLastFreq_hi: ; $14d
     dsb 7
 
 w154:
-    dsb $69-$54
+    dsb $67-$54
+
+wPauseSoundPlayed: ; $167
+    db
+
+w168:
+    db
 
 w169:
     dsb 5
@@ -287,10 +307,30 @@ wInstrumentFrequency_hi: ; $186
 
 ; todo: unknown size
 w189:
-    dsb 7
+    dsb 3
+
+wCurrInstrumentHwRegOffset: ; $18c
+    db
+
+wSoundCounterForGlobalDelayFrames: ; $18d
+    db
+
+; all instruments skipped once everytime this many frames passed
+wSoundGlobalDelayFrames: ; 18e
+    db
+
+; todo: specifically for noise??
+wSoundShouldSkipDecreasingDelayBytes: ; $18f
+    db
 
 w190:
-    dsb 5
+    dsb 2
+
+wCurrentlyPlayingDMCSoundIdx: ; $192
+    db
+
+w193:
+    dsb 2
 
 ; todo: unknown size
 wInstrumentDataBanks: ; $195
@@ -317,5 +357,30 @@ w3cc:
 ; num times to multiply $100,x to itself, 
 w3cf:
     dsb 3
+
+w3d2:
+    dsb $e1-$d2
+
+wInstrumentEnvelopeMultiplier: ; $3e1
+    dsb 3
+
+w3e4:
+    dsb $6a0-$3e4
+
+wInstrumentEnvelopeLoopToIdx: ; $6a0
+    dsb 3
+
+wInstrumentsCurrEnvelopeInUse: ; $6a3
+    dsb 3
+
+wInstrumentsEnvelopeIdx: ; $6a6
+    dsb 3
+
+w6a9:
+    dsb $c8-$a9
+
+; eg ominous laugh, boss scream, flying heads scream
+wTimeSpecialDMCSoundPlayed: ; $6c8
+    db
 
 .ends

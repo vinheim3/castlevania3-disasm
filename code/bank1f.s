@@ -220,6 +220,7 @@ B31_0135:		sta wIRQFuncAddr+1			; 85 45
 B31_0137:		jmp (wIRQFuncAddr)
 
 
+irqFunc_end:
 B31_013a:		lda #$00		; a9 00
 B31_013c:		sta SCANLINE_IRQ_STATUS.w		; 8d 04 52
 
@@ -339,12 +340,12 @@ B31_01e6:		lda wInstrumentDataBanks.w, x	; bd 95 01
 B31_01e9:		jmp setAndSaveLowerBank		; 4c e6 e2
 
 
-func_1f_01ec:
-B31_01ec:		lda #PRG_ROM_SWITCH|:func_18_0cfa		; a9 98
-B31_01ee:		jsr setAndSaveLowerBank		; 20 e6 e2
-B31_01f1:		jsr func_18_0cfa		; 20 fa 8c
-B31_01f4:		lda wInstrumentDataBanks.w, x	; bd 95 01
-B31_01f7:		jmp setAndSaveLowerBank		; 4c e6 e2
+processNextEnvelopeByte:
+	lda #PRG_ROM_SWITCH|:b18_processNextEnvelopeByte
+	jsr setAndSaveLowerBank
+	jsr b18_processNextEnvelopeByte
+	lda wInstrumentDataBanks.w, x
+	jmp setAndSaveLowerBank
 
 
 func_1f_01fa:
@@ -1360,7 +1361,7 @@ B31_0855:		inx				; e8
 B31_0856:		bne B31_0852 ; d0 fa
 
 B31_0858:		ldx #$00		; a2 00
-B31_085a:		sta $0300, x	; 9d 00 03
+B31_085a:		sta wVramQueue.w, x	; 9d 00 03
 B31_085d:		inx				; e8 
 B31_085e:		cpx #$c0		; e0 c0
 B31_0860:		bne B31_085a ; d0 f8
@@ -1473,7 +1474,7 @@ B31_08e9:		sta $62			; 85 62
 B31_08eb:		jsr $e8b5		; 20 b5 e8
 B31_08ee:		ldy #$40		; a0 40
 B31_08f0:		lda #$00		; a9 00
-B31_08f2:		sta $0300, x	; 9d 00 03
+B31_08f2:		sta wVramQueue.w, x	; 9d 00 03
 B31_08f5:		inx				; e8 
 B31_08f6:		dey				; 88 
 B31_08f7:		bne B31_08f2 ; d0 f9
@@ -1489,13 +1490,13 @@ B31_0903:		lsr a			; 4a
 B31_0904:		lsr a			; 4a
 B31_0905:		tay				; a8 
 B31_0906:		lda $e91b, y	; b9 1b e9
-B31_0909:		sta $0300, x	; 9d 00 03
+B31_0909:		sta wVramQueue.w, x	; 9d 00 03
 B31_090c:		inx				; e8 
 B31_090d:		lda $08			; a5 08
 B31_090f:		and #$0f		; 29 0f
 B31_0911:		tay				; a8 
 B31_0912:		lda $e91b, y	; b9 1b e9
-B31_0915:		sta $0300, x	; 9d 00 03
+B31_0915:		sta wVramQueue.w, x	; 9d 00 03
 B31_0918:		jmp $e8dd		; 4c dd e8
 
 
@@ -2139,7 +2140,7 @@ func_1f_0d14:
 B31_0d14:		ldx $1d			; a6 1d
 
 func_1f_0d16:
-B31_0d16:		sta $0300, x	; 9d 00 03
+B31_0d16:		sta wVramQueue.w, x	; 9d 00 03
 B31_0d19:		inx				; e8 
 B31_0d1a:		stx $1d			; 86 1d
 B31_0d1c:		rts				; 60 
@@ -2162,7 +2163,7 @@ processVramQueue_todo:
 B31_0d27:		ldy #$00		; a0 00
 
 @nextControlByte:
-B31_0d29:		ldx $0300, y	; be 00 03
+B31_0d29:		ldx wVramQueue.w, y	; be 00 03
 B31_0d2c:		beq B31_0d5f ; @done
 
 B31_0d2e:		lda wPPUCtrl			; a5 ff
@@ -2199,7 +2200,7 @@ B31_0d5c:		jmp B31_0f39		; 4c 39 ef
 
 @done:
 B31_0d5f:		lda #$00		; a9 00
-B31_0d61:		sta $0300		; 8d 00 03
+B31_0d61:		sta wVramQueue.w		; 8d 00 03
 B31_0d64:		sta $1d			; 85 1d
 B31_0d66:		lda wPPUCtrl			; a5 ff
 B31_0d68:		sta PPUCTRL.w		; 8d 00 20
@@ -2224,9 +2225,9 @@ B31_0d7e:		bcs B31_0d6c ; @loop_0d6c
 B31_0d80:		bcc B31_0d29 ; @nextControlByte
 
 ; control byte 3
-B31_0d82:		ldx $0300, y	; be 00 03
+B31_0d82:		ldx wVramQueue.w, y	; be 00 03
 B31_0d85:		iny				; c8 
-B31_0d86:		lda $0300, y	; b9 00 03
+B31_0d86:		lda wVramQueue.w, y	; b9 00 03
 B31_0d89:		sta PPUDATA.w		; 8d 07 20
 B31_0d8c:		dex				; ca 
 B31_0d8d:		bne B31_0d89 ; d0 fa
@@ -2293,13 +2294,13 @@ B31_0df3:		ldx #$01		; a2 01
 B31_0df5:		lda PPUSTATUS.w		; ad 02 20
 B31_0df8:		lda $0301, y	; b9 01 03
 B31_0dfb:		sta PPUADDR.w		; 8d 06 20
-B31_0dfe:		lda $0300, y	; b9 00 03
+B31_0dfe:		lda wVramQueue.w, y	; b9 00 03
 B31_0e01:		sta PPUADDR.w		; 8d 06 20
 B31_0e04:		iny				; c8 
 B31_0e05:		iny				; c8 
 
 .rept 32
-	lda $0300, y	; b9 00 03
+	lda wVramQueue.w, y	; b9 00 03
 	sta PPUDATA.w		; 8d 07 20
 	iny				; c8 
 .endr
@@ -2312,22 +2313,22 @@ B31_0eea:		jmp B31_0d29		; @nextControlByte
 B31_0eed:		lda PPUSTATUS.w		; ad 02 20
 B31_0ef0:		lda $0301, y	; b9 01 03
 B31_0ef3:		sta PPUADDR.w		; 8d 06 20
-B31_0ef6:		lda $0300, y	; b9 00 03
+B31_0ef6:		lda wVramQueue.w, y	; b9 00 03
 B31_0ef9:		sta PPUADDR.w		; 8d 06 20
 B31_0efc:		iny				; c8 
 B31_0efd:		iny				; c8 
 
 .rept 8
-	lda $0300, y	; b9 00 03
+	lda wVramQueue.w, y	; b9 00 03
 	sta PPUDATA.w		; 8d 07 20
 	iny				; c8 
 .endr
 
 B31_0f36:		jmp B31_0d29		; @nextControlByte
 
-B31_0f39:		ldx $0300, y	; be 00 03
+B31_0f39:		ldx wVramQueue.w, y	; be 00 03
 B31_0f3c:		iny				; c8 
-B31_0f3d:		lda $0300, y	; b9 00 03
+B31_0f3d:		lda wVramQueue.w, y	; b9 00 03
 B31_0f40:		sta PPUDATA.w		; 8d 07 20
 B31_0f43:		iny				; c8 
 B31_0f44:		dex				; ca 
@@ -4235,7 +4236,7 @@ B31_1a7b:		sta $05d4		; 8d d4 05
 B31_1a7e:		jsr $e8af		; 20 af e8
 B31_1a81:		ldy #$06		; a0 06
 B31_1a83:		lda #$00		; a9 00
-B31_1a85:		sta $0300, x	; 9d 00 03
+B31_1a85:		sta wVramQueue.w, x	; 9d 00 03
 B31_1a88:		inx				; e8 
 B31_1a89:		dey				; 88 
 B31_1a8a:		bne B31_1a85 ; d0 f9
@@ -4320,7 +4321,7 @@ B31_1b0a:		sta $62			; 85 62
 B31_1b0c:		jsr $e8af		; 20 af e8
 B31_1b0f:		ldy #$00		; a0 00
 B31_1b11:		lda $fb20, y	; b9 20 fb
-B31_1b14:		sta $0300, x	; 9d 00 03
+B31_1b14:		sta wVramQueue.w, x	; 9d 00 03
 B31_1b17:		inx				; e8 
 B31_1b18:		iny				; c8 
 B31_1b19:		cpy #$06		; c0 06
@@ -4614,6 +4615,7 @@ B31_1cd9:		bne B31_1d3f ; d0 64
 
 B31_1cdb:		beq B31_1d31 ; f0 54
 
+func_1f_1cdd:
 B31_1cdd:		pha				; 48 
 B31_1cde:		lda $68			; a5 68
 B31_1ce0:		bmi B31_1c7f ; 30 9d
@@ -4653,12 +4655,12 @@ B31_1d14:		lsr a			; 4a
 B31_1d15:		lsr a			; 4a
 B31_1d16:		lsr a			; 4a
 B31_1d17:		ora $fd61, y	; 19 61 fd
+
 B31_1d1a:		cmp #$0c		; c9 0c
 B31_1d1c:		bcc B31_1d23 ; 90 05
 
 B31_1d1e:		sbc #$0c		; e9 0c
 B31_1d20:		jmp $fd1a		; 4c 1a fd
-
 
 B31_1d23:		tay				; a8 
 B31_1d24:		lda $fd4c, y	; b9 4c fd
@@ -4679,13 +4681,11 @@ B31_1d3b:		lsr a			; 4a
 B31_1d3c:		cmp #$00		; c9 00
 B31_1d3e:		rts				; 60 
 
-
 B31_1d3f:		lda #$01		; a9 01
 B31_1d41:		sta $a5			; 85 a5
 B31_1d43:		lda $06e0, y	; b9 e0 06
 B31_1d46:		and #$0f		; 29 0f
 B31_1d48:		rts				; 60 
-
 
 B31_1d49:		lda #$00		; a9 00
 B31_1d4b:		rts				; 60 

@@ -3372,22 +3372,22 @@ B1_1455:		ldx #$10		; a2 10
 B1_1457:		stx $08			; 86 08
 B1_1459:		ldx #$f0		; a2 f0
 B1_145b:		lda #$fb		; a9 fb
-B1_145d:		jsr $fcdd		; 20 dd fc
+B1_145d:		jsr func_1f_1cdd		; 20 dd fc
 B1_1460:		bne B1_1449 ; d0 e7
 
 B1_1462:		ldx #$f0		; a2 f0
 B1_1464:		lda #$05		; a9 05
-B1_1466:		jsr $fcdd		; 20 dd fc
+B1_1466:		jsr func_1f_1cdd		; 20 dd fc
 B1_1469:		bne B1_1449 ; d0 de
 
 B1_146b:		ldx $08			; a6 08
 B1_146d:		lda #$fb		; a9 fb
-B1_146f:		jsr $fcdd		; 20 dd fc
+B1_146f:		jsr func_1f_1cdd		; 20 dd fc
 B1_1472:		bne B1_147e ; d0 0a
 
 B1_1474:		lda #$05		; a9 05
 B1_1476:		ldx $08			; a6 08
-B1_1478:		jsr $fcdd		; 20 dd fc
+B1_1478:		jsr func_1f_1cdd		; 20 dd fc
 B1_147b:		bne B1_147e ; d0 01
 
 B1_147d:		rts				; 60 

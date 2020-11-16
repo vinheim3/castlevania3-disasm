@@ -5,7 +5,12 @@ bank, start, end = sys.argv[1:]
 start = int(start)
 end = int(end)
 
-with open(f'code/bank{bank}.s') as f:
+if len(bank) == 2:
+    _fname = f"code/bank{bank}.s"
+else:
+    _fname = f"code/{bank}.s"
+
+with open(_fname) as f:
     code = f.read()
 
 with open('temp.s', 'w') as f:
@@ -21,5 +26,5 @@ for line in relevantLines:
     _line = re.sub(r'	+;.*', '', _line)
     comps.append(_line)
 comps.extend(lines[end:])
-with open(f'code/bank{bank}.s', 'w') as f:
+with open(_fname, 'w') as f:
     f.write('\n'.join(comps))

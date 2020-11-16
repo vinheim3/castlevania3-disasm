@@ -3,7 +3,7 @@ B3_0003:		ldy #$75		; a0 75
 B3_0005:		sty $4b			; 84 4b
 B3_0007:		iny				; c8 
 B3_0008:		sty $4c			; 84 4c
-B3_000a:		jmp $e13a		; 4c 3a e1
+B3_000a:		jmp irqFunc_end		; 4c 3a e1
 
 
 B3_000d:		jsr func_03_0097		; 20 97 a0
@@ -41,7 +41,7 @@ B3_0050:		and #$01		; 29 01
 B3_0052:		bne B3_0057 ; d0 03
 
 B3_0054:		jsr setClearedChrBank_0_to_c00		; 20 13 e3
-B3_0057:		jmp $e13a		; 4c 3a e1
+B3_0057:		jmp irqFunc_end		; 4c 3a e1
 
 
 B3_005a:		lda $07ed		; ad ed 07
@@ -74,7 +74,7 @@ B3_008a:		and #$01		; 29 01
 B3_008c:		ora $ff			; 05 ff
 B3_008e:		sta PPUCTRL.w		; 8d 00 20
 B3_0091:		jsr chrSwitchAllMirrored		; 20 5d e3
-B3_0094:		jmp $e13a		; 4c 3a e1
+B3_0094:		jmp irqFunc_end		; 4c 3a e1
 
 
 func_03_0097:
@@ -110,7 +110,7 @@ B3_00cd:		lda $b0			; a5 b0
 B3_00cf:		beq B3_00d4 ; f0 03
 
 B3_00d1:		jsr chrSwitch_0_to_c00_1400		; 20 3c e3
-B3_00d4:		jmp $e13a		; 4c 3a e1
+B3_00d4:		jmp irqFunc_end		; 4c 3a e1
 
 
 B3_00d7:		jsr $9f8d		; 20 8d 9f
@@ -193,7 +193,7 @@ B3_016a:		jsr func_03_0097		; 20 97 a0
 B3_016d:		jsr setNametableVerticalMirroring		; 20 cb 9f
 B3_0170:		sta NAMETABLE_MAPPING.w		; 8d 05 51
 B3_0173:		sta NAMETABLE_MAPPING.w		; 8d 05 51
-B3_0176:		jmp $e13a		; 4c 3a e1
+B3_0176:		jmp irqFunc_end		; 4c 3a e1
 
 
 B3_0179:		lda $89			; a5 89
@@ -272,7 +272,7 @@ B3_020f:		and #$f0		; 29 f0
 B3_0211:		cmp #$40		; c9 40
 B3_0213:		beq B3_0218 ; f0 03
 
-B3_0215:		jmp $e13a		; 4c 3a e1
+B3_0215:		jmp irqFunc_end		; 4c 3a e1
 
 
 B3_0218:		jsr $9f8d		; 20 8d 9f
@@ -362,7 +362,7 @@ B3_02d5:		nop				; ea
 B3_02d6:		dey				; 88 
 B3_02d7:		bne B3_02a3 ; d0 ca
 
-B3_02d9:		jmp $e13a		; 4c 3a e1
+B3_02d9:		jmp irqFunc_end		; 4c 3a e1
 
 
 B3_02dc:		jsr func_03_0097		; 20 97 a0
@@ -376,14 +376,14 @@ B3_02ef:		jmp $e13f		; 4c 3f e1
 
 
 B3_02f2:		jsr setClearedChrBank_0_400		; 20 22 e3
-B3_02f5:		jmp $e13a		; 4c 3a e1
+B3_02f5:		jmp irqFunc_end		; 4c 3a e1
 
 
 B3_02f8:		jsr func_03_0097		; 20 97 a0
 B3_02fb:		jsr setNametableVerticalMirroring		; 20 cb 9f
 B3_02fe:		jsr chrSwitchMirrored_400_800		; 20 6d e3
 B3_0301:		jsr chrSwitch_0_400		; 20 52 e3
-B3_0304:		jmp $e13a		; 4c 3a e1
+B3_0304:		jmp irqFunc_end		; 4c 3a e1
 
 
 B3_0307:		lda #$00		; a9 00
@@ -530,7 +530,7 @@ B3_03eb:		jmp $e13f		; 4c 3f e1
 
 
 B3_03ee:		jsr chrSwitch_0_to_c00_1400		; 20 3c e3
-B3_03f1:		jmp $e13a		; 4c 3a e1
+B3_03f1:		jmp irqFunc_end		; 4c 3a e1
 
 
 B3_03f4:		lda $89			; a5 89
@@ -583,7 +583,7 @@ B3_0455:		jmp $e13f		; 4c 3f e1
 
 
 B3_0458:		jsr setClearedPatternTable		; 20 2d e3
-B3_045b:		jmp $e13a		; 4c 3a e1
+B3_045b:		jmp irqFunc_end		; 4c 3a e1
 
 
 B3_045e:		lda #$74		; a9 74
@@ -637,7 +637,7 @@ B3_04c0:		inc $6d			; e6 6d
 B3_04c2:		jmp $e13f		; 4c 3f e1
 
 
-B3_04c5:		jmp $e13a		; 4c 3a e1
+B3_04c5:		jmp irqFunc_end		; 4c 3a e1
 
 
 B3_04c8:		lda $0789		; ad 89 07
@@ -666,7 +666,7 @@ B3_04f6:		sta $4a			; 85 4a
 B3_04f8:		sta $4b			; 85 4b
 B3_04fa:		sta $4c			; 85 4c
 B3_04fc:		sta $4d			; 85 4d
-B3_04fe:		jmp $e13a		; 4c 3a e1
+B3_04fe:		jmp irqFunc_end		; 4c 3a e1
 
 
 B3_0501:		ldx #$08		; a2 08
@@ -690,7 +690,7 @@ B3_051f:		inx				; e8
 B3_0520:		cpx #$49		; e0 49
 B3_0522:		bne B3_0503 ; d0 df
 
-B3_0524:		jmp $e13a		; 4c 3a e1
+B3_0524:		jmp irqFunc_end		; 4c 3a e1
 
 
 B3_0527:		asl a			; 0a
@@ -802,7 +802,7 @@ B3_05fe:		sta PPUSCROLL.w		; 8d 05 20
 B3_0601:		sta PPUSCROLL.w		; 8d 05 20
 B3_0604:		lda #$b0		; a9 b0
 B3_0606:		sta PPUCTRL.w		; 8d 00 20
-B3_0609:		jmp $e13a		; 4c 3a e1
+B3_0609:		jmp irqFunc_end		; 4c 3a e1
 
 
 func_03_060c:

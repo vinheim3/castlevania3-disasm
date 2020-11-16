@@ -44,9 +44,9 @@ print('is vertical:', is_vertical)
 roomChrData = list(chrData[0x40*0x400:0x41*0x400])
 chrDataGroupAddress = word(0x66+group*2)-0x8000
 chrDataSectionAddress = word(chrDataGroupAddress+section*4)-0x8000
-chrBank1 = prgData[chrDataSectionAddress]
+chrBank1 = prgData[chrDataSectionAddress+room*3]
 roomChrData.extend(chrData[chrBank1*0x400:(chrBank1+1)*0x400])
-chrBank2 = prgData[chrDataSectionAddress+1]
+chrBank2 = prgData[chrDataSectionAddress+1+room*3]
 roomChrData.extend(chrData[chrBank2*0x400:(chrBank2+1)*0x400])
 roomChrData.extend([0] * 0x400)
 # with open('gfx_layout.chr', 'wb') as f:
@@ -125,7 +125,7 @@ for i, row in enumerate(metatilemap):
         palettes[i*4+3].extend([bl, bl, br, br])
 
 # for row in tilemap:
-    # print(' '.join(f'{byte:02x}' for byte in row[:32]))
+#     print(' '.join(f'{byte:02x}' for byte in row[:32]))
 
 wholeTileMap = []
 for row in tilemap:

@@ -1,5 +1,5 @@
 
-castlevania3.bin: code/* include/*
+castlevania3.bin: code/* include/* data/*
 	wla-6502 -o game.o game.s
 	wlalink -s linkfile castlevania3.bin
 	rm game.o

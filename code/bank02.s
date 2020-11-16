@@ -4975,7 +4975,7 @@ B2_1f30:	.db $ff
 
 
 irqFuncs:
-	.dw $e13a
+	.dw irqFunc_end
 	.dw func_03_00bc
 	.dw $a0ef
 	.dw $a12f
@@ -5071,7 +5071,7 @@ setNametableVerticalMirroring:
 
 B2_1fd1:		lda #$7f		; a9 7f
 B2_1fd3:		sta CHR_BANK_0800.w		; 8d 22 51
-B2_1fd6:		jmp $e13a		; 4c 3a e1
+B2_1fd6:		jmp irqFunc_end		; 4c 3a e1
 
 
 B2_1fd9:		lda PPUSTATUS.w		; ad 02 20

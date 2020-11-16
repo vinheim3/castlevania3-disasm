@@ -1,9 +1,3 @@
-
-.db $88
-
-.include "code/soundCommon.s" namespace "b08_soundCommon"
-
-
 sound63_instrument00:
 	.db $d8 $79 $85 $27 $e9 $b9 $eb $67
 	.db $21 $e3 $00 $00 $c0 $40 $c0 $70
