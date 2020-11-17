@@ -5424,7 +5424,7 @@ B17_1f20:		lda $00			; a5 00
 B17_1f22:		cmp #$08		; c9 08
 B17_1f24:		bcs B17_1f57 ; b0 31
 
-B17_1f26:		jsr $e5ce		; 20 ce e5
+B17_1f26:		jsr set_2c_to_01h		; 20 ce e5
 B17_1f29:		lda $32			; a5 32
 B17_1f2b:		cmp #$0e		; c9 0e
 B17_1f2d:		bne B17_1f33 ; d0 04

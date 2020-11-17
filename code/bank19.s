@@ -1118,7 +1118,7 @@ B25_06e5:		php				; 08
 B25_06e6:	.db $f4
 B25_06e7:		lda #$7b		; a9 7b
 B25_06e9:		jsr playSound		; 20 5f e2
-B25_06ec:		jsr $e5ce		; 20 ce e5
+B25_06ec:		jsr set_2c_to_01h		; 20 ce e5
 B25_06ef:		lda #$00		; a9 00
 B25_06f1:		sta $03			; 85 03
 B25_06f3:		sta $01			; 85 01

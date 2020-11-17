@@ -1,5 +1,5 @@
 
-IS_EXTENDED_ROM = true
+IS_EXTENDED_ROM = false
 ifeq ($(IS_EXTENDED_ROM), true)
 	DEFINES = -D IS_EXTENDED_ROM
 else

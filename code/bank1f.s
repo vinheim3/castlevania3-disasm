@@ -997,6 +997,7 @@ B31_05c9:		rts				; 60
 B31_05ca:		lda #$00		; a9 00
 B31_05cc:		beq B31_05d0 ; f0 02
 
+set_2c_to_01h:
 B31_05ce:		lda #$01		; a9 01
 B31_05d0:		sta $2c			; 85 2c
 B31_05d2:		rts				; 60 
@@ -3229,7 +3230,7 @@ B31_138e:		jsr jumpTablePreserveY		; 20 6d e8
 	.dw $f3f0
 	.dw func_1f_13f6
 	.dw func_1f_147b
-	.dw $f516
+	.dw func_1f_1516
 	.dw func_1f_158d
 	.dw $f5be
 	.dw func_1f_1609
@@ -3237,7 +3238,7 @@ B31_138e:		jsr jumpTablePreserveY		; 20 6d e8
 	.dw func_1f_194b
 	.dw $d392
 	.dw $f506
-	.dw $f81e
+	.dw func_1f_181e
 	.dw $f826
 	.dw $f82e
 	.dw $f82e
@@ -3440,7 +3441,7 @@ B31_14f9:		sta $6b			; 85 6b
 B31_14fb:		lda #$80		; a9 80
 B31_14fd:		jsr setAndSaveLowerBank		; 20 e6 e2
 B31_1500:		jsr $ba46		; 20 46 ba
-B31_1503:		jmp $f516		; 4c 16 f5
+B31_1503:		jmp func_1f_1516		; 4c 16 f5
 
 
 B31_1506:		lda #$98		; a9 98
@@ -3449,6 +3450,8 @@ B31_150b:		jsr $a3fe		; 20 fe a3
 B31_150e:		lda #$9c		; a9 9c
 B31_1510:		jsr setAndSaveLowerBank		; 20 e6 e2
 B31_1513:		jsr $8529		; 20 29 85
+
+func_1f_1516:
 B31_1516:		jsr $f55d		; 20 5d f5
 B31_1519:		bcs B31_155c ; b0 41
 
@@ -3479,7 +3482,6 @@ B31_1551:		lda #$84		; a9 84
 B31_1553:		jsr setAndSaveLowerBank		; 20 e6 e2
 B31_1556:		jsr $9faa		; 20 aa 9f
 B31_1559:		jmp $800c		; 4c 0c 80
-
 
 B31_155c:		rts				; 60 
 
@@ -3897,9 +3899,10 @@ B31_181a:		jsr $800c		; 20 0c 80
 B31_181d:		rts				; 60 
 
 
+func_1f_181e:
 B31_181e:		lda #$80		; a9 80
 B31_1820:		jsr setAndSaveLowerBank		; 20 e6 e2
-B31_1823:		jmp $948b		; 4c 8b 94
+B31_1823:		jmp func_00_148b		; 4c 8b 94
 
 
 B31_1826:		lda #$80		; a9 80
@@ -3941,7 +3944,7 @@ B31_1856:	.db $f7
 B31_1857:		pla				; 68 
 B31_1858:	.db $f7
 B31_1859:		ldy $f7			; a4 f7
-B31_185b:		jsr $e5ce		; 20 ce e5
+B31_185b:		jsr set_2c_to_01h		; 20 ce e5
 B31_185e:		jsr func_1f_07f7		; 20 f7 e7
 B31_1861:		inc $6b			; e6 6b
 B31_1863:		rts				; 60 
@@ -3975,7 +3978,7 @@ B31_188d:		lda #$80		; a9 80
 B31_188f:		jsr setAndSaveLowerBank		; 20 e6 e2
 B31_1892:		jsr $90d6		; 20 d6 90
 B31_1895:		jsr $e7a0		; 20 a0 e7
-B31_1898:		jsr $e5ce		; 20 ce e5
+B31_1898:		jsr set_2c_to_01h		; 20 ce e5
 B31_189b:		inc $6b			; e6 6b
 B31_189d:		rts				; 60 
 
@@ -4087,7 +4090,7 @@ B31_194d:		jsr jumpTablePreserveY		; 20 6d e8
 func_1f_1964:
 B31_1964:		inc wCurrRoomSection			; e6 33
 B31_1966:		jsr $e795		; 20 95 e7
-B31_1969:		jsr $e5ce		; 20 ce e5
+B31_1969:		jsr set_2c_to_01h		; 20 ce e5
 B31_196c:		lda #$80		; a9 80
 B31_196e:		jsr setAndSaveLowerBank		; 20 e6 e2
 B31_1971:		jsr $8d96		; 20 96 8d

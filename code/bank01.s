@@ -3330,7 +3330,7 @@ B1_1412:		rts				; 60
 
 B1_1413:		jsr setBank_c000_toRom1eh		; 20 da e2
 B1_1416:		jsr $b3e3		; 20 e3 b3
-B1_1419:		jsr $e5ce		; 20 ce e5
+B1_1419:		jsr set_2c_to_01h		; 20 ce e5
 B1_141c:		inc $6b			; e6 6b
 B1_141e:		rts				; 60 
 

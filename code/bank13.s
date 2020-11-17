@@ -1758,7 +1758,7 @@ B19_0b98:		lda #$50		; a9 50
 B19_0b9a:		jsr $8661		; 20 61 86
 B19_0b9d:		lda #$02		; a9 02
 B19_0b9f:		sta $07f3		; 8d f3 07
-B19_0ba2:		jsr $e5ce		; 20 ce e5
+B19_0ba2:		jsr set_2c_to_01h		; 20 ce e5
 B19_0ba5:		lda #$01		; a9 01
 B19_0ba7:		jsr $87f4		; 20 f4 87
 B19_0baa:		lda #$7b		; a9 7b

@@ -1454,7 +1454,7 @@ B18_08a1:		lda #$90		; a9 90
 B18_08a3:		sta $0438, y	; 99 38 04
 B18_08a6:		lda #$48		; a9 48
 B18_08a8:		jsr playSound		; 20 5f e2
-B18_08ab:		jsr $e5ce		; 20 ce e5
+B18_08ab:		jsr set_2c_to_01h		; 20 ce e5
 B18_08ae:		lda #$00		; a9 00
 B18_08b0:		sta $05c1, y	; 99 c1 05
 B18_08b3:		jsr func_1f_1ec8		; 20 c8 fe

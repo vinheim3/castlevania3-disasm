@@ -1875,7 +1875,7 @@ B28_0b09:		rts				; 60
 
 B28_0b0a:		lda #$4e		; a9 4e
 B28_0b0c:		jsr playSound		; 20 5f e2
-B28_0b0f:		jsr $e5ce		; 20 ce e5
+B28_0b0f:		jsr set_2c_to_01h		; 20 ce e5
 B28_0b12:		lda #$64		; a9 64
 B28_0b14:		sta $05d4		; 8d d4 05
 B28_0b17:		inc $bf			; e6 bf
@@ -1968,7 +1968,7 @@ B28_0b97:		lda #$80		; a9 80
 B28_0b99:		sta $05d4		; 8d d4 05
 B28_0b9c:		lda #$4e		; a9 4e
 B28_0b9e:		jsr playSound		; 20 5f e2
-B28_0ba1:		jsr $e5ce		; 20 ce e5
+B28_0ba1:		jsr set_2c_to_01h		; 20 ce e5
 B28_0ba4:		inc $bf			; e6 bf
 B28_0ba6:		rts				; 60 
 

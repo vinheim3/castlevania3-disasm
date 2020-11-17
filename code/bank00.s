@@ -3348,7 +3348,7 @@ B0_12bc:		tay				; a8
 B0_12bd:		lda $92e2, y	; b9 e2 92
 B0_12c0:		sta $04a8		; 8d a8 04
 B0_12c3:		sty $c6			; 84 c6
-B0_12c5:		jsr $e5ce		; 20 ce e5
+B0_12c5:		jsr set_2c_to_01h		; 20 ce e5
 B0_12c8:		lda #$00		; a9 00
 B0_12ca:		sta $0470		; 8d 70 04
 B0_12cd:		lda #$00		; a9 00
@@ -3611,33 +3611,42 @@ B0_1482:		sta $e5, x		; 95 e5
 B0_1484:		sta $22, x		; 95 22
 B0_1486:		stx $60, y		; 96 60
 B0_1488:		stx $71, y		; 96 71
-B0_148a:		stx $a5, y		; 96 a5
-B0_148c:	.db $6b
+B0_148a:		.db $96
+
+
+func_00_148b:
+B0_148b:	lda $6b
 B0_148d:		jsr jumpTablePreserveY		; 20 6d e8
-B0_1490:		ldy $bb94		; ac 94 bb
-B0_1493:		sty $cf, x		; 94 cf
-B0_1495:		sty $1b, x		; 94 1b
-B0_1497:		sta $9b, x		; 95 9b
-B0_1499:		sta $e8, x		; 95 e8
-B0_149b:		sta $25, x		; 95 25
-B0_149d:		stx $82, y		; 96 82
-B0_149f:		stx $9f, y		; 96 9f
-B0_14a1:		stx $98, y		; 96 98
-B0_14a3:		sta $e5, x		; 95 e5
-B0_14a5:		sta $22, x		; 95 22
-B0_14a7:		stx $92, y		; 96 92
-B0_14a9:		stx $9f, y		; 96 9f
-B0_14ab:		stx $a9, y		; 96 a9
-B0_14ad:		lsr $20			; 46 20
-B0_14af:	.db $5f
-B0_14b0:	.db $e2
-B0_14b1:		jsr $e5ce		; 20 ce e5
+	.dw func_00_14ac
+	.dw func_00_14bb
+	.dw func_00_14cf
+	.dw func_00_151b
+	.dw func_00_159b
+	.dw func_00_15e8
+	.dw func_00_1625
+	.dw func_00_1682
+	.dw func_00_169f
+	.dw $9598
+	.dw $95e5
+	.dw $9622
+	.dw $9692
+	.dw func_00_169f
+
+func_00_14ac:
+B0_14ac:		lda #$46
+	jsr playSound
+B0_14b1:		jsr set_2c_to_01h		; 20 ce e5
+.ifdef INSTANT_CHAR_SWAP
+	lda #$01
+.else
 B0_14b4:		lda #$3c		; a9 3c
+.endif
 B0_14b6:		sta $30			; 85 30
 B0_14b8:		inc $6b			; e6 6b
 B0_14ba:		rts				; 60 
 
 
+func_00_14bb:
 B0_14bb:		dec $30			; c6 30
 B0_14bd:		beq B0_14c7 ; f0 08
 
@@ -3646,14 +3655,18 @@ B0_14c1:		and #$03		; 29 03
 B0_14c3:		sta $0454		; 8d 54 04
 B0_14c6:		rts				; 60 
 
-
 B0_14c7:		lda #$00		; a9 00
 B0_14c9:		sta $0454		; 8d 54 04
 B0_14cc:		inc $6b			; e6 6b
 B0_14ce:		rts				; 60 
 
 
+func_00_14cf:
+.ifdef INSTANT_CHAR_SWAP
+	lda #$01
+.else
 B0_14cf:		lda #$4c		; a9 4c
+.endif
 B0_14d1:		sta $30			; 85 30
 B0_14d3:		lda $0438		; ad 38 04
 B0_14d6:		sta $05d4		; 8d d4 05
@@ -3669,6 +3682,7 @@ B0_14ee:		inc $6b			; e6 6b
 B0_14f0:		rts				; 60 
 
 
+func_00_14f1:
 B0_14f1:		lda $aa			; a5 aa
 B0_14f3:		cmp #$16		; c9 16
 B0_14f5:		beq B0_1509 ; f0 12
@@ -3687,7 +3701,6 @@ B0_1505:		bcs B0_1509 ; b0 02
 B0_1507:		clc				; 18 
 B0_1508:		rts				; 60 
 
-
 B0_1509:		sec				; 38 
 B0_150a:		rts				; 60 
 
@@ -3703,12 +3716,12 @@ B0_1515:		bcs B0_1519 ; b0 02
 B0_1517:		clc				; 18 
 B0_1518:		rts				; 60 
 
-
 B0_1519:		sec				; 38 
 B0_151a:		rts				; 60 
 
 
-B0_151b:		jsr $94f1		; 20 f1 94
+func_00_151b:
+B0_151b:		jsr func_00_14f1		; 20 f1 94
 B0_151e:		bcs B0_1534 ; b0 14
 
 B0_1520:		lda $041c		; ad 1c 04
@@ -3721,7 +3734,6 @@ B0_152c:		lda #$09		; a9 09
 B0_152e:		jsr func_1f_05bf		; 20 bf e5
 B0_1531:		inc $6b			; e6 6b
 B0_1533:		rts				; 60 
-
 
 B0_1534:		lda #$09		; a9 09
 B0_1536:		sta $6b			; 85 6b
@@ -3788,6 +3800,8 @@ B0_1597:		rts				; 60
 
 
 B0_1598:		jsr $9555		; 20 55 95
+
+func_00_159b:
 B0_159b:		dec $30			; c6 30
 B0_159d:		beq B0_15d8 ; f0 39
 
@@ -3833,6 +3847,8 @@ B0_15e4:		rts				; 60
 
 
 B0_15e5:		jsr $9555		; 20 55 95
+
+func_00_15e8:
 B0_15e8:		jsr $e677		; 20 77 e6
 B0_15eb:		lda $0400		; ad 00 04
 B0_15ee:		cmp #$48		; c9 48
@@ -3861,6 +3877,8 @@ B0_1621:		rts				; 60
 
 
 B0_1622:		jsr $9555		; 20 55 95
+
+func_00_1625:
 B0_1625:		lda $051c		; ad 1c 05
 B0_1628:		sec				; 38 
 B0_1629:		sbc $05eb		; edeb 05
@@ -3918,6 +3936,7 @@ B0_167d:		lda #$05		; a9 05
 B0_167f:		jmp $96ad		; 4c ad 96
 
 
+func_00_1682:
 B0_1682:		lda $a6			; a5 a6
 B0_1684:		sta $3f			; 85 3f
 B0_1686:		lda $a7			; a5 a7
@@ -3928,12 +3947,17 @@ B0_168e:		lda $a9			; a5 a9
 B0_1690:		sta $40			; 85 40
 B0_1692:		lda $05d4		; ad d4 05
 B0_1695:		sta $0438		; 8d 38 04
+.ifdef INSTANT_CHAR_SWAP
+	lda #$01
+.else
 B0_1698:		lda #$3c		; a9 3c
+.endif
 B0_169a:		sta $30			; 85 30
 B0_169c:		inc $6b			; e6 6b
 B0_169e:		rts				; 60 
 
 
+func_00_169f:
 B0_169f:		dec $30			; c6 30
 B0_16a1:		beq B0_16ab ; f0 08
 
