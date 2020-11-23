@@ -22,20 +22,22 @@
 .org 0
 .include "code/bank03.s"
 
-.bank $04
+.bank $04 slot 1
 .org 0
 .include "code/bank04.s"
 
-.bank $05
+.bank $05 slot 2
 .org 0
 .include "code/bank05.s"
 
-.bank $06
+.bank $06 slot 1
 .org 0
 .include "code/bank06.s"
 
 .bank $07 slot 3
 .org 0
+
+.include "data/commonDPCMdata.s"
 .include "code/bank07.s"
 
 .bank $08 slot 1
@@ -64,35 +66,47 @@
 .include "data/soundData_b0b.s"
 .include "code/bank0b.s"
 
-.bank $0c
+.bank $0c slot 1
 .org 0
-.include "code/bank0c.s"
 
-.bank $0d
+.db $8c
+.include "data/roomMetatilesPalettesData_b0c.s"
+
+.bank $0d slot 2
 .org 0
+
+.include "data/roomMetatilesPalettesData_b0d.s"
 .include "code/bank0d.s"
 
-.bank $0e
+.bank $0e slot 1
 .org 0
-.include "code/bank0e.s"
 
-.bank $0f
+.db $8e
+.include "data/roomMetatilesPalettesData_b0e.s"
+
+.bank $0f slot 2
 .org 0
+
+.include "data/roomMetatilesPalettesData_b0f.s"
 .include "code/bank0f.s"
 
 .bank $10 slot 1
 .org 0
-.include "code/bank10.s"
+
+.db $90
+.include "data/roomMetatilesPalettesData_b10.s"
 
 .bank $11 slot 2
 .org 0
+
+.include "data/roomMetatilesPalettesData_b11.s"
 .include "code/bank11.s"
 
-.bank $12
+.bank $12 slot 1
 .org 0
 .include "code/bank12.s"
 
-.bank $13
+.bank $13 slot 2
 .org 0
 .include "code/bank13.s"
 
@@ -104,11 +118,11 @@
 .org 0
 .include "code/bank15.s"
 
-.bank $16
+.bank $16 slot 1
 .org 0
 .include "code/bank16.s"
 
-.bank $17
+.bank $17 slot 2
 .org 0
 .include "code/bank17.s"
 
@@ -118,10 +132,13 @@
 .include "code/bank18.s"
 .include "data/soundPointers.s"
 .include "data/soundData_b18.s"
-.include "data/miscSoundData_b18.s"
+.include "data/soundEnvelopeData_b18.s"
 
 .bank $19 slot 2
 .org 0
+
+.include "data/soundEnvelopeData_b19.s"
+.include "data/dpcmSpecData.s"
 .include "code/bank19.s"
 
 .bank $1a slot 1
@@ -132,16 +149,18 @@
 .org 0
 .include "code/bank1b.s"
 
-.bank $1c
+.bank $1c slot 1
 .org 0
 .include "code/bank1c.s"
 
-.bank $1d
+.bank $1d slot 2
 .org 0
 .include "code/bank1d.s"
 
 .bank $1e slot 3
 .org 0
+
+.include "data/commonDPCMdata.s"
 .include "code/bank1e.s"
 
 .ifdef IS_EXTENDED_ROM

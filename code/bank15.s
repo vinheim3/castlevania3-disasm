@@ -1153,403 +1153,283 @@ B21_063e:		.db $00				; 00
 B21_063f:		bit $7810		; 2c 10 78
 B21_0642:	.db $03
 B21_0643:		.db $00				; 00
-B21_0644:		rti				; 40 
 
 
-B21_0645:		tay				; a8 
-B21_0646:	.db $44
-B21_0647:		tay				; a8 
-B21_0648:		pha				; 48 
-B21_0649:		tay				; a8 
-B21_064a:		jmp $50a8		; 4c a8 50
+data_15_0644:
+	.dw $a840
+	.dw $a844
+	.dw $a848
+	.dw $a84c
+	.dw $a850
+	.dw $a854
+	.dw $a858
+	.dw $a85c
+	.dw $a860
+	.dw $a864
+	.dw $a868
+	.dw $a86c
+	.dw data_15_0870
+	.dw $a874
+	.dw $a878
+	.dw $a87c
+	.dw $a880
+	.dw $a884
+	.dw $a888
+	.dw $a88c
+	.dw $a890
+	.dw $a894
+	.dw $a898
+	.dw $a89c
+	.dw $a8a0
+	.dw $a8a4
+	.dw $a8a8
+	.dw $a8ac
+	.dw $a8b0
+	.dw $a8b4
+	.dw $a8b8
+	.dw $a8bc
+	.dw $a8c0
+	.dw $a8c4
+	.dw $a8c8
+	.dw $a8cc
+	.dw $a8d0
+	.dw $a8d4
+	.dw $a8d8
+	.dw $a8dc
+	.dw $a8e0
+	.dw $a8e4
+	.dw $a8e8
+	.dw $a8ec
+	.dw $a8f0
+	.dw $a8f4
+	.dw $a8f8
+	.dw $a8fc
+	.dw $a900
+	.dw $a904
+	.dw $a908
+	.dw $a90c
+	.dw $a910
+	.dw $a914
+	.dw $a918
+	.dw $a91c
+	.dw $a920
+	.dw $a924
+	.dw $a928
+	.dw $a92c
+	.dw $a930
+	.dw $a934
+	.dw $a938
+	.dw $a93c
+	.dw $a940
+	.dw $a944
+	.dw $a948
+	.dw $a94c
+	.dw $a950
+	.dw $a954
+	.dw $a958
+	.dw $a95c
+	.dw $a960
+	.dw $a964
+	.dw $a968
+	.dw $a96c
+	.dw $a970
+	.dw $a974
+	.dw $a978
+	.dw $a97c
+	.dw $a980
+	.dw $a984
+	.dw $a988
+	.dw $a98c
+	.dw $a990
+	.dw $a994
+	.dw $a998
+	.dw $a99c
+	.dw $a9a0
+	.dw $a9a4
+	.dw $a9a8
+	.dw $a9ac
+	.dw $a9b0
+	.dw $a9b4
+	.dw $a9b8
+	.dw $a9bc
+	.dw $a9c0
+	.dw $a9a0
+	.dw $a9c4
+	.dw $a9c8
+	.dw $a9cc
+	.dw $a9d0
+	.dw $a9d4
+	.dw $a9d8
+	.dw $a9dc
+	.dw $a9e0
+	.dw $a9e4
+	.dw $a9e8
+	.dw $a9ec
+	.dw $a9f0
+	.dw $a9f4
+	.dw $a9f8
+	.dw $a9fc
+	.dw $aa00
+	.dw $aa04
+	.dw $aa08
+	.dw $aa0c
+	.dw $aa10
+	.dw $aa14
+	.dw $aa18
+	.dw $aa1c
+	.dw $aa20
+	.dw $aa24
+	.dw $aa28
+	.dw $aa2c
+	.dw $aa30
+	.dw $aa34
+	.dw $aa38
 
 
-B21_064d:		tay				; a8 
-B21_064e:	.db $54
-B21_064f:		tay				; a8 
-B21_0650:		cli				; 58 
-B21_0651:		tay				; a8 
-B21_0652:	.db $5c
-B21_0653:		tay				; a8 
-B21_0654:		rts				; 60 
+data_15_0744:
+	.dw $aa3c
+	.dw $aa40
+	.dw $aa44
+	.dw $aa48
+	.dw $aa4c
+	.dw $aa50
+	.dw $aa54
+	.dw $aa58
+	.dw $aa5c
+	.dw $aa60
+	.dw $aa64
+	.dw $aa68
+	.dw $aa6c
+	.dw $aa70
+	.dw $aa74
+	.dw $aa78
+	.dw $aa7c
+	.dw $aa80
+	.dw $aa84
+	.dw $aa88
+	.dw $aa8c
+	.dw $aa90
+	.dw $aa94
+	.dw $aa98
+	.dw $aa9c
+	.dw $aaa0
+	.dw $aaa4
+	.dw $aaa8
+	.dw $aaac
+	.dw $aab0
+	.dw $aab4
+	.dw $aab8
+	.dw $aabc
+	.dw $aac0
+	.dw $aac4
+	.dw $aac8
+	.dw $aacc
+	.dw $aad0
+	.dw $aad4
+	.dw $aad8
+	.dw $aadc
+	.dw $aae0
+	.dw $aae4
+	.dw $aae8
+	.dw $aaec
+	.dw $aaf0
+	.dw $aaf4
+	.dw $aaf8
+	.dw $aafc
+	.dw $ab00
+	.dw $ab04
+	.dw $ab08
+	.dw $ab0c
+	.dw $ab10
+	.dw $ab14
+	.dw $ab18
+	.dw $ab1c
+	.dw $ab20
+	.dw $ab24
+	.dw $ab28
+	.dw $ab2c
+	.dw $ab30
+	.dw $ab34
+	.dw $ab38
+	.dw $ab3c
+	.dw $ab40
+	.dw $ab44
+	.dw $ab48
+	.dw $ab4c
+	.dw $ab50
+	.dw $ab54
+	.dw $ab58
+	.dw $ab5c
+	.dw $ab60
+	.dw $ab64
+	.dw $ab68
+	.dw $ab6c
+	.dw $ab70
+	.dw $ab74
+	.dw $ab78
+	.dw $ab7c
+	.dw $ab80
+	.dw $ab84
+	.dw $ab88
+	.dw $ab8c
+	.dw $ab90
+	.dw $ab94
+	.dw $ab98
+	.dw $ab9c
+	.dw $aba0
+	.dw $aba4
+	.dw $aba8
+	.dw $abac
+	.dw $abb0
+	.dw $abb4
+	.dw $abb8
+	.dw $abbc
+	.dw $abc0
+	.dw $abc4
+	.dw $abc8
+	.dw $abcc
+	.dw $abd0
+	.dw $abd4
+	.dw $abd8
+	.dw $abdc
+	.dw $abe0
+	.dw $abe4
+	.dw $abe8
+	.dw $abec
+	.dw $abf0
+	.dw $abf4
+	.dw $abf8
+	.dw $abfc
+	.dw $ac00
+	.dw $ac04
+	.dw $ac08
+	.dw $ac0c
+	.dw $ac10
+	.dw $ac14
+	.dw $ac18
+	.dw $ac1c
+	.dw $ac20
+	.dw $ac24
+	.dw $ac28
+	.dw $ac2c
+	.dw $ac30
 
 
-B21_0655:		tay				; a8 
-B21_0656:	.db $64
-B21_0657:		tay				; a8 
-B21_0658:		pla				; 68 
-B21_0659:		tay				; a8 
-B21_065a:		jmp ($70a8)		; 6c a8 70
-
-
-B21_065d:		tay				; a8 
-B21_065e:	.db $74
-B21_065f:		tay				; a8 
-B21_0660:		sei				; 78 
-B21_0661:		tay				; a8 
-B21_0662:	.db $7c
-B21_0663:		tay				; a8 
-B21_0664:	.db $80
-B21_0665:		tay				; a8 
-B21_0666:		sty $a8			; 84 a8
-B21_0668:		dey				; 88 
-B21_0669:		tay				; a8 
-B21_066a:		sty $90a8		; 8c a8 90
-B21_066d:		tay				; a8 
-B21_066e:		sty $a8, x		; 94 a8
-B21_0670:		tya				; 98 
-B21_0671:		tay				; a8 
-B21_0672:	.db $9c
-B21_0673:		tay				; a8 
-B21_0674:		ldy #$a8		; a0 a8
-B21_0676:		ldy $a8			; a4 a8
-B21_0678:		tay				; a8 
-B21_0679:		tay				; a8 
-B21_067a:		ldy $b0a8		; ac a8 b0
-B21_067d:		tay				; a8 
-B21_067e:		ldy $a8, x		; b4 a8
-B21_0680:		clv				; b8 
-B21_0681:		tay				; a8 
-B21_0682:		ldy $c0a8, x	; bc a8 c0
-B21_0685:		tay				; a8 
-B21_0686:		cpy $a8			; c4 a8
-B21_0688:		iny				; c8 
-B21_0689:		tay				; a8 
-B21_068a:		cpy $d0a8		; cc a8 d0
-B21_068d:		tay				; a8 
-B21_068e:	.db $d4
-B21_068f:		tay				; a8 
-B21_0690:		cld				; d8 
-B21_0691:		tay				; a8 
-B21_0692:	.db $dc
-B21_0693:		tay				; a8 
-B21_0694:		cpx #$a8		; e0 a8
-B21_0696:		cpx $a8			; e4 a8
-B21_0698:		inx				; e8 
-B21_0699:		tay				; a8 
-B21_069a:		cpx $f0a8		; ec a8 f0
-B21_069d:		tay				; a8 
-B21_069e:	.db $f4
-B21_069f:		tay				; a8 
-B21_06a0:		sed				; f8 
-B21_06a1:		tay				; a8 
-B21_06a2:	.db $fc
-B21_06a3:		tay				; a8 
-B21_06a4:		.db $00				; 00
-B21_06a5:		lda #$04		; a9 04
-B21_06a7:		lda #$08		; a9 08
-B21_06a9:		lda #$0c		; a9 0c
-B21_06ab:		lda #$10		; a9 10
-B21_06ad:		lda #$14		; a9 14
-B21_06af:		lda #$18		; a9 18
-B21_06b1:		lda #$1c		; a9 1c
-B21_06b3:		lda #$20		; a9 20
-B21_06b5:		lda #$24		; a9 24
-B21_06b7:		lda #$28		; a9 28
-B21_06b9:		lda #$2c		; a9 2c
-B21_06bb:		lda #$30		; a9 30
-B21_06bd:		lda #$34		; a9 34
-B21_06bf:		lda #$38		; a9 38
-B21_06c1:		lda #$3c		; a9 3c
-B21_06c3:		lda #$40		; a9 40
-B21_06c5:		lda #$44		; a9 44
-B21_06c7:		lda #$48		; a9 48
-B21_06c9:		lda #$4c		; a9 4c
-B21_06cb:		lda #$50		; a9 50
-B21_06cd:		lda #$54		; a9 54
-B21_06cf:		lda #$58		; a9 58
-B21_06d1:		lda #$5c		; a9 5c
-B21_06d3:		lda #$60		; a9 60
-B21_06d5:		lda #$64		; a9 64
-B21_06d7:		lda #$68		; a9 68
-B21_06d9:		lda #$6c		; a9 6c
-B21_06db:		lda #$70		; a9 70
-B21_06dd:		lda #$74		; a9 74
-B21_06df:		lda #$78		; a9 78
-B21_06e1:		lda #$7c		; a9 7c
-B21_06e3:		lda #$80		; a9 80
-B21_06e5:		lda #$84		; a9 84
-B21_06e7:		lda #$88		; a9 88
-B21_06e9:		lda #$8c		; a9 8c
-B21_06eb:		lda #$90		; a9 90
-B21_06ed:		lda #$94		; a9 94
-B21_06ef:		lda #$98		; a9 98
-B21_06f1:		lda #$9c		; a9 9c
-B21_06f3:		lda #$a0		; a9 a0
-B21_06f5:		lda #$a4		; a9 a4
-B21_06f7:		lda #$a8		; a9 a8
-B21_06f9:		lda #$ac		; a9 ac
-B21_06fb:		lda #$b0		; a9 b0
-B21_06fd:		lda #$b4		; a9 b4
-B21_06ff:		lda #$b8		; a9 b8
-B21_0701:		lda #$bc		; a9 bc
-B21_0703:		lda #$c0		; a9 c0
-B21_0705:		lda #$a0		; a9 a0
-B21_0707:		lda #$c4		; a9 c4
-B21_0709:		lda #$c8		; a9 c8
-B21_070b:		lda #$cc		; a9 cc
-B21_070d:		lda #$d0		; a9 d0
-B21_070f:		lda #$d4		; a9 d4
-B21_0711:		lda #$d8		; a9 d8
-B21_0713:		lda #$dc		; a9 dc
-B21_0715:		lda #$e0		; a9 e0
-B21_0717:		lda #$e4		; a9 e4
-B21_0719:		lda #$e8		; a9 e8
-B21_071b:		lda #$ec		; a9 ec
-B21_071d:		lda #$f0		; a9 f0
-B21_071f:		lda #$f4		; a9 f4
-B21_0721:		lda #$f8		; a9 f8
-B21_0723:		lda #$fc		; a9 fc
-B21_0725:		lda #$00		; a9 00
-B21_0727:		tax				; aa 
-B21_0728:	.db $04
-B21_0729:		tax				; aa 
-B21_072a:		php				; 08 
-B21_072b:		tax				; aa 
-B21_072c:	.db $0c
-B21_072d:		tax				; aa 
-B21_072e:		;removed
-	.db $10 $aa
-
-B21_0730:	.db $14
-B21_0731:		tax				; aa 
-B21_0732:		clc				; 18 
-B21_0733:		tax				; aa 
-B21_0734:	.db $1c
-B21_0735:		tax				; aa 
-B21_0736:		jsr $24aa		; 20 aa 24
-B21_0739:		tax				; aa 
-B21_073a:		plp				; 28 
-B21_073b:		tax				; aa 
-B21_073c:		bit $30aa		; 2c aa 30
-B21_073f:		tax				; aa 
-B21_0740:	.db $34
-B21_0741:		tax				; aa 
-B21_0742:		sec				; 38 
-B21_0743:		tax				; aa 
-B21_0744:	.db $3c
-B21_0745:		tax				; aa 
-B21_0746:		rti				; 40 
-
-
-B21_0747:		tax				; aa 
-B21_0748:	.db $44
-B21_0749:		tax				; aa 
-B21_074a:		pha				; 48 
-B21_074b:		tax				; aa 
-B21_074c:		jmp $50aa		; 4c aa 50
-
-
-B21_074f:		tax				; aa 
-B21_0750:	.db $54
-B21_0751:		tax				; aa 
-B21_0752:		cli				; 58 
-B21_0753:		tax				; aa 
-B21_0754:	.db $5c
-B21_0755:		tax				; aa 
-B21_0756:		rts				; 60 
-
-
-B21_0757:		tax				; aa 
-B21_0758:	.db $64
-B21_0759:		tax				; aa 
-B21_075a:		pla				; 68 
-B21_075b:		tax				; aa 
-B21_075c:		jmp ($70aa)		; 6c aa 70
-
-
-B21_075f:		tax				; aa 
-B21_0760:	.db $74
-B21_0761:		tax				; aa 
-B21_0762:		sei				; 78 
-B21_0763:		tax				; aa 
-B21_0764:	.db $7c
-B21_0765:		tax				; aa 
-B21_0766:	.db $80
-B21_0767:		tax				; aa 
-B21_0768:		sty $aa			; 84 aa
-B21_076a:		dey				; 88 
-B21_076b:		tax				; aa 
-B21_076c:		sty $90aa		; 8c aa 90
-B21_076f:		tax				; aa 
-B21_0770:		sty $aa, x		; 94 aa
-B21_0772:		tya				; 98 
-B21_0773:		tax				; aa 
-B21_0774:	.db $9c
-B21_0775:		tax				; aa 
-B21_0776:		ldy #$aa		; a0 aa
-B21_0778:		ldy $aa			; a4 aa
-B21_077a:		tay				; a8 
-B21_077b:		tax				; aa 
-B21_077c:		ldy $b0aa		; ac aa b0
-B21_077f:		tax				; aa 
-B21_0780:		ldy $aa, x		; b4 aa
-B21_0782:		clv				; b8 
-B21_0783:		tax				; aa 
-B21_0784:		ldy $c0aa, x	; bc aa c0
-B21_0787:		tax				; aa 
-B21_0788:		cpy $aa			; c4 aa
-B21_078a:		iny				; c8 
-B21_078b:		tax				; aa 
-B21_078c:		cpy $d0aa		; cc aa d0
-B21_078f:		tax				; aa 
-B21_0790:	.db $d4
-B21_0791:		tax				; aa 
-B21_0792:		cld				; d8 
-B21_0793:		tax				; aa 
-B21_0794:	.db $dc
-B21_0795:		tax				; aa 
-B21_0796:		cpx #$aa		; e0 aa
-B21_0798:		cpx $aa			; e4 aa
-B21_079a:		inx				; e8 
-B21_079b:		tax				; aa 
-B21_079c:		cpx $f0aa		; ec aa f0
-B21_079f:		tax				; aa 
-B21_07a0:	.db $f4
-B21_07a1:		tax				; aa 
-B21_07a2:		sed				; f8 
-B21_07a3:		tax				; aa 
-B21_07a4:	.db $fc
-B21_07a5:		tax				; aa 
-B21_07a6:		.db $00				; 00
-B21_07a7:	.db $ab
-B21_07a8:	.db $04
-B21_07a9:	.db $ab
-B21_07aa:		php				; 08 
-B21_07ab:	.db $ab
-B21_07ac:	.db $0c
-B21_07ad:	.db $ab
-B21_07ae:		bpl B21_075b ; 10 ab
-
-B21_07b0:	.db $14
-B21_07b1:	.db $ab
-B21_07b2:		clc				; 18 
-B21_07b3:	.db $ab
-B21_07b4:	.db $1c
-B21_07b5:	.db $ab
-B21_07b6:		jsr $24ab		; 20 ab 24
-B21_07b9:	.db $ab
-B21_07ba:		plp				; 28 
-B21_07bb:	.db $ab
-B21_07bc:		bit $30ab		; 2c ab 30
-B21_07bf:	.db $ab
-B21_07c0:	.db $34
-B21_07c1:	.db $ab
-B21_07c2:		sec				; 38 
-B21_07c3:	.db $ab
-B21_07c4:	.db $3c
-B21_07c5:	.db $ab
-B21_07c6:		rti				; 40 
-
-
-B21_07c7:	.db $ab
-B21_07c8:	.db $44
-B21_07c9:	.db $ab
-B21_07ca:		pha				; 48 
-B21_07cb:	.db $ab
-B21_07cc:		jmp $50ab		; 4c ab 50
-
-
-B21_07cf:	.db $ab
-B21_07d0:	.db $54
-B21_07d1:	.db $ab
-B21_07d2:		cli				; 58 
-B21_07d3:	.db $ab
-B21_07d4:	.db $5c
-B21_07d5:	.db $ab
-B21_07d6:		rts				; 60 
-
-
-B21_07d7:	.db $ab
-B21_07d8:	.db $64
-B21_07d9:	.db $ab
-B21_07da:		pla				; 68 
-B21_07db:	.db $ab
-B21_07dc:		jmp ($70ab)		; 6c ab 70
-
-
-B21_07df:	.db $ab
-B21_07e0:	.db $74
-B21_07e1:	.db $ab
-B21_07e2:		sei				; 78 
-B21_07e3:	.db $ab
-B21_07e4:	.db $7c
-B21_07e5:	.db $ab
-B21_07e6:	.db $80
-B21_07e7:	.db $ab
-B21_07e8:		sty $ab			; 84 ab
-B21_07ea:		dey				; 88 
-B21_07eb:	.db $ab
-B21_07ec:		sty $90ab		; 8c ab 90
-B21_07ef:	.db $ab
-B21_07f0:		sty $ab, x		; 94 ab
-B21_07f2:		tya				; 98 
-B21_07f3:	.db $ab
-B21_07f4:	.db $9c
-B21_07f5:	.db $ab
-B21_07f6:		ldy #$ab		; a0 ab
-B21_07f8:		ldy $ab			; a4 ab
-B21_07fa:		tay				; a8 
-B21_07fb:	.db $ab
-B21_07fc:		ldy $b0ab		; ac ab b0
-B21_07ff:	.db $ab
-B21_0800:		ldy $ab, x		; b4 ab
-B21_0802:		clv				; b8 
-B21_0803:	.db $ab
-B21_0804:		ldy $c0ab, x	; bc ab c0
-B21_0807:	.db $ab
-B21_0808:		cpy $ab			; c4 ab
-B21_080a:		iny				; c8 
-B21_080b:	.db $ab
-B21_080c:		cpy $d0ab		; cc ab d0
-B21_080f:	.db $ab
-B21_0810:	.db $d4
-B21_0811:	.db $ab
-B21_0812:		cld				; d8 
-B21_0813:	.db $ab
-B21_0814:	.db $dc
-B21_0815:	.db $ab
-B21_0816:		cpx #$ab		; e0 ab
-B21_0818:		cpx $ab			; e4 ab
-B21_081a:		inx				; e8 
-B21_081b:	.db $ab
-B21_081c:		cpx $f0ab		; ec ab f0
-B21_081f:	.db $ab
-B21_0820:	.db $f4
-B21_0821:	.db $ab
-B21_0822:		sed				; f8 
-B21_0823:	.db $ab
-B21_0824:	.db $fc
-B21_0825:	.db $ab
-B21_0826:		.db $00				; 00
-B21_0827:		ldy $ac04		; ac 04 ac
-B21_082a:		php				; 08 
-B21_082b:		ldy $ac0c		; ac 0c ac
-B21_082e:		bpl B21_07dc ; 10 ac
-
-B21_0830:	.db $14
-B21_0831:		ldy $ac18		; ac 18 ac
-B21_0834:	.db $1c
-B21_0835:		ldy $ac20		; ac 20 ac
-B21_0838:		bit $ac			; 24 ac
-B21_083a:		plp				; 28 
-B21_083b:		ldy $ac2c		; ac 2c ac
-B21_083e:		bmi B21_07ec ; 30 ac
 
 B21_0840:		.db $00				; 00
 B21_0841:		.db $00				; 00
 B21_0842:		.db $00				; 00
 B21_0843:		.db $00				; 00
-B21_0844:		bcc B21_07f4 ; 90 ae
+B21_0844:		.db $90 $ae
 
 B21_0846:		jsr $90a0		; 20 a0 90
 B21_0849:		lda $5020		; ad 20 50
-B21_084c:		bcc B21_07fc ; 90 ae
+B21_084c:		.db $90 $ae
 
 B21_084e:		jsr $9060		; 20 60 90
 B21_0851:		sta $02, x		; 95 02
 B21_0853:	.db $80
-B21_0854:		bcc B21_07fa ; 90 a4
+B21_0854:		.db $90 $a4
 
 B21_0856:	.db $02
 B21_0857:		rti				; 40 
@@ -1559,7 +1439,7 @@ B21_0858:		;removed
 	.db $90 $93
 
 B21_085a:		bit $88			; 24 88
-B21_085c:		bcc B21_080b ; 90 ad
+B21_085c:		.db $90 $ad
 
 B21_085e:	.db $02
 B21_085f:	.db $80
@@ -1568,16 +1448,22 @@ B21_0860:		;removed
 
 B21_0862:	.db $02
 B21_0863:	.db $80
-B21_0864:		bcc B21_0807 ; 90 a1
+B21_0864:		.db $90 $a1
 
 B21_0866:		bit $8c			; 24 8c
-B21_0868:		bcc B21_07ff ; 90 95
+B21_0868:		.db $90 $95
 
 B21_086a:		bit $6c			; 24 6c
 B21_086c:		sta ($ae), y	; 91 ae
-B21_086e:		jsr $91c0		; 20 c0 91
-B21_0871:		lda $c000		; ad 00 c0
-B21_0874:		bcc B21_0824 ; 90 ae
+B21_086e:		.db $20 $c0
+
+
+data_15_0870:
+	.db $91 $ad $00 $c0
+
+
+
+B21_0874:		.db $90 $ae
 
 B21_0876:		bit $6c			; 24 6c
 B21_0878:		;removed
@@ -3500,7 +3386,7 @@ B21_117a:		sta $49			; 85 49
 B21_117c:		lda #$41		; a9 41
 B21_117e:		sta $4a			; 85 4a
 B21_1180:		lda #$3a		; a9 3a
-B21_1182:		sta $4b			; 85 4b
+B21_1182:		sta wChrBankBG_0400			; 85 4b
 B21_1184:		lda #$47		; a9 47
 B21_1186:		sta $4c			; 85 4c
 B21_1188:		lda #$6f		; a9 6f
@@ -3561,7 +3447,7 @@ B21_11ec:		jmp $e58e		; 4c 8e e5
 
 
 B21_11ef:		jsr $b5f3		; 20 f3 b5
-B21_11f2:		jsr $e579		; 20 79 e5
+B21_11f2:		jsr decGenericTimer		; 20 79 e5
 B21_11f5:		bne B21_121c ; d0 25
 
 B21_11f7:		lda #$f0		; a9 f0
@@ -3675,8 +3561,8 @@ B21_12af:		ldx #$00		; a2 00
 B21_12b1:		beq B21_12b5 ; f0 02
 
 B21_12b3:		ldx #$01		; a2 01
-B21_12b5:		jsr $ef75		; 20 75 ef
-B21_12b8:		jsr $e579		; 20 79 e5
+B21_12b5:		jsr func_1f_0f75		; 20 75 ef
+B21_12b8:		jsr decGenericTimer		; 20 79 e5
 B21_12bb:		bne B21_12c0 ; d0 03
 
 B21_12bd:		inc $0783		; ee 83 07
@@ -3746,7 +3632,7 @@ B21_1324:		lda #$28		; a9 28
 B21_1326:		sta $0791		; 8d 91 07
 B21_1329:		lda #$68		; a9 68
 B21_132b:		jsr playSound		; 20 5f e2
-B21_132e:		jsr $ebfd		; 20 fd eb
+B21_132e:		jsr func_1f_0bfd		; 20 fd eb
 B21_1331:		jsr $e666		; 20 66 e6
 B21_1334:		lda #$50		; a9 50
 B21_1336:		sta $25			; 85 25
@@ -3761,7 +3647,7 @@ B21_134b:		jsr $b19b		; 20 9b b1
 B21_134e:		lda #$41		; a9 41
 B21_1350:		sta $4a			; 85 4a
 B21_1352:		lda #$41		; a9 41
-B21_1354:		sta $4b			; 85 4b
+B21_1354:		sta wChrBankBG_0400			; 85 4b
 B21_1356:		lda #$36		; a9 36
 B21_1358:		sta $4c			; 85 4c
 B21_135a:		lda #$6f		; a9 6f
@@ -3836,7 +3722,7 @@ B21_13d4:		ora $20			; 05 20
 B21_13d6:		;removed
 	.db $90 $b3
 
-B21_13d8:		jsr $e579		; 20 79 e5
+B21_13d8:		jsr decGenericTimer		; 20 79 e5
 B21_13db:		bne B21_13e8 ; d0 0b
 
 B21_13dd:		inc $19			; e6 19
@@ -3886,7 +3772,7 @@ B21_1427:		jsr $e58e		; 20 8e e5
 B21_142a:		jmp $b21a		; 4c 1a b2
 
 
-B21_142d:		jsr $e579		; 20 79 e5
+B21_142d:		jsr decGenericTimer		; 20 79 e5
 B21_1430:		beq B21_1433 ; f0 01
 
 B21_1432:		rts				; 60 
@@ -3922,7 +3808,7 @@ B21_1460:		jsr $e58e		; 20 8e e5
 B21_1463:		jmp $b4d9		; 4c d9 b4
 
 
-B21_1466:		jsr $e579		; 20 79 e5
+B21_1466:		jsr decGenericTimer		; 20 79 e5
 B21_1469:		bne B21_1475 ; d0 0a
 
 B21_146b:		ldy #$01		; a0 01
@@ -3958,7 +3844,7 @@ B21_149f:		lda #$04		; a9 04
 B21_14a1:		jmp func_1f_0ce9		; 4c e9 ec
 
 
-B21_14a4:		jsr $e579		; 20 79 e5
+B21_14a4:		jsr decGenericTimer		; 20 79 e5
 B21_14a7:		bne B21_14d8 ; d0 2f
 
 B21_14a9:		jmp $b4d9		; 4c d9 b4
@@ -4032,8 +3918,8 @@ B21_1520:		rts				; 60
 
 
 B21_1521:		lda #$14		; a9 14
-B21_1523:		jsr $ef5c		; 20 5c ef
-B21_1526:		jmp $ef75		; 4c 75 ef
+B21_1523:		jsr func_1f_0f5c		; 20 5c ef
+B21_1526:		jmp func_1f_0f75		; 4c 75 ef
 
 
 B21_1529:		lda $0470, x	; bd 70 04
@@ -4055,7 +3941,7 @@ B21_1540:		lda $0470, x	; bd 70 04
 B21_1543:		and #$20		; 29 20
 B21_1545:		bne B21_1531 ; d0 ea
 
-B21_1547:		jmp $ef75		; 4c 75 ef
+B21_1547:		jmp func_1f_0f75		; 4c 75 ef
 
 
 B21_154a:		lda $0782		; ad 82 07
@@ -4342,7 +4228,7 @@ B21_16e3:		pha				; 48
 B21_16e4:		jsr $e828		; 20 28 e8
 B21_16e7:		pla				; 68 
 B21_16e8:		sta $0781		; 8d 81 07
-B21_16eb:		jsr $ebfd		; 20 fd eb
+B21_16eb:		jsr func_1f_0bfd		; 20 fd eb
 B21_16ee:		inc $19			; e6 19
 B21_16f0:		rts				; 60 
 
@@ -4383,7 +4269,7 @@ B21_1723:		lda #$b1		; a9 b1
 B21_1725:		sta $ff			; 85 ff
 B21_1727:		ldx #$90		; a2 90
 B21_1729:		lda #$5b		; a9 5b
-B21_172b:		jsr $ecdc		; 20 dc ec
+B21_172b:		jsr func_1f_0cdc		; 20 dc ec
 B21_172e:		inc $19			; e6 19
 B21_1730:		rts				; 60 
 
@@ -4480,7 +4366,7 @@ B21_17b9:		lda #$08		; a9 08
 B21_17bb:		sta $30			; 85 30
 B21_17bd:		ldx #$90		; a2 90
 B21_17bf:		lda #$5c		; a9 5c
-B21_17c1:		jsr $ecdc		; 20 dc ec
+B21_17c1:		jsr func_1f_0cdc		; 20 dc ec
 B21_17c4:		inc $19			; e6 19
 B21_17c6:		rts				; 60 
 
@@ -4645,7 +4531,7 @@ B21_18c2:		lda #$a2		; a9 a2
 B21_18c4:		sta $61			; 85 61
 B21_18c6:		lda #$26		; a9 26
 B21_18c8:		sta $62			; 85 62
-B21_18ca:		jsr $e8b5		; 20 b5 e8
+B21_18ca:		jsr func_1f_08b5		; 20 b5 e8
 B21_18cd:		ldy #$00		; a0 00
 B21_18cf:		lda $07f8, y	; b9 f8 07
 B21_18d2:		beq B21_18db ; f0 07
@@ -4661,7 +4547,7 @@ B21_18df:		iny				; c8
 B21_18e0:		cpy #$08		; c0 08
 B21_18e2:		bcc B21_18cf ; 90 eb
 
-B21_18e4:		jmp $e8de		; 4c de e8
+B21_18e4:		jmp setVramQueueNextFillIdxAndTerminate		; 4c de e8
 
 
 B21_18e7:		lda #$f9		; a9 f9
@@ -4827,14 +4713,14 @@ B21_19ea:		lda $ba0c, y	; b9 0c ba
 B21_19ed:		sta $61			; 85 61
 B21_19ef:		lda $ba0d, y	; b9 0d ba
 B21_19f2:		sta $10			; 85 10
-B21_19f4:		jsr $e8b5		; 20 b5 e8
+B21_19f4:		jsr func_1f_08b5		; 20 b5 e8
 B21_19f7:		lda #$00		; a9 00
 B21_19f9:		sta $0300, x	; 9d 00 03
 B21_19fc:		inx				; e8 
 B21_19fd:		dec $10			; c6 10
 B21_19ff:		bne B21_19f9 ; d0 f8
 
-B21_1a01:		jsr $e8de		; 20 de e8
+B21_1a01:		jsr setVramQueueNextFillIdxAndTerminate		; 20 de e8
 B21_1a04:		inc $07a6		; ee a6 07
 B21_1a07:		clc				; 18 
 B21_1a08:		rts				; 60 
@@ -4914,7 +4800,7 @@ B21_1a5e:		cmp #$ff		; c9 ff
 B21_1a60:		beq B21_1a6c ; f0 0a
 
 B21_1a62:		ldx #$90		; a2 90
-B21_1a64:		jsr $ecdc		; 20 dc ec
+B21_1a64:		jsr func_1f_0cdc		; 20 dc ec
 B21_1a67:		inc $07a5		; ee a5 07
 B21_1a6a:		clc				; 18 
 B21_1a6b:		rts				; 60 

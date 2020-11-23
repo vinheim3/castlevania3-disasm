@@ -2433,9 +2433,14 @@ B27_0d49:		ror $ae			; 66 ae
 B27_0d4b:	.db $77
 B27_0d4c:		ldx $ae88		; ae 88 ae
 B27_0d4f:		and $32ae		; 2d ae 32
-B27_0d52:		ldx $ae99		; ae 99 ae
-B27_0d55:		sed				; f8 
-B27_0d56:		ldx $aefd		; ae fd ae
+B27_0d52:		.db $ae
+
+
+
+data_1b_0d53:
+	.dw $ae99
+	.dw data_1b_0ef8
+	.dw data_1b_0efd
 B27_0d59:		sta $99ae, y	; 99 ae 99
 B27_0d5c:		ldx $af1d		; ae 1d af
 B27_0d5f:		rol $51af		; 2e af 51
@@ -2750,13 +2755,15 @@ B27_0ef1:		beq B27_0edd ; f0 ea
 B27_0ef3:		sta ($f8, x)	; 81 f8
 B27_0ef5:		sbc ($ec), y	; f1 ec
 B27_0ef7:		.db $00				; 00
-B27_0ef8:		ora ($f0, x)	; 01 f0
-B27_0efa:		sbc ($03), y	; f1 03
-B27_0efc:	.db $fc
-B27_0efd:		ora ($f0, x)	; 01 f0
-B27_0eff:	.db $f3
-B27_0f00:	.db $03
-B27_0f01:	.db $fc
+
+
+; oam spec details for lamp
+; num oams, y, tile idx, palette, x
+data_1b_0ef8:
+	.db $01 $f0 $f1 $03 $fc
+data_1b_0efd:
+	.db $01 $f0 $f3 $03 $fc
+
 B27_0f02:	.db $02
 B27_0f03:		;removed
 	.db $f0 $2b
@@ -4514,7 +4521,7 @@ B27_1894:		lda #$89		; a9 89
 B27_1896:		sta $054e, x	; 9d 4e 05
 B27_1899:		lda #$0c		; a9 0c
 B27_189b:		ldy #$00		; a0 00
-B27_189d:		jsr $ef5c		; 20 5c ef
+B27_189d:		jsr func_1f_0f5c		; 20 5c ef
 B27_18a0:		lda #$e8		; a9 e8
 B27_18a2:		sta $0400, x	; 9d 00 04
 B27_18a5:		lda #$01		; a9 01
@@ -4632,40 +4639,40 @@ B27_1952:		ora $12			; 05 12
 B27_1954:		sta $12			; 85 12
 B27_1956:		jsr $b970		; 20 70 b9
 B27_1959:		lda #$01		; a9 01
-B27_195b:		jsr func_1f_0d14		; 20 14 ed
+B27_195b:		jsr storeByteInVramQueue		; 20 14 ed
 B27_195e:		lda $14			; a5 14
-B27_1960:		jsr func_1f_0d14		; 20 14 ed
+B27_1960:		jsr storeByteInVramQueue		; 20 14 ed
 B27_1963:		lda $15			; a5 15
-B27_1965:		jsr func_1f_0d14		; 20 14 ed
+B27_1965:		jsr storeByteInVramQueue		; 20 14 ed
 B27_1968:		lda $0c			; a5 0c
-B27_196a:		jsr func_1f_0d14		; 20 14 ed
-B27_196d:		jmp $ed12		; 4c 12 ed
+B27_196a:		jsr storeByteInVramQueue		; 20 14 ed
+B27_196d:		jmp terminateVramQueue		; 4c 12 ed
 
 
 B27_1970:		jsr $b994		; 20 94 b9
 B27_1973:		lda ($16), y	; b1 16
-B27_1975:		jsr func_1f_0d14		; 20 14 ed
+B27_1975:		jsr storeByteInVramQueue		; 20 14 ed
 B27_1978:		iny				; c8 
 B27_1979:		lda ($16), y	; b1 16
-B27_197b:		jsr func_1f_0d14		; 20 14 ed
+B27_197b:		jsr storeByteInVramQueue		; 20 14 ed
 B27_197e:		iny				; c8 
-B27_197f:		jmp $ed12		; 4c 12 ed
+B27_197f:		jmp terminateVramQueue		; 4c 12 ed
 
 
 B27_1982:		jsr $b994		; 20 94 b9
 B27_1985:		ldy $0a			; a4 0a
 B27_1987:		lda $b990, y	; b9 90 b9
-B27_198a:		jsr func_1f_0d14		; 20 14 ed
-B27_198d:		jmp $ed12		; 4c 12 ed
+B27_198a:		jsr storeByteInVramQueue		; 20 14 ed
+B27_198d:		jmp terminateVramQueue		; 4c 12 ed
 
 
 B27_1990:		bit $2f2e		; 2c 2e 2f
 B27_1993:		and $01a9		; 2d a9 01
-B27_1996:		jsr func_1f_0d14		; 20 14 ed
+B27_1996:		jsr storeByteInVramQueue		; 20 14 ed
 B27_1999:		lda $12			; a5 12
-B27_199b:		jsr func_1f_0d14		; 20 14 ed
+B27_199b:		jsr storeByteInVramQueue		; 20 14 ed
 B27_199e:		lda $13			; a5 13
-B27_19a0:		jmp func_1f_0d14		; 4c 14 ed
+B27_19a0:		jmp storeByteInVramQueue		; 4c 14 ed
 
 
 B27_19a3:		ldy $0a			; a4 0a
@@ -5451,17 +5458,17 @@ B27_1dbb:		eor $a9, x		; 55 a9
 B27_1dbd:		ora ($20, x)	; 01 20
 B27_1dbf:	.db $14
 B27_1dc0:	.db $ed $a9 $00
-B27_1dc3:		jsr func_1f_0d14		; 20 14 ed
+B27_1dc3:		jsr storeByteInVramQueue		; 20 14 ed
 B27_1dc6:		lda #$23		; a9 23
-B27_1dc8:		jsr func_1f_0d14		; 20 14 ed
+B27_1dc8:		jsr storeByteInVramQueue		; 20 14 ed
 B27_1dcb:		lda #$bc		; a9 bc
 B27_1dcd:		sta $03			; 85 03
 B27_1dcf:		ldy #$00		; a0 00
 B27_1dd1:		lda $03			; a5 03
-B27_1dd3:		jsr func_1f_0d14		; 20 14 ed
+B27_1dd3:		jsr storeByteInVramQueue		; 20 14 ed
 B27_1dd6:		clc				; 18 
 B27_1dd7:		adc #$02		; 69 02
-B27_1dd9:		jsr func_1f_0d14		; 20 14 ed
+B27_1dd9:		jsr storeByteInVramQueue		; 20 14 ed
 B27_1ddc:		iny				; c8 
 B27_1ddd:		cpy #$20		; c0 20
 B27_1ddf:		bcs B27_1dec ; b0 0b
@@ -5474,7 +5481,7 @@ B27_1de7:		sta $03			; 85 03
 B27_1de9:		jmp $bdd1		; 4c d1 bd
 
 
-B27_1dec:		jmp $ed12		; 4c 12 ed
+B27_1dec:		jmp terminateVramQueue		; 4c 12 ed
 
 
 B27_1def:		lda $07f0		; ad f0 07
@@ -5509,18 +5516,18 @@ B27_1e23:		lda $be5e, y	; b9 5e be
 B27_1e26:		adc $01			; 65 01
 B27_1e28:		sta $01			; 85 01
 B27_1e2a:		lda #$01		; a9 01
-B27_1e2c:		jsr func_1f_0d14		; 20 14 ed
+B27_1e2c:		jsr storeByteInVramQueue		; 20 14 ed
 B27_1e2f:		lda $00			; a5 00
-B27_1e31:		jsr func_1f_0d14		; 20 14 ed
+B27_1e31:		jsr storeByteInVramQueue		; 20 14 ed
 B27_1e34:		lda $01			; a5 01
-B27_1e36:		jsr func_1f_0d14		; 20 14 ed
+B27_1e36:		jsr storeByteInVramQueue		; 20 14 ed
 B27_1e39:		ldy #$20		; a0 20
 B27_1e3b:		lda #$00		; a9 00
-B27_1e3d:		jsr func_1f_0d14		; 20 14 ed
+B27_1e3d:		jsr storeByteInVramQueue		; 20 14 ed
 B27_1e40:		dey				; 88 
 B27_1e41:		bne B27_1e3d ; d0 fa
 
-B27_1e43:		jsr $ed12		; 20 12 ed
+B27_1e43:		jsr terminateVramQueue		; 20 12 ed
 B27_1e46:		lda $07f0		; ad f0 07
 B27_1e49:		and #$7f		; 29 7f
 B27_1e4b:		tay				; a8 
@@ -5538,3 +5545,33 @@ B27_1e5d:		cpy #$20		; c0 20
 B27_1e5f:		.db $00				; 00
 B27_1e60:		bit $1e			; 24 1e
 B27_1e62:		.db $20
+
+
+.ifdef SEPARATED_LAMP_GFX
+changeLampGfx:
+	cmp #$f1
+	beq +
+	cmp #$f3
+	bne @done
++
+	pha
+	txa
+	pha
+
+	ldx $05
+	lda $5d8, x
+	sbc #$9f ; last weapon contents is 9e
+	bcc +
+	pla
+	tax
+	pla
+	sbc #$04
+	bne @done
++
+	pla
+	tax
+	pla
+@done:
+	sta $0201, x
+	rts
+.endif

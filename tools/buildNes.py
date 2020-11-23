@@ -6,7 +6,7 @@ header = [
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 ]
 
-isExtended = len(sys.argv) > 1
+isExtended = 'IS_EXTENDED_ROM' in sys.argv[1:]
 if isExtended:
     header[4] = 0x40
     header[5] = 0x80

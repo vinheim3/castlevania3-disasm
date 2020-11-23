@@ -606,7 +606,7 @@ B4_034a:		rts				; 60
 
 B4_034b:		lda #$0e		; a9 0e
 B4_034d:		ldy #$09		; a0 09
-B4_034f:		jmp $ef5c		; 4c 5c ef
+B4_034f:		jmp func_1f_0f5c		; 4c 5c ef
 
 
 B4_0352:		lda $05ef, x	; bd ef 05
@@ -636,8 +636,8 @@ B4_0380:		tya				; 98
 B4_0381:		tax				; aa 
 B4_0382:		lda #$0e		; a9 0e
 B4_0384:		ldy #$09		; a0 09
-B4_0386:		jsr $ef5c		; 20 5c ef
-B4_0389:		jsr $ef75		; 20 75 ef
+B4_0386:		jsr func_1f_0f5c		; 20 5c ef
+B4_0389:		jsr func_1f_0f75		; 20 75 ef
 B4_038c:		lda #$01		; a9 01
 B4_038e:		jsr $9427		; 20 27 94
 B4_0391:		ldx $17			; a6 17
@@ -855,7 +855,7 @@ B4_0509:		tay				; a8
 B4_050a:		lda $8527, y	; b9 27 85
 B4_050d:		tay				; a8 
 B4_050e:		lda #$0c		; a9 0c
-B4_0510:		jmp $ef5c		; 4c 5c ef
+B4_0510:		jmp func_1f_0f5c		; 4c 5c ef
 
 
 B4_0513:		lda #$84		; a9 84
@@ -869,7 +869,7 @@ B4_051d:		tay				; a8
 B4_051e:		lda $8530, y	; b9 30 85
 B4_0521:		tay				; a8 
 B4_0522:		lda #$0c		; a9 0c
-B4_0524:		jmp $ef5c		; 4c 5c ef
+B4_0524:		jmp func_1f_0f5c		; 4c 5c ef
 
 
 B4_0527:		asl $06			; 06 06
@@ -1312,7 +1312,7 @@ B4_07a8:		tya				; 98
 B4_07a9:		tax				; aa 
 B4_07aa:		lda $0c			; a5 0c
 B4_07ac:		ldy $0d			; a4 0d
-B4_07ae:		jsr $ef5c		; 20 5c ef
+B4_07ae:		jsr func_1f_0f5c		; 20 5c ef
 B4_07b1:		lda $08			; a5 08
 B4_07b3:		cmp #$08		; c9 08
 B4_07b5:		bne B4_07c3 ; d0 0c
@@ -1631,7 +1631,7 @@ B4_099b:		lda $8a04, y	; b9 04 8a
 B4_099e:		sta $01			; 85 01
 B4_09a0:		lda $8a07, y	; b9 07 8a
 B4_09a3:		ldy $01			; a4 01
-B4_09a5:		jsr $ef5c		; 20 5c ef
+B4_09a5:		jsr func_1f_0f5c		; 20 5c ef
 B4_09a8:		lda $00			; a5 00
 B4_09aa:		jmp $9427		; 4c 27 94
 
@@ -1679,7 +1679,7 @@ B4_09f3:		lda $8a04, y	; b9 04 8a
 B4_09f6:		sta $01			; 85 01
 B4_09f8:		lda $8a07, y	; b9 07 8a
 B4_09fb:		ldy $01			; a4 01
-B4_09fd:		jsr $ef5c		; 20 5c ef
+B4_09fd:		jsr func_1f_0f5c		; 20 5c ef
 B4_0a00:		rts				; 60 
 
 
@@ -1945,7 +1945,7 @@ B4_0be3:		bne B4_0be7 ; d0 02
 
 B4_0be5:		ldy #$3c		; a0 3c
 B4_0be7:		lda #$0c		; a9 0c
-B4_0be9:		jmp $ef5c		; 4c 5c ef
+B4_0be9:		jmp func_1f_0f5c		; 4c 5c ef
 
 
 B4_0bec:	.db $02
@@ -2365,8 +2365,8 @@ B4_0ea1:		clc				; 18
 B4_0ea2:		adc #$22		; 69 22
 B4_0ea4:		tay				; a8 
 B4_0ea5:		lda #$0c		; a9 0c
-B4_0ea7:		jsr $ef5c		; 20 5c ef
-B4_0eaa:		jmp $ef75		; 4c 75 ef
+B4_0ea7:		jsr func_1f_0f5c		; 20 5c ef
+B4_0eaa:		jmp func_1f_0f75		; 4c 75 ef
 
 
 B4_0ead:		sec				; 38 
@@ -2384,8 +2384,8 @@ B4_0ec7:		lda #$01		; a9 01
 B4_0ec9:		sta $04a8, x	; 9d a8 04
 B4_0ecc:		lda #$0c		; a9 0c
 B4_0ece:		ldy #$27		; a0 27
-B4_0ed0:		jsr $ef5c		; 20 5c ef
-B4_0ed3:		jmp $ef75		; 4c 75 ef
+B4_0ed0:		jsr func_1f_0f5c		; 20 5c ef
+B4_0ed3:		jmp func_1f_0f75		; 4c 75 ef
 
 
 B4_0ed6:		lda $0633, x	; bd 33 06
@@ -3434,7 +3434,7 @@ B4_152d:		iny				; c8
 B4_152e:		lda ($02), y	; b1 02
 B4_1530:		tay				; a8 
 B4_1531:		lda $00			; a5 00
-B4_1533:		jsr $ef5c		; 20 5c ef
+B4_1533:		jsr func_1f_0f5c		; 20 5c ef
 B4_1536:		jmp $946a		; 4c 6a 94
 
 
@@ -3730,7 +3730,7 @@ B4_1742:		jmp $946a		; 4c 6a 94
 B4_1745:		lda $048c, x	; bd 8c 04
 B4_1748:		ldy $05aa, x	; bc aa 05
 B4_174b:		iny				; c8 
-B4_174c:		jsr $ef5c		; 20 5c ef
+B4_174c:		jsr func_1f_0f5c		; 20 5c ef
 B4_174f:		ldy #$01		; a0 01
 B4_1751:		lda ($02), y	; b1 02
 B4_1753:		sta $00			; 85 00
@@ -4638,6 +4638,7 @@ B4_1d2c:		jsr $9d59		; 20 59 9d
 B4_1d2f:		rts				; 60 
 
 
+func_04_1d30:
 B4_1d30:		lda #$00		; a9 00
 B4_1d32:		sta $96			; 85 96
 B4_1d34:		jsr $9ea5		; 20 a5 9e

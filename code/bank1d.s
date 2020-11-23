@@ -904,44 +904,44 @@ B29_05a8:		jsr $a6a7		; 20 a7 a6
 B29_05ab:		jsr $a64f		; 20 4f a6
 B29_05ae:		ldy $0565		; ac 65 05
 B29_05b1:		jsr jumpTableNoPreserveY		; 20 86 e8
-B29_05b4:		cmp $8a			; c5 8a
-B29_05b6:		sec				; 38 
-B29_05b7:		sta $60, x		; 95 60
-B29_05b9:		stx $1d, y		; 96 1d
-B29_05bb:		stx $70, y		; 96 70
-B29_05bd:	.db $97
-B29_05be:		ora $7099, y	; 19 99 70
-B29_05c1:	.db $97
-B29_05c2:	.db $53
-B29_05c3:		sta $9967, y	; 99 67 99
-B29_05c6:		stx $9399		; 8e 99 93
-B29_05c9:		txs				; 9a 
-B29_05ca:	.db $42
-B29_05cb:		sta $a5f8, y	; 99 f8 a5
-B29_05ce:		sed				; f8 
-B29_05cf:		lda $f9			; a5 f9
-B29_05d1:		lda $f8			; a5 f8
-B29_05d3:		lda $b8			; a5 b8
-B29_05d5:		sty $d4, x		; 94 d4
-B29_05d7:		sty $ff, x		; 94 ff
-B29_05d9:		sty $1c, x		; 94 1c
-B29_05db:	.db $83
-B29_05dc:		lda ($93), y	; b1 93
-B29_05de:		lda ($93), y	; b1 93
-B29_05e0:	.db $57
-B29_05e1:	.db $8b
-B29_05e2:		dec $bb8a, x	; de 8a bb
-B29_05e5:		ldx $d3			; a6 d3
-B29_05e7:		ldx $56			; a6 56
-B29_05e9:		tay				; a8 
-B29_05ea:	.db $8f
-B29_05eb:		ldy $acc7		; ac c7 ac
-B29_05ee:	.db $07
-B29_05ef:		lda $a726		; ad 26 a7
-B29_05f2:	.db $37
-B29_05f3:	.db $a7
-B29_05f4:		sbc $8ba7		; eda7 8b
-B29_05f7:	.db $a7
+	.dw $8ac5
+	.dw $9538
+	.dw $9660
+	.dw $961d
+.ifdef IMPROVED_CONTROLS_TEST
+	.dw func1
+.else
+	.dw $9770
+.endif
+	.dw $9919
+	.dw $9770
+	.dw $9953
+	.dw $9967
+	.dw $998e
+	.dw $9a93
+	.dw $9942
+	.dw $a5f8
+	.dw $a5f8
+	.dw $a5f9
+	.dw $a5f8
+	.dw $94b8
+	.dw $94d4
+	.dw $94ff
+	.dw $831c
+	.dw $93b1
+	.dw $93b1
+	.dw $8b57
+	.dw $8ade
+	.dw $a6bb
+	.dw $a6d3
+	.dw $a856
+	.dw $ac8f
+	.dw $acc7
+	.dw $ad07
+	.dw $a726
+	.dw $a737
+	.dw $a7ed
+	.dw $a78b
 B29_05f8:		rts				; 60 
 
 
@@ -2433,7 +2433,7 @@ B29_0f81:		lda #$1f		; a9 1f
 B29_0f83:		jsr playSound		; 20 5f e2
 B29_0f86:		lda #$06		; a9 06
 B29_0f88:		ldy #$0b		; a0 0b
-B29_0f8a:		jsr $ef5c		; 20 5c ef
+B29_0f8a:		jsr func_1f_0f5c		; 20 5c ef
 B29_0f8d:		ldy $10			; a4 10
 B29_0f8f:		lda $04a8, y	; b9 a8 04
 B29_0f92:		sta $00			; 85 00
@@ -2488,7 +2488,7 @@ B29_0fed:		bne B29_1000 ; d0 11
 B29_0fef:		dec $05c1, x	; de c1 05
 B29_0ff2:		beq B29_1000 ; f0 0c
 
-B29_0ff4:		jsr $ef75		; 20 75 ef
+B29_0ff4:		jsr func_1f_0f75		; 20 75 ef
 B29_0ff7:		jsr $b916		; 20 16 b9
 B29_0ffa:		jsr $b92f		; 20 2f b9
 B29_0ffd:		jmp $b951		; 4c 51 b9
@@ -2699,7 +2699,7 @@ B29_1139:		bne B29_10f9 ; d0 be
 
 B29_113b:		lda #$02		; a9 02
 B29_113d:		ldy #$0a		; a0 0a
-B29_113f:		jsr $ef5c		; 20 5c ef
+B29_113f:		jsr func_1f_0f5c		; 20 5c ef
 B29_1142:		lda $b17a		; ad 7a b1
 B29_1145:		sta $05c1, x	; 9d c1 05
 B29_1148:		lda #$01		; a9 01
@@ -2738,7 +2738,7 @@ B29_117c:	.db $02
 B29_117d:		dec $05c1, x	; de c1 05
 B29_1180:		beq B29_1195 ; f0 13
 
-B29_1182:		jsr $ef75		; 20 75 ef
+B29_1182:		jsr func_1f_0f75		; 20 75 ef
 B29_1185:		jsr $b2bb		; 20 bb b2
 B29_1188:		jsr $b30a		; 20 0a b3
 B29_118b:		jmp $b951		; 4c 51 b9
@@ -3234,7 +3234,7 @@ B29_149a:		lda #$13		; a9 13
 B29_149c:		jsr playSound		; 20 5f e2
 B29_149f:		lda #$00		; a9 00
 B29_14a1:		ldy #$08		; a0 08
-B29_14a3:		jsr $ef5c		; 20 5c ef
+B29_14a3:		jsr func_1f_0f5c		; 20 5c ef
 B29_14a6:		lda $04a8		; ad a8 04
 B29_14a9:		asl a			; 0a
 B29_14aa:		tay				; a8 
@@ -3262,7 +3262,7 @@ B29_14dd:		sta $0537, x	; 9d 37 05
 B29_14e0:		lda $0520, x	; bd 20 05
 B29_14e3:		adc #$00		; 69 00
 B29_14e5:		sta $0520, x	; 9d 20 05
-B29_14e8:		jsr $ef75		; 20 75 ef
+B29_14e8:		jsr func_1f_0f75		; 20 75 ef
 B29_14eb:		jsr $b916		; 20 16 b9
 B29_14ee:		jsr $b92f		; 20 2f b9
 B29_14f1:		jmp $b951		; 4c 51 b9
@@ -3276,7 +3276,7 @@ B29_14f9:		rts				; 60
 
 B29_14fa:		lda #$00		; a9 00
 B29_14fc:		ldy #$07		; a0 07
-B29_14fe:		jsr $ef5c		; 20 5c ef
+B29_14fe:		jsr func_1f_0f5c		; 20 5c ef
 B29_1501:		ldy $10			; a4 10
 B29_1503:		lda $04a8, y	; b9 a8 04
 B29_1506:		asl a			; 0a
@@ -3325,7 +3325,7 @@ B29_155f:		bne B29_1566 ; d0 05
 
 B29_1561:		lda #$15		; a9 15
 B29_1563:		jsr playSound		; 20 5f e2
-B29_1566:		jsr $ef75		; 20 75 ef
+B29_1566:		jsr func_1f_0f75		; 20 75 ef
 B29_1569:		jsr $b916		; 20 16 b9
 B29_156c:		jmp $b951		; 4c 51 b9
 
@@ -3434,7 +3434,7 @@ B29_161a:		lda $b713, y	; b9 13 b7
 B29_161d:		sta $0537, x	; 9d 37 05
 B29_1620:		lda #$00		; a9 00
 B29_1622:		ldy #$08		; a0 08
-B29_1624:		jsr $ef5c		; 20 5c ef
+B29_1624:		jsr func_1f_0f5c		; 20 5c ef
 B29_1627:		jmp $af54		; 4c 54 af
 
 
@@ -3664,7 +3664,7 @@ B29_17bd:		lda #$4c		; a9 4c
 B29_17bf:		sta $05c1, x	; 9d c1 05
 B29_17c2:		lda #$00		; a9 00
 B29_17c4:		ldy #$0c		; a0 0c
-B29_17c6:		jsr $ef5c		; 20 5c ef
+B29_17c6:		jsr func_1f_0f5c		; 20 5c ef
 B29_17c9:		inc $0565, x	; fe 65 05
 B29_17cc:		inc $0565, x	; fe 65 05
 B29_17cf:		rts				; 60 
@@ -3683,7 +3683,7 @@ B29_17dd:		and #$0f		; 29 0f
 B29_17df:		bne B29_17e4 ; d0 03
 
 B29_17e1:		jsr $bc55		; 20 55 bc
-B29_17e4:		jsr $ef75		; 20 75 ef
+B29_17e4:		jsr func_1f_0f75		; 20 75 ef
 B29_17e7:		jmp $b951		; 4c 51 b9
 
 
@@ -3720,7 +3720,7 @@ B29_1829:		lda #$21		; a9 21
 B29_182b:		jsr playSound		; 20 5f e2
 B29_182e:		lda #$02		; a9 02
 B29_1830:		ldy #$09		; a0 09
-B29_1832:		jsr $ef5c		; 20 5c ef
+B29_1832:		jsr func_1f_0f5c		; 20 5c ef
 B29_1835:		txa				; 8a 
 B29_1836:		sec				; 38 
 B29_1837:		sbc #$14		; e9 14
@@ -3798,7 +3798,7 @@ B29_18d4:		sta $0509, x	; 9d 09 05
 B29_18d7:		lda #$00		; a9 00
 B29_18d9:		sbc $04f2, x	; fd f2 04
 B29_18dc:		sta $04f2, x	; 9d f2 04
-B29_18df:		jsr $ef75		; 20 75 ef
+B29_18df:		jsr func_1f_0f75		; 20 75 ef
 B29_18e2:		jsr $b916		; 20 16 b9
 B29_18e5:		jsr $b8fd		; 20 fd b8
 B29_18e8:		jsr $b92f		; 20 2f b9

@@ -1,38 +1,14 @@
 import sys
 import os
+from utils import *
 
 group, section, room = map(int, sys.argv[1:])
-
-with open('original/OR.bin', 'rb') as f:
-    prgData = f.read()
 
 with open('original/OR.chr', 'rb') as f:
     chrData = f.read()
 
-def word(idx):
-    return (prgData[idx+1]<<8)|prgData[idx]
-
-def conv(hexstr):
-    return int(f"0x{hexstr}", 16)
-
-def bankConv(hexstr):
-    if ':' in hexstr:
-        bank, addr = hexstr.split(':')
-    else:
-        bank = 0
-        addr = hexstr
-    bank = conv(bank)
-    addr = conv(addr)
-    return bank * 0x2000 + addr
-
-def address(_bank, _addr):
-    return _bank*0x2000+_addr
-
-# find out if horizontal (6-high) or vertical (8-high)
-metaByteGroupAddress = word(bankConv('1e:162e')+group*2)-0xc000
-metaByteSectionAddress = word(address(0x1e, metaByteGroupAddress)+section*2)-0xc000
-metaByte = prgData[address(0x1e, metaByteSectionAddress)+room]
-if metaByte & 0xf0 != 0:
+# (extracted) Metabyte to say if room is vertical
+if isRoomVertical(group, section, room):
     is_vertical = True
     numRows = 8
 else:
@@ -40,7 +16,7 @@ else:
     numRows = 6
 print('is vertical:', is_vertical)
 
-# Chr banks used
+# (extracted) Chr banks used
 roomChrData = list(chrData[0x40*0x400:0x41*0x400])
 chrDataGroupAddress = word(0x66+group*2)-0x8000
 chrDataSectionAddress = word(chrDataGroupAddress+section*4)-0x8000
@@ -53,16 +29,18 @@ roomChrData.extend([0] * 0x400)
     # f.write(bytearray(roomChrData))
 print('chr banks:', hex(chrBank1), hex(chrBank2))
 
-# metatile bank - todo: has special conditions
-metaTileBank = prgData[bankConv('1e:94b')+group]-0x80
-metaTileBankOffset = metaTileBank*0x2000
+# (extracted) metatile bank - special cases
+sMetatileBank = getMetatileBank(group, section, room, True)
+sMetatileBankOffset = sMetatileBank * 0x2000
+metaTileBank = getMetatileBank(group, section, room)
+metaTileBankOffset = metaTileBank * 0x2000
 print('metatile bank:', hex(metaTileBank))
 
-# Room Metatiles - get num screens
+# (extracted) Room Metatiles - get num screens
 metaTilesGroupAddress = word(bankConv('1e:15d4')+group*2)-0x8000
 metaTilesSectionAddress = word(metaTileBankOffset + metaTilesGroupAddress + section*2)-0x8000
 metaTilesRoomAddress = word(metaTileBankOffset + metaTilesSectionAddress + room*2+1)-0x8000
-numScreens = prgData[metaTileBankOffset + metaTilesRoomAddress] + 1
+numScreens = prgData[sMetatileBankOffset + metaTilesRoomAddress] + 1
 print('num screens:', numScreens)
 
 # store metatiles in order
@@ -73,7 +51,7 @@ metatilemap = []
 # fill metatilemap
 if is_vertical:
     for i in range(numScreens*numRows):
-        rowOffset = metaTileBankOffset+metaTilesRoomAddress+1 + (i*8)
+        rowOffset = sMetatileBankOffset+metaTilesRoomAddress+1 + (i*8)
         rowBytes = prgData[rowOffset:rowOffset+8]
         metatilemap.append(rowBytes)
 else:
@@ -82,18 +60,18 @@ else:
 
     for i in range(numScreens):
         for j in range(numRows):
-            rowOffset = metaTileBankOffset+metaTilesRoomAddress+1 + (i*6*8) + (j*8)
+            rowOffset = sMetatileBankOffset+metaTilesRoomAddress+1 + (i*6*8) + (j*8)
             rowBytes = prgData[rowOffset:rowOffset+8]
             metatilemap[j].extend(rowBytes)
 print('rows, cols:', len(metatilemap), len(metatilemap[0]))
 # for row in metatilemap:
     # print(' '.join(f'{byte:02x}' for byte in row))
 
-# Room tiles - same conditional metatile bank
+# (extracted) Room tiles - same conditional metatile bank
 roomTileAddress = word(bankConv('1e:15f2')+group*2)-0x8000
 roomTileOffset = address(metaTileBank, roomTileAddress)
 print('room tile address:', hex(roomTileAddress))
-# palettes - same conditional metatile bank
+# (extracted) palettes - same conditional metatile bank
 paletteAddress = word(bankConv('1e:1610')+group*2)-0x8000
 paletteOffset = address(metaTileBank, paletteAddress)
 print('palette address:', hex(paletteAddress))
@@ -136,7 +114,7 @@ wholePalettes = []
 for row in palettes:
     wholePalettes.extend(row)
 
-# Internal palettes
+# (to extract) Internal palettes
 internalPaletteIdxGroupAddress = word(0x5cd+group*2)-0x8000
 internalPaletteIdxSectionAddress = word(internalPaletteIdxGroupAddress+section*4)-0x8000
 internalPaletteIdx = prgData[internalPaletteIdxSectionAddress+room]

@@ -191,6 +191,7 @@ B22_012f:		sec				; 38
 B22_0130:		rts				; 60 
 
 
+func_16_0131:
 B22_0131:		lda $2a			; a5 2a
 B22_0133:		cmp #$1b		; c9 1b
 B22_0135:		bne B22_014f ; d0 18
@@ -204,10 +205,9 @@ B22_0141:		clc				; 18
 B22_0142:		lda $c7			; a5 c7
 B22_0144:		adc #$04		; 69 04
 B22_0146:		sta $05d8, x	; 9d d8 05
-B22_0149:		jsr $ff8a		; 20 8a ff
+B22_0149:		jsr func_1f_1f8a		; 20 8a ff
 B22_014c:		lda #$00		; a9 00
 B22_014e:		rts				; 60 
-
 
 B22_014f:		lda $05ef, x	; bd ef 05
 B22_0152:		rts				; 60 
@@ -298,6 +298,8 @@ B22_01e8:		rts				; 60
 
 
 B22_01e9:		jsr $819e		; 20 9e 81
+
+func_16_01ec:
 B22_01ec:		inc $05c1, x	; fe c1 05
 B22_01ef:		lda $0470, x	; bd 70 04
 B22_01f2:		ora #$20		; 09 20
@@ -305,6 +307,7 @@ B22_01f4:		sta $0470, x	; 9d 70 04
 B22_01f7:		rts				; 60 
 
 
+func_16_01f8:
 B22_01f8:		lda $0470, x	; bd 70 04
 B22_01fb:		and #$df		; 29 df
 B22_01fd:		sta $0470, x	; 9d 70 04
@@ -369,8 +372,8 @@ B22_025f:		tay				; a8
 B22_0260:		lda $826c, y	; b9 6c 82
 B22_0263:		tay				; a8 
 B22_0264:		lda #$08		; a9 08
-B22_0266:		jsr $ef5c		; 20 5c ef
-B22_0269:		jmp $ef75		; 4c 75 ef
+B22_0266:		jsr func_1f_0f5c		; 20 5c ef
+B22_0269:		jmp func_1f_0f75		; 4c 75 ef
 
 
 B22_026c:		.db $00				; 00
@@ -391,6 +394,9 @@ B22_027f:		ora $1b			; 05 1b
 B22_0281:	.db $1c
 B22_0282:		.db $00				; 00
 B22_0283:		.db $00				; 00
+
+
+func_16_0284:
 B22_0284:		inc $05c1, x	; fe c1 05
 B22_0287:		ldy #$01		; a0 01
 B22_0289:		lda ($02), y	; b1 02
@@ -399,9 +405,9 @@ B22_028d:		iny				; c8
 B22_028e:		lda ($02), y	; b1 02
 B22_0290:		tay				; a8 
 B22_0291:		lda $00			; a5 00
-B22_0293:		jsr $ef5c		; 20 5c ef
-B22_0296:		jsr $ef75		; 20 75 ef
-B22_0299:		jmp $81f8		; 4c f8 81
+B22_0293:		jsr func_1f_0f5c		; 20 5c ef
+B22_0296:		jsr func_1f_0f75		; 20 75 ef
+B22_0299:		jmp func_16_01f8		; 4c f8 81
 
 
 B22_029c:		ldy #$07		; a0 07
@@ -441,7 +447,7 @@ B22_02d1:		ora ($0b, x)	; 01 0b
 B22_02d3:	.db $04
 B22_02d4:	.db $0c
 B22_02d5:		jsr $8230		; 20 30 82
-B22_02d8:		jsr $81ec		; 20 ec 81
+B22_02d8:		jsr func_16_01ec		; 20 ec 81
 B22_02db:		ldy #$00		; a0 00
 B22_02dd:		lda $48			; a5 48
 B22_02df:		cmp #$08		; c9 08
@@ -478,6 +484,7 @@ B22_030f:		iny				; c8
 B22_0310:		jmp $82bd		; 4c bd 82
 
 
+func_16_0313:
 B22_0313:		lda #$01		; a9 01
 B22_0315:		sta $04a8, x	; 9d a8 04
 B22_0318:		lda #$00		; a9 00
@@ -486,51 +493,81 @@ B22_031d:		lda $054e, x	; bd 4e 05
 B22_0320:		sec				; 38 
 B22_0321:		sbc #$93		; e9 93
 B22_0323:		tay				; a8 
-B22_0324:		lda $8333, y	; b9 33 83
+B22_0324:		lda data_16_0333.w, y	; b9 33 83
 B22_0327:		sta $048c, x	; 9d 8c 04
-B22_032a:		lda $8353, y	; b9 53 83
+B22_032a:		lda data_16_0353.w, y	; b9 53 83
 B22_032d:		sta $0400, x	; 9d 00 04
-B22_0330:		jmp $81ec		; 4c ec 81
+B22_0330:		jmp func_16_01ec		; 4c ec 81
 
+data_16_0333:
+	.db $00
+	.db $00
+	.db $00
+	.db $00
+	.db $0e
+	.db $0e
+	.db $0e
+	.db $0e
+	.db $00
+	.db $00
+	.db $00
+	.db $00
+	.db $0e
+	.db $0e
+	.db $0e
+	.db $0e
+	.db $0e
+	.db $0e
+	.db $0e
+	.db $0e
+	.db $0e
+	.db $0e
+	.db $0e
+	.db $0e
+	.db $0e
+	.db $0e
+	.db $0e
+	.db $0e
+	.db $0e
+	.db $0e
+	.db $0e
+	.db $0e
 
-B22_0333:		.db $00				; 00
-B22_0334:		.db $00				; 00
-B22_0335:		.db $00				; 00
-B22_0336:		.db $00				; 00
-B22_0337:		asl $0e0e		; 0e 0e 0e
-B22_033a:	.db $0e $00 $00
-B22_033d:		.db $00				; 00
-B22_033e:		.db $00				; 00
-B22_033f:		asl $0e0e		; 0e 0e 0e
-B22_0342:		asl $0e0e		; 0e 0e 0e
-B22_0345:		asl $0e0e		; 0e 0e 0e
-B22_0348:		asl $0e0e		; 0e 0e 0e
-B22_034b:		asl $0e0e		; 0e 0e 0e
-B22_034e:		asl $0e0e		; 0e 0e 0e
-B22_0351:		asl $460e		; 0e 0e 46
-B22_0354:	.db $42
-B22_0355:		lsr $6850		; 4e 50 68
-B22_0358:	.db $54
-B22_0359:		lsr $52, x		; 56 52
-B22_035b:		lsr $5446		; 4e 46 54
-B22_035e:	.db $54
-B22_035f:		ror a			; 6a
-B22_0360:	.db $1c
-B22_0361:		asl $2420, x	; 1e 20 24
-B22_0364:		bit $24			; 24 24
-B22_0366:		bit $24			; 24 24
-B22_0368:		bit $24			; 24 24
-B22_036a:		bit $24			; 24 24
-B22_036c:	.db $22
-B22_036d:		;removed
-	.db $10 $0e
+data_16_0353:
+	.db $46
+	.db $42
+	.db $4e
+	.db $50
+	.db $68
+	.db $54
+	.db $56
+	.db $52
+	.db $4e
+	.db $46
+	.db $54
+	.db $54
+	.db $6a
+	.db $1c
+	.db $1e
+	.db $20
+	.db $24
+	.db $24
+	.db $24
+	.db $24
+	.db $24
+	.db $24
+	.db $24
+	.db $24
+	.db $24
+	.db $22
+	.db $10
+	.db $0e
+	.db $58
+	.db $5a
+	.db $6a
+	.db $10
 
-B22_036f:		cli				; 58 
-B22_0370:	.db $5a
-B22_0371:		ror a			; 6a
-B22_0372:		bpl B22_0372 ; 10 fe
-
-B22_0374:		cmp ($05, x)	; c1 05
+B22_0373:		inc $05c1, x
 B22_0376:		lda #$0e		; a9 0e
 B22_0378:		sta $048c, x	; 9d 8c 04
 B22_037b:		sec				; 38 
@@ -547,7 +584,7 @@ B22_038b:		rol a			; 2a
 B22_038c:		bit $302e		; 2c 2e 30
 B22_038f:	.db $32
 B22_0390:	.db $34
-B22_0391:		bvs B22_0333 ; 70 a0
+B22_0391:		.db $70 $a0
 
 B22_0393:		.db $00				; 00
 B22_0394:		lda $48			; a5 48
@@ -571,10 +608,10 @@ B22_03b1:		sta $048c, x	; 9d 8c 04
 B22_03b4:		iny				; c8 
 B22_03b5:		lda ($02), y	; b1 02
 B22_03b7:		sta $0400, x	; 9d 00 04
-B22_03ba:		jmp $81ec		; 4c ec 81
+B22_03ba:		jmp func_16_01ec		; 4c ec 81
 
 
-B22_03bd:		jsr $81f8		; 20 f8 81
+B22_03bd:		jsr func_16_01f8		; 20 f8 81
 B22_03c0:		jsr $8259		; 20 59 82
 B22_03c3:		inc $05c1, x	; fe c1 05
 B22_03c6:		jsr $81aa		; 20 aa 81
@@ -595,11 +632,11 @@ B22_03e1:		jmp $804b		; 4c 4b 80
 B22_03e4:		rts				; 60 
 
 
-B22_03e5:		jsr $81f8		; 20 f8 81
+B22_03e5:		jsr func_16_01f8		; 20 f8 81
 B22_03e8:		ldy #$08		; a0 08
 B22_03ea:		lda #$14		; a9 14
-B22_03ec:		jsr $ef5c		; 20 5c ef
-B22_03ef:		jsr $ef75		; 20 75 ef
+B22_03ec:		jsr func_1f_0f5c		; 20 5c ef
+B22_03ef:		jsr func_1f_0f75		; 20 75 ef
 B22_03f2:		jmp $83c3		; 4c c3 83
 
 
@@ -1453,7 +1490,7 @@ B22_098c:		beq B22_09a5 ; f0 17
 
 B22_098e:		ldx $6c			; a6 6c
 B22_0990:		jsr func_1f_1ec8		; 20 c8 fe
-B22_0993:		jsr $81f8		; 20 f8 81
+B22_0993:		jsr func_16_01f8		; 20 f8 81
 B22_0996:		lda $041c, x	; bd 1c 04
 B22_0999:		and #$f0		; 29 f0
 B22_099b:		sta $041c, x	; 9d 1c 04
@@ -1467,7 +1504,7 @@ B22_09a7:		lda #$14		; a9 14
 B22_09a9:		jmp $807f		; 4c 7f 80
 
 
-B22_09ac:		jsr $81ec		; 20 ec 81
+B22_09ac:		jsr func_16_01ec		; 20 ec 81
 B22_09af:		lda $1a			; a5 1a
 B22_09b1:		adc $0438, x	; 7d 38 04
 B22_09b4:		and #$07		; 29 07
@@ -1662,7 +1699,7 @@ B22_0ad4:		;removed
 B22_0ad6:		jmp $844c		; 4c 4c 84
 
 
-B22_0ad9:		jsr $81ec		; 20 ec 81
+B22_0ad9:		jsr func_16_01ec		; 20 ec 81
 B22_0adc:		lda $0633, x	; bd 33 06
 B22_0adf:		sta $04a8, x	; 9d a8 04
 B22_0ae2:		rts				; 60 
@@ -2601,7 +2638,7 @@ B22_111a:		ora $09			; 05 09
 B22_111c:		sta $0633, x	; 9d 33 06
 B22_111f:		lda #$00		; a9 00
 B22_1121:		sta $05c1, x	; 9d c1 05
-B22_1124:		jmp $81f8		; 4c f8 81
+B22_1124:		jmp func_16_01f8		; 4c f8 81
 
 
 B22_1127:		ldy #$01		; a0 01
@@ -2897,7 +2934,7 @@ B22_132c:		beq B22_1342 ; f0 14
 B22_132e:		ldx $6c			; a6 6c
 B22_1330:		jsr func_1f_1ec8		; 20 c8 fe
 B22_1333:		inc $05c1, x	; fe c1 05
-B22_1336:		jsr $81f8		; 20 f8 81
+B22_1336:		jsr func_16_01f8		; 20 f8 81
 B22_1339:		lda $041c, x	; bd 1c 04
 B22_133c:		and #$f0		; 29 f0
 B22_133e:		sta $041c, x	; 9d 1c 04
@@ -3116,10 +3153,10 @@ B22_149e:		bpl B22_14b8 ; 10 18
 
 B22_14a0:		lda #$26		; a9 26
 B22_14a2:		jsr playSound		; 20 5f e2
-B22_14a5:		jsr $81f8		; 20 f8 81
+B22_14a5:		jsr func_16_01f8		; 20 f8 81
 B22_14a8:		ldy #$06		; a0 06
 B22_14aa:		lda #$12		; a9 12
-B22_14ac:		jsr $ef5c		; 20 5c ef
+B22_14ac:		jsr func_1f_0f5c		; 20 5c ef
 B22_14af:		lda #$30		; a9 30
 B22_14b1:		sta $0606, x	; 9d 06 06
 B22_14b4:		inc $05c1, x	; fe c1 05

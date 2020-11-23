@@ -1,257 +1,15 @@
-B25_0000:		asl $15, x		; 16 15
-B25_0002:	.db $14
-B25_0003:	.db $ff
-B25_0004:	.db $23
-B25_0005:	.db $34
-B25_0006:		adc $66			; 65 66
-B25_0008:		lsr $97			; 46 97
-B25_000a:	.db $57
-B25_000b:		sei				; 78 
-B25_000c:		tya				; 98 
-B25_000d:	.db $97
-B25_000e:	.db $27
-B25_000f:		stx $76			; 86 76
-B25_0011:		sta $75			; 85 75
-B25_0013:	.db $44
-B25_0014:	.db $ff
 
+gameStateF_soundMode_body:
+	lda wGameSubstate
+	jsr jumpTablePreserveY
 
+	.dw soundModeSubstate0
+	.dw soundModeSubstate1
+	.dw soundModeSubstate2
+	.dw soundModeSubstate3
 
-B25_0015:	.db $fb
-B25_0016:		ora ($12), y	; 11 12
-B25_0018:	.db $13
-B25_0019:	.db $12
-B25_001a:		ora ($10), y	; 11 10
-B25_001c:	.db $1f
-B25_001d:		asl $1e1d, x	; 1e 1d 1e
-B25_0020:	.db $1f
-B25_0021:		bpl B25_0021 ; 10 fe
-
-B25_0023:	.db $ff
-
-
-
-B25_0024:	.db $fb
-B25_0025:		and ($22, x)	; 21 22
-B25_0027:		and ($20, x)	; 21 20
-B25_0029:	.db $2f
-B25_002a:		rol $202f		; 2e 2f 20
-B25_002d:		inc $fbff, x	; fe ff fb
-B25_0030:		adc ($20, x)	; 61 20
-B25_0032:	.db $6f
-B25_0033:		jsr $fffe		; 20 fe ff
-B25_0036:	.db $fb
-B25_0037:		ora ($12), y	; 11 12
-B25_0039:	.db $13
-B25_003a:	.db $12
-B25_003b:		ora ($20), y	; 11 20
-B25_003d:	.db $1f
-B25_003e:		asl $1e1d, x	; 1e 1d 1e
-B25_0041:	.db $1f
-B25_0042:		jsr $fffe		; 20 fe ff
-B25_0045:	.db $fb
-B25_0046:		ora ($22), y	; 11 22
-B25_0048:		ora ($20), y	; 11 20
-B25_004a:	.db $1f
-B25_004b:		rol $201f		; 2e 1f 20
-B25_004e:		inc $fbff, x	; fe ff fb
-B25_0051:		and ($20), y	; 31 20
-B25_0053:	.db $3f
-B25_0054:		jsr $fffe		; 20 fe ff
-B25_0057:	.db $fb
-B25_0058:		eor ($10), y	; 51 10
-B25_005a:	.db $1f
-B25_005b:		asl $1e1d, x	; 1e 1d 1e
-B25_005e:	.db $1f
-B25_005f:		bpl B25_005f ; 10 fe
-
-B25_0061:	.db $ff
-B25_0062:	.db $fb
-B25_0063:	.db $1f
-B25_0064:		asl $101f, x	; 1e 1f 10
-B25_0067:		ora ($12), y	; 11 12
-B25_0069:		ora ($10), y	; 11 10
-B25_006b:		inc $fbff, x	; fe ff fb
-B25_006e:		;removed
-	.db $10 $2f
-
-B25_0070:		bpl B25_0093 ; 10 21
-
-B25_0072:		inc $fbff, x	; fe ff fb
-B25_0075:		jsr $2021		; 20 21 20
-B25_0078:	.db $2f
-B25_0079:		inc $fbff, x	; fe ff fb
-B25_007c:		bmi B25_00ad ; 30 2f
-
-B25_007e:		inc $fbff, x	; fe ff fb
-B25_0081:		;removed
-	.db $50 $2f
-
-B25_0083:		rti				; 40 
-
-
-B25_0084:		and ($10, x)	; 21 10
-B25_0086:		inc $80ff, x	; fe ff 80
-B25_0089:	.db $fb
-B25_008a:		jsr $1211		; 20 11 12
-B25_008d:		ora ($20), y	; 11 20
-B25_008f:	.db $1f
-B25_0090:		asl $fe1f, x	; 1e 1f fe
-B25_0093:	.db $ff
-B25_0094:		rts				; 60 
-
-
-B25_0095:	.db $fb
-B25_0096:	.db $1f
-B25_0097:		rol $201f		; 2e 1f 20
-B25_009a:		ora ($22), y	; 11 22
-B25_009c:		ora ($20), y	; 11 20
-B25_009e:		inc $40ff, x	; fe ff 40
-B25_00a1:	.db $fb
-B25_00a2:		;removed
-	.db $30 $3f
-
-B25_00a4:		bmi B25_00d7 ; 30 31
-
-B25_00a6:		inc $fbff, x	; fe ff fb
-B25_00a9:	.db $1f
-B25_00aa:		rol $201f		; 2e 1f 20
-B25_00ad:		ora ($22), y	; 11 22
-B25_00af:		ora ($20), y	; 11 20
-B25_00b1:		inc $60ff, x	; fe ff 60
-B25_00b4:	.db $fb
-B25_00b5:	.db $3f
-B25_00b6:		jsr $2031		; 20 31 20
-B25_00b9:		inc $80ff, x	; fe ff 80
-B25_00bc:	.db $fb
-B25_00bd:		jsr $1e2f		; 20 2f 1e
-B25_00c0:	.db $2f
-B25_00c1:		rti				; 40 
-
-
-B25_00c2:		and ($12, x)	; 21 12
-B25_00c4:		and ($20, x)	; 21 20
-B25_00c6:		inc $90ff, x	; fe ff 90
-B25_00c9:	.db $fb
-B25_00ca:		bpl B25_00eb ; 10 1f
-
-B25_00cc:		asl $101f, x	; 1e 1f 10
-B25_00cf:		ora ($12), y	; 11 12
-B25_00d1:		ora ($ff), y	; 11 ff
-B25_00d3:	.db $fb
-B25_00d4:		rti				; 40 
-
-
-B25_00d5:	.db $4f
-B25_00d6:		rti				; 40 
-
-
-B25_00d7:		eor ($fe, x)	; 41 fe
-B25_00d9:	.db $ff
-B25_00da:		bvs B25_00d7 ; 70 fb
-
-B25_00dc:	.db $1f
-B25_00dd:		asl $201f, x	; 1e 1f 20
-B25_00e0:		ora ($12), y	; 11 12
-B25_00e2:		ora ($20), y	; 11 20
-B25_00e4:		inc $fbff, x	; fe ff fb
-B25_00e7:		jsr $1e1f		; 20 1f 1e
-B25_00ea:	.db $2f
-B25_00eb:		jsr $1211		; 20 11 12
-B25_00ee:		and ($fe, x)	; 21 fe
-B25_00f0:	.db $ff
-B25_00f1:		bmi B25_00ee ; 30 fb
-
-B25_00f3:	.db $3f
-B25_00f4:		bmi B25_0127 ; 30 31
-
-B25_00f6:		bmi B25_00f6 ; 30 fe
-
-B25_00f8:	.db $ff
-B25_00f9:		jsr $20fb		; 20 fb 20
-B25_00fc:		and ($12, x)	; 21 12
-B25_00fe:		and ($20, x)	; 21 20
-B25_0100:	.db $2f
-B25_0101:		asl $fe2f, x	; 1e 2f fe
-B25_0104:	.db $ff
-B25_0105:	.db $fb
-B25_0106:		jsr $1e1f		; 20 1f 1e
-B25_0109:	.db $2f
-B25_010a:		jsr $1221		; 20 21 12
-B25_010d:		and ($fe, x)	; 21 fe
-B25_010f:	.db $ff
-B25_0110:	.db $fb
-B25_0111:		jsr $2211		; 20 11 22
-B25_0114:		ora ($20), y	; 11 20
-B25_0116:	.db $1f
-B25_0117:		rol $fe1f		; 2e 1f fe
-B25_011a:	.db $ff
-B25_011b:		;removed
-	.db $30 $fb
-
-B25_011d:		jsr $1e2f		; 20 2f 1e
-B25_0120:	.db $1f
-B25_0121:		jsr $2120		; 20 20 21
-B25_0124:	.db $12
-B25_0125:		ora ($fe), y	; 11 fe
-B25_0127:	.db $ff
-B25_0128:		bcc B25_0125 ; 90 fb
-
-B25_012a:	.db $2f
-B25_012b:		asl $202f, x	; 1e 2f 20
-B25_012e:		and ($12, x)	; 21 12
-B25_0130:		and ($20, x)	; 21 20
-B25_0132:		inc $30ff, x	; fe ff 30
-B25_0135:	.db $fb
-B25_0136:	.db $2f
-B25_0137:		rol $202f		; 2e 2f 20
-B25_013a:		and ($22, x)	; 21 22
-B25_013c:		and ($20, x)	; 21 20
-B25_013e:		inc $fbff, x	; fe ff fb
-B25_0141:		;removed
-	.db $10 $4f
-
-B25_0143:		.db $10 $41
-
-B25_0145:		inc $70ff, x	; fe ff 70
-B25_0148:	.db $fb
-B25_0149:	.db $3f
-B25_014a:		.db $30 $31
-
-B25_014c:		bmi B25_014c ; 30 fe
-
-B25_014e:	.db $ff
-B25_014f:	.db $ff
-
-
-; dmc freq, raw, start, len
-; bank 1e can't play sounds 77, 79-7c
-dpcmSpecData:
-dpcmSpecData_6d:	.db $0c $00 $05 $10 ; $c140-$c240
-dpcmSpecData_6e:	.db $0d $00 $05 $10 ; $c140-$c240
-dpcmSpecData_6f:	.db $0e $00 $05 $10 ; $c140-$c240
-dpcmSpecData_70:	.db $0d $00 $01 $08 ; $c040-$c0c0
-dpcmSpecData_71:	.db $08 $00 $00 $01 ; $c000-$c010
-dpcmSpecData_72:	.db $0f $00 $09 $44 ; $c240-$c680
-dpcmSpecData_73:	.db $0f $00 $1a $0c ; $c680-$c740
-dpcmSpecData_74:	.db $0e $00 $1a $0c ; $c680-$c740
-dpcmSpecData_75:	.db $0f $00 $1d $0c ; $c740-$c800
-dpcmSpecData_76:	.db $0d $00 $1a $0c ; $c680-$c740
-dpcmSpecData_77:	.db $0c $00 $20 $b0 ; $c800-$d300
-dpcmSpecData_78:	.db $0f $00 $09 $44 ; $c240-$c680
-dpcmSpecData_79:	.db $0c $7f $20 $b0 ; $c800-$d300
-dpcmSpecData_7a:	.db $0b $00 $4c $b0 ; $d300-$de00
-dpcmSpecData_7b:	.db $48 $00 $4c $bc ; $d300-$dec0
-dpcmSpecData_7c:	.db $4a $00 $4c $bc ; $d300-$dec0
-
-
-B25_0190:		lda $19
-B25_0192:		jsr jumpTablePreserveY
-	.dw $a19d
-	.dw $a1bc
-	.dw $a1c6
-	.dw $a1d0
-
+soundModeSubstate0:
+; to play dpcm data
 B25_019d:		jsr setBank_c000_toRom07h
 B25_01a0:		lda #$80		; a9 80
 B25_01a2:		jsr func_1f_0ce9		; 20 e9 ec
@@ -261,140 +19,165 @@ B25_01aa:		lda #$82		; a9 82
 B25_01ac:		jsr func_1f_0ce9		; 20 e9 ec
 B25_01af:		lda #$00		; a9 00
 B25_01b1:		sta $0400		; 8d 00 04
-B25_01b4:		sta $6b			; 85 6b
-B25_01b6:		sta $0780		; 8d 80 07
-B25_01b9:		inc $19			; e6 19
+B25_01b4:		sta wSoundModeCtrlState			; 85 6b
+B25_01b6:		sta wSoundModeSongSelected.w		; 8d 80 07
+B25_01b9:		inc wGameSubstate			; e6 19
 B25_01bb:		rts				; 60 
 
-
+soundModeSubstate1:
 B25_01bc:		ldx #$98		; a2 98
 B25_01be:		lda #$67		; a9 67
-B25_01c0:		jsr $ecdc		; 20 dc ec
-B25_01c3:		inc $19			; e6 19
+B25_01c0:		jsr func_1f_0cdc		; 20 dc ec
+B25_01c3:		inc wGameSubstate			; e6 19
 B25_01c5:		rts				; 60 
 
+; main control state
+soundModeSubstate2:
+	jsr soundModeCtrlHandler
+	lda wSoundModeCtrlState
+; exit func sets state to ff
+	bpl +
+	inc wGameSubstate
++	rts
 
-B25_01c6:		jsr $a1de		; 20 de a1
-B25_01c9:		lda $6b			; a5 6b
-B25_01cb:		bpl B25_01cf ; 10 02
-
-B25_01cd:		inc $19			; e6 19
-B25_01cf:		rts				; 60 
-
-
+; exiting sound mode
+soundModeSubstate3:
 B25_01d0:		jsr setBank_c000_toRom1eh		; 20 da e2
 B25_01d3:		lda #$00		; a9 00
-B25_01d5:		sta $6b			; 85 6b
-B25_01d7:		sta $18			; 85 18
+B25_01d5:		sta wSoundModeCtrlState			; 85 6b
+B25_01d7:		sta wGameState			; 85 18
 B25_01d9:		lda #$03		; a9 03
-B25_01db:		sta $19			; 85 19
+B25_01db:		sta wGameSubstate			; 85 19
 B25_01dd:		rts				; 60 
 
 
-B25_01de:		lda $6b			; a5 6b
-B25_01e0:		jsr jumpTablePreserveY		; 20 6d e8
-B25_01e3:		sbc #$a1		; e9 a1
-B25_01e5:		cpx $f7a1		; ec a1 f7
-B25_01e8:		lda ($20, x)	; a1 20
-B25_01ea:		eor $e6a2, y	; 59 a2 e6
-B25_01ed:	.db $6b
-B25_01ee:		rts				; 60 
+soundModeCtrlHandler:
+	lda wSoundModeCtrlState
+	jsr jumpTablePreserveY
+
+	.dw soundModeCtrlState_init
+	.dw soundModeCtrlState_stub
+	.dw soundModeCtrlState_processInput
+
+soundModeCtrlState_init:
+	jsr displaySoundModeSongText
+
+soundModeCtrlState_stub:
+	inc wSoundModeCtrlState
+	rts
+
+startExitSoundMode:
+	jsr initSound
+; ff set so that substate code goes back to main menu
+	lda #$ff
+	sta wSoundModeCtrlState
+	rts
+
+soundModeCtrlState_processInput:
+	lda wJoy1NewButtonsPressed
+	and #PADF_START
+	bne startExitSoundMode
+
+	lda wJoy1NewButtonsPressed
+	and #PADF_UP
+	bne @pressedUp
+
+	lda wJoy1NewButtonsPressed
+	and #PADF_DOWN
+	bne @pressedDown
+
+	lda wJoy1NewButtonsPressed
+	and #PADF_A
+	bne @pressedA
+
+	lda wJoy1NewButtonsPressed
+	and #PADF_B
+	bne @pressedB
+
+	rts
+
+@pressedA:
+; A clears sound
+	jmp initSound
+
+@pressedDown:
+	inc wSoundModeSongSelected.w
+	lda wSoundModeSongSelected.w
+	cmp #LAST_SOUND_MODE_SONG_IDX
+	bcc @displayNewText
+
+	lda #LAST_SOUND_MODE_SONG_IDX
+	bne @setSongSelected_displayItsText
+
+@pressedUp:
+; 0 is lowest idx
+	dec wSoundModeSongSelected.w
+	bpl @displayNewText
+
+	lda #$00
+
+@setSongSelected_displayItsText:
+	sta wSoundModeSongSelected.w
+
+@displayNewText:
+	jsr clearSoundModeSongText
+	jmp displaySoundModeSongText
+
+@pressedB:
+; B plays sound
+	ldy wSoundModeSongSelected.w
+	lda soundModeSongIdxes.w, y
+	jmp playSound
 
 
-B25_01ef:		jsr initSound		; 20 27 e2
-B25_01f2:		lda #$ff		; a9 ff
-B25_01f4:		sta $6b			; 85 6b
-B25_01f6:		rts				; 60 
+clearSoundModeSongText:
+; where song name text shows up
+B25_0240:		lda #<$232b		; a9 2b
+B25_0242:		sta wVramQueueDest			; 85 61
+B25_0244:		lda #>$232b		; a9 23
+B25_0246:		sta wVramQueueDest+1			; 85 62
+B25_0248:		jsr func_1f_08b5		; 20 b5 e8
 
-
-B25_01f7:		lda $26			; a5 26
-B25_01f9:		and #$10		; 29 10
-B25_01fb:		bne B25_01ef ; d0 f2
-
-B25_01fd:		lda $26			; a5 26
-B25_01ff:		and #$08		; 29 08
-B25_0201:		bne B25_0227 ; d0 24
-
-B25_0203:		lda $26			; a5 26
-B25_0205:		and #$04		; 29 04
-B25_0207:		bne B25_0219 ; d0 10
-
-B25_0209:		lda $26			; a5 26
-B25_020b:		and #$80		; 29 80
-B25_020d:		bne B25_0216 ; d0 07
-
-B25_020f:		lda $26			; a5 26
-B25_0211:		and #$40		; 29 40
-B25_0213:		bne B25_0237 ; d0 22
-
-B25_0215:		rts				; 60 
-
-
-B25_0216:		jmp initSound		; 4c 27 e2
-
-
-B25_0219:		inc $0780		; ee 80 07
-B25_021c:		lda $0780		; ad 80 07
-B25_021f:		cmp #$19		; c9 19
-B25_0221:		bcc B25_0231 ; 90 0e
-
-B25_0223:		lda #$19		; a9 19
-B25_0225:		bne B25_022e ; d0 07
-
-B25_0227:		dec $0780		; ce 80 07
-B25_022a:		bpl B25_0231 ; 10 05
-
-B25_022c:		lda #$00		; a9 00
-B25_022e:		sta $0780		; 8d 80 07
-B25_0231:		jsr $a240		; 20 40 a2
-B25_0234:		jmp $a259		; 4c 59 a2
-
-
-B25_0237:		ldy $0780		; ac 80 07
-B25_023a:		lda $a2c1, y	; b9 c1 a2
-B25_023d:		jmp playSound		; 4c 5f e2
-
-
-B25_0240:		lda #$2b		; a9 2b
-B25_0242:		sta $61			; 85 61
-B25_0244:		lda #$23		; a9 23
-B25_0246:		sta $62			; 85 62
-B25_0248:		jsr $e8b5		; 20 b5 e8
+; clear 10 bytes during vblank
 B25_024b:		ldy #$0a		; a0 0a
 B25_024d:		lda #$00		; a9 00
-B25_024f:		sta $0300, x	; 9d 00 03
+
+-	sta wVramQueue.w, x	; 9d 00 03
 B25_0252:		inx				; e8 
 B25_0253:		dey				; 88 
-B25_0254:		bne B25_024f ; d0 f9
+	bne -
 
-B25_0256:		jmp $e8de		; 4c de e8
+B25_0256:		jmp setVramQueueNextFillIdxAndTerminate		; 4c de e8
 
 
-B25_0259:		lda $0780		; ad 80 07
+displaySoundModeSongText:
+B25_0259:		lda wSoundModeSongSelected.w		; ad 80 07
 B25_025c:		asl a			; 0a
 B25_025d:		tay				; a8 
-B25_025e:		lda $a2db, y	; b9 db a2
-B25_0261:		sta $08			; 85 08
-B25_0263:		lda $a2dc, y	; b9 dc a2
-B25_0266:		sta $09			; 85 09
-B25_0268:		lda #$2b		; a9 2b
-B25_026a:		sta $61			; 85 61
-B25_026c:		lda #$23		; a9 23
-B25_026e:		sta $62			; 85 62
-B25_0270:		jsr $e8b5		; 20 b5 e8
+B25_025e:		lda soundModeTextAddresses.w, y	; b9 db a2
+B25_0261:		sta wSoundModeTextAddr			; 85 08
+B25_0263:		lda soundModeTextAddresses.w+1, y	; b9 dc a2
+B25_0266:		sta wSoundModeTextAddr+1			; 85 09
+
+B25_0268:		lda #<$232b		; a9 2b
+B25_026a:		sta wVramQueueDest			; 85 61
+B25_026c:		lda #>$232b		; a9 23
+B25_026e:		sta wVramQueueDest+1			; 85 62
+B25_0270:		jsr func_1f_08b5		; 20 b5 e8
 B25_0273:		ldy #$00		; a0 00
-B25_0275:		lda ($08), y	; b1 08
+B25_0275:		lda (wSoundModeTextAddr), y	; b1 08
 B25_0277:		cmp #$ff		; c9 ff
 B25_0279:		bne B25_027e ; d0 03
 
-B25_027b:		jmp $e8de		; 4c de e8
+B25_027b:		jmp setVramQueueNextFillIdxAndTerminate		; 4c de e8
 
-
-B25_027e:		sta $0300, x	; 9d 00 03
+B25_027e:		sta wVramQueue.w, x	; 9d 00 03
 B25_0281:		inx				; e8 
 B25_0282:		iny				; c8 
 B25_0283:		bne B25_0275 ; d0 f0
 
+
+; todo: box to display sound text in
 B25_0285:	.db $cb
 B25_0286:	.db $22
 B25_0287:	.db $22
@@ -423,65 +206,65 @@ B25_02b9:		rol $2e2e		; 2e 2e 2e
 B25_02bc:		rol $2e2e		; 2e 2e 2e
 B25_02bf:	.db $2f
 B25_02c0:	.db $ff
-B25_02c1:	.db $4f
-B25_02c2:	.db $53
-B25_02c3:		bvc B25_031b ; 50 56
-
-B25_02c5:		eor $51, x		; 55 51
-B25_02c7:	.db $52
-B25_02c8:	.db $57
-B25_02c9:	.db $54
-B25_02ca:		cli				; 58 
-B25_02cb:	.db $5b
-B25_02cc:	.db $5c
-B25_02cd:		ror a			; 6a
-B25_02ce:		lsr $635f, x	; 5e 5f 63
-B25_02d1:		rts				; 60 
 
 
-B25_02d2:	.db $64
-B25_02d3:		jmp ($666b)		; 6c 6b 66
+soundModeSongIdxes:
+	.db MUS_BEGINNING
+	.db MUS_CLOCKWORK
+	.db MUS_MAD_FOREST
+	.db MUS_ANXIETY
+	.db MUS_RISING
+	.db MUS_STREAM
+	.db MUS_DEAD_BEAT
+	.db MUS_NIGHTMARE
+	.db MUS_AQUARIUS
+	.db MUS_DEMON_SEED
+	.db MUS_DEJAVU
+	.db MUS_RIDDLE
+	.db MUS_PRESSURE
+	.db MUS_OVERTURE
+	.db MUS_BOSS_FIGHT
+	.db MUS_BLK_CLEAR
+	.db MUS_BIG_BATTLE
+	.db MUS_ALL_CLEAR
+	.db MUS_DESTINY
+	.db MUS_ENCOUNTER
+	.db MUS_PRELUDE
+	.db MUS_PRAYER
+	.db MUS_EPITAPH
+	.db MUS_EVERGREEN
+	.db MUS_FLASH_BACK
+	.db MUS_GAME_OVER
+
+soundModeTextAddresses:
+	.dw $a30f
+	.dw $a319
+	.dw $a323
+	.dw $a32e
+	.dw $a336
+	.dw $a33d
+	.dw $a344
+	.dw $a34e
+	.dw $a358
+	.dw $a361
+	.dw $a36c
+	.dw $a373
+	.dw $a37a
+	.dw $a383
+	.dw $a38c
+	.dw $a397
+	.dw $a3a1
+	.dw $a3ac
+	.dw $a3b6
+	.dw $a3be
+	.dw $a3c8
+	.dw $a3d0
+	.dw $a3d7
+	.dw $a3df
+	.dw $a3e9
+	.dw $a3f4
 
 
-B25_02d6:	.db $67
-B25_02d7:	.db $62
-B25_02d8:		pla				; 68 
-B25_02d9:		adc #$65		; 69 65
-B25_02db:	.db $0f
-B25_02dc:	.db $a3
-B25_02dd:		ora $23a3, y	; 19 a3 23
-B25_02e0:	.db $a3
-B25_02e1:		rol $36a3		; 2e a3 36
-B25_02e4:	.db $a3
-B25_02e5:		and $44a3, x	; 3d a3 44
-B25_02e8:	.db $a3
-B25_02e9:		lsr $58a3		; 4e a3 58
-B25_02ec:	.db $a3
-B25_02ed:		adc ($a3, x)	; 61 a3
-B25_02ef:		jmp ($73a3)		; 6c a3 73
-
-
-B25_02f2:	.db $a3
-B25_02f3:	.db $7a
-B25_02f4:	.db $a3
-B25_02f5:	.db $83
-B25_02f6:	.db $a3
-B25_02f7:		sty $97a3		; 8c a3 97
-B25_02fa:	.db $a3
-B25_02fb:		lda ($a3, x)	; a1 a3
-B25_02fd:		ldy $b6a3		; ac a3 b6
-B25_0300:	.db $a3
-B25_0301:		ldx $c8a3, y	; be a3 c8
-B25_0304:	.db $a3
-B25_0305:		bne B25_02aa ; d0 a3
-
-B25_0307:	.db $d7
-B25_0308:	.db $a3
-B25_0309:	.db $df
-B25_030a:	.db $a3
-B25_030b:		sbc #$a3		; e9 a3
-B25_030d:	.db $f4
-B25_030e:	.db $a3
 B25_030f:		ora ($14), y	; 11 14
 B25_0311:		asl $18, x		; 16 18
 B25_0313:		ora $181d, x	; 1d 1d 18
@@ -666,6 +449,9 @@ B25_03f7:	.db $14
 B25_03f8:		.db $00				; 00
 B25_03f9:		asl $1425, x	; 1e 25 14
 B25_03fc:		and ($ff, x)	; 21 ff
+
+
+func_19_03fe:
 B25_03fe:		lda #$00		; a9 00
 B25_0400:		sta $00			; 85 00
 B25_0402:		sta $01			; 85 01
@@ -1096,7 +882,7 @@ B25_06c3:		sta $041c, x	; 9d 1c 04
 B25_06c6:		jsr $a8b4		; 20 b4 a8
 B25_06c9:		lda #$0e		; a9 0e
 B25_06cb:		ldy #$08		; a0 08
-B25_06cd:		jsr $ef5c		; 20 5c ef
+B25_06cd:		jsr func_1f_0f5c		; 20 5c ef
 B25_06d0:		lda #$00		; a9 00
 B25_06d2:		sta $0454, x	; 9d 54 04
 B25_06d5:		inc $02			; e6 02
@@ -1144,7 +930,7 @@ B25_071c:		bne B25_0721 ; d0 03
 
 B25_071e:		inc $0565, x	; fe 65 05
 B25_0721:		ldx #$03		; a2 03
-B25_0723:		jsr $ef75		; 20 75 ef
+B25_0723:		jsr func_1f_0f75		; 20 75 ef
 B25_0726:		inx				; e8 
 B25_0727:		cpx #$07		; e0 07
 B25_0729:		bcc B25_0723 ; 90 f8
@@ -1206,7 +992,7 @@ B25_0790:		sta $0606, x	; 9d 06 06
 B25_0793:		inc $0565, x	; fe 65 05
 B25_0796:		lda #$00		; a9 00
 B25_0798:		ldy #$0e		; a0 0e
-B25_079a:		jmp $ef5c		; 4c 5c ef
+B25_079a:		jmp func_1f_0f5c		; 4c 5c ef
 
 
 B25_079d:		dec $0606, x	; de 06 06
@@ -1228,7 +1014,7 @@ B25_07b3:		sta $0606, x	; 9d 06 06
 B25_07b6:		inc $0565, x	; fe 65 05
 B25_07b9:		lda #$00		; a9 00
 B25_07bb:		ldy #$0f		; a0 0f
-B25_07bd:		jmp $ef5c		; 4c 5c ef
+B25_07bd:		jmp func_1f_0f5c		; 4c 5c ef
 
 
 B25_07c0:		lda $054e		; ad 4e 05
@@ -3043,7 +2829,7 @@ B25_12b7:		jmp $e62f		; 4c 2f e6
 
 B25_12ba:	.db $3a
 B25_12bb:	.db $87
-B25_12bc:		sta $0300, x	; 9d 00 03
+B25_12bc:		sta wVramQueue.w, x	; 9d 00 03
 B25_12bf:		inx				; e8 
 B25_12c0:		rts				; 60 
 

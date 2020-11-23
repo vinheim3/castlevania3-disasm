@@ -2,7 +2,7 @@ B19_0000:		iny				; c8
 B19_0001:		lda ($02), y	; b1 02
 B19_0003:		tay				; a8 
 B19_0004:		lda $00			; a5 00
-B19_0006:		jmp $ef5c		; 4c 5c ef
+B19_0006:		jmp func_1f_0f5c		; 4c 5c ef
 
 
 B19_0009:		jmp $873a		; 4c 3a 87
@@ -1404,7 +1404,7 @@ B19_093d:		bne B19_095b ; d0 1c
 
 B19_093f:		lda #$0a		; a9 0a
 B19_0941:		ldy #$20		; a0 20
-B19_0943:		jsr $ef5c		; 20 5c ef
+B19_0943:		jsr func_1f_0f5c		; 20 5c ef
 B19_0946:		lda #$46		; a9 46
 B19_0948:		jmp $864f		; 4c 4f 86
 
@@ -1425,7 +1425,7 @@ B19_0960:		lda #$04		; a9 04
 B19_0962:		sta $0565, x	; 9d 65 05
 B19_0965:		lda #$0a		; a9 0a
 B19_0967:		ldy #$1f		; a0 1f
-B19_0969:		jmp $ef5c		; 4c 5c ef
+B19_0969:		jmp func_1f_0f5c		; 4c 5c ef
 
 
 B19_096c:		lda #$40		; a9 40
@@ -1560,7 +1560,7 @@ B19_0a4c:		lda #$00		; a9 00
 B19_0a4e:		sta $07ec		; 8d ec 07
 B19_0a51:		ldy #$04		; a0 04
 B19_0a53:		lda #$0e		; a9 0e
-B19_0a55:		jsr $ef5c		; 20 5c ef
+B19_0a55:		jsr func_1f_0f5c		; 20 5c ef
 B19_0a58:		lda #$c8		; a9 c8
 B19_0a5a:		jmp $864f		; 4c 4f 86
 
@@ -1621,7 +1621,7 @@ B19_0ac9:		beq B19_0ad7 ; f0 0c
 
 B19_0acb:		lda #$0a		; a9 0a
 B19_0acd:		ldy #$1f		; a0 1f
-B19_0acf:		jsr $ef5c		; 20 5c ef
+B19_0acf:		jsr func_1f_0f5c		; 20 5c ef
 B19_0ad2:		lda #$09		; a9 09
 B19_0ad4:		jmp $864f		; 4c 4f 86
 
@@ -1690,7 +1690,7 @@ B19_0b33:		clc				; 18
 B19_0b34:		adc $0606, x	; 7d 06 06
 B19_0b37:		tay				; a8 
 B19_0b38:		lda #$0a		; a9 0a
-B19_0b3a:		jmp $ef5c		; 4c 5c ef
+B19_0b3a:		jmp func_1f_0f5c		; 4c 5c ef
 
 
 B19_0b3d:		ldy #$01		; a0 01
@@ -1782,7 +1782,7 @@ B19_0bc2:		sta $04a8, x	; 9d a8 04
 B19_0bc5:		sta $0565, x	; 9d 65 05
 B19_0bc8:		lda #$0a		; a9 0a
 B19_0bca:		ldy #$24		; a0 24
-B19_0bcc:		jsr $ef5c		; 20 5c ef
+B19_0bcc:		jsr func_1f_0f5c		; 20 5c ef
 B19_0bcf:		lda #$45		; a9 45
 B19_0bd1:		jmp $864f		; 4c 4f 86
 
@@ -1937,7 +1937,7 @@ B19_0ceb:		lda #$01		; a9 01
 B19_0ced:		sta $04a8, x	; 9d a8 04
 B19_0cf0:		lda #$0a		; a9 0a
 B19_0cf2:		ldy #$21		; a0 21
-B19_0cf4:		jsr $ef5c		; 20 5c ef
+B19_0cf4:		jsr func_1f_0f5c		; 20 5c ef
 B19_0cf7:		lda #$1c		; a9 1c
 B19_0cf9:		jmp $864f		; 4c 4f 86
 
@@ -1972,14 +1972,14 @@ B19_0d2d:		tya				; 98
 B19_0d2e:		tax				; aa 
 B19_0d2f:		lda #$0a		; a9 0a
 B19_0d31:		ldy #$24		; a0 24
-B19_0d33:		jsr $ef5c		; 20 5c ef
+B19_0d33:		jsr func_1f_0f5c		; 20 5c ef
 B19_0d36:		ldx $00			; a6 00
 B19_0d38:		dec $07f0		; ce f0 07
 B19_0d3b:		bne B19_0d10 ; d0 d3
 
 B19_0d3d:		lda #$0a		; a9 0a
 B19_0d3f:		ldy #$24		; a0 24
-B19_0d41:		jsr $ef5c		; 20 5c ef
+B19_0d41:		jsr func_1f_0f5c		; 20 5c ef
 B19_0d44:		lda #$02		; a9 02
 B19_0d46:		sta $07ef		; 8d ef 07
 B19_0d49:		lda #$00		; a9 00
@@ -1997,7 +1997,7 @@ B19_0d5e:		lda #$06		; a9 06
 B19_0d60:		sta $07f0		; 8d f0 07
 B19_0d63:		lda #$0a		; a9 0a
 B19_0d65:		ldy #$28		; a0 28
-B19_0d67:		jsr $ef5c		; 20 5c ef
+B19_0d67:		jsr func_1f_0f5c		; 20 5c ef
 B19_0d6a:		lda #$20		; a9 20
 B19_0d6c:		jmp $864f		; 4c 4f 86
 
@@ -2037,7 +2037,7 @@ B19_0da6:		beq B19_0dc0 ; f0 18
 
 B19_0da8:		lda #$0a		; a9 0a
 B19_0daa:		ldy #$24		; a0 24
-B19_0dac:		jmp $ef5c		; 4c 5c ef
+B19_0dac:		jmp func_1f_0f5c		; 4c 5c ef
 
 
 B19_0daf:		jsr $a4c3		; 20 c3 a4
@@ -2045,7 +2045,7 @@ B19_0db2:		bne B19_0dc0 ; d0 0c
 
 B19_0db4:		lda #$0a		; a9 0a
 B19_0db6:		ldy #$24		; a0 24
-B19_0db8:		jsr $ef5c		; 20 5c ef
+B19_0db8:		jsr func_1f_0f5c		; 20 5c ef
 B19_0dbb:		lda #$19		; a9 19
 B19_0dbd:		jmp $864f		; 4c 4f 86
 
@@ -2124,7 +2124,7 @@ B19_0e3a:		lda #$06		; a9 06
 B19_0e3c:		sta $07f0		; 8d f0 07
 B19_0e3f:		lda #$0a		; a9 0a
 B19_0e41:		ldy #$2c		; a0 2c
-B19_0e43:		jsr $ef5c		; 20 5c ef
+B19_0e43:		jsr func_1f_0f5c		; 20 5c ef
 B19_0e46:		lda #$20		; a9 20
 B19_0e48:		jmp $864f		; 4c 4f 86
 
@@ -2156,7 +2156,7 @@ B19_0e6f:		lda #$50		; a9 50
 B19_0e71:		jsr $8661		; 20 61 86
 B19_0e74:		lda #$0a		; a9 0a
 B19_0e76:		ldy #$30		; a0 30
-B19_0e78:		jsr $ef5c		; 20 5c ef
+B19_0e78:		jsr func_1f_0f5c		; 20 5c ef
 B19_0e7b:		lda #$23		; a9 23
 B19_0e7d:		jmp $864f		; 4c 4f 86
 
@@ -2524,7 +2524,7 @@ B19_10c9:		lda #$fe		; a9 fe
 B19_10cb:		sta $0606, x	; 9d 06 06
 B19_10ce:		lda #$0a		; a9 0a
 B19_10d0:		ldy #$43		; a0 43
-B19_10d2:		jsr $ef5c		; 20 5c ef
+B19_10d2:		jsr func_1f_0f5c		; 20 5c ef
 B19_10d5:		lda #$25		; a9 25
 B19_10d7:		jsr $864f		; 20 4f 86
 B19_10da:		clc				; 18 
@@ -3146,7 +3146,7 @@ B19_1505:		lda #$a8		; a9 a8
 B19_1507:		sta $041c, x	; 9d 1c 04
 B19_150a:		lda #$10		; a9 10
 B19_150c:		ldy #$44		; a0 44
-B19_150e:		jmp $ef5c		; 4c 5c ef
+B19_150e:		jmp func_1f_0f5c		; 4c 5c ef
 
 
 B19_1511:		dec $0606, x	; de 06 06
@@ -4185,7 +4185,7 @@ B19_1c42:		beq B19_1c53 ; f0 0f
 B19_1c44:		inc $05c1, x	; fe c1 05
 B19_1c47:		lda #$0e		; a9 0e
 B19_1c49:		ldy #$08		; a0 08
-B19_1c4b:		jsr $ef5c		; 20 5c ef
+B19_1c4b:		jsr func_1f_0f5c		; 20 5c ef
 B19_1c4e:		lda #$40		; a9 40
 B19_1c50:		sta $0470, x	; 9d 70 04
 B19_1c53:		lda $05c1, x	; bd c1 05
@@ -4402,7 +4402,7 @@ B19_1d8f:		sta $61			; 85 61
 B19_1d91:		lda $62			; a5 62
 B19_1d93:		adc #$21		; 69 21
 B19_1d95:		sta $62			; 85 62
-B19_1d97:		jsr $e8b5		; 20 b5 e8
+B19_1d97:		jsr func_1f_08b5		; 20 b5 e8
 B19_1d9a:		ldy $07ee		; ac ee 07
 B19_1d9d:		lda $bf6e, y	; b9 6e bf
 B19_1da0:		cmp #$c0		; c9 c0
@@ -4425,7 +4425,7 @@ B19_1dbb:		bne B19_1d9d ; d0 e0
 
 B19_1dbd:		sty $07ee		; 8c ee 07
 B19_1dc0:		inc $07ed		; ee ed 07
-B19_1dc3:		jsr $ed12		; 20 12 ed
+B19_1dc3:		jsr terminateVramQueue		; 20 12 ed
 B19_1dc6:		dec $04			; c6 04
 B19_1dc8:		bne B19_1d7b ; d0 b1
 
@@ -4644,7 +4644,7 @@ B19_1f5f:		ldy #$60		; a0 60
 B19_1f61:		sty $e48c		; 8c 8c e4
 B19_1f64:		cpx #$e0		; e0 e0
 B19_1f66:		inc $00			; e6 00
-B19_1f68:		jmp func_1f_0d16		; 4c 16 ed
+B19_1f68:		jmp storeByteInVramQueueIdxedX		; 4c 16 ed
 
 
 B19_1f6b:		jmp $e5a0		; 4c a0 e5

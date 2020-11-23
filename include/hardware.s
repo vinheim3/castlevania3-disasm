@@ -41,17 +41,27 @@
 
 .define JOY1 $4016
 .define JOY2 $4017
+.define PADF_A $80
+.define PADF_B $40
+.define PADF_SELECT $20
+.define PADF_START $10
+.define PADF_UP $08
+.define PADF_DOWN $04
+.define PADF_LEFT $02
+.define PADF_RIGHT $01
 
 .define NAMETABLE0 $2000
+.define INTERNAL_PALETTES $3f00
 
 ; MMC5
 .define PCM_MODE $5010
 .define PRG_MODE $5100
+.define PRG_MODE_16_8_8 $02
 .define CHR_MODE $5101
 .define EXTENDED_RAM_MODE $5104
 .define NAMETABLE_MAPPING $5105
 .define NT_VERTICAL_MIRROR $44
-.define NT_HORIZONTAL_MIRROR $55
+.define NT_SINGLE_SCREEN_CIRAM_1 $55
 .define FILL_MODE_TILE $5106
 .define FILL_MODE_COLOUR $5107
 .define PRG_BANK_8000 $5115

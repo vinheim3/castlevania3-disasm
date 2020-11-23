@@ -1,1548 +1,80 @@
-B30_0000:	.db $3f
-B30_0001:	.db $fc
-B30_0002:	.db $7f
-B30_0003:	.db $dc
-B30_0004:		sbc ($f9, x)	; e1 f9
-B30_0006:	.db $0f
-B30_0007:	.db $df
-B30_0008:	.db $f7
-B30_0009:		.db $00				; 00
-B30_000a:		.db $00				; 00
-B30_000b:		.db $00				; 00
-B30_000c:	.db $80
-B30_000d:		sbc $ffff, x	; fd ff ff
-B30_0010:	.db $ff
-
-
-B30_0011:		inc $7efe, x	; fe fe 7e
-B30_0014:		.db $00				; 00
-B30_0015:		.db $00				; 00
-B30_0016:	.db $04
-B30_0017:		and ($12, x)	; 21 12
-B30_0019:	.db $fc
-B30_001a:	.db $ff
-B30_001b:	.db $ff
-B30_001c:	.db $ff
-B30_001d:	.db $07
-B30_001e:		.db $00				; 00
-B30_001f:		.db $00				; 00
-B30_0020:		.db $00				; 00
-B30_0021:		.db $00				; 00
-B30_0022:		cpy #$b7		; c0 b7
-B30_0024:	.db $fb
-B30_0025:	.db $ff
-B30_0026:	.db $ff
-B30_0027:	.db $ff
-B30_0028:	.db $ff
-B30_0029:		inc $fefe, x	; fe fe fe
-B30_002c:	.db $02
-B30_002d:		.db $00				; 00
-B30_002e:	.db $80
-B30_002f:		jsr $2144		; 20 44 21
-B30_0032:		eor #$32		; 49 32
-B30_0034:		lsr $19			; 46 19
-B30_0036:	.db $23
-B30_0037:		sed				; f8 
-B30_0038:	.db $ff
-B30_0039:	.db $ff
-B30_003a:	.db $ff
-B30_003b:	.db $ff
-B30_003c:		.db $00				; 00
-B30_003d:		.db $00				; 00
-B30_003e:		.db $00				; 00
-B30_003f:		.db $00				; 00
-B30_0040:	.db $af
-B30_0041:	.db $5f
-B30_0042:		inc $b3			; e6 b3
-B30_0044:		clc				; 18 
-B30_0045:	.db $1b
-B30_0046:		rts				; 60 
-
-
-B30_0047:	.db $c7
-B30_0048:		adc $3850, y	; 79 50 38
-B30_004b:		ora ($58), y	; 11 58
-B30_004d:	.db $5f
-B30_004e:		sed				; f8 
-B30_004f:		sbc $16d1		; edd1 16
-B30_0052:	.db $bf
-B30_0053:		ldy $1c25		; ac 25 1c
-B30_0056:		ora #$32		; 09 32
-B30_0058:		sei				; 78 
-B30_0059:		txs				; 9a 
-B30_005a:		lsr $be9e, x	; 5e 9e be
-B30_005d:		adc $86, x		; 75 86
-B30_005f:	.db $83
-B30_0060:		pha				; 48 
-B30_0061:		lsr a			; 4a
-B30_0062:		cmp #$9d		; c9 9d
-B30_0064:		cmp $6db0, y	; d9 b0 6d
-B30_0067:		lsr $358d, x	; 5e 8d 35
-B30_006a:		txa				; 8a 
-B30_006b:		sbc ($c2, x)	; e1 c2
-B30_006d:		sta $d9ea		; 8d ea d9
-B30_0070:	.db $f4
-B30_0071:		and #$53		; 29 53
-B30_0073:	.db $0c
-B30_0074:		sta $52b4		; 8d b4 52
-B30_0077:	.db $a7
-B30_0078:	.db $9b
-B30_0079:	.db $c7
-B30_007a:	.db $b2
-B30_007b:	.db $72
-B30_007c:	.db $b2
-B30_007d:		dec $28			; c6 28
-B30_007f:	.db $4b
-B30_0080:		stx $d9, y		; 96 d9
-B30_0082:		rol $5e			; 26 5e
-B30_0084:		eor $293c, x	; 5d 3c 29
-B30_0087:	.db $53
-B30_0088:		eor ($e6), y	; 51 e6
-B30_008a:	.db $e2
-B30_008b:		cmp ($5a), y	; d1 5a
-B30_008d:		sta $26ab		; 8d ab 26
-B30_0090:	.db $63
-B30_0091:		sta $31, x		; 95 31
-B30_0093:	.db $4b
-B30_0094:	.db $8b
-B30_0095:		lda $e56a		; ad 6a e5
-B30_0098:		ldy $e332		; ac 32 e3
-B30_009b:		ldy $a9			; a4 a9
-B30_009d:		eor #$ab		; 49 ab
-B30_009f:	.db $9c
-B30_00a0:		ror $d5			; 66 d5
-B30_00a2:		ldy $9c, x		; b4 9c
-B30_00a4:		and ($99), y	; 31 99
-B30_00a6:	.db $34
-B30_00a7:		lda $c9, x		; b5 c9
-B30_00a9:		tax				; aa 
-B30_00aa:		adc $55			; 65 55
-B30_00ac:		and $65, x		; 35 65
-B30_00ae:		lda $a6			; a5 a6
-B30_00b0:	.db $a3
-B30_00b1:		lda #$9a		; a9 9a
-B30_00b3:		rol $56, x		; 36 56
-B30_00b5:		and $55, x		; 35 55
-B30_00b7:		eor $a595, y	; 59 95 a5
-B30_00ba:		tax				; aa 
-B30_00bb:		sta $656a, y	; 99 6a 65
-B30_00be:		adc $55			; 65 55
-B30_00c0:		eor $4d, x		; 55 4d
-B30_00c2:		sta $aa, x		; 95 aa
-B30_00c4:		ror a			; 6a
-B30_00c5:		ldx $59			; a6 59
-B30_00c7:		adc $55			; 65 55
-B30_00c9:		adc #$96		; 69 96
-B30_00cb:		adc $aa			; 65 aa
-B30_00cd:		sta $aa, x		; 95 aa
-B30_00cf:		lda #$6a		; a9 6a
-B30_00d1:		eor $5555, y	; 59 55 55
-B30_00d4:		eor $95, x		; 55 95
-B30_00d6:		ror $a6			; 66 a6
-B30_00d8:		txs				; 9a 
-B30_00d9:		ldx $95			; a6 95
-B30_00db:		eor $5555, y	; 59 55 55
-B30_00de:		sta $99, x		; 95 99
-B30_00e0:		sta $9aaa, y	; 99 aa 9a
-B30_00e3:		eor $5955, y	; 59 55 59
-B30_00e6:		eor $55, x		; 55 55
-B30_00e8:		eor $59, x		; 55 59
-B30_00ea:		stx $99, y		; 96 99
-B30_00ec:		ror a			; 6a
-B30_00ed:		ror $55			; 66 55
-B30_00ef:		eor $55, x		; 55 55
-B30_00f1:		eor $55, x		; 55 55
-B30_00f3:		eor $aa, x		; 55 aa
-B30_00f5:		ldx $66			; a6 66
-B30_00f7:		lsr $55, x		; 56 55
-B30_00f9:		eor $55, x		; 55 55
-B30_00fb:		eor $55, x		; 55 55
-B30_00fd:		eor $5559, y	; 59 59 55
-B30_0100:		lsr $56, x		; 56 56
-B30_0102:		eor $55, x		; 55 55
-B30_0104:		eor $55, x		; 55 55
-B30_0106:		eor $55, x		; 55 55
-B30_0108:		ror $65			; 66 65
-B30_010a:		adc $55			; 65 55
-B30_010c:		eor $55, x		; 55 55
-B30_010e:		eor $55, x		; 55 55
-B30_0110:	.db $ff
-B30_0111:		eor $aa, x		; 55 aa
-B30_0113:		tax				; aa 
-B30_0114:		tax				; aa 
-B30_0115:		tax				; aa 
-B30_0116:		tax				; aa 
-B30_0117:		tax				; aa 
-B30_0118:		tax				; aa 
-B30_0119:		tax				; aa 
-B30_011a:		tax				; aa 
-B30_011b:		tax				; aa 
-B30_011c:		tax				; aa 
-B30_011d:		tax				; aa 
-B30_011e:		tax				; aa 
-B30_011f:		tax				; aa 
-B30_0120:		and ($37), y	; 31 37
-B30_0122:		ora #$80		; 09 80
-B30_0124:		clc				; 18 
-B30_0125:		rts				; 60 
-
-
-B30_0126:		.db $00				; 00
-B30_0127:		cpy #$20		; c0 20
-B30_0129:	.db $2f
-B30_012a:	.db $3a
-B30_012b:	.db $a3
-B30_012c:		inc $ef3c		; ee 3c ef
-B30_012f:	.db $77
-B30_0130:	.db $57
-B30_0131:	.db $ef
-B30_0132:	.db $9f
-B30_0133:	.db $af
-B30_0134:	.db $ff
-B30_0135:		dec $9ebf, x	; de bf 9e
-B30_0138:		cmp #$24		; c9 24
-B30_013a:		eor ($09, x)	; 41 09
-B30_013c:		ora #$09		; 09 09
-B30_013e:		and #$00		; 29 00
-B30_0140:		tay				; a8 
-B30_0141:		ror a			; 6a
-B30_0142:		ror a			; 6a
-B30_0143:		tax				; aa 
-B30_0144:		lda #$a6		; a9 a6
-B30_0146:		stx $9a, y		; 96 9a
-B30_0148:		tax				; aa 
-B30_0149:		lsr $55, x		; 56 55
-B30_014b:		tax				; aa 
-B30_014c:	.db $54
-B30_014d:		sbc #$7f		; e9 7f
-B30_014f:		eor ($2f, x)	; 41 2f
-B30_0151:		.db $00				; 00
-B30_0152:	.db $80
-B30_0153:	.db $fa
-B30_0154:	.db $ff
-B30_0155:	.db $ff
-B30_0156:	.db $8d $01 $00
-B30_0159:	.db $80
-B30_015a:	.db $ff
-B30_015b:	.db $ff
-B30_015c:	.db $17
-B30_015d:	.db $6e $00 $00
-B30_0160:		sed				; f8 
-B30_0161:	.db $fc
-B30_0162:	.db $ff
-B30_0163:	.db $4f
-B30_0164:	.db $07
-B30_0165:		.db $00				; 00
-B30_0166:		.db $00				; 00
-B30_0167:	.db $fc
-B30_0168:	.db $ff
-B30_0169:	.db $ff
-B30_016a:		ora ($55, x)	; 01 55
-B30_016c:		ora ($00), y	; 11 00
-B30_016e:	.db $f4
-B30_016f:	.db $ef
-B30_0170:	.db $fb
-B30_0171:	.db $97
-B30_0172:		pha				; 48 
-B30_0173:	.db $0b
-B30_0174:		.db $00				; 00
-B30_0175:		cpy #$ff		; c0 ff
-B30_0177:	.db $ff
-B30_0178:	.db $0f
-B30_0179:		sty $24, x		; 94 24
-B30_017b:		eor ($44, x)	; 41 44
-B30_017d:	.db $6b
-B30_017e:	.db $ff
-B30_017f:	.db $5f
-B30_0180:		rol a			; 2a
-B30_0181:		tax				; aa 
-B30_0182:		ora $00			; 05 00
-B30_0184:	.db $d4
-B30_0185:		inc $6dff, x	; fe ff 6d
-B30_0188:		ora ($c4, x)	; 01 c4
-B30_018a:	.db $12
-B30_018b:	.db $52
-B30_018c:		lda $75, x		; b5 75
-B30_018e:	.db $ff
-B30_018f:	.db $13
-B30_0190:		plp				; 28 
-B30_0191:	.db $da
-B30_0192:		and ($20, x)	; 21 20
-B30_0194:		sbc $ffbe		; edbe ff
-B30_0197:		eor $40			; 45 40
-B30_0199:		and #$91		; 29 91
-B30_019b:	.db $52
-B30_019c:		adc $ff, x		; 75 ff
-B30_019e:	.db $bb
-B30_019f:		bit $80			; 24 80
-B30_01a1:		tsx				; ba 
-B30_01a2:		lsr a			; 4a
-B30_01a3:		ldy $ea			; a4 ea
-B30_01a5:		ror $126f, x	; 7e 6f 12
-B30_01a8:		sta ($aa), y	; 91 aa
-B30_01aa:		lsr a			; 4a
-B30_01ab:		iny				; c8 
-B30_01ac:	.db $74
-B30_01ad:	.db $df
-B30_01ae:	.db $af
-B30_01af:	.db $89
-B30_01b0:		pha				; 48 
-B30_01b1:		lsr a			; 4a
-B30_01b2:	.db $52
-B30_01b3:		lda $b2, x		; b5 b2
-B30_01b5:		inc $a4b7		; ee b7 a4
-B30_01b8:		dey				; 88 
-B30_01b9:	.db $54
-B30_01ba:		and $a5, x		; 35 a5
-B30_01bc:	.db $54
-B30_01bd:		sbc $556f		; ed6f 55
-B30_01c0:	.db $22
-B30_01c1:		lda $4a			; a5 4a
-B30_01c3:		and $55			; 25 55
-B30_01c5:	.db $eb
-B30_01c6:		dec $4956, x	; de 56 49
-B30_01c9:		ldx #$92		; a2 92
-B30_01cb:		tax				; aa 
-B30_01cc:		tax				; aa 
-B30_01cd:		lsr $db, x		; 56 db
-B30_01cf:		eor $9249, x	; 5d 49 92
-B30_01d2:	.db $52
-B30_01d3:		cmp $54, x		; d5 54
-B30_01d5:		tax				; aa 
-B30_01d6:	.db $da
-B30_01d7:		lda $4495, x	; bd 95 44
-B30_01da:		tax				; aa 
-B30_01db:		tax				; aa 
-B30_01dc:	.db $54
-B30_01dd:		lsr a			; 4a
-B30_01de:		sbc $ab6e		; ed6e ab
-B30_01e1:	.db $52
-B30_01e2:	.db $92
-B30_01e3:		rol a			; 2a
-B30_01e4:		eor $aa, x		; 55 aa
-B30_01e6:	.db $5a
-B30_01e7:	.db $db
-B30_01e8:		lsr $55, x		; 56 55
-B30_01ea:		lsr a			; 4a
-B30_01eb:		sta $52, x		; 95 52
-B30_01ed:		eor $55, x		; 55 55
-B30_01ef:		cmp $da, x		; d5 da
-B30_01f1:	.db $5a
-B30_01f2:		sta $52, x		; 95 52
-B30_01f4:		tax				; aa 
-B30_01f5:	.db $54
-B30_01f6:		eor $55, x		; 55 55
-B30_01f8:		dec $76, x		; d6 76
-B30_01fa:		and $a525		; 2d 25 a5
-B30_01fd:		ldy $954a		; ac 4a 95
-B30_0200:		ror a			; 6a
-B30_0201:	.db $db
-B30_0202:		lsr $95, x		; 56 95
-B30_0204:	.db $52
-B30_0205:		tax				; aa 
-B30_0206:		tax				; aa 
-B30_0207:	.db $54
-B30_0208:		eor $ad, x		; 55 ad
-B30_020a:		lda $96, x		; b5 96
-B30_020c:		rol a			; 2a
-B30_020d:		eor $a5, x		; 55 a5
-B30_020f:		lsr a			; 4a
-B30_0210:		eor $d5, x		; 55 d5
-B30_0212:		tax				; aa 
-B30_0213:		lda $aa, x		; b5 aa
-B30_0215:		tax				; aa 
-B30_0216:	.db $54
-B30_0217:		rol a			; 2a
-B30_0218:		eor $55, x		; 55 55
-B30_021a:		cmp $aa, x		; d5 aa
-B30_021c:		lda $4a55		; ad 55 4a
-B30_021f:		lda #$aa		; a9 aa
-B30_0221:		tax				; aa 
-B30_0222:	.db $54
-B30_0223:		cmp $5a, x		; d5 5a
-B30_0225:	.db $ab
-B30_0226:		tax				; aa 
-B30_0227:	.db $52
-B30_0228:		tax				; aa 
-B30_0229:		tax				; aa 
-B30_022a:		rol a			; 2a
-B30_022b:		eor $d5, x		; 55 d5
-B30_022d:		dec $aa, x		; d6 aa
-B30_022f:		rol a			; 2a
-B30_0230:		eor $95, x		; 55 95
-B30_0232:		tax				; aa 
-B30_0233:	.db $54
-B30_0234:		eor $6b, x		; 55 6b
-B30_0236:		eor $ab, x		; 55 ab
-B30_0238:		tax				; aa 
-B30_0239:	.db $54
-B30_023a:		lda #$52		; a9 52
-B30_023c:		eor $b5, x		; 55 b5
-B30_023e:		ror a			; 6a
-B30_023f:		eor $52, x		; 55 52
-B30_0241:		lda $8a, x		; b5 8a
-B30_0243:	.db $5a
-B30_0244:	.db $57
-B30_0245:	.db $42
-B30_0246:		eor $a43b, x	; 5d 3b a4
-B30_0249:	.db $fc
-B30_024a:		dey				; 88 
-B30_024b:		ldy $f3, x		; b4 f3
-B30_024d:		ldy #$ea		; a0 ea
-B30_024f:		;removed
-	.db $70 $cd
-
-B30_0251:		ora #$39		; 09 39
-B30_0253:	.db $5f
-B30_0254:		lda ($f1, x)	; a1 f1
-B30_0256:		dec $12			; c6 12
-B30_0258:	.db $a7
-B30_0259:	.db $53
-B30_025a:	.db $7b
-B30_025b:		ldy #$f8		; a0 f8
-B30_025d:		lda ($f5, x)	; a1 f5
-B30_025f:	.db $64
-B30_0260:		sta ($1f, x)	; 81 1f
-B30_0262:	.db $fc
-B30_0263:		ora #$f8		; 09 f8
-B30_0265:	.db $0f
-B30_0266:	.db $80
-B30_0267:	.db $ff
-B30_0268:		ora ($fc, x)	; 01 fc
-B30_026a:		bcs B30_026a ; b0 fe
-
-B30_026c:	.db $03
-B30_026d:		cpx #$0f		; e0 0f
-B30_026f:		beq B30_0280 ; f0 0f
-
-B30_0271:		;removed
-	.db $f0 $3f
-
-B30_0273:		.db $00				; 00
-B30_0274:	.db $ff
-B30_0275:		ora ($3f, x)	; 01 3f
-B30_0277:	.db $80
-B30_0278:	.db $7f
-B30_0279:		sed				; f8 
-B30_027a:	.db $03
-B30_027b:	.db $fc
-B30_027c:		cpx #$f0		; e0 f0
-B30_027e:	.db $ff
-B30_027f:		.db $00				; 00
-B30_0280:		;removed
-	.db $10 $7f
-
-B30_0282:	.db $0f
-B30_0283:	.db $fc
-B30_0284:	.db $07
-B30_0285:		cpx #$0f		; e0 0f
-B30_0287:		cpx #$07		; e0 07
-B30_0289:		inc $7f00, x	; fe 00 7f
-B30_028c:		beq B30_029d ; f0 0f
-
-B30_028e:		cpy #$7f		; c0 7f
-B30_0290:		cpy #$0f		; c0 0f
-B30_0292:		beq B30_02b3 ; f0 1f
-
-B30_0294:		php				; 08 
-B30_0295:	.db $ff
-B30_0296:	.db $03
-B30_0297:		sed				; f8 
-B30_0298:		ora ($f6, x)	; 01 f6
-B30_029a:		sbc $f003, x	; fd 03 f0
-B30_029d:	.db $3f
-B30_029e:		cpx #$07		; e0 07
-B30_02a0:		sed				; f8 
-B30_02a1:	.db $0f
-B30_02a2:		beq B30_02cb ; f0 27
-
-B30_02a4:		cpx #$07		; e0 07
-B30_02a6:		beq B30_02b7 ; f0 0f
-
-B30_02a8:		;removed
-	.db $f0 $3f
-
-B30_02aa:		cpy #$1f		; c0 1f
-B30_02ac:	.db $80
-B30_02ad:	.db $3f
-B30_02ae:		;removed
-	.db $f0 $ff
-
-B30_02b0:		.db $00				; 00
-B30_02b1:		beq B30_02d2 ; f0 1f
-
-B30_02b3:		;removed
-	.db $f0 $0f
-
-B30_02b5:		;removed
-	.db $f0 $3f
-
-B30_02b7:		.db $00				; 00
-B30_02b8:	.db $ff
-B30_02b9:		.db $00				; 00
-B30_02ba:		ror $f83e, x	; 7e 3e f8
-B30_02bd:		jsr $1ff0		; 20 f0 1f
-B30_02c0:		cpx #$3f		; e0 3f
-B30_02c2:	.db $80
-B30_02c3:	.db $fd $0f $00
-B30_02c6:	.db $ff
-B30_02c7:	.db $03
-B30_02c8:		;removed
-	.db $f0 $1f
-
-B30_02ca:	.db $80
-B30_02cb:	.db $3f
-B30_02cc:		inc $f808		; ee 08 f8
-B30_02cf:	.db $0f
-B30_02d0:		cld				; d8 
-B30_02d1:	.db $3f
-B30_02d2:		.db $00				; 00
-B30_02d3:		sbc $d80f, x	; fd 0f d8
-B30_02d6:	.db $3f
-B30_02d7:		.db $00				; 00
-B30_02d8:	.db $ff
-B30_02d9:	.db $0b
-B30_02da:		cpy #$0f		; c0 0f
-B30_02dc:	.db $07
-B30_02dd:	.db $b7
-B30_02de:		cmp $5f80		; cd 80 5f
-B30_02e1:	.db $dc
-B30_02e2:		bpl B30_02b3 ; 10 cf
-
-B30_02e4:	.db $1f
-B30_02e5:		clc				; 18 
-B30_02e6:		beq B30_02c3 ; f0 db
-
-B30_02e8:		cpy #$ee		; c0 ee
-B30_02ea:		and $83c0, y	; 39 c0 83
-B30_02ed:	.db $3f
-B30_02ee:		asl $3e			; 06 3e
-B30_02f0:		inc $3818, x	; fe 18 38
-B30_02f3:		sed				; f8 
-B30_02f4:		adc $83c0, x	; 7d c0 83
-B30_02f7:		sbc ($0f, x)	; e1 0f
-B30_02f9:	.db $1f
-B30_02fa:	.db $3c
-B30_02fb:	.db $1a
-B30_02fc:		rol $e1e0, x	; 3e e0 e1
-B30_02ff:	.db $ff
-B30_0300:		cpy #$e1		; c0 e1
-B30_0302:		ora ($fc, x)	; 01 fc
-B30_0304:	.db $87
-B30_0305:	.db $83
-B30_0306:	.db $c3
-B30_0307:	.db $fb
-B30_0308:		.db $00				; 00
-B30_0309:		dec $c70f		; ce 0f c7
-B30_030c:	.db $c7
-B30_030d:	.db $03
-B30_030e:	.db $4f
-B30_030f:	.db $3c
-B30_0310:		;removed
-	.db $70 $87
-
-B30_0312:	.db $1f
-B30_0313:		rol $19e0, x	; 3e e0 19
-B30_0316:	.db $e3
-B30_0317:		cpy #$e1		; c0 e1
-B30_0319:	.db $87
-B30_031a:	.db $fb
-B30_031b:		sta ($3f, x)	; 81 3f
-B30_031d:		cpx #$03		; e0 03
-B30_031f:	.db $c7
-B30_0320:	.db $0f
-B30_0321:	.db $3c
-B30_0322:		sed				; f8 
-B30_0323:		cmp ($0f, x)	; c1 0f
-B30_0325:		clv				; b8 
-B30_0326:	.db $7f
-B30_0327:		cpy #$87		; c0 87
-B30_0329:	.db $0f
-B30_032a:		rol $81f8, x	; 3e f8 81
-B30_032d:	.db $4f
-B30_032e:		cpx #$07		; e0 07
-B30_0330:	.db $fc
-B30_0331:		cpx #$7c		; e0 7c
-B30_0333:		sed				; f8 
-B30_0334:		;removed
-	.db $30 $c0
-
-B30_0336:		sec				; 38 
-B30_0337:		ror $f9f0, x	; 7e f0 f9
-B30_033a:		;removed
-	.db $f0 $c1
-
-B30_033c:		sbc $e1			; e5 e1
-B30_033e:	.db $83
-B30_033f:	.db $c3
-B30_0340:	.db $07
-B30_0341:		inc $f80f, x	; fe 0f f8
-B30_0344:		cpx #$e0		; e0 e0
-B30_0346:	.db $1f
-B30_0347:	.db $80
-B30_0348:		adc ($ff, x)	; 61 ff
-B30_034a:	.db $80
-B30_034b:	.db $1f
-B30_034c:	.db $7c
-B30_034d:		sei				; 78 
-B30_034e:		cpx #$0f		; e0 0f
-B30_0350:		sed				; f8 
-B30_0351:	.db $0f
-B30_0352:		sei				; 78 
-B30_0353:		beq B30_0356 ; f0 01
-
-B30_0355:	.db $1f
-B30_0356:		cpy #$3f		; c0 3f
-B30_0358:		;removed
-	.db $f0 $79
-
-B30_035a:		;removed
-	.db $f0 $e1
-
-B30_035c:	.db $c3
-B30_035d:	.db $87
-B30_035e:	.db $87
-B30_035f:	.db $03
-B30_0360:	.db $c3
-B30_0361:	.db $0f
-B30_0362:	.db $7f
-B30_0363:		cpy #$07		; c0 07
-B30_0365:	.db $3f
-B30_0366:		;removed
-	.db $f0 $03
-
-B30_0368:	.db $3f
-B30_0369:	.db $3c
-B30_036a:		;removed
-	.db $f0 $b0
-
-B30_036c:	.db $37
-B30_036d:		sed				; f8 
-B30_036e:		cpx #$87		; e0 87
-B30_0370:	.db $87
-B30_0371:	.db $8f
-B30_0372:	.db $0f
-B30_0373:	.db $3c
-B30_0374:	.db $3c
-B30_0375:		sec				; 38 
-B30_0376:		bpl B30_0376 ; 10 fe
-
-B30_0378:		and ($78), y	; 31 78
-B30_037a:		sed				; f8 
-B30_037b:	.db $03
-B30_037c:	.db $1f
-B30_037d:		asl $fcf8		; 0e f8 fc
-B30_0380:		;removed
-	.db $f0 $c3
-
-B30_0382:		sec				; 38 
-B30_0383:	.db $e3
-B30_0384:		and ($2e, x)	; 21 2e
-B30_0386:		sec				; 38 
-B30_0387:		asl $e0f3, x	; 1e f3 e0
-B30_038a:		stx $7f			; 86 7f
-B30_038c:		sed				; f8 
-B30_038d:	.db $83
-B30_038e:	.db $0f
-B30_038f:		asl $3f			; 06 3f
-B30_0391:		cpy #$1f		; c0 1f
-B30_0393:		sed				; f8 
-B30_0394:		ora ($7e, x)	; 01 7e
-B30_0396:		sec				; 38 
-B30_0397:	.db $1f
-B30_0398:		bit $fc			; 24 fc
-B30_039a:		bvs B30_03d8 ; 70 3c
-
-B30_039c:	.db $3c
-B30_039d:		ror $6270, x	; 7e 70 62
-B30_03a0:	.db $1c
-B30_03a1:	.db $0f
-B30_03a2:	.db $1f
-B30_03a3:		asl $3e1f, x	; 1e 1f 3e
-B30_03a6:		sei				; 78 
-B30_03a7:		sei				; 78 
-B30_03a8:		;removed
-	.db $70 $78
-
-B30_03aa:		sei				; 78 
-B30_03ab:	.db $3c
-B30_03ac:	.db $3c
-B30_03ad:		adc ($0e), y	; 71 0e
-B30_03af:	.db $3c
-B30_03b0:		clv				; b8 
-B30_03b1:	.db $67
-B30_03b2:		asl $63dc		; 0e dc 63
-B30_03b5:	.db $fc
-B30_03b6:		cpx #$78		; e0 78
-B30_03b8:		beq B30_037d ; f0 c3
-
-B30_03ba:	.db $83
-B30_03bb:		sbc ($83, x)	; e1 83
-B30_03bd:	.db $07
-B30_03be:		ror $e1f8, x	; 7e f8 e1
-B30_03c1:		cmp ($f1, x)	; c1 f1
-B30_03c3:		beq B30_03b5 ; f0 f0
-
-B30_03c5:		sbc ($07, x)	; e1 07
-B30_03c7:	.db $3c
-B30_03c8:		cpx $71			; e4 71
-B30_03ca:		bvs B30_0448 ; 70 7c
-
-B30_03cc:	.db $3c
-B30_03cd:		sed				; f8 
-B30_03ce:		bmi B30_0448 ; 30 78
-
-B30_03d0:	.db $3c
-B30_03d1:	.db $1c
-B30_03d2:		inc $0781, x	; fe 81 07
-B30_03d5:	.db $6f
-B30_03d6:	.db $1c
-B30_03d7:	.db $3f
-B30_03d8:		cpx #$1f		; e0 1f
-B30_03da:		asl $8c3c, x	; 1e 3c 8c
-B30_03dd:		adc ($1e), y	; 71 1e
-B30_03df:	.db $c3
-B30_03e0:		ora $c387		; 0d 87 c3
-B30_03e3:	.db $e3
-B30_03e4:		cpx #$c3		; e0 c3
-B30_03e6:	.db $c3
-B30_03e7:	.db $0f
-B30_03e8:	.db $1f
-B30_03e9:		sec				; 38 
-B30_03ea:	.db $7c
-B30_03eb:		sei				; 78 
-B30_03ec:		sei				; 78 
-B30_03ed:		iny				; c8 
-B30_03ee:		and $07ce, y	; 39 ce 07
-B30_03f1:	.db $7f
-B30_03f2:		sty $1cc3		; 8c c3 1c
-B30_03f5:		beq B30_038f ; f0 98
-
-B30_03f7:		and $81f8, x	; 3d f8 81
-B30_03fa:	.db $87
-B30_03fb:	.db $c3
-B30_03fc:	.db $c3
-B30_03fd:	.db $0f
-B30_03fe:		inc $e3c0, x	; fe c0 e3
-B30_0401:		sta ($e3, x)	; 81 e3
-B30_0403:	.db $87
-B30_0404:	.db $c7
-B30_0405:	.db $0c
-B30_0406:	.db $3f
-B30_0407:	.db $1c
-B30_0408:		asl $387c, x	; 1e 7c 38
-B30_040b:		inc $0f			; e6 0f
-B30_040d:		asl $0f1f		; 0e 1f 0f
-B30_0410:		cpy #$e3		; c0 e3
-B30_0412:		bvs B30_048c ; 70 78
-
-B30_0414:		sei				; 78 
-B30_0415:	.db $1c
-B30_0416:		asl $7e0f		; 0e 0f 7e
-B30_0419:		sei				; 78 
-B30_041a:	.db $1c
-B30_041b:		adc $e1f0, y	; 79 f0 e1
-B30_041e:	.db $87
-B30_041f:	.db $e3
-B30_0420:	.db $e3
-B30_0421:		asl $3c3e		; 0e 3e 3c
-B30_0424:		cpx #$0d		; e0 0d
-B30_0426:	.db $e7
-B30_0427:		sta ($c7, x)	; 81 c7
-B30_0429:	.db $83
-B30_042a:	.db $0f
-B30_042b:	.db $e7
-B30_042c:		clc				; 18 
-B30_042d:	.db $0f
-B30_042e:		sei				; 78 
-B30_042f:		sei				; 78 
-B30_0430:	.db $7c
-B30_0431:		sec				; 38 
-B30_0432:	.db $fc
-B30_0433:		cpx #$61		; e0 61
-B30_0435:	.db $c7
-B30_0436:		ora $de0f, y	; 19 0f de
-B30_0439:		sec				; 38 
-B30_043a:		;removed
-	.db $f0 $70
-
-B30_043c:		sei				; 78 
-B30_043d:		sei				; 78 
-B30_043e:		beq B30_0430 ; f0 f0
-
-B30_0440:		sei				; 78 
-B30_0441:		sei				; 78 
-B30_0442:		sed				; f8 
-B30_0443:	.db $33
-B30_0444:	.db $8f
-B30_0445:	.db $83
-B30_0446:	.db $c3
-B30_0447:	.db $c3
-B30_0448:	.db $c3
-B30_0449:	.db $c3
-B30_044a:	.db $07
-B30_044b:	.db $92
-B30_044c:	.db $c3
-B30_044d:	.db $0f
-B30_044e:	.db $0f
-B30_044f:	.db $8f
-B30_0450:	.db $87
-B30_0451:	.db $83
-B30_0452:	.db $07
-B30_0453:	.db $1f
-B30_0454:	.db $7b
-B30_0455:	.db $fc
-B30_0456:		cpx #$e1		; e0 e1
-B30_0458:	.db $c3
-B30_0459:	.db $1f
-B30_045a:		sec				; 38 
-B30_045b:		asl $730e		; 0e 0e 73
-B30_045e:		stx $1cf1		; 8e f1 1c
-B30_0461:	.db $3c
-B30_0462:		stx $cc63		; 8e 63 cc
-B30_0465:		sec				; 38 
-B30_0466:	.db $9c
-B30_0467:		and $1c1e, y	; 39 1e 1c
-B30_046a:	.db $7c
-B30_046b:		sei				; 78 
-B30_046c:		beq B30_04de ; f0 70
-
-B30_046e:	.db $cf
-B30_046f:		sed				; f8 
-B30_0470:		beq B30_0435 ; f0 c3
-
-B30_0472:	.db $c7
-B30_0473:	.db $e3
-B30_0474:		cpx #$38		; e0 38
-B30_0476:		;removed
-	.db $f0 $c0
-
-B30_0478:		ora ($77), y	; 11 77
-B30_047a:		dec $1c			; c6 1c
-B30_047c:	.db $f3
-B30_047d:		clc				; 18 
-B30_047e:	.db $c7
-B30_047f:		sec				; 38 
-B30_0480:	.db $e3
-B30_0481:		cpy #$1f		; c0 1f
-B30_0483:	.db $c7
-B30_0484:	.db $0f
-B30_0485:	.db $3f
-B30_0486:		sei				; 78 
-B30_0487:		sty $1f			; 84 1f
-B30_0489:		stx $0f03		; 8e 03 0f
-B30_048c:	.db $3c
-B30_048d:	.db $3c
-B30_048e:	.db $73
-B30_048f:	.db $dc
-B30_0490:		and ($fe, x)	; 21 fe
-B30_0492:		sec				; 38 
-B30_0493:		asl $1e1e, x	; 1e 1e 1e
-B30_0496:	.db $1c
-B30_0497:	.db $3c
-B30_0498:	.db $3c
-B30_0499:	.db $fc
-B30_049a:		sbc ($e1), y	; f1 e1
-B30_049c:		sbc ($c1), y	; f1 c1
-B30_049e:	.db $03
-B30_049f:		sed				; f8 
-B30_04a0:		;removed
-	.db $f0 $38
-
-B30_04a2:	.db $3c
-B30_04a3:	.db $1c
-B30_04a4:	.db $87
-B30_04a5:	.db $87
-B30_04a6:	.db $87
-B30_04a7:	.db $c7
-B30_04a8:	.db $0f
-B30_04a9:	.db $8f
-B30_04aa:	.db $87
-B30_04ab:		ora $f87e, y	; 19 7e f8
-B30_04ae:		bvs B30_04a0 ; 70 f0
-
-B30_04b0:		cpx #$e1		; e0 e1
-B30_04b2:		sbc ($81, x)	; e1 81
-B30_04b4:	.db $07
-B30_04b5:	.db $3f
-B30_04b6:		inc $b8, x		; f6 b8
-B30_04b8:	.db $03
-B30_04b9:	.db $8f
-B30_04ba:		rts				; 60 
-
-
-B30_04bb:	.db $9e
-B30_04bc:	.db $03
-B30_04bd:	.db $3f
-B30_04be:	.db $87
-B30_04bf:	.db $0f
-B30_04c0:	.db $8f
-B30_04c1:	.db $63
-B30_04c2:		asl $f01f		; 0e 1f f0
-B30_04c5:	.db $c3
-B30_04c6:	.db $63
-B30_04c7:		sty $1c71		; 8c 71 1c
-B30_04ca:	.db $3c
-B30_04cb:		sei				; 78 
-B30_04cc:		sed				; f8 
-B30_04cd:	.db $e3
-B30_04ce:		cmp ($83, x)	; c1 83
-B30_04d0:	.db $1f
-B30_04d1:		dec $f1			; c6 f1
-B30_04d3:	.db $3c
-B30_04d4:		sec				; 38 
-B30_04d5:	.db $dc
-B30_04d6:		and ($e0), y	; 31 e0
-B30_04d8:		stx $87e3		; 8e e3 87
-B30_04db:	.db $c3
-B30_04dc:	.db $c3
-B30_04dd:	.db $03
-B30_04de:	.db $8f
-B30_04df:	.db $1f
-B30_04e0:		asl $e41e, x	; 1e 1e e4
-B30_04e3:		asl $1e67		; 0e 67 1e
-B30_04e6:		cpx $c770		; ec 70 c7
-B30_04e9:		sbc ($07, x)	; e1 07
-B30_04eb:	.db $1c
-B30_04ec:		asl $870f, x	; 1e 0f 87
-B30_04ef:	.db $3f
-B30_04f0:		sei				; 78 
-B30_04f1:		sec				; 38 
-B30_04f2:		cpx $c3e1		; ec e1 c3
-B30_04f5:		cmp ($c1, x)	; c1 c1
-B30_04f7:	.db $13
-B30_04f8:	.db $f3
-B30_04f9:	.db $87
-B30_04fa:	.db $0f
-B30_04fb:	.db $9e
-B30_04fc:		clc				; 18 
-B30_04fd:	.db $c7
-B30_04fe:		sbc ($c3), y	; f1 c3
-B30_0500:		sta ($63, x)	; 81 63
-B30_0502:	.db $1c
-B30_0503:	.db $33
-B30_0504:		stx $8e3b		; 8e 3b 8e
-B30_0507:	.db $0f
-B30_0508:	.db $9c
-B30_0509:	.db $33
-B30_050a:		asl $1d8f		; 0e 8f 1d
-B30_050d:	.db $47
-B30_050e:	.db $3c
-B30_050f:	.db $9c
-B30_0510:	.db $73
-B30_0511:		stx $e639		; 8e 39 e6
-B30_0514:	.db $87
-B30_0515:	.db $8f
-B30_0516:	.db $63
-B30_0517:		sec				; 38 
-B30_0518:	.db $dc
-B30_0519:		and ($06), y	; 31 06
-B30_051b:		asl $c70f		; 0e 0f c7
-B30_051e:	.db $c3
-B30_051f:	.db $c3
-B30_0520:		adc ($3c), y	; 71 3c
-B30_0522:	.db $fc
-B30_0523:		cmp ($c3, x)	; c1 c3
-B30_0525:		stx $8e39		; 8e 39 8e
-B30_0528:	.db $0f
-B30_0529:		asl $06ce, x	; 1e ce 06
-B30_052c:	.db $67
-B30_052d:		beq B30_04d0 ; f0 a1
-
-B30_052f:	.db $33
-B30_0530:		dec $19			; c6 19
-B30_0532:	.db $0f
-B30_0533:		asl $783e, x	; 1e 3e 78
-B30_0536:	.db $0c
-B30_0537:	.db $0f
-B30_0538:		asl $f673, x	; 1e 73 f6
-B30_053b:		sbc ($c0, x)	; e1 c0
-B30_053d:	.db $13
-B30_053e:	.db $e7
-B30_053f:	.db $c7
-B30_0540:	.db $83
-B30_0541:	.db $0f
-B30_0542:	.db $c7
-B30_0543:		and $398e, y	; 39 8e 39
-B30_0546:		cpx #$f1		; e0 f1
-B30_0548:		sec				; 38 
-B30_0549:	.db $dc
-B30_054a:		lda ($71), y	; b1 71
-B30_054c:		cpx #$71		; e0 71
-B30_054e:		stx $1e3d		; 8e 3d 1e
-B30_0551:		asl $1f1c, x	; 1e 1c 1f
-B30_0554:	.db $3c
-B30_0555:		beq B30_055e ; f0 07
-
-B30_0557:		asl $8e1e, x	; 1e 1e 8e
-B30_055a:		sec				; 38 
-B30_055b:	.db $0f
-B30_055c:	.db $3f
-B30_055d:	.db $3c
-B30_055e:		sei				; 78 
-B30_055f:	.db $1c
-B30_0560:	.db $0f
-B30_0561:	.db $0f
-B30_0562:	.db $1c
-B30_0563:	.db $3f
-B30_0564:		cpy $c1			; c4 c1
-B30_0566:	.db $87
-B30_0567:	.db $3f
-B30_0568:		ldy $c3e1, x	; bc e1 c3
-B30_056b:	.db $c3
-B30_056c:		sbc ($f0), y	; f1 f0
-B30_056e:		;removed
-	.db $30 $1e
-
-B30_0570:		dec $e1e0		; ce e0 e1
-B30_0573:		sta ($07), y	; 91 07
-B30_0575:		rol $07f1, x	; 3e f1 07
-B30_0578:	.db $8f
-B30_0579:	.db $87
-B30_057a:	.db $07
-B30_057b:	.db $1f
-B30_057c:	.db $fc
-B30_057d:		sec				; 38 
-B30_057e:		inc $e0			; e6 e0
-B30_0580:		cmp ($0f, x)	; c1 0f
-B30_0582:		asl $381e		; 0e 1e 38
-B30_0585:	.db $1f
-B30_0586:	.db $e3
-B30_0587:		sta ($e7, x)	; 81 e7
-B30_0589:	.db $1c
-B30_058a:	.db $c7
-B30_058b:	.db $87
-B30_058c:		ora $71c7		; 0d c7 71
-B30_058f:		sei				; 78 
-B30_0590:		cpx #$e3		; e0 e3
-B30_0592:		sbc ($78, x)	; e1 78
-B30_0594:	.db $32
-B30_0595:		inc $e078, x	; fe 78 e0
-B30_0598:	.db $63
-B30_0599:		dey				; 88 
-B30_059a:	.db $07
-B30_059b:		inc $e1e0, x	; fe e0 e1
-B30_059e:		sed				; f8 
-B30_059f:		;removed
-	.db $f0 $31
-
-B30_05a1:	.db $c3
-B30_05a2:	.db $e3
-B30_05a3:		sbc ($e0, x)	; e1 e0
-B30_05a5:	.db $07
-B30_05a6:	.db $77
-B30_05a7:		lsr $1e			; 46 1e
-B30_05a9:	.db $9c
-B30_05aa:	.db $c3
-B30_05ab:	.db $c7
-B30_05ac:		adc ($f8, x)	; 61 f8
-B30_05ae:		bvs B30_05ec ; 70 3c
-
-B30_05b0:		ror $38			; 66 38
-B30_05b2:	.db $0f
-B30_05b3:		beq B30_05ee ; f0 39
-
-B30_05b5:		asl $c3c7, x	; 1e c7 c3
-B30_05b8:	.db $e3
-B30_05b9:		cmp ($83, x)	; c1 83
-B30_05bb:	.db $87
-B30_05bc:	.db $87
-B30_05bd:	.db $07
-B30_05be:	.db $8f
-B30_05bf:		sei				; 78 
-B30_05c0:		beq B30_05a5 ; f0 e3
-
-B30_05c2:	.db $63
-B30_05c3:		inc $08, x		; f6 08
-B30_05c5:		stx $78e3		; 8e e3 78
-B30_05c8:	.db $1c
-B30_05c9:		rol $3c1c, x	; 3e 1c 3c
-B30_05cc:	.db $1c
-B30_05cd:	.db $e7
-B30_05ce:		bvs B30_05ec ; 70 1c
-
-B30_05d0:		asl $e1e7, x	; 1e e7 e1
-B30_05d3:		cpy $f1e1		; cc e1 f1
-B30_05d6:		cpx #$87		; e0 87
-B30_05d8:	.db $07
-B30_05d9:	.db $0f
-B30_05da:		asl $c1c6, x	; 1e c6 c1
-B30_05dd:	.db $cf
-B30_05de:	.db $c3
-B30_05df:	.db $c3
-B30_05e0:		sbc ($c1, x)	; e1 c1
-B30_05e2:	.db $0f
-B30_05e3:	.db $63
-B30_05e4:	.db $1c
-B30_05e5:	.db $7f
-B30_05e6:		clc				; 18 
-B30_05e7:		rol $783c, x	; 3e 3c 78
-B30_05ea:		;removed
-	.db $70 $fc
-
-B30_05ec:		cpx #$31		; e0 31
-B30_05ee:	.db $7c
-B30_05ef:	.db $3c
-B30_05f0:		cpx #$71		; e0 71
-B30_05f2:		rol $cf07, x	; 3e 07 cf
-B30_05f5:		sbc ($70), y	; f1 70
-B30_05f7:		sec				; 38 
-B30_05f8:		stx $e187		; 8e 87 e1
-B30_05fb:	.db $1c
-B30_05fc:	.db $c7
-B30_05fd:	.db $63
-B30_05fe:		sei				; 78 
-B30_05ff:		sty $c787		; 8c 87 c7
-B30_0602:	.db $e3
-B30_0603:	.db $03
-B30_0604:		rol $1c78, x	; 3e 78 1c
-B30_0607:		dec $0e71		; ce 71 0e
-B30_060a:	.db $0f
-B30_060b:	.db $e7
-B30_060c:		sec				; 38 
-B30_060d:		rol $7e			; 26 7e
-B30_060f:		sei				; 78 
-B30_0610:	.db $1c
-B30_0611:		sei				; 78 
-B30_0612:	.db $3c
-B30_0613:		adc ($3c, x)	; 61 3c
-B30_0615:		sei				; 78 
-B30_0616:	.db $3c
-B30_0617:		inc $38			; e6 38
-B30_0619:		stx $e1e3		; 8e e3 e1
-B30_061c:		sei				; 78 
-B30_061d:		cpx $31			; e4 31
-B30_061f:		rol $1c63, x	; 3e 63 1c
-B30_0622:		dec $f1			; c6 f1
-B30_0624:		sei				; 78 
-B30_0625:		ldy $3c38, x	; bc 38 3c
-B30_0628:		asl $0f0f		; 0e 0f 0f
-B30_062b:	.db $c7
-B30_062c:		sbc ($01), y	; f1 01
-B30_062e:	.db $0f
-B30_062f:	.db $9f
-B30_0630:		adc ($8e, x)	; 61 8e
-B30_0632:		and $787c, x	; 3d 7c 78
-B30_0635:		clc				; 18 
-B30_0636:		dec $21e1		; ce e1 21
-B30_0639:	.db $1f
-B30_063a:		dec $7c31		; ce 31 7c
-B30_063d:	.db $3c
-B30_063e:		ldx $18e0, y	; be e0 18
-B30_0641:	.db $7c
-B30_0642:		sed				; f8 
-B30_0643:		cpx #$8d		; e0 8d
-B30_0645:	.db $c3
-B30_0646:		sta ($0f, x)	; 81 0f
-B30_0648:		rol $0f1e, x	; 3e 1e 0f
-B30_064b:	.db $1c
-B30_064c:	.db $e7
-B30_064d:		adc ($8c), y	; 71 8c
-B30_064f:	.db $0f
-B30_0650:	.db $87
-B30_0651:	.db $87
-B30_0652:	.db $8f
-B30_0653:	.db $83
-B30_0654:	.db $c3
-B30_0655:	.db $a3
-B30_0656:	.db $c7
-B30_0657:	.db $c3
-B30_0658:		sbc $71			; e5 71
-B30_065a:		sec				; 38 
-B30_065b:		sed				; f8 
-B30_065c:		sec				; 38 
-B30_065d:	.db $3c
-B30_065e:		dec $1de0		; ce e0 1d
-B30_0661:		sei				; 78 
-B30_0662:		sei				; 78 
-B30_0663:		sei				; 78 
-B30_0664:		sei				; 78 
-B30_0665:	.db $1c
-B30_0666:		sei				; 78 
-B30_0667:		sed				; f8 
-B30_0668:		cpx #$71		; e0 71
-B30_066a:	.db $0f
-B30_066b:	.db $67
-B30_066c:	.db $1c
-B30_066d:		rol $c386, x	; 3e 86 c3
-B30_0670:		and $9c7c, y	; 39 7c 9c
-B30_0673:	.db $c3
-B30_0674:		ora $0f0e, x	; 1d 0e 0f
-B30_0677:	.db $c7
-B30_0678:	.db $83
-B30_0679:	.db $c7
-B30_067a:	.db $e3
-B30_067b:		sec				; 38 
-B30_067c:		tya				; 98 
-B30_067d:	.db $0f
-B30_067e:	.db $47
-B30_067f:		inc $ab55, x	; fe 55 ab
-B30_0682:		cmp $aa, x		; d5 aa
-B30_0684:	.db $5a
-B30_0685:	.db $4b
-B30_0686:		sta $4a, x		; 95 4a
-B30_0688:		eor $a9, x		; 55 a9
-B30_068a:	.db $54
-B30_068b:		cmp $d6, x		; d5 d6
-B30_068d:		tax				; aa 
-B30_068e:		ldy $35			; a4 35
-B30_0690:	.db $4b
-B30_0691:	.db $89
-B30_0692:	.db $52
-B30_0693:		eor $d9, x		; 55 d9
-B30_0695:	.db $5b
-B30_0696:	.db $5f
-B30_0697:	.db $57
-B30_0698:		adc $2a, x		; 75 2a
-B30_069a:		eor #$42		; 49 42
-B30_069c:	.db $92
-B30_069d:	.db $22
-B30_069e:		eor $76d5		; 4d d5 76
-B30_06a1:	.db $db
-B30_06a2:	.db $d7
-B30_06a3:		rol a			; 2a
-B30_06a4:		lda $24			; a5 24
-B30_06a6:	.db $92
-B30_06a7:		plp				; 28 
-B30_06a8:	.db $52
-B30_06a9:		lda #$7f		; a9 7f
-B30_06ab:	.db $df
-B30_06ac:	.db $db
-B30_06ad:		adc $894f		; 6d 4f 89
-B30_06b0:		jsr $8224		; 20 24 82
-B30_06b3:		dey				; 88 
-B30_06b4:	.db $d2
-B30_06b5:	.db $7b
-B30_06b6:	.db $77
-B30_06b7:		lda $54aa		; ad aa 54
-B30_06ba:		txa				; 8a 
-B30_06bb:		eor ($48, x)	; 41 48
-B30_06bd:	.db $ff
-B30_06be:	.db $7f
-B30_06bf:	.db $57
-B30_06c0:	.db $7b
-B30_06c1:	.db $5f
-B30_06c2:	.db $12
-B30_06c3:	.db $02
-B30_06c4:	.db $92
-B30_06c5:	.db $22
-B30_06c6:	.db $02
-B30_06c7:		ror a			; 6a
-B30_06c8:	.db $7b
-B30_06c9:	.db $57
-B30_06ca:		tax				; aa 
-B30_06cb:		ror a			; 6a
-B30_06cc:		lda $48			; a5 48
-B30_06ce:		;removed
-	.db $10 $ff
-
-B30_06d0:	.db $ff
-B30_06d1:	.db $77
-B30_06d2:	.db $73
-B30_06d3:	.db $7f
-B30_06d4:		eor $20			; 45 20
-B30_06d6:		rti				; 40 
-
-
-B30_06d7:	.db $89
-B30_06d8:		php				; 08 
-B30_06d9:		rol a			; 2a
-B30_06da:		lda $53, x		; b5 53
-B30_06dc:		sta $aa, x		; 95 aa
-B30_06de:		tax				; aa 
-B30_06df:		bit $6a			; 24 6a
-B30_06e1:	.db $ff
-B30_06e2:	.db $ff
-B30_06e3:	.db $bf
-B30_06e4:		dec $57, x		; d6 57
-B30_06e6:	.db $82
-B30_06e7:		.db $00				; 00
-B30_06e8:		plp				; 28 
-B30_06e9:		eor #$88		; 49 88
-B30_06eb:		tay				; a8 
-B30_06ec:		dec $ac, x		; d6 ac
-B30_06ee:		ldy $d2			; a4 d2
-B30_06f0:		sty $ffda		; 8c da ff
-B30_06f3:	.db $ff
-B30_06f4:	.db $bf
-B30_06f5:		dec $b5, x		; d6 b5
-B30_06f7:		php				; 08 
-B30_06f8:		php				; 08 
-B30_06f9:		jsr $8229		; 20 29 82
-B30_06fc:		bcc B30_06d4 ; 90 d6
-
-B30_06fe:		lsr $25, x		; 56 25
-B30_0700:		lda #$a6		; a9 a6
-B30_0702:		cmp $ffff, x	; dd ff ff
-B30_0705:	.db $af
-B30_0706:	.db $da
-B30_0707:		and $22, x		; 35 22
-B30_0709:	.db $80
-B30_070a:		ldy #$a2		; a0 a2
-B30_070c:	.db $80
-B30_070d:		ldy #$5a		; a0 5a
-B30_070f:	.db $a7
-B30_0710:		sty $4a, x		; 94 4a
-B30_0712:	.db $5b
-B30_0713:		sbc $ffff, x	; fd ff ff
-B30_0716:		cmp $8b7a		; cd 7a 8b
-B30_0719:	.db $02
-B30_071a:		ora ($8a, x)	; 01 8a
-B30_071c:	.db $04
-B30_071d:	.db $22
-B30_071e:		dey				; 88 
-B30_071f:		ror $55, x		; 76 55
-B30_0721:	.db $52
-B30_0722:		lsr a			; 4a
-B30_0723:	.db $db
-B30_0724:	.db $ff
-B30_0725:	.db $ff
-B30_0726:	.db $d7
-B30_0727:		ror $3f, x		; 76 3f
-B30_0729:		rol a			; 2a
-B30_072a:		jsr $4948		; 20 48 49
-B30_072d:		jsr $7508		; 20 08 75
-B30_0730:		eor $52, x		; 55 52
-B30_0732:		lsr a			; 4a
-B30_0733:	.db $db
-B30_0734:	.db $ff
-B30_0735:	.db $ff
-B30_0736:	.db $d7
-B30_0737:		ror $3f, x		; 76 3f
-B30_0739:		rol a			; 2a
-B30_073a:		jsr $4948		; 20 48 49
-B30_073d:		jsr $7508		; 20 08 75
-B30_0740:		ora ($3f, x)	; 01 3f
-B30_0742:		php				; 08 
-B30_0743:		beq B30_0784 ; f0 3f
-
-B30_0745:	.db $fe $7f $00
-B30_0748:		stx $f818		; 8e 18 f8
-B30_074b:	.db $1f
-B30_074c:	.db $fe $ff $00
-B30_074f:		php				; 08 
-B30_0750:		.db $00				; 00
-B30_0751:		;removed
-	.db $f0 $3f
-
-B30_0753:	.db $fe $ff $00
-B30_0756:		asl $f000		; 0e 00 f0
-B30_0759:	.db $7f
-B30_075a:	.db $fe $7f $00
-B30_075d:		asl $f800		; 0e 00 f8
-B30_0760:	.db $1f
-B30_0761:	.db $fe $7f $00
-B30_0764:	.db $1f
-B30_0765:		.db $00				; 00
-B30_0766:		sed				; f8 
-B30_0767:	.db $9f
-B30_0768:	.db $ff
-B30_0769:	.db $03
-B30_076a:		.db $00				; 00
-B30_076b:	.db $03
-B30_076c:	.db $80
-B30_076d:	.db $ff
-B30_076e:	.db $ef
-B30_076f:	.db $ff
-B30_0770:	.db $07
-B30_0771:		rts				; 60 
-
-
-B30_0772:		asl $ff80		; 0e 80 ff
-B30_0775:	.db $ff
-B30_0776:	.db $07
-B30_0777:		.db $00				; 00
-B30_0778:		.db $00				; 00
-B30_0779:	.db $80
-B30_077a:	.db $ff
-B30_077b:	.db $cf
-B30_077c:	.db $ff
-B30_077d:	.db $0f
-B30_077e:		cpx #$18		; e0 18
-B30_0780:	.db $80
-B30_0781:	.db $ff
-B30_0782:	.db $ff
-B30_0783:		.db $00				; 00
-B30_0784:	.db $1c
-B30_0785:		.db $00				; 00
-B30_0786:		;removed
-	.db $f0 $1f
-
-B30_0788:		sed				; f8 
-B30_0789:	.db $ff
-B30_078a:	.db $03
-B30_078b:		ror $f000, x	; 7e 00 f0
-B30_078e:	.db $ff
-B30_078f:	.db $03
-B30_0790:		sed				; f8 
-B30_0791:		ora ($c0, x)	; 01 c0
-B30_0793:	.db $7f
-B30_0794:		cpx #$ff		; e0 ff
-B30_0796:	.db $07
-B30_0797:		sed				; f8 
-B30_0798:	.db $07
-B30_0799:		cpx #$7f		; e0 7f
-B30_079b:		.db $00				; 00
-B30_079c:	.db $fc
-B30_079d:		ora ($f0, x)	; 01 f0
-B30_079f:	.db $3f
-B30_07a0:		cpx #$ff		; e0 ff
-B30_07a2:		ora ($fe, x)	; 01 fe
-B30_07a4:	.db $03
-B30_07a5:		inc $8003, x	; fe 03 80
-B30_07a8:	.db $07
-B30_07a9:	.db $80
-B30_07aa:	.db $ff
-B30_07ab:	.db $07
-B30_07ac:	.db $ff
-B30_07ad:	.db $0f
-B30_07ae:		cpy #$3f		; c0 3f
-B30_07b0:	.db $fe $03 $00
-B30_07b3:		.db $00				; 00
-B30_07b4:	.db $80
-B30_07b5:	.db $ff
-B30_07b6:	.db $ff
-B30_07b7:	.db $ff
-B30_07b8:	.db $0f
-B30_07b9:		cpy #$ff		; c0 ff
-B30_07bb:	.db $3f
-B30_07bc:		.db $00				; 00
-B30_07bd:		.db $00				; 00
-B30_07be:		.db $00				; 00
-B30_07bf:		;removed
-	.db $f0 $ff
-
-B30_07c1:	.db $fe $ff $00
-B30_07c4:		cpy $03ff		; cc ff 03
-B30_07c7:		.db $00				; 00
-B30_07c8:		.db $00				; 00
-B30_07c9:		.db $00				; 00
-B30_07ca:	.db $ff
-B30_07cb:	.db $f7
-B30_07cc:	.db $ff
-B30_07cd:	.db $0f
-B30_07ce:		cpx #$e7		; e0 e7
-B30_07d0:	.db $3f
-B30_07d1:		.db $00				; 00
-B30_07d2:		.db $00				; 00
-B30_07d3:		.db $00				; 00
-B30_07d4:		sed				; f8 
-B30_07d5:	.db $ff
-B30_07d6:	.db $ff
-B30_07d7:	.db $7f
-B30_07d8:		.db $00				; 00
-B30_07d9:		rol $07fc, x	; 3e fc 07
-B30_07dc:		.db $00				; 00
-B30_07dd:		.db $00				; 00
-B30_07de:		.db $00				; 00
-B30_07df:	.db $ff
-B30_07e0:	.db $e7
-B30_07e1:	.db $ff
-B30_07e2:	.db $0f
-B30_07e3:		rts				; 60 
-
-
-B30_07e4:	.db $fe $7f $00
-B30_07e7:		.db $00				; 00
-B30_07e8:		.db $00				; 00
-B30_07e9:		;removed
-	.db $f0 $ff
-
-B30_07eb:	.db $fc
-B30_07ec:	.db $ff
-B30_07ed:		ora ($dc, x)	; 01 dc
-B30_07ef:		sbc ($1f), y	; f1 1f
-B30_07f1:		.db $00				; 00
-B30_07f2:		.db $00				; 00
-B30_07f3:		.db $00				; 00
-B30_07f4:	.db $fc
-B30_07f5:	.db $bf
-B30_07f6:	.db $ff
-B30_07f7:	.db $3f
-B30_07f8:	.db $80
-B30_07f9:		adc $0ffc, y	; 79 fc 0f
-B30_07fc:		.db $00				; 00
-B30_07fd:		php				; 08 
-B30_07fe:		.db $00				; 00
-B30_07ff:		.db $fe
 
 .org $900
 
 setBankOfRoomGroupMetaData_todo:
-B30_0900:		ldy wCurrRoomGroup			; a4 32
-B30_0902:		jmp B30_090f		; 4c 0f c9
+	ldy wCurrRoomGroup
+	jmp setBankOfRoomGroupLayoutData_todo@setStandardRoomGroupBanks
 
 
 setBankOfRoomGroupLayoutData_todo:
-B30_0905:		ldy wCurrRoomGroup			; a4 32
-B30_0907:		cpy #$0e		; c0 0e
-B30_0909:		beq B30_093d ; @group0c
+	ldy wCurrRoomGroup
+	cpy #$0e
+	beq @group0e
 
-B30_090b:		cpy #$0d		; c0 0d
-B30_090d:		beq B30_0915 ; @group0d
+	cpy #$0d
+	beq @group0d
 
-B30_090f:		lda data_1e_094b.w, y	; b9 4b c9
-B30_0912:		jmp setAndSaveLowerBank		; 4c e6 e2
+@setStandardRoomGroupBanks:
+	lda @roomGroupMetatileBanks.w, y
+	jmp setAndSaveLowerBank
 
 @group0d:
-B30_0915:		lda wCurrRoomSection			; a5 33
-B30_0917:		beq B30_0931 ; @group0dSection0
+	lda wCurrRoomSection
+	beq @group0dSection0
 
-B30_0919:		cmp #$02		; c9 02
-B30_091b:		beq B30_0927 ; @group0dSection2
+	cmp #$02
+	beq @group0dSection2
 
-B30_091d:		cmp #$03		; c9 03
-B30_091f:		bne B30_090f ; d0 ee
+	cmp #$03
+	bne @setStandardRoomGroupBanks
 
-B30_0921:		lda wCurrRoomIdx			; a5 34
-B30_0923:		bne B30_090f ; d0 ea
+; section 3
+	lda wCurrRoomIdx
+	bne @setStandardRoomGroupBanks
 
-B30_0925:		beq B30_092d ; f0 06
+; group 0d, section 3, room 0 in bank 0e
+	beq +
 
 @group0dSection2:
-B30_0927:		lda wCurrRoomIdx			; a5 34
-B30_0929:		cmp #$02		; c9 02
-B30_092b:		bne B30_090f ; d0 e2
+	lda wCurrRoomIdx
+	cmp #$02
+	bne @setStandardRoomGroupBanks
 
-; group 0d, section 2, room 2 data in bank 5
-B30_092d:		ldy #$05		; a0 05
-B30_092f:		bne B30_090f ; d0 de
+; group 0d, section 2, room 2 data in bank 0e
++	ldy #$05
+	bne @setStandardRoomGroupBanks
 
 @group0dSection0:
-B30_0931:		lda wCurrRoomIdx			; a5 34
-B30_0933:		beq B30_0939 ; f0 04
+	lda wCurrRoomIdx
+	beq +
 
-B30_0935:		cmp #$01		; c9 01
-B30_0937:		bne B30_090f ; d0 d6
+	cmp #$01
+	bne @setStandardRoomGroupBanks
 
-; group 0d, section 0, room 0/1 data in bank 2
-B30_0939:		ldy #$02		; a0 02
-B30_093b:		bne B30_090f ; d0 d2
+; group 0d, section 0, room 0/1 data in bank 0x10
++	ldy #$02
+	bne @setStandardRoomGroupBanks
 
-@group0c:
-B30_093d:		lda wCurrRoomSection			; a5 33
-B30_093f:		bne B30_090f ; d0 ce
+@group0e:
+	lda wCurrRoomSection
+	bne @setStandardRoomGroupBanks
 
-B30_0941:		lda wCurrRoomIdx			; a5 34
-B30_0943:		cmp #$01		; c9 01
-B30_0945:		bne B30_090f ; d0 c8
+; section 0
+	lda wCurrRoomIdx
+	cmp #$01
+	bne @setStandardRoomGroupBanks
 
-; group 0c, section 0, room 1 data in bank 1
-B30_0947:		ldy #$01		; a0 01
-B30_0949:		bne B30_090f ; d0 c4
+; group 0e, section 0, room 1 data in bank 1
+	ldy #$01
+	bne @setStandardRoomGroupBanks
 
-data_1e_094b:
-B30_094b:		.db $90 $90
-
-B30_094d:		.db $90 $90
-
-B30_094f:		.db $90 $8e
-
-B30_0951:		stx $8e8e		; 8e 8e 8e
-B30_0954:		sty $8e8c		; 8c 8c 8e
-B30_0957:		sty $8c8c		; 8c 8c 8c
+@roomGroupMetatileBanks:
+	.db $90 $90 $90 $90 $90
+	.db $8e $8e $8e $8e $8c
+	.db $8c $8e $8c $8c $8c
 
 
+func_1e_095a:
 B30_095a:		lda #$00		; a9 00
 B30_095c:		sta $17			; 85 17
 B30_095e:		lda $68			; a5 68
@@ -1683,7 +215,7 @@ B30_0a39:		.db $00				; 00
 B30_0a3a:	.db $02
 B30_0a3b:		ora ($fe, x)	; 01 fe
 B30_0a3d:		.db $00				; 00
-B30_0a3e:		jsr $c95a		; 20 5a c9
+B30_0a3e:		jsr func_1e_095a		; 20 5a c9
 B30_0a41:		lda $56			; a5 56
 B30_0a43:		sta $08			; 85 08
 B30_0a45:		ldy $65			; a4 65
@@ -2499,10 +1031,10 @@ B30_0f7b:		rol $03			; 26 03
 B30_0f7d:		asl a			; 0a
 B30_0f7e:		rol $03			; 26 03
 B30_0f80:		clc				; 18 
-B30_0f81:		adc $5d			; 65 5d
+B30_0f81:		adc wCurrRoomGroupMetaTileTiles			; 65 5d
 B30_0f83:		sta $02			; 85 02
 B30_0f85:		lda $03			; a5 03
-B30_0f87:		adc $5e			; 65 5e
+B30_0f87:		adc wCurrRoomGroupMetaTileTiles+1			; 65 5e
 B30_0f89:		sta $03			; 85 03
 B30_0f8b:		rts				; 60 
 
@@ -2643,9 +1175,9 @@ B30_106e:		lda wCurrRoomGroup			; a5 32
 B30_1070:		asl a			; 0a
 B30_1071:		sta $0c			; 85 0c
 B30_1073:		tay				; a8 
-B30_1074:		lda data_1e_162e.w, y	; b9 2e d6
+B30_1074:		lda roomMetadata.w, y	; b9 2e d6
 B30_1077:		sta $08			; 85 08
-B30_1079:		lda data_1e_162e.w+1, y	; b9 2f d6
+B30_1079:		lda roomMetadata.w+1, y	; b9 2f d6
 B30_107c:		sta $09			; 85 09
 
 B30_107e:		lda wCurrRoomSection			; a5 33
@@ -2677,13 +1209,13 @@ B30_10a7:		beq B30_10ea ; f0 41
 ; group * 2
 B30_10a9:		ldy $0c			; a4 0c
 B30_10ab:		lda roomGroupTileAddresses.w, y	; b9 f2 d5
-B30_10ae:		sta $5d			; 85 5d
+B30_10ae:		sta wCurrRoomGroupMetaTileTiles			; 85 5d
 B30_10b0:		lda roomGroupTileAddresses.w+1, y	; b9 f3 d5
-B30_10b3:		sta $5e			; 85 5e
+B30_10b3:		sta wCurrRoomGroupMetaTileTiles+1			; 85 5e
 
-B30_10b5:		lda data_1e_1610.w, y	; b9 10 d6
+B30_10b5:		lda roomGroupMetatilePalettes.w, y	; b9 10 d6
 B30_10b8:		sta wCurrRoomGroupMetaTilePalettes			; 85 5f
-B30_10ba:		lda data_1e_1610.w+1, y	; b9 11 d6
+B30_10ba:		lda roomGroupMetatilePalettes.w+1, y	; b9 11 d6
 B30_10bd:		sta wCurrRoomGroupMetaTilePalettes+1			; 85 60
 B30_10bf:		rts				; 60 
 
@@ -3128,6 +1660,7 @@ B30_138c:		jsr $d01d		; 20 1d d0
 B30_138f:		jmp $d330		; 4c 30 d3
 
 
+inGameSubstate09:
 B30_1392:		lda $64			; a5 64
 B30_1394:		cmp #$08		; c9 08
 B30_1396:		beq B30_13a5 ; f0 0d
@@ -3139,9 +1672,7 @@ B30_139f:		beq B30_13a2 ; f0 01
 
 B30_13a1:		rts				; 60 
 
-
 B30_13a2:		jmp $d57e		; 4c 7e d5
-
 
 B30_13a5:		lda #$00		; a9 00
 B30_13a7:		sta $1c			; 85 1c
@@ -3486,7 +2017,7 @@ B30_1587:		lda #$20		; a9 20
 B30_1589:		sta $62			; 85 62
 B30_158b:		lda #$80		; a9 80
 B30_158d:		sta $61			; 85 61
-B30_158f:		jsr $e8b5		; 20 b5 e8
+B30_158f:		jsr func_1f_08b5		; 20 b5 e8
 B30_1592:		ldy #$40		; a0 40
 B30_1594:		lda #$00		; a9 00
 B30_1596:		sta $0300, x	; 9d 00 03
@@ -3494,12 +2025,12 @@ B30_1599:		inx				; e8
 B30_159a:		dey				; 88 
 B30_159b:		bne B30_1596 ; d0 f9
 
-B30_159d:		jsr $e8de		; 20 de e8
+B30_159d:		jsr setVramQueueNextFillIdxAndTerminate		; 20 de e8
 B30_15a0:		lda #$23		; a9 23
 B30_15a2:		sta $62			; 85 62
 B30_15a4:		lda #$c8		; a9 c8
 B30_15a6:		sta $61			; 85 61
-B30_15a8:		jsr $e8b5		; 20 b5 e8
+B30_15a8:		jsr func_1f_08b5		; 20 b5 e8
 B30_15ab:		ldy #$08		; a0 08
 B30_15ad:		lda #$f0		; a9 f0
 B30_15af:		sta $0300, x	; 9d 00 03
@@ -3507,7 +2038,7 @@ B30_15b2:		inx				; e8
 B30_15b3:		dey				; 88 
 B30_15b4:		bne B30_15af ; d0 f9
 
-B30_15b6:		jmp $e8de		; 4c de e8
+B30_15b6:		jmp setVramQueueNextFillIdxAndTerminate		; 4c de e8
 
 
 B30_15b9:		lda #$03		; a9 03
@@ -3529,319 +2060,75 @@ B30_15d1:		jmp func_1f_05bf		; 4c bf e5
 roomGroupMetaTileAddresses:
 ; bank 10
 	.dw roomGroupMetadata0
-	.dw $8de2
-	.dw $99af
-	.dw $a682
-	.dw $b311
+	.dw roomGroupMetadata1
+	.dw roomGroupMetadata2
+	.dw roomGroupMetadata3
+	.dw roomGroupMetadata4
 
 ; bank 0e
-	.dw $8001
-	.dw $89ff
-	.dw $91e6
-	.dw $9e55
+	.dw roomGroupMetadata5
+	.dw roomGroupMetadata6
+	.dw roomGroupMetadata7
+	.dw roomGroupMetadata8
 
 ; bank 0c
-	.dw $8001
-	.dw $8810
+	.dw roomGroupMetadata9
+	.dw roomGroupMetadataA
 
 ; bank 0e
-	.dw $aa85
+	.dw roomGroupMetadataB
 	
 ; bank 0c
-	.dw $9fcb
-	.dw $a94b
-	.dw $b2ea
+	.dw roomGroupMetadataC
+	.dw roomGroupMetadataD
+	.dw roomGroupMetadataE
 
 
 roomGroupTileAddresses:
-	.dw $8441
-B30_15f4:		asl a			; 0a
-B30_15f5:		sty $10, x		; 94 10
-B30_15f7:		lda ($6d, x)	; a1 6d
-B30_15f9:		ldy $b727		; ac 27 b7
-B30_15fc:		eor #$84		; 49 84
-B30_15fe:		sty $8d			; 84 8d
-B30_1600:		sbc $97, x		; f5 97
-B30_1602:		and $a4			; 25 a4
-B30_1604:		cpy #$82		; c0 82
-B30_1606:	.db $cb
-B30_1607:		stx $ae61		; 8e 61 ae
-B30_160a:	.db $eb
-B30_160b:		ldx #$8a		; a2 8a
-B30_160d:		ldy $b5b5		; ac b5 b5
+	.dw roomGroupTiles0
+	.dw roomGroupTiles1
+	.dw roomGroupTiles2
+	.dw roomGroupTiles3
+	.dw roomGroupTiles4
+
+	.dw roomGroupTiles5
+	.dw roomGroupTiles6
+	.dw roomGroupTiles7
+	.dw roomGroupTiles8
+
+	.dw roomGroupTiles9
+	.dw roomGroupTilesA
+
+	.dw roomGroupTilesB
+
+	.dw roomGroupTilesC
+	.dw roomGroupTilesD
+	.dw roomGroupTilesE
 
 
-data_1e_1610:
-	.dw $8d51
-	.dw $995a
-	.dw $a630
-	.dw $b2ad
-	.dw $bba7
-	.dw $89a9
-	.dw $91a4
-	.dw $9df5
-	.dw $aa25
-	.dw $87c0
-	.dw $9ecb
-	.dw $b431
-	.dw $a8eb
-	.dw $b28a
-	.dw $bd75
+roomGroupMetatilePalettes:
+	.dw roomGroupPalettes0
+	.dw roomGroupPalettes1
+	.dw roomGroupPalettes2
+	.dw roomGroupPalettes3
+	.dw roomGroupPalettes4
+
+	.dw roomGroupPalettes5
+	.dw roomGroupPalettes6
+	.dw roomGroupPalettes7
+	.dw roomGroupPalettes8
+
+	.dw roomGroupPalettes9
+	.dw roomGroupPalettesA
+
+	.dw roomGroupPalettesB
+
+	.dw roomGroupPalettesC
+	.dw roomGroupPalettesD
+	.dw roomGroupPalettesE
 
 
-data_1e_162e:
-	.dw @group0
-	.dw @group1
-	.dw @group2
-	.dw @group3
-	.dw @group4
-	.dw @group5
-	.dw @group6
-	.dw @group7
-	.dw @group8
-	.dw @group9
-	.dw @groupA
-	.dw @groupB
-	.dw @groupC
-	.dw @groupD
-	.dw @groupE
-
-@group0:
-	.dw data_1e_16cc
-	.dw data_1e_16cd
-	.dw $d6d2
-	.dw $d6d7
-
-@group1:
-	.dw $d6dc
-	.dw $d6df
-	.dw $d6e2
-	.dw $d6e5
-	.dw $d6e8
-	.dw $d6eb
-
-@group2:
-	.dw $d6ee
-	.dw $d6f0
-	.dw $d6f1
-	.dw $d6f3
-	.dw $d6f6
-
-@group3:
-	.dw $d6f8
-	.dw $d6fb
-	.dw $d6fd
-	.dw $d6ff
-	.dw $d701
-
-@group4:
-	.dw $d704
-	.dw $d707
-	.dw $d70a
-
-@group5:
-	.dw $d70d
-	.dw $d70e
-	.dw $d70f
-	.dw $d711
-
-@group6:
-	.dw $d713
-	.dw $d715
-	.dw $d716
-
-@group7:
-	.dw $d719
-	.dw $d71b
-	.dw $d71c
-	.dw $d71d
-	.dw $d71e
-	.dw $d720
-	.dw $d722
-
-@group8:
-	.dw $d723
-	.dw $d725
-	.dw $d726
-	.dw $d728
-	.dw $d729
-
-@group9:
-	.dw $d72a
-	.dw $d72c
-
-@groupA:
-	.dw $d72f
-	.dw $d731
-	.dw $d732
-	.dw $d733
-	.dw $d735
-	.dw $d738
-	.dw $d73a
-
-@groupB:
-	.dw $d73d
-	.dw $d73f
-	.dw $d741
-
-@groupC:
-	.dw $d744
-	.dw $d746
-	.dw $d747
-
-@groupD:
-	.dw $d748
-	.dw $d74b
-	.dw $d74e
-	.dw $d751
-
-@groupE:
-	.dw $d753
-	.dw $d756
-	.dw $d758
-
-
-data_1e_16cc:
-B30_16cc:		.db $00				; 00
-
-data_1e_16cd:
-B30_16cd:		.db $00				; 00
-B30_16ce:	.db $80
-B30_16cf:		.db $00				; 00
-B30_16d0:		.db $00				; 00
-B30_16d1:		.db $00				; 00
-B30_16d2:		.db $00				; 00
-B30_16d3:		.db $00				; 00
-B30_16d4:		.db $00				; 00
-B30_16d5:		.db $00				; 00
-B30_16d6:		.db $00				; 00
-B30_16d7:		.db $00				; 00
-B30_16d8:		.db $00				; 00
-B30_16d9:		.db $00				; 00
-B30_16da:		.db $00				; 00
-B30_16db:		.db $00				; 00
-B30_16dc:	.db $80
-B30_16dd:		.db $00				; 00
-B30_16de:		.db $00				; 00
-B30_16df:		.db $00				; 00
-B30_16e0:	.db $80
-B30_16e1:		.db $00				; 00
-B30_16e2:		.db $00				; 00
-B30_16e3:	.db $80
-B30_16e4:		.db $00				; 00
-B30_16e5:		.db $00				; 00
-B30_16e6:		sta ($00, x)	; 81 00
-B30_16e8:		.db $00				; 00
-B30_16e9:		sta ($00, x)	; 81 00
-B30_16eb:		sta ($00, x)	; 81 00
-B30_16ed:		.db $00				; 00
-B30_16ee:		.db $00				; 00
-B30_16ef:		.db $00				; 00
-B30_16f0:		.db $00				; 00
-B30_16f1:		.db $00				; 00
-B30_16f2:		.db $00				; 00
-B30_16f3:		.db $00				; 00
-B30_16f4:		.db $00				; 00
-B30_16f5:		.db $00				; 00
-B30_16f6:		.db $00				; 00
-B30_16f7:		.db $00				; 00
-B30_16f8:		.db $00				; 00
-B30_16f9:		.db $00				; 00
-B30_16fa:		.db $00				; 00
-B30_16fb:		.db $00				; 00
-B30_16fc:		.db $00				; 00
-B30_16fd:		.db $00				; 00
-B30_16fe:		.db $00				; 00
-B30_16ff:		.db $00				; 00
-B30_1700:		.db $00				; 00
-B30_1701:		.db $00				; 00
-B30_1702:		.db $00				; 00
-B30_1703:		.db $00				; 00
-B30_1704:		.db $00				; 00
-B30_1705:	.db $80
-B30_1706:		.db $00				; 00
-B30_1707:		.db $00				; 00
-B30_1708:		sty $00			; 84 00
-B30_170a:		.db $00				; 00
-B30_170b:	.db $80
-B30_170c:		.db $00				; 00
-B30_170d:		.db $00				; 00
-B30_170e:		.db $00				; 00
-B30_170f:		.db $00				; 00
-B30_1710:		.db $00				; 00
-B30_1711:		.db $00				; 00
-B30_1712:		.db $00				; 00
-B30_1713:		.db $00				; 00
-B30_1714:		.db $00				; 00
-B30_1715:		.db $00				; 00
-B30_1716:		.db $00				; 00
-B30_1717:		.db $00				; 00
-B30_1718:		.db $00				; 00
-B30_1719:		.db $00				; 00
-B30_171a:		.db $00				; 00
-B30_171b:		.db $00				; 00
-B30_171c:		.db $00				; 00
-B30_171d:		.db $00				; 00
-B30_171e:		.db $00				; 00
-B30_171f:		.db $00				; 00
-B30_1720:		.db $00				; 00
-B30_1721:		.db $00				; 00
-B30_1722:		.db $00				; 00
-B30_1723:		.db $00				; 00
-B30_1724:		.db $00				; 00
-B30_1725:		.db $00				; 00
-B30_1726:		.db $00				; 00
-B30_1727:		.db $00				; 00
-B30_1728:		.db $00				; 00
-B30_1729:		.db $00				; 00
-B30_172a:		.db $00				; 00
-B30_172b:		.db $00				; 00
-B30_172c:		.db $00				; 00
-B30_172d:		.db $00				; 00
-B30_172e:		.db $00				; 00
-B30_172f:		.db $00				; 00
-B30_1730:		.db $00				; 00
-B30_1731:		.db $00				; 00
-B30_1732:		.db $00				; 00
-B30_1733:		.db $00				; 00
-B30_1734:		.db $00				; 00
-B30_1735:	.db $80
-B30_1736:		.db $00				; 00
-B30_1737:		.db $00				; 00
-B30_1738:		.db $00				; 00
-B30_1739:		.db $00				; 00
-B30_173a:		.db $00				; 00
-B30_173b:	.db $82
-B30_173c:		.db $00				; 00
-B30_173d:		.db $00				; 00
-B30_173e:		.db $00				; 00
-B30_173f:		.db $00				; 00
-B30_1740:		.db $00				; 00
-B30_1741:		.db $00				; 00
-B30_1742:	.db $83
-B30_1743:		.db $00				; 00
-B30_1744:		.db $00				; 00
-B30_1745:		.db $00				; 00
-B30_1746:		.db $00				; 00
-B30_1747:		.db $00				; 00
-B30_1748:		.db $00				; 00
-B30_1749:		.db $00				; 00
-B30_174a:		.db $00				; 00
-B30_174b:		.db $00				; 00
-B30_174c:	.db $80
-B30_174d:		.db $00				; 00
-B30_174e:		.db $00				; 00
-B30_174f:		sty $00			; 84 00
-B30_1751:		.db $00				; 00
-B30_1752:		.db $00				; 00
-B30_1753:		.db $00				; 00
-B30_1754:	.db $83
-B30_1755:		.db $00				; 00
-B30_1756:		.db $00				; 00
-B30_1757:		.db $00				; 00
-B30_1758:		.db $00				; 00
-B30_1759:		.db $00				; 00
-
+.include "data/roomMetadataBits.s"
 
 
 data_1e_175a:
@@ -4643,3 +2930,144 @@ B30_1c12:		sbc $ee, x		; f5 ee
 B30_1c14:		sbc ($db), y	; f1 db
 B30_1c16:	.db $80
 B30_1c17:		.db $81
+
+
+.ifdef IMPROVED_CONTROLS_TEST
+
+; unused?
+A29_1f39:		lda #$01
+	sta $04f2
+
+func1:
+
+A29_1f3e:		lda #>(B28_1770-1)		; a9 97
+A29_1f40:		pha				; 48 
+A29_1f41:		lda #<(B28_1770-1)		; a9 76
+A29_1f43:		pha				; 48 
+
+A29_1f44:		jsr B28_175e		; 20 65 97
+A29_1f47:		lda $28			; a5 2a
+A29_1f49:		and #$03		; 29 03
+A29_1f4b:		beq A29_1fc0 ; f0 73
+
+A29_1f4d:		lsr a			; 4a
+A29_1f4e:		bcc A29_1f5c ; 90 0c
+
+A29_1f50:		ldy #$00		; a0 00
+A29_1f52:		ldx #$01		; a2 01
+A29_1f54:		stx $04f2		; 8e f2 04
+A29_1f57:		bpl A29_1f99 ; 10 40
+
+A29_1f59:		lsr a			; 4a
+A29_1f5a:		bcc A29_1faa ; 90 4e
+
+A29_1f5c:		ldy #$01		; a0 01
+A29_1f5e:		ldx #$ff		; a2 ff
+A29_1f60:		stx $04f2		; 8e f2 04
+A29_1f63:		jmp A29_1f99		; 4c 99 bf
+
+
+func2:
+
+A29_1f66:		lda $4a			; a5 4a
+A29_1f68:		beq A29_1f93 ; f0 29
+
+A29_1f6a:		lda $0520		; ad 20 05
+A29_1f6d:		bmi A29_1f88 ; 30 19
+
+A29_1f6f:		lda #$08		; a9 08
+A29_1f71:		sta $0565		; 8d 65 05
+A29_1f74:		lda $49			; a5 49
+A29_1f76:		beq A29_1f8b ; f0 13
+
+A29_1f78:		lda $48			; a5 48
+A29_1f7a:		cmp #$02		; c9 02
+A29_1f7c:		bne A29_1f8b ; d0 0d
+
+A29_1f7e:		lda #$38		; a9 38
+A29_1f80:		sta $05d8		; 8d d8 05
+A29_1f83:		lda #$16		; a9 16
+A29_1f85:		sta $0400		; 8d 00 04
+A29_1f88:		jmp A29_1f93		; 4c 93 bf
+
+
+A29_1f8b:		lda #$1c		; a9 1c
+A29_1f8d:		sta $05d8		; 8d d8 05
+A29_1f90:		lda $a6a2, y	; b9 89 a6
+A29_1f93:		lda #$08		; a9 08
+A29_1f95:		ldy $04f2		; ac f2 04
+A29_1f98:		rts				; 60 
+
+
+A29_1f99:		lda $0565		; ad 65 05
+A29_1f9c:		cmp #$08		; c9 08
+A29_1f9e:		bne A29_1faa ; d0 0a
+
+A29_1fa0:		lda $0400		; ad 00 04
+A29_1fa3:		cmp #$10		; c9 10
+A29_1fa5:		beq A29_1faa ; f0 03
+
+A29_1fa7:		sty $04a8		; 8c a8 04
+
+A29_1faa:		lda $28			; a5 2a
+A29_1fac:		and #$80		; 29 80
+A29_1fae:		bne A29_1fbf ; d0 0f
+
+A29_1fb0:		lda $0520		; ad 20 05
+A29_1fb3:		bpl A29_1fbf ; 10 0a
+
+A29_1fb5:		lda #$1c		; a9 1c
+A29_1fb7:		sta $05d8		; 8d d8 05
+A29_1fba:		lda #$00		; a9 00
+A29_1fbc:		sta $0520		; 8d 20 05
+A29_1fbf:		rts				; 60 
+
+
+A29_1fc0:		sta $04f2		; 8d f2 04
+A29_1fc3:		jmp A29_1faa		; 4c aa bf
+
+
+func3:
+
+A29_1fc6:		jsr A29_1f44		; 20 44 bf
+A29_1fc9:		jmp B28_179c		; 4c a3 97
+
+
+func4:
+
+A29_1fcc:		lda $26			; a5 28
+A29_1fce:		and #$80		; 29 80
+A29_1fd0:		beq A29_1fda ; f0 08
+
+A29_1fd2:		lda #$06		; a9 06
+A29_1fd4:		sta $0565		; 8d 65 05
+A29_1fd7:		pla				; 68 
+A29_1fd8:		pla				; 68 
+A29_1fd9:		rts				; 60 
+
+
+A29_1fda:		lda $0565		; ad 65 05
+A29_1fdd:		cmp #$14		; c9 14
+A29_1fdf:		beq A29_1fe6 ; f0 05
+
+A29_1fe1:		lda $28			; a5 2a
+A29_1fe3:		and #$40		; 29 40
+A29_1fe5:		rts				; 60 
+
+
+A29_1fe6:		jmp B28_1a2d		; 4c 43 9a
+
+func5:
+A29_1fe9:		lda $28			; a5 2a
+A29_1feb:		lsr a			; 4a
+A29_1fec:		bcc A29_1ff3 ; 90 05
+
+A29_1fee:		ldx #$00		; a2 00
+A29_1ff0:		stx $04a8		; 8e a8 04
+A29_1ff3:		lsr a			; 4a
+A29_1ff4:		bcc A29_1ffb ; 90 05
+
+A29_1ff6:		ldx #$01		; a2 01
+A29_1ff8:		stx $04a8		; 8e a8 04
+A29_1ffb:		jmp $8421		; 4c 0c 84
+.endif

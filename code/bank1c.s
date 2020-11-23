@@ -1,4 +1,5 @@
-B28_0000:	.db $9c
+	.db $9c
+
 B28_0001:		lda $95			; a5 95
 B28_0003:		asl a			; 0a
 B28_0004:		asl a			; 0a
@@ -506,8 +507,15 @@ B28_0349:		sta $0565		; 8d 65 05
 B28_034c:		rts				; 60 
 
 
+.ifdef IMPROVED_CONTROLS_TEST
+B28_034d:
+	nop
+	nop
+	jsr func2
+.else
 B28_034d:		lda #$08		; a9 08
 B28_034f:		ldy $04f2		; ac f2 04
+.endif
 B28_0352:		bpl B28_0356 ; 10 02
 
 B28_0354:		lda #$f8		; a9 f8
@@ -1615,6 +1623,9 @@ B28_0966:	.db $47
 B28_0967:		eor $5c54		; 4d 54 5c
 B28_096a:	.db $64
 B28_096b:		adc $8076		; 6d 76 80
+
+
+func_1c_096e:
 B28_096e:		lda $35			; a5 35
 B28_0970:		and #$0f		; 29 0f
 B28_0972:		sta $01			; 85 01
@@ -1844,16 +1855,16 @@ B28_0ad9:		rts				; 60
 B28_0ada:		.db $00				; 00
 B28_0adb:	.db $02
 B28_0adc:	.db $04
-B28_0add:		asl $a5			; 06 a5
-B28_0adf:	.db $bf
+B28_0add:		.db $06
+
+
+B28_0ade:		lda $bf
 B28_0ae0:		and #$7f		; 29 7f
 B28_0ae2:		jsr jumpTablePreserveY		; 20 6d e8
-B28_0ae5:	.db $eb
-B28_0ae6:		txa				; 8a 
-B28_0ae7:	.db $ff
-B28_0ae8:		txa				; 8a 
-B28_0ae9:		pha				; 48 
-B28_0aea:	.db $8b
+	.dw $8aeb
+	.dw $8aff
+	.dw $8b48
+
 B28_0aeb:		ldy #$00		; a0 00
 B28_0aed:		sty $0593		; 8c 93 05
 B28_0af0:		sty $0413		; 8c 13 04
@@ -3229,7 +3240,11 @@ B28_137e:		jsr jumpTableNoPreserveY		; 20 86 e8
 	.dw $9538
 	.dw $9660
 	.dw $961d
+.ifdef IMPROVED_CONTROLS_TEST
+	.dw func1
+.else
 	.dw $9770
+.endif
 	.dw $9919
 	.dw $9770
 	.dw $9953
@@ -3336,7 +3351,11 @@ B28_1438:		sec				; 38
 B28_1439:		rts				; 60 
 
 
+.ifdef IMPROVED_CONTROLS_TEST
+	jsr func3
+.else
 B28_143a:		jsr $979c		; 20 9c 97
+.endif
 B28_143d:		lda $0565		; ad 65 05
 B28_1440:		cmp #$26		; c9 26
 B28_1442:		beq B28_1459 ; f0 15
@@ -3439,7 +3458,11 @@ B28_14d0:		sta $0400		; 8d 00 04
 B28_14d3:		rts				; 60 
 
 
+.ifdef IMPROVED_CONTROLS_TEST
+	jsr func3
+.else
 B28_14d4:		jsr $979c		; 20 9c 97
+.endif
 B28_14d7:		lda $0565		; ad 65 05
 B28_14da:		cmp #$26		; c9 26
 B28_14dc:		beq B28_14f3 ; f0 15
@@ -3840,27 +3863,55 @@ B28_1742:		bne B28_1748 ; d0 04
 
 B28_1744:		lda #$08		; a9 08
 B28_1746:		sta $af			; 85 af
+.ifdef IMPROVED_CONTROLS_TEST
+B28_1748:
+	lda #$08
+.else
 B28_1748:		lda #$0c		; a9 0c
+.endif
 B28_174a:		sta $0565		; 8d 65 05
 B28_174d:		ldx #$00		; a2 00
+.ifdef IMPROVED_CONTROLS_TEST
+	lda #$1c
+.else
 B28_174f:		lda #$0c		; a9 0c
+.endif
 B28_1751:		sta $05d8, x	; 9d d8 05
+.ifdef IMPROVED_CONTROLS_TEST
+	lda #$00
+.else
 B28_1754:		lda #$01		; a9 01
+.endif
 B28_1756:		sta $05c1, x	; 9d c1 05
+
+.ifdef IMPROVED_CONTROLS_TEST
+	lda #$16
+	sta $0400
+B28_175e:
+	lda #$00
+	sta $0509
+	.rept 6
+	nop
+	.endr
+.else
 B28_1759:		lda $04a8, x	; bd a8 04
 B28_175c:		bne B28_176a ; d0 0c
-
 B28_175e:		lda #$00		; a9 00
 B28_1760:		ldy #$20		; a0 20
 B28_1762:		sta $04f2, x	; 9d f2 04
 B28_1765:		tya				; 98 
 B28_1766:		sta $0509, x	; 9d 09 05
+.endif
 B28_1769:		rts				; 60 
 
 
 B28_176a:		lda #$ff		; a9 ff
 B28_176c:		ldy #$e0		; a0 e0
+.ifdef IMPROVED_CONTROLS_TEST
+	bne -$0e
+.else
 B28_176e:		bne B28_1762 ; d0 f2
+.endif
 
 B28_1770:		lda $26			; a5 26
 B28_1772:		and #$40		; 29 40
@@ -4120,7 +4171,11 @@ B28_1913:		jsr $94aa		; 20 aa 94
 B28_1916:		jmp $9936		; 4c 36 99
 
 
+.ifdef IMPROVED_CONTROLS_TEST
+	jsr func5
+.else
 B28_1919:		jsr $8421		; 20 21 84
+.endif
 B28_191c:		bcs B28_1921 ; b0 03
 
 B28_191e:		jmp $973a		; 4c 3a 97
@@ -4200,8 +4255,13 @@ B28_1989:		lda #$24		; a9 24
 B28_198b:		jmp $94aa		; 4c aa 94
 
 
+.ifdef IMPROVED_CONTROLS_TEST
+	jsr func4
+	nop
+.else
 B28_198e:		lda $28			; a5 28
 B28_1990:		and #$40		; 29 40
+.endif
 B28_1992:		bne B28_1972 ; d0 de
 
 B28_1994:		lda $28			; a5 28
@@ -4403,7 +4463,11 @@ B28_1a91:		sec				; 38
 B28_1a92:		rts				; 60 
 
 
+.ifdef IMPROVED_CONTROLS_TEST
+	jsr func4
+.else
 B28_1a93:		jsr $9a2d		; 20 2d 9a
+.endif
 B28_1a96:		bcc B28_1a99 ; 90 01
 
 B28_1a98:		rts				; 60 
@@ -4620,87 +4684,76 @@ B28_1bfa:	.db $0c
 B28_1bfb:	.db $ff
 B28_1bfc:		ldy $0565		; ac 65 05
 B28_1bff:		jsr jumpTableNoPreserveY		; 20 86 e8
-B28_1c02:		cmp $8a			; c5 8a
-B28_1c04:		sec				; 38 
-B28_1c05:		sta $60, x		; 95 60
-B28_1c07:		stx $1d, y		; 96 1d
-B28_1c09:		stx $70, y		; 96 70
-B28_1c0b:	.db $97
-B28_1c0c:		ora $7099, y	; 19 99 70
-B28_1c0f:	.db $97
-B28_1c10:	.db $53
-B28_1c11:		sta $9967, y	; 99 67 99
-B28_1c14:		stx $9399		; 8e 99 93
-B28_1c17:		txs				; 9a 
-B28_1c18:	.db $42
-B28_1c19:		sta $9418, y	; 99 18 94
-B28_1c1c:	.db $3a
-B28_1c1d:		sty $65, x		; 94 65
-B28_1c1f:		sty $9e, x		; 94 9e
-B28_1c21:		sty $32, x		; 94 32
-B28_1c23:	.db $9c
-B28_1c24:		and $9c, x		; 35 9c
-B28_1c26:		sec				; 38 
-B28_1c27:	.db $9c
-B28_1c28:	.db $1c
-B28_1c29:	.db $83
-B28_1c2a:		lda ($93), y	; b1 93
-B28_1c2c:		lda ($93), y	; b1 93
-B28_1c2e:	.db $57
-B28_1c2f:	.db $8b
-B28_1c30:		dec $4c8a, x	; de 8a 4c
-B28_1c33:		clv				; b8 
-B28_1c34:		sty $4c, x		; 94 4c
-B28_1c36:	.db $d4
-B28_1c37:		sty $4c, x		; 94 4c
-B28_1c39:	.db $ff
-B28_1c3a:		sty $ac, x		; 94 ac
-B28_1c3c:		adc $05			; 65 05
+	.dw $8ac5
+	.dw $9538
+	.dw $9660
+	.dw $961d
+.ifdef IMPROVED_CONTROLS_TEST
+	.dw func1
+.else
+	.dw $9770
+.endif
+	.dw $9919
+	.dw $9770
+	.dw $9953
+	.dw $9967
+	.dw $998e
+	.dw $9a93
+	.dw $9942
+	.dw $9418
+	.dw $943a
+	.dw $9465
+	.dw $949e
+	.dw $9c32
+	.dw $9c35
+	.dw $9c38
+	.dw $831c
+	.dw $93b1
+	.dw $93b1
+	.dw $8b57
+	.dw $8ade
+B28_1c32:		jmp $94b8
+B28_1c35:		jmp $94d4
+B28_1c38:		jmp $94ff
+B28_1c3b:		ldy $0565
 B28_1c3e:		jsr jumpTableNoPreserveY		; 20 86 e8
-B28_1c41:		cmp $8a			; c5 8a
-B28_1c43:		sec				; 38 
-B28_1c44:		sta $3b, x		; 95 3b
-B28_1c46:		sta $9e92, x	; 9d 92 9e
-B28_1c49:	.db $3c
-B28_1c4a:	.db $9f
-B28_1c4b:		cmp $9c, x		; d5 9c
-B28_1c4d:	.db $3c
-B28_1c4e:	.db $9f
-B28_1c4f:	.db $53
-B28_1c50:		sta $9967, y	; 99 67 99
-B28_1c53:		stx $9399		; 8e 99 93
-B28_1c56:		txs				; 9a 
-B28_1c57:	.db $42
-B28_1c58:		sta $9c8b, y	; 99 8b 9c
-B28_1c5b:	.db $eb
-B28_1c5c:	.db $9e
-B28_1c5d:	.db $9f
-B28_1c5e:	.db $9c
-B28_1c5f:	.db $9e
-B28_1c60:		sty $b8, x		; 94 b8
-B28_1c62:		sty $c0, x		; 94 c0
-B28_1c64:	.db $9e
-B28_1c65:	.db $ff
-B28_1c66:		sty $1c, x		; 94 1c
-B28_1c68:	.db $83
-B28_1c69:		lda ($93), y	; b1 93
-B28_1c6b:		lda ($93), y	; b1 93
-B28_1c6d:	.db $57
-B28_1c6e:	.db $8b
-B28_1c6f:		dec $3b8a, x	; de 8a 3b
-B28_1c72:		ldx #$65		; a2 65
-B28_1c74:	.db $a3
-B28_1c75:		rol $41a4		; 2e a4 41
-B28_1c78:		ldy $64			; a4 64
-B28_1c7a:		ldy $77			; a4 77
-B28_1c7c:		ldy $80			; a4 80
-B28_1c7e:		ldy $93			; a4 93
-B28_1c80:		ldy $9f			; a4 9f
-B28_1c82:		ldy $b2			; a4 b2
-B28_1c84:		ldy $88			; a4 88
-B28_1c86:		lda ($26, x)	; a1 26
-B28_1c88:		ldx #$33		; a2 33
-B28_1c8a:	.db $a3
+	.dw $8ac5
+	.dw $9538
+	.dw $9d3b
+	.dw $9e92
+	.dw $9f3c
+	.dw $9cd5
+	.dw $9f3c
+	.dw $9953
+	.dw $9967
+	.dw $998e
+	.dw $9a93
+	.dw $9942
+	.dw $9c8b
+	.dw $9eeb
+	.dw $9c9f
+	.dw $949e
+	.dw $94b8
+	.dw $9ec0
+	.dw $94ff
+	.dw $831c
+	.dw $93b1
+	.dw $93b1
+	.dw $8b57
+	.dw $8ade
+	.dw $a23b
+	.dw $a365
+	.dw $a42e
+	.dw $a441
+	.dw $a464
+	.dw $a477
+	.dw $a480
+	.dw $a493
+	.dw $a49f
+	.dw $a4b2
+	.dw $a188
+	.dw $a226
+	.dw $a333
 B28_1c8b:		jsr $841d		; 20 1d 84
 B28_1c8e:		bcs B28_1c98 ; b0 08
 

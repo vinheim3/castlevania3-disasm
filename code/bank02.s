@@ -4718,7 +4718,7 @@ B2_1dc9:		ldy $057c, x	; bc 7c 05
 B2_1dcc:		dey				; 88 
 B2_1dcd:		beq B2_1dd4 ; f0 05
 
-B2_1dcf:		jsr $ef75		; 20 75 ef
+B2_1dcf:		jsr func_1f_0f75		; 20 75 ef
 B2_1dd2:		clc				; 18 
 B2_1dd3:		rts				; 60 
 
@@ -5044,7 +5044,7 @@ B2_1fad:		lda ($44), y	; b1 44
 B2_1faf:		cmp #$ff		; c9 ff
 B2_1fb1:		beq B2_1fb9 ; f0 06
 
-B2_1fb3:		sta $4b			; 85 4b
+B2_1fb3:		sta wChrBankBG_0400			; 85 4b
 B2_1fb5:		sty $0780		; 8c 80 07
 B2_1fb8:		rts				; 60 
 
@@ -5063,7 +5063,7 @@ B2_1fc8:		eor $56, x		; 55 56
 B2_1fca:	.db $ff
 
 
-setNametableVerticalMirroring:
+b2_setNametableVerticalMirroring:
 	lda #NT_VERTICAL_MIRROR
 	sta NAMETABLE_MAPPING.w
 	rts

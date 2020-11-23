@@ -1,9 +1,10 @@
+DEFINES =
 
-IS_EXTENDED_ROM = false
-ifeq ($(IS_EXTENDED_ROM), true)
-	DEFINES = -D IS_EXTENDED_ROM
-else
-	DEFINES =
+ifdef ROMHACK
+	DEFINES += -D IS_EXTENDED_ROM \
+		-D INSTANT_CHAR_SWAP \
+		-D IMPROVED_CONTROLS_TEST \
+		-D SEPARATED_LAMP_GFX
 endif
 
 castlevania3.bin: code/* include/* data/*

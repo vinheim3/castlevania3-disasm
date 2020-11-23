@@ -7,7 +7,7 @@ B3_000a:		jmp irqFunc_end		; 4c 3a e1
 
 
 B3_000d:		jsr func_03_0097		; 20 97 a0
-B3_0010:		jsr setNametableVerticalMirroring		; 20 cb 9f
+B3_0010:		jsr b2_setNametableVerticalMirroring		; 20 cb 9f
 B3_0013:		jsr chrSwitchMirrored_400_800		; 20 6d e3
 B3_0016:		jsr chrSwitch_0_to_c00_1400		; 20 3c e3
 B3_0019:		lda $89			; a5 89
@@ -99,7 +99,7 @@ B3_00bb:		rts				; 60
 
 func_03_00bc:
 B3_00bc:		jsr func_03_0097		; 20 97 a0
-B3_00bf:		jsr setNametableVerticalMirroring		; 20 cb 9f
+B3_00bf:		jsr b2_setNametableVerticalMirroring		; 20 cb 9f
 B3_00c2:		jsr chrSwitchMirrored_400_800		; 20 6d e3
 B3_00c5:		lda $7d			; a5 7d
 B3_00c7:		and #$f0		; 29 f0
@@ -129,7 +129,7 @@ B3_00ee:		rts				; 60
 
 
 B3_00ef:		jsr func_03_0097		; 20 97 a0
-B3_00f2:		jsr setNametableVerticalMirroring		; 20 cb 9f
+B3_00f2:		jsr b2_setNametableVerticalMirroring		; 20 cb 9f
 B3_00f5:		sta NAMETABLE_MAPPING.w		; 8d 05 51
 B3_00f8:		sta NAMETABLE_MAPPING.w		; 8d 05 51
 B3_00fb:		jsr chrSwitchMirrored_400_800		; 20 6d e3
@@ -190,7 +190,7 @@ B3_0167:		jmp $e13f		; 4c 3f e1
 
 
 B3_016a:		jsr func_03_0097		; 20 97 a0
-B3_016d:		jsr setNametableVerticalMirroring		; 20 cb 9f
+B3_016d:		jsr b2_setNametableVerticalMirroring		; 20 cb 9f
 B3_0170:		sta NAMETABLE_MAPPING.w		; 8d 05 51
 B3_0173:		sta NAMETABLE_MAPPING.w		; 8d 05 51
 B3_0176:		jmp irqFunc_end		; 4c 3a e1
@@ -215,7 +215,7 @@ B3_0192:		sta SCANLINE_CMP_VALUE.w		; 8d 03 52
 B3_0195:		ldx #$0c		; a2 0c
 B3_0197:		jsr $e001		; 20 01 e0
 B3_019a:		jsr setClearedPatternTable		; 20 2d e3
-B3_019d:		lda #NT_HORIZONTAL_MIRROR		; a9 55
+B3_019d:		lda #NT_SINGLE_SCREEN_CIRAM_1		; a9 55
 B3_019f:		sta NAMETABLE_MAPPING.w		; 8d 05 51
 B3_01a2:		lda $6f			; a5 6f
 B3_01a4:		and #$07		; 29 07
@@ -318,7 +318,7 @@ B3_0271:		jmp $e13f		; 4c 3f e1
 
 
 B3_0274:		jsr func_03_0097		; 20 97 a0
-B3_0277:		jsr setNametableVerticalMirroring		; 20 cb 9f
+B3_0277:		jsr b2_setNametableVerticalMirroring		; 20 cb 9f
 B3_027a:		jsr chrSwitchMirrored_400_800		; 20 6d e3
 B3_027d:		lda $89			; a5 89
 B3_027f:		sta SCANLINE_CMP_VALUE.w		; 8d 03 52
@@ -366,7 +366,7 @@ B3_02d9:		jmp irqFunc_end		; 4c 3a e1
 
 
 B3_02dc:		jsr func_03_0097		; 20 97 a0
-B3_02df:		jsr setNametableVerticalMirroring		; 20 cb 9f
+B3_02df:		jsr b2_setNametableVerticalMirroring		; 20 cb 9f
 B3_02e2:		jsr chrSwitchMirrored_400_800		; 20 6d e3
 B3_02e5:		jsr chrSwitch_0_400		; 20 52 e3
 B3_02e8:		lda $89			; a5 89
@@ -380,7 +380,7 @@ B3_02f5:		jmp irqFunc_end		; 4c 3a e1
 
 
 B3_02f8:		jsr func_03_0097		; 20 97 a0
-B3_02fb:		jsr setNametableVerticalMirroring		; 20 cb 9f
+B3_02fb:		jsr b2_setNametableVerticalMirroring		; 20 cb 9f
 B3_02fe:		jsr chrSwitchMirrored_400_800		; 20 6d e3
 B3_0301:		jsr chrSwitch_0_400		; 20 52 e3
 B3_0304:		jmp irqFunc_end		; 4c 3a e1
@@ -429,7 +429,7 @@ B3_0344:		rts				; 60
 
 
 B3_0345:		jsr func_03_0097		; 20 97 a0
-B3_0348:		jsr setNametableVerticalMirroring		; 20 cb 9f
+B3_0348:		jsr b2_setNametableVerticalMirroring		; 20 cb 9f
 B3_034b:		jsr chrSwitchMirrored_400_800		; 20 6d e3
 B3_034e:		lda $89			; a5 89
 B3_0350:		sta SCANLINE_CMP_VALUE.w		; 8d 03 52
@@ -453,7 +453,7 @@ B3_0370:		bcc B3_0374 ; 90 02
 B3_0372:		ldy #$00		; a0 00
 B3_0374:		sty $0780		; 8c 80 07
 B3_0377:		lda $a390, y	; b9 90 a3
-B3_037a:		sta $4b			; 85 4b
+B3_037a:		sta wChrBankBG_0400			; 85 4b
 B3_037c:		sta $4e			; 85 4e
 B3_037e:		lda $7d			; a5 7d
 B3_0380:		and #$0f		; 29 0f
@@ -663,7 +663,7 @@ B3_04ee:		jsr $a527		; 20 27 a5
 B3_04f1:		jsr chrSwitchAllMirrored		; 20 5d e3
 B3_04f4:		lda #$7f		; a9 7f
 B3_04f6:		sta $4a			; 85 4a
-B3_04f8:		sta $4b			; 85 4b
+B3_04f8:		sta wChrBankBG_0400			; 85 4b
 B3_04fa:		sta $4c			; 85 4c
 B3_04fc:		sta $4d			; 85 4d
 B3_04fe:		jmp irqFunc_end		; 4c 3a e1
@@ -699,7 +699,7 @@ B3_0529:		tay				; a8
 B3_052a:		lda $a550, y	; b9 50 a5
 B3_052d:		sta $4a			; 85 4a
 B3_052f:		lda $a551, y	; b9 51 a5
-B3_0532:		sta $4b			; 85 4b
+B3_0532:		sta wChrBankBG_0400			; 85 4b
 B3_0534:		lda $a552, y	; b9 52 a5
 B3_0537:		sta $4c			; 85 4c
 B3_0539:		lda $a553, y	; b9 53 a5
@@ -710,7 +710,7 @@ B3_053e:		rts				; 60
 B3_053f:		lda #$41		; a9 41
 B3_0541:		sta $4a			; 85 4a
 B3_0543:		lda #$3e		; a9 3e
-B3_0545:		sta $4b			; 85 4b
+B3_0545:		sta wChrBankBG_0400			; 85 4b
 B3_0547:		lda #$3f		; a9 3f
 B3_0549:		sta $4c			; 85 4c
 B3_054b:		lda #$6f		; a9 6f
@@ -846,7 +846,7 @@ B3_0647:		sta $49			; 85 49
 B3_0649:		lda #$44		; a9 44
 B3_064b:		sta $4a			; 85 4a
 B3_064d:		lda #$45		; a9 45
-B3_064f:		sta $4b			; 85 4b
+B3_064f:		sta wChrBankBG_0400			; 85 4b
 B3_0651:		lda #$47		; a9 47
 B3_0653:		sta $4c			; 85 4c
 B3_0655:		lda #$43		; a9 43
@@ -879,7 +879,7 @@ B3_068f:		lda #$00		; a9 00
 B3_0691:		jmp $e58e		; 4c 8e e5
 
 
-B3_0694:		jsr $e579		; 20 79 e5
+B3_0694:		jsr decGenericTimer		; 20 79 e5
 B3_0697:		bne B3_06b2 ; d0 19
 
 B3_0699:		lda #$1d		; a9 1d
@@ -897,7 +897,7 @@ B3_06af:		jmp $e58e		; 4c 8e e5
 B3_06b2:		rts				; 60 
 
 
-B3_06b3:		jsr $e579		; 20 79 e5
+B3_06b3:		jsr decGenericTimer		; 20 79 e5
 B3_06b6:		bne B3_06b2 ; d0 fa
 
 B3_06b8:		lda #$00		; a9 00
@@ -928,7 +928,7 @@ B3_06e3:		;removed
 	.db $10 $10
 
 B3_06e5:		clc				; 18 
-B3_06e6:		jsr $e579		; 20 79 e5
+B3_06e6:		jsr decGenericTimer		; 20 79 e5
 B3_06e9:		bne B3_06b2 ; d0 c7
 
 B3_06eb:		ldy #$01		; a0 01
@@ -939,13 +939,13 @@ B3_06f4:		lda #$40		; a9 40
 B3_06f6:		jmp $e58e		; 4c 8e e5
 
 
-B3_06f9:		jsr $e579		; 20 79 e5
+B3_06f9:		jsr decGenericTimer		; 20 79 e5
 B3_06fc:		bne B3_06b2 ; d0 b4
 
 B3_06fe:		ldy #$39		; a0 39
 B3_0700:		lda #$0c		; a9 0c
 B3_0702:		ldx #$00		; a2 00
-B3_0704:		jsr $ef5c		; 20 5c ef
+B3_0704:		jsr func_1f_0f5c		; 20 5c ef
 B3_0707:		ldy #$00		; a0 00
 B3_0709:		lda #$20		; a9 20
 B3_070b:		jsr $e58e		; 20 8e e5
@@ -954,8 +954,8 @@ B3_0710:		rts				; 60
 
 
 B3_0711:		ldx #$00		; a2 00
-B3_0713:		jsr $ef75		; 20 75 ef
-B3_0716:		jsr $e579		; 20 79 e5
+B3_0713:		jsr func_1f_0f75		; 20 75 ef
+B3_0716:		jsr decGenericTimer		; 20 79 e5
 B3_0719:		bne B3_0710 ; d0 f5
 
 B3_071b:		ldy #$00		; a0 00
@@ -964,7 +964,7 @@ B3_071f:		jsr $e58e		; 20 8e e5
 B3_0722:		jmp $a70e		; 4c 0e a7
 
 
-B3_0725:		jsr $e579		; 20 79 e5
+B3_0725:		jsr decGenericTimer		; 20 79 e5
 B3_0728:		bne B3_0710 ; d0 e6
 
 B3_072a:		lda #$03		; a9 03
@@ -1082,8 +1082,11 @@ B3_07bb:		ldy $ddba, x	; bc ba dd
 B3_07be:		tsx				; ba 
 B3_07bf:		cmp $b8			; c5 b8
 B3_07c1:	.db $04
-B3_07c2:		cpx $ecad		; ec ad ec
-B3_07c5:	.db $07
+B3_07c2:		.db $ec
+
+
+func_03_07c3:
+	lda $07ec
 B3_07c6:		asl a			; 0a
 B3_07c7:		tay				; a8 
 B3_07c8:		lda $a7e3, y	; b9 e3 a7
@@ -1162,7 +1165,7 @@ B3_083e:		lda #$01		; a9 01
 B3_0840:		sta $0793		; 8d 93 07
 B3_0843:		lda #$7f		; a9 7f
 B3_0845:		sta $4a			; 85 4a
-B3_0847:		sta $4b			; 85 4b
+B3_0847:		sta wChrBankBG_0400			; 85 4b
 B3_0849:		sta $4c			; 85 4c
 B3_084b:		sta $4d			; 85 4d
 B3_084d:		lda #$00		; a9 00
@@ -1171,7 +1174,7 @@ B3_0851:		lda #$01		; a9 01
 B3_0853:		sta $47			; 85 47
 B3_0855:		jsr chrSwitch_0_to_c00_1400		; 20 3c e3
 B3_0858:		jsr $ab73		; 20 73 ab
-B3_085b:		jsr $ebfd		; 20 fd eb
+B3_085b:		jsr func_1f_0bfd		; 20 fd eb
 B3_085e:		jsr $ae88		; 20 88 ae
 B3_0861:		ldx #$1e		; a2 1e
 B3_0863:		lda #$98		; a9 98
@@ -1179,7 +1182,7 @@ B3_0865:		jsr $ebd5		; 20 d5 eb
 B3_0868:		ldx #$00		; a2 00
 B3_086a:		jsr $ac7c		; 20 7c ac
 B3_086d:		lda #$55		; a9 55
-B3_086f:		sta $25			; 85 25
+B3_086f:		sta wNametableMapping			; 85 25
 B3_0871:		lda $ff			; a5 ff
 B3_0873:		ora #$02		; 09 02
 B3_0875:		sta $ff			; 85 ff
@@ -1547,7 +1550,7 @@ B3_0af9:		jmp $aad1		; 4c d1 aa
 
 
 B3_0afc:		lda #$55		; a9 55
-B3_0afe:		sta $25			; 85 25
+B3_0afe:		sta wNametableMapping			; 85 25
 B3_0b00:		lda #$80		; a9 80
 B3_0b02:		sta $07ed		; 8d ed 07
 B3_0b05:		lda #$00		; a9 00
@@ -1601,7 +1604,7 @@ B3_0b5d:		rts				; 60
 
 
 B3_0b5e:		lda #$44		; a9 44
-B3_0b60:		sta $25			; 85 25
+B3_0b60:		sta wNametableMapping			; 85 25
 B3_0b62:		jmp $a89b		; 4c 9b a8
 
 
@@ -1610,7 +1613,7 @@ B3_0b67:		sta $19			; 85 19
 B3_0b69:		lda $ff			; a5 ff
 B3_0b6b:		and #$f0		; 29 f0
 B3_0b6d:		sta $ff			; 85 ff
-B3_0b6f:		jsr $ebfd		; 20 fd eb
+B3_0b6f:		jsr func_1f_0bfd		; 20 fd eb
 B3_0b72:		rts				; 60 
 
 
@@ -2108,7 +2111,7 @@ B3_0e87:		rts				; 60
 
 
 B3_0e88:		lda #$50		; a9 50
-B3_0e8a:		sta $25			; 85 25
+B3_0e8a:		sta wNametableMapping			; 85 25
 B3_0e8c:		rts				; 60 
 
 
@@ -2237,39 +2240,42 @@ B3_0f61:		sta $0787		; 8d 87 07
 B3_0f64:		rts				; 60 
 
 
-B3_0f65:		lda $19			; a5 19
+gameStateA_namePwInput_body:
+B3_0f65:		lda wGameSubstate			; a5 19
 B3_0f67:		jsr jumpTablePreserveY		; 20 6d e8
-B3_0f6a:		sty $af			; 84 af
-B3_0f6c:		ldy $af			; a4 af
-B3_0f6e:		cmp ($af, x)	; c1 af
-B3_0f70:		cpx #$af		; e0 af
-B3_0f72:	.db $f4
-B3_0f73:	.db $af
-B3_0f74:		ora ($b0), y	; 11 b0
-B3_0f76:		lda $d8b2, y	; b9 b2 d8
-B3_0f79:	.db $b2
-B3_0f7a:		.db $00				; 00
-B3_0f7b:	.db $b3
-B3_0f7c:		eor ($b3), y	; 51 b3
-B3_0f7e:		pla				; 68 
-B3_0f7f:	.db $b3
-B3_0f80:		stx $b3, y		; 96 b3
-B3_0f82:		sta ($b3, x)	; 81 b3
-B3_0f84:		lda $19			; a5 19
+	.dw $af84
+	.dw $afa4
+	.dw $afc1
+	.dw $afe0
+	.dw $aff4
+	.dw $b011
+	.dw $b2b9
+	.dw $b2d8
+	.dw $b300
+	.dw $b351
+	.dw $b368
+	.dw $b396
+	.dw $b381
+
+B3_0f84:		lda wGameSubstate			; a5 19
 B3_0f86:		bmi B3_0f90 ; 30 08
 
 B3_0f88:		lda #$03		; a9 03
 B3_0f8a:		sta $1c			; 85 1c
 B3_0f8c:		lda #$80		; a9 80
-B3_0f8e:		sta $19			; 85 19
-B3_0f90:		jsr $ebfd		; 20 fd eb
-B3_0f93:		lda #$44		; a9 44
-B3_0f95:		sta $25			; 85 25
+B3_0f8e:		sta wGameSubstate			; 85 19
+
+B3_0f90:		jsr func_1f_0bfd		; 20 fd eb
+
+B3_0f93:		lda #NT_VERTICAL_MIRROR		; a9 44
+B3_0f95:		sta wNametableMapping			; 85 25
 B3_0f97:		sta NAMETABLE_MAPPING.w		; 8d 05 51
-B3_0f9a:		lda #$62		; a9 62
+
+B3_0f9a:		lda #MUS_EPITAPH		; a9 62
 B3_0f9c:		jsr playSound		; 20 5f e2
+
 B3_0f9f:		lda #$01		; a9 01
-B3_0fa1:		sta $19			; 85 19
+B3_0fa1:		sta wGameSubstate			; 85 19
 B3_0fa3:		rts				; 60 
 
 
@@ -2278,7 +2284,7 @@ B3_0fa7:		ldx #$18		; a2 18
 B3_0fa9:		jsr $ec04		; 20 04 ec
 B3_0fac:		ldy #$00		; a0 00
 B3_0fae:		jsr $b28d		; 20 8d b2
-B3_0fb1:		jsr setBank_c000_toRom07h		; 20 d6 e2
+B3_0fb1:		jsr setBank_c000_toRom07h		; for dpcm
 B3_0fb4:		jsr $b1c7		; 20 c7 b1
 B3_0fb7:		jsr $b066		; 20 66 b0
 B3_0fba:		lda #$03		; a9 03
@@ -2389,7 +2395,7 @@ B3_105c:		rts				; 60
 B3_105d:		lda #$ff		; a9 ff
 B3_105f:		sta $3a			; 85 3a
 B3_1061:		lda #$09		; a9 09
-B3_1063:		jmp $e574		; 4c 74 e5
+B3_1063:		jmp setNewGameState		; 4c 74 e5
 
 
 B3_1066:		ldy #$00		; a0 00
@@ -2742,30 +2748,30 @@ B3_127e:		pha				; 48
 B3_127f:		ldy #$00		; a0 00
 B3_1281:		jsr $b2a0		; 20 a0 b2
 B3_1284:		pla				; 68 
-B3_1285:		jsr func_1f_0d14		; 20 14 ed
-B3_1288:		jmp $ed12		; 4c 12 ed
+B3_1285:		jsr storeByteInVramQueue		; 20 14 ed
+B3_1288:		jmp terminateVramQueue		; 4c 12 ed
 
 
 B3_128b:		ldy #$02		; a0 02
 B3_128d:		jsr $b2a0		; 20 a0 b2
 B3_1290:		ldy #$00		; a0 00
 B3_1292:		lda $07f8, y	; b9 f8 07
-B3_1295:		jsr func_1f_0d14		; 20 14 ed
+B3_1295:		jsr storeByteInVramQueue		; 20 14 ed
 B3_1298:		iny				; c8 
 B3_1299:		cpy #$08		; c0 08
 B3_129b:		bcc B3_1292 ; 90 f5
 
-B3_129d:		jmp $ed12		; 4c 12 ed
+B3_129d:		jmp terminateVramQueue		; 4c 12 ed
 
 
 B3_12a0:		lda #$01		; a9 01
-B3_12a2:		jsr func_1f_0d14		; 20 14 ed
+B3_12a2:		jsr storeByteInVramQueue		; 20 14 ed
 B3_12a5:		lda $0784		; ad 84 07
 B3_12a8:		clc				; 18 
 B3_12a9:		adc $b2b5, y	; 79 b5 b2
-B3_12ac:		jsr func_1f_0d14		; 20 14 ed
+B3_12ac:		jsr storeByteInVramQueue		; 20 14 ed
 B3_12af:		lda $b2b6, y	; b9 b6 b2
-B3_12b2:		jmp func_1f_0d14		; 4c 14 ed
+B3_12b2:		jmp storeByteInVramQueue		; 4c 14 ed
 
 
 B3_12b5:		cpx $ac20		; ec 20 ac
@@ -2879,7 +2885,7 @@ B3_1378:		dec $30			; c6 30
 B3_137a:		bne B3_1350 ; d0 d4
 
 B3_137c:		lda #$0e		; a9 0e
-B3_137e:		jmp $e574		; 4c 74 e5
+B3_137e:		jmp setNewGameState		; 4c 74 e5
 
 
 B3_1381:		lda $1d			; a5 1d
@@ -3066,20 +3072,20 @@ B3_14a6:		lda $b437, y	; b9 37 b4
 B3_14a9:		sta $04			; 85 04
 B3_14ab:		iny				; c8 
 B3_14ac:		lda #$01		; a9 01
-B3_14ae:		jsr func_1f_0d14		; 20 14 ed
+B3_14ae:		jsr storeByteInVramQueue		; 20 14 ed
 B3_14b1:		lda $00			; a5 00
-B3_14b3:		jsr func_1f_0d14		; 20 14 ed
+B3_14b3:		jsr storeByteInVramQueue		; 20 14 ed
 B3_14b6:		lda $01			; a5 01
-B3_14b8:		jsr func_1f_0d14		; 20 14 ed
+B3_14b8:		jsr storeByteInVramQueue		; 20 14 ed
 B3_14bb:		lda $04			; a5 04
 B3_14bd:		sta $05			; 85 05
 B3_14bf:		lda $b437, y	; b9 37 b4
 B3_14c2:		iny				; c8 
-B3_14c3:		jsr func_1f_0d14		; 20 14 ed
+B3_14c3:		jsr storeByteInVramQueue		; 20 14 ed
 B3_14c6:		dec $05			; c6 05
 B3_14c8:		bne B3_14bf ; d0 f5
 
-B3_14ca:		jsr $ed12		; 20 12 ed
+B3_14ca:		jsr terminateVramQueue		; 20 12 ed
 B3_14cd:		clc				; 18 
 B3_14ce:		lda #$20		; a9 20
 B3_14d0:		adc $00			; 65 00
@@ -3214,9 +3220,9 @@ B3_15a7:		lda $e4b5		; ad b5 e4
 B3_15aa:		lda $10, x		; b5 10
 B3_15ac:		ldx $a9, y		; b6 a9
 B3_15ae:	.db $44
-B3_15af:		sta $25			; 85 25
+B3_15af:		sta wNametableMapping			; 85 25
 B3_15b1:		sta NAMETABLE_MAPPING.w		; 8d 05 51
-B3_15b4:		jsr $ebfd		; 20 fd eb
+B3_15b4:		jsr func_1f_0bfd		; 20 fd eb
 B3_15b7:		lda #$98		; a9 98
 B3_15b9:		ldx #$1a		; a2 1a
 B3_15bb:		jsr $ebd5		; 20 d5 eb
@@ -3275,7 +3281,7 @@ B3_161d:		jmp $fbaf		; 4c af fb
 
 
 B3_1620:		lda #$00		; a9 00
-B3_1622:		jmp $e574		; 4c 74 e5
+B3_1622:		jmp setNewGameState		; 4c 74 e5
 
 
 B3_1625:		ldx #$00		; a2 00
@@ -4309,7 +4315,7 @@ B3_1c9a:		ldy $bca7, x	; bc a7 bc
 B3_1c9d:		ldy $a9bc, x	; bc bc a9
 B3_1ca0:	.db $80
 B3_1ca1:		sta $05d8, x	; 9d d8 05
-B3_1ca4:		jmp $ff8a		; 4c 8a ff
+B3_1ca4:		jmp func_1f_1f8a		; 4c 8a ff
 
 
 B3_1ca7:		dec $05d8, x	; de d8 05

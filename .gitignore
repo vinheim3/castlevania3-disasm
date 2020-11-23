@@ -1,4 +1,5 @@
 original/
+__pycache__/
 *.bin
 *.sym
 *.chr

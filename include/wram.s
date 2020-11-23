@@ -8,6 +8,14 @@
     wReturnAddr: ; $00
         dw
 .nextu
+    wPointerBase: ; $00
+        dw
+.nextu
+    wTempJoy1ButtonsPressedPass1: ; $00
+        db
+
+    wTempJoy2ButtonsPressedPass1: ; $01
+        db
 .endu
 
 .union
@@ -19,10 +27,22 @@
 
     wTempY: ; $03
         db
+.nextu
+    wTempJoy1ButtonsPressedPass2: ; $02
+        db
+
+    wTempJoy2ButtonsPressedPass2: ; $03
+        db
 .endu
 
-w004:
-    dsb 4
+wJoy1IsButtonPressed: ; $04
+    db
+
+wJoy2IsButtonPressed: ; $05
+    db
+
+w006:
+    dsb 2
 
 .union
     wCurrRoomGroupMetaDataAddress: ; $08
@@ -41,6 +61,9 @@ w004:
         wCurrRoomSectionChrBanks2: ; $0a
             dw
     .endu
+.nextu
+    wSoundModeTextAddr: ; $08
+        dw
 .endu
 
 w00c:
@@ -50,7 +73,31 @@ wRoomSectionChrBanksDataOffset: ; $0f
     db
 
 w010:
-    dsb $21-$10
+    dsb 8
+
+wGameState: ; $18
+    db
+
+wGameSubstate: ; $19
+    db
+
+wGameStateLoopCounter: ; $1a
+    db
+
+w01b:
+    dsb 2
+
+wVramQueueNextIdxToFill: ; $1d
+    db
+
+w01e:
+    db
+
+wRandomVal: ; $1f
+    db
+
+w020:
+    db
 
 wPrgBank_8000: ; $21
     db
@@ -67,14 +114,30 @@ wIsExecutingSoundFunc: ; $24
 wNametableMapping: ; $25
     db
 
-w026:
-    dsb $b-6
+wJoy1NewButtonsPressed: ; $26
+    db
+
+wJoy2NewButtonsPressed: ; $27
+    db
+
+wJoy1ButtonsPressed: ; $28
+    db
+
+wJoy2ButtonsPressed: ; $29
+    db
+
+; todo: could be multi-purpose, could be wrong
+wInGameSubstate: ; $2a
+    db
 
 wIsPaused: ; $2b
     db
 
 w02c:
-    dsb $32-$2c
+    dsb $30-$2c
+
+wGenericStateTimer: ; $30
+    dw
 
 wCurrRoomGroup: ; $32
     db
@@ -103,31 +166,31 @@ w042:
 wIRQFuncAddr: ; $44
     dw
 
-wChrBank_0000: ; $46
+wChrBankSpr_0000: ; $46
     db
 
-wChrBank_0400: ; $47
+wChrBankSpr_0400: ; $47
     db
 
-wChrBank_0800: ; $48
+wChrBankSpr_0800: ; $48
     db
 
-wChrBank_0c00: ; $49
+wChrBankSpr_0c00: ; $49
     db
 
-wChrBank_0000_1000: ; $4a
+wChrBankBG_0000: ; $4a
     db
 
-wChrBank_0400_1400: ; $4b
+wChrBankBG_0400: ; $4b
     db
 
-wChrBank_0800_1800: ; $4c
+wChrBankBG_0800: ; $4c
     db
 
-wChrBank_0c00_1c00: ; $4d
+wChrBankBG_0c00: ; $4d
     db
 
-wChrBank_1400: ; $4e
+wChrBankSpr_1400: ; $4e
     db
 
 w04f:
@@ -137,13 +200,30 @@ wRoomMetaTilesAddr: ; $50
     dw
 
 w052:
-    dsb $f-2
+    dsb $d-2
+
+wCurrRoomGroupMetaTileTiles: ; $5d
+    dw
 
 wCurrRoomGroupMetaTilePalettes: ; $5f
     dw
 
-w061:
-    dsb $d-1
+wVramQueueDest: ; $61
+    dw
+
+w063
+    dsb $b-3
+
+.union
+    wMenuOptionIdxSelected: ; $6b
+        db
+.nextu
+    wSoundModeCtrlState: ; $6b
+        db
+.endu
+
+w06c:
+    db
 
 wIRQFuncIdx: ; $6d
     db
@@ -192,7 +272,7 @@ wSoundBankTempX: ; $e4
 wSoundBankTempY: ; $e5
     db
 
-; used just to check 1st byte when loading sond
+; used just to check 1st byte when loading sound
 wTempCurrInstrumentDataAddr: ; $e6
     dw
 
@@ -220,7 +300,19 @@ wCurrInstrumentIdx: ; $ee
 .endu
 
 w0f0:
-    dsb $c
+    dsb 8
+
+wJoy1NewButtonsPressed2: ; $f8
+    db
+
+wJoy2NewButtonsPressed2: ; $f9
+    db
+
+wJoy1ButtonsPressed2: ; $fa
+    db
+
+wJoy2ButtonsPressed2: ; $fb
+    db
 
 wScrollY: ; $fc
     db
@@ -382,5 +474,17 @@ w6a9:
 ; eg ominous laugh, boss scream, flying heads scream
 wTimeSpecialDMCSoundPlayed: ; $6c8
     db
+
+w6c9:
+    dsb $780-$6c9
+
+wSoundModeSongSelected: ; $780
+    db
+
+w781:
+    dsb $800-$781
+
+wramEnd:
+    .db
 
 .ends

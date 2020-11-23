@@ -361,10 +361,10 @@ B23_0275:		jmp $a1fb		; 4c fb a1
 
 B23_0278:		lda $054e		; ad 4e 05
 B23_027b:		jsr jumpTablePreserveY		; 20 6d e8
-B23_027e:		stx $a2			; 86 a2
-B23_0280:		ldy $a3, x		; b4 a3
-B23_0282:		ldy $a3, x		; b4 a3
-B23_0284:		bcs B23_0228 ; b0 a2
+	.dw $a286
+	.dw $a3b4
+	.dw $a3b4
+	.dw $a2b0
 
 B23_0286:		ldy #$00		; a0 00
 B23_0288:		lda $8e			; a5 8e
@@ -379,13 +379,12 @@ B23_0294:		bcc B23_02ab ; 90 15
 
 B23_0296:		iny				; c8 
 B23_0297:		lda $a2ae, y	; b9 ae a2
-B23_029a:		jsr $a3f8		; 20 f8 a3
+B23_029a:		jsr func_17_03f8		; 20 f8 a3
 B23_029d:		beq B23_02ab ; f0 0c
 
 B23_029f:		lda $00			; a5 00
 B23_02a1:		sta $054e, x	; 9d 4e 05
 B23_02a4:		rts				; 60 
-
 
 B23_02a5:		lda $84			; a5 84
 B23_02a7:		cmp #$04		; c9 04
@@ -408,7 +407,7 @@ B23_02be:		bcc B23_02ab ; 90 eb
 
 B23_02c0:		iny				; c8 
 B23_02c1:		lda $a2ae, y	; b9 ae a2
-B23_02c4:		jsr $a3f8		; 20 f8 a3
+B23_02c4:		jsr func_17_03f8		; 20 f8 a3
 B23_02c7:		beq B23_02ab ; f0 e2
 
 B23_02c9:		lda $00			; a5 00
@@ -444,6 +443,7 @@ B23_02f4:		bcs B23_02fc ; b0 06
 
 B23_02f6:		jsr $a30b		; 20 0b a3
 B23_02f9:		lda $054e, x	; bd 4e 05
+
 B23_02fc:		sta $054e, x	; 9d 4e 05
 B23_02ff:		sec				; 38 
 B23_0300:		sbc #$60		; e9 60
@@ -611,6 +611,7 @@ B23_03f5:		lda #$01		; a9 01
 B23_03f7:		rts				; 60 
 
 
+func_17_03f8:
 B23_03f8:		sta $00			; 85 00
 B23_03fa:		ldy #$01		; a0 01
 B23_03fc:		lda $054e, y	; b9 4e 05
@@ -5302,6 +5303,7 @@ B23_1cf7:	.db $04
 B23_1cf8:		rts				; 60 
 
 
+func_17_1cf9:
 B23_1cf9:		lda $ab			; a5 ab
 B23_1cfb:		beq B23_1d02 ; f0 05
 
@@ -5314,7 +5316,7 @@ B23_1d05:		beq B23_1cf8 ; f0 f1
 B23_1d07:		cmp #$27		; c9 27
 B23_1d09:		bne B23_1d10 ; d0 05
 
-B23_1d0b:		jsr $8131		; 20 31 81
+B23_1d0b:		jsr func_16_0131		; 20 31 81
 B23_1d0e:		beq B23_1cf8 ; f0 e8
 
 B23_1d10:		asl a			; 0a
@@ -5338,180 +5340,152 @@ B23_1d30:		asl a			; 0a
 B23_1d31:		bcs B23_1d41 ; b0 0e
 
 B23_1d33:		tay				; a8 
-B23_1d34:		lda $bd4f, y	; b9 4f bd
+B23_1d34:		lda data_17_1d4f.w, y	; b9 4f bd
 B23_1d37:		sta $00			; 85 00
-B23_1d39:		lda $bd50, y	; b9 50 bd
+B23_1d39:		lda data_17_1d4f.w+1, y	; b9 50 bd
 B23_1d3c:		sta $01			; 85 01
-B23_1d3e:	.db $6c $00 $00
+B23_1d3e:		jmp ($00)
+
 B23_1d41:		tay				; a8 
 B23_1d42:		lda $be4f, y	; b9 4f be
 B23_1d45:		sta $00			; 85 00
 B23_1d47:		lda $be50, y	; b9 50 be
 B23_1d4a:		sta $01			; 85 01
-B23_1d4c:	.db $6c $00 $00
-B23_1d4f:		ora $9b81		; 0d 81 9b
-B23_1d52:		sta ($34, x)	; 81 34
-B23_1d54:	.db $8f
-B23_1d55:		lda $0c81, y	; b9 81 0c
-B23_1d58:	.db $82
-B23_1d59:		and $5682		; 2d 82 56
-B23_1d5c:	.db $82
-B23_1d5d:		lda $f583, x	; bd 83 f5
-B23_1d60:	.db $83
-B23_1d61:		ldy $c589		; ac 89 c5
-B23_1d64:		sta ($ad, x)	; 81 ad
-B23_1d66:	.db $83
-B23_1d67:	.db $82
-B23_1d68:		sty $5a			; 84 5a
-B23_1d6a:		stx $8e20		; 8e 20 8e
-B23_1d6d:		plp				; 28 
-B23_1d6e:		sta $6c			; 85 6c
-B23_1d70:		sta $62			; 85 62
-B23_1d72:		stx $cb			; 86 cb
-B23_1d74:		stx $84			; 86 84
-B23_1d76:	.db $82
-B23_1d77:		adc $cfa4		; 6d a4 cf
-B23_1d7a:		ldy $e3			; a4 e3
-B23_1d7c:		ldy $ea			; a4 ea
-B23_1d7e:		ldy $f1			; a4 f1
-B23_1d80:		ldy $8b			; a4 8b
-B23_1d82:	.db $bf
-B23_1d83:	.db $f7
-B23_1d84:		ldy $02			; a4 02
-B23_1d86:		lda $3a			; a5 3a
-B23_1d88:	.db $89
-B23_1d89:		ror $c389, x	; 7e 89 c3
-B23_1d8c:	.db $83
-B23_1d8d:		eor ($84, x)	; 41 84
-B23_1d8f:		jmp $c884		; 4c 84 c8
+B23_1d4c:		jmp ($00)
 
 
-B23_1d92:		sty $f8			; 84 f8
-B23_1d94:	.db $89
-B23_1d95:		eor $8a			; 45 8a
-B23_1d97:	.db $d3
-B23_1d98:		txa				; 8a 
-B23_1d99:		adc $8a			; 65 8a
-B23_1d9b:		and #$8a		; 29 8a
-B23_1d9d:	.db $b2
-B23_1d9e:		sty $27			; 84 27
-B23_1da0:		;removed
-	.db $90 $f1
+data_17_1d4f:
+	.dw $810d
+	.dw $819b
+	.dw $8f34
+	.dw $81b9
+	.dw $820c
+	.dw $822d
+	.dw $8256
+	.dw $83bd
+	.dw $83f5
+	.dw $89ac
+	.dw $81c5
+	.dw $83ad
+	.dw $8482
+	.dw $8e5a
+	.dw $8e20
+	.dw $8528
+	.dw $856c
+	.dw $8662
+	.dw $86cb
+	.dw func_16_0284
+	.dw $a46d
+	.dw $a4cf
+	.dw $a4e3
+	.dw $a4ea
+	.dw $a4f1
+	.dw $bf8b
+	.dw $a4f7
+	.dw $a502
+	.dw $893a
+	.dw $897e
+	.dw $83c3
+	.dw $8441
+	.dw $844c
+	.dw $84c8
+	.dw $89f8
+	.dw $8a45
+	.dw $8ad3
+	.dw $8a65
+	.dw $8a29
+	.dw $84b2
+	.dw $9027
+	.dw $8ff1
+	.dw $81a7
+	.dw $81b3
+	.dw $90ff
+	.dw $81e9
+	.dw $84b8
+	.dw $9141
+	.dw $8a3a
+	.dw $8ae9
+	.dw $8ae9
+	.dw $92fc
+	.dw $9298
+	.dw $9358
+	.dw $93c4
+	.dw $a03b
+	.dw $a0a3
+	.dw $a0d8
+	.dw $8bd4
+	.dw $9260
+	.dw $94ee
+	.dw $950f
+	.dw $9503
+	.dw $95a7
+	.dw $9539
+	.dw $954e
+	.dw $958b
+	.dw $9596
+	.dw $8556
+	.dw $95cc
+	.dw $9623
+	.dw $9644
+	.dw $967b
+	.dw $9698
+	.dw $9644
+	.dw $9644
+	.dw $9644
+	.dw $8495
+	.dw $8d9c
+	.dw func_16_0313
+	.dw $8c22
+	.dw $8c64
+	.dw $8ae3
+	.dw $81dd
+	.dw $81d1
+	.dw $8201
+	.dw $9789
+	.dw $986f
+	.dw $865b
+	.dw $86c2
+	.dw $9634
+	.dw $98c4
+	.dw $85e8
+	.dw $8cef
+	.dw $98ab
+	.dw $8d39
+	.dw $87c3
+	.dw $87df
+	.dw $8214
+	.dw $87fd
+	.dw $88cc
+	.dw $8d86
+	.dw $91ab
+	.dw $879f
+	.dw $9946
+	.dw $9fea
+	.dw $9ffb
+	.dw $999d
+	.dw $8fe7
+	.dw $8153
+	.dw $8ad9
+	.dw $8773
+	.dw $8793
+	.dw $a0a8
+	.dw $822c
+	.dw $864a
+	.dw $86a4
+	.dw $8112
+	.dw $9a78
+	.dw $9a3f
+	.dw $9b74
+	.dw $9a39
+	.dw $9ce8
+	.dw $a508
+	.dw $a513
+	.dw $9403
+	.dw $93d9
+	.dw $943b
 
-B23_1da2:	.db $8f
-B23_1da3:	.db $a7
-B23_1da4:		sta ($b3, x)	; 81 b3
-B23_1da6:		sta ($ff, x)	; 81 ff
-B23_1da8:		;removed
-	.db $90 $e9
 
-B23_1daa:		sta ($b8, x)	; 81 b8
-B23_1dac:		sty $41			; 84 41
-B23_1dae:		sta ($3a), y	; 91 3a
-B23_1db0:		txa				; 8a 
-B23_1db1:		sbc #$8a		; e9 8a
-B23_1db3:		sbc #$8a		; e9 8a
-B23_1db5:	.db $fc
-B23_1db6:	.db $92
-B23_1db7:		tya				; 98 
-B23_1db8:	.db $92
-B23_1db9:		cli				; 58 
-B23_1dba:	.db $93
-B23_1dbb:		cpy $93			; c4 93
-B23_1dbd:	.db $3b
-B23_1dbe:		ldy #$a3		; a0 a3
-B23_1dc0:		ldy #$d8		; a0 d8
-B23_1dc2:		ldy #$d4		; a0 d4
-B23_1dc4:	.db $8b
-B23_1dc5:		rts				; 60 
-
-
-B23_1dc6:	.db $92
-B23_1dc7:		inc $0f94		; ee 94 0f
-B23_1dca:		sta $03, x		; 95 03
-B23_1dcc:		sta $a7, x		; 95 a7
-B23_1dce:		sta $39, x		; 95 39
-B23_1dd0:		sta $4e, x		; 95 4e
-B23_1dd2:		sta $8b, x		; 95 8b
-B23_1dd4:		sta $96, x		; 95 96
-B23_1dd6:		sta $56, x		; 95 56
-B23_1dd8:		sta $cc			; 85 cc
-B23_1dda:		sta $23, x		; 95 23
-B23_1ddc:		stx $44, y		; 96 44
-B23_1dde:		stx $7b, y		; 96 7b
-B23_1de0:		stx $98, y		; 96 98
-B23_1de2:		stx $44, y		; 96 44
-B23_1de4:		stx $44, y		; 96 44
-B23_1de6:		stx $44, y		; 96 44
-B23_1de8:		stx $95, y		; 96 95
-B23_1dea:		sty $9c			; 84 9c
-B23_1dec:		sta $8313		; 8d 13 83
-B23_1def:	.db $22
-B23_1df0:		sty $8c64		; 8c 64 8c
-B23_1df3:	.db $e3
-B23_1df4:		txa				; 8a 
-B23_1df5:		cmp $d181, x	; dd 81 d1
-B23_1df8:		sta ($01, x)	; 81 01
-B23_1dfa:	.db $82
-B23_1dfb:	.db $89
-B23_1dfc:	.db $97
-B23_1dfd:	.db $6f
-B23_1dfe:		tya				; 98 
-B23_1dff:	.db $5b
-B23_1e00:		stx $c2			; 86 c2
-B23_1e02:		stx $34			; 86 34
-B23_1e04:		stx $c4, y		; 96 c4
-B23_1e06:		tya				; 98 
-B23_1e07:		inx				; e8 
-B23_1e08:		sta $ef			; 85 ef
-B23_1e0a:		sty $98ab		; 8c ab 98
-B23_1e0d:		and $c38d, y	; 39 8d c3
-B23_1e10:	.db $87
-B23_1e11:	.db $df
-B23_1e12:	.db $87
-B23_1e13:	.db $14
-B23_1e14:	.db $82
-B23_1e15:		sbc $cc87, x	; fd 87 cc
-B23_1e18:		dey				; 88 
-B23_1e19:		stx $8d			; 86 8d
-B23_1e1b:	.db $ab
-B23_1e1c:		sta ($9f), y	; 91 9f
-B23_1e1e:	.db $87
-B23_1e1f:		lsr $99			; 46 99
-B23_1e21:		nop				; ea 
-B23_1e22:	.db $9f
-B23_1e23:	.db $fb
-B23_1e24:	.db $9f
-B23_1e25:		sta $e799, x	; 9d 99 e7
-B23_1e28:	.db $8f
-B23_1e29:	.db $53
-B23_1e2a:		sta ($d9, x)	; 81 d9
-B23_1e2c:		txa				; 8a 
-B23_1e2d:	.db $73
-B23_1e2e:	.db $87
-B23_1e2f:	.db $93
-B23_1e30:	.db $87
-B23_1e31:		tay				; a8 
-B23_1e32:		ldy #$2c		; a0 2c
-B23_1e34:	.db $82
-B23_1e35:		lsr a			; 4a
-B23_1e36:		stx $a4			; 86 a4
-B23_1e38:		stx $12			; 86 12
-B23_1e3a:		sta ($78, x)	; 81 78
-B23_1e3c:		txs				; 9a 
-B23_1e3d:	.db $3f
-B23_1e3e:		txs				; 9a 
-B23_1e3f:	.db $74
-B23_1e40:	.db $9b
-B23_1e41:		and $e89a, y	; 39 9a e8
-B23_1e44:	.db $9c
-B23_1e45:		php				; 08 
-B23_1e46:		lda $13			; a5 13
-B23_1e48:		lda $03			; a5 03
-B23_1e4a:		sty $d9, x		; 94 d9
-B23_1e4c:	.db $93
-B23_1e4d:	.db $3b
-B23_1e4e:		sty $9b, x		; 94 9b
+B23_1e4f:		.db $9b
 B23_1e50:		sty $bd, x		; 94 bd
 B23_1e52:		sty $c4, x		; 94 c4
 B23_1e54:		sty $e2, x		; 94 e2
@@ -5531,7 +5505,7 @@ B23_1e69:		cmp $82, x		; d5 82
 B23_1e6b:		ror $8d, x		; 76 8d
 B23_1e6d:	.db $c2
 B23_1e6e:	.db $8b
-B23_1e6f:		bcs B23_1dfc ; b0 8b
+B23_1e6f:		.db $b0 $8b
 
 B23_1e71:		rti				; 40 
 

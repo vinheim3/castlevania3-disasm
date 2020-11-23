@@ -2,7 +2,7 @@
 
 
 func_1a_0001:
-B26_0001:		lda $18			; a5 18
+B26_0001:		lda wGameState			; a5 18
 B26_0003:		cmp #$0c		; c9 0c
 B26_0005:		bne B26_000a ; d0 03
 
@@ -78,25 +78,35 @@ B26_0075:		bcc B26_00b4 ; 90 3d
 B26_0077:		bcs B26_00b6 ; b0 3d
 
 func_1a_0079:
+; 48c - entity idx * 2??
 B26_0079:		ldy $048c, x	; bc 8c 04
 B26_007c:		sty $0f			; 84 0f
-B26_007e:		lda $823e, y	; b9 3e 82
+
+B26_007e:		lda data_1a_023e.w, y	; b9 3e 82
 B26_0081:		sta $08			; 85 08
-B26_0083:		lda $823f, y	; b9 3f 82
+B26_0083:		lda data_1a_023e.w+1, y	; b9 3f 82
 B26_0086:		sta $09			; 85 09
+
 B26_0088:		ldy $0400, x	; bc 00 04
 B26_008b:		lda ($08), y	; b1 08
 B26_008d:		sta $0a			; 85 0a
 B26_008f:		iny				; c8 
 B26_0090:		lda ($08), y	; b1 08
 B26_0092:		sta $0b			; 85 0b
+
+; 1st oam spec byte (num tiles), store in $03
 B26_0094:		ldy #$00		; a0 00
 B26_0096:		lda ($0a), y	; b1 0a
 B26_0098:		sta $03			; 85 03
+
 B26_009a:		lda $04a8, x	; bd a8 04
 B26_009d:		beq B26_00f9 ; f0 5a
 
+; $04 is next fillable wOam offset
 B26_009f:		ldx $04			; a6 04
+
+; 2nd oam spec byte (Y)
+@nextOam:
 B26_00a1:		iny				; c8 
 B26_00a2:		lda ($0a), y	; b1 0a
 B26_00a4:		bpl B26_005a ; 10 b4
@@ -107,12 +117,16 @@ B26_00a8:		bcs B26_005d ; b0 b3
 
 B26_00aa:		adc $01			; 65 01
 B26_00ac:		sta $0200, x	; 9d 00 02
+
+; 3rd oam spec byte (tile idx)
 B26_00af:		iny				; c8 
 B26_00b0:		lda $b0			; a5 b0
 B26_00b2:		bne B26_0072 ; d0 be
 
 B26_00b4:		lda ($0a), y	; b1 0a
 B26_00b6:		sta $0201, x	; 9d 01 02
+
+; 4th oam spec byte (attribute)
 B26_00b9:		iny				; c8 
 B26_00ba:		lda $00			; a5 00
 B26_00bc:		beq B26_00c6 ; f0 08
@@ -125,6 +139,8 @@ B26_00c4:		bne B26_00c8 ; d0 02
 B26_00c6:		lda ($0a), y	; b1 0a
 B26_00c8:		sta $10			; 85 10
 B26_00ca:		sta $0202, x	; 9d 02 02
+
+; 5th oam spec byte (X)
 B26_00cd:		iny				; c8 
 B26_00ce:		lda ($0a), y	; b1 0a
 B26_00d0:		bmi B26_00ea ; 30 18
@@ -142,11 +158,10 @@ B26_00df:		dec $07			; c6 07
 B26_00e1:		beq B26_00f6 ; f0 13
 
 B26_00e3:		dec $03			; c6 03
-B26_00e5:		bne B26_00a1 ; d0 ba
+B26_00e5:		bne B26_00a1 ; @nextOam
 
 B26_00e7:		stx $04			; 86 04
 B26_00e9:		rts				; 60 
-
 
 B26_00ea:		clc				; 18 
 B26_00eb:		adc $02			; 65 02
@@ -160,8 +175,10 @@ B26_00f6:		pla				; 68
 B26_00f7:		pla				; 68 
 B26_00f8:		rts				; 60 
 
-
+; different method of setting to oam
 B26_00f9:		ldx $04			; a6 04
+
+@nextOam2:
 B26_00fb:		iny				; c8 
 B26_00fc:		lda ($0a), y	; b1 0a
 B26_00fe:		bpl B26_015c ; 10 5c
@@ -177,7 +194,11 @@ B26_010a:		lda $b0			; a5 b0
 B26_010c:		bne B26_0155 ; d0 47
 
 B26_010e:		lda ($0a), y	; b1 0a
+.ifdef SEPARATED_LAMP_GFX
+B26_0110:	jsr changeLampGfx
+.else
 B26_0110:		sta $0201, x	; 9d 01 02
+.endif
 B26_0113:		iny				; c8 
 B26_0114:		lda $00			; a5 00
 B26_0116:		beq B26_0120 ; f0 08
@@ -210,11 +231,10 @@ B26_013e:		dec $07			; c6 07
 B26_0140:		beq B26_00f6 ; f0 b4
 
 B26_0142:		dec $03			; c6 03
-B26_0144:		bne B26_00fb ; d0 b5
+B26_0144:		bne B26_00fb ; @nextOam2
 
 B26_0146:		stx $04			; 86 04
 B26_0148:		rts				; 60 
-
 
 B26_0149:		clc				; 18 
 B26_014a:		adc $02			; 65 02
@@ -243,7 +263,6 @@ B26_016a:		lda ($0a), y	; b1 0a
 B26_016c:		sta $0201, x	; 9d 01 02
 B26_016f:		lda $10			; a5 10
 B26_0171:		jmp $8126		; 4c 26 81
-
 
 B26_0174:		jsr $817b		; 20 7b 81
 B26_0177:		bcc B26_016a ; 90 f1
@@ -314,10 +333,11 @@ B26_01d9:		jmp $8222		; 4c 22 82
 
 func_1a_01dc:
 B26_01dc:		ldy $048c, x	; bc 8c 04
-B26_01df:		lda $823e, y	; b9 3e 82
+B26_01df:		lda data_1a_023e.w, y	; b9 3e 82
 B26_01e2:		sta $08			; 85 08
-B26_01e4:		lda $823f, y	; b9 3f 82
+B26_01e4:		lda data_1a_023e.w+1, y	; b9 3f 82
 B26_01e7:		sta $09			; 85 09
+
 B26_01e9:		ldy $0400, x	; bc 00 04
 B26_01ec:		lda ($08), y	; b1 08
 B26_01ee:		sta $0a			; 85 0a
@@ -373,89 +393,82 @@ B26_023b:		stx $04			; 86 04
 B26_023d:		rts				; 60 
 
 
-B26_023e:	.db $5c
-B26_023f:	.db $82
-B26_0240:		cpy $2482		; cc 82 24
-B26_0243:	.db $83
-B26_0244:		sei				; 78 
-B26_0245:	.db $83
-B26_0246:		sbc #$8b		; e9 8b
-B26_0248:		ldx #$96		; a2 96
-B26_024a:	.db $e7
-B26_024b:	.db $ab
-B26_024c:	.db $53
-B26_024d:		lda $9fd6		; ad d6 9f
-B26_0250:		sbc #$8c		; e9 8c
-B26_0252:	.db $e7
-B26_0253:		ldy $825c		; ac 5c 82
-B26_0256:		cpy $2482		; cc 82 24
-B26_0259:	.db $83
-B26_025a:		sei				; 78 
-B26_025b:	.db $83
-B26_025c:		ldx $0283, y	; be 83 02
-B26_025f:		sty $10			; 84 10
-B26_0261:		sty $1b			; 84 1b
-B26_0263:		sty $10			; 84 10
-B26_0265:		sty $29			; 84 29
-B26_0267:		sty $37			; 84 37
-B26_0269:		sty $53			; 84 53
-B26_026b:		sty $1e			; 84 1e
-B26_026d:		sta $2c			; 85 2c
-B26_026f:		sta $3a			; 85 3a
-B26_0271:		sta $45			; 85 45
-B26_0273:		sty $61			; 84 61
-B26_0275:		sty $6f			; 84 6f
-B26_0277:		sty $7d			; 84 7d
-B26_0279:		sty $8e			; 84 8e
-B26_027b:		sty $9f			; 84 9f
-B26_027d:		sty $ad			; 84 ad
-B26_027f:		sty $48			; 84 48
-B26_0281:		sta $50			; 85 50
-B26_0283:		sta $58			; 85 58
-B26_0285:		sta $63			; 85 63
-B26_0287:		sta $6b			; 85 6b
-B26_0289:		sta $73			; 85 73
-B26_028b:		sta $7b			; 85 7b
-B26_028d:		sta $86			; 85 86
-B26_028f:		sta $be			; 85 be
-B26_0291:		sty $cf			; 84 cf
-B26_0293:		sty $dd			; 84 dd
-B26_0295:		sty $ee			; 84 ee
-B26_0297:		sty $ff			; 84 ff
-B26_0299:		sty $0d			; 84 0d
-B26_029b:		sta $97			; 85 97
-B26_029d:		sta $a0			; 85 a0
-B26_029f:		sta $a8			; 85 a8
-B26_02a1:		sta $b0			; 85 b0
-B26_02a3:		sta $b8			; 85 b8
-B26_02a5:		sta $c0			; 85 c0
-B26_02a7:		sta $c8			; 85 c8
-B26_02a9:		sta $d0			; 85 d0
-B26_02ab:		sta $dd			; 85 dd
-B26_02ad:		sta $e5			; 85 e5
-B26_02af:		sta $ea			; 85 ea
-B26_02b1:		sta $cb			; 85 cb
-B26_02b3:	.db $93
-B26_02b4:		;removed
-	.db $d0 $93
+data_1a_023e:
+	.dw data_1a_025c
+	.dw data_1a_02cc
+	.dw $8324
+	.dw $8378
+	.dw $8be9
+	.dw $96a2
+	.dw $abe7
+	.dw data_1b_0d53
+	.dw $9fd6
+	.dw $8ce9
+	.dw $ace7
+	.dw data_1a_025c
+	.dw data_1a_02cc
+	.dw $8324
+	.dw $8378
 
-B26_02b6:		cmp $93, x		; d5 93
-B26_02b8:		bne B26_024d ; d0 93
+data_1a_025c:
+	.dw $83be
+	.dw $8402
+	.dw $8410
+	.dw $841b
+	.dw $8410
+	.dw $8429
+	.dw $8437
+	.dw $8453
+	.dw $851e
+	.dw $852c
+	.dw $853a
+	.dw $8445
+	.dw $8461
+	.dw $846f
+	.dw $847d
+	.dw $848e
+	.dw $849f
+	.dw $84ad
+	.dw $8548
+	.dw $8550
+	.dw $8558
+	.dw $8563
+	.dw $856b
+	.dw $8573
+	.dw $857b
+	.dw $8586
+	.dw $84be
+	.dw $84cf
+	.dw $84dd
+	.dw $84ee
+	.dw $84ff
+	.dw $850d
+	.dw $8597
+	.dw $85a0
+	.dw $85a8
+	.dw $85b0
+	.dw $85b8
+	.dw $85c0
+	.dw $85c8
+	.dw $85d0
+	.dw $85dd
+	.dw $85e5
+	.dw data_1a_05ea
+	.dw $93cb
+	.dw $93d0
+	.dw $93d5
+	.dw $93d0
+	.dw $85f2
+	.dw $85fb
+	.dw $83f9
+	.dw $85d8
+	.dw $83be
+	.dw $83c7
+	.dw $83d2
+	.dw $83e0
+	.dw $83eb
 
-B26_02ba:	.db $f2
-B26_02bb:		sta $fb			; 85 fb
-B26_02bd:		sta $f9			; 85 f9
-B26_02bf:	.db $83
-B26_02c0:		cld				; d8 
-B26_02c1:		sta $be			; 85 be
-B26_02c3:	.db $83
-B26_02c4:	.db $c7
-B26_02c5:	.db $83
-B26_02c6:	.db $d2
-B26_02c7:	.db $83
-B26_02c8:		cpx #$83		; e0 83
-B26_02ca:	.db $eb
-B26_02cb:	.db $83
+data_1a_02cc:
 B26_02cc:		ldx $0483, y	; be 83 04
 B26_02cf:		stx $12			; 86 12
 B26_02d1:		stx $20			; 86 20
@@ -521,7 +534,7 @@ B26_032c:		clc				; 18
 B26_032d:		dey				; 88 
 B26_032e:	.db $42
 B26_032f:		dey				; 88 
-B26_0330:		bvc B26_02ba ; 50 88
+B26_0330:		.db $50 $88
 
 B26_0332:		jmp ($7488)		; 6c 88 74
 
@@ -1041,12 +1054,18 @@ B26_05e4:		.db $00				; 00
 B26_05e5:		ora ($f0, x)	; 01 f0
 B26_05e7:	.db $5a
 B26_05e8:		ora ($fc, x)	; 01 fc
+
+
+data_1a_05ea:
 B26_05ea:	.db $02
 B26_05eb:		beq B26_060e ; f0 21
 
 B26_05ed:		ora ($f8, x)	; 01 f8
 B26_05ef:		sbc ($23), y	; f1 23
 B26_05f1:		.db $00				; 00
+
+
+
 B26_05f2:	.db $02
 B26_05f3:		;removed
 	.db $f0 $15

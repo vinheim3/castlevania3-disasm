@@ -3397,7 +3397,7 @@ B5_1361:		rts				; 60
 
 B5_1362:		ldx $1d			; a6 1d
 B5_1364:		lda #$01		; a9 01
-B5_1366:		jsr func_1f_0d16		; 20 16 ed
+B5_1366:		jsr storeByteInVramQueueIdxedX		; 20 16 ed
 B5_1369:		lda #$00		; a9 00
 B5_136b:		sta $62			; 85 62
 B5_136d:		ldy $06			; a4 06
@@ -3443,28 +3443,28 @@ B5_13a7:		clc				; 18
 B5_13a8:		adc $61			; 65 61
 B5_13aa:		sta $61			; 85 61
 B5_13ac:		ldx $1d			; a6 1d
-B5_13ae:		jsr func_1f_0d16		; 20 16 ed
+B5_13ae:		jsr storeByteInVramQueueIdxedX		; 20 16 ed
 B5_13b1:		lda $62			; a5 62
 B5_13b3:		clc				; 18 
 B5_13b4:		adc #$28		; 69 28
 B5_13b6:		sta $62			; 85 62
-B5_13b8:		jsr func_1f_0d16		; 20 16 ed
+B5_13b8:		jsr storeByteInVramQueueIdxedX		; 20 16 ed
 B5_13bb:		lda #$00		; a9 00
-B5_13bd:		jsr func_1f_0d16		; 20 16 ed
-B5_13c0:		jsr func_1f_0d16		; 20 16 ed
-B5_13c3:		jsr $e8de		; 20 de e8
+B5_13bd:		jsr storeByteInVramQueueIdxedX		; 20 16 ed
+B5_13c0:		jsr storeByteInVramQueueIdxedX		; 20 16 ed
+B5_13c3:		jsr setVramQueueNextFillIdxAndTerminate		; 20 de e8
 B5_13c6:		lda #$01		; a9 01
-B5_13c8:		jsr func_1f_0d16		; 20 16 ed
+B5_13c8:		jsr storeByteInVramQueueIdxedX		; 20 16 ed
 B5_13cb:		lda $61			; a5 61
 B5_13cd:		clc				; 18 
 B5_13ce:		adc #$20		; 69 20
-B5_13d0:		jsr func_1f_0d16		; 20 16 ed
+B5_13d0:		jsr storeByteInVramQueueIdxedX		; 20 16 ed
 B5_13d3:		lda $62			; a5 62
-B5_13d5:		jsr func_1f_0d16		; 20 16 ed
+B5_13d5:		jsr storeByteInVramQueueIdxedX		; 20 16 ed
 B5_13d8:		lda #$00		; a9 00
-B5_13da:		jsr func_1f_0d16		; 20 16 ed
-B5_13dd:		jsr func_1f_0d16		; 20 16 ed
-B5_13e0:		jsr $e8de		; 20 de e8
+B5_13da:		jsr storeByteInVramQueueIdxedX		; 20 16 ed
+B5_13dd:		jsr storeByteInVramQueueIdxedX		; 20 16 ed
+B5_13e0:		jsr setVramQueueNextFillIdxAndTerminate		; 20 de e8
 B5_13e3:		ldy $06			; a4 06
 B5_13e5:		ldx $6c			; a6 6c
 B5_13e7:	.db $b9 $0d $00
@@ -3530,20 +3530,20 @@ B5_144f:		tya				; 98
 B5_1450:		clc				; 18 
 B5_1451:		adc $62			; 65 62
 B5_1453:		sta $62			; 85 62
-B5_1455:		jsr $e8b5		; 20 b5 e8
+B5_1455:		jsr func_1f_08b5		; 20 b5 e8
 B5_1458:		lda #$00		; a9 00
-B5_145a:		jsr func_1f_0d16		; 20 16 ed
-B5_145d:		jsr func_1f_0d16		; 20 16 ed
-B5_1460:		jsr $e8de		; 20 de e8
+B5_145a:		jsr storeByteInVramQueueIdxedX		; 20 16 ed
+B5_145d:		jsr storeByteInVramQueueIdxedX		; 20 16 ed
+B5_1460:		jsr setVramQueueNextFillIdxAndTerminate		; 20 de e8
 B5_1463:		lda #$20		; a9 20
 B5_1465:		clc				; 18 
 B5_1466:		adc $61			; 65 61
 B5_1468:		sta $61			; 85 61
-B5_146a:		jsr $e8b5		; 20 b5 e8
+B5_146a:		jsr func_1f_08b5		; 20 b5 e8
 B5_146d:		lda #$00		; a9 00
-B5_146f:		jsr func_1f_0d16		; 20 16 ed
-B5_1472:		jsr func_1f_0d16		; 20 16 ed
-B5_1475:		jsr $e8de		; 20 de e8
+B5_146f:		jsr storeByteInVramQueueIdxedX		; 20 16 ed
+B5_1472:		jsr storeByteInVramQueueIdxedX		; 20 16 ed
+B5_1475:		jsr setVramQueueNextFillIdxAndTerminate		; 20 de e8
 B5_1478:		lda $0a			; a5 0a
 B5_147a:		lsr a			; 4a
 B5_147b:		lsr a			; 4a
