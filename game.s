@@ -8,160 +8,188 @@
 
 .bank $00 slot 1
 .org 0
-.include "code/bank00.s"
+
+    .db $80
+    .include "code/bank00.s"
 
 .bank $01 slot 2
 .org 0
-.include "code/bank01.s"
+
+    .include "code/bank01.s"
 
 .bank $02 slot 1
 .org 0
-.include "code/bank02.s"
+
+    .db $82
+    .include "code/bank02.s"
 
 .bank $03 slot 2
 .org 0
-.include "code/bank03.s"
+
+    .include "code/bank03.s"
 
 .bank $04 slot 1
 .org 0
-.include "code/bank04.s"
+
+    .db $84
+    .include "code/bank04.s"
 
 .bank $05 slot 2
 .org 0
-.include "code/bank05.s"
+
+    .include "code/bank05.s"
 
 .bank $06 slot 1
 .org 0
-.include "code/bank06.s"
+
+    .db $86
+    .include "code/bank06.s"
 
 .bank $07 slot 3
 .org 0
 
-.include "data/commonDPCMdata.s"
-.include "code/bank07.s"
+    .include "data/commonDPCMdata.s"
+    .include "code/bank07.s"
 
 .bank $08 slot 1
 .org 0
 
-.db $88
-.include "code/soundCommon.s" namespace "b08_soundCommon"
-.include "data/soundData_b08.s"
+    .db $88
+    .include "code/soundCommon.s" namespace "b08_soundCommon"
+    .include "data/soundData_b08.s"
 
 .bank $09 slot 2
 .org 0
 
-.include "data/soundData_b09.s"
-.include "code/bank09.s"
+    .include "data/soundData_b09.s"
+    .include "code/bank09.s"
 
 .bank $0a slot 1
 .org 0
 
-.db $8a
-.include "code/soundCommon.s" namespace "b0a_soundCommon"
-.include "data/soundData_b0a.s"
+    .db $8a
+    .include "code/soundCommon.s" namespace "b0a_soundCommon"
+    .include "data/soundData_b0a.s"
 
 .bank $0b slot 2
 .org 0
 
-.include "data/soundData_b0b.s"
-.include "code/bank0b.s"
+    .include "data/soundData_b0b.s"
+    .include "code/bank0b.s"
 
 .bank $0c slot 1
 .org 0
 
-.db $8c
-.include "data/roomMetatilesPalettesData_b0c.s"
+    .db $8c
+    .include "data/roomMetatilesPalettesData_b0c.s"
 
 .bank $0d slot 2
 .org 0
 
-.include "data/roomMetatilesPalettesData_b0d.s"
-.include "code/bank0d.s"
+    .include "data/roomMetatilesPalettesData_b0d.s"
+    .include "code/bank0d.s"
 
 .bank $0e slot 1
 .org 0
 
-.db $8e
-.include "data/roomMetatilesPalettesData_b0e.s"
+    .db $8e
+    .include "data/roomMetatilesPalettesData_b0e.s"
 
 .bank $0f slot 2
 .org 0
 
-.include "data/roomMetatilesPalettesData_b0f.s"
-.include "code/bank0f.s"
+    .include "data/roomMetatilesPalettesData_b0f.s"
+    .include "code/bank0f.s"
 
 .bank $10 slot 1
 .org 0
 
-.db $90
-.include "data/roomMetatilesPalettesData_b10.s"
+    .db $90
+    .include "data/roomMetatilesPalettesData_b10.s"
 
 .bank $11 slot 2
 .org 0
 
-.include "data/roomMetatilesPalettesData_b11.s"
-.include "code/bank11.s"
+    .include "data/roomMetatilesPalettesData_b11.s"
+    .include "code/bank11.s"
 
 .bank $12 slot 1
 .org 0
-.include "code/bank12.s"
+
+    .db $92
+    .include "code/bank12.s"
 
 .bank $13 slot 2
 .org 0
-.include "code/bank13.s"
+
+    .include "code/bank13.s"
 
 .bank $14 slot 1
 .org 0
-.include "code/bank14.s"
+
+    .db $94
+    .include "code/bank14.s"
 
 .bank $15 slot 2
 .org 0
-.include "code/bank15.s"
+
+    .include "code/bank15.s"
 
 .bank $16 slot 1
 .org 0
-.include "code/bank16.s"
+
+    .db $96
+    .include "code/bank16.s"
 
 .bank $17 slot 2
 .org 0
-.include "code/bank17.s"
+
+    .include "code/bank17.s"
 
 .bank $18 slot 1
 .org 0
 
-.include "code/bank18.s"
-.include "data/soundPointers.s"
-.include "data/soundData_b18.s"
-.include "data/soundEnvelopeData_b18.s"
+    .db $98
+    .include "code/soundCommon.s" namespace "b18_soundCommon"
+    .include "code/soundEngine.s"
+    .include "data/soundPointers.s"
+    .include "data/soundData_b18.s"
+    .include "data/soundEnvelopeData_b18.s"
 
 .bank $19 slot 2
 .org 0
 
-.include "data/soundEnvelopeData_b19.s"
-.include "data/dpcmSpecData.s"
-.include "code/bank19.s"
+    .include "data/soundEnvelopeData_b19.s"
+    .include "data/dpcmSpecData.s"
+    .include "code/bank19.s"
 
 .bank $1a slot 1
 .org 0
-.include "code/bank1a.s"
+
+    .db $9a
+    .include "code/bank1a.s"
 
 .bank $1b slot 2
 .org 0
-.include "code/bank1b.s"
+
+    .include "code/bank1b.s"
 
 .bank $1c slot 1
 .org 0
-.include "code/bank1c.s"
+
+    .db $9c
+    .include "code/bank1c.s"
 
 .bank $1d slot 2
 .org 0
-.include "code/bank1d.s"
+
+    .include "code/bank1d.s"
 
 .bank $1e slot 3
 .org 0
 
-.include "data/commonDPCMdata.s"
-.include "code/bank1e.s"
+    .include "data/commonDPCMdata.s"
+    .include "code/bank1e.s"
 
 .ifdef IS_EXTENDED_ROM
     .bank $7f slot 4
@@ -169,5 +197,6 @@
     .bank $1f slot 4
 .endif
 .org 0
-.include "code/bank1f.s"
 
+    .db $9e
+    .include "code/bank1f.s"

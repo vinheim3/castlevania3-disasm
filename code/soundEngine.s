@@ -1,9 +1,4 @@
 
-.db $98
-
-.include "code/soundCommon.s" namespace "b18_soundCommon"
-
-
 b18_initSound:
 ; preserve X
 B24_075e:		lda #$00		; a9 00

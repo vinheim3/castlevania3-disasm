@@ -114,7 +114,7 @@ wholePalettes = []
 for row in palettes:
     wholePalettes.extend(row)
 
-# (to extract) Internal palettes
+# (extracted) Internal palettes
 internalPaletteIdxGroupAddress = word(0x5cd+group*2)-0x8000
 internalPaletteIdxSectionAddress = word(internalPaletteIdxGroupAddress+section*4)-0x8000
 internalPaletteIdx = prgData[internalPaletteIdxSectionAddress+room]

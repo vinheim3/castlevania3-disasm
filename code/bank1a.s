@@ -1,5 +1,3 @@
-	.db $9a 
-
 
 func_1a_0001:
 B26_0001:		lda wGameState			; a5 18
