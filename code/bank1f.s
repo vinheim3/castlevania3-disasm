@@ -115,7 +115,7 @@ B31_009e:		sta $70			; 85 70
 	jsr updateSound
 	jsr pollInputs
 	jsr processGameState
-	jsr_8000Func func_1a_0001
+	jsr_8000Func update_wOam
 B31_00b1:		lda #$00		; a9 00
 B31_00b3:		jsr storeByteInVramQueue		; 20 14 ed
 B31_00b6:		sta $1b			; 85 1b
@@ -642,14 +642,14 @@ processGameState:
 
 	.dw gameState0_intro
 	.dw gameState1_stub
-	.dw gameState2
+	.dw gameState2 ; clears a bunch of vars
 	.dw gameState3
 	.dw gameState4_inGame
 	.dw gameState5
-	.dw gameState6
+	.dw gameState6 ; goes to state B
 	.dw gameState7
 	.dw gameState8
-	.dw gameState9_introCutscene ; todo: is it other cutscenes?
+	.dw gameState9_introCutscene
 	.dw gameStateA_namePwInput
 	.dw gameStateB
 	.dw gameStateC
@@ -738,7 +738,7 @@ B31_0417:		and #PADF_A|PADF_B		; 29 c0
 B31_0419:		bne B31_03f7 ; d0 dc
 
 B31_041b:		lda #$80		; a9 80
-B31_041d:		sta $30			; 85 30
+B31_041d:		sta wGenericStateTimer			; 85 30
 B31_041f:		inc wGameSubstate			; e6 19
 
 gameState1_stub:
@@ -755,11 +755,11 @@ B31_042d:		ora #$80		; 09 80
 B31_042f:		bne B31_0434 ; d0 03
 
 B31_0431:		lda data_1f_0440.w, y	; b9 40 e4
-B31_0434:		jsr func_1f_0ce9		; 20 e9 ec
-B31_0437:		dec $30			; c6 30
+B31_0434:		jsr displayStaticLayoutA		; 20 e9 ec
+B31_0437:		dec wGenericStateTimer			; c6 30
 B31_0439:		bne B31_0421 ; d0 e6
 
-B31_043b:		lda #$02		; a9 02
+B31_043b:		lda #GS_02		; a9 02
 B31_043d:		jmp setNewGameState		; 4c 74 e5
 
 data_1f_0440:
@@ -774,16 +774,17 @@ B31_0448:		lda #$00		; a9 00
 B31_044a:		sta $1e			; 85 1e
 B31_044c:		pla				; 68 
 B31_044d:		sta $6b			; 85 6b
-B31_044f:		lda #$0a		; a9 0a
+B31_044f:		lda #GS_NAME_PW_INPUT		; a9 0a
 B31_0451:		jmp setNewGameState		; 4c 74 e5
 
 
 gameState3:
 B31_0454:		lda #$00		; a9 00
 B31_0456:		sta $2a			; 85 2a
-B31_0458:		jsr $e828		; 20 28 e8
-B31_045b:		jsr $e782		; 20 82 e7
-B31_045e:		jsr $e68f		; 20 8f e6
+B31_0458:		jsr func_1f_0828		; 20 28 e8
+B31_045b:		jsr func_1f_0782		; 20 82 e7
+B31_045e:		jsr func_1f_068f		; 20 8f e6
+; GS_IN_GAME
 B31_0461:		jmp incToNewGameState		; 4c 6d e5
 
 
@@ -796,22 +797,21 @@ B31_046a:		bne B31_046f ; d0 03
 B31_046c:		inc wGameSubstate			; e6 19
 B31_046e:		rts				; 60 
 
-
 B31_046f:		dey				; 88 
 B31_0470:		bne B31_049a ; d0 28
 
-B31_0472:		jsr $e819		; 20 19 e8
-B31_0475:		lda $32			; a5 32
+B31_0472:		jsr func_1f_0819		; 20 19 e8
+B31_0475:		lda wCurrRoomGroup		; a5 32
 B31_0477:		cmp #$0e		; c9 0e
 B31_0479:		bne B31_0485 ; d0 0a
 
-B31_047b:		lda $33			; a5 33
+B31_047b:		lda wCurrRoomSection			; a5 33
 B31_047d:		cmp #$02		; c9 02
 B31_047f:		bne B31_0485 ; d0 04
 
 B31_0481:		lda #$01		; a9 01
-B31_0483:		sta $33			; 85 33
-B31_0485:		jsr $e68f		; 20 8f e6
+B31_0483:		sta wCurrRoomSection			; 85 33
+B31_0485:		jsr func_1f_068f		; 20 8f e6
 B31_0488:		jsr func_1f_0bfd		; 20 fd eb
 B31_048b:		lda $35			; a5 35
 B31_048d:		beq B31_04b1 ; f0 22
@@ -819,7 +819,6 @@ B31_048d:		beq B31_04b1 ; f0 22
 	jsr_8000Func func_1c_096e
 B31_0497:		inc wGameSubstate			; e6 19
 B31_0499:		rts				; 60 
-
 
 B31_049a:		dey				; 88 
 B31_049b:		bne B31_04a4 ; d0 07
@@ -829,18 +828,17 @@ B31_049f:		sta wGenericStateTimer			; 85 30
 B31_04a1:		inc wGameSubstate			; e6 19
 B31_04a3:		rts				; 60 
 
-
 B31_04a4:		dec wGenericStateTimer			; c6 30
 B31_04a6:		bne B31_04a3 ; d0 fb
 
+func_1f_04a8:
 B31_04a8:		lda #$00		; a9 00
 B31_04aa:		sta $2a			; 85 2a
-B31_04ac:		lda #$04		; a9 04
-B31_04ae:		sta $18			; 85 18
+B31_04ac:		lda #GS_IN_GAME		; a9 04
+B31_04ae:		sta wGameState			; 85 18
 B31_04b0:		rts				; 60 
 
-
-B31_04b1:		lda #$06		; a9 06
+B31_04b1:		lda #GS_06		; a9 06
 B31_04b3:		jmp setNewGameState		; 4c 74 e5
 
 
@@ -864,20 +862,18 @@ B31_04d4:		sta wChrBankBG_0400			; 85 4b
 B31_04d6:		lda #$43		; a9 43
 B31_04d8:		sta wChrBankBG_0c00			; 85 4d
 B31_04da:		lda #$03		; a9 03
-B31_04dc:		jsr func_1f_0ce9		; 20 e9 ec
+B31_04dc:		jsr displayStaticLayoutA		; 20 e9 ec
 B31_04df:		lda #$27		; a9 27
-B31_04e1:		jsr func_1f_0ce9		; 20 e9 ec
+B31_04e1:		jsr displayStaticLayoutA		; 20 e9 ec
 B31_04e4:		lda #$28		; a9 28
-B31_04e6:		jsr func_1f_0ce9		; 20 e9 ec
+B31_04e6:		jsr displayStaticLayoutA		; 20 e9 ec
 B31_04e9:		lda #$00		; a9 00
 B31_04eb:		sta $6b			; 85 6b
 B31_04ed:		inc wGameSubstate			; e6 19
 B31_04ef:		rts				; 60 
 
-
-B31_04f0:		lda #$80		; a9 80
-B31_04f2:		jsr setAndSaveLowerBank		; 20 e6 e2
-B31_04f5:		jsr $8b29		; 20 29 8b
+@gameSubstate1:
+B31_04f0:		jsr_8000Func func_00_0b29
 B31_04f8:		jsr func_1f_055b		; 20 5b e5
 B31_04fb:		lda wJoy1NewButtonsPressed2			; a5 f8
 B31_04fd:		and #PADF_START		; 29 10
@@ -886,41 +882,33 @@ B31_04ff:		beq B31_04ef ; f0 ee
 B31_0501:		lda $6b			; a5 6b
 B31_0503:		beq B31_050a ; f0 05
 
-B31_0505:		lda #$0b		; a9 0b
+B31_0505:		lda #GS_0b		; a9 0b
 B31_0507:		jmp setNewGameState		; 4c 74 e5
 
 
 gameStateE:
-B31_050a:		jsr $e819		; 20 19 e8
-B31_050d:		lda #$80		; a9 80
+B31_050a:		jsr func_1f_0819		; 20 19 e8
+B31_050d:		lda #PRG_ROM_SWITCH|:func_00_1f80		; a9 80
 B31_050f:		jsr setAndSaveLowerBank		; 20 e6 e2
-B31_0512:		jsr $8f80		; 20 80 8f
-B31_0515:		jsr $e68f		; 20 8f e6
-B31_0518:		jmp $e4a8		; 4c a8 e4
+B31_0512:		jsr func_00_1f80		; 20 80 8f
+B31_0515:		jsr func_1f_068f		; 20 8f e6
+B31_0518:		jmp func_1f_04a8		; 4c a8 e4
 
 
 gameState8:
-B31_051b:		lda #$80		; a9 80
-B31_051d:		jsr setAndSaveLowerBank		; 20 e6 e2
-B31_0520:		jmp $a5b7		; 4c b7 a5
+	jmp_a000Func gameState8_body
 
 
 gameState9_introCutscene:
-B31_0523:		lda #$82		; a9 82
-B31_0525:		jsr setAndSaveLowerBank		; 20 e6 e2
-B31_0528:		jmp func_03_060c		; 4c 0c a6
+	jmp_a000Func gameState9_introCutscene_body
 
 
 gameStateC:
-B31_052b:		lda #$94		; a9 94
-B31_052d:		jsr setAndSaveLowerBank		; 20 e6 e2
-B31_0530:		jmp $b0ea		; 4c ea b0
+	jmp_a000Func gameStateC_body
 
 
 gameStateD:
-B31_0533:		lda #$94		; a9 94
-B31_0535:		jsr setAndSaveLowerBank		; 20 e6 e2
-B31_0538:		jmp $b631		; 4c 31 b6
+	jmp_a000Func gameStateD_body
 
 
 gameStateF_soundMode:
@@ -928,9 +916,7 @@ gameStateF_soundMode:
 
 
 gameState7:
-B31_0543:		lda #$80		; a9 80
-B31_0545:		jsr setAndSaveLowerBank		; 20 e6 e2
-B31_0548:		jmp $8a1c		; 4c 1c 8a
+	jmp_8000Func gameState7_body
 
 
 gameStateA_namePwInput:
@@ -938,9 +924,7 @@ gameStateA_namePwInput:
 
 
 gameStateB:
-B31_0553:		lda #$82		; a9 82
-B31_0555:		jsr setAndSaveLowerBank		; 20 e6 e2
-B31_0558:		jmp $b5a2		; 4c a2 b5
+	jmp_a000Func gameStateB_body
 
 
 func_1f_055b:
@@ -989,6 +973,8 @@ decGenericTimer:
 setGenericTimerTo100h:
 	lda #<$0100
 	ldy #>$0100
+
+setGenericTimerToYA:
 	sta wGenericStateTimer
 	sty wGenericStateTimer+1
 	rts
@@ -1053,7 +1039,7 @@ B31_05e9:		jmp setAndSaveLowerBank		; 4c e6 e2
 
 
 func_1f_05ec:
-	jsr_8000Func func_14_0047
+	jsr_8000Func loadRoomLuminaries
 B31_05f4:		lda #$96		; a9 96
 B31_05f6:		jsr setAndSaveLowerBank		; 20 e6 e2
 B31_05f9:		jsr func_1f_1de3		; 20 e3 fd
@@ -1067,9 +1053,8 @@ B31_060c:		lda #$92		; a9 92
 B31_060e:		jmp setAndSaveLowerBank		; 4c e6 e2
 
 
-B31_0611:		lda #$88		; a9 88
-B31_0613:		jsr setAndSaveLowerBank		; 20 e6 e2
-B31_0616:		jsr $b9ac		; 20 ac b9
+B31_0611:	
+	jsr_a000Func func_09_19ac
 B31_0619:		lda #$96		; a9 96
 B31_061b:		jmp setAndSaveLowerBank		; 4c e6 e2
 
@@ -1113,6 +1098,7 @@ B31_0662:		pla				; 68
 B31_0663:		jmp setAndSaveLowerBank		; 4c e6 e2
 
 
+func_1f_0666:
 B31_0666:		lda #$44		; a9 44
 B31_0668:		sta wNametableMapping			; 85 25
 B31_066a:		lda #$00		; a9 00
@@ -1139,10 +1125,8 @@ B31_0689:		jsr $b348		; 20 48 b3
 B31_068c:		jmp setBackup8000PrgBank		; 4c 7f e6
 
 
-B31_068f:		lda #$88		; a9 88
-B31_0691:		jsr saveAndSetNewLowerBank		; 20 e0 e2
-B31_0694:		jsr $b354		; 20 54 b3
-B31_0697:		jmp setBackup8000PrgBank		; 4c 7f e6
+func_1f_068f:
+	jmp_a000FuncNested func_09_1354
 
 
 B31_069a:		lda #$8e		; a9 8e
@@ -1169,7 +1153,7 @@ B31_06c1:		pla				; 68
 B31_06c2:		jmp setAndSaveLowerBank		; 4c e6 e2
 
 
-B31_06c5:		lda $21			; a5 21
+B31_06c5:		lda wPrgBank_8000			; a5 21
 B31_06c7:		pha				; 48 
 B31_06c8:		lda #$9c		; a9 9c
 B31_06ca:		jsr setAndSaveLowerBank		; 20 e6 e2
@@ -1214,11 +1198,10 @@ B31_0710:		jsr $9baf		; 20 af 9b
 B31_0713:		jmp setBackup8000PrgBank		; 4c 7f e6
 
 
-B31_0716:		lda $21			; a5 21
+func_1f_0716:
+B31_0716:		lda wPrgBank_8000			; a5 21
 B31_0718:		pha				; 48 
-B31_0719:		lda #$80		; a9 80
-B31_071b:		jsr setAndSaveLowerBank		; 20 e6 e2
-B31_071e:		jsr $85bb		; 20 bb 85
+	jsr_8000Func func_00_05bb
 B31_0721:		pla				; 68 
 B31_0722:		jmp setAndSaveLowerBank		; 4c e6 e2
 
@@ -1275,9 +1258,8 @@ B31_077c:		jsr $8be3		; 20 e3 8b
 B31_077f:		jmp setBackup8000PrgBank		; 4c 7f e6
 
 
-B31_0782:		lda #$80		; a9 80
-B31_0784:		jsr setAndSaveLowerBank		; 20 e6 e2
-B31_0787:		jmp $907f		; 4c 7f 90
+func_1f_0782:
+	jmp_8000Func func_00_107f
 
 
 B31_078a:		lda #$80		; a9 80
@@ -1304,10 +1286,8 @@ B31_07b0:		jsr $b5b7		; 20 b7 b5
 B31_07b3:		jmp setBackup8000PrgBank		; 4c 7f e6
 
 
-B31_07b6:		lda #$88		; a9 88
-B31_07b8:		jsr saveAndSetNewLowerBank		; 20 e0 e2
-B31_07bb:		jsr $b60c		; 20 0c b6
-B31_07be:		jmp setBackup8000PrgBank		; 4c 7f e6
+func_1f_07b6:
+	jmp_a000FuncNested func_09_160c
 
 
 B31_07c1:		lda #$88		; a9 88
@@ -1344,9 +1324,9 @@ func_1f_07f7:
 B31_07f7:		ldx #$01		; a2 01
 B31_07f9:		lda #$00		; a9 00
 B31_07fb:		sta $0400, x	; 9d 00 04
-B31_07fe:		sta $041c, x	; 9d 1c 04
-B31_0801:		sta $0438, x	; 9d 38 04
-B31_0804:		sta $0454, x	; 9d 54 04
+B31_07fe:		sta wEntityBaseY.w, x	; 9d 1c 04
+B31_0801:		sta wEntityBaseX.w, x	; 9d 38 04
+B31_0804:		sta wEntityPaletteOverride.w, x	; 9d 54 04
 B31_0807:		sta $0470, x	; 9d 70 04
 B31_080a:		sta $048c, x	; 9d 8c 04
 B31_080d:		sta $04a8, x	; 9d a8 04
@@ -1358,17 +1338,17 @@ B31_0816:		bcc B31_07fb ; 90 e3
 B31_0818:		rts				; 60 
 
 
-B31_0819:		lda #$80		; a9 80
-B31_081b:		jsr saveAndSetNewLowerBank		; 20 e0 e2
-B31_081e:		jsr $918b		; 20 8b 91
-B31_0821:		jmp setBackup8000PrgBank		; 4c 7f e6
+func_1f_0819:
+	jmp_8000FuncNested func_00_118b
 
 
 func_1f_0824:
 B31_0824:		ldx #$26		; a2 26
 B31_0826:		bne B31_082a ; d0 02
 
+func_1f_0828:
 B31_0828:		ldx #$50		; a2 50
+
 B31_082a:		lda #$00		; a9 00
 B31_082c:		sta $00, x		; 95 00
 B31_082e:		inx				; e8 
@@ -1558,7 +1538,7 @@ B31_092a:		eor $bc, x		; 55 bc
 B31_092c:	.db $1c
 B31_092d:	.db $04
 B31_092e:		sty $14			; 84 14
-B31_0930:		ldy $0438, x	; bc 38 04
+B31_0930:		ldy wEntityBaseX.w, x	; bc 38 04
 B31_0933:		sty $15			; 84 15
 B31_0935:		lda CURR_LOWER_BANK.w		; ad 00 80
 B31_0938:		pha				; 48 
@@ -1618,14 +1598,14 @@ B31_098d:		ora $11			; 05 11
 B31_098f:		tay				; a8 
 B31_0990:		lda ($00), y	; b1 00
 B31_0992:		sta $11			; 85 11
-B31_0994:		lda $32			; a5 32
+B31_0994:		lda wCurrRoomGroup		; a5 32
 B31_0996:		cmp #$0e		; c9 0e
 B31_0998:		bne B31_09a6 ; d0 0c
 
 B31_099a:		ldy $33			; a4 33
 B31_099c:		bne B31_09a6 ; d0 08
 
-B31_099e:		ldy $34			; a4 34
+B31_099e:		ldy wCurrRoomIdx			; a4 34
 B31_09a0:		cpy #$01		; c0 01
 B31_09a2:		bne B31_09a6 ; d0 02
 
@@ -1649,7 +1629,7 @@ B31_09c0:		sta $11			; 85 11
 B31_09c2:		lda $0f			; a5 0f
 B31_09c4:		sta $10			; 85 10
 B31_09c6:		jsr $ea20		; 20 20 ea
-B31_09c9:		lda $041c		; ad 1c 04
+B31_09c9:		lda wEntityBaseY.w		; ad 1c 04
 B31_09cc:		sec				; 38 
 B31_09cd:		sbc #$10		; e9 10
 B31_09cf:		jsr $e9fb		; 20 fb e9
@@ -1659,7 +1639,7 @@ B31_09d3:		jmp setAndSaveLowerBank		; 4c e6 e2
 
 B31_09d6:		jsr $eb50		; 20 50 eb
 B31_09d9:		jsr $ea3d		; 20 3d ea
-B31_09dc:		lda $0438, x	; bd 38 04
+B31_09dc:		lda wEntityBaseX.w, x	; bd 38 04
 B31_09df:		clc				; 18 
 B31_09e0:		adc $56			; 65 56
 B31_09e2:		sta $11			; 85 11
@@ -1667,7 +1647,7 @@ B31_09e4:		lda $57			; a5 57
 B31_09e6:		adc #$00		; 69 00
 B31_09e8:		sta $10			; 85 10
 B31_09ea:		jsr $ea20		; 20 20 ea
-B31_09ed:		lda $041c, x	; bd 1c 04
+B31_09ed:		lda wEntityBaseY.w, x	; bd 1c 04
 B31_09f0:		sec				; 38 
 B31_09f1:		sbc #$20		; e9 20
 B31_09f3:		jsr $e9fb		; 20 fb e9
@@ -1685,7 +1665,7 @@ B31_0a04:		ldy $11			; a4 11
 B31_0a06:		iny				; c8 
 B31_0a07:		lda ($00), y	; b1 00
 B31_0a09:		sta $11			; 85 11
-B31_0a0b:		lda $32			; a5 32
+B31_0a0b:		lda wCurrRoomGroup		; a5 32
 B31_0a0d:		asl a			; 0a
 B31_0a0e:		tay				; a8 
 B31_0a0f:		lda $d610, y	; b9 10 d6
@@ -1718,14 +1698,14 @@ B31_0a3a:		sta $11			; 85 11
 B31_0a3c:		rts				; 60 
 
 
-B31_0a3d:		lda $32			; a5 32
+B31_0a3d:		lda wCurrRoomGroup		; a5 32
 B31_0a3f:		asl a			; 0a
 B31_0a40:		tay				; a8 
 B31_0a41:		lda $d5d4, y	; b9 d4 d5
 B31_0a44:		sta $00			; 85 00
 B31_0a46:		lda $d5d5, y	; b9 d5 d5
 B31_0a49:		sta $01			; 85 01
-B31_0a4b:		lda $33			; a5 33
+B31_0a4b:		lda wCurrRoomSection			; a5 33
 B31_0a4d:		asl a			; 0a
 B31_0a4e:		tay				; a8 
 B31_0a4f:		lda ($00), y	; b1 00
@@ -1733,7 +1713,7 @@ B31_0a51:		sta $10			; 85 10
 B31_0a53:		iny				; c8 
 B31_0a54:		lda ($00), y	; b1 00
 B31_0a56:		sta $11			; 85 11
-B31_0a58:		lda $34			; a5 34
+B31_0a58:		lda wCurrRoomIdx			; a5 34
 B31_0a5a:		asl a			; 0a
 B31_0a5b:		tay				; a8 
 B31_0a5c:		iny				; c8 
@@ -1780,7 +1760,7 @@ B31_0a8c:		jsr $eb29		; 20 29 eb
 B31_0a8f:		ldy $11			; a4 11
 B31_0a91:		lda ($00), y	; b1 00
 B31_0a93:		sta $11			; 85 11
-B31_0a95:		lda $32			; a5 32
+B31_0a95:		lda wCurrRoomGroup		; a5 32
 B31_0a97:		asl a			; 0a
 B31_0a98:		tay				; a8 
 B31_0a99:		lda $d610, y	; b9 10 d6
@@ -1818,7 +1798,7 @@ B31_0ad4:		rol a			; 2a
 B31_0ad5:		asl $11			; 06 11
 B31_0ad7:		rol a			; 2a
 B31_0ad8:		sta $10			; 85 10
-B31_0ada:		lda $32			; a5 32
+B31_0ada:		lda wCurrRoomGroup		; a5 32
 B31_0adc:		asl a			; 0a
 B31_0add:		tay				; a8 
 B31_0ade:		lda $d5f2, y	; b9 f2 d5
@@ -1879,7 +1859,7 @@ B31_0b3b:		lsr a			; 4a
 B31_0b3c:		lsr a			; 4a
 B31_0b3d:		lsr a			; 4a
 B31_0b3e:		sta $11			; 85 11
-B31_0b40:		lda $041c, x	; bd 1c 04
+B31_0b40:		lda wEntityBaseY.w, x	; bd 1c 04
 B31_0b43:		sec				; 38 
 B31_0b44:		sbc #$20		; e9 20
 B31_0b46:		and #$e0		; 29 e0
@@ -1942,7 +1922,7 @@ B31_0ba5:		lda #$82		; a9 82
 B31_0ba7:		jmp setAndSaveLowerBank		; 4c e6 e2
 
 
-B31_0baa:		lda $32			; a5 32
+B31_0baa:		lda wCurrRoomGroup		; a5 32
 B31_0bac:		cmp #$04		; c9 04
 B31_0bae:		bcc B31_0bb4 ; 90 04
 
@@ -1958,26 +1938,27 @@ B31_0bb9:		jsr initSound		; 20 27 e2
 B31_0bbc:		jsr func_1f_0bfd		; 20 fd eb
 B31_0bbf:		ldx #$02		; a2 02
 B31_0bc1:		lda #$84		; a9 84
-B31_0bc3:		jsr $ebd5		; 20 d5 eb
+B31_0bc3:		jsr func_1f_0bd5		; 20 d5 eb
 B31_0bc6:		lda #$05		; a9 05
-B31_0bc8:		jsr func_1f_0ce9		; 20 e9 ec
+B31_0bc8:		jsr displayStaticLayoutA		; 20 e9 ec
 B31_0bcb:		lda #$00		; a9 00
-B31_0bcd:		jsr func_1f_0ce9		; 20 e9 ec
+B31_0bcd:		jsr displayStaticLayoutA		; 20 e9 ec
 B31_0bd0:		lda #$26		; a9 26
-B31_0bd2:		jmp func_1f_0ce9		; 4c e9 ec
+B31_0bd2:		jmp displayStaticLayoutA		; 4c e9 ec
 
 
+func_1f_0bd5:
 B31_0bd5:		jsr saveAndSetNewLowerBank		; 20 e0 e2
-B31_0bd8:		jsr $ec04		; 20 04 ec
-B31_0bdb:		lda $22			; a5 22
+B31_0bd8:		jsr func_1f_0c04		; 20 04 ec
+B31_0bdb:		lda wPrgBankBkup_8000			; a5 22
 B31_0bdd:		jmp setAndSaveLowerBank		; 4c e6 e2
 
 
 B31_0be0:		jsr saveAndSetNewLowerBank		; 20 e0 e2
 B31_0be3:		jsr func_1f_0182		; 20 82 e1
 B31_0be6:		lda #$00		; a9 00
-B31_0be8:		sta $fc			; 85 fc
-B31_0bea:		sta $fd			; 85 fd
+B31_0be8:		sta wScrollY			; 85 fc
+B31_0bea:		sta wScrollX			; 85 fd
 B31_0bec:		lda PPUSTATUS.w		; ad 02 20
 B31_0bef:		sty $2006		; 8c 06 20
 B31_0bf2:		stx $2006		; 8e 06 20
@@ -1990,14 +1971,16 @@ func_1f_0bfd:
 B31_0bfd:		lda #$e4		; a9 e4
 B31_0bff:		sta NAMETABLE_MAPPING.w		; 8d 05 51
 B31_0c02:		ldx #$00		; a2 00
+
+func_1f_0c04:
 B31_0c04:		lda $ec77, x	; bd 77 ec
 B31_0c07:		sta $00			; 85 00
 B31_0c09:		lda $ec78, x	; bd 78 ec
 B31_0c0c:		sta $01			; 85 01
 B31_0c0e:		jsr func_1f_0182		; 20 82 e1
 B31_0c11:		lda #$00		; a9 00
-B31_0c13:		sta $fd			; 85 fd
-B31_0c15:		sta $fc			; 85 fc
+B31_0c13:		sta wScrollX			; 85 fd
+B31_0c15:		sta wScrollY			; 85 fc
 B31_0c17:		lda PPUSTATUS.w		; ad 02 20
 B31_0c1a:		ldy #$01		; a0 01
 B31_0c1c:		lda ($00), y	; b1 00
@@ -2153,20 +2136,21 @@ B31_0ce3:		jsr func_00_1820		; 20 20 98
 B31_0ce6:		jmp setBackup8000PrgBank		; 4c 7f e6
 
 
-func_1f_0ce9:
+displayStaticLayoutA:
 B31_0ce9:		pha				; 48 
-B31_0cea:		lda #PRG_ROM_SWITCH|:func_00_1825		; a9 80
+B31_0cea:		lda #PRG_ROM_SWITCH|:displayStaticLayoutA_body		; a9 80
 B31_0cec:		jsr saveAndSetNewLowerBank		; 20 e0 e2
 B31_0cef:		pla				; 68 
-B31_0cf0:		jsr func_00_1825		; 20 25 98
+B31_0cf0:		jsr displayStaticLayoutA_body		; 20 25 98
 B31_0cf3:		jmp setBackup8000PrgBank		; 4c 7f e6
 
 
+func_1f_0cf6:
 B31_0cf6:		pha				; 48 
-B31_0cf7:		lda #$80		; a9 80
+B31_0cf7:		lda #PRG_ROM_SWITCH|:func_00_1873		; a9 80
 B31_0cf9:		jsr saveAndSetNewLowerBank		; 20 e0 e2
 B31_0cfc:		pla				; 68 
-B31_0cfd:		jsr $9873		; 20 73 98
+B31_0cfd:		jsr func_00_1873		; 20 73 98
 B31_0d00:		jmp setBackup8000PrgBank		; 4c 7f e6
 
 
@@ -2387,9 +2371,9 @@ B31_0f47:		jmp B31_0d29		; @nextControlByte
 
 B31_0f4a:		sta $05aa		; 8d aa 05
 B31_0f4d:		ldy #$02		; a0 02
-B31_0f4f:		sty $0593		; 8c 93 05
+B31_0f4f:		sty wEntityAnimationIdxes.w		; 8c 93 05
 B31_0f52:		dey				; 88 
-B31_0f53:		sty $057c		; 8c 7c 05
+B31_0f53:		sty wEntityTimeUntilNextAnimation.w		; 8c 7c 05
 B31_0f56:		rts				; 60 
 
 
@@ -2402,9 +2386,9 @@ B31_0f5c:		sta $048c, x	; 9d 8c 04
 B31_0f5f:		tya				; 98 
 B31_0f60:		sta $05aa, x	; 9d aa 05
 B31_0f63:		lda #$00		; a9 00
-B31_0f65:		sta $0593, x	; 9d 93 05
+B31_0f65:		sta wEntityAnimationIdxes.w, x	; 9d 93 05
 B31_0f68:		lda #$01		; a9 01
-B31_0f6a:		sta $057c, x	; 9d 7c 05
+B31_0f6a:		sta wEntityTimeUntilNextAnimation.w, x	; 9d 7c 05
 B31_0f6d:		rts				; 60 
 
 
@@ -2413,67 +2397,66 @@ B31_0f71:		bne B31_0f75 ; d0 02
 
 B31_0f73:		ldx #$00		; a2 00
 
-func_1f_0f75:
-B31_0f75:		dec $057c, x	; de 7c 05
+updateEntityXanimationFrame:
+B31_0f75:		dec wEntityTimeUntilNextAnimation.w, x	; de 7c 05
 B31_0f78:		beq B31_0f7b ; f0 01
 
 B31_0f7a:		rts				; 60 
 
 B31_0f7b:		ldy $048c, x	; bc 8c 04
-B31_0f7e:		lda $efb4, y	; b9 b4 ef
+B31_0f7e:		lda data_1f_0fb4.w, y	; b9 b4 ef
 B31_0f81:		sta $08			; 85 08
-B31_0f83:		lda $efb5, y	; b9 b5 ef
+B31_0f83:		lda data_1f_0fb4.w+1, y	; b9 b5 ef
 B31_0f86:		sta $09			; 85 09
+
+; 5aa * 3
 B31_0f88:		lda $05aa, x	; bd aa 05
 B31_0f8b:		asl a			; 0a
 B31_0f8c:		clc				; 18 
 B31_0f8d:		adc $05aa, x	; 7d aa 05
 B31_0f90:		tay				; a8 
+
+;
 B31_0f91:		lda ($08), y	; b1 08
 B31_0f93:		clc				; 18 
-B31_0f94:		adc $0593, x	; 7d 93 05
+B31_0f94:		adc wEntityAnimationIdxes.w, x	; 7d 93 05
 B31_0f97:		sta $0400, x	; 9d 00 04
+
+;
 B31_0f9a:		iny				; c8 
 B31_0f9b:		lda ($08), y	; b1 08
-B31_0f9d:		sta $057c, x	; 9d 7c 05
+B31_0f9d:		sta wEntityTimeUntilNextAnimation.w, x	; 9d 7c 05
+
+;
 B31_0fa0:		iny				; c8 
-B31_0fa1:		inc $0593, x	; fe 93 05
-B31_0fa4:		inc $0593, x	; fe 93 05
-B31_0fa7:		lda $0593, x	; bd 93 05
+B31_0fa1:		inc wEntityAnimationIdxes.w, x	; fe 93 05
+B31_0fa4:		inc wEntityAnimationIdxes.w, x	; fe 93 05
+B31_0fa7:		lda wEntityAnimationIdxes.w, x	; bd 93 05
 B31_0faa:		cmp ($08), y	; d1 08
 B31_0fac:		bcc B31_0fb3 ; 90 05
 
 B31_0fae:		lda #$00		; a9 00
-B31_0fb0:		sta $0593, x	; 9d 93 05
+B31_0fb0:		sta wEntityAnimationIdxes.w, x	; 9d 93 05
+
 B31_0fb3:		rts				; 60 
 
 
-B31_0fb4:	.db $d2
-B31_0fb5:	.db $ef
-B31_0fb6:	.db $d2
-B31_0fb7:	.db $ef
-B31_0fb8:	.db $d2
-B31_0fb9:	.db $ef
-B31_0fba:	.db $d2
-B31_0fbb:	.db $ef
-B31_0fbc:		lda $58f0, y	; b9 f0 58
-B31_0fbf:		sbc ($02), y	; f1 02
-B31_0fc1:		beq B31_1001 ; f0 3e
-
-B31_0fc3:	.db $f3
-B31_0fc4:	.db $57
-B31_0fc5:	.db $f2
-B31_0fc6:		and ($f1), y	; 31 f1
-B31_0fc8:	.db $62
-B31_0fc9:	.db $f3
-B31_0fca:	.db $d2
-B31_0fcb:	.db $ef
-B31_0fcc:	.db $d2
-B31_0fcd:	.db $ef
-B31_0fce:	.db $d2
-B31_0fcf:	.db $ef
-B31_0fd0:	.db $d2
-B31_0fd1:	.db $ef
+data_1f_0fb4:
+	.dw $efd2
+	.dw $efd2
+	.dw $efd2
+	.dw $efd2
+	.dw $f0b9
+	.dw $f158
+	.dw $f002
+	.dw $f33e
+	.dw $f257
+	.dw $f131
+	.dw $f362
+	.dw $efd2
+	.dw $efd2
+	.dw $efd2
+	.dw $efd2
 B31_0fd2:	.db $02
 B31_0fd3:		php				; 08 
 B31_0fd4:		php				; 08 
@@ -3314,7 +3297,7 @@ B31_13d3:		sta $1c			; 85 1c
 
 	jsr_8000Func func_00_11d5
 
-B31_13dd:		jmp $e68f		; 4c 8f e6
+B31_13dd:		jmp func_1f_068f		; 4c 8f e6
 
 
 inGameSubstate1e:
@@ -3541,7 +3524,7 @@ B31_155c:		rts				; 60
 B31_155d:		lda $2c			; a5 2c
 B31_155f:		bne B31_158b ; d0 2a
 
-B31_1561:		lda $26			; a5 26
+B31_1561:		lda wJoy1NewButtonsPressed			; a5 26
 B31_1563:		and #$20		; 29 20
 B31_1565:		beq B31_158b ; f0 24
 
@@ -3763,9 +3746,7 @@ B31_16c4:		jmp $bb1a		; 4c 1a bb
 
 
 inGameSubstate18:
-B31_16c7:		lda #$80		; a9 80
-B31_16c9:		jsr setAndSaveLowerBank		; 20 e6 e2
-B31_16cc:		jmp $9288		; 4c 88 92
+	jmp_8000Func func_00_1288
 
 
 inGameSubstate1c:
@@ -3792,8 +3773,8 @@ B31_16eb:		jmp $f6f7		; 4c f7 f6
 
 inGameSubstate13:
 B31_16ee:		lda #$03		; a9 03
-B31_16f0:		sta $33			; 85 33
-B31_16f2:		jsr $e68f		; 20 8f e6
+B31_16f0:		sta wCurrRoomSection			; 85 33
+B31_16f2:		jsr func_1f_068f		; 20 8f e6
 B31_16f5:		inc $2a			; e6 2a
 B31_16f7:		jsr $f757		; 20 57 f7
 B31_16fa:		lda #$00		; a9 00
@@ -3812,7 +3793,7 @@ B31_170c:		beq B31_1715 ; f0 07
 
 B31_170e:		inc $6b			; e6 6b
 B31_1710:		ldy #$80		; a0 80
-B31_1712:		sty $0438		; 8c 38 04
+B31_1712:		sty wEntityBaseX.w		; 8c 38 04
 B31_1715:		sta $2a			; 85 2a
 B31_1717:		rts				; 60 
 
@@ -4084,7 +4065,7 @@ B31_18e2:		rts				; 60
 B31_18e3:		lda #$00		; a9 00
 B31_18e5:		sta $1c			; 85 1c
 B31_18e7:		jsr func_1e_0ff9		; 20 f9 cf
-B31_18ea:		lda $32			; a5 32
+B31_18ea:		lda wCurrRoomGroup		; a5 32
 B31_18ec:		cmp #$0c		; c9 0c
 B31_18ee:		bne B31_18f4 ; d0 04
 
@@ -4206,18 +4187,18 @@ B31_19c2:		rts				; 60
 B31_19c3:		lda $65			; a5 65
 B31_19c5:		beq B31_19d6 ; f0 0f
 
-B31_19c7:		lda $0438		; ad 38 04
+B31_19c7:		lda wEntityBaseX.w		; ad 38 04
 B31_19ca:		sec				; 38 
 B31_19cb:		sbc #$01		; e9 01
-B31_19cd:		sta $0438		; 8d 38 04
+B31_19cd:		sta wEntityBaseX.w		; 8d 38 04
 B31_19d0:		jsr $fb69		; 20 69 fb
 B31_19d3:		jmp $f9e2		; 4c e2 f9
 
 
-B31_19d6:		lda $0438		; ad 38 04
+B31_19d6:		lda wEntityBaseX.w		; ad 38 04
 B31_19d9:		clc				; 18 
 B31_19da:		adc #$01		; 69 01
-B31_19dc:		sta $0438		; 8d 38 04
+B31_19dc:		sta wEntityBaseX.w		; 8d 38 04
 B31_19df:		jsr $fb77		; 20 77 fb
 B31_19e2:		lda $56			; a5 56
 B31_19e4:		and #$7f		; 29 7f
@@ -4236,30 +4217,30 @@ B31_19f8:		jsr $83ee		; 20 ee 83
 B31_19fb:		lda #$0c		; a9 0c
 B31_19fd:		jsr playSound		; 20 5f e2
 B31_1a00:		lda #$3c		; a9 3c
-B31_1a02:		sta $30			; 85 30
+B31_1a02:		sta wGenericStateTimer			; 85 30
 B31_1a04:		lda #$0c		; a9 0c
 B31_1a06:		ldy #$00		; a0 00
 B31_1a08:		ldx #$13		; a2 13
 B31_1a0a:		jsr func_1f_0f5c		; 20 5c ef
 B31_1a0d:		lda #$00		; a9 00
 B31_1a0f:		sta $0400, x	; 9d 00 04
-B31_1a12:		sta $0454, x	; 9d 54 04
+B31_1a12:		sta wEntityPaletteOverride.w, x	; 9d 54 04
 B31_1a15:		sta $0470, x	; 9d 70 04
-B31_1a18:		lda $041c		; ad 1c 04
+B31_1a18:		lda wEntityBaseY.w		; ad 1c 04
 B31_1a1b:		adc #$08		; 69 08
 B31_1a1d:		and #$f0		; 29 f0
-B31_1a1f:		sta $041c, x	; 9d 1c 04
+B31_1a1f:		sta wEntityBaseY.w, x	; 9d 1c 04
 B31_1a22:		lda $65			; a5 65
 B31_1a24:		asl a			; 0a
 B31_1a25:		tay				; a8 
 B31_1a26:		lda $fa95, y	; b9 95 fa
-B31_1a29:		sta $0438, x	; 9d 38 04
+B31_1a29:		sta wEntityBaseX.w, x	; 9d 38 04
 B31_1a2c:		lda $fa96, y	; b9 96 fa
 B31_1a2f:		sta $04a8, x	; 9d a8 04
 B31_1a32:		lda #$00		; a9 00
 B31_1a34:		sta $62			; 85 62
 B31_1a36:		ldy $054e		; ac 4e 05
-B31_1a39:		lda $041c		; ad 1c 04
+B31_1a39:		lda wEntityBaseY.w		; ad 1c 04
 B31_1a3c:		sec				; 38 
 B31_1a3d:		sbc $fa91, y	; f9 91 fa
 B31_1a40:		asl a			; 0a
@@ -4314,28 +4295,28 @@ B31_1a91:		jsr $2420		; 20 20 24
 B31_1a94:		jsr $018c		; 20 8c 01
 B31_1a97:	.db $74
 B31_1a98:		.db $00				; 00
-B31_1a99:		dec $30			; c6 30
+B31_1a99:		dec wGenericStateTimer			; c6 30
 B31_1a9b:		bne B31_1aa9 ; d0 0c
 
 B31_1a9d:		lda #$00		; a9 00
 B31_1a9f:		jsr $ef57		; 20 57 ef
 B31_1aa2:		lda #$30		; a9 30
-B31_1aa4:		sta $30			; 85 30
+B31_1aa4:		sta wGenericStateTimer			; 85 30
 B31_1aa6:		inc $6b			; e6 6b
 B31_1aa8:		rts				; 60 
 
 
 B31_1aa9:		ldx #$13		; a2 13
-B31_1aab:		jsr func_1f_0f75		; 20 75 ef
-B31_1aae:		lda $0593, x	; bd 93 05
+B31_1aab:		jsr updateEntityXanimationFrame		; 20 75 ef
+B31_1aae:		lda wEntityAnimationIdxes.w, x	; bd 93 05
 B31_1ab1:		bne B31_1aa8 ; d0 f5
 
 B31_1ab3:		lda #$80		; a9 80
-B31_1ab5:		sta $057c, x	; 9d 7c 05
+B31_1ab5:		sta wEntityTimeUntilNextAnimation.w, x	; 9d 7c 05
 B31_1ab8:		rts				; 60 
 
 
-B31_1ab9:		dec $30			; c6 30
+B31_1ab9:		dec wGenericStateTimer			; c6 30
 B31_1abb:		bne B31_1ac9 ; d0 0c
 
 B31_1abd:		lda #$0c		; a9 0c
@@ -4349,24 +4330,24 @@ B31_1ac8:		rts				; 60
 B31_1ac9:		lda $65			; a5 65
 B31_1acb:		beq B31_1ad5 ; f0 08
 
-B31_1acd:		lda $0438		; ad 38 04
+B31_1acd:		lda wEntityBaseX.w		; ad 38 04
 B31_1ad0:		clc				; 18 
 B31_1ad1:		adc #$01		; 69 01
 B31_1ad3:		bne B31_1adb ; d0 06
 
-B31_1ad5:		lda $0438		; ad 38 04
+B31_1ad5:		lda wEntityBaseX.w		; ad 38 04
 B31_1ad8:		sec				; 38 
 B31_1ad9:		sbc #$01		; e9 01
-B31_1adb:		sta $0438		; 8d 38 04
+B31_1adb:		sta wEntityBaseX.w		; 8d 38 04
 B31_1ade:		jmp $ef73		; 4c 73 ef
 
 
 B31_1ae1:		ldx #$13		; a2 13
-B31_1ae3:		jsr func_1f_0f75		; 20 75 ef
-B31_1ae6:		lda $0593, x	; bd 93 05
+B31_1ae3:		jsr updateEntityXanimationFrame		; 20 75 ef
+B31_1ae6:		lda wEntityAnimationIdxes.w, x	; bd 93 05
 B31_1ae9:		bne B31_1af2 ; d0 07
 
-B31_1aeb:		lda $057c, x	; bd 7c 05
+B31_1aeb:		lda wEntityTimeUntilNextAnimation.w, x	; bd 7c 05
 B31_1aee:		cmp #$01		; c9 01
 B31_1af0:		beq B31_1af3 ; f0 01
 
@@ -4468,6 +4449,7 @@ B31_1b91:		sta $0489		; 8d 89 04
 B31_1b94:		rts				; 60 
 
 
+func_1f_1b95:
 B31_1b95:		lda #$9c		; a9 9c
 B31_1b97:		jsr setAndSaveLowerBank		; 20 e6 e2
 B31_1b9a:		lda ($08), y	; b1 08
@@ -4478,30 +4460,28 @@ B31_1ba2:		pla				; 68
 B31_1ba3:		rts				; 60 
 
 
-B31_1ba4:		lda #$80		; a9 80
-B31_1ba6:		jsr saveAndSetNewLowerBank		; 20 e0 e2
-B31_1ba9:		jsr $8b70		; 20 70 8b
-B31_1bac:		jmp setBackup8000PrgBank		; 4c 7f e6
+func_1f_1ba4:
+	jmp_8000FuncNested func_00_0b70
 
 
-B31_1baf:		lda #$80		; a9 80
-B31_1bb1:		jsr saveAndSetNewLowerBank		; 20 e0 e2
-B31_1bb4:		jsr $8b74		; 20 74 8b
-B31_1bb7:		jmp setBackup8000PrgBank		; 4c 7f e6
+func_1f_1baf:
+	jmp_8000FuncNested func_00_0b74
 
 
+func_1f_1bba:
 B31_1bba:		jsr setAndSaveLowerBank		; 20 e6 e2
-B31_1bbd:		lda $fbce		; ad ce fb
+B31_1bbd:		lda B31_1bcd.w+1		; ad ce fb
 B31_1bc0:		pha				; 48 
-B31_1bc1:		lda $fbcd		; ad cd fb
+B31_1bc1:		lda B31_1bcd.w		; ad cd fb
 B31_1bc4:		pha				; 48 
-B31_1bc5:	.db $6c $16 $00
+B31_1bc5:		jmp ($16)
+
 B31_1bc8:		lda #$94		; a9 94
 B31_1bca:		jmp setAndSaveLowerBank		; 4c e6 e2
 
+B31_1bcd:		.dw B31_1bc8-1
 
-B31_1bcd:	.db $c7
-B31_1bce:	.db $fb
+
 B31_1bcf:		lda #$92		; a9 92
 B31_1bd1:		bne B31_1bd5 ; d0 02
 
@@ -4517,20 +4497,22 @@ B31_1be3:		jmp setBackup8000PrgBank		; 4c 7f e6
 
 B31_1be6:	.db $e2
 B31_1be7:	.db $fb
-B31_1be8:		lda #$9a		; a9 9a
-B31_1bea:		jsr setAndSaveLowerBank		; 20 e6 e2
-B31_1bed:		jsr $b7bf		; 20 bf b7
+
+
+func_1f_1be8:
+B31_1be8:	
+	jsr_a000Func func_1b_17bf
 B31_1bf0:		lda #$9c		; a9 9c
 B31_1bf2:		jmp setAndSaveLowerBank		; 4c e6 e2
 
 
 B31_1bf5:		lda $10			; a5 10
 B31_1bf7:		clc				; 18 
-B31_1bf8:		adc $0438, x	; 7d 38 04
+B31_1bf8:		adc wEntityBaseX.w, x	; 7d 38 04
 B31_1bfb:		sta $10			; 85 10
 B31_1bfd:		tya				; 98 
 B31_1bfe:		clc				; 18 
-B31_1bff:		adc $041c, x	; 7d 1c 04
+B31_1bff:		adc wEntityBaseY.w, x	; 7d 1c 04
 B31_1c02:		sec				; 38 
 B31_1c03:		sbc #$33		; e9 33
 B31_1c05:		sta $11			; 85 11
@@ -4551,6 +4533,7 @@ B31_1c19:		lda $10			; a5 10
 B31_1c1b:		jmp $fced		; 4c ed fc
 
 
+func_1f_1c1e:
 B31_1c1e:		sta $10			; 85 10
 B31_1c20:		lda $68			; a5 68
 B31_1c22:		bmi B31_1bf5 ; 30 d1
@@ -4568,7 +4551,7 @@ B31_1c32:		lda $0470, x	; bd 70 04
 B31_1c35:		and #$01		; 29 01
 B31_1c37:		beq B31_1c46 ; f0 0d
 
-B31_1c39:		lda $0438, x	; bd 38 04
+B31_1c39:		lda wEntityBaseX.w, x	; bd 38 04
 B31_1c3c:		cmp #$21		; c9 21
 B31_1c3e:		bcc B31_1c44 ; 90 04
 
@@ -4579,14 +4562,14 @@ B31_1c44:		lda #$01		; a9 01
 B31_1c46:		sta $11			; 85 11
 B31_1c48:		lda $10			; a5 10
 B31_1c4a:		clc				; 18 
-B31_1c4b:		adc $0438, x	; 7d 38 04
+B31_1c4b:		adc wEntityBaseX.w, x	; 7d 38 04
 B31_1c4e:		sta $10			; 85 10
 B31_1c50:		lda $11			; a5 11
 B31_1c52:		adc $05			; 65 05
 B31_1c54:		sta $14			; 85 14
 B31_1c56:		tya				; 98 
 B31_1c57:		clc				; 18 
-B31_1c58:		adc $041c, x	; 7d 1c 04
+B31_1c58:		adc wEntityBaseY.w, x	; 7d 1c 04
 B31_1c5b:		sec				; 38 
 B31_1c5c:		sbc #$20		; e9 20
 B31_1c5e:		bcc B31_1c7c ; 90 1c
@@ -4605,8 +4588,7 @@ B31_1c71:		adc $10			; 65 10
 B31_1c73:		sta $13			; 85 13
 B31_1c75:		lda $57			; a5 57
 B31_1c77:		adc $14			; 65 14
-B31_1c79:		jmp $fd0d		; 4c 0d fd
-
+B31_1c79:		jmp func_1f_1d0d		; 4c 0d fd
 
 B31_1c7c:		lda #$00		; a9 00
 B31_1c7e:		rts				; 60 
@@ -4614,12 +4596,12 @@ B31_1c7e:		rts				; 60
 
 B31_1c7f:		pla				; 68 
 B31_1c80:		clc				; 18 
-B31_1c81:		adc $0438		; 6d 38 04
+B31_1c81:		adc wEntityBaseX.w		; 6d 38 04
 B31_1c84:		tay				; a8 
 B31_1c85:		sta $13			; 85 13
 B31_1c87:		txa				; 8a 
 B31_1c88:		clc				; 18 
-B31_1c89:		adc $041c		; 6d 1c 04
+B31_1c89:		adc wEntityBaseY.w		; 6d 1c 04
 B31_1c8c:		cmp $d0			; c5 d0
 B31_1c8e:		bcc B31_1c7c ; 90 ec
 
@@ -4687,11 +4669,11 @@ B31_1ce0:		bmi B31_1c7f ; 30 9d
 
 B31_1ce2:		pla				; 68 
 B31_1ce3:		clc				; 18 
-B31_1ce4:		adc $0438		; 6d 38 04
+B31_1ce4:		adc wEntityBaseX.w		; 6d 38 04
 B31_1ce7:		tay				; a8 
 B31_1ce8:		txa				; 8a 
 B31_1ce9:		clc				; 18 
-B31_1cea:		adc $041c		; 6d 1c 04
+B31_1cea:		adc wEntityBaseY.w		; 6d 1c 04
 B31_1ced:		sec				; 38 
 B31_1cee:		sbc #$20		; e9 20
 B31_1cf0:		bcc B31_1d49 ; 90 57
@@ -4711,6 +4693,8 @@ B31_1d05:		adc $10			; 65 10
 B31_1d07:		sta $13			; 85 13
 B31_1d09:		lda $57			; a5 57
 B31_1d0b:		adc #$00		; 69 00
+
+func_1f_1d0d:
 B31_1d0d:		sta $14			; 85 14
 B31_1d0f:		tay				; a8 
 B31_1d10:		lda $13			; a5 13
@@ -4725,7 +4709,7 @@ B31_1d1a:		cmp #$0c		; c9 0c
 B31_1d1c:		bcc B31_1d23 ; 90 05
 
 B31_1d1e:		sbc #$0c		; e9 0c
-B31_1d20:		jmp $fd1a		; 4c 1a fd
+B31_1d20:		jmp B31_1d1a		; 4c 1a fd
 
 B31_1d23:		tay				; a8 
 B31_1d24:		lda $fd4c, y	; b9 4c fd
@@ -4881,10 +4865,12 @@ B31_1de3:		inc $a3			; e6 a3
 B31_1de5:		lda #$ff		; a9 ff
 B31_1de7:		sta $92			; 85 92
 B31_1de9:		ldx #$01		; a2 01
+
+@bigLoop:
 B31_1deb:		lda $054e, x	; bd 4e 05
 B31_1dee:		bne B31_1df3 ; d0 03
 
-B31_1df0:		jmp $fe7e		; 4c 7e fe
+B31_1df0:		jmp B31_1e7e		; 4c 7e fe
 
 B31_1df3:		stx $6c			; 86 6c
 B31_1df5:		lda #$96		; a9 96
@@ -4892,12 +4878,11 @@ B31_1df7:		jsr setAndSaveLowerBank		; 20 e6 e2
 B31_1dfa:		lda $78			; a5 78
 B31_1dfc:		bne B31_1e0b ; d0 0d
 
-B31_1dfe:		lda #$88		; a9 88
-B31_1e00:		jsr setAndSaveLowerBank		; 20 e6 e2
-B31_1e03:		jsr $b906		; 20 06 b9
-B31_1e06:		lda #$96		; a9 96
-B31_1e08:		jsr setAndSaveLowerBank		; 20 e6 e2
-B31_1e0b:		jsr $b1fb		; 20 fb b1
+	jsr_a000Func func_09_1906
+	lda #PRG_ROM_SWITCH|:func_17_11fb-1
+	jsr setAndSaveLowerBank
+
+B31_1e0b:	jsr func_17_11fb
 B31_1e0e:		ldx $6c			; a6 6c
 B31_1e10:		lda $054e, x	; bd 4e 05
 B31_1e13:		beq B31_1e7e ; f0 69
@@ -4905,17 +4890,15 @@ B31_1e13:		beq B31_1e7e ; f0 69
 B31_1e15:		cmp #$40		; c9 40
 B31_1e17:		bcs B31_1e24 ; b0 0b
 
-B31_1e19:		lda #$92		; a9 92
-B31_1e1b:		jsr setAndSaveLowerBank		; 20 e6 e2
-B31_1e1e:		jsr $8001		; 20 01 80
-B31_1e21:		jmp $fe44		; 4c 44 fe
+	jsr_8000Func func_12_0001
+B31_1e21:		jmp B31_1e44		; 4c 44 fe
 
 B31_1e24:		lda $0470, x	; bd 70 04
 B31_1e27:		and #$02		; 29 02
 B31_1e29:		beq B31_1e31 ; f0 06
 
-B31_1e2b:		jsr $ff9a		; 20 9a ff
-B31_1e2e:		jmp $fe73		; 4c 73 fe
+B31_1e2b:		jsr func_1f_1f9a		; 20 9a ff
+B31_1e2e:		jmp B31_1e73		; 4c 73 fe
 
 B31_1e31:		lda $054e, x	; bd 4e 05
 B31_1e34:		cmp #$90		; c9 90
@@ -4924,10 +4907,11 @@ B31_1e36:		bcs B31_1e41 ; b0 09
 B31_1e38:		cmp #$79		; c9 79
 B31_1e3a:		bcs B31_1e46 ; b0 0a
 
-B31_1e3c:		jsr $ff0c		; 20 0c ff
+B31_1e3c:		jsr func_1f_1f0c		; 20 0c ff
 B31_1e3f:		bcs B31_1e73 ; b0 32
 
-B31_1e41:		jsr func_17_1cf9		; 20 f9 bc
+B31_1e41:		jsr execEntityXNextPhaseFunc		; 20 f9 bc
+
 B31_1e44:		ldx $6c			; a6 6c
 B31_1e46:		lda $054e, x	; bd 4e 05
 B31_1e49:		cmp #$68		; c9 68
@@ -4943,9 +4927,7 @@ B31_1e55:		lda $0470, x	; bd 70 04
 B31_1e58:		and #$40		; 29 40
 B31_1e5a:		beq B31_1e64 ; f0 08
 
-B31_1e5c:		lda #$96		; a9 96
-B31_1e5e:		jsr setAndSaveLowerBank		; 20 e6 e2
-B31_1e61:		jsr $8001		; 20 01 80
+	jsr_8000Func func_16_0001
 B31_1e64:		lda $054e, x	; bd 4e 05
 B31_1e67:		beq B31_1e7e ; f0 15
 
@@ -4953,20 +4935,20 @@ B31_1e69:		lda $0470, x	; bd 70 04
 B31_1e6c:		and #$20		; 29 20
 B31_1e6e:		bne B31_1e73 ; d0 03
 
-B31_1e70:		jsr func_1f_0f75		; 20 75 ef
-B31_1e73:		lda #$88		; a9 88
-B31_1e75:		jsr setAndSaveLowerBank		; 20 e6 e2
-B31_1e78:		jsr $b730		; 20 30 b7
-B31_1e7b:		jsr $b857		; 20 57 b8
+B31_1e70:		jsr updateEntityXanimationFrame		; 20 75 ef
+
+B31_1e73:	
+	jsr_a000Func func_09_1730
+B31_1e7b:		jsr func_09_1857		; 20 57 b8
+
 B31_1e7e:		inx				; e8 
 B31_1e7f:		cpx #$13		; e0 13
 B31_1e81:		bcs B31_1e86 ; b0 03
 
-B31_1e83:		jmp $fdeb		; 4c eb fd
+B31_1e83:		jmp B31_1deb		; @bigLoop
 
-B31_1e86:		lda #$94		; a9 94
-B31_1e88:		jsr setAndSaveLowerBank		; 20 e6 e2
-B31_1e8b:		jsr $84ea		; 20 ea 84
+B31_1e86:	
+	jsr_8000Func func_14_04ea
 B31_1e8e:		lda $8c			; a5 8c
 B31_1e90:		bmi B31_1e9b ; 30 09
 
@@ -4983,11 +4965,11 @@ B31_1e9e:		jsr setAndSaveLowerBank		; 20 e6 e2
 B31_1ea1:		jsr $b86d		; 20 6d b8
 B31_1ea4:		tay				; a8 
 B31_1ea5:		sec				; 38 
-B31_1ea6:		lda $041c, x	; bd 1c 04
+B31_1ea6:		lda wEntityBaseY.w, x	; bd 1c 04
 B31_1ea9:		sbc $b883, y	; f9 83 b8
 B31_1eac:		ldy $82			; a4 82
 B31_1eae:		sbc $b8d1, y	; f9 d1 b8
-B31_1eb1:		sta $041c		; 8d 1c 04
+B31_1eb1:		sta wEntityBaseY.w		; 8d 1c 04
 B31_1eb4:		lda #$9c		; a9 9c
 B31_1eb6:		jmp setAndSaveLowerBank		; 4c e6 e2
 
@@ -5018,16 +5000,16 @@ B31_1ed7:		jsr func_1f_1ec8		; 20 c8 fe
 B31_1eda:		lda #$00		; a9 00
 B31_1edc:		sta $067b, x	; 9d 7b 06
 B31_1edf:		sta $068d, x	; 9d 8d 06
-B31_1ee2:		sta $0454, x	; 9d 54 04
+B31_1ee2:		sta wEntityPaletteOverride.w, x	; 9d 54 04
 B31_1ee5:		sta $0470, x	; 9d 70 04
 B31_1ee8:		sta $0669, x	; 9d 69 06
 B31_1eeb:		lda #$00		; a9 00
 B31_1eed:		sta $0565, x	; 9d 65 05
 B31_1ef0:		sta $04c4, x	; 9d c4 04
 B31_1ef3:		sta $04db, x	; 9d db 04
-B31_1ef6:		sta $05c1, x	; 9d c1 05
+B31_1ef6:		sta wEntityPhase.w, x	; 9d c1 05
 B31_1ef9:		sta $05d8, x	; 9d d8 05
-B31_1efc:		sta $05ef, x	; 9d ef 05
+B31_1efc:		sta wEntityAI_idx.w, x	; 9d ef 05
 B31_1eff:		sta $0606, x	; 9d 06 06
 B31_1f02:		sta $061d, x	; 9d 1d 06
 B31_1f05:		sta $0633, x	; 9d 33 06
@@ -5035,6 +5017,7 @@ B31_1f08:		sta $0645, x	; 9d 45 06
 B31_1f0b:		rts				; 60 
 
 
+func_1f_1f0c:
 B31_1f0c:		lda $054e, x	; bd 4e 05
 B31_1f0f:		cmp #$48		; c9 48
 B31_1f11:		bcc B31_1f2f ; 90 1c
@@ -5111,7 +5094,7 @@ B31_1f87:		jmp setAndSaveLowerBank		; 4c e6 e2
 
 func_1f_1f8a:
 B31_1f8a:		lda #$04		; a9 04
-B31_1f8c:		sta $0454, x	; 9d 54 04
+B31_1f8c:		sta wEntityPaletteOverride.w, x	; 9d 54 04
 B31_1f8f:		lda $0565, x	; bd 65 05
 B31_1f92:		and #$3f		; 29 3f
 B31_1f94:		ora #$40		; 09 40
@@ -5119,9 +5102,10 @@ B31_1f96:		sta $0565, x	; 9d 65 05
 B31_1f99:		rts				; 60 
 
 
+func_1f_1f9a:
 B31_1f9a:		lda CURR_LOWER_BANK.w		; ad 00 80
 B31_1f9d:		pha				; 48 
-	jsr_a000Func $03 $bc8d
+	jsr_a000Func func_03_1c8d
 B31_1fa6:		pla				; 68 
 B31_1fa7:		jmp setAndSaveLowerBank		; 4c e6 e2
 

@@ -22,7 +22,7 @@ B19_001f:		sta $0470, x	; 9d 70 04
 B19_0022:		rts				; 60 
 
 
-B19_0023:		inc $05c1, x	; fe c1 05
+B19_0023:		inc wEntityPhase.w, x	; fe c1 05
 B19_0026:		rts				; 60 
 
 
@@ -104,14 +104,14 @@ B19_0095:		asl a			; 0a
 B19_0096:		tay				; a8 
 B19_0097:		lda ($00), y	; b1 00
 B19_0099:		clc				; 18 
-B19_009a:		adc $0438, x	; 7d 38 04
-B19_009d:		sta $0438, x	; 9d 38 04
+B19_009a:		adc wEntityBaseX.w, x	; 7d 38 04
+B19_009d:		sta wEntityBaseX.w, x	; 9d 38 04
 B19_00a0:		iny				; c8 
 B19_00a1:		lda ($00), y	; b1 00
 B19_00a3:		clc				; 18 
-B19_00a4:		adc $041c, x	; 7d 1c 04
-B19_00a7:		sta $041c, x	; 9d 1c 04
-B19_00aa:		inc $05c1, x	; fe c1 05
+B19_00a4:		adc wEntityBaseY.w, x	; 7d 1c 04
+B19_00a7:		sta wEntityBaseY.w, x	; 9d 1c 04
+B19_00aa:		inc wEntityPhase.w, x	; fe c1 05
 B19_00ad:		ldy #$02		; a0 02
 B19_00af:		lda ($02), y	; b1 02
 B19_00b1:		sta $05d8, x	; 9d d8 05
@@ -190,7 +190,7 @@ B19_0118:		bne B19_0123 ; d0 09
 
 B19_011a:		lda #$88		; a9 88
 B19_011c:		sta $0470, x	; 9d 70 04
-B19_011f:		inc $05c1, x	; fe c1 05
+B19_011f:		inc wEntityPhase.w, x	; fe c1 05
 B19_0122:		rts				; 60 
 
 
@@ -247,14 +247,14 @@ B19_0173:		lda #$44		; a9 44
 B19_0175:		jmp $864f		; 4c 4f 86
 
 
-B19_0178:		lda $05c1, x	; bd c1 05
+B19_0178:		lda wEntityPhase.w, x	; bd c1 05
 B19_017b:		cmp #$08		; c9 08
 B19_017d:		bne B19_0192 ; d0 13
 
 B19_017f:		lda #$00		; a9 00
 B19_0181:		sta $0633, x	; 9d 33 06
-B19_0184:		sta $05ef, x	; 9d ef 05
-B19_0187:		sta $05c1, x	; 9d c1 05
+B19_0184:		sta wEntityAI_idx.w, x	; 9d ef 05
+B19_0187:		sta wEntityPhase.w, x	; 9d c1 05
 B19_018a:		lda $07f3		; ad f3 07
 B19_018d:		and #$7f		; 29 7f
 B19_018f:		sta $07f3		; 8d f3 07
@@ -267,12 +267,12 @@ B19_0198:		sta $0657, x	; 9d 57 06
 B19_019b:		lda #$c8		; a9 c8
 B19_019d:		sta $0470, x	; 9d 70 04
 B19_01a0:		ldy $061d, x	; bc 1d 06
-B19_01a3:		lda $05ef, y	; b9 ef 05
+B19_01a3:		lda wEntityAI_idx.w, y	; b9 ef 05
 B19_01a6:		and #$7f		; 29 7f
 B19_01a8:		cmp #$0a		; c9 0a
 B19_01aa:		bne B19_01db ; d0 2f
 
-B19_01ac:		lda $05c1, y	; b9 c1 05
+B19_01ac:		lda wEntityPhase.w, y	; b9 c1 05
 B19_01af:		cmp #$06		; c9 06
 B19_01b1:		bne B19_01d2 ; d0 1f
 
@@ -283,18 +283,18 @@ B19_01ba:		beq B19_01c0 ; f0 04
 
 B19_01bc:		lda #$e4		; a9 e4
 B19_01be:		sta $00			; 85 00
-B19_01c0:		lda $0438, y	; b9 38 04
+B19_01c0:		lda wEntityBaseX.w, y	; b9 38 04
 B19_01c3:		clc				; 18 
 B19_01c4:		adc $00			; 65 00
-B19_01c6:		sta $0438, x	; 9d 38 04
-B19_01c9:		lda $041c, y	; b9 1c 04
-B19_01cc:		sta $041c, x	; 9d 1c 04
+B19_01c6:		sta wEntityBaseX.w, x	; 9d 38 04
+B19_01c9:		lda wEntityBaseY.w, y	; b9 1c 04
+B19_01cc:		sta wEntityBaseY.w, x	; 9d 1c 04
 B19_01cf:		jmp $a1de		; 4c de a1
 
 
 B19_01d2:		lda #$20		; a9 20
-B19_01d4:		sta $0438, x	; 9d 38 04
-B19_01d7:		sta $041c, x	; 9d 1c 04
+B19_01d4:		sta wEntityBaseX.w, x	; 9d 38 04
+B19_01d7:		sta wEntityBaseY.w, x	; 9d 1c 04
 B19_01da:		rts				; 60 
 
 
@@ -304,7 +304,7 @@ B19_01db:		jmp $873a		; 4c 3a 87
 B19_01de:		lda $07f6		; ad f6 07
 B19_01e1:		bne B19_01f1 ; d0 0e
 
-B19_01e3:		lda $32			; a5 32
+B19_01e3:		lda wCurrRoomGroup		; a5 32
 B19_01e5:		beq B19_01eb ; f0 04
 
 B19_01e7:		lda #$20		; a9 20
@@ -344,7 +344,7 @@ B19_021e:		rts				; 60
 
 B19_021f:		lda #$00		; a9 00
 B19_0221:		jsr $87f4		; 20 f4 87
-B19_0224:		lda $32			; a5 32
+B19_0224:		lda wCurrRoomGroup		; a5 32
 B19_0226:		beq B19_0246 ; f0 1e
 
 B19_0228:		lda $0669, x	; bd 69 06
@@ -358,10 +358,10 @@ B19_0233:		sta $0606, y	; 99 06 06
 B19_0236:		lda $068d, x	; bd 8d 06
 B19_0239:		sta $068d, y	; 99 8d 06
 B19_023c:		lda #$80		; a9 80
-B19_023e:		sta $05ef, y	; 99 ef 05
+B19_023e:		sta wEntityAI_idx.w, y	; 99 ef 05
 B19_0241:		lda #$88		; a9 88
 B19_0243:		sta $0470, y	; 99 70 04
-B19_0246:		lda $32			; a5 32
+B19_0246:		lda wCurrRoomGroup		; a5 32
 B19_0248:		beq B19_024c ; f0 02
 
 B19_024a:		lda #$03		; a9 03
@@ -385,7 +385,7 @@ B19_026b:		bne B19_0272 ; d0 05
 
 B19_026d:		lda #$00		; a9 00
 B19_026f:		sta $0669, x	; 9d 69 06
-B19_0272:		lda $0438, x	; bd 38 04
+B19_0272:		lda wEntityBaseX.w, x	; bd 38 04
 B19_0275:		bpl B19_0285 ; 10 0e
 
 B19_0277:		cmp #$fb		; c9 fb
@@ -393,14 +393,14 @@ B19_0279:		bcc B19_028e ; 90 13
 
 B19_027b:		jsr $a2fd		; 20 fd a2
 B19_027e:		lda #$fa		; a9 fa
-B19_0280:		sta $0438, x	; 9d 38 04
+B19_0280:		sta wEntityBaseX.w, x	; 9d 38 04
 B19_0283:		bne B19_028e ; d0 09
 
 B19_0285:		cmp #$02		; c9 02
 B19_0287:		bcs B19_028e ; b0 05
 
 B19_0289:		lda #$02		; a9 02
-B19_028b:		sta $0438, x	; 9d 38 04
+B19_028b:		sta wEntityBaseX.w, x	; 9d 38 04
 B19_028e:		jsr $8608		; 20 08 86
 B19_0291:		jsr $a4c3		; 20 c3 a4
 B19_0294:		bne B19_0299 ; d0 03
@@ -411,7 +411,7 @@ B19_0296:		jmp $a329		; 4c 29 a3
 B19_0299:		cmp #$01		; c9 01
 B19_029b:		bne B19_02e6 ; d0 49
 
-B19_029d:		lda $041c, x	; bd 1c 04
+B19_029d:		lda wEntityBaseY.w, x	; bd 1c 04
 B19_02a0:		cmp #$a8		; c9 a8
 B19_02a2:		bcs B19_02b8 ; b0 14
 
@@ -423,7 +423,7 @@ B19_02aa:		bne B19_02ae ; d0 02
 
 B19_02ac:		lda #$04		; a9 04
 B19_02ae:		ldy #$1c		; a0 1c
-B19_02b0:		jsr $fc1e		; 20 1e fc
+B19_02b0:		jsr func_1f_1c1e		; 20 1e fc
 B19_02b3:		bne B19_02b8 ; d0 03
 
 B19_02b5:		jmp $a42a		; 4c 2a a4
@@ -438,7 +438,7 @@ B19_02bf:		bne B19_02c3 ; d0 02
 B19_02c1:		lda #$0c		; a9 0c
 B19_02c3:		sta $00			; 85 00
 B19_02c5:		ldy #$10		; a0 10
-B19_02c7:		jsr $fc1e		; 20 1e fc
+B19_02c7:		jsr func_1f_1c1e		; 20 1e fc
 B19_02ca:		beq B19_02d5 ; f0 09
 
 B19_02cc:		jsr $a2f0		; 20 f0 a2
@@ -452,7 +452,7 @@ B19_02d2:		jmp $a435		; 4c 35 a4
 
 B19_02d5:		lda $00			; a5 00
 B19_02d7:		ldy #$04		; a0 04
-B19_02d9:		jsr $fc1e		; 20 1e fc
+B19_02d9:		jsr func_1f_1c1e		; 20 1e fc
 B19_02dc:		beq B19_02ef ; f0 11
 
 B19_02de:		jsr $a2f0		; 20 f0 a2
@@ -469,11 +469,11 @@ B19_02ec:		sta $0633, x	; 9d 33 06
 B19_02ef:		rts				; 60 
 
 
-B19_02f0:		lda $32			; a5 32
+B19_02f0:		lda wCurrRoomGroup		; a5 32
 B19_02f2:		cmp #$07		; c9 07
 B19_02f4:		bne B19_0327 ; d0 31
 
-B19_02f6:		lda $0438, x	; bd 38 04
+B19_02f6:		lda wEntityBaseX.w, x	; bd 38 04
 B19_02f9:		cmp #$30		; c9 30
 B19_02fb:		bcs B19_0327 ; b0 2a
 
@@ -520,9 +520,9 @@ B19_033c:		cmp #$30		; c9 30
 B19_033e:		bcc B19_038a ; 90 4a
 
 B19_0340:		sec				; 38 
-B19_0341:		lda $041c		; ad 1c 04
+B19_0341:		lda wEntityBaseY.w		; ad 1c 04
 B19_0344:		sbc #$08		; e9 08
-B19_0346:		sbc $041c, x	; fd 1c 04
+B19_0346:		sbc wEntityBaseY.w, x	; fd 1c 04
 B19_0349:		bcs B19_0350 ; b0 05
 
 B19_034b:		eor #$ff		; 49 ff
@@ -533,7 +533,7 @@ B19_0352:		bcc B19_0356 ; 90 02
 
 B19_0354:		bcs B19_03c5 ; b0 6f
 
-B19_0356:		lda $28			; a5 28
+B19_0356:		lda wJoy1ButtonsPressed			; a5 28
 B19_0358:		and #$40		; 29 40
 B19_035a:		bne B19_03b0 ; d0 54
 
@@ -578,7 +578,7 @@ B19_03ab:		lda #$0c		; a9 0c
 B19_03ad:		jmp $864f		; 4c 4f 86
 
 
-B19_03b0:		lda $32			; a5 32
+B19_03b0:		lda wCurrRoomGroup		; a5 32
 B19_03b2:		beq B19_03b9 ; f0 05
 
 B19_03b4:		lda #$13		; a9 13
@@ -595,14 +595,14 @@ B19_03c8:		and #$1f		; 29 1f
 B19_03ca:		cmp #$01		; c9 01
 B19_03cc:		bne B19_0408 ; d0 3a
 
-B19_03ce:		lda $32			; a5 32
+B19_03ce:		lda wCurrRoomGroup		; a5 32
 B19_03d0:		bne B19_03ed ; d0 1b
 
-B19_03d2:		lda $0438, x	; bd 38 04
+B19_03d2:		lda wEntityBaseX.w, x	; bd 38 04
 B19_03d5:		cmp #$18		; c9 18
 B19_03d7:		bcs B19_0408 ; b0 2f
 
-B19_03d9:		lda $041c, x	; bd 1c 04
+B19_03d9:		lda wEntityBaseY.w, x	; bd 1c 04
 B19_03dc:		cmp #$8c		; c9 8c
 B19_03de:		bcs B19_040e ; b0 2e
 
@@ -613,11 +613,11 @@ B19_03e7:		sta $04a8, x	; 9d a8 04
 B19_03ea:		jmp $a43c		; 4c 3c a4
 
 
-B19_03ed:		lda $0438, x	; bd 38 04
+B19_03ed:		lda wEntityBaseX.w, x	; bd 38 04
 B19_03f0:		cmp #$e8		; c9 e8
 B19_03f2:		bcc B19_0408 ; 90 14
 
-B19_03f4:		lda $041c, x	; bd 1c 04
+B19_03f4:		lda wEntityBaseY.w, x	; bd 1c 04
 B19_03f7:		cmp #$8c		; c9 8c
 B19_03f9:		bcs B19_040e ; b0 13
 
@@ -683,7 +683,7 @@ B19_0464:		ldy #$05		; a0 05
 B19_0466:		jsr $ef6e		; 20 6e ef
 B19_0469:		lda #$40		; a9 40
 B19_046b:		sta $0470, x	; 9d 70 04
-B19_046e:		lda $0438, x	; bd 38 04
+B19_046e:		lda wEntityBaseX.w, x	; bd 38 04
 B19_0471:		cmp #$fc		; c9 fc
 B19_0473:		bcc B19_0477 ; 90 02
 
@@ -692,8 +692,8 @@ B19_0477:		cmp #$04		; c9 04
 B19_0479:		bcs B19_047d ; b0 02
 
 B19_047b:		lda #$04		; a9 04
-B19_047d:		sta $0438, x	; 9d 38 04
-B19_0480:		lda $041c, x	; bd 1c 04
+B19_047d:		sta wEntityBaseX.w, x	; 9d 38 04
+B19_0480:		lda wEntityBaseY.w, x	; bd 1c 04
 B19_0483:		cmp #$f8		; c9 f8
 B19_0485:		bcc B19_0489 ; 90 02
 
@@ -702,7 +702,7 @@ B19_0489:		cmp #$40		; c9 40
 B19_048b:		bcs B19_048f ; b0 02
 
 B19_048d:		lda #$40		; a9 40
-B19_048f:		sta $041c, x	; 9d 1c 04
+B19_048f:		sta wEntityBaseY.w, x	; 9d 1c 04
 B19_0492:		rts				; 60 
 
 
@@ -735,7 +735,7 @@ B19_04bf:		sta $0657, x	; 9d 57 06
 B19_04c2:		rts				; 60 
 
 
-B19_04c3:		lda $05ef, x	; bd ef 05
+B19_04c3:		lda wEntityAI_idx.w, x	; bd ef 05
 B19_04c6:		and #$7f		; 29 7f
 B19_04c8:		rts				; 60 
 
@@ -807,12 +807,12 @@ B19_0538:		lda #$00		; a9 00
 B19_053a:		sta $0657, x	; 9d 57 06
 B19_053d:		sta $0669, x	; 9d 69 06
 B19_0540:		ldy $0633, x	; bc 33 06
-B19_0543:		lda $05ef, y	; b9 ef 05
+B19_0543:		lda wEntityAI_idx.w, y	; b9 ef 05
 B19_0546:		and #$7f		; 29 7f
 B19_0548:		cmp #$0e		; c9 0e
 B19_054a:		bne B19_057b ; d0 2f
 
-B19_054c:		lda $05c1, y	; b9 c1 05
+B19_054c:		lda wEntityPhase.w, y	; b9 c1 05
 B19_054f:		cmp #$05		; c9 05
 B19_0551:		bcc B19_057b ; 90 28
 
@@ -826,20 +826,20 @@ B19_0562:		beq B19_0568 ; f0 04
 
 B19_0564:		lda #$f0		; a9 f0
 B19_0566:		sta $00			; 85 00
-B19_0568:		lda $0438, y	; b9 38 04
+B19_0568:		lda wEntityBaseX.w, y	; b9 38 04
 B19_056b:		clc				; 18 
 B19_056c:		adc $00			; 65 00
-B19_056e:		sta $0438, x	; 9d 38 04
-B19_0571:		lda $041c, y	; b9 1c 04
+B19_056e:		sta wEntityBaseX.w, x	; 9d 38 04
+B19_0571:		lda wEntityBaseY.w, y	; b9 1c 04
 B19_0574:		clc				; 18 
 B19_0575:		adc #$10		; 69 10
-B19_0577:		sta $041c, x	; 9d 1c 04
+B19_0577:		sta wEntityBaseY.w, x	; 9d 1c 04
 B19_057a:		rts				; 60 
 
 
 B19_057b:		lda #$00		; a9 00
-B19_057d:		sta $0438, x	; 9d 38 04
-B19_0580:		sta $041c, x	; 9d 1c 04
+B19_057d:		sta wEntityBaseX.w, x	; 9d 38 04
+B19_0580:		sta wEntityBaseY.w, x	; 9d 1c 04
 B19_0583:		rts				; 60 
 
 
@@ -847,17 +847,17 @@ B19_0584:		lda $07f3		; ad f3 07
 B19_0587:		bne B19_05dc ; d0 53
 
 B19_0589:		ldy $0633, x	; bc 33 06
-B19_058c:		lda $05ef, y	; b9 ef 05
+B19_058c:		lda wEntityAI_idx.w, y	; b9 ef 05
 B19_058f:		and #$7f		; 29 7f
 B19_0591:		cmp #$2f		; c9 2f
 B19_0593:		beq B19_05db ; f0 46
 
-B19_0595:		lda $0438, y	; b9 38 04
-B19_0598:		sta $0438, x	; 9d 38 04
-B19_059b:		lda $041c, y	; b9 1c 04
+B19_0595:		lda wEntityBaseX.w, y	; b9 38 04
+B19_0598:		sta wEntityBaseX.w, x	; 9d 38 04
+B19_059b:		lda wEntityBaseY.w, y	; b9 1c 04
 B19_059e:		sec				; 38 
 B19_059f:		sbc #$18		; e9 18
-B19_05a1:		sta $041c, x	; 9d 1c 04
+B19_05a1:		sta wEntityBaseY.w, x	; 9d 1c 04
 B19_05a4:		jsr $a1de		; 20 de a1
 B19_05a7:		lda $3d			; a5 3d
 B19_05a9:		sta $067b, x	; 9d 7b 06
@@ -873,7 +873,7 @@ B19_05c2:		and #$0f		; 29 0f
 B19_05c4:		cmp #$02		; c9 02
 B19_05c6:		beq B19_05d6 ; f0 0e
 
-B19_05c8:		lda $05ef, y	; b9 ef 05
+B19_05c8:		lda wEntityAI_idx.w, y	; b9 ef 05
 B19_05cb:		and #$7f		; 29 7f
 B19_05cd:		cmp #$0d		; c9 0d
 B19_05cf:		bne B19_05d6 ; d0 05
@@ -893,7 +893,7 @@ B19_05e2:		cmp #$2f		; c9 2f
 B19_05e4:		beq B19_0665 ; f0 7f
 
 B19_05e6:		lda #$00		; a9 00
-B19_05e8:		sta $0454, x	; 9d 54 04
+B19_05e8:		sta wEntityPaletteOverride.w, x	; 9d 54 04
 B19_05eb:		lda $0606, x	; bd 06 06
 B19_05ee:		beq B19_0636 ; f0 46
 
@@ -907,7 +907,7 @@ B19_05fc:		lda #$00		; a9 00
 B19_05fe:		beq B19_0602 ; f0 02
 
 B19_0600:		lda #$02		; a9 02
-B19_0602:		sta $0454, x	; 9d 54 04
+B19_0602:		sta wEntityPaletteOverride.w, x	; 9d 54 04
 B19_0605:		dec $0606, x	; de 06 06
 B19_0608:		bne B19_0635 ; d0 2b
 
@@ -954,7 +954,7 @@ B19_064c:		bcc B19_0665 ; 90 17
 
 B19_064e:		lda $043f		; ad 3f 04
 B19_0651:		sec				; 38 
-B19_0652:		sbc $0438, x	; fd 38 04
+B19_0652:		sbc wEntityBaseX.w, x	; fd 38 04
 B19_0655:		bcs B19_065c ; b0 05
 
 B19_0657:		eor #$ff		; 49 ff
@@ -978,7 +978,7 @@ B19_0674:		jsr $a4c3		; 20 c3 a4
 B19_0677:		cmp #$2f		; c9 2f
 B19_0679:		beq B19_06c5 ; f0 4a
 
-B19_067b:		lda $32			; a5 32
+B19_067b:		lda wCurrRoomGroup		; a5 32
 B19_067d:		cmp #$02		; c9 02
 B19_067f:		beq B19_06aa ; f0 29
 
@@ -989,7 +989,7 @@ B19_0687:		beq B19_06a3 ; f0 1a
 
 B19_0689:		lda #$00		; a9 00
 B19_068b:		sta $054e, y	; 99 4e 05
-B19_068e:		sta $05ef, y	; 99 ef 05
+B19_068e:		sta wEntityAI_idx.w, y	; 99 ef 05
 B19_0691:		sta $0400, y	; 99 00 04
 B19_0694:		sta $048c, y	; 99 8c 04
 B19_0697:		sta $0606, y	; 99 06 06
@@ -1017,11 +1017,11 @@ B19_06c0:		lda #$2f		; a9 2f
 B19_06c2:		jmp $864f		; 4c 4f 86
 
 
-B19_06c5:		lda $32			; a5 32
+B19_06c5:		lda wCurrRoomGroup		; a5 32
 B19_06c7:		cmp #$02		; c9 02
 B19_06c9:		beq B19_06fc ; f0 31
 
-B19_06cb:		lda $05c1, x	; bd c1 05
+B19_06cb:		lda wEntityPhase.w, x	; bd c1 05
 B19_06ce:		cmp #$09		; c9 09
 B19_06d0:		bne B19_06fc ; d0 2a
 
@@ -1033,14 +1033,14 @@ B19_06dd:		lda #$00		; a9 00
 B19_06df:		sta $0606, x	; 9d 06 06
 B19_06e2:		sta $061d, x	; 9d 1d 06
 B19_06e5:		sta $0633, x	; 9d 33 06
-B19_06e8:		sta $05ef, x	; 9d ef 05
-B19_06eb:		sta $05c1, x	; 9d c1 05
+B19_06e8:		sta wEntityAI_idx.w, x	; 9d ef 05
+B19_06eb:		sta wEntityPhase.w, x	; 9d c1 05
 B19_06ee:		lda #$09		; a9 09
 B19_06f0:		sta $054e, x	; 9d 4e 05
-B19_06f3:		lda $041c, x	; bd 1c 04
+B19_06f3:		lda wEntityBaseY.w, x	; bd 1c 04
 B19_06f6:		sec				; 38 
 B19_06f7:		sbc #$10		; e9 10
-B19_06f9:		sta $041c, x	; 9d 1c 04
+B19_06f9:		sta wEntityBaseY.w, x	; 9d 1c 04
 B19_06fc:		rts				; 60 
 
 
@@ -1096,7 +1096,7 @@ B19_0752:		rts				; 60
 B19_0753:		jsr $a4c3		; 20 c3 a4
 B19_0756:		beq B19_0779 ; f0 21
 
-B19_0758:		ldy $0438, x	; bc 38 04
+B19_0758:		ldy wEntityBaseX.w, x	; bc 38 04
 B19_075b:		lda $04a8, x	; bd a8 04
 B19_075e:		beq B19_0766 ; f0 06
 
@@ -1126,7 +1126,7 @@ B19_0780:		rts				; 60
 B19_0781:		lda $0633, x	; bd 33 06
 B19_0784:		bne B19_079f ; d0 19
 
-B19_0786:		lda $0438, x	; bd 38 04
+B19_0786:		lda wEntityBaseX.w, x	; bd 38 04
 B19_0789:		cmp #$18		; c9 18
 B19_078b:		bcc B19_07a2 ; 90 15
 
@@ -1191,9 +1191,9 @@ B19_07ee:		sta $0565, x	; 9d 65 05
 B19_07f1:		rts				; 60 
 
 
-B19_07f2:		lda $041c		; ad 1c 04
+B19_07f2:		lda wEntityBaseY.w		; ad 1c 04
 B19_07f5:		sec				; 38 
-B19_07f6:		sbc $041c, x	; fd 1c 04
+B19_07f6:		sbc wEntityBaseY.w, x	; fd 1c 04
 B19_07f9:		bcs B19_0800 ; b0 05
 
 B19_07fb:		eor #$ff		; 49 ff
@@ -1212,7 +1212,7 @@ B19_0808:		jmp $873a		; 4c 3a 87
 
 B19_080b:		jsr func_1f_1ec8		; 20 c8 fe
 B19_080e:		lda #$80		; a9 80
-B19_0810:		sta $05ef, x	; 9d ef 05
+B19_0810:		sta wEntityAI_idx.w, x	; 9d ef 05
 B19_0813:		lda $07ec		; ad ec 07
 B19_0816:		beq B19_0828 ; f0 10
 
@@ -1340,7 +1340,7 @@ B19_08cd:		dec $05d8, x	; de d8 05
 B19_08d0:		rts				; 60 
 
 
-B19_08d1:		lda $05c1, x	; bd c1 05
+B19_08d1:		lda wEntityPhase.w, x	; bd c1 05
 B19_08d4:		sta $07ec		; 8d ec 07
 B19_08d7:		jsr $a4c3		; 20 c3 a4
 B19_08da:		bne B19_08f9 ; d0 1d
@@ -1353,14 +1353,14 @@ B19_08e6:		sta $05d8, x	; 9d d8 05
 B19_08e9:		lda #$d8		; a9 d8
 B19_08eb:		sta $0470, x	; 9d 70 04
 B19_08ee:		lda #$48		; a9 48
-B19_08f0:		sta $0438, x	; 9d 38 04
-B19_08f3:		sta $041c, x	; 9d 1c 04
+B19_08f0:		sta wEntityBaseX.w, x	; 9d 38 04
+B19_08f3:		sta wEntityBaseY.w, x	; 9d 1c 04
 B19_08f6:		jsr $a926		; 20 26 a9
-B19_08f9:		lda $05ef, x	; bd ef 05
+B19_08f9:		lda wEntityAI_idx.w, x	; bd ef 05
 B19_08fc:		cmp #$0f		; c9 0f
 B19_08fe:		bne B19_0914 ; d0 14
 
-B19_0900:		lda $05c1, x	; bd c1 05
+B19_0900:		lda wEntityPhase.w, x	; bd c1 05
 B19_0903:		cmp #$05		; c9 05
 B19_0905:		bcc B19_0914 ; 90 0d
 
@@ -1409,7 +1409,7 @@ B19_0946:		lda #$46		; a9 46
 B19_0948:		jmp $864f		; 4c 4f 86
 
 
-B19_094b:		lda $05c1, x	; bd c1 05
+B19_094b:		lda wEntityPhase.w, x	; bd c1 05
 B19_094e:		cmp #$02		; c9 02
 B19_0950:		beq B19_096c ; f0 1a
 
@@ -1433,8 +1433,8 @@ B19_096e:		sta $0470, x	; 9d 70 04
 B19_0971:		jsr $a18a		; 20 8a a1
 B19_0974:		lda #$00		; a9 00
 B19_0976:		sta $05d8, x	; 9d d8 05
-B19_0979:		sta $05ef, x	; 9d ef 05
-B19_097c:		sta $05c1, x	; 9d c1 05
+B19_0979:		sta wEntityAI_idx.w, x	; 9d ef 05
+B19_097c:		sta wEntityPhase.w, x	; 9d c1 05
 B19_097f:		rts				; 60 
 
 
@@ -1444,7 +1444,7 @@ B19_0985:		sta $0400, x	; 9d 00 04
 B19_0988:		sta $048c, x	; 9d 8c 04
 B19_098b:		beq B19_0979 ; f0 ec
 
-B19_098d:		sta $0300, x	; 9d 00 03
+B19_098d:		sta wVramQueue.w, x	; 9d 00 03
 B19_0990:		inx				; e8 
 B19_0991:		rts				; 60 
 
@@ -1480,8 +1480,8 @@ B19_09bf:		bne B19_09c2 ; d0 01
 
 B19_09c1:		dey				; 88 
 B19_09c2:		tya				; 98 
-B19_09c3:		sta $0454, x	; 9d 54 04
-B19_09c6:		lda $0438, x	; bd 38 04
+B19_09c3:		sta wEntityPaletteOverride.w, x	; 9d 54 04
+B19_09c6:		lda wEntityBaseX.w, x	; bd 38 04
 B19_09c9:		cmp #$04		; c9 04
 B19_09cb:		bcs B19_09cf ; b0 02
 
@@ -1490,8 +1490,8 @@ B19_09cf:		cmp #$fc		; c9 fc
 B19_09d1:		bcc B19_09d5 ; 90 02
 
 B19_09d3:		lda #$fb		; a9 fb
-B19_09d5:		sta $0438, x	; 9d 38 04
-B19_09d8:		lda $041c, x	; bd 1c 04
+B19_09d5:		sta wEntityBaseX.w, x	; 9d 38 04
+B19_09d8:		lda wEntityBaseY.w, x	; bd 1c 04
 B19_09db:		cmp #$40		; c9 40
 B19_09dd:		bcs B19_09e1 ; b0 02
 
@@ -1500,7 +1500,7 @@ B19_09e1:		cmp #$a0		; c9 a0
 B19_09e3:		bcc B19_09e7 ; 90 02
 
 B19_09e5:		lda #$9f		; a9 9f
-B19_09e7:		sta $041c, x	; 9d 1c 04
+B19_09e7:		sta wEntityBaseY.w, x	; 9d 1c 04
 B19_09ea:		ldy $061d, x	; bc 1d 06
 B19_09ed:		beq B19_09fc ; f0 0d
 
@@ -1533,9 +1533,9 @@ B19_0a17:		lda #$00		; a9 00
 B19_0a19:		sta $07ee		; 8d ee 07
 B19_0a1c:		sta $0669, x	; 9d 69 06
 B19_0a1f:		jsr func_1f_1ec8		; 20 c8 fe
-B19_0a22:		lda $05ef, x	; bd ef 05
+B19_0a22:		lda wEntityAI_idx.w, x	; bd ef 05
 B19_0a25:		and #$80		; 29 80
-B19_0a27:		sta $05ef, x	; 9d ef 05
+B19_0a27:		sta wEntityAI_idx.w, x	; 9d ef 05
 B19_0a2a:		ldy #$04		; a0 04
 B19_0a2c:		lda $0606, x	; bd 06 06
 B19_0a2f:		bne B19_0a33 ; d0 02
@@ -1582,8 +1582,8 @@ B19_0a78:		sta $0470, y	; 99 70 04
 B19_0a7b:		lda #$00		; a9 00
 B19_0a7d:		sta $061d, x	; 9d 1d 06
 B19_0a80:		sta $061d, y	; 99 1d 06
-B19_0a83:		sta $0454, x	; 9d 54 04
-B19_0a86:		sta $0454, y	; 99 54 04
+B19_0a83:		sta wEntityPaletteOverride.w, x	; 9d 54 04
+B19_0a86:		sta wEntityPaletteOverride.w, y	; 99 54 04
 B19_0a89:		lda $068d, x	; bd 8d 06
 B19_0a8c:		and #$f0		; 29 f0
 B19_0a8e:		sta $068d, x	; 9d 8d 06
@@ -1604,7 +1604,7 @@ B19_0aa8:		lda $ab86, y	; b9 86 ab
 B19_0aab:		sta $00			; 85 00
 B19_0aad:		lda $ab87, y	; b9 87 ab
 B19_0ab0:		ldy $00			; a4 00
-B19_0ab2:		jsr $fc1e		; 20 1e fc
+B19_0ab2:		jsr func_1f_1c1e		; 20 1e fc
 B19_0ab5:		sta $00			; 85 00
 B19_0ab7:		lda $0606, x	; bd 06 06
 B19_0aba:		bne B19_0ad7 ; d0 1b
@@ -1699,9 +1699,9 @@ B19_0b42:		cmp #$04		; c9 04
 B19_0b44:		bne B19_0b50 ; d0 0a
 
 B19_0b46:		lda #$9a		; a9 9a
-B19_0b48:		sta $05ef, y	; 99 ef 05
+B19_0b48:		sta wEntityAI_idx.w, y	; 99 ef 05
 B19_0b4b:		lda #$00		; a9 00
-B19_0b4d:		sta $05c1, y	; 99 c1 05
+B19_0b4d:		sta wEntityPhase.w, y	; 99 c1 05
 B19_0b50:		iny				; c8 
 B19_0b51:		cpy #$0d		; c0 0d
 B19_0b53:		bne B19_0b3f ; d0 ea
@@ -1709,7 +1709,7 @@ B19_0b53:		bne B19_0b3f ; d0 ea
 B19_0b55:		rts				; 60 
 
 
-B19_0b56:		lda $05c1, x	; bd c1 05
+B19_0b56:		lda wEntityPhase.w, x	; bd c1 05
 B19_0b59:		cmp #$02		; c9 02
 B19_0b5b:		beq B19_0b55 ; f0 f8
 
@@ -1733,7 +1733,7 @@ B19_0b78:		jsr $a980		; 20 80 a9
 B19_0b7b:		lda #$68		; a9 68
 B19_0b7d:		sta $054e, x	; 9d 4e 05
 B19_0b80:		lda #$65		; a9 65
-B19_0b82:		sta $05ef, x	; 9d ef 05
+B19_0b82:		sta wEntityAI_idx.w, x	; 9d ef 05
 B19_0b85:		rts				; 60 
 
 
@@ -1768,7 +1768,7 @@ B19_0bac:		jmp playSound		; 4c 5f e2
 B19_0baf:		lda $78			; a5 78
 B19_0bb1:		beq B19_0bbb ; f0 08
 
-B19_0bb3:		lda $05c1, x	; bd c1 05
+B19_0bb3:		lda wEntityPhase.w, x	; bd c1 05
 B19_0bb6:		cmp #$04		; c9 04
 B19_0bb8:		beq B19_0bd4 ; f0 1a
 
@@ -1802,8 +1802,8 @@ B19_0be9:		lda #$06		; a9 06
 B19_0beb:		sta $07f0		; 8d f0 07
 B19_0bee:		lda #$00		; a9 00
 B19_0bf0:		sta $05d8, x	; 9d d8 05
-B19_0bf3:		sta $05ef, x	; 9d ef 05
-B19_0bf6:		sta $05c1, x	; 9d c1 05
+B19_0bf3:		sta wEntityAI_idx.w, x	; 9d ef 05
+B19_0bf6:		sta wEntityPhase.w, x	; 9d c1 05
 B19_0bf9:		lda #$40		; a9 40
 B19_0bfb:		sta $0470, x	; 9d 70 04
 B19_0bfe:		jmp $adaf		; 4c af ad
@@ -1823,14 +1823,14 @@ B19_0c16:		bne B19_0c1c ; d0 04
 
 B19_0c18:		lda #$fc		; a9 fc
 B19_0c1a:		sta $00			; 85 00
-B19_0c1c:		lda $0438, y	; b9 38 04
+B19_0c1c:		lda wEntityBaseX.w, y	; b9 38 04
 B19_0c1f:		clc				; 18 
 B19_0c20:		adc $00			; 65 00
-B19_0c22:		sta $0438, x	; 9d 38 04
-B19_0c25:		lda $041c, y	; b9 1c 04
+B19_0c22:		sta wEntityBaseX.w, x	; 9d 38 04
+B19_0c25:		lda wEntityBaseY.w, y	; b9 1c 04
 B19_0c28:		sec				; 38 
 B19_0c29:		sbc #$20		; e9 20
-B19_0c2b:		sta $041c, x	; 9d 1c 04
+B19_0c2b:		sta wEntityBaseY.w, x	; 9d 1c 04
 B19_0c2e:		lda $067b, x	; bd 7b 06
 B19_0c31:		sta $067b, y	; 99 7b 06
 B19_0c34:		lda #$00		; a9 00
@@ -1848,7 +1848,7 @@ B19_0c45:		jsr $a4c3		; 20 c3 a4
 B19_0c48:		cmp #$1e		; c9 1e
 B19_0c4a:		beq B19_0c70 ; f0 24
 
-B19_0c4c:		lda $0438, x	; bd 38 04
+B19_0c4c:		lda wEntityBaseX.w, x	; bd 38 04
 B19_0c4f:		cmp #$10		; c9 10
 B19_0c51:		bcs B19_0c55 ; b0 02
 
@@ -1857,8 +1857,8 @@ B19_0c55:		cmp #$f0		; c9 f0
 B19_0c57:		bcc B19_0c5b ; 90 02
 
 B19_0c59:		lda #$ef		; a9 ef
-B19_0c5b:		sta $0438, x	; 9d 38 04
-B19_0c5e:		lda $041c, x	; bd 1c 04
+B19_0c5b:		sta wEntityBaseX.w, x	; 9d 38 04
+B19_0c5e:		lda wEntityBaseY.w, x	; bd 1c 04
 B19_0c61:		cmp #$40		; c9 40
 B19_0c63:		bcs B19_0c67 ; b0 02
 
@@ -1867,7 +1867,7 @@ B19_0c67:		cmp #$f0		; c9 f0
 B19_0c69:		bcc B19_0c6d ; 90 02
 
 B19_0c6b:		lda #$ef		; a9 ef
-B19_0c6d:		sta $041c, x	; 9d 1c 04
+B19_0c6d:		sta wEntityBaseY.w, x	; 9d 1c 04
 B19_0c70:		lda $0669, x	; bd 69 06
 B19_0c73:		sta $00			; 85 00
 B19_0c75:		lda $0669, x	; bd 69 06
@@ -1921,8 +1921,8 @@ B19_0ccb:		sta $0606, y	; 99 06 06
 B19_0cce:		sta $07ec		; 8d ec 07
 B19_0cd1:		lda #$01		; a9 01
 B19_0cd3:		sta $0606, x	; 9d 06 06
-B19_0cd6:		lda $0438		; ad 38 04
-B19_0cd9:		cmp $0438, x	; dd 38 04
+B19_0cd6:		lda wEntityBaseX.w		; ad 38 04
+B19_0cd9:		cmp wEntityBaseX.w, x	; dd 38 04
 B19_0cdc:		bcs B19_0ce2 ; b0 04
 
 B19_0cde:		lda #$0c		; a9 0c
@@ -1966,7 +1966,7 @@ B19_0d1e:		sta $0606, y	; 99 06 06
 B19_0d21:		lda #$40		; a9 40
 B19_0d23:		sta $0470, y	; 99 70 04
 B19_0d26:		lda #$80		; a9 80
-B19_0d28:		sta $05ef, x	; 9d ef 05
+B19_0d28:		sta wEntityAI_idx.w, x	; 9d ef 05
 B19_0d2b:		stx $00			; 86 00
 B19_0d2d:		tya				; 98 
 B19_0d2e:		tax				; aa 
@@ -1985,7 +1985,7 @@ B19_0d46:		sta $07ef		; 8d ef 07
 B19_0d49:		lda #$00		; a9 00
 B19_0d4b:		sta $07ee		; 8d ee 07
 B19_0d4e:		lda #$80		; a9 80
-B19_0d50:		sta $05ef, x	; 9d ef 05
+B19_0d50:		sta wEntityAI_idx.w, x	; 9d ef 05
 B19_0d53:		lda #$c0		; a9 c0
 B19_0d55:		sta $061d, x	; 9d 1d 06
 B19_0d58:		rts				; 60 
@@ -2063,9 +2063,9 @@ B19_0dd1:		cmp #$05		; c9 05
 B19_0dd3:		bne B19_0ddf ; d0 0a
 
 B19_0dd5:		lda #$9f		; a9 9f
-B19_0dd7:		sta $05ef, y	; 99 ef 05
+B19_0dd7:		sta wEntityAI_idx.w, y	; 99 ef 05
 B19_0dda:		lda #$00		; a9 00
-B19_0ddc:		sta $05c1, y	; 99 c1 05
+B19_0ddc:		sta wEntityPhase.w, y	; 99 c1 05
 B19_0ddf:		iny				; c8 
 B19_0de0:		cpy #$0d		; c0 0d
 B19_0de2:		bne B19_0dce ; d0 ea
@@ -2098,7 +2098,7 @@ B19_0e07:		sta $054e, x	; 9d 4e 05
 B19_0e0a:		sta $0400, x	; 9d 00 04
 B19_0e0d:		sta $048c, x	; 9d 8c 04
 B19_0e10:		sta $0606, x	; 9d 06 06
-B19_0e13:		sta $05ef, x	; 9d ef 05
+B19_0e13:		sta wEntityAI_idx.w, x	; 9d ef 05
 B19_0e16:		rts				; 60 
 
 
@@ -2135,9 +2135,9 @@ B19_0e50:		cmp #$05		; c9 05
 B19_0e52:		bne B19_0e5e ; d0 0a
 
 B19_0e54:		lda #$9e		; a9 9e
-B19_0e56:		sta $05ef, y	; 99 ef 05
+B19_0e56:		sta wEntityAI_idx.w, y	; 99 ef 05
 B19_0e59:		lda #$00		; a9 00
-B19_0e5b:		sta $05c1, y	; 99 c1 05
+B19_0e5b:		sta wEntityPhase.w, y	; 99 c1 05
 B19_0e5e:		iny				; c8 
 B19_0e5f:		cpy #$0d		; c0 0d
 B19_0e61:		bne B19_0e4d ; d0 ea
@@ -2162,9 +2162,9 @@ B19_0e7d:		jmp $864f		; 4c 4f 86
 
 
 B19_0e80:		lda #$06		; a9 06
-B19_0e82:		sta $48			; 85 48
+B19_0e82:		sta wChrBankSpr_0800			; 85 48
 B19_0e84:		lda #$1f		; a9 1f
-B19_0e86:		sta $49			; 85 49
+B19_0e86:		sta wChrBankSpr_0c00			; 85 49
 B19_0e88:		jsr chrSwitch_0_to_c00_1400		; 20 3c e3
 B19_0e8b:		jsr $ae96		; 20 96 ae
 B19_0e8e:		inc $07f3		; ee f3 07
@@ -2181,11 +2181,11 @@ B19_0e9f:		beq B19_0eb5 ; f0 14
 
 B19_0ea1:		lda #$00		; a9 00
 B19_0ea3:		sta $054e, y	; 99 4e 05
-B19_0ea6:		sta $05ef, y	; 99 ef 05
+B19_0ea6:		sta wEntityAI_idx.w, y	; 99 ef 05
 B19_0ea9:		sta $0400, y	; 99 00 04
 B19_0eac:		sta $048c, y	; 99 8c 04
-B19_0eaf:		sta $0438, y	; 99 38 04
-B19_0eb2:		sta $041c, y	; 99 1c 04
+B19_0eaf:		sta wEntityBaseX.w, y	; 99 38 04
+B19_0eb2:		sta wEntityBaseY.w, y	; 99 1c 04
 B19_0eb5:		iny				; c8 
 B19_0eb6:		cpy #$0d		; c0 0d
 B19_0eb8:		bne B19_0e98 ; d0 de
@@ -2202,14 +2202,14 @@ B19_0ec5:		jsr playSound		; 20 5f e2
 B19_0ec8:		jmp $873a		; 4c 3a 87
 
 
-B19_0ecb:		lda $0438, x	; bd 38 04
+B19_0ecb:		lda wEntityBaseX.w, x	; bd 38 04
 B19_0ece:		cmp #$08		; c9 08
 B19_0ed0:		bcc B19_0ee6 ; 90 14
 
 B19_0ed2:		cmp #$f8		; c9 f8
 B19_0ed4:		bcs B19_0ee6 ; b0 10
 
-B19_0ed6:		lda $041c, x	; bd 1c 04
+B19_0ed6:		lda wEntityBaseY.w, x	; bd 1c 04
 B19_0ed9:		cmp #$40		; c9 40
 B19_0edb:		bcc B19_0ee6 ; 90 09
 
@@ -2233,11 +2233,11 @@ B19_0ef2:		jsr $af62		; 20 62 af
 B19_0ef5:		jmp $b04e		; 4c 4e b0
 
 
-B19_0ef8:		lda $05ef, x	; bd ef 05
+B19_0ef8:		lda wEntityAI_idx.w, x	; bd ef 05
 B19_0efb:		and #$7f		; 29 7f
 B19_0efd:		bne B19_0f15 ; d0 16
 
-B19_0eff:		lda $33			; a5 33
+B19_0eff:		lda wCurrRoomSection			; a5 33
 B19_0f01:		cmp #$02		; c9 02
 B19_0f03:		beq B19_0f10 ; f0 0b
 
@@ -2288,8 +2288,8 @@ B19_0f47:		bne B19_0f61 ; d0 18
 
 B19_0f49:		lda #$00		; a9 00
 B19_0f4b:		sta $05d8, x	; 9d d8 05
-B19_0f4e:		sta $05ef, x	; 9d ef 05
-B19_0f51:		sta $05c1, x	; 9d c1 05
+B19_0f4e:		sta wEntityAI_idx.w, x	; 9d ef 05
+B19_0f51:		sta wEntityPhase.w, x	; 9d c1 05
 B19_0f54:		lda #$60		; a9 60
 B19_0f56:		sta $0470, x	; 9d 70 04
 B19_0f59:		lda $07f3		; ad f3 07
@@ -2298,18 +2298,18 @@ B19_0f5e:		sta $07f3		; 8d f3 07
 B19_0f61:		rts				; 60 
 
 
-B19_0f62:		lda $33			; a5 33
+B19_0f62:		lda wCurrRoomSection			; a5 33
 B19_0f64:		cmp #$02		; c9 02
 B19_0f66:		beq B19_0f73 ; f0 0b
 
-B19_0f68:		lda $0438, x	; bd 38 04
+B19_0f68:		lda wEntityBaseX.w, x	; bd 38 04
 B19_0f6b:		and #$f0		; 29 f0
 B19_0f6d:		cmp #$20		; c9 20
 B19_0f6f:		beq B19_0f7a ; f0 09
 
 B19_0f71:		bne B19_0f84 ; d0 11
 
-B19_0f73:		lda $0438, x	; bd 38 04
+B19_0f73:		lda wEntityBaseX.w, x	; bd 38 04
 B19_0f76:		and #$f0		; 29 f0
 B19_0f78:		bne B19_0f84 ; d0 0a
 
@@ -2327,7 +2327,7 @@ B19_0f85:		rts				; 60
 B19_0f86:		lda #$60		; a9 60
 B19_0f88:		sta $0470, x	; 9d 70 04
 B19_0f8b:		jsr $a1de		; 20 de a1
-B19_0f8e:		lda $33			; a5 33
+B19_0f8e:		lda wCurrRoomSection			; a5 33
 B19_0f90:		cmp #$02		; c9 02
 B19_0f92:		bne B19_0fb6 ; d0 22
 
@@ -2339,7 +2339,7 @@ B19_0f9a:		lda #$17		; a9 17
 B19_0f9c:		sta $3d			; 85 3d
 B19_0f9e:		sta $067b, x	; 9d 7b 06
 B19_0fa1:		jsr $b01c		; 20 1c b0
-B19_0fa4:		lda $05ef, x	; bd ef 05
+B19_0fa4:		lda wEntityAI_idx.w, x	; bd ef 05
 B19_0fa7:		and #$7f		; 29 7f
 B19_0fa9:		bne B19_0fb0 ; d0 05
 
@@ -2395,7 +2395,7 @@ B19_0ffc:		jmp $b3c2		; 4c c2 b3
 
 B19_0fff:		jsr $b416		; 20 16 b4
 B19_1002:		jsr $b01c		; 20 1c b0
-B19_1005:		lda $05ef, x	; bd ef 05
+B19_1005:		lda wEntityAI_idx.w, x	; bd ef 05
 B19_1008:		and #$7f		; 29 7f
 B19_100a:		bne B19_0fde ; d0 d2
 
@@ -2439,7 +2439,7 @@ B19_1044:		bne B19_104e ; d0 08
 B19_1046:		lda #$60		; a9 60
 B19_1048:		sta $0470, x	; 9d 70 04
 B19_104b:		jsr $a1de		; 20 de a1
-B19_104e:		lda $33			; a5 33
+B19_104e:		lda wCurrRoomSection			; a5 33
 B19_1050:		cmp #$02		; c9 02
 B19_1052:		bne B19_1072 ; d0 1e
 
@@ -2474,11 +2474,11 @@ B19_107d:		lda #$00		; a9 00
 B19_107f:		sta $0657, x	; 9d 57 06
 B19_1082:		sta $0509, x	; 9d 09 05
 B19_1085:		sta $04f2, x	; 9d f2 04
-B19_1088:		lda $33			; a5 33
+B19_1088:		lda wCurrRoomSection			; a5 33
 B19_108a:		cmp #$02		; c9 02
 B19_108c:		bne B19_109a ; d0 0c
 
-B19_108e:		lda $041c, x	; bd 1c 04
+B19_108e:		lda wEntityBaseY.w, x	; bd 1c 04
 B19_1091:		cmp #$f8		; c9 f8
 B19_1093:		bcc B19_10da ; 90 45
 
@@ -2487,28 +2487,28 @@ B19_1098:		sec				; 38
 B19_1099:		rts				; 60 
 
 
-B19_109a:		lda $05ef, x	; bd ef 05
+B19_109a:		lda wEntityAI_idx.w, x	; bd ef 05
 B19_109d:		and #$7f		; 29 7f
 B19_109f:		cmp #$56		; c9 56
 B19_10a1:		bne B19_10ab ; d0 08
 
-B19_10a3:		lda $05c1, x	; bd c1 05
+B19_10a3:		lda wEntityPhase.w, x	; bd c1 05
 B19_10a6:		cmp #$02		; c9 02
 B19_10a8:		beq B19_10ab ; f0 01
 
 B19_10aa:		rts				; 60 
 
 
-B19_10ab:		lda $041c, x	; bd 1c 04
+B19_10ab:		lda wEntityBaseY.w, x	; bd 1c 04
 B19_10ae:		cmp $ca			; c5 ca
 B19_10b0:		bcc B19_10da ; 90 28
 
-B19_10b2:		lda $05ef, x	; bd ef 05
+B19_10b2:		lda wEntityAI_idx.w, x	; bd ef 05
 B19_10b5:		and #$7f		; 29 7f
 B19_10b7:		cmp #$25		; c9 25
 B19_10b9:		bne B19_10c4 ; d0 09
 
-B19_10bb:		lda $05c1, x	; bd c1 05
+B19_10bb:		lda wEntityPhase.w, x	; bd c1 05
 B19_10be:		cmp #$0f		; c9 0f
 B19_10c0:		bne B19_10da ; d0 18
 
@@ -2533,7 +2533,7 @@ B19_10db:		rts				; 60
 
 B19_10dc:		lda #$00		; a9 00
 B19_10de:		sta $0657, x	; 9d 57 06
-B19_10e1:		lda $05ef, x	; bd ef 05
+B19_10e1:		lda wEntityAI_idx.w, x	; bd ef 05
 B19_10e4:		and #$7f		; 29 7f
 B19_10e6:		bne B19_10f3 ; d0 0b
 
@@ -2571,7 +2571,7 @@ B19_1129:		beq B19_114f ; f0 24
 
 B19_112b:		lda $04f3		; ad f3 04
 B19_112e:		sta $04f2, x	; 9d f2 04
-B19_1131:		sta $05c1, x	; 9d c1 05
+B19_1131:		sta wEntityPhase.w, x	; 9d c1 05
 B19_1134:		lda $050a		; ad 0a 05
 B19_1137:		sta $0509, x	; 9d 09 05
 B19_113a:		sta $05d8, x	; 9d d8 05
@@ -2600,14 +2600,14 @@ B19_116c:		sta $08			; 85 08
 B19_116e:		lda $b224, y	; b9 24 b2
 B19_1171:		sta $09			; 85 09
 B19_1173:		ldy $00			; a4 00
-B19_1175:		lda $0438, y	; b9 38 04
+B19_1175:		lda wEntityBaseX.w, y	; b9 38 04
 B19_1178:		clc				; 18 
 B19_1179:		adc $08			; 65 08
-B19_117b:		sta $0438, x	; 9d 38 04
-B19_117e:		lda $041c, y	; b9 1c 04
+B19_117b:		sta wEntityBaseX.w, x	; 9d 38 04
+B19_117e:		lda wEntityBaseY.w, y	; b9 1c 04
 B19_1181:		clc				; 18 
 B19_1182:		adc $09			; 65 09
-B19_1184:		sta $041c, x	; 9d 1c 04
+B19_1184:		sta wEntityBaseY.w, x	; 9d 1c 04
 B19_1187:		rts				; 60 
 
 
@@ -2628,7 +2628,7 @@ B19_11a5:		jsr $b2b7		; 20 b7 b2
 B19_11a8:		lda $061d, x	; bd 1d 06
 B19_11ab:		bne B19_11ec ; d0 3f
 
-B19_11ad:		lda $05c1, x	; bd c1 05
+B19_11ad:		lda wEntityPhase.w, x	; bd c1 05
 B19_11b0:		sta $04f2, x	; 9d f2 04
 B19_11b3:		lda $05d8, x	; bd d8 05
 B19_11b6:		sta $0509, x	; 9d 09 05
@@ -2637,7 +2637,7 @@ B19_11bc:		sta $0520, x	; 9d 20 05
 B19_11bf:		lda $0645, x	; bd 45 06
 B19_11c2:		sta $0537, x	; 9d 37 05
 B19_11c5:		lda $04f2, y	; b9 f2 04
-B19_11c8:		sta $05c1, x	; 9d c1 05
+B19_11c8:		sta wEntityPhase.w, x	; 9d c1 05
 B19_11cb:		lda $0509, y	; b9 09 05
 B19_11ce:		sta $05d8, x	; 9d d8 05
 B19_11d1:		lda $0520, y	; b9 20 05
@@ -2790,13 +2790,13 @@ B19_12bc:		rts				; 60
 B19_12bd:		lda $054f		; ad 4f 05
 B19_12c0:		bne B19_12da ; d0 18
 
-B19_12c2:		lda $0438, x	; bd 38 04
+B19_12c2:		lda wEntityBaseX.w, x	; bd 38 04
 B19_12c5:		sta $00			; 85 00
 B19_12c7:		lda $d1			; a5 d1
 B19_12c9:		and #$80		; 29 80
 B19_12cb:		beq B19_12d2 ; f0 05
 
-B19_12cd:		lda $041c, x	; bd 1c 04
+B19_12cd:		lda wEntityBaseY.w, x	; bd 1c 04
 B19_12d0:		sta $00			; 85 00
 B19_12d2:		lda $d1			; a5 d1
 B19_12d4:		asl a			; 0a
@@ -2819,7 +2819,7 @@ B19_12e9:		bcs B19_12ec ; b0 01
 B19_12eb:		rts				; 60 
 
 
-B19_12ec:		lda $0438, x	; bd 38 04
+B19_12ec:		lda wEntityBaseX.w, x	; bd 38 04
 B19_12ef:		sta $00			; 85 00
 B19_12f1:		lda #$80		; a9 80
 B19_12f3:		sta $01			; 85 01
@@ -2828,7 +2828,7 @@ B19_12f7:		sta $02			; 85 02
 B19_12f9:		jsr $b355		; 20 55 b3
 B19_12fc:		bcs B19_1354 ; b0 56
 
-B19_12fe:		lda $041c, x	; bd 1c 04
+B19_12fe:		lda wEntityBaseY.w, x	; bd 1c 04
 B19_1301:		sta $00			; 85 00
 B19_1303:		lda #$40		; a9 40
 B19_1305:		sta $01			; 85 01
@@ -2856,13 +2856,13 @@ B19_1326:		lda $0537, x	; bd 37 05
 B19_1329:		cmp #$40		; c9 40
 B19_132b:		bcc B19_1337 ; 90 0a
 
-B19_132d:		lda $041c, x	; bd 1c 04
+B19_132d:		lda wEntityBaseY.w, x	; bd 1c 04
 B19_1330:		lsr a			; 4a
 B19_1331:		ora #$80		; 09 80
 B19_1333:		sta $d1			; 85 d1
 B19_1335:		bne B19_133d ; d0 06
 
-B19_1337:		lda $0438, x	; bd 38 04
+B19_1337:		lda wEntityBaseX.w, x	; bd 38 04
 B19_133a:		lsr a			; 4a
 B19_133b:		sta $d1			; 85 d1
 B19_133d:		lda #$00		; a9 00
@@ -2870,8 +2870,8 @@ B19_133f:		sta $054e, x	; 9d 4e 05
 B19_1342:		sta $0400, x	; 9d 00 04
 B19_1345:		sta $05aa, x	; 9d aa 05
 B19_1348:		sta $048c, x	; 9d 8c 04
-B19_134b:		sta $05ef, x	; 9d ef 05
-B19_134e:		sta $05c1, x	; 9d c1 05
+B19_134b:		sta wEntityAI_idx.w, x	; 9d ef 05
+B19_134e:		sta wEntityPhase.w, x	; 9d c1 05
 B19_1351:		jsr $b39e		; 20 9e b3
 B19_1354:		rts				; 60 
 
@@ -2967,9 +2967,9 @@ B19_13e1:		sta $0606, y	; 99 06 06
 B19_13e4:		lda $b406, y	; b9 06 b4
 B19_13e7:		sta $05d8, y	; 99 d8 05
 B19_13ea:		lda #$d6		; a9 d6
-B19_13ec:		sta $05ef, y	; 99 ef 05
+B19_13ec:		sta wEntityAI_idx.w, y	; 99 ef 05
 B19_13ef:		lda #$00		; a9 00
-B19_13f1:		sta $05c1, y	; 99 c1 05
+B19_13f1:		sta wEntityPhase.w, y	; 99 c1 05
 B19_13f4:		sta $04f2, y	; 99 f2 04
 B19_13f7:		sta $0509, y	; 99 09 05
 B19_13fa:		sta $0520, y	; 99 20 05
@@ -3008,8 +3008,8 @@ B19_141f:		cmp #$fc		; c9 fc
 B19_1421:		bcc B19_1425 ; 90 02
 
 B19_1423:		lda #$fb		; a9 fb
-B19_1425:		sta $0438, x	; 9d 38 04
-B19_1428:		lda $041c, x	; bd 1c 04
+B19_1425:		sta wEntityBaseX.w, x	; 9d 38 04
+B19_1428:		lda wEntityBaseY.w, x	; bd 1c 04
 B19_142b:		cmp #$30		; c9 30
 B19_142d:		bcs B19_1431 ; b0 02
 
@@ -3018,7 +3018,7 @@ B19_1431:		cmp #$f0		; c9 f0
 B19_1433:		bcc B19_1437 ; 90 02
 
 B19_1435:		lda #$ef		; a9 ef
-B19_1437:		sta $041c, x	; 9d 1c 04
+B19_1437:		sta wEntityBaseY.w, x	; 9d 1c 04
 B19_143a:		rts				; 60 
 
 
@@ -3043,9 +3043,9 @@ B19_1456:		jsr $87c5		; 20 c5 87
 B19_1459:		lda #$88		; a9 88
 B19_145b:		sta $0470, y	; 99 70 04
 B19_145e:		lda #$48		; a9 48
-B19_1460:		sta $041c, y	; 99 1c 04
+B19_1460:		sta wEntityBaseY.w, y	; 99 1c 04
 B19_1463:		lda #$20		; a9 20
-B19_1465:		sta $0438, y	; 99 38 04
+B19_1465:		sta wEntityBaseX.w, y	; 99 38 04
 B19_1468:		sty $16			; 84 16
 B19_146a:		lda $17			; a5 17
 B19_146c:		and #$07		; 29 07
@@ -3078,7 +3078,7 @@ B19_14a2:		lda $0470, y	; b9 70 04
 B19_14a5:		and #$88		; 29 88
 B19_14a7:		bne B19_149e ; d0 f5
 
-B19_14a9:		lda $05ef, x	; bd ef 05
+B19_14a9:		lda wEntityAI_idx.w, x	; bd ef 05
 B19_14ac:		and #$7f		; 29 7f
 B19_14ae:		bne B19_14c9 ; d0 19
 
@@ -3094,7 +3094,7 @@ B19_14c4:		lda #$55		; a9 55
 B19_14c6:		jmp $864f		; 4c 4f 86
 
 
-B19_14c9:		lda $041c, x	; bd 1c 04
+B19_14c9:		lda wEntityBaseY.w, x	; bd 1c 04
 B19_14cc:		cmp #$f8		; c9 f8
 B19_14ce:		bcc B19_149e ; 90 ce
 
@@ -3143,7 +3143,7 @@ B19_14fd:		sta $0606, x	; 9d 06 06
 B19_1500:		lda #$01		; a9 01
 B19_1502:		sta $04a8, x	; 9d a8 04
 B19_1505:		lda #$a8		; a9 a8
-B19_1507:		sta $041c, x	; 9d 1c 04
+B19_1507:		sta wEntityBaseY.w, x	; 9d 1c 04
 B19_150a:		lda #$10		; a9 10
 B19_150c:		ldy #$44		; a0 44
 B19_150e:		jmp func_1f_0f5c		; 4c 5c ef
@@ -3158,14 +3158,14 @@ B19_1518:		bne B19_1511 ; d0 f7
 
 B19_151a:		lda #$60		; a9 60
 B19_151c:		sta $0470, x	; 9d 70 04
-B19_151f:		lda $05ef, x	; bd ef 05
+B19_151f:		lda wEntityAI_idx.w, x	; bd ef 05
 B19_1522:		and #$7f		; 29 7f
 B19_1524:		bne B19_154b ; d0 25
 
 B19_1526:		lda #$25		; a9 25
 B19_1528:		jsr $8766		; 20 66 87
 B19_152b:		lda #$80		; a9 80
-B19_152d:		sta $05ef, y	; 99 ef 05
+B19_152d:		sta wEntityAI_idx.w, y	; 99 ef 05
 B19_1530:		lda #$e8		; a9 e8
 B19_1532:		sta $0470, y	; 99 70 04
 B19_1535:		txa				; 8a 
@@ -3179,7 +3179,7 @@ B19_1546:		lda #$d1		; a9 d1
 B19_1548:		jmp $864f		; 4c 4f 86
 
 
-B19_154b:		lda $05c1, x	; bd c1 05
+B19_154b:		lda wEntityPhase.w, x	; bd c1 05
 B19_154e:		cmp #$07		; c9 07
 B19_1550:		beq B19_1553 ; f0 01
 
@@ -3190,7 +3190,7 @@ B19_1553:		lda $07f3		; ad f3 07
 B19_1556:		and #$7f		; 29 7f
 B19_1558:		sta $07f3		; 8d f3 07
 B19_155b:		jsr $b562		; 20 62 b5
-B19_155e:		sta $05ef, x	; 9d ef 05
+B19_155e:		sta wEntityAI_idx.w, x	; 9d ef 05
 B19_1561:		rts				; 60 
 
 
@@ -3218,12 +3218,12 @@ B19_1589:		beq B19_15a9 ; f0 1e
 B19_158b:		lda #$00		; a9 00
 B19_158d:		sta $0669, x	; 9d 69 06
 B19_1590:		ldy $0606, x	; bc 06 06
-B19_1593:		lda $041c, y	; b9 1c 04
+B19_1593:		lda wEntityBaseY.w, y	; b9 1c 04
 B19_1596:		sec				; 38 
 B19_1597:		sbc #$10		; e9 10
-B19_1599:		sta $041c, x	; 9d 1c 04
-B19_159c:		lda $0438, y	; b9 38 04
-B19_159f:		sta $0438, x	; 9d 38 04
+B19_1599:		sta wEntityBaseY.w, x	; 9d 1c 04
+B19_159c:		lda wEntityBaseX.w, y	; b9 38 04
+B19_159f:		sta wEntityBaseX.w, x	; 9d 38 04
 B19_15a2:		lda $0657, y	; b9 57 06
 B19_15a5:		sta $0657, x	; 9d 57 06
 B19_15a8:		rts				; 60 
@@ -3272,13 +3272,13 @@ B19_15e7:		jsr $8766		; 20 66 87
 B19_15ea:		lda $17			; a5 17
 B19_15ec:		sta $0606, y	; 99 06 06
 B19_15ef:		lda #$de		; a9 de
-B19_15f1:		sta $05ef, y	; 99 ef 05
+B19_15f1:		sta wEntityAI_idx.w, y	; 99 ef 05
 B19_15f4:		lda #$60		; a9 60
 B19_15f6:		sta $0470, y	; 99 70 04
 B19_15f9:		lda #$10		; a9 10
 B19_15fb:		sta $048c, y	; 99 8c 04
 B19_15fe:		lda #$00		; a9 00
-B19_1600:		sta $05c1, y	; 99 c1 05
+B19_1600:		sta wEntityPhase.w, y	; 99 c1 05
 B19_1603:		sty $16			; 84 16
 B19_1605:		ldy $17			; a4 17
 B19_1607:		dey				; 88 
@@ -3295,12 +3295,12 @@ B19_161f:		bne B19_15e5 ; d0 c4
 
 B19_1621:		lda $17			; a5 17
 B19_1623:		sta $0606, x	; 9d 06 06
-B19_1626:		lda $041c, x	; bd 1c 04
+B19_1626:		lda wEntityBaseY.w, x	; bd 1c 04
 B19_1629:		sec				; 38 
 B19_162a:		sbc #$10		; e9 10
-B19_162c:		sta $041c, x	; 9d 1c 04
+B19_162c:		sta wEntityBaseY.w, x	; 9d 1c 04
 B19_162f:		lda #$80		; a9 80
-B19_1631:		sta $05ef, x	; 9d ef 05
+B19_1631:		sta wEntityAI_idx.w, x	; 9d ef 05
 B19_1634:		lda #$f0		; a9 f0
 B19_1636:		sta $0400, x	; 9d 00 04
 B19_1639:		lda #$10		; a9 10
@@ -3314,14 +3314,14 @@ B19_164b:		lda #$43		; a9 43
 B19_164d:		jmp playSound		; 4c 5f e2
 
 
-B19_1650:		sta $041c, x	; 9d 1c 04
+B19_1650:		sta wEntityBaseY.w, x	; 9d 1c 04
 B19_1653:		rts				; 60 
 
 
 B19_1654:		lda $0606, x	; bd 06 06
 B19_1657:		bne B19_1684 ; d0 2b
 
-B19_1659:		lda $041c, x	; bd 1c 04
+B19_1659:		lda wEntityBaseY.w, x	; bd 1c 04
 B19_165c:		sec				; 38 
 B19_165d:		sbc #$01		; e9 01
 B19_165f:		cmp #$80		; c9 80
@@ -3343,14 +3343,14 @@ B19_167f:		lda #$30		; a9 30
 B19_1681:		jmp $8661		; 4c 61 86
 
 
-B19_1684:		lda $041c, x	; bd 1c 04
+B19_1684:		lda wEntityBaseY.w, x	; bd 1c 04
 B19_1687:		and #$f8		; 29 f8
 B19_1689:		beq B19_169b ; f0 10
 
 B19_168b:		cmp #$f8		; c9 f8
 B19_168d:		beq B19_169b ; f0 0c
 
-B19_168f:		lda $0438, x	; bd 38 04
+B19_168f:		lda wEntityBaseX.w, x	; bd 38 04
 B19_1692:		and #$f8		; 29 f8
 B19_1694:		beq B19_169b ; f0 05
 
@@ -3371,7 +3371,7 @@ B19_16a8:		sta $0657, x	; 9d 57 06
 B19_16ab:		ldy $0606, x	; bc 06 06
 B19_16ae:		bne B19_1700 ; d0 50
 
-B19_16b0:		lda $05ef, x	; bd ef 05
+B19_16b0:		lda wEntityAI_idx.w, x	; bd ef 05
 B19_16b3:		and #$7f		; 29 7f
 B19_16b5:		bne B19_16bf ; d0 08
 
@@ -3380,7 +3380,7 @@ B19_16ba:		lda #$d2		; a9 d2
 B19_16bc:		jmp $864f		; 4c 4f 86
 
 
-B19_16bf:		lda $05c1, x	; bd c1 05
+B19_16bf:		lda wEntityPhase.w, x	; bd c1 05
 B19_16c2:		cmp #$07		; c9 07
 B19_16c4:		beq B19_16cb ; f0 05
 
@@ -3401,9 +3401,9 @@ B19_16db:		sta $061d, y	; 99 1d 06
 B19_16de:		lda #$60		; a9 60
 B19_16e0:		sta $0470, y	; 99 70 04
 B19_16e3:		lda #$80		; a9 80
-B19_16e5:		sta $05ef, y	; 99 ef 05
+B19_16e5:		sta wEntityAI_idx.w, y	; 99 ef 05
 B19_16e8:		lda #$c0		; a9 c0
-B19_16ea:		sta $041c, y	; 99 1c 04
+B19_16ea:		sta wEntityBaseY.w, y	; 99 1c 04
 B19_16ed:		dec $17			; c6 17
 B19_16ef:		bpl B19_16cf ; 10 de
 
@@ -3414,7 +3414,7 @@ B19_16f2:		inc $0606, x	; fe 06 06
 B19_16f5:		lda #$30		; a9 30
 B19_16f7:		sta $061d, x	; 9d 1d 06
 B19_16fa:		lda #$80		; a9 80
-B19_16fc:		sta $05ef, x	; 9d ef 05
+B19_16fc:		sta wEntityAI_idx.w, x	; 9d ef 05
 B19_16ff:		rts				; 60 
 
 
@@ -3424,7 +3424,7 @@ B19_1701:		bne B19_1754 ; d0 51
 B19_1703:		lda $061d, x	; bd 1d 06
 B19_1706:		bne B19_1750 ; d0 48
 
-B19_1708:		lda $05ef, x	; bd ef 05
+B19_1708:		lda wEntityAI_idx.w, x	; bd ef 05
 B19_170b:		and #$7f		; 29 7f
 B19_170d:		bne B19_1717 ; d0 08
 
@@ -3433,7 +3433,7 @@ B19_1712:		lda #$d2		; a9 d2
 B19_1714:		jmp $864f		; 4c 4f 86
 
 
-B19_1717:		lda $05c1, x	; bd c1 05
+B19_1717:		lda wEntityPhase.w, x	; bd c1 05
 B19_171a:		cmp #$07		; c9 07
 B19_171c:		beq B19_1723 ; f0 05
 
@@ -3452,9 +3452,9 @@ B19_172f:		sta $061d, y	; 99 1d 06
 B19_1732:		lda #$60		; a9 60
 B19_1734:		sta $0470, y	; 99 70 04
 B19_1737:		lda #$80		; a9 80
-B19_1739:		sta $05ef, y	; 99 ef 05
+B19_1739:		sta wEntityAI_idx.w, y	; 99 ef 05
 B19_173c:		lda #$c0		; a9 c0
-B19_173e:		sta $041c, y	; 99 1c 04
+B19_173e:		sta wEntityBaseY.w, y	; 99 1c 04
 B19_1741:		rts				; 60 
 
 
@@ -3462,7 +3462,7 @@ B19_1742:		inc $0606, x	; fe 06 06
 B19_1745:		lda #$20		; a9 20
 B19_1747:		sta $061d, x	; 9d 1d 06
 B19_174a:		lda #$80		; a9 80
-B19_174c:		sta $05ef, x	; 9d ef 05
+B19_174c:		sta wEntityAI_idx.w, x	; 9d ef 05
 B19_174f:		rts				; 60 
 
 
@@ -3476,13 +3476,13 @@ B19_1755:		bne B19_1781 ; d0 2a
 B19_1757:		lda $061d, x	; bd 1d 06
 B19_175a:		bne B19_1750 ; d0 f4
 
-B19_175c:		lda $0438, x	; bd 38 04
+B19_175c:		lda wEntityBaseX.w, x	; bd 38 04
 B19_175f:		sta $061d, x	; 9d 1d 06
 B19_1762:		and #$f0		; 29 f0
 B19_1764:		sta $0645, x	; 9d 45 06
 B19_1767:		lda #$00		; a9 00
 B19_1769:		sta $0565, x	; 9d 65 05
-B19_176c:		sta $05c1, x	; 9d c1 05
+B19_176c:		sta wEntityPhase.w, x	; 9d c1 05
 B19_176f:		ldy $0633, x	; bc 33 06
 B19_1772:		lda $b8a1, y	; b9 a1 b8
 B19_1775:		cmp $061d, x	; dd 1d 06
@@ -3504,10 +3504,10 @@ B19_178c:		bne B19_1801 ; d0 73
 B19_178e:		lda $0565, x	; bd 65 05
 B19_1791:		beq B19_17a9 ; f0 16
 
-B19_1793:		lda $0438, x	; bd 38 04
+B19_1793:		lda wEntityBaseX.w, x	; bd 38 04
 B19_1796:		sec				; 38 
 B19_1797:		sbc #$10		; e9 10
-B19_1799:		sta $0438, x	; 9d 38 04
+B19_1799:		sta wEntityBaseX.w, x	; 9d 38 04
 B19_179c:		and #$f0		; 29 f0
 B19_179e:		cmp $0645, x	; dd 45 06
 B19_17a1:		beq B19_17fb ; f0 58
@@ -3517,10 +3517,10 @@ B19_17a3:		bcc B19_17bf ; 90 1a
 B19_17a5:		lda #$00		; a9 00
 B19_17a7:		beq B19_17fd ; f0 54
 
-B19_17a9:		lda $0438, x	; bd 38 04
+B19_17a9:		lda wEntityBaseX.w, x	; bd 38 04
 B19_17ac:		clc				; 18 
 B19_17ad:		adc #$10		; 69 10
-B19_17af:		sta $0438, x	; 9d 38 04
+B19_17af:		sta wEntityBaseX.w, x	; 9d 38 04
 B19_17b2:		and #$f0		; 29 f0
 B19_17b4:		cmp $0645, x	; dd 45 06
 B19_17b7:		beq B19_17fb ; f0 42
@@ -3531,14 +3531,14 @@ B19_17bb:		lda #$00		; a9 00
 B19_17bd:		beq B19_17fd ; f0 3e
 
 B19_17bf:		lda $061d, x	; bd 1d 06
-B19_17c2:		sta $0438, x	; 9d 38 04
-B19_17c5:		inc $05c1, x	; fe c1 05
-B19_17c8:		lda $05c1, x	; bd c1 05
+B19_17c2:		sta wEntityBaseX.w, x	; 9d 38 04
+B19_17c5:		inc wEntityPhase.w, x	; fe c1 05
+B19_17c8:		lda wEntityPhase.w, x	; bd c1 05
 B19_17cb:		cmp #$04		; c9 04
 B19_17cd:		bne B19_17fb ; d0 2c
 
 B19_17cf:		lda #$00		; a9 00
-B19_17d1:		sta $05c1, x	; 9d c1 05
+B19_17d1:		sta wEntityPhase.w, x	; 9d c1 05
 B19_17d4:		ldy $0633, x	; bc 33 06
 B19_17d7:		lda $b8a1, y	; b9 a1 b8
 B19_17da:		cmp $0645, x	; dd 45 06
@@ -3576,10 +3576,10 @@ B19_180b:		bne B19_1801 ; d0 f4
 B19_180d:		lda $0565, x	; bd 65 05
 B19_1810:		beq B19_1828 ; f0 16
 
-B19_1812:		lda $0438, x	; bd 38 04
+B19_1812:		lda wEntityBaseX.w, x	; bd 38 04
 B19_1815:		sec				; 38 
 B19_1816:		sbc #$10		; e9 10
-B19_1818:		sta $0438, x	; 9d 38 04
+B19_1818:		sta wEntityBaseX.w, x	; 9d 38 04
 B19_181b:		and #$f0		; 29 f0
 B19_181d:		cmp $0645, x	; dd 45 06
 B19_1820:		beq B19_17fb ; f0 d9
@@ -3589,10 +3589,10 @@ B19_1822:		bcc B19_183e ; 90 1a
 B19_1824:		lda #$00		; a9 00
 B19_1826:		beq B19_17fd ; f0 d5
 
-B19_1828:		lda $0438, x	; bd 38 04
+B19_1828:		lda wEntityBaseX.w, x	; bd 38 04
 B19_182b:		clc				; 18 
 B19_182c:		adc #$10		; 69 10
-B19_182e:		sta $0438, x	; 9d 38 04
+B19_182e:		sta wEntityBaseX.w, x	; 9d 38 04
 B19_1831:		and #$f0		; 29 f0
 B19_1833:		cmp $0645, x	; dd 45 06
 B19_1836:		beq B19_17fb ; f0 c3
@@ -3603,14 +3603,14 @@ B19_183a:		lda #$00		; a9 00
 B19_183c:		beq B19_17fd ; f0 bf
 
 B19_183e:		lda $061d, x	; bd 1d 06
-B19_1841:		sta $0438, x	; 9d 38 04
-B19_1844:		inc $05c1, x	; fe c1 05
-B19_1847:		lda $05c1, x	; bd c1 05
+B19_1841:		sta wEntityBaseX.w, x	; 9d 38 04
+B19_1844:		inc wEntityPhase.w, x	; fe c1 05
+B19_1847:		lda wEntityPhase.w, x	; bd c1 05
 B19_184a:		cmp #$04		; c9 04
 B19_184c:		bne B19_17fb ; d0 ad
 
 B19_184e:		lda #$00		; a9 00
-B19_1850:		sta $05c1, x	; 9d c1 05
+B19_1850:		sta wEntityPhase.w, x	; 9d c1 05
 B19_1853:		lda $061d, x	; bd 1d 06
 B19_1856:		and #$f0		; 29 f0
 B19_1858:		cmp $0645, x	; dd 45 06
@@ -3640,8 +3640,8 @@ B19_1884:		rts				; 60
 
 
 B19_1885:		ldy #$00		; a0 00
-B19_1887:		lda $0438		; ad 38 04
-B19_188a:		cmp $0438, x	; dd 38 04
+B19_1887:		lda wEntityBaseX.w		; ad 38 04
+B19_188a:		cmp wEntityBaseX.w, x	; dd 38 04
 B19_188d:		bcs B19_1890 ; b0 01
 
 B19_188f:		iny				; c8 
@@ -3678,22 +3678,22 @@ B19_18ad:		jmp $873a		; 4c 3a 87
 B19_18b0:		lda #$00		; a9 00
 B19_18b2:		sta $0657, x	; 9d 57 06
 B19_18b5:		jsr func_1f_1ec8		; 20 c8 fe
-B19_18b8:		lda $05ef, x	; bd ef 05
+B19_18b8:		lda wEntityAI_idx.w, x	; bd ef 05
 B19_18bb:		and #$7f		; 29 7f
 B19_18bd:		bne B19_1908 ; d0 49
 
 B19_18bf:		lda $0606, x	; bd 06 06
 B19_18c2:		beq B19_18cf ; f0 0b
 
-B19_18c4:		lda $0438		; ad 38 04
-B19_18c7:		sta $0438, x	; 9d 38 04
+B19_18c4:		lda wEntityBaseX.w		; ad 38 04
+B19_18c7:		sta wEntityBaseX.w, x	; 9d 38 04
 B19_18ca:		lda #$d3		; a9 d3
 B19_18cc:		jmp $864f		; 4c 4f 86
 
 
-B19_18cf:		lda $0438		; ad 38 04
+B19_18cf:		lda wEntityBaseX.w		; ad 38 04
 B19_18d2:		sec				; 38 
-B19_18d3:		sbc $0438, x	; fd 38 04
+B19_18d3:		sbc wEntityBaseX.w, x	; fd 38 04
 B19_18d6:		bcs B19_18ee ; b0 16
 
 B19_18d8:		eor #$ff		; 49 ff
@@ -3704,7 +3704,7 @@ B19_18de:		sta $00			; 85 00
 B19_18e0:		lda $061d, x	; bd 1d 06
 B19_18e3:		bne B19_18f6 ; d0 11
 
-B19_18e5:		lda $0438		; ad 38 04
+B19_18e5:		lda wEntityBaseX.w		; ad 38 04
 B19_18e8:		sec				; 38 
 B19_18e9:		sbc $00			; e5 00
 B19_18eb:		jmp $b8fc		; 4c fc b8
@@ -3715,12 +3715,12 @@ B19_18ef:		sta $00			; 85 00
 B19_18f1:		lda $061d, x	; bd 1d 06
 B19_18f4:		bne B19_18e5 ; d0 ef
 
-B19_18f6:		lda $0438		; ad 38 04
+B19_18f6:		lda wEntityBaseX.w		; ad 38 04
 B19_18f9:		clc				; 18 
 B19_18fa:		adc $00			; 65 00
 B19_18fc:		and #$f0		; 29 f0
 B19_18fe:		ora #$08		; 09 08
-B19_1900:		sta $0438, x	; 9d 38 04
+B19_1900:		sta wEntityBaseX.w, x	; 9d 38 04
 B19_1903:		lda #$d4		; a9 d4
 B19_1905:		jmp $864f		; 4c 4f 86
 
@@ -3728,13 +3728,13 @@ B19_1905:		jmp $864f		; 4c 4f 86
 B19_1908:		lda $80			; a5 80
 B19_190a:		bne B19_1959 ; d0 4d
 
-B19_190c:		lda $05c1, x	; bd c1 05
+B19_190c:		lda wEntityPhase.w, x	; bd c1 05
 B19_190f:		cmp #$04		; c9 04
 B19_1911:		bcc B19_1959 ; 90 46
 
-B19_1913:		lda $0438		; ad 38 04
+B19_1913:		lda wEntityBaseX.w		; ad 38 04
 B19_1916:		sec				; 38 
-B19_1917:		sbc $0438, x	; fd 38 04
+B19_1917:		sbc wEntityBaseX.w, x	; fd 38 04
 B19_191a:		bcs B19_1921 ; b0 05
 
 B19_191c:		eor #$ff		; 49 ff
@@ -3761,9 +3761,9 @@ B19_193c:		lsr a			; 4a
 B19_193d:		tay				; a8 
 B19_193e:		lda $b95a, y	; b9 5a b9
 B19_1941:		sta $00			; 85 00
-B19_1943:		lda $041c, x	; bd 1c 04
+B19_1943:		lda wEntityBaseY.w, x	; bd 1c 04
 B19_1946:		sec				; 38 
-B19_1947:		sbc $041c		; ed1c 04
+B19_1947:		sbc wEntityBaseY.w		; ed1c 04
 B19_194a:		bcs B19_1951 ; b0 05
 
 B19_194c:		eor #$ff		; 49 ff
@@ -3826,7 +3826,7 @@ B19_19a7:		sta $0606, y	; 99 06 06
 B19_19aa:		lda #$f0		; a9 f0
 B19_19ac:		jsr $bbd4		; 20 d4 bb
 B19_19af:		lda #$80		; a9 80
-B19_19b1:		sta $05ef, y	; 99 ef 05
+B19_19b1:		sta wEntityAI_idx.w, y	; 99 ef 05
 B19_19b4:		lda $17			; a5 17
 B19_19b6:		sta $0633, y	; 99 33 06
 B19_19b9:		lda #$01		; a9 01
@@ -3878,7 +3878,7 @@ B19_1a1a:		bne B19_1a39 ; d0 1d
 
 B19_1a1c:		iny				; c8 
 B19_1a1d:		sty $07f3		; 8c f3 07
-B19_1a20:		lda $05ef, x	; bd ef 05
+B19_1a20:		lda wEntityAI_idx.w, x	; bd ef 05
 B19_1a23:		and #$7f		; 29 7f
 B19_1a25:		cmp #$5d		; c9 5d
 B19_1a27:		beq B19_1a36 ; f0 0d
@@ -3904,9 +3904,9 @@ B19_1a49:		lda $bd1b, y	; b9 1b bd
 B19_1a4c:		cmp #$ff		; c9 ff
 B19_1a4e:		bne B19_1a53 ; d0 03
 
-B19_1a50:		lda $0438		; ad 38 04
+B19_1a50:		lda wEntityBaseX.w		; ad 38 04
 B19_1a53:		sec				; 38 
-B19_1a54:		sbc $0438, x	; fd 38 04
+B19_1a54:		sbc wEntityBaseX.w, x	; fd 38 04
 B19_1a57:		sta $00			; 85 00
 B19_1a59:		bcs B19_1a6c ; b0 11
 
@@ -3947,7 +3947,7 @@ B19_1a9f:		lda $bd27, y	; b9 27 bd
 B19_1aa2:		sta $0537, x	; 9d 37 05
 B19_1aa5:		lda $bd28, y	; b9 28 bd
 B19_1aa8:		sta $0520, x	; 9d 20 05
-B19_1aab:		lda $041c, x	; bd 1c 04
+B19_1aab:		lda wEntityBaseY.w, x	; bd 1c 04
 B19_1aae:		cmp #$30		; c9 30
 B19_1ab0:		bcs B19_1ab4 ; b0 02
 
@@ -3956,7 +3956,7 @@ B19_1ab4:		cmp #$80		; c9 80
 B19_1ab6:		bcc B19_1aba ; 90 02
 
 B19_1ab8:		lda #$7f		; a9 7f
-B19_1aba:		sta $041c, x	; 9d 1c 04
+B19_1aba:		sta wEntityBaseY.w, x	; 9d 1c 04
 B19_1abd:		rts				; 60 
 
 
@@ -3981,7 +3981,7 @@ B19_1ae0:		bne B19_1b0e ; d0 2c
 
 B19_1ae2:		lda #$60		; a9 60
 B19_1ae4:		sta $0470, x	; 9d 70 04
-B19_1ae7:		lda $05ef, x	; bd ef 05
+B19_1ae7:		lda wEntityAI_idx.w, x	; bd ef 05
 B19_1aea:		and #$7f		; 29 7f
 B19_1aec:		cmp #$5d		; c9 5d
 B19_1aee:		beq B19_1af3 ; f0 03
@@ -4065,9 +4065,9 @@ B19_1b6c:		sta $0633, x	; 9d 33 06
 B19_1b6f:		lda #$29		; a9 29
 B19_1b71:		jsr $8766		; 20 66 87
 B19_1b74:		lda #$df		; a9 df
-B19_1b76:		sta $05ef, y	; 99 ef 05
+B19_1b76:		sta wEntityAI_idx.w, y	; 99 ef 05
 B19_1b79:		lda #$00		; a9 00
-B19_1b7b:		sta $05c1, y	; 99 c1 05
+B19_1b7b:		sta wEntityPhase.w, y	; 99 c1 05
 B19_1b7e:		lda #$60		; a9 60
 B19_1b80:		sta $0470, y	; 99 70 04
 B19_1b83:		inc $0645, x	; fe 45 06
@@ -4173,22 +4173,22 @@ B19_1c29:		jmp $864f		; 4c 4f 86
 B19_1c2c:		lda #$00		; a9 00
 B19_1c2e:		sta $0669, x	; 9d 69 06
 B19_1c31:		sta $0657, x	; 9d 57 06
-B19_1c34:		lda $05c1, x	; bd c1 05
+B19_1c34:		lda wEntityPhase.w, x	; bd c1 05
 B19_1c37:		cmp #$00		; c9 00
 B19_1c39:		bne B19_1c53 ; d0 18
 
 B19_1c3b:		lda #$00		; a9 00
 B19_1c3d:		ldy #$08		; a0 08
-B19_1c3f:		jsr $fc1e		; 20 1e fc
+B19_1c3f:		jsr func_1f_1c1e		; 20 1e fc
 B19_1c42:		beq B19_1c53 ; f0 0f
 
-B19_1c44:		inc $05c1, x	; fe c1 05
+B19_1c44:		inc wEntityPhase.w, x	; fe c1 05
 B19_1c47:		lda #$0e		; a9 0e
 B19_1c49:		ldy #$08		; a0 08
 B19_1c4b:		jsr func_1f_0f5c		; 20 5c ef
 B19_1c4e:		lda #$40		; a9 40
 B19_1c50:		sta $0470, x	; 9d 70 04
-B19_1c53:		lda $05c1, x	; bd c1 05
+B19_1c53:		lda wEntityPhase.w, x	; bd c1 05
 B19_1c56:		cmp #$06		; c9 06
 B19_1c58:		bne B19_1c84 ; d0 2a
 
@@ -4224,14 +4224,14 @@ B19_1c8e:		sta $00			; 85 00
 B19_1c90:		lda $bd3c, y	; b9 3c bd
 B19_1c93:		sta $01			; 85 01
 B19_1c95:		ldy $05d8, x	; bc d8 05
-B19_1c98:		lda $0438, y	; b9 38 04
+B19_1c98:		lda wEntityBaseX.w, y	; b9 38 04
 B19_1c9b:		clc				; 18 
 B19_1c9c:		adc $00			; 65 00
-B19_1c9e:		sta $0438, x	; 9d 38 04
-B19_1ca1:		lda $041c, y	; b9 1c 04
+B19_1c9e:		sta wEntityBaseX.w, x	; 9d 38 04
+B19_1ca1:		lda wEntityBaseY.w, y	; b9 1c 04
 B19_1ca4:		clc				; 18 
 B19_1ca5:		adc $01			; 65 01
-B19_1ca7:		sta $041c, x	; 9d 1c 04
+B19_1ca7:		sta wEntityBaseY.w, x	; 9d 1c 04
 B19_1caa:		rts				; 60 
 
 
@@ -4256,11 +4256,11 @@ B19_1cca:		ldy $07ec		; ac ec 07
 B19_1ccd:		dey				; 88 
 B19_1cce:		beq B19_1cf0 ; f0 20
 
-B19_1cd0:		lda $041c, x	; bd 1c 04
+B19_1cd0:		lda wEntityBaseY.w, x	; bd 1c 04
 B19_1cd3:		jsr $bce1		; 20 e1 bc
 B19_1cd6:		bcs B19_1ced ; b0 15
 
-B19_1cd8:		lda $0438, x	; bd 38 04
+B19_1cd8:		lda wEntityBaseX.w, x	; bd 38 04
 B19_1cdb:		jsr $bce1		; 20 e1 bc
 B19_1cde:		bcs B19_1ced ; b0 0d
 
@@ -4284,22 +4284,22 @@ B19_1cec:		rts				; 60
 B19_1ced:		jmp $873a		; 4c 3a 87
 
 
-B19_1cf0:		lda $05c1, x	; bd c1 05
+B19_1cf0:		lda wEntityPhase.w, x	; bd c1 05
 B19_1cf3:		cmp #$05		; c9 05
 B19_1cf5:		bne B19_1d12 ; d0 1b
 
 B19_1cf7:		lda #$00		; a9 00
 B19_1cf9:		ldy #$08		; a0 08
-B19_1cfb:		jsr $fc1e		; 20 1e fc
+B19_1cfb:		jsr func_1f_1c1e		; 20 1e fc
 B19_1cfe:		beq B19_1d12 ; f0 12
 
 B19_1d00:		lda #$0a		; a9 0a
 B19_1d02:		jsr playSound		; 20 5f e2
-B19_1d05:		lda $041c, x	; bd 1c 04
+B19_1d05:		lda wEntityBaseY.w, x	; bd 1c 04
 B19_1d08:		and #$f0		; 29 f0
 B19_1d0a:		ora #$08		; 09 08
-B19_1d0c:		sta $041c, x	; 9d 1c 04
-B19_1d0f:		inc $05c1, x	; fe c1 05
+B19_1d0c:		sta wEntityBaseY.w, x	; 9d 1c 04
+B19_1d0f:		inc wEntityPhase.w, x	; fe c1 05
 B19_1d12:		rts				; 60 
 
 
@@ -4459,7 +4459,7 @@ B19_1dfb:		rts				; 60
 
 
 B19_1dfc:		lda #$31		; a9 31
-B19_1dfe:		sta $49			; 85 49
+B19_1dfe:		sta wChrBankSpr_0c00			; 85 49
 B19_1e00:		jsr chrSwitch_0_to_c00_1400		; 20 3c e3
 B19_1e03:		lda #$00		; a9 00
 B19_1e05:		sta $07f3		; 8d f3 07
@@ -4471,9 +4471,9 @@ B19_1e14:		sta $0606, x	; 9d 06 06
 B19_1e17:		lda #$88		; a9 88
 B19_1e19:		sta $0470, x	; 9d 70 04
 B19_1e1c:		lda #$80		; a9 80
-B19_1e1e:		sta $0438, x	; 9d 38 04
+B19_1e1e:		sta wEntityBaseX.w, x	; 9d 38 04
 B19_1e21:		lda #$60		; a9 60
-B19_1e23:		sta $041c, x	; 9d 1c 04
+B19_1e23:		sta wEntityBaseY.w, x	; 9d 1c 04
 B19_1e26:		lda #$40		; a9 40
 B19_1e28:		sta $3d			; 85 3d
 B19_1e2a:		sta $067b, x	; 9d 7b 06
@@ -4487,9 +4487,9 @@ B19_1e3b:		sta $0470, y	; 99 70 04
 B19_1e3e:		lda #$8a		; a9 8a
 B19_1e40:		jsr $8766		; 20 66 87
 B19_1e43:		lda #$80		; a9 80
-B19_1e45:		sta $05ef, y	; 99 ef 05
+B19_1e45:		sta wEntityAI_idx.w, y	; 99 ef 05
 B19_1e48:		lda #$00		; a9 00
-B19_1e4a:		sta $05c1, y	; 99 c1 05
+B19_1e4a:		sta wEntityPhase.w, y	; 99 c1 05
 B19_1e4d:		sta $0645, y	; 99 45 06
 B19_1e50:		lda $17			; a5 17
 B19_1e52:		beq B19_1e56 ; f0 02
@@ -4535,13 +4535,13 @@ B19_1e96:		sta $11			; 85 11
 B19_1e98:		lda $bf63, y	; b9 63 bf
 B19_1e9b:		jsr $bbcb		; 20 cb bb
 B19_1e9e:		lda #$e0		; a9 e0
-B19_1ea0:		sta $05ef, x	; 9d ef 05
+B19_1ea0:		sta wEntityAI_idx.w, x	; 9d ef 05
 B19_1ea3:		lda #$00		; a9 00
-B19_1ea5:		sta $05c1, x	; 9d c1 05
+B19_1ea5:		sta wEntityPhase.w, x	; 9d c1 05
 B19_1ea8:		lda $10			; a5 10
-B19_1eaa:		sta $0438, x	; 9d 38 04
+B19_1eaa:		sta wEntityBaseX.w, x	; 9d 38 04
 B19_1ead:		lda $11			; a5 11
-B19_1eaf:		sta $041c, x	; 9d 1c 04
+B19_1eaf:		sta wEntityBaseY.w, x	; 9d 1c 04
 B19_1eb2:		inc $07f1		; ee f1 07
 B19_1eb5:		lda $07f1		; ad f1 07
 B19_1eb8:		and #$07		; 29 07

@@ -43,7 +43,7 @@ B2_0034:		inc $07ed		; ee ed 07
 B2_0037:		rts				; 60 
 
 
-B2_0038:		lda $32			; a5 32
+B2_0038:		lda wCurrRoomGroup		; a5 32
 B2_003a:		cmp #$0e		; c9 0e
 B2_003c:		bne B2_0042 ; d0 04
 
@@ -185,7 +185,7 @@ B2_0111:		sta $3c			; 85 3c
 B2_0113:		jmp $80a1		; 4c a1 80
 
 
-B2_0116:		lda $32			; a5 32
+B2_0116:		lda wCurrRoomGroup		; a5 32
 B2_0118:		cmp #$01		; c9 01
 B2_011a:		bne B2_011e ; d0 02
 
@@ -200,7 +200,7 @@ B2_0127:		beq B2_014c ; f0 23
 B2_0129:		cpy #$01		; c0 01
 B2_012b:		bne B2_0133 ; d0 06
 
-B2_012d:		lda $33			; a5 33
+B2_012d:		lda wCurrRoomSection			; a5 33
 B2_012f:		cmp #$05		; c9 05
 B2_0131:		beq B2_0168 ; f0 35
 
@@ -214,22 +214,22 @@ B2_013d:		ldy $32			; a4 32
 B2_013f:		cpy #$07		; c0 07
 B2_0141:		bne B2_0149 ; d0 06
 
-B2_0143:		lda $33			; a5 33
+B2_0143:		lda wCurrRoomSection			; a5 33
 B2_0145:		cmp #$06		; c9 06
 B2_0147:		beq B2_015f ; f0 16
 
 B2_0149:		jmp $80a6		; 4c a6 80
 
 
-B2_014c:		lda $32			; a5 32
+B2_014c:		lda wCurrRoomGroup		; a5 32
 B2_014e:		cmp #$0e		; c9 0e
 B2_0150:		bne B2_0156 ; d0 04
 
-B2_0152:		lda #$0c		; a9 0c
+B2_0152:		lda #GS_0c		; a9 0c
 B2_0154:		bne B2_0158 ; d0 02
 
-B2_0156:		lda #$08		; a9 08
-B2_0158:		sta $18			; 85 18
+B2_0156:		lda #GS_08		; a9 08
+B2_0158:		sta wGameState			; 85 18
 B2_015a:		lda #$00		; a9 00
 B2_015c:		sta $19			; 85 19
 B2_015e:		rts				; 60 
@@ -332,10 +332,10 @@ B2_01e9:		lda $04a8		; ad a8 04
 B2_01ec:		sta $04a8, x	; 9d a8 04
 B2_01ef:		lda #$40		; a9 40
 B2_01f1:		sta $0470, x	; 9d 70 04
-B2_01f4:		lda $0438		; ad 38 04
-B2_01f7:		sta $0438, x	; 9d 38 04
-B2_01fa:		lda $041c		; ad 1c 04
-B2_01fd:		sta $041c, x	; 9d 1c 04
+B2_01f4:		lda wEntityBaseX.w		; ad 38 04
+B2_01f7:		sta wEntityBaseX.w, x	; 9d 38 04
+B2_01fa:		lda wEntityBaseY.w		; ad 1c 04
+B2_01fd:		sta wEntityBaseY.w, x	; 9d 1c 04
 B2_0200:		lda $0470		; ad 70 04
 B2_0203:		ora #$80		; 09 80
 B2_0205:		sta $0470		; 8d 70 04
@@ -374,7 +374,7 @@ B2_023f:		sta $0470, x	; 9d 70 04
 B2_0242:		jmp $8263		; 4c 63 82
 
 
-B2_0245:		lda $32			; a5 32
+B2_0245:		lda wCurrRoomGroup		; a5 32
 B2_0247:		cmp #$02		; c9 02
 B2_0249:		bne B2_0263 ; d0 18
 
@@ -436,7 +436,7 @@ B2_029c:		txa				; 8a
 B2_029d:	.db $83
 B2_029e:	.db $93
 B2_029f:	.db $83
-B2_02a0:		lda $32			; a5 32
+B2_02a0:		lda wCurrRoomGroup		; a5 32
 B2_02a2:		cmp #$02		; c9 02
 B2_02a4:		bne B2_02a7 ; d0 01
 
@@ -552,7 +552,7 @@ B2_0352:		jmp $8348		; 4c 48 83
 B2_0355:		rts				; 60 
 
 
-B2_0356:		sta $0300, x	; 9d 00 03
+B2_0356:		sta wVramQueue.w, x	; 9d 00 03
 B2_0359:		inx				; e8 
 B2_035a:		rts				; 60 
 
@@ -591,12 +591,12 @@ B2_0392:		rts				; 60
 
 
 B2_0393:		lda #$1d		; a9 1d
-B2_0395:		sta $49			; 85 49
+B2_0395:		sta wChrBankSpr_0c00			; 85 49
 B2_0397:		jsr chrSwitch_0_to_c00_1400		; 20 3c e3
 B2_039a:		lda #$41		; a9 41
-B2_039c:		sta $4a			; 85 4a
+B2_039c:		sta wChrBankBG_0000			; 85 4a
 B2_039e:		lda #$6f		; a9 6f
-B2_03a0:		sta $4d			; 85 4d
+B2_03a0:		sta wChrBankBG_0c00			; 85 4d
 B2_03a2:		jsr chrSwitchAllMirrored		; 20 5d e3
 B2_03a5:		jsr $9181		; 20 81 91
 B2_03a8:		lda #$00		; a9 00
@@ -667,12 +667,12 @@ B2_0412:		beq B2_0419 ; f0 05
 B2_0414:		txa				; 8a 
 B2_0415:		tay				; a8 
 B2_0416:		ldx $07f1		; ae f1 07
-B2_0419:		lda $041c, y	; b9 1c 04
-B2_041c:		sta $041c, x	; 9d 1c 04
-B2_041f:		lda $0438, y	; b9 38 04
+B2_0419:		lda wEntityBaseY.w, y	; b9 1c 04
+B2_041c:		sta wEntityBaseY.w, x	; 9d 1c 04
+B2_041f:		lda wEntityBaseX.w, y	; b9 38 04
 B2_0422:		clc				; 18 
 B2_0423:		adc #$10		; 69 10
-B2_0425:		sta $0438, x	; 9d 38 04
+B2_0425:		sta wEntityBaseX.w, x	; 9d 38 04
 B2_0428:		lda $0470, x	; bd 70 04
 B2_042b:		and #$7f		; 29 7f
 B2_042d:		sta $0470, x	; 9d 70 04
@@ -717,7 +717,7 @@ B2_0469:		sta $91			; 85 91
 B2_046b:		sta $f1			; 85 f1
 B2_046d:		sta $09			; 85 09
 B2_046f:		stx $31			; 86 31
-B2_0471:		sta $4d			; 85 4d
+B2_0471:		sta wChrBankBG_0c00			; 85 4d
 B2_0473:		sta $f1			; 85 f1
 B2_0475:		sta $09			; 85 09
 B2_0477:		stx $31			; 86 31
@@ -900,7 +900,7 @@ B2_059f:		bcs B2_05b5 ; b0 14
 
 B2_05a1:		lda #$04		; a9 04
 B2_05a3:		sta $07f3		; 8d f3 07
-B2_05a6:		lda $28			; a5 28
+B2_05a6:		lda wJoy1ButtonsPressed			; a5 28
 B2_05a8:		and #$80		; 29 80
 B2_05aa:		beq B2_05b1 ; f0 05
 
@@ -964,7 +964,7 @@ B2_05f9:		rts				; 60
 
 
 B2_05fa:		dec $07f2		; ce f2 07
-B2_05fd:		lda $28			; a5 28
+B2_05fd:		lda wJoy1ButtonsPressed			; a5 28
 B2_05ff:		and #$80		; 29 80
 B2_0601:		beq B2_0608 ; f0 05
 
@@ -1033,7 +1033,7 @@ B2_0672:		sta $07ed		; 8d ed 07
 B2_0675:		rts				; 60 
 
 
-B2_0676:		lda $26			; a5 26
+B2_0676:		lda wJoy1NewButtonsPressed			; a5 26
 B2_0678:		and #$0c		; 29 0c
 B2_067a:		beq B2_068a ; f0 0e
 
@@ -1044,7 +1044,7 @@ B2_0684:		clc				; 18
 B2_0685:		adc #$80		; 69 80
 B2_0687:		sta $07ed		; 8d ed 07
 B2_068a:		jsr $86a8		; 20 a8 86
-B2_068d:		lda $26			; a5 26
+B2_068d:		lda wJoy1NewButtonsPressed			; a5 26
 B2_068f:		and #$80		; 29 80
 B2_0691:		bne B2_0694 ; d0 01
 
@@ -1265,7 +1265,7 @@ B2_07f4:		rts				; 60
 
 B2_07f5:		lda #$12		; a9 12
 B2_07f7:		sta $07ef		; 8d ef 07
-B2_07fa:		lda $32			; a5 32
+B2_07fa:		lda wCurrRoomGroup		; a5 32
 B2_07fc:		cmp #$01		; c9 01
 B2_07fe:		beq B2_080b ; f0 0b
 
@@ -1329,14 +1329,14 @@ B2_0861:		sta $07f1		; 8d f1 07
 B2_0864:		sta $07f0		; 8d f0 07
 B2_0867:		sta $07f2		; 8d f2 07
 B2_086a:		lda #$43		; a9 43
-B2_086c:		sta $4d			; 85 4d
+B2_086c:		sta wChrBankBG_0c00			; 85 4d
 B2_086e:		jsr chrSwitchAllMirrored		; 20 5d e3
 B2_0871:		rts				; 60 
 
 
 B2_0872:		lda #$0b		; a9 0b
 B2_0874:		sta $07ef		; 8d ef 07
-B2_0877:		lda $32			; a5 32
+B2_0877:		lda wCurrRoomGroup		; a5 32
 B2_0879:		cmp #$01		; c9 01
 B2_087b:		bne B2_0892 ; d0 15
 
@@ -1363,13 +1363,13 @@ B2_08a0:		beq B2_08c3 ; f0 21
 B2_08a2:		lsr a			; 4a
 B2_08a3:		and #$0f		; 29 0f
 B2_08a5:		tay				; a8 
-B2_08a6:		lda $32			; a5 32
+B2_08a6:		lda wCurrRoomGroup		; a5 32
 B2_08a8:		cmp #$01		; c9 01
 B2_08aa:		bne B2_08bf ; d0 13
 
 B2_08ac:		lda $88cc, y	; b9 cc 88
-B2_08af:		sta $fc			; 85 fc
-B2_08b1:		sta $fd			; 85 fd
+B2_08af:		sta wScrollY			; 85 fc
+B2_08b1:		sta wScrollX			; 85 fd
 B2_08b3:		lda $07f3		; ad f3 07
 B2_08b6:		and #$0f		; 29 0f
 B2_08b8:		bne B2_08bf ; d0 05
@@ -1590,7 +1590,7 @@ B2_0a1f:		sec				; 38
 B2_0a20:		rts				; 60 
 
 
-B2_0a21:		sta $0300, x	; 9d 00 03
+B2_0a21:		sta wVramQueue.w, x	; 9d 00 03
 B2_0a24:		inx				; e8 
 B2_0a25:		rts				; 60 
 
@@ -2396,7 +2396,7 @@ B2_0efa:		jsr $8f3c		; 20 3c 8f
 B2_0efd:		ldy $0a			; a4 0a
 B2_0eff:		iny				; c8 
 B2_0f00:		jsr $eb86		; 20 86 eb
-B2_0f03:		lda $32			; a5 32
+B2_0f03:		lda wCurrRoomGroup		; a5 32
 B2_0f05:		asl a			; 0a
 B2_0f06:		tay				; a8 
 B2_0f07:		jsr $eb66		; 20 66 eb
@@ -2812,8 +2812,8 @@ B2_117d:		sty $00			; 84 00
 B2_117f:		sty $00			; 84 00
 B2_1181:		jsr func_1f_0182		; 20 82 e1
 B2_1184:		lda #$00		; a9 00
-B2_1186:		sta $fd			; 85 fd
-B2_1188:		sta $fc			; 85 fc
+B2_1186:		sta wScrollX			; 85 fd
+B2_1188:		sta wScrollY			; 85 fc
 B2_118a:		lda #$20		; a9 20
 B2_118c:		sta $00			; 85 00
 B2_118e:		jsr $921c		; 20 1c 92
@@ -2995,7 +2995,7 @@ B2_12bd:	.db $02
 B2_12be:	.db $9c
 B2_12bf:	.db $02
 B2_12c0:	.db $02
-B2_12c1:		sta $0202, x	; 9d 02 02
+B2_12c1:		sta wOam.attr.w, x	; 9d 02 02
 B2_12c4:	.db $9e
 B2_12c5:	.db $02
 B2_12c6:	.db $02
@@ -3078,7 +3078,7 @@ B2_134f:		bne B2_135d ; d0 0c
 
 B2_1351:		jsr $93d6		; 20 d6 93
 B2_1354:		lda $16			; a5 16
-B2_1356:		sta $0300, x	; 9d 00 03
+B2_1356:		sta wVramQueue.w, x	; 9d 00 03
 B2_1359:		lda #$fc		; a9 fc
 B2_135b:		sta $14			; 85 14
 B2_135d:		lda $12			; a5 12
@@ -3089,7 +3089,7 @@ B2_1361:		jmp $936c		; 4c 6c 93
 
 B2_1364:		lda $0300, x	; bd 00 03
 B2_1367:		and $14			; 25 14
-B2_1369:		sta $0300, x	; 9d 00 03
+B2_1369:		sta wVramQueue.w, x	; 9d 00 03
 B2_136c:		lda $0b			; a5 0b
 B2_136e:		and #$01		; 29 01
 B2_1370:		beq B2_1373 ; f0 01
@@ -3138,7 +3138,7 @@ B2_13ac:		jmp $93b7		; 4c b7 93
 
 B2_13af:		lda $0300, x	; bd 00 03
 B2_13b2:		and $14			; 25 14
-B2_13b4:		sta $0300, x	; 9d 00 03
+B2_13b4:		sta wVramQueue.w, x	; 9d 00 03
 B2_13b7:		lda $0b			; a5 0b
 B2_13b9:		and #$01		; 29 01
 B2_13bb:		beq B2_13be ; f0 01
@@ -3191,7 +3191,7 @@ B2_13fd:		inc $02			; e6 02
 B2_13ff:		jsr $eb9c		; 20 9c eb
 B2_1402:		lda $02			; a5 02
 B2_1404:		sta $00			; 85 00
-B2_1406:		lda $32			; a5 32
+B2_1406:		lda wCurrRoomGroup		; a5 32
 B2_1408:		asl a			; 0a
 B2_1409:		tay				; a8 
 B2_140a:		jsr $eb76		; 20 76 eb
@@ -3513,14 +3513,14 @@ B2_15c7:		bne B2_1607 ; d0 3e
 B2_15c9:		lda #$88		; a9 88
 B2_15cb:		sta $0470, x	; 9d 70 04
 B2_15ce:		lda #$00		; a9 00
-B2_15d0:		sta $041c, x	; 9d 1c 04
+B2_15d0:		sta wEntityBaseY.w, x	; 9d 1c 04
 B2_15d3:		lda $0606, x	; bd 06 06
 B2_15d6:		clc				; 18 
 B2_15d7:		adc $0633, x	; 7d 33 06
 B2_15da:		and #$0f		; 29 0f
 B2_15dc:		tay				; a8 
 B2_15dd:		lda $968a, y	; b9 8a 96
-B2_15e0:		sta $0438, x	; 9d 38 04
+B2_15e0:		sta wEntityBaseX.w, x	; 9d 38 04
 B2_15e3:		inc $061d, x	; fe 1d 06
 B2_15e6:		lda #$00		; a9 00
 B2_15e8:		sta $04f2, x	; 9d f2 04
@@ -3562,7 +3562,7 @@ B2_1627:		lda $0520, x	; bd 20 05
 B2_162a:		adc #$00		; 69 00
 B2_162c:		sta $0520, x	; 9d 20 05
 B2_162f:		jsr $9dd6		; 20 d6 9d
-B2_1632:		lda $041c, x	; bd 1c 04
+B2_1632:		lda wEntityBaseY.w, x	; bd 1c 04
 B2_1635:		cmp #$b8		; c9 b8
 B2_1637:		bcc B2_1641 ; 90 08
 
@@ -3641,7 +3641,7 @@ B2_16a1:		jsr playSound		; 20 5f e2
 B2_16a4:		lda #$0c		; a9 0c
 B2_16a6:		sta $07ef		; 8d ef 07
 B2_16a9:		lda #$7b		; a9 7b
-B2_16ab:		sta $49			; 85 49
+B2_16ab:		sta wChrBankSpr_0c00			; 85 49
 B2_16ad:		jsr chrSwitch_0_to_c00_1400		; 20 3c e3
 B2_16b0:		lda #$00		; a9 00
 B2_16b2:		sta $0633, x	; 9d 33 06
@@ -3650,9 +3650,9 @@ B2_16b8:		sta $05d8, x	; 9d d8 05
 B2_16bb:		lda #$80		; a9 80
 B2_16bd:		sta $0470, x	; 9d 70 04
 B2_16c0:		lda #$78		; a9 78
-B2_16c2:		sta $0438, x	; 9d 38 04
+B2_16c2:		sta wEntityBaseX.w, x	; 9d 38 04
 B2_16c5:		lda #$90		; a9 90
-B2_16c7:		sta $041c, x	; 9d 1c 04
+B2_16c7:		sta wEntityBaseY.w, x	; 9d 1c 04
 B2_16ca:		inc $061d, x	; fe 1d 06
 B2_16cd:		lda #$0a		; a9 0a
 B2_16cf:		ldy #$0c		; a0 0c
@@ -3693,8 +3693,8 @@ B2_170d:		sta $0606, y	; 99 06 06
 B2_1710:		asl a			; 0a
 B2_1711:		asl a			; 0a
 B2_1712:		clc				; 18 
-B2_1713:		adc $041c, y	; 79 1c 04
-B2_1716:		sta $041c, y	; 99 1c 04
+B2_1713:		adc wEntityBaseY.w, y	; 79 1c 04
+B2_1716:		sta wEntityBaseY.w, y	; 99 1c 04
 B2_1719:		dec $01			; c6 01
 B2_171b:		bpl B2_16ff ; 10 e2
 
@@ -3729,7 +3729,7 @@ B2_1745:		lda #$80		; a9 80
 B2_1747:		sta $0470, x	; 9d 70 04
 B2_174a:		inc $061d, x	; fe 1d 06
 B2_174d:		lda #$17		; a9 17
-B2_174f:		sta $48			; 85 48
+B2_174f:		sta wChrBankSpr_0800			; 85 48
 B2_1751:		jsr chrSwitch_0_to_c00_1400		; 20 3c e3
 B2_1754:		rts				; 60 
 
@@ -3786,7 +3786,7 @@ B2_17b4:		lda $0520, x	; bd 20 05
 B2_17b7:		adc #$00		; 69 00
 B2_17b9:		sta $0520, x	; 9d 20 05
 B2_17bc:		jsr $9dd6		; 20 d6 9d
-B2_17bf:		lda $041c, x	; bd 1c 04
+B2_17bf:		lda wEntityBaseY.w, x	; bd 1c 04
 B2_17c2:		cmp #$f8		; c9 f8
 B2_17c4:		bcc B2_17c9 ; 90 03
 
@@ -3833,7 +3833,7 @@ B2_17e6:		;removed
 B2_17e8:		bcs B2_17ea ; b0 00
 
 B2_17ea:		lda #$01		; a9 01
-B2_17ec:		sta $0454, x	; 9d 54 04
+B2_17ec:		sta wEntityPaletteOverride.w, x	; 9d 54 04
 B2_17ef:		lda #$00		; a9 00
 B2_17f1:		sta $0537, x	; 9d 37 05
 B2_17f4:		sta $0520, x	; 9d 20 05
@@ -3848,9 +3848,9 @@ B2_1804:		bne B2_1827 ; d0 21
 
 B2_1806:		jsr $9a25		; 20 25 9a
 B2_1809:		lda #$2a		; a9 2a
-B2_180b:		sta $47			; 85 47
+B2_180b:		sta wChrBankSpr_0400			; 85 47
 B2_180d:		lda #$2b		; a9 2b
-B2_180f:		sta $48			; 85 48
+B2_180f:		sta wChrBankSpr_0800			; 85 48
 B2_1811:		jsr chrSwitch_0_to_c00_1400		; 20 3c e3
 B2_1814:		inc $07f0		; ee f0 07
 B2_1817:		lda #$a0		; a9 a0
@@ -3867,7 +3867,7 @@ B2_1828:		bne B2_1866 ; d0 3c
 
 B2_182a:		dec $061d, x	; de 1d 06
 B2_182d:		lda #$00		; a9 00
-B2_182f:		sta $0454, x	; 9d 54 04
+B2_182f:		sta wEntityPaletteOverride.w, x	; 9d 54 04
 B2_1832:		lda $061d, x	; bd 1d 06
 B2_1835:		beq B2_1853 ; f0 1c
 
@@ -3885,12 +3885,12 @@ B2_1847:		lda #$01		; a9 01
 B2_1849:		bne B2_184d ; d0 02
 
 B2_184b:		lda #$01		; a9 01
-B2_184d:		sta $0454, x	; 9d 54 04
+B2_184d:		sta wEntityPaletteOverride.w, x	; 9d 54 04
 B2_1850:		jmp $9e0d		; 4c 0d 9e
 
 
 B2_1853:		lda #$01		; a9 01
-B2_1855:		sta $0454, x	; 9d 54 04
+B2_1855:		sta wEntityPaletteOverride.w, x	; 9d 54 04
 B2_1858:		inc $07f0		; ee f0 07
 B2_185b:		lda #$0a		; a9 0a
 B2_185d:		ldy #$0b		; a0 0b
@@ -3926,12 +3926,12 @@ B2_1897:		lda $0520, x	; bd 20 05
 B2_189a:		adc #$00		; 69 00
 B2_189c:		sta $0520, x	; 9d 20 05
 B2_189f:		jsr $9dd6		; 20 d6 9d
-B2_18a2:		lda $041c, x	; bd 1c 04
+B2_18a2:		lda wEntityBaseY.w, x	; bd 1c 04
 B2_18a5:		cmp $00			; c5 00
 B2_18a7:		bcc B2_18b5 ; 90 0c
 
 B2_18a9:		lda $00			; a5 00
-B2_18ab:		sta $041c, x	; 9d 1c 04
+B2_18ab:		sta wEntityBaseY.w, x	; 9d 1c 04
 B2_18ae:		inc $07			; e6 07
 B2_18b0:		lda $07			; a5 07
 B2_18b2:		sta $07f0		; 8d f0 07
@@ -3959,9 +3959,9 @@ B2_18c5:		bne B2_18e3 ; d0 1c
 B2_18c7:		jsr $9d2f		; 20 2f 9d
 B2_18ca:		inc $061d, x	; fe 1d 06
 B2_18cd:		lda #$78		; a9 78
-B2_18cf:		sta $0438, x	; 9d 38 04
+B2_18cf:		sta wEntityBaseX.w, x	; 9d 38 04
 B2_18d2:		lda #$a8		; a9 a8
-B2_18d4:		sta $041c, x	; 9d 1c 04
+B2_18d4:		sta wEntityBaseY.w, x	; 9d 1c 04
 B2_18d7:		lda #$00		; a9 00
 B2_18d9:		sta $0470, x	; 9d 70 04
 B2_18dc:		lda #$40		; a9 40
@@ -4043,12 +4043,12 @@ B2_1957:		lda $0520, x	; bd 20 05
 B2_195a:		adc #$00		; 69 00
 B2_195c:		sta $0520, x	; 9d 20 05
 B2_195f:		jsr $9dd6		; 20 d6 9d
-B2_1962:		lda $041c, x	; bd 1c 04
+B2_1962:		lda wEntityBaseY.w, x	; bd 1c 04
 B2_1965:		cmp #$b8		; c9 b8
 B2_1967:		bcc B2_1978 ; 90 0f
 
 B2_1969:		lda #$b8		; a9 b8
-B2_196b:		sta $041c, x	; 9d 1c 04
+B2_196b:		sta wEntityBaseY.w, x	; 9d 1c 04
 B2_196e:		inc $061d, x	; fe 1d 06
 B2_1971:		lda #$10		; a9 10
 B2_1973:		ldy #$11		; a0 11
@@ -4069,7 +4069,7 @@ B2_1984:		jmp $9e0d		; 4c 0d 9e
 
 
 B2_1987:		lda #$b0		; a9 b0
-B2_1989:		sta $041c, x	; 9d 1c 04
+B2_1989:		sta wEntityBaseY.w, x	; 9d 1c 04
 B2_198c:		inc $061d, x	; fe 1d 06
 B2_198f:		lda #$04		; a9 04
 B2_1991:		ldy #$13		; a0 13
@@ -4091,9 +4091,9 @@ B2_19ac:		lda #$00		; a9 00
 B2_19ae:		sta $061d, x	; 9d 1d 06
 B2_19b1:		jsr $993f		; 20 3f 99
 B2_19b4:		lda #$2a		; a9 2a
-B2_19b6:		sta $47			; 85 47
+B2_19b6:		sta wChrBankSpr_0400			; 85 47
 B2_19b8:		lda #$2b		; a9 2b
-B2_19ba:		sta $48			; 85 48
+B2_19ba:		sta wChrBankSpr_0800			; 85 48
 B2_19bc:		jsr chrSwitch_0_to_c00_1400		; 20 3c e3
 B2_19bf:		lda #$03		; a9 03
 B2_19c1:		sta $0606, x	; 9d 06 06
@@ -4110,9 +4110,9 @@ B2_19d0:		bne B2_19f0 ; d0 1e
 
 B2_19d2:		jsr $9a25		; 20 25 9a
 B2_19d5:		lda #$2a		; a9 2a
-B2_19d7:		sta $47			; 85 47
+B2_19d7:		sta wChrBankSpr_0400			; 85 47
 B2_19d9:		lda #$2b		; a9 2b
-B2_19db:		sta $48			; 85 48
+B2_19db:		sta wChrBankSpr_0800			; 85 48
 B2_19dd:		jsr chrSwitch_0_to_c00_1400		; 20 3c e3
 B2_19e0:		inc $07f0		; ee f0 07
 B2_19e3:		lda #$0a		; a9 0a
@@ -4196,7 +4196,7 @@ B2_1a56:		sec				; 38
 B2_1a57:		sbc #$01		; e9 01
 B2_1a59:		tay				; a8 
 B2_1a5a:		lda $9b07, y	; b9 07 9b
-B2_1a5d:		sta $0454, x	; 9d 54 04
+B2_1a5d:		sta wEntityPaletteOverride.w, x	; 9d 54 04
 B2_1a60:		lda $9b03, y	; b9 03 9b
 B2_1a63:		tay				; a8 
 B2_1a64:		lda #$0c		; a9 0c
@@ -4218,14 +4218,14 @@ B2_1a84:		beq B2_1a91 ; f0 0b
 
 B2_1a86:		lda #$80		; a9 80
 B2_1a88:		sta $00			; 85 00
-B2_1a8a:		lda $0438, x	; bd 38 04
+B2_1a8a:		lda wEntityBaseX.w, x	; bd 38 04
 B2_1a8d:		bmi B2_1ab1 ; 30 22
 
 B2_1a8f:		bpl B2_1a9b ; 10 0a
 
 B2_1a91:		lda $00			; a5 00
 B2_1a93:		sec				; 38 
-B2_1a94:		sbc $0438, x	; fd 38 04
+B2_1a94:		sbc wEntityBaseX.w, x	; fd 38 04
 B2_1a97:		sta $00			; 85 00
 B2_1a99:		bcs B2_1ab1 ; b0 16
 
@@ -4255,7 +4255,7 @@ B2_1ac7:		lda #$0a		; a9 0a
 B2_1ac9:		sta $00			; 85 00
 B2_1acb:		lda #$00		; a9 00
 B2_1acd:		sta $04a8, x	; 9d a8 04
-B2_1ad0:		lda $0438, x	; bd 38 04
+B2_1ad0:		lda wEntityBaseX.w, x	; bd 38 04
 B2_1ad3:		cmp #$80		; c9 80
 B2_1ad5:		bcc B2_1adc ; 90 05
 
@@ -4323,9 +4323,9 @@ B2_1b2f:		bne B2_1b97 ; d0 66
 
 B2_1b31:		inc $07f0		; ee f0 07
 B2_1b34:		lda #$00		; a9 00
-B2_1b36:		sta $0454, x	; 9d 54 04
+B2_1b36:		sta wEntityPaletteOverride.w, x	; 9d 54 04
 B2_1b39:		lda #$80		; a9 80
-B2_1b3b:		sta $0438, x	; 9d 38 04
+B2_1b3b:		sta wEntityBaseX.w, x	; 9d 38 04
 B2_1b3e:		lda $04a8, x	; bd a8 04
 B2_1b41:		eor #$01		; 49 01
 B2_1b43:		sta $04a8, x	; 9d a8 04
@@ -4353,9 +4353,9 @@ B2_1b6a:		sec				; 38
 B2_1b6b:		sbc #$01		; e9 01
 B2_1b6d:		tay				; a8 
 B2_1b6e:		lda $9b07, y	; b9 07 9b
-B2_1b71:		sta $0454, x	; 9d 54 04
+B2_1b71:		sta wEntityPaletteOverride.w, x	; 9d 54 04
 B2_1b74:		lda #$76		; a9 76
-B2_1b76:		sta $0438, x	; 9d 38 04
+B2_1b76:		sta wEntityBaseX.w, x	; 9d 38 04
 B2_1b79:		lda #$00		; a9 00
 B2_1b7b:		sta $07ef		; 8d ef 07
 B2_1b7e:		sta $07f0		; 8d f0 07
@@ -4477,7 +4477,7 @@ B2_1c3e:		lda $0606, x	; bd 06 06
 B2_1c41:		cmp #$03		; c9 03
 B2_1c43:		bne B2_1c53 ; d0 0e
 
-B2_1c45:		lda $0438, x	; bd 38 04
+B2_1c45:		lda wEntityBaseX.w, x	; bd 38 04
 B2_1c48:		cmp #$04		; c9 04
 B2_1c4a:		bcc B2_1c80 ; 90 34
 
@@ -4485,7 +4485,7 @@ B2_1c4c:		lda #$01		; a9 01
 B2_1c4e:		sta $04a8, x	; 9d a8 04
 B2_1c51:		bne B2_1c5f ; d0 0c
 
-B2_1c53:		lda $0438, x	; bd 38 04
+B2_1c53:		lda wEntityBaseX.w, x	; bd 38 04
 B2_1c56:		cmp #$fc		; c9 fc
 B2_1c58:		bcs B2_1c80 ; b0 26
 
@@ -4557,7 +4557,7 @@ B2_1cc0:		lda #$00		; a9 00
 B2_1cc2:		sta $00			; 85 00
 B2_1cc4:		lda #$70		; a9 70
 B2_1cc6:		sec				; 38 
-B2_1cc7:		sbc $0438, x	; fd 38 04
+B2_1cc7:		sbc wEntityBaseX.w, x	; fd 38 04
 B2_1cca:		bcs B2_1cd3 ; b0 07
 
 B2_1ccc:		eor #$ff		; 49 ff
@@ -4599,14 +4599,14 @@ B2_1d0b:		jsr $966f		; 20 6f 96
 B2_1d0e:		txa				; 8a 
 B2_1d0f:		tay				; a8 
 B2_1d10:		ldx $16			; a6 16
-B2_1d12:		lda $0438, x	; bd 38 04
-B2_1d15:		sta $0438, y	; 99 38 04
-B2_1d18:		lda $041c, x	; bd 1c 04
-B2_1d1b:		sta $041c, y	; 99 1c 04
+B2_1d12:		lda wEntityBaseX.w, x	; bd 38 04
+B2_1d15:		sta wEntityBaseX.w, y	; 99 38 04
+B2_1d18:		lda wEntityBaseY.w, x	; bd 1c 04
+B2_1d1b:		sta wEntityBaseY.w, y	; 99 1c 04
 B2_1d1e:		lda $10			; a5 10
 B2_1d20:		sta $054e, y	; 99 4e 05
 B2_1d23:		lda #$00		; a9 00
-B2_1d25:		sta $0454, y	; 99 54 04
+B2_1d25:		sta wEntityPaletteOverride.w, y	; 99 54 04
 B2_1d28:		sec				; 38 
 B2_1d29:		rts				; 60 
 
@@ -4631,24 +4631,24 @@ B2_1d3f:		stx $16			; 86 16
 B2_1d41:		ldx $1d			; a6 1d
 B2_1d43:		ldy #$00		; a0 00
 B2_1d45:		lda #$01		; a9 01
-B2_1d47:		sta $0300, x	; 9d 00 03
+B2_1d47:		sta wVramQueue.w, x	; 9d 00 03
 B2_1d4a:		inx				; e8 
 B2_1d4b:		lda ($00), y	; b1 00
 B2_1d4d:		cmp #$ff		; c9 ff
 B2_1d4f:		beq B2_1d59 ; f0 08
 
-B2_1d51:		sta $0300, x	; 9d 00 03
+B2_1d51:		sta wVramQueue.w, x	; 9d 00 03
 B2_1d54:		iny				; c8 
 B2_1d55:		inx				; e8 
 B2_1d56:		jmp $9d4b		; 4c 4b 9d
 
 
 B2_1d59:		lda #$ff		; a9 ff
-B2_1d5b:		sta $0300, x	; 9d 00 03
+B2_1d5b:		sta wVramQueue.w, x	; 9d 00 03
 B2_1d5e:		inx				; e8 
 B2_1d5f:		stx $1d			; 86 1d
 B2_1d61:		lda #$04		; a9 04
-B2_1d63:		jsr func_1f_0ce9		; 20 e9 ec
+B2_1d63:		jsr displayStaticLayoutA		; 20 e9 ec
 B2_1d66:		ldx $16			; a6 16
 B2_1d68:		rts				; 60 
 
@@ -4684,7 +4684,7 @@ B2_1d93:		stx $16			; 86 16
 B2_1d95:		ldx $1d			; a6 1d
 B2_1d97:		ldy #$00		; a0 00
 B2_1d99:		lda $9daa, y	; b9 aa 9d
-B2_1d9c:		sta $0300, x	; 9d 00 03
+B2_1d9c:		sta wVramQueue.w, x	; 9d 00 03
 B2_1d9f:		iny				; c8 
 B2_1da0:		inx				; e8 
 B2_1da1:		cpy #$0a		; c0 0a
@@ -4706,19 +4706,19 @@ B2_1db4:		sta $048c, x	; 9d 8c 04
 B2_1db7:		tya				; 98 
 B2_1db8:		sta $05aa, x	; 9d aa 05
 B2_1dbb:		lda #$00		; a9 00
-B2_1dbd:		sta $0593, x	; 9d 93 05
+B2_1dbd:		sta wEntityAnimationIdxes.w, x	; 9d 93 05
 B2_1dc0:		jsr $ef7b		; 20 7b ef
 B2_1dc3:		rts				; 60 
 
 
-B2_1dc4:		lda $0593, x	; bd 93 05
+B2_1dc4:		lda wEntityAnimationIdxes.w, x	; bd 93 05
 B2_1dc7:		bne B2_1dcf ; d0 06
 
-B2_1dc9:		ldy $057c, x	; bc 7c 05
+B2_1dc9:		ldy wEntityTimeUntilNextAnimation.w, x	; bc 7c 05
 B2_1dcc:		dey				; 88 
 B2_1dcd:		beq B2_1dd4 ; f0 05
 
-B2_1dcf:		jsr func_1f_0f75		; 20 75 ef
+B2_1dcf:		jsr updateEntityXanimationFrame		; 20 75 ef
 B2_1dd2:		clc				; 18 
 B2_1dd3:		rts				; 60 
 
@@ -4732,15 +4732,15 @@ B2_1dd7:		lda $0509, x	; bd 09 05
 B2_1dda:		adc $04c4, x	; 7d c4 04
 B2_1ddd:		sta $04c4, x	; 9d c4 04
 B2_1de0:		lda $04f2, x	; bd f2 04
-B2_1de3:		adc $0438, x	; 7d 38 04
-B2_1de6:		sta $0438, x	; 9d 38 04
+B2_1de3:		adc wEntityBaseX.w, x	; 7d 38 04
+B2_1de6:		sta wEntityBaseX.w, x	; 9d 38 04
 B2_1de9:		clc				; 18 
 B2_1dea:		lda $0537, x	; bd 37 05
 B2_1ded:		adc $04db, x	; 7d db 04
 B2_1df0:		sta $04db, x	; 9d db 04
 B2_1df3:		lda $0520, x	; bd 20 05
-B2_1df6:		adc $041c, x	; 7d 1c 04
-B2_1df9:		sta $041c, x	; 9d 1c 04
+B2_1df6:		adc wEntityBaseY.w, x	; 7d 1c 04
+B2_1df9:		sta wEntityBaseY.w, x	; 9d 1c 04
 B2_1dfc:		rts				; 60 
 
 
@@ -4748,12 +4748,12 @@ B2_1dfd:		sta $048c, x	; 9d 8c 04
 B2_1e00:		tya				; 98 
 B2_1e01:		sta $05aa, x	; 9d aa 05
 B2_1e04:		lda #$00		; a9 00
-B2_1e06:		sta $0593, x	; 9d 93 05
-B2_1e09:		sta $057c, x	; 9d 7c 05
+B2_1e06:		sta wEntityAnimationIdxes.w, x	; 9d 93 05
+B2_1e09:		sta wEntityTimeUntilNextAnimation.w, x	; 9d 7c 05
 B2_1e0c:		rts				; 60 
 
 
-B2_1e0d:		lda $057c, x	; bd 7c 05
+B2_1e0d:		lda wEntityTimeUntilNextAnimation.w, x	; bd 7c 05
 B2_1e10:		bne B2_1e40 ; d0 2e
 
 B2_1e12:		lda $05aa, x	; bd aa 05
@@ -4763,7 +4763,7 @@ B2_1e17:		lda $9e5b, y	; b9 5b 9e
 B2_1e1a:		sta $00			; 85 00
 B2_1e1c:		lda $9e5c, y	; b9 5c 9e
 B2_1e1f:		sta $01			; 85 01
-B2_1e21:		lda $0593, x	; bd 93 05
+B2_1e21:		lda wEntityAnimationIdxes.w, x	; bd 93 05
 B2_1e24:		cmp #$ff		; c9 ff
 B2_1e26:		beq B2_1e59 ; f0 31
 
@@ -4776,27 +4776,27 @@ B2_1e2e:		beq B2_1e4f ; f0 1f
 B2_1e30:		cmp #$ff		; c9 ff
 B2_1e32:		beq B2_1e45 ; f0 11
 
-B2_1e34:		sta $057c, x	; 9d 7c 05
+B2_1e34:		sta wEntityTimeUntilNextAnimation.w, x	; 9d 7c 05
 B2_1e37:		iny				; c8 
 B2_1e38:		lda ($00), y	; b1 00
 B2_1e3a:		sta $0400, x	; 9d 00 04
-B2_1e3d:		inc $0593, x	; fe 93 05
-B2_1e40:		dec $057c, x	; de 7c 05
+B2_1e3d:		inc wEntityAnimationIdxes.w, x	; fe 93 05
+B2_1e40:		dec wEntityTimeUntilNextAnimation.w, x	; de 7c 05
 B2_1e43:		clc				; 18 
 B2_1e44:		rts				; 60 
 
 
 B2_1e45:		lda #$00		; a9 00
-B2_1e47:		sta $0593, x	; 9d 93 05
-B2_1e4a:		sta $057c, x	; 9d 7c 05
+B2_1e47:		sta wEntityAnimationIdxes.w, x	; 9d 93 05
+B2_1e4a:		sta wEntityTimeUntilNextAnimation.w, x	; 9d 7c 05
 B2_1e4d:		clc				; 18 
 B2_1e4e:		rts				; 60 
 
 
 B2_1e4f:		lda #$00		; a9 00
-B2_1e51:		sta $057c, x	; 9d 7c 05
+B2_1e51:		sta wEntityTimeUntilNextAnimation.w, x	; 9d 7c 05
 B2_1e54:		lda #$ff		; a9 ff
-B2_1e56:		sta $0593, x	; 9d 93 05
+B2_1e56:		sta wEntityAnimationIdxes.w, x	; 9d 93 05
 B2_1e59:		sec				; 38 
 B2_1e5a:		rts				; 60 
 
@@ -4972,121 +4972,3 @@ B2_1f2d:		dey				; 88
 B2_1f2e:	.db $02
 B2_1f2f:		txa				; 8a 
 B2_1f30:	.db $ff
-
-
-irqFuncs:
-	.dw irqFunc_end
-	.dw func_03_00bc
-	.dw $a0ef
-	.dw $a12f
-	.dw $a13c
-	.dw $a179
-	.dw func_03_0190
-	.dw $a1bf
-	.dw $a1e8
-	.dw $a274
-	.dw $a2a1
-	.dw $a179
-	.dw func_03_0190
-	.dw $a21e
-	.dw $a24b
-	.dw $a2a1
-	.dw $a2dc
-	.dw $a2f2
-	.dw $a2f8
-	.dw $a345
-	.dw $a39b
-	.dw $a3ee
-	.dw $a05a
-	.dw $a00d
-	.dw $a023
-	.dw $9fd9
-	.dw $a3f4
-	.dw $a41d
-	.dw $a434
-	.dw $a458
-	.dw $a488
-	.dw $a4c8
-	.dw $a4e6
-	.dw $a488
-	.dw $a501
-	.dw $9fd1
-	.dw $a345
-	.dw $a39b
-	.dw $a3da
-	.dw $a3c1
-	.dw $a3ee
-	.dw $a578
-	.dw $a5a0
-	.dw $a5d2
-	.dw $a5e5
-	.dw $a16a
-
-	
-B2_1f8d:		dec $0781
-B2_1f90:		bne B2_1fb8 ; d0 26
-
-B2_1f92:		lda $7d			; a5 7d
-B2_1f94:		and #$0f		; 29 0f
-B2_1f96:		asl a			; 0a
-B2_1f97:		tay				; a8 
-B2_1f98:		lda $9fbd, y	; b9 bd 9f
-B2_1f9b:		sta $44			; 85 44
-B2_1f9d:		lda $9fbe, y	; b9 be 9f
-B2_1fa0:		sta $45			; 85 45
-B2_1fa2:		ldy #$00		; a0 00
-B2_1fa4:		lda ($44), y	; b1 44
-B2_1fa6:		sta $0781		; 8d 81 07
-B2_1fa9:		ldy $0780		; ac 80 07
-B2_1fac:		iny				; c8 
-
-B2_1fad:		lda ($44), y	; b1 44
-B2_1faf:		cmp #$ff		; c9 ff
-B2_1fb1:		beq B2_1fb9 ; f0 06
-
-B2_1fb3:		sta wChrBankBG_0400			; 85 4b
-B2_1fb5:		sty $0780		; 8c 80 07
-B2_1fb8:		rts				; 60 
-
-B2_1fb9:		ldy #$01		; a0 01
-B2_1fbb:		bne B2_1fad ; d0 f0
-
-
-B2_1fbd:		cmp ($9f, x)	; c1 9f
-B2_1fbf:		dec $9f			; c6 9f
-B2_1fc1:		asl a			; 0a
-B2_1fc2:	.db $54
-B2_1fc3:		eor $56, x		; 55 56
-B2_1fc5:	.db $ff
-B2_1fc6:		asl $54			; 06 54
-B2_1fc8:		eor $56, x		; 55 56
-B2_1fca:	.db $ff
-
-
-b2_setNametableVerticalMirroring:
-	lda #NT_VERTICAL_MIRROR
-	sta NAMETABLE_MAPPING.w
-	rts
-
-
-B2_1fd1:		lda #$7f		; a9 7f
-B2_1fd3:		sta CHR_BANK_0800.w		; 8d 22 51
-B2_1fd6:		jmp irqFunc_end		; 4c 3a e1
-
-
-B2_1fd9:		lda PPUSTATUS.w		; ad 02 20
-B2_1fdc:		ldx $078c		; ae 8c 07
-B2_1fdf:		lda $078d		; ad 8d 07
-B2_1fe2:		sta PPUADDR.w		; 8d 06 20
-B2_1fe5:		stx $2006		; 8e 06 20
-B2_1fe8:		lda $078a		; ad 8a 07
-B2_1feb:		sta PPUSCROLL.w		; 8d 05 20
-B2_1fee:		lda #$00		; a9 00
-B2_1ff0:		sta PPUSCROLL.w		; 8d 05 20
-B2_1ff3:		lda $078b		; ad 8b 07
-B2_1ff6:		sta PPUCTRL.w		; 8d 00 20
-B2_1ff9:		ldy #$7c		; a0 7c
-B2_1ffb:		sty $4b			; 84 4b
-B2_1ffd:		iny				; c8 
-		.db $84
-		.db $4c

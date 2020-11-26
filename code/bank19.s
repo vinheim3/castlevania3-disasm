@@ -1,456 +1,4 @@
 
-gameStateF_soundMode_body:
-	lda wGameSubstate
-	jsr jumpTablePreserveY
-
-	.dw soundModeSubstate0
-	.dw soundModeSubstate1
-	.dw soundModeSubstate2
-	.dw soundModeSubstate3
-
-soundModeSubstate0:
-; to play dpcm data
-B25_019d:		jsr setBank_c000_toRom07h
-B25_01a0:		lda #$80		; a9 80
-B25_01a2:		jsr func_1f_0ce9		; 20 e9 ec
-B25_01a5:		lda #$a6		; a9 a6
-B25_01a7:		jsr func_1f_0ce9		; 20 e9 ec
-B25_01aa:		lda #$82		; a9 82
-B25_01ac:		jsr func_1f_0ce9		; 20 e9 ec
-B25_01af:		lda #$00		; a9 00
-B25_01b1:		sta $0400		; 8d 00 04
-B25_01b4:		sta wSoundModeCtrlState			; 85 6b
-B25_01b6:		sta wSoundModeSongSelected.w		; 8d 80 07
-B25_01b9:		inc wGameSubstate			; e6 19
-B25_01bb:		rts				; 60 
-
-soundModeSubstate1:
-B25_01bc:		ldx #$98		; a2 98
-B25_01be:		lda #$67		; a9 67
-B25_01c0:		jsr func_1f_0cdc		; 20 dc ec
-B25_01c3:		inc wGameSubstate			; e6 19
-B25_01c5:		rts				; 60 
-
-; main control state
-soundModeSubstate2:
-	jsr soundModeCtrlHandler
-	lda wSoundModeCtrlState
-; exit func sets state to ff
-	bpl +
-	inc wGameSubstate
-+	rts
-
-; exiting sound mode
-soundModeSubstate3:
-B25_01d0:		jsr setBank_c000_toRom1eh		; 20 da e2
-B25_01d3:		lda #$00		; a9 00
-B25_01d5:		sta wSoundModeCtrlState			; 85 6b
-B25_01d7:		sta wGameState			; 85 18
-B25_01d9:		lda #$03		; a9 03
-B25_01db:		sta wGameSubstate			; 85 19
-B25_01dd:		rts				; 60 
-
-
-soundModeCtrlHandler:
-	lda wSoundModeCtrlState
-	jsr jumpTablePreserveY
-
-	.dw soundModeCtrlState_init
-	.dw soundModeCtrlState_stub
-	.dw soundModeCtrlState_processInput
-
-soundModeCtrlState_init:
-	jsr displaySoundModeSongText
-
-soundModeCtrlState_stub:
-	inc wSoundModeCtrlState
-	rts
-
-startExitSoundMode:
-	jsr initSound
-; ff set so that substate code goes back to main menu
-	lda #$ff
-	sta wSoundModeCtrlState
-	rts
-
-soundModeCtrlState_processInput:
-	lda wJoy1NewButtonsPressed
-	and #PADF_START
-	bne startExitSoundMode
-
-	lda wJoy1NewButtonsPressed
-	and #PADF_UP
-	bne @pressedUp
-
-	lda wJoy1NewButtonsPressed
-	and #PADF_DOWN
-	bne @pressedDown
-
-	lda wJoy1NewButtonsPressed
-	and #PADF_A
-	bne @pressedA
-
-	lda wJoy1NewButtonsPressed
-	and #PADF_B
-	bne @pressedB
-
-	rts
-
-@pressedA:
-; A clears sound
-	jmp initSound
-
-@pressedDown:
-	inc wSoundModeSongSelected.w
-	lda wSoundModeSongSelected.w
-	cmp #LAST_SOUND_MODE_SONG_IDX
-	bcc @displayNewText
-
-	lda #LAST_SOUND_MODE_SONG_IDX
-	bne @setSongSelected_displayItsText
-
-@pressedUp:
-; 0 is lowest idx
-	dec wSoundModeSongSelected.w
-	bpl @displayNewText
-
-	lda #$00
-
-@setSongSelected_displayItsText:
-	sta wSoundModeSongSelected.w
-
-@displayNewText:
-	jsr clearSoundModeSongText
-	jmp displaySoundModeSongText
-
-@pressedB:
-; B plays sound
-	ldy wSoundModeSongSelected.w
-	lda soundModeSongIdxes.w, y
-	jmp playSound
-
-
-clearSoundModeSongText:
-; where song name text shows up
-B25_0240:		lda #<$232b		; a9 2b
-B25_0242:		sta wVramQueueDest			; 85 61
-B25_0244:		lda #>$232b		; a9 23
-B25_0246:		sta wVramQueueDest+1			; 85 62
-B25_0248:		jsr func_1f_08b5		; 20 b5 e8
-
-; clear 10 bytes during vblank
-B25_024b:		ldy #$0a		; a0 0a
-B25_024d:		lda #$00		; a9 00
-
--	sta wVramQueue.w, x	; 9d 00 03
-B25_0252:		inx				; e8 
-B25_0253:		dey				; 88 
-	bne -
-
-B25_0256:		jmp setVramQueueNextFillIdxAndTerminate		; 4c de e8
-
-
-displaySoundModeSongText:
-B25_0259:		lda wSoundModeSongSelected.w		; ad 80 07
-B25_025c:		asl a			; 0a
-B25_025d:		tay				; a8 
-B25_025e:		lda soundModeTextAddresses.w, y	; b9 db a2
-B25_0261:		sta wSoundModeTextAddr			; 85 08
-B25_0263:		lda soundModeTextAddresses.w+1, y	; b9 dc a2
-B25_0266:		sta wSoundModeTextAddr+1			; 85 09
-
-B25_0268:		lda #<$232b		; a9 2b
-B25_026a:		sta wVramQueueDest			; 85 61
-B25_026c:		lda #>$232b		; a9 23
-B25_026e:		sta wVramQueueDest+1			; 85 62
-B25_0270:		jsr func_1f_08b5		; 20 b5 e8
-B25_0273:		ldy #$00		; a0 00
-B25_0275:		lda (wSoundModeTextAddr), y	; b1 08
-B25_0277:		cmp #$ff		; c9 ff
-B25_0279:		bne B25_027e ; d0 03
-
-B25_027b:		jmp setVramQueueNextFillIdxAndTerminate		; 4c de e8
-
-B25_027e:		sta wVramQueue.w, x	; 9d 00 03
-B25_0281:		inx				; e8 
-B25_0282:		iny				; c8 
-B25_0283:		bne B25_0275 ; d0 f0
-
-
-; todo: box to display sound text in
-B25_0285:	.db $cb
-B25_0286:	.db $22
-B25_0287:	.db $22
-B25_0288:		asl $1d24, x	; 1e 24 1d
-B25_028b:	.db $13
-B25_028c:		.db $00				; 00
-B25_028d:	.db $1c
-B25_028e:		asl $1413, x	; 1e 13 14
-B25_0291:		inc $22ea, x	; fe ea 22
-B25_0294:		rol $2e2e		; 2e 2e 2e
-B25_0297:		rol $2e2e		; 2e 2e 2e
-B25_029a:		rol $2e2e		; 2e 2e 2e
-B25_029d:		rol $2e2e		; 2e 2e 2e
-B25_02a0:		inc $2309, x	; fe 09 23
-B25_02a3:		and $15fe		; 2d fe 15
-B25_02a6:	.db $23
-B25_02a7:		and $29fe		; 2d fe 29
-B25_02aa:	.db $23
-B25_02ab:		and $35fe		; 2d fe 35
-B25_02ae:	.db $23
-B25_02af:		and $49fe		; 2d fe 49
-B25_02b2:	.db $23
-B25_02b3:		and $2e2e		; 2d 2e 2e
-B25_02b6:		rol $2e2e		; 2e 2e 2e
-B25_02b9:		rol $2e2e		; 2e 2e 2e
-B25_02bc:		rol $2e2e		; 2e 2e 2e
-B25_02bf:	.db $2f
-B25_02c0:	.db $ff
-
-
-soundModeSongIdxes:
-	.db MUS_BEGINNING
-	.db MUS_CLOCKWORK
-	.db MUS_MAD_FOREST
-	.db MUS_ANXIETY
-	.db MUS_RISING
-	.db MUS_STREAM
-	.db MUS_DEAD_BEAT
-	.db MUS_NIGHTMARE
-	.db MUS_AQUARIUS
-	.db MUS_DEMON_SEED
-	.db MUS_DEJAVU
-	.db MUS_RIDDLE
-	.db MUS_PRESSURE
-	.db MUS_OVERTURE
-	.db MUS_BOSS_FIGHT
-	.db MUS_BLK_CLEAR
-	.db MUS_BIG_BATTLE
-	.db MUS_ALL_CLEAR
-	.db MUS_DESTINY
-	.db MUS_ENCOUNTER
-	.db MUS_PRELUDE
-	.db MUS_PRAYER
-	.db MUS_EPITAPH
-	.db MUS_EVERGREEN
-	.db MUS_FLASH_BACK
-	.db MUS_GAME_OVER
-
-soundModeTextAddresses:
-	.dw $a30f
-	.dw $a319
-	.dw $a323
-	.dw $a32e
-	.dw $a336
-	.dw $a33d
-	.dw $a344
-	.dw $a34e
-	.dw $a358
-	.dw $a361
-	.dw $a36c
-	.dw $a373
-	.dw $a37a
-	.dw $a383
-	.dw $a38c
-	.dw $a397
-	.dw $a3a1
-	.dw $a3ac
-	.dw $a3b6
-	.dw $a3be
-	.dw $a3c8
-	.dw $a3d0
-	.dw $a3d7
-	.dw $a3df
-	.dw $a3e9
-	.dw $a3f4
-
-
-B25_030f:		ora ($14), y	; 11 14
-B25_0311:		asl $18, x		; 16 18
-B25_0313:		ora $181d, x	; 1d 1d 18
-B25_0316:		ora $ff16, x	; 1d 16 ff
-B25_0319:	.db $12
-B25_031a:	.db $1b
-B25_031b:		asl $1a12, x	; 1e 12 1a
-B25_031e:		rol $1e			; 26 1e
-B25_0320:		and ($1a, x)	; 21 1a
-B25_0322:	.db $ff
-B25_0323:	.db $1c
-B25_0324:		bpl B25_0339 ; 10 13
-
-B25_0326:		.db $00				; 00
-B25_0327:		ora $1e, x		; 15 1e
-B25_0329:		and ($14, x)	; 21 14
-B25_032b:	.db $22
-B25_032c:	.db $23
-B25_032d:	.db $ff
-B25_032e:		bpl B25_034d ; 10 1d
-
-B25_0330:	.db $27
-B25_0331:		clc				; 18 
-B25_0332:	.db $14
-B25_0333:	.db $23
-B25_0334:		plp				; 28 
-B25_0335:	.db $ff
-B25_0336:		and ($18, x)	; 21 18
-B25_0338:	.db $22
-B25_0339:		clc				; 18 
-B25_033a:		ora $ff16, x	; 1d 16 ff
-B25_033d:	.db $22
-B25_033e:	.db $23
-B25_033f:		and ($14, x)	; 21 14
-B25_0341:		;removed
-	.db $10 $1c
-
-B25_0343:	.db $ff
-B25_0344:	.db $13
-B25_0345:	.db $14
-B25_0346:		;removed
-	.db $10 $13
-
-B25_0348:		.db $00				; 00
-B25_0349:		ora ($14), y	; 11 14
-B25_034b:		;removed
-	.db $10 $23
-
-B25_034d:	.db $ff
-B25_034e:		ora $1618, x	; 1d 18 16
-B25_0351:	.db $17
-B25_0352:	.db $23
-B25_0353:	.db $1c
-B25_0354:		bpl B25_0377 ; 10 21
-
-B25_0356:	.db $14
-B25_0357:	.db $ff
-B25_0358:		bpl B25_037a ; 10 20
-
-B25_035a:		bit $10			; 24 10
-B25_035c:		and ($18, x)	; 21 18
-B25_035e:		bit $22			; 24 22
-B25_0360:	.db $ff
-B25_0361:	.db $13
-B25_0362:	.db $14
-B25_0363:	.db $1c
-B25_0364:	.db $1e $1d $00
-B25_0367:	.db $22
-B25_0368:	.db $14
-B25_0369:	.db $14
-B25_036a:	.db $13
-B25_036b:	.db $ff
-B25_036c:	.db $13
-B25_036d:	.db $14
-B25_036e:		ora $2510, y	; 19 10 25
-B25_0371:		bit $ff			; 24 ff
-B25_0373:		and ($18, x)	; 21 18
-B25_0375:	.db $13
-B25_0376:	.db $13
-B25_0377:	.db $1b
-B25_0378:	.db $14
-B25_0379:	.db $ff
-B25_037a:	.db $1f
-B25_037b:		and ($14, x)	; 21 14
-B25_037d:	.db $22
-B25_037e:	.db $22
-B25_037f:		bit $21			; 24 21
-B25_0381:	.db $14
-B25_0382:	.db $ff
-B25_0383:		asl $1425, x	; 1e 25 14
-B25_0386:		and ($23, x)	; 21 23
-B25_0388:		bit $21			; 24 21
-B25_038a:	.db $14
-B25_038b:	.db $ff
-B25_038c:		ora ($1e), y	; 11 1e
-B25_038e:	.db $22
-B25_038f:	.db $22
-B25_0390:		.db $00				; 00
-B25_0391:		ora $18, x		; 15 18
-B25_0393:		asl $17, x		; 16 17
-B25_0395:	.db $23
-B25_0396:	.db $ff
-B25_0397:		ora ($1b), y	; 11 1b
-B25_0399:	.db $1a
-B25_039a:		.db $00				; 00
-B25_039b:	.db $12
-B25_039c:	.db $1b
-B25_039d:	.db $14
-B25_039e:		;removed
-	.db $10 $21
-
-B25_03a0:	.db $ff
-B25_03a1:		ora ($18), y	; 11 18
-B25_03a3:		asl $00, x		; 16 00
-B25_03a5:		ora ($10), y	; 11 10
-B25_03a7:	.db $23
-B25_03a8:	.db $23
-B25_03a9:	.db $1b
-B25_03aa:	.db $14
-B25_03ab:	.db $ff
-B25_03ac:		bpl B25_03c9 ; 10 1b
-
-B25_03ae:	.db $1b
-B25_03af:		.db $00				; 00
-B25_03b0:	.db $12
-B25_03b1:	.db $1b
-B25_03b2:	.db $14
-B25_03b3:		;removed
-	.db $10 $21
-
-B25_03b5:	.db $ff
-B25_03b6:	.db $13
-B25_03b7:	.db $14
-B25_03b8:	.db $22
-B25_03b9:	.db $23
-B25_03ba:		clc				; 18 
-B25_03bb:		ora $ff28, x	; 1d 28 ff
-B25_03be:	.db $14
-B25_03bf:		ora $1e12, x	; 1d 12 1e
-B25_03c2:		bit $1d			; 24 1d
-B25_03c4:	.db $23
-B25_03c5:	.db $14
-B25_03c6:		and ($ff, x)	; 21 ff
-B25_03c8:	.db $1f
-B25_03c9:		and ($14, x)	; 21 14
-B25_03cb:	.db $1b
-B25_03cc:		bit $13			; 24 13
-B25_03ce:	.db $14
-B25_03cf:	.db $ff
-B25_03d0:	.db $1f
-B25_03d1:		and ($10, x)	; 21 10
-B25_03d3:		plp				; 28 
-B25_03d4:	.db $14
-B25_03d5:		and ($ff, x)	; 21 ff
-B25_03d7:	.db $14
-B25_03d8:	.db $1f
-B25_03d9:		clc				; 18 
-B25_03da:	.db $23
-B25_03db:		bpl B25_03fc ; 10 1f
-
-B25_03dd:	.db $17
-B25_03de:	.db $ff
-B25_03df:	.db $14
-B25_03e0:		and $14			; 25 14
-B25_03e2:		and ($16, x)	; 21 16
-B25_03e4:		and ($14, x)	; 21 14
-B25_03e6:	.db $14
-B25_03e7:		ora $15ff, x	; 1d ff 15
-B25_03ea:	.db $1b
-B25_03eb:		;removed
-	.db $10 $22
-
-B25_03ed:	.db $17
-B25_03ee:		.db $00				; 00
-B25_03ef:		ora ($10), y	; 11 10
-B25_03f1:	.db $12
-B25_03f2:	.db $1a
-B25_03f3:	.db $ff
-B25_03f4:		asl $10, x		; 16 10
-B25_03f6:	.db $1c
-B25_03f7:	.db $14
-B25_03f8:		.db $00				; 00
-B25_03f9:		asl $1425, x	; 1e 25 14
-B25_03fc:		and ($ff, x)	; 21 ff
-
-
 func_19_03fe:
 B25_03fe:		lda #$00		; a9 00
 B25_0400:		sta $00			; 85 00
@@ -553,9 +101,9 @@ B25_0499:		rts				; 60
 B25_049a:		rts				; 60 
 
 
-B25_049b:		lda $0438		; ad 38 04
+B25_049b:		lda wEntityBaseX.w		; ad 38 04
 B25_049e:		sec				; 38 
-B25_049f:		sbc $0438, x	; fd 38 04
+B25_049f:		sbc wEntityBaseX.w, x	; fd 38 04
 B25_04a2:		bcs B25_04a6 ; b0 02
 
 B25_04a4:		eor #$ff		; 49 ff
@@ -614,7 +162,7 @@ B25_04f7:		lda #$03		; a9 03
 B25_04f9:		bne B25_04fd ; d0 02
 
 B25_04fb:		lda #$00		; a9 00
-B25_04fd:		sta $0454, x	; 9d 54 04
+B25_04fd:		sta wEntityPaletteOverride.w, x	; 9d 54 04
 B25_0500:		lda #$0f		; a9 0f
 B25_0502:		sta $054e, x	; 9d 4e 05
 B25_0505:		jsr $a8c0		; 20 c0 a8
@@ -626,9 +174,9 @@ B25_0511:		lda #$00		; a9 00
 B25_0513:		sta $bb			; 85 bb
 B25_0515:		ldx $6c			; a6 6c
 B25_0517:		lda #$00		; a9 00
-B25_0519:		sta $0593, x	; 9d 93 05
+B25_0519:		sta wEntityAnimationIdxes.w, x	; 9d 93 05
 B25_051c:		lda #$01		; a9 01
-B25_051e:		sta $057c, x	; 9d 7c 05
+B25_051e:		sta wEntityTimeUntilNextAnimation.w, x	; 9d 7c 05
 B25_0521:		sec				; 38 
 B25_0522:		rts				; 60 
 
@@ -708,7 +256,7 @@ B25_0598:		rts				; 60
 B25_0599:		jsr $a922		; 20 22 a9
 B25_059c:		.db $00				; 00
 B25_059d:		sta $0657, x	; 9d 57 06
-B25_05a0:		sta $05ef, x	; 9d ef 05
+B25_05a0:		sta wEntityAI_idx.w, x	; 9d ef 05
 B25_05a3:		sta $0565, x	; 9d 65 05
 B25_05a6:		jsr $a8b8		; 20 b8 a8
 B25_05a9:		lda #$01		; a9 01
@@ -852,8 +400,8 @@ B25_0687:		ldx #$02		; a2 02
 B25_0689:		lda #$00		; a9 00
 B25_068b:		sta $0400, x	; 9d 00 04
 B25_068e:		sta $054e, x	; 9d 4e 05
-B25_0691:		sta $0438, x	; 9d 38 04
-B25_0694:		sta $041c, x	; 9d 1c 04
+B25_0691:		sta wEntityBaseX.w, x	; 9d 38 04
+B25_0694:		sta wEntityBaseY.w, x	; 9d 1c 04
 B25_0697:		sta $0470, x	; 9d 70 04
 B25_069a:		inx				; e8 
 B25_069b:		cpx #$06		; e0 06
@@ -863,9 +411,9 @@ B25_069f:		ldx $6c			; a6 6c
 B25_06a1:		rts				; 60 
 
 
-B25_06a2:		lda $0438, x	; bd 38 04
+B25_06a2:		lda wEntityBaseX.w, x	; bd 38 04
 B25_06a5:		sta $00			; 85 00
-B25_06a7:		lda $041c, x	; bd 1c 04
+B25_06a7:		lda wEntityBaseY.w, x	; bd 1c 04
 B25_06aa:		sta $01			; 85 01
 B25_06ac:		ldx #$03		; a2 03
 B25_06ae:		lda #$00		; a9 00
@@ -874,17 +422,17 @@ B25_06b2:		ldy $02			; a4 02
 B25_06b4:		clc				; 18 
 B25_06b5:		lda $00			; a5 00
 B25_06b7:		adc $a6df, y	; 79 df a6
-B25_06ba:		sta $0438, x	; 9d 38 04
+B25_06ba:		sta wEntityBaseX.w, x	; 9d 38 04
 B25_06bd:		clc				; 18 
 B25_06be:		lda $01			; a5 01
 B25_06c0:		adc $a6e0, y	; 79 e0 a6
-B25_06c3:		sta $041c, x	; 9d 1c 04
+B25_06c3:		sta wEntityBaseY.w, x	; 9d 1c 04
 B25_06c6:		jsr $a8b4		; 20 b4 a8
 B25_06c9:		lda #$0e		; a9 0e
 B25_06cb:		ldy #$08		; a0 08
 B25_06cd:		jsr func_1f_0f5c		; 20 5c ef
 B25_06d0:		lda #$00		; a9 00
-B25_06d2:		sta $0454, x	; 9d 54 04
+B25_06d2:		sta wEntityPaletteOverride.w, x	; 9d 54 04
 B25_06d5:		inc $02			; e6 02
 B25_06d7:		inc $02			; e6 02
 B25_06d9:		inx				; e8 
@@ -930,7 +478,7 @@ B25_071c:		bne B25_0721 ; d0 03
 
 B25_071e:		inc $0565, x	; fe 65 05
 B25_0721:		ldx #$03		; a2 03
-B25_0723:		jsr func_1f_0f75		; 20 75 ef
+B25_0723:		jsr updateEntityXanimationFrame		; 20 75 ef
 B25_0726:		inx				; e8 
 B25_0727:		cpx #$07		; e0 07
 B25_0729:		bcc B25_0723 ; 90 f8
@@ -983,7 +531,7 @@ B25_077d:		dec $0606, x	; de 06 06
 B25_0780:		bne B25_077c ; d0 fa
 
 B25_0782:		lda #$2f		; a9 2f
-B25_0784:		sta $49			; 85 49
+B25_0784:		sta wChrBankSpr_0c00			; 85 49
 B25_0786:		lda #$45		; a9 45
 B25_0788:		jsr playSound		; 20 5f e2
 B25_078b:		jsr $a8b4		; 20 b4 a8
@@ -1007,7 +555,7 @@ B25_07a9:		rts				; 60
 
 
 B25_07aa:		lda #$2f		; a9 2f
-B25_07ac:		sta $49			; 85 49
+B25_07ac:		sta wChrBankSpr_0c00			; 85 49
 B25_07ae:		jsr $a8b4		; 20 b4 a8
 B25_07b1:		lda #$10		; a9 10
 B25_07b3:		sta $0606, x	; 9d 06 06
@@ -1034,19 +582,19 @@ B25_07db:		lda $0633, x	; bd 33 06
 B25_07de:		cmp #$02		; c9 02
 B25_07e0:		bne B25_07eb ; d0 09
 
-B25_07e2:		lda $041c, x	; bd 1c 04
+B25_07e2:		lda wEntityBaseY.w, x	; bd 1c 04
 B25_07e5:		sec				; 38 
 B25_07e6:		sbc #$04		; e9 04
-B25_07e8:		sta $041c, x	; 9d 1c 04
+B25_07e8:		sta wEntityBaseY.w, x	; 9d 1c 04
 B25_07eb:		pla				; 68 
 B25_07ec:		sta $0633, x	; 9d 33 06
 B25_07ef:		cmp #$02		; c9 02
 B25_07f1:		bne B25_07fc ; d0 09
 
-B25_07f3:		lda $041c, x	; bd 1c 04
+B25_07f3:		lda wEntityBaseY.w, x	; bd 1c 04
 B25_07f6:		clc				; 18 
 B25_07f7:		adc #$04		; 69 04
-B25_07f9:		sta $041c, x	; 9d 1c 04
+B25_07f9:		sta wEntityBaseY.w, x	; 9d 1c 04
 B25_07fc:		lda $0633, x	; bd 33 06
 B25_07ff:		asl a			; 0a
 B25_0800:		clc				; 18 
@@ -1057,14 +605,14 @@ B25_0808:		sta $048c, x	; 9d 8c 04
 B25_080b:		lda $a825, y	; b9 25 a8
 B25_080e:		sta $00			; 85 00
 B25_0810:		lda $a826, y	; b9 26 a8
-B25_0813:		sta $48			; 85 48
+B25_0813:		sta wChrBankSpr_0800			; 85 48
 B25_0815:		tay				; a8 
 B25_0816:		iny				; c8 
 B25_0817:		sty $49			; 84 49
 B25_0819:		lda #$02		; a9 02
 B25_081b:		sta $0400, x	; 9d 00 04
 B25_081e:		lda #$02		; a9 02
-B25_0820:		sta $0454, x	; 9d 54 04
+B25_0820:		sta wEntityPaletteOverride.w, x	; 9d 54 04
 B25_0823:		rts				; 60 
 
 
@@ -1107,9 +655,9 @@ B25_0847:		sec				; 38
 B25_0848:		rts				; 60 
 
 
-B25_0849:		lda $0438		; ad 38 04
+B25_0849:		lda wEntityBaseX.w		; ad 38 04
 B25_084c:		sec				; 38 
-B25_084d:		sbc $0438, x	; fd 38 04
+B25_084d:		sbc wEntityBaseX.w, x	; fd 38 04
 B25_0850:		bcs B25_0855 ; b0 03
 
 B25_0852:		eor #$ff		; 49 ff
@@ -1139,12 +687,12 @@ B25_086e:		bne B25_0872 ; d0 02
 B25_0870:		lda #$08		; a9 08
 B25_0872:		sta $07			; 85 07
 B25_0874:		ldy #$f8		; a0 f8
-B25_0876:		jsr $fc1e		; 20 1e fc
+B25_0876:		jsr func_1f_1c1e		; 20 1e fc
 B25_0879:		bne B25_089a ; d0 1f
 
 B25_087b:		lda $07			; a5 07
 B25_087d:		ldy #$00		; a0 00
-B25_087f:		jsr $fc1e		; 20 1e fc
+B25_087f:		jsr func_1f_1c1e		; 20 1e fc
 B25_0882:		bne B25_089a ; d0 16
 
 B25_0884:		clc				; 18 
@@ -1153,12 +701,12 @@ B25_0885:		rts				; 60
 
 B25_0886:		lda #$05		; a9 05
 B25_0888:		ldy #$10		; a0 10
-B25_088a:		jsr $fc1e		; 20 1e fc
+B25_088a:		jsr func_1f_1c1e		; 20 1e fc
 B25_088d:		bne B25_089a ; d0 0b
 
 B25_088f:		lda #$fb		; a9 fb
 B25_0891:		ldy #$10		; a0 10
-B25_0893:		jsr $fc1e		; 20 1e fc
+B25_0893:		jsr func_1f_1c1e		; 20 1e fc
 B25_0896:		bne B25_089a ; d0 02
 
 B25_0898:		clc				; 18 
@@ -1467,8 +1015,8 @@ B25_0a78:		jsr $a8c6		; 20 c6 a8
 B25_0a7b:		jsr $a886		; 20 86 a8
 B25_0a7e:		bcs B25_0aad ; b0 2d
 
-B25_0a80:		lda $041c		; ad 1c 04
-B25_0a83:		cmp $041c, x	; dd 1c 04
+B25_0a80:		lda wEntityBaseY.w		; ad 1c 04
+B25_0a83:		cmp wEntityBaseY.w, x	; dd 1c 04
 B25_0a86:		bcs B25_0a8b ; b0 03
 
 B25_0a88:		jmp $aae7		; 4c e7 aa
@@ -1488,7 +1036,7 @@ B25_0a99:		lda #$18		; a9 18
 B25_0a9b:		bne B25_0a9f ; d0 02
 
 B25_0a9d:		lda #$e8		; a9 e8
-B25_0a9f:		sta $0438, x	; 9d 38 04
+B25_0a9f:		sta wEntityBaseX.w, x	; 9d 38 04
 B25_0aa2:		lda #$10		; a9 10
 B25_0aa4:		sta $0606, x	; 9d 06 06
 B25_0aa7:		lda #$0c		; a9 0c
@@ -1587,23 +1135,23 @@ B25_0b2d:		lda #$18		; a9 18
 B25_0b2f:		bne B25_0b33 ; d0 02
 
 B25_0b31:		lda #$e8		; a9 e8
-B25_0b33:		sta $0438, x	; 9d 38 04
+B25_0b33:		sta wEntityBaseX.w, x	; 9d 38 04
 B25_0b36:		lda #$01		; a9 01
 B25_0b38:		jsr $a44c		; 20 4c a4
-B25_0b3b:		lda $05c1, x	; bd c1 05
+B25_0b3b:		lda wEntityPhase.w, x	; bd c1 05
 B25_0b3e:		beq B25_0b57 ; f0 17
 
-B25_0b40:		lda $041c, x	; bd 1c 04
+B25_0b40:		lda wEntityBaseY.w, x	; bd 1c 04
 B25_0b43:		cmp #$b4		; c9 b4
 B25_0b45:		bcc B25_0b4e ; 90 07
 
 B25_0b47:		lda #$b4		; a9 b4
-B25_0b49:		sta $041c, x	; 9d 1c 04
+B25_0b49:		sta wEntityBaseY.w, x	; 9d 1c 04
 B25_0b4c:		bne B25_0b58 ; d0 0a
 
 B25_0b4e:		lda #$00		; a9 00
 B25_0b50:		ldy #$10		; a0 10
-B25_0b52:		jsr $fc1e		; 20 1e fc
+B25_0b52:		jsr func_1f_1c1e		; 20 1e fc
 B25_0b55:		bne B25_0b58 ; d0 01
 
 B25_0b57:		rts				; 60 
@@ -1613,17 +1161,17 @@ B25_0b58:		lda #$00		; a9 00
 B25_0b5a:		tay				; a8 
 B25_0b5b:		jsr $a8a4		; 20 a4 a8
 B25_0b5e:		jsr $a89c		; 20 9c a8
-B25_0b61:		lda $041c, x	; bd 1c 04
+B25_0b61:		lda wEntityBaseY.w, x	; bd 1c 04
 B25_0b64:		and #$f0		; 29 f0
-B25_0b66:		sta $041c, x	; 9d 1c 04
+B25_0b66:		sta wEntityBaseY.w, x	; 9d 1c 04
 B25_0b69:		lda $0633, x	; bd 33 06
 B25_0b6c:		cmp #$02		; c9 02
 B25_0b6e:		bne B25_0b79 ; d0 09
 
-B25_0b70:		lda $041c, x	; bd 1c 04
+B25_0b70:		lda wEntityBaseY.w, x	; bd 1c 04
 B25_0b73:		clc				; 18 
 B25_0b74:		adc #$04		; 69 04
-B25_0b76:		sta $041c, x	; 9d 1c 04
+B25_0b76:		sta wEntityBaseY.w, x	; 9d 1c 04
 B25_0b79:		lda #$0b		; a9 0b
 B25_0b7b:		sta $0565, x	; 9d 65 05
 B25_0b7e:		rts				; 60 
@@ -2290,7 +1838,7 @@ B25_0f3e:		ora $00			; 05 00
 B25_0f40:	.db $83
 B25_0f41:		eor $5b00, y	; 59 00 5b
 B25_0f44:		ora $00			; 05 00
-B25_0f46:		sta $46			; 85 46
+B25_0f46:		sta wChrBankSpr_0000			; 85 46
 B25_0f48:	.db $57
 B25_0f49:	.db $57
 B25_0f4a:		lsr $6d, x		; 56 6d
@@ -2366,7 +1914,7 @@ B25_0faf:	.db $ff
 B25_0fb0:	.db $bf
 B25_0fb1:	.db $04
 B25_0fb2:	.db $ff
-B25_0fb3:		sta $33			; 85 33
+B25_0fb3:		sta wCurrRoomSection			; 85 33
 B25_0fb5:	.db $ff
 B25_0fb6:	.db $ff
 B25_0fb7:		lsr $9a, x		; 56 9a
@@ -2413,7 +1961,7 @@ B25_0fea:		lda #$00		; a9 00
 B25_0fec:		sta $0645, x	; 9d 45 06
 B25_0fef:		ldy $0633, x	; bc 33 06
 B25_0ff2:		lda $b2c1, y	; b9 c1 b2
-B25_0ff5:		sta $0438, x	; 9d 38 04
+B25_0ff5:		sta wEntityBaseX.w, x	; 9d 38 04
 B25_0ff8:		bmi B25_0ffd ; 30 03
 
 B25_0ffa:		inc $0645, x	; fe 45 06
@@ -2422,7 +1970,7 @@ B25_0fff:		jsr $b211		; 20 11 b2
 B25_1002:		ldy #$00		; a0 00
 B25_1004:		jsr $b263		; 20 63 b2
 B25_1007:		lda #$c8		; a9 c8
-B25_1009:		sta $041c, x	; 9d 1c 04
+B25_1009:		sta wEntityBaseY.w, x	; 9d 1c 04
 B25_100c:		lda #$20		; a9 20
 B25_100e:		sta $0537, x	; 9d 37 05
 B25_1011:		lda #$ff		; a9 ff
@@ -2442,7 +1990,7 @@ B25_102c:		dey				; 88
 B25_102d:		bne B25_1059 ; d0 2a
 
 B25_102f:		lda #$b0		; a9 b0
-B25_1031:		cmp $041c, x	; dd 1c 04
+B25_1031:		cmp wEntityBaseY.w, x	; dd 1c 04
 B25_1034:		bcc B25_1058 ; 90 22
 
 B25_1036:		lda #$e0		; a9 e0
@@ -2518,7 +2066,7 @@ B25_10a0:		sta $0537, x	; 9d 37 05
 B25_10a3:		ldy $0633, x	; bc 33 06
 B25_10a6:		lda $b2c1, y	; b9 c1 b2
 B25_10a9:		sec				; 38 
-B25_10aa:		sbc $0438, x	; fd 38 04
+B25_10aa:		sbc wEntityBaseX.w, x	; fd 38 04
 B25_10ad:		bcs B25_10b4 ; b0 05
 
 B25_10af:		eor #$ff		; 49 ff
@@ -2528,7 +2076,7 @@ B25_10b4:		cmp #$02		; c9 02
 B25_10b6:		bcs B25_10c1 ; b0 09
 
 B25_10b8:		lda $b2c1, y	; b9 c1 b2
-B25_10bb:		sta $0438, x	; 9d 38 04
+B25_10bb:		sta wEntityBaseX.w, x	; 9d 38 04
 B25_10be:		inc $0606, x	; fe 06 06
 B25_10c1:		rts				; 60 
 
@@ -2546,12 +2094,12 @@ B25_10d5:		inc $0606, x	; fe 06 06
 B25_10d8:		rts				; 60 
 
 
-B25_10d9:		lda $041c, x	; bd 1c 04
+B25_10d9:		lda wEntityBaseY.w, x	; bd 1c 04
 B25_10dc:		cmp #$c8		; c9 c8
 B25_10de:		bcc B25_10f2 ; 90 12
 
 B25_10e0:		lda #$c8		; a9 c8
-B25_10e2:		sta $041c, x	; 9d 1c 04
+B25_10e2:		sta wEntityBaseY.w, x	; 9d 1c 04
 B25_10e5:		ldy #$02		; a0 02
 B25_10e7:		jsr $b211		; 20 11 b2
 B25_10ea:		ldy #$02		; a0 02
@@ -2597,7 +2145,7 @@ B25_112b:		sta $0537, x	; 9d 37 05
 B25_112e:		lda $061d, x	; bd 1d 06
 B25_1131:		beq B25_1148 ; f0 15
 
-B25_1133:		lda $0438, x	; bd 38 04
+B25_1133:		lda wEntityBaseX.w, x	; bd 38 04
 B25_1136:		cmp #$c8		; c9 c8
 B25_1138:		bcc B25_1147 ; 90 0d
 
@@ -2609,7 +2157,7 @@ B25_1144:		sta $0537, x	; 9d 37 05
 B25_1147:		rts				; 60 
 
 
-B25_1148:		lda $0438, x	; bd 38 04
+B25_1148:		lda wEntityBaseX.w, x	; bd 38 04
 B25_114b:		cmp #$38		; c9 38
 B25_114d:		bcs B25_1147 ; b0 f8
 
@@ -2786,7 +2334,7 @@ B25_126d:		beq B25_1271 ; f0 02
 
 B25_126f:		lda #$66		; a9 66
 B25_1271:		sta $10			; 85 10
-B25_1273:		lda $0438, x	; bd 38 04
+B25_1273:		lda wEntityBaseX.w, x	; bd 38 04
 B25_1276:		sec				; 38 
 B25_1277:		sbc #$10		; e9 10
 B25_1279:		and #$10		; 29 10
@@ -2874,13 +2422,13 @@ B25_12f9:		sta $0400, x	; 9d 00 04
 B25_12fc:		lda #$70		; a9 70
 B25_12fe:		sta $0470, x	; 9d 70 04
 B25_1301:		lda #$02		; a9 02
-B25_1303:		sta $0454, x	; 9d 54 04
+B25_1303:		sta wEntityPaletteOverride.w, x	; 9d 54 04
 B25_1306:		lda #$80		; a9 80
-B25_1308:		sta $05ef, x	; 9d ef 05
+B25_1308:		sta wEntityAI_idx.w, x	; 9d ef 05
 B25_130b:		lda $b31b, y	; b9 1b b3
-B25_130e:		sta $041c, x	; 9d 1c 04
+B25_130e:		sta wEntityBaseY.w, x	; 9d 1c 04
 B25_1311:		lda $b321, y	; b9 21 b3
-B25_1314:		sta $0438, x	; 9d 38 04
+B25_1314:		sta wEntityBaseX.w, x	; 9d 38 04
 B25_1317:		dey				; 88 
 B25_1318:		bpl B25_12e7 ; 10 cd
 

@@ -73,9 +73,9 @@ B13_1e61:		tay				; a8
 B13_1e62:		lda $be75, y	; b9 75 be
 B13_1e65:		sta $054e, x	; 9d 4e 05
 B13_1e68:		lda $be76, y	; b9 76 be
-B13_1e6b:		sta $05ef, x	; 9d ef 05
+B13_1e6b:		sta wEntityAI_idx.w, x	; 9d ef 05
 B13_1e6e:		lda #$04		; a9 04
-B13_1e70:		sta $05c1, x	; 9d c1 05
+B13_1e70:		sta wEntityPhase.w, x	; 9d c1 05
 B13_1e73:		sec				; 38 
 B13_1e74:		rts				; 60 
 
@@ -102,7 +102,7 @@ B13_1e8e:		lda #$00		; a9 00
 B13_1e90:		sta $00			; 85 00
 B13_1e92:		lda $04			; a5 04
 B13_1e94:		sec				; 38 
-B13_1e95:		sbc $0438, x	; fd 38 04
+B13_1e95:		sbc wEntityBaseX.w, x	; fd 38 04
 B13_1e98:		bcs B13_1ea7 ; b0 0d
 
 B13_1e9a:		sta $01			; 85 01
@@ -119,7 +119,7 @@ B13_1eaa:		lsr a			; 4a
 B13_1eab:		sta $01			; 85 01
 B13_1ead:		lda $05			; a5 05
 B13_1eaf:		sec				; 38 
-B13_1eb0:		sbc $041c, x	; fd 1c 04
+B13_1eb0:		sbc wEntityBaseY.w, x	; fd 1c 04
 B13_1eb3:		bcs B13_1ec4 ; b0 0f
 
 B13_1eb5:		sta $0a			; 85 0a

@@ -311,7 +311,7 @@ B17_1e24:		asl a			; 0a
 B17_1e25:		asl a			; 0a
 B17_1e26:		tay				; a8 
 B17_1e27:		lda $be4c, y	; b9 4c be
-B17_1e2a:		sta $0454, x	; 9d 54 04
+B17_1e2a:		sta wEntityPaletteOverride.w, x	; 9d 54 04
 B17_1e2d:		lda $be49, y	; b9 49 be
 B17_1e30:		sta $0470, x	; 9d 70 04
 B17_1e33:		lda $be4a, y	; b9 4a be
@@ -320,8 +320,8 @@ B17_1e38:		lda $be4b, y	; b9 4b be
 B17_1e3b:		ldy $01			; a4 01
 B17_1e3d:		jsr func_1f_0f5c		; 20 5c ef
 B17_1e40:		lda #$80		; a9 80
-B17_1e42:		ora $05ef, x	; 1d ef 05
-B17_1e45:		sta $05ef, x	; 9d ef 05
+B17_1e42:		ora wEntityAI_idx.w, x	; 1d ef 05
+B17_1e45:		sta wEntityAI_idx.w, x	; 9d ef 05
 B17_1e48:		rts				; 60 
 
 
@@ -513,32 +513,32 @@ B17_1eda:		.db $00				; 00
 B17_1edb:		sta $0657, x	; 9d 57 06
 B17_1ede:		sta $04f2, x	; 9d f2 04
 B17_1ee1:		sta $0509, x	; 9d 09 05
-B17_1ee4:		lda $05c1, x	; bd c1 05
+B17_1ee4:		lda wEntityPhase.w, x	; bd c1 05
 B17_1ee7:		cmp #$01		; c9 01
 B17_1ee9:		bne B17_1efa ; d0 0f
 
 B17_1eeb:		lda #$00		; a9 00
 B17_1eed:		ldy #$08		; a0 08
-B17_1eef:		jsr $fc1e		; 20 1e fc
+B17_1eef:		jsr func_1f_1c1e		; 20 1e fc
 B17_1ef2:		beq B17_1efa ; f0 06
 
 B17_1ef4:		jsr func_1f_1ec8		; 20 c8 fe
-B17_1ef7:		inc $05c1, x	; fe c1 05
-B17_1efa:		lda $05ef, x	; bd ef 05
+B17_1ef7:		inc wEntityPhase.w, x	; fe c1 05
+B17_1efa:		lda wEntityAI_idx.w, x	; bd ef 05
 B17_1efd:		and #$7f		; 29 7f
 B17_1eff:		cmp #$63		; c9 63
 B17_1f01:		bne B17_1f0b ; d0 08
 
-B17_1f03:		lda $05c1, x	; bd c1 05
+B17_1f03:		lda wEntityPhase.w, x	; bd c1 05
 B17_1f06:		cmp #$02		; c9 02
 B17_1f08:		bcs B17_1f0b ; b0 01
 
 B17_1f0a:		rts				; 60 
 
 
-B17_1f0b:		lda $041c		; ad 1c 04
+B17_1f0b:		lda wEntityBaseY.w		; ad 1c 04
 B17_1f0e:		sec				; 38 
-B17_1f0f:		sbc $041c, x	; fd 1c 04
+B17_1f0f:		sbc wEntityBaseY.w, x	; fd 1c 04
 B17_1f12:		bcs B17_1f19 ; b0 05
 
 B17_1f14:		eor #$ff		; 49 ff
@@ -553,7 +553,7 @@ B17_1f22:		cmp #$08		; c9 08
 B17_1f24:		bcs B17_1f57 ; b0 31
 
 B17_1f26:		jsr set_2c_to_01h		; 20 ce e5
-B17_1f29:		lda $32			; a5 32
+B17_1f29:		lda wCurrRoomGroup		; a5 32
 B17_1f2b:		cmp #$0e		; c9 0e
 B17_1f2d:		bne B17_1f33 ; d0 04
 
@@ -584,9 +584,9 @@ B17_1f57:		rts				; 60
 
 B17_1f58:		lda #$00		; a9 00
 B17_1f5a:		sta $17			; 85 17
-B17_1f5c:		lda $0438		; ad 38 04
+B17_1f5c:		lda wEntityBaseX.w		; ad 38 04
 B17_1f5f:		sec				; 38 
-B17_1f60:		sbc $0438, x	; fd 38 04
+B17_1f60:		sbc wEntityBaseX.w, x	; fd 38 04
 B17_1f63:		sta $00			; 85 00
 B17_1f65:		bcs B17_1f74 ; b0 0d
 
@@ -597,9 +597,9 @@ B17_1f6d:		eor #$ff		; 49 ff
 B17_1f6f:		clc				; 18 
 B17_1f70:		adc #$01		; 69 01
 B17_1f72:		sta $00			; 85 00
-B17_1f74:		lda $041c		; ad 1c 04
+B17_1f74:		lda wEntityBaseY.w		; ad 1c 04
 B17_1f77:		sec				; 38 
-B17_1f78:		sbc $041c, x	; fd 1c 04
+B17_1f78:		sbc wEntityBaseY.w, x	; fd 1c 04
 B17_1f7b:		bcs B17_1f82 ; b0 05
 
 B17_1f7d:		eor #$ff		; 49 ff

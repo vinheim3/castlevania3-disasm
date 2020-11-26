@@ -42,3 +42,21 @@ def isRoomVertical(group, section, room):
     metaByteSectionAddress = word(address(0x1e, metaByteGroupAddress)+section*2)-0xc000
     metaByte = prgData[address(0x1e, metaByteSectionAddress)+room]
     return metaByte & 0xf0 != 0
+
+def getOutstandingLines():
+    import os
+    fnames = os.listdir('code')
+    total = 0
+    for fname in fnames:
+        if 'bank' not in fname:
+            continue
+        with open(f'code/{fname}') as f:
+            data = f.read().split('\n')
+    
+        for line in data:
+            if line.startswith('B'):
+                total += 1
+    print(total)
+
+if __name__ == '__main__':
+    getOutstandingLines()

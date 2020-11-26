@@ -2,6 +2,7 @@
 .include "include/rominfo.s"
 .include "include/constants.s"
 .include "include/macros.s"
+.include "include/scriptMacros.s"
 .include "include/hardware.s"
 .include "include/structs.s"
 .include "include/wram.s"
@@ -22,10 +23,13 @@
 
     .db $82
     .include "code/bank02.s"
+    .include "code/irqFuncs_b02.s"
 
 .bank $03 slot 2
 .org 0
 
+    .include "code/irqFuncs_b03.s"
+    .include "code/gameState9_introCutscene.s"
     .include "code/bank03.s"
 
 .bank $04 slot 1
@@ -49,7 +53,7 @@
 .org 0
 
     .include "data/commonDPCMdata.s"
-    .include "code/bank07.s"
+    .include "data/b7_dpcmData.s"
 
 .bank $08 slot 1
 .org 0
@@ -134,17 +138,61 @@
 .org 0
 
     .include "code/bank15.s"
+    .include "code/gameStateC.s"
+    ; todo: possibly contains junk at the end
+    .include "code/gameStateD.s"
 
 .bank $16 slot 1
 .org 0
 
     .db $96
-    .include "code/bank16.s"
+
+func_16_0001:
+	lda $0470, x
+B22_0004:		and #$fe		; 29 fe
+B22_0006:		sta $00			; 85 00
+B22_0008:		ldy #$00		; a0 00
+B22_000a:		lda $04f2, x	; bd f2 04
+B22_000d:		bpl B22_0010 ; 10 01
+
+B22_000f:		dey				; 88 
+B22_0010:		sty $01			; 84 01
+B22_0012:		jsr func_16_0037		; 20 37 80
+B22_0015:		lda $0470, x	; bd 70 04
+B22_0018:		and #$01		; 29 01
+B22_001a:		adc $01			; 65 01
+B22_001c:		and #$01		; 29 01
+B22_001e:		ora $00			; 05 00
+B22_0020:		sta $0470, x	; 9d 70 04
+B22_0023:		clc				; 18 
+B22_0024:		lda $04db, x	; bd db 04
+B22_0027:		adc $0537, x	; 7d 37 05
+B22_002a:		sta $04db, x	; 9d db 04
+B22_002d:		lda wEntityBaseY.w, x	; bd 1c 04
+B22_0030:		adc $0520, x	; 7d 20 05
+B22_0033:		sta wEntityBaseY.w, x	; 9d 1c 04
+B22_0036:		rts				; 60 
+
+
+func_16_0037:
+B22_0037:		clc				; 18 
+B22_0038:		lda $04c4, x	; bd c4 04
+B22_003b:		adc $0509, x	; 7d 09 05
+B22_003e:		sta $04c4, x	; 9d c4 04
+B22_0041:		lda wEntityBaseX.w, x	; bd 38 04
+B22_0044:		adc $04f2, x	; 7d f2 04
+B22_0047:		sta wEntityBaseX.w, x	; 9d 38 04
+B22_004a:		rts				; 60 
+
+    .include "code/entityPhaseFuncs_b16.s"
 
 .bank $17 slot 2
 .org 0
 
+    .include "code/entityPhaseFuncs_b17.s"
+    .include "data/entityScripts.s"
     .include "code/bank17.s"
+    .include "data/entityPhaseFuncsAndScripts.s"
 
 .bank $18 slot 1
 .org 0
@@ -161,17 +209,20 @@
 
     .include "data/soundEnvelopeData_b19.s"
     .include "data/dpcmSpecData.s"
+    .include "code/gameStateF_soundMode.s"
     .include "code/bank19.s"
 
 .bank $1a slot 1
 .org 0
 
     .db $9a
-    .include "code/bank1a.s"
+    .include "code/updateEntityOam.s"
+    .include "data/oamSpecData_1a.s"
 
 .bank $1b slot 2
 .org 0
 
+    .include "data/oamSpecData_1b.s"
     .include "code/bank1b.s"
 
 .bank $1c slot 1

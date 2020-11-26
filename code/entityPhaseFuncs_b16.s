@@ -1,40 +1,5 @@
 
-	lda $0470, x
-B22_0004:		and #$fe		; 29 fe
-B22_0006:		sta $00			; 85 00
-B22_0008:		ldy #$00		; a0 00
-B22_000a:		lda $04f2, x	; bd f2 04
-B22_000d:		bpl B22_0010 ; 10 01
-
-B22_000f:		dey				; 88 
-B22_0010:		sty $01			; 84 01
-B22_0012:		jsr $8037		; 20 37 80
-B22_0015:		lda $0470, x	; bd 70 04
-B22_0018:		and #$01		; 29 01
-B22_001a:		adc $01			; 65 01
-B22_001c:		and #$01		; 29 01
-B22_001e:		ora $00			; 05 00
-B22_0020:		sta $0470, x	; 9d 70 04
-B22_0023:		clc				; 18 
-B22_0024:		lda $04db, x	; bd db 04
-B22_0027:		adc $0537, x	; 7d 37 05
-B22_002a:		sta $04db, x	; 9d db 04
-B22_002d:		lda $041c, x	; bd 1c 04
-B22_0030:		adc $0520, x	; 7d 20 05
-B22_0033:		sta $041c, x	; 9d 1c 04
-B22_0036:		rts				; 60 
-
-
-B22_0037:		clc				; 18 
-B22_0038:		lda $04c4, x	; bd c4 04
-B22_003b:		adc $0509, x	; 7d 09 05
-B22_003e:		sta $04c4, x	; 9d c4 04
-B22_0041:		lda $0438, x	; bd 38 04
-B22_0044:		adc $04f2, x	; 7d f2 04
-B22_0047:		sta $0438, x	; 9d 38 04
-B22_004a:		rts				; 60 
-
-
+reverseEnemyDirection_todo:
 B22_004b:		sec				; 38 
 B22_004c:		lda #$00		; a9 00
 B22_004e:		sbc $0509, x	; fd 09 05
@@ -64,6 +29,7 @@ B22_007b:		sta $04f2, x	; 9d f2 04
 B22_007e:		rts				; 60 
 
 
+func_16_007f:
 B22_007f:		clc				; 18 
 B22_0080:		adc $0537, x	; 7d 37 05
 B22_0083:		sta $0537, x	; 9d 37 05
@@ -93,9 +59,9 @@ B22_00af:		sta $0520, x	; 9d 20 05
 B22_00b2:		rts				; 60 
 
 
-B22_00b3:		lda $0438, x	; bd 38 04
+B22_00b3:		lda wEntityBaseX.w, x	; bd 38 04
 B22_00b6:		sec				; 38 
-B22_00b7:		sbc $0438		; ed38 04
+B22_00b7:		sbc wEntityBaseX.w		; ed38 04
 B22_00ba:		bcs B22_00c0 ; b0 04
 
 B22_00bc:		eor #$ff		; 49 ff
@@ -103,23 +69,23 @@ B22_00be:		adc #$01		; 69 01
 B22_00c0:		rts				; 60 
 
 
-B22_00c1:		lda $041c, x	; bd 1c 04
+B22_00c1:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_00c4:		sec				; 38 
 B22_00c5:		sbc $11			; e5 11
 B22_00c7:		bcs B22_00c0 ; b0 f7
 
 B22_00c9:		bcc B22_00bc ; 90 f1
 
-B22_00cb:		lda $0438, x	; bd 38 04
+B22_00cb:		lda wEntityBaseX.w, x	; bd 38 04
 B22_00ce:		sec				; 38 
 B22_00cf:		sbc $10			; e5 10
 B22_00d1:		bcs B22_00c0 ; b0 ed
 
 B22_00d3:		bcc B22_00bc ; 90 e7
 
-B22_00d5:		lda $041c, x	; bd 1c 04
+B22_00d5:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_00d8:		sec				; 38 
-B22_00d9:		sbc $041c		; ed1c 04
+B22_00d9:		sbc wEntityBaseY.w		; ed1c 04
 B22_00dc:		bcs B22_00e2 ; b0 04
 
 B22_00de:		eor #$ff		; 49 ff
@@ -160,16 +126,19 @@ B22_010a:		bcc B22_0102 ; 90 f6
 B22_010c:		rts				; 60 
 
 
-B22_010d:		lda #$00		; a9 00
-B22_010f:		sta $05ef, x	; 9d ef 05
-B22_0112:		rts				; 60 
+entityPhaseFunc_00_setEntityAIIdxTo0:
+	lda #$00
+	sta wEntityAI_idx.w, x
+
+entityPhaseFunc_75_stub:
+	rts
 
 
-B22_0113:		lda $32			; a5 32
+B22_0113:		lda wCurrRoomGroup		; a5 32
 B22_0115:		cmp #$08		; c9 08
 B22_0117:		bne B22_011e ; d0 05
 
-B22_0119:		lda $33			; a5 33
+B22_0119:		lda wCurrRoomSection			; a5 33
 B22_011b:		cmp #$03		; c9 03
 B22_011d:		rts				; 60 
 
@@ -178,10 +147,11 @@ B22_011e:		clc				; 18
 B22_011f:		rts				; 60 
 
 
+entityPhaseFunc_a0:
 B22_0120:		jsr $8113		; 20 13 81
 B22_0123:		bcc B22_011f ; 90 fa
 
-B22_0125:		lda $041c, x	; bd 1c 04
+B22_0125:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_0128:		cmp $ca			; c5 ca
 B22_012a:		bcc B22_011f ; 90 f3
 
@@ -208,98 +178,113 @@ B22_0149:		jsr func_1f_1f8a		; 20 8a ff
 B22_014c:		lda #$00		; a9 00
 B22_014e:		rts				; 60 
 
-B22_014f:		lda $05ef, x	; bd ef 05
+B22_014f:		lda wEntityAI_idx.w, x	; bd ef 05
 B22_0152:		rts				; 60 
 
 
+entityPhaseFunc_6d:
 B22_0153:		lda #$10		; a9 10
-B22_0155:		jsr $807f		; 20 7f 80
+B22_0155:		jsr func_16_007f		; 20 7f 80
 B22_0158:		ldy #$06		; a0 06
-B22_015a:		jsr $b7a6		; 20 a6 b7
-B22_015d:		beq B22_0112 ; f0 b3
+B22_015a:		jsr func_17_17a6		; 20 a6 b7
+B22_015d:		beq entityPhaseFunc_75_stub ; f0 b3
 
 B22_015f:		ldx $6c			; a6 6c
-B22_0161:		jsr $8b91		; 20 91 8b
-B22_0164:		inc $05c1, x	; fe c1 05
+B22_0161:		jsr func_16_0b91		; 20 91 8b
+B22_0164:		inc wEntityPhase.w, x	; fe c1 05
 B22_0167:		jmp func_1f_1ec8		; 4c c8 fe
 
 
+entityPhaseFunc_a1:
 B22_016a:		lda #$10		; a9 10
-B22_016c:		jsr $807f		; 20 7f 80
+B22_016c:		jsr func_16_007f		; 20 7f 80
 B22_016f:		ldy #$0e		; a0 0e
-B22_0171:		jsr $b7a6		; 20 a6 b7
+B22_0171:		jsr func_17_17a6		; 20 a6 b7
 B22_0174:		beq B22_019a ; f0 24
 
 B22_0176:		ldx $6c			; a6 6c
-B22_0178:		lda $041c, x	; bd 1c 04
+B22_0178:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_017b:		and #$f8		; 29 f8
-B22_017d:		sta $041c, x	; 9d 1c 04
+B22_017d:		sta wEntityBaseY.w, x	; 9d 1c 04
 B22_0180:		jmp $8164		; 4c 64 81
 
 
+entityPhaseFunc_9e:
 B22_0183:		jsr $81ef		; 20 ef 81
 B22_0186:		lda #$10		; a9 10
-B22_0188:		jsr $807f		; 20 7f 80
-B22_018b:		lda $041c, x	; bd 1c 04
+B22_0188:		jsr func_16_007f		; 20 7f 80
+B22_018b:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_018e:		cmp #$f8		; c9 f8
 B22_0190:		bcc B22_019a ; 90 08
 
 B22_0192:		lda #$23		; a9 23
 B22_0194:		jsr playSound		; 20 5f e2
-B22_0197:		inc $05c1, x	; fe c1 05
+B22_0197:		inc wEntityPhase.w, x	; fe c1 05
 B22_019a:		rts				; 60 
 
 
-B22_019b:		inc $05c1, x	; fe c1 05
+entityPhaseFunc_01:
+B22_019b:		inc wEntityPhase.w, x	; fe c1 05
+
+func_16_019e:
 B22_019e:		lda $0470, x	; bd 70 04
 B22_01a1:		and #$bf		; 29 bf
 B22_01a3:		sta $0470, x	; 9d 70 04
 B22_01a6:		rts				; 60 
 
 
-B22_01a7:		inc $05c1, x	; fe c1 05
+entityPhaseFunc_2a:
+B22_01a7:		inc wEntityPhase.w, x	; fe c1 05
+
+func_16_01aa:
 B22_01aa:		lda $0470, x	; bd 70 04
 B22_01ad:		ora #$40		; 09 40
 B22_01af:		sta $0470, x	; 9d 70 04
 B22_01b2:		rts				; 60 
 
 
-B22_01b3:		inc $05c1, x	; fe c1 05
-B22_01b6:		jmp $804b		; 4c 4b 80
+entityPhaseFunc_2b:
+B22_01b3:		inc wEntityPhase.w, x	; fe c1 05
+B22_01b6:		jmp reverseEnemyDirection_todo		; 4c 4b 80
 
 
-B22_01b9:		inc $05c1, x	; fe c1 05
+entityPhaseFunc_03:
+B22_01b9:		inc wEntityPhase.w, x	; fe c1 05
 B22_01bc:		lda $0470, x	; bd 70 04
 B22_01bf:		and #$f7		; 29 f7
 B22_01c1:		sta $0470, x	; 9d 70 04
 B22_01c4:		rts				; 60 
 
 
-B22_01c5:		inc $05c1, x	; fe c1 05
+entityPhaseFunc_0a:
+B22_01c5:		inc wEntityPhase.w, x	; fe c1 05
 B22_01c8:		lda $0470, x	; bd 70 04
 B22_01cb:		ora #$88		; 09 88
 B22_01cd:		sta $0470, x	; 9d 70 04
 B22_01d0:		rts				; 60 
 
 
-B22_01d1:		inc $05c1, x	; fe c1 05
+entityPhaseFunc_54:
+B22_01d1:		inc wEntityPhase.w, x	; fe c1 05
 B22_01d4:		lda $0470, x	; bd 70 04
 B22_01d7:		ora #$10		; 09 10
 B22_01d9:		sta $0470, x	; 9d 70 04
 B22_01dc:		rts				; 60 
 
 
-B22_01dd:		inc $05c1, x	; fe c1 05
+entityPhaseFunc_53:
+B22_01dd:		inc wEntityPhase.w, x	; fe c1 05
 B22_01e0:		lda $0470, x	; bd 70 04
 B22_01e3:		and #$ef		; 29 ef
 B22_01e5:		sta $0470, x	; 9d 70 04
 B22_01e8:		rts				; 60 
 
 
-B22_01e9:		jsr $819e		; 20 9e 81
+entityPhaseFunc_2d:
+B22_01e9:		jsr func_16_019e		; 20 9e 81
 
 func_16_01ec:
-B22_01ec:		inc $05c1, x	; fe c1 05
+B22_01ec:		inc wEntityPhase.w, x	; fe c1 05
 B22_01ef:		lda $0470, x	; bd 70 04
 B22_01f2:		ora #$20		; 09 20
 B22_01f4:		sta $0470, x	; 9d 70 04
@@ -313,46 +298,56 @@ B22_01fd:		sta $0470, x	; 9d 70 04
 B22_0200:		rts				; 60 
 
 
-B22_0201:		inc $05c1, x	; fe c1 05
+entityPhaseFunc_55:
+B22_0201:		inc wEntityPhase.w, x	; fe c1 05
 B22_0204:		ldy #$01		; a0 01
 B22_0206:		lda ($02), y	; b1 02
 B22_0208:		sta $0657, x	; 9d 57 06
 B22_020b:		rts				; 60 
 
 
-B22_020c:		ldy #$01		; a0 01
-B22_020e:		lda ($02), y	; b1 02
-B22_0210:		sta $05c1, x	; 9d c1 05
-B22_0213:		rts				; 60 
+entityPhaseFunc_04_setPhase:
+	ldy #$01
+	lda (wPhaseFuncDataAddr), y
+	sta wEntityPhase.w, x
+	rts
 
 
+entityPhaseFunc_62:
 B22_0214:		ldy #$01		; a0 01
 B22_0216:		clc				; 18 
 B22_0217:		lda ($02), y	; b1 02
-B22_0219:		adc $0438, x	; 7d 38 04
-B22_021c:		sta $0438, x	; 9d 38 04
+B22_0219:		adc wEntityBaseX.w, x	; 7d 38 04
+B22_021c:		sta wEntityBaseX.w, x	; 9d 38 04
 B22_021f:		iny				; c8 
 B22_0220:		clc				; 18 
 B22_0221:		lda ($02), y	; b1 02
-B22_0223:		adc $041c, x	; 7d 1c 04
-B22_0226:		sta $041c, x	; 9d 1c 04
-B22_0229:		inc $05c1, x	; fe c1 05
+B22_0223:		adc wEntityBaseY.w, x	; 7d 1c 04
+B22_0226:		sta wEntityBaseY.w, x	; 9d 1c 04
+B22_0229:		inc wEntityPhase.w, x	; fe c1 05
+
+entityPhaseFunc_72_stub:
 B22_022c:		rts				; 60 
 
 
-B22_022d:		inc $05c1, x	; fe c1 05
+entityPhaseFunc_05:
+B22_022d:		inc wEntityPhase.w, x	; fe c1 05
+
+func_16_0230:
 B22_0230:		lda #$00		; a9 00
-B22_0232:		ldy $0438, x	; bc 38 04
-B22_0235:		cpy $0438		; cc 38 04
+B22_0232:		ldy wEntityBaseX.w, x	; bc 38 04
+B22_0235:		cpy wEntityBaseX.w		; cc 38 04
 B22_0238:		bcc B22_023c ; 90 02
 
 B22_023a:		lda #$01		; a9 01
+
 B22_023c:		sta $04a8, x	; 9d a8 04
 B22_023f:		rts				; 60 
 
 
-B22_0240:		inc $05c1, x	; fe c1 05
-B22_0243:		jsr $8230		; 20 30 82
+entityPhaseFunc_91:
+B22_0240:		inc wEntityPhase.w, x	; fe c1 05
+B22_0243:		jsr func_16_0230		; 20 30 82
 B22_0246:		lda $0470, x	; bd 70 04
 B22_0249:		and #$01		; 29 01
 B22_024b:		beq B22_0255 ; f0 08
@@ -363,7 +358,8 @@ B22_0252:		sta $04a8, x	; 9d a8 04
 B22_0255:		rts				; 60 
 
 
-B22_0256:		inc $05c1, x	; fe c1 05
+entityPhaseFunc_06:
+B22_0256:		inc wEntityPhase.w, x	; fe c1 05
 B22_0259:		sec				; 38 
 B22_025a:		lda $054e, x	; bd 4e 05
 B22_025d:		sbc #$48		; e9 48
@@ -372,7 +368,7 @@ B22_0260:		lda $826c, y	; b9 6c 82
 B22_0263:		tay				; a8 
 B22_0264:		lda #$08		; a9 08
 B22_0266:		jsr func_1f_0f5c		; 20 5c ef
-B22_0269:		jmp func_1f_0f75		; 4c 75 ef
+B22_0269:		jmp updateEntityXanimationFrame		; 4c 75 ef
 
 
 B22_026c:		.db $00				; 00
@@ -395,8 +391,8 @@ B22_0282:		.db $00				; 00
 B22_0283:		.db $00				; 00
 
 
-func_16_0284:
-B22_0284:		inc $05c1, x	; fe c1 05
+entityPhaseFunc_13:
+B22_0284:		inc wEntityPhase.w, x	; fe c1 05
 B22_0287:		ldy #$01		; a0 01
 B22_0289:		lda ($02), y	; b1 02
 B22_028b:		sta $00			; 85 00
@@ -405,10 +401,11 @@ B22_028e:		lda ($02), y	; b1 02
 B22_0290:		tay				; a8 
 B22_0291:		lda $00			; a5 00
 B22_0293:		jsr func_1f_0f5c		; 20 5c ef
-B22_0296:		jsr func_1f_0f75		; 20 75 ef
+B22_0296:		jsr updateEntityXanimationFrame		; 20 75 ef
 B22_0299:		jmp func_16_01f8		; 4c f8 81
 
 
+entityPhaseFunc_8b:
 B22_029c:		ldy #$07		; a0 07
 B22_029e:		lda $48			; a5 48
 B22_02a0:		cmp #$08		; c9 08
@@ -416,14 +413,16 @@ B22_02a2:		bne B22_02a6 ; d0 02
 
 B22_02a4:		ldy #$0a		; a0 0a
 B22_02a6:		lda #$12		; a9 12
-B22_02a8:		inc $05c1, x	; fe c1 05
+B22_02a8:		inc wEntityPhase.w, x	; fe c1 05
 B22_02ab:		jmp $8293		; 4c 93 82
 
 
+entityPhaseFunc_a5:
 B22_02ae:		ldy #$07		; a0 07
 B22_02b0:		lda #$14		; a9 14
 B22_02b2:		bne B22_02a8 ; d0 f4
 
+entityPhaseFunc_8c:
 B22_02b4:		ldy #$00		; a0 00
 B22_02b6:		lda $48			; a5 48
 B22_02b8:		cmp #$08		; c9 08
@@ -445,7 +444,9 @@ B22_02d0:	.db $12
 B22_02d1:		ora ($0b, x)	; 01 0b
 B22_02d3:	.db $04
 B22_02d4:	.db $0c
-B22_02d5:		jsr $8230		; 20 30 82
+
+entityPhaseFunc_8d:
+B22_02d5:		jsr func_16_0230		; 20 30 82
 B22_02d8:		jsr func_16_01ec		; 20 ec 81
 B22_02db:		ldy #$00		; a0 00
 B22_02dd:		lda $48			; a5 48
@@ -457,24 +458,26 @@ B22_02e4:		lda $82cd, y	; b9 cd 82
 B22_02e7:		sta $048c, x	; 9d 8c 04
 B22_02ea:		lda $8305, y	; b9 05 83
 B22_02ed:		sta $0400, x	; 9d 00 04
-B22_02f0:		lda $32			; a5 32
+B22_02f0:		lda wCurrRoomGroup		; a5 32
 B22_02f2:		cmp #$05		; c9 05
 B22_02f4:		bne B22_0304 ; d0 0e
 
-B22_02f6:		lda $33			; a5 33
+B22_02f6:		lda wCurrRoomSection			; a5 33
 B22_02f8:		cmp #$03		; c9 03
 B22_02fa:		bne B22_0304 ; d0 08
 
-B22_02fc:		lda $0454, x	; bd 54 04
+B22_02fc:		lda wEntityPaletteOverride.w, x	; bd 54 04
 B22_02ff:		ora #$03		; 09 03
-B22_0301:		sta $0454, x	; 9d 54 04
+B22_0301:		sta wEntityPaletteOverride.w, x	; 9d 54 04
 B22_0304:		rts				; 60 
 
 
 B22_0305:	.db $12
-B22_0306:		bvs B22_02a8 ; 70 a0
+B22_0306:		.db $70
 
-B22_0308:	.db $02
+
+entityPhaseFunc_95:
+	ldy #$02
 B22_0309:		lda $49			; a5 49
 B22_030b:		cmp #$0f		; c9 0f
 B22_030d:		beq B22_02bd ; f0 ae
@@ -483,11 +486,11 @@ B22_030f:		iny				; c8
 B22_0310:		jmp $82bd		; 4c bd 82
 
 
-func_16_0313:
+entityPhaseFunc_4f:
 B22_0313:		lda #$01		; a9 01
 B22_0315:		sta $04a8, x	; 9d a8 04
 B22_0318:		lda #$00		; a9 00
-B22_031a:		sta $0454, x	; 9d 54 04
+B22_031a:		sta wEntityPaletteOverride.w, x	; 9d 54 04
 B22_031d:		lda $054e, x	; bd 4e 05
 B22_0320:		sec				; 38 
 B22_0321:		sbc #$93		; e9 93
@@ -566,7 +569,9 @@ data_16_0353:
 	.db $6a
 	.db $10
 
-B22_0373:		inc $05c1, x
+
+entityPhaseFunc_87:
+B22_0373:		inc wEntityPhase.w, x
 B22_0376:		lda #$0e		; a9 0e
 B22_0378:		sta $048c, x	; 9d 8c 04
 B22_037b:		sec				; 38 
@@ -583,9 +588,11 @@ B22_038b:		rol a			; 2a
 B22_038c:		bit $302e		; 2c 2e 30
 B22_038f:	.db $32
 B22_0390:	.db $34
-B22_0391:		.db $70 $a0
+B22_0391:		.db $70
 
-B22_0393:		.db $00				; 00
+
+entityPhaseFunc_88:
+	ldy #$00
 B22_0394:		lda $48			; a5 48
 B22_0396:		cmp #$14		; c9 14
 B22_0398:		bne B22_039c ; d0 02
@@ -601,6 +608,7 @@ B22_03a8:		adc $00			; 65 00
 B22_03aa:		jmp $83b7		; 4c b7 83
 
 
+entityPhaseFunc_0b:
 B22_03ad:		ldy #$01		; a0 01
 B22_03af:		lda ($02), y	; b1 02
 B22_03b1:		sta $048c, x	; 9d 8c 04
@@ -610,11 +618,14 @@ B22_03b7:		sta $0400, x	; 9d 00 04
 B22_03ba:		jmp func_16_01ec		; 4c ec 81
 
 
+entityPhaseFunc_07:
 B22_03bd:		jsr func_16_01f8		; 20 f8 81
 B22_03c0:		jsr $8259		; 20 59 82
-B22_03c3:		inc $05c1, x	; fe c1 05
-B22_03c6:		jsr $81aa		; 20 aa 81
-B22_03c9:		jsr $8230		; 20 30 82
+
+entityPhaseFunc_1e:
+B22_03c3:		inc wEntityPhase.w, x	; fe c1 05
+B22_03c6:		jsr func_16_01aa		; 20 aa 81
+B22_03c9:		jsr func_16_0230		; 20 30 82
 B22_03cc:		jsr func_1f_1ec8		; 20 c8 fe
 B22_03cf:		ldy #$01		; a0 01
 B22_03d1:		lda ($02), y	; b1 02
@@ -622,23 +633,26 @@ B22_03d3:		sta $04f2, x	; 9d f2 04
 B22_03d6:		iny				; c8 
 B22_03d7:		lda ($02), y	; b1 02
 B22_03d9:		sta $0509, x	; 9d 09 05
+
+func_16_03dc:
 B22_03dc:		ldy $04a8, x	; bc a8 04
 B22_03df:		beq B22_03e4 ; f0 03
 
-B22_03e1:		jmp $804b		; 4c 4b 80
-
+B22_03e1:		jmp reverseEnemyDirection_todo		; 4c 4b 80
 
 B22_03e4:		rts				; 60 
 
 
+entityPhaseFunc_a6:
 B22_03e5:		jsr func_16_01f8		; 20 f8 81
 B22_03e8:		ldy #$08		; a0 08
 B22_03ea:		lda #$14		; a9 14
 B22_03ec:		jsr func_1f_0f5c		; 20 5c ef
-B22_03ef:		jsr func_1f_0f75		; 20 75 ef
+B22_03ef:		jsr updateEntityXanimationFrame		; 20 75 ef
 B22_03f2:		jmp $83c3		; 4c c3 83
 
 
+entityPhaseFunc_08:
 B22_03f5:		ldy #$01		; a0 01
 B22_03f7:		lda ($02), y	; b1 02
 B22_03f9:		jsr jumpTablePreserveY		; 20 6d e8
@@ -665,7 +679,7 @@ B22_041a:		;removed
 	.db $50 $38
 
 B22_041c:		txa				; 8a 
-B22_041d:		adc $0438		; 6d 38 04
+B22_041d:		adc wEntityBaseX.w		; 6d 38 04
 B22_0420:		and $1f			; 25 1f
 B22_0422:		adc $1a			; 65 1a
 B22_0424:		and #$03		; 29 03
@@ -693,13 +707,15 @@ B22_043f:		sec				; 38
 B22_0440:		rti				; 40 
 
 
+entityPhaseFunc_1f:
 B22_0441:		ldy #$01		; a0 01
 B22_0443:		lda ($02), y	; b1 02
 B22_0445:		sta $0606, x	; 9d 06 06
-B22_0448:		inc $05c1, x	; fe c1 05
+B22_0448:		inc wEntityPhase.w, x	; fe c1 05
 B22_044b:		rts				; 60 
 
 
+entityPhaseFunc_20:
 B22_044c:		dec $0606, x	; de 06 06
 B22_044f:		bne B22_044b ; d0 fa
 
@@ -728,14 +744,18 @@ B22_0471:		bit $49			; 24 49
 B22_0473:		and ($47), y	; 31 47
 B22_0475:		.db $00				; 00
 B22_0476:		php				; 08 
+
+
+entityPhaseFunc_9f:
 B22_0477:		jsr $80d5		; 20 d5 80
 B22_047a:		cmp #$30		; c9 30
 B22_047c:		bcs B22_0481 ; b0 03
 
-B22_047e:		inc $05c1, x	; fe c1 05
+B22_047e:		inc wEntityPhase.w, x	; fe c1 05
 B22_0481:		rts				; 60 
 
 
+entityPhaseFunc_0c:
 B22_0482:		ldy #$01		; a0 01
 B22_0484:		lda ($02), y	; b1 02
 B22_0486:		sta $0606, x	; 9d 06 06
@@ -743,10 +763,11 @@ B22_0489:		jsr $80b3		; 20 b3 80
 B22_048c:		cmp $0606, x	; dd 06 06
 B22_048f:		bcs B22_0494 ; b0 03
 
-B22_0491:		inc $05c1, x	; fe c1 05
+B22_0491:		inc wEntityPhase.w, x	; fe c1 05
 B22_0494:		rts				; 60 
 
 
+entityPhaseFunc_4d:
 B22_0495:		ldy #$01		; a0 01
 B22_0497:		lda ($02), y	; b1 02
 B22_0499:		sta $09			; 85 09
@@ -764,13 +785,16 @@ B22_04ac:		bcs B22_0494 ; b0 e6
 B22_04ae:		bcc B22_0491 ; 90 e1
 
 B22_04b0:		ldx $6c			; a6 6c
-B22_04b2:		jsr $8e36		; 20 36 8e
-B22_04b5:		jmp $810d		; 4c 0d 81
+
+entityPhaseFunc_27_end:
+B22_04b2:		jsr func_16_0e36		; 20 36 8e
+	jmp entityPhaseFunc_00_setEntityAIIdxTo0
 
 
+entityPhaseFunc_2e:
 B22_04b8:		ldy #$04		; a0 04
 B22_04ba:		lda #$00		; a9 00
-B22_04bc:		jsr $fc1e		; 20 1e fc
+B22_04bc:		jsr func_1f_1c1e		; 20 1e fc
 B22_04bf:		beq B22_04c3 ; f0 02
 
 B22_04c1:		bne B22_04b0 ; d0 ed
@@ -779,6 +803,7 @@ B22_04c3:		ldx $6c			; a6 6c
 B22_04c5:		jmp $8e20		; 4c 20 8e
 
 
+entityPhaseFunc_21:
 B22_04c8:		jsr $8240		; 20 40 82
 B22_04cb:		lda $061d, x	; bd 1d 06
 B22_04ce:		cmp #$05		; c9 05
@@ -787,7 +812,7 @@ B22_04d0:		bcc B22_04da ; 90 08
 B22_04d2:		lda $04a8, x	; bd a8 04
 B22_04d5:		eor #$01		; 49 01
 B22_04d7:		sta $04a8, x	; 9d a8 04
-B22_04da:		jsr $81aa		; 20 aa 81
+B22_04da:		jsr func_16_01aa		; 20 aa 81
 B22_04dd:		jsr $80b3		; 20 b3 80
 B22_04e0:		cmp #$50		; c9 50
 B22_04e2:		bcs B22_0505 ; b0 21
@@ -804,8 +829,10 @@ B22_04f6:		ldy #$c0		; a0 c0
 B22_04f8:		jsr $8518		; 20 18 85
 B22_04fb:		lda #$01		; a9 01
 B22_04fd:		ldy #$00		; a0 00
+
+func_16_04ff:
 B22_04ff:		jsr $8520		; 20 20 85
-B22_0502:		jmp $83dc		; 4c dc 83
+B22_0502:		jmp func_16_03dc		; 4c dc 83
 
 
 B22_0505:		lda #$24		; a9 24
@@ -815,7 +842,7 @@ B22_050c:		ldy #$00		; a0 00
 B22_050e:		jsr $8518		; 20 18 85
 B22_0511:		lda #$02		; a9 02
 B22_0513:		ldy #$00		; a0 00
-B22_0515:		jmp $84ff		; 4c ff 84
+B22_0515:		jmp func_16_04ff		; 4c ff 84
 
 
 B22_0518:		sta $0520, x	; 9d 20 05
@@ -830,9 +857,10 @@ B22_0524:		sta $0509, x	; 9d 09 05
 B22_0527:		rts				; 60 
 
 
-B22_0528:		inc $05c1, x	; fe c1 05
-B22_052b:		jsr $8230		; 20 30 82
-B22_052e:		jsr $81aa		; 20 aa 81
+entityPhaseFunc_0f:
+B22_0528:		inc wEntityPhase.w, x	; fe c1 05
+B22_052b:		jsr func_16_0230		; 20 30 82
+B22_052e:		jsr func_16_01aa		; 20 aa 81
 B22_0531:		jsr $80b3		; 20 b3 80
 B22_0534:		cmp #$40		; c9 40
 B22_0536:		bcs B22_0505 ; b0 cd
@@ -849,10 +877,11 @@ B22_054a:		ldy #$00		; a0 00
 B22_054c:		jsr $8518		; 20 18 85
 B22_054f:		lda #$01		; a9 01
 B22_0551:		ldy #$20		; a0 20
-B22_0553:		jmp $84ff		; 4c ff 84
+B22_0553:		jmp func_16_04ff		; 4c ff 84
 
 
-B22_0556:		lda $041c, x	; bd 1c 04
+entityPhaseFunc_44:
+B22_0556:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_0559:		cmp #$f8		; c9 f8
 B22_055b:		bcc B22_056c ; 90 0f
 
@@ -860,26 +889,27 @@ B22_055d:		lda #$00		; a9 00
 B22_055f:		sta $0400, x	; 9d 00 04
 B22_0562:		ldy #$01		; a0 01
 B22_0564:		lda ($02), y	; b1 02
-B22_0566:		sta $05c1, x	; 9d c1 05
+B22_0566:		sta wEntityPhase.w, x	; 9d c1 05
 B22_0569:		jmp func_1f_1ec8		; 4c c8 fe
 
 
+entityPhaseFunc_10:
 B22_056c:		lda $0606, x	; bd 06 06
-B22_056f:		jsr $807f		; 20 7f 80
+B22_056f:		jsr func_16_007f		; 20 7f 80
 B22_0572:		ldy #$04		; a0 04
-B22_0574:		jsr $b7a6		; 20 a6 b7
+B22_0574:		jsr func_17_17a6		; 20 a6 b7
 B22_0577:		bne B22_05b2 ; d0 39
 
 B22_0579:		ldy #$02		; a0 02
 B22_057b:		ldx $6c			; a6 6c
-B22_057d:		jsr $b7a6		; 20 a6 b7
+B22_057d:		jsr func_17_17a6		; 20 a6 b7
 B22_0580:		bne B22_05ad ; d0 2b
 
 B22_0582:		lda $0520, x	; bd 20 05
 B22_0585:		bmi B22_05ac ; 30 25
 
 B22_0587:		ldy #$03		; a0 03
-B22_0589:		jsr $b7a6		; 20 a6 b7
+B22_0589:		jsr func_17_17a6		; 20 a6 b7
 B22_058c:		beq B22_05ac ; f0 1e
 
 B22_058e:		lda $054e, x	; bd 4e 05
@@ -890,16 +920,16 @@ B22_0595:		lda #$0d		; a9 0d
 B22_0597:		jsr playSound		; 20 5f e2
 B22_059a:		ldx $6c			; a6 6c
 B22_059c:		jsr func_1f_1ec8		; 20 c8 fe
-B22_059f:		inc $05c1, x	; fe c1 05
-B22_05a2:		lda $041c, x	; bd 1c 04
+B22_059f:		inc wEntityPhase.w, x	; fe c1 05
+B22_05a2:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_05a5:		and #$f0		; 29 f0
 B22_05a7:		ora #$08		; 09 08
-B22_05a9:		sta $041c, x	; 9d 1c 04
+B22_05a9:		sta wEntityBaseY.w, x	; 9d 1c 04
 B22_05ac:		rts				; 60 
 
 
 B22_05ad:		ldx $6c			; a6 6c
-B22_05af:		jmp $895e		; 4c 5e 89
+B22_05af:		jmp func_16_095e		; 4c 5e 89
 
 
 B22_05b2:		ldx $6c			; a6 6c
@@ -909,15 +939,16 @@ B22_05b7:		bpl B22_05ac ; 10 f3
 B22_05b9:		jmp $805d		; 4c 5d 80
 
 
+entityPhaseFunc_8a:
 B22_05bc:		lda $0606, x	; bd 06 06
-B22_05bf:		jsr $807f		; 20 7f 80
+B22_05bf:		jsr func_16_007f		; 20 7f 80
 B22_05c2:		lda $0520, x	; bd 20 05
 B22_05c5:		bmi B22_05e7 ; 30 20
 
 B22_05c7:		lda #$16		; a9 16
 B22_05c9:		sta $0400, x	; 9d 00 04
 B22_05cc:		ldy #$08		; a0 08
-B22_05ce:		jsr $b7a6		; 20 a6 b7
+B22_05ce:		jsr func_17_17a6		; 20 a6 b7
 B22_05d1:		beq B22_05e7 ; f0 14
 
 B22_05d3:		cmp #$01		; c9 01
@@ -926,44 +957,45 @@ B22_05d5:		beq B22_05e4 ; f0 0d
 B22_05d7:		lda #$02		; a9 02
 B22_05d9:		sta $061d, x	; 9d 1d 06
 B22_05dc:		lda #$14		; a9 14
-B22_05de:		sta $05c1, x	; 9d c1 05
+B22_05de:		sta wEntityPhase.w, x	; 9d c1 05
 B22_05e1:		jmp $85fe		; 4c fe 85
 
 
-B22_05e4:		inc $05c1, x	; fe c1 05
+B22_05e4:		inc wEntityPhase.w, x	; fe c1 05
 B22_05e7:		rts				; 60 
 
 
+entityPhaseFunc_5c:
 B22_05e8:		lda $0606, x	; bd 06 06
-B22_05eb:		jsr $807f		; 20 7f 80
+B22_05eb:		jsr func_16_007f		; 20 7f 80
 B22_05ee:		lda $0520, x	; bd 20 05
 B22_05f1:		bmi B22_05ac ; 30 b9
 
 B22_05f3:		ldy #$08		; a0 08
-B22_05f5:		jsr $b7a6		; 20 a6 b7
+B22_05f5:		jsr func_17_17a6		; 20 a6 b7
 B22_05f8:		beq B22_05ac ; f0 b2
 
 B22_05fa:		cmp #$01		; c9 01
 B22_05fc:		beq B22_061a ; f0 1c
 
 B22_05fe:		clc				; 18 
-B22_05ff:		lda $041c, x	; bd 1c 04
+B22_05ff:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_0602:		and #$f0		; 29 f0
 B22_0604:		adc #$08		; 69 08
-B22_0606:		sta $041c, x	; 9d 1c 04
-B22_0609:		inc $05c1, x	; fe c1 05
-B22_060c:		inc $05c1, x	; fe c1 05
+B22_0606:		sta wEntityBaseY.w, x	; 9d 1c 04
+B22_0609:		inc wEntityPhase.w, x	; fe c1 05
+B22_060c:		inc wEntityPhase.w, x	; fe c1 05
 B22_060f:		lda #$14		; a9 14
 B22_0611:		sta $0400, x	; 9d 00 04
-B22_0614:		jsr $819e		; 20 9e 81
+B22_0614:		jsr func_16_019e		; 20 9e 81
 B22_0617:		jmp func_1f_1ec8		; 4c c8 fe
 
 
 B22_061a:		clc				; 18 
-B22_061b:		lda $041c, x	; bd 1c 04
+B22_061b:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_061e:		and #$f0		; 29 f0
 B22_0620:		adc #$10		; 69 10
-B22_0622:		sta $041c, x	; 9d 1c 04
+B22_0622:		sta wEntityBaseY.w, x	; 9d 1c 04
 B22_0625:		jmp $860c		; 4c 0c 86
 
 
@@ -981,26 +1013,31 @@ B22_063a:		sta $0537, x	; 9d 37 05
 B22_063d:		rts				; 60 
 
 
+entityPhaseFunc_a8:
 B22_063e:		ldy #$01		; a0 01
 B22_0640:		lda ($02), y	; b1 02
-B22_0642:		cmp $041c, x	; dd 1c 04
+B22_0642:		cmp wEntityBaseY.w, x	; dd 1c 04
 B22_0645:		bcs B22_063d ; b0 f6
 
 B22_0647:		jmp $84b2		; 4c b2 84
 
 
-B22_064a:		inc $05c1, x	; fe c1 05
+entityPhaseFunc_73:
+B22_064a:		inc wEntityPhase.w, x	; fe c1 05
 B22_064d:		lda #$00		; a9 00
 B22_064f:		sta $0633, x	; 9d 33 06
-B22_0652:		lda $041c, x	; bd 1c 04
+B22_0652:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_0655:		sta $0606, x	; 9d 06 06
 B22_0658:		jmp $86ac		; 4c ac 86
 
 
+entityPhaseFunc_58:
 B22_065b:		ldy #$03		; a0 03
 B22_065d:		lda ($02), y	; b1 02
 B22_065f:		sta $061d, x	; 9d 1d 06
-B22_0662:		inc $05c1, x	; fe c1 05
+
+entityPhaseFunc_11:
+B22_0662:		inc wEntityPhase.w, x	; fe c1 05
 B22_0665:		ldy #$01		; a0 01
 B22_0667:		lda ($02), y	; b1 02
 B22_0669:		tay				; a8 
@@ -1010,7 +1047,7 @@ B22_0670:		lda $868a, y	; b9 8a 86
 B22_0673:		sta $0537, x	; 9d 37 05
 B22_0676:		ldy #$02		; a0 02
 B22_0678:		clc				; 18 
-B22_0679:		lda $041c, x	; bd 1c 04
+B22_0679:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_067c:		adc ($02), y	; 71 02
 B22_067e:		sta $0606, x	; 9d 06 06
 B22_0681:		rts				; 60 
@@ -1042,6 +1079,9 @@ B22_069d:		cpy #$3f		; c0 3f
 B22_069f:	.db $27
 B22_06a0:	.db $3c
 B22_06a1:		ora $273f, x	; 1d 3f 27
+
+
+entityPhaseFunc_74:
 B22_06a4:		dec $061d, x	; de 1d 06
 B22_06a7:		bne B22_06cb ; d0 22
 
@@ -1056,13 +1096,14 @@ B22_06be:		sta $061d, x	; 9d 1d 06
 B22_06c1:		rts				; 60 
 
 
+entityPhaseFunc_59:
 B22_06c2:		dec $061d, x	; de 1d 06
 B22_06c5:		bne B22_06cb ; d0 04
 
-B22_06c7:		inc $05c1, x	; fe c1 05
+B22_06c7:		inc wEntityPhase.w, x	; fe c1 05
 B22_06ca:		rts				; 60 
 
-
+entityPhaseFunc_12:
 B22_06cb:		lda $68			; a5 68
 B22_06cd:		bpl B22_06d8 ; 10 09
 
@@ -1070,7 +1111,7 @@ B22_06cf:		clc				; 18
 B22_06d0:		lda $0606, x	; bd 06 06
 B22_06d3:		adc $6e			; 65 6e
 B22_06d5:		sta $0606, x	; 9d 06 06
-B22_06d8:		lda $041c, x	; bd 1c 04
+B22_06d8:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_06db:		sec				; 38 
 B22_06dc:		sbc $0606, x	; fd 06 06
 B22_06df:		ldy #$00		; a0 00
@@ -1089,14 +1130,17 @@ B22_06f6:		sta $0520, x	; 9d 20 05
 B22_06f9:		rts				; 60 
 
 
+entityPhaseFunc_9c:
 B22_06fa:		lda #$01		; a9 01
 B22_06fc:		sta $061d, x	; 9d 1d 06
 B22_06ff:		jsr $8662		; 20 62 86
+
+entityPhaseFunc_9d:
 B22_0702:		lda $68			; a5 68
 B22_0704:		bpl B22_06d8 ; 10 d2
 
 B22_0706:		sec				; 38 
-B22_0707:		lda $041c, x	; bd 1c 04
+B22_0707:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_070a:		sbc $0606, x	; fd 06 06
 B22_070d:		sta $00			; 85 00
 B22_070f:		lda #$01		; a9 01
@@ -1105,9 +1149,10 @@ B22_0714:		sta $01			; 85 01
 B22_0716:		jmp $86e8		; 4c e8 86
 
 
-B22_0719:		inc $05c1, x	; fe c1 05
+entityPhaseFunc_a3:
+B22_0719:		inc wEntityPhase.w, x	; fe c1 05
 B22_071c:		lda #$00		; a9 00
-B22_071e:		ldy $041c, x	; bc 1c 04
+B22_071e:		ldy wEntityBaseY.w, x	; bc 1c 04
 B22_0721:		bmi B22_0725 ; 30 02
 
 B22_0723:		lda #$04		; a9 04
@@ -1116,11 +1161,12 @@ B22_0728:		jsr $873f		; 20 3f 87
 B22_072b:		lda #$01		; a9 01
 B22_072d:		sta $0633, x	; 9d 33 06
 B22_0730:		sta $061d, x	; 9d 1d 06
-B22_0733:		lda $041c, x	; bd 1c 04
+B22_0733:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_0736:		sta $0606, x	; 9d 06 06
 B22_0739:		rts				; 60 
 
 
+entityPhaseFunc_a4:
 B22_073a:		dec $0633, x	; de 33 06
 B22_073d:		bne B22_0702 ; d0 c3
 
@@ -1157,6 +1203,7 @@ B22_076f:	.db $3f
 B22_0770:		jmp $281b		; 4c 1b 28
 
 
+entityPhaseFunc_6f:
 B22_0773:		ldy #$01		; a0 01
 B22_0775:		lda ($02), y	; b1 02
 B22_0777:		tay				; a8 
@@ -1167,13 +1214,16 @@ B22_0781:		sta $0537, x	; 9d 37 05
 B22_0784:		ldy #$02		; a0 02
 B22_0786:		lda ($02), y	; b1 02
 B22_0788:		sta $0606, x	; 9d 06 06
-B22_078b:		inc $05c1, x	; fe c1 05
+B22_078b:		inc wEntityPhase.w, x	; fe c1 05
 B22_078e:		rts				; 60 
 
 
 B22_078f:		ora ($00, x)	; 01 00
 B22_0791:	.db $80
 B22_0792:		.db $00				; 00
+
+
+entityPhaseFunc_70:
 B22_0793:		dec $0606, x	; de 06 06
 B22_0796:		beq B22_078b ; f0 f3
 
@@ -1182,6 +1232,7 @@ B22_079a:		lda ($02), y	; b1 02
 B22_079c:		jmp $80a1		; 4c a1 80
 
 
+entityPhaseFunc_67:
 B22_079f:		lda $1a			; a5 1a
 B22_07a1:		and #$01		; 29 01
 B22_07a3:		bne B22_07ad ; d0 08
@@ -1201,16 +1252,17 @@ B22_07b9:		rts				; 60
 
 B22_07ba:		bcc B22_07bf ; 90 03
 
-B22_07bc:		inc $05c1, x	; fe c1 05
+B22_07bc:		inc wEntityPhase.w, x	; fe c1 05
 B22_07bf:		rts				; 60 
 
 
-B22_07c0:		jmp $86c2		; 4c c2 86
+B22_07c0:		jmp entityPhaseFunc_59		; 4c c2 86
 
 
-B22_07c3:		jsr $86c2		; 20 c2 86
+entityPhaseFunc_60:
+B22_07c3:		jsr entityPhaseFunc_59		; 20 c2 86
 B22_07c6:		ldy #$0a		; a0 0a
-B22_07c8:		jsr $b7a6		; 20 a6 b7
+B22_07c8:		jsr func_17_17a6		; 20 a6 b7
 B22_07cb:		bne B22_07dc ; d0 0f
 
 B22_07cd:		ldx $6c			; a6 6c
@@ -1218,29 +1270,31 @@ B22_07cf:		jsr func_1f_1ec8		; 20 c8 fe
 B22_07d2:		lda #$01		; a9 01
 B22_07d4:		sta $0520, x	; 9d 20 05
 B22_07d7:		lda #$16		; a9 16
-B22_07d9:		sta $05c1, x	; 9d c1 05
+B22_07d9:		sta wEntityPhase.w, x	; 9d c1 05
 B22_07dc:		ldx $6c			; a6 6c
 B22_07de:		rts				; 60 
 
 
+entityPhaseFunc_61:
 B22_07df:		lda #$14		; a9 14
-B22_07e1:		jsr $807f		; 20 7f 80
+B22_07e1:		jsr func_16_007f		; 20 7f 80
 B22_07e4:		ldy #$01		; a0 01
 B22_07e6:		lda ($02), y	; b1 02
 B22_07e8:		sta $0606, x	; 9d 06 06
 B22_07eb:		iny				; c8 
 B22_07ec:		lda ($02), y	; b1 02
 B22_07ee:		tay				; a8 
-B22_07ef:		jsr $b7a6		; 20 a6 b7
+B22_07ef:		jsr func_17_17a6		; 20 a6 b7
 B22_07f2:		beq B22_07dc ; f0 e8
 
 B22_07f4:		ldx $6c			; a6 6c
 B22_07f6:		lda $0606, x	; bd 06 06
-B22_07f9:		sta $05c1, x	; 9d c1 05
+B22_07f9:		sta wEntityPhase.w, x	; 9d c1 05
 B22_07fc:		rts				; 60 
 
 
-B22_07fd:		inc $05c1, x	; fe c1 05
+entityPhaseFunc_63:
+B22_07fd:		inc wEntityPhase.w, x	; fe c1 05
 B22_0800:		jsr func_1f_1ec8		; 20 c8 fe
 B22_0803:		ldy #$01		; a0 01
 B22_0805:		lda ($02), y	; b1 02
@@ -1251,7 +1305,8 @@ B22_080d:		sta $0606, x	; 9d 06 06
 B22_0810:		rts				; 60 
 
 
-B22_0811:		inc $05c1, x	; fe c1 05
+entityPhaseFunc_98:
+B22_0811:		inc wEntityPhase.w, x	; fe c1 05
 B22_0814:		jsr func_1f_1ec8		; 20 c8 fe
 B22_0817:		ldy #$01		; a0 01
 B22_0819:		lda ($02), y	; b1 02
@@ -1260,7 +1315,7 @@ B22_081b:		bne B22_0870 ; d0 53
 B22_081d:		ldy #$00		; a0 00
 B22_081f:		sec				; 38 
 B22_0820:		lda $ca			; a5 ca
-B22_0822:		sbc $041c		; ed1c 04
+B22_0822:		sbc wEntityBaseY.w		; ed1c 04
 B22_0825:		bcs B22_082b ; b0 04
 
 B22_0827:		eor #$ff		; 49 ff
@@ -1285,16 +1340,16 @@ B22_083f:		lda $8884, y	; b9 84 88
 B22_0842:		sta $0537, x	; 9d 37 05
 B22_0845:		lda $887f, y	; b9 7f 88
 B22_0848:		sta $0520, x	; 9d 20 05
-B22_084b:		lda $0438, x	; bd 38 04
-B22_084e:		ldy $041c, x	; bc 1c 04
-B22_0851:		jsr $fc1e		; 20 1e fc
+B22_084b:		lda wEntityBaseX.w, x	; bd 38 04
+B22_084e:		ldy wEntityBaseY.w, x	; bc 1c 04
+B22_0851:		jsr func_1f_1c1e		; 20 1e fc
 B22_0854:		bne B22_0876 ; d0 20
 
 B22_0856:		ldx $6c			; a6 6c
 B22_0858:		lda #$22		; a9 22
 B22_085a:		jsr playSound		; 20 5f e2
-B22_085d:		jsr $81aa		; 20 aa 81
-B22_0860:		jsr $8230		; 20 30 82
+B22_085d:		jsr func_16_01aa		; 20 aa 81
+B22_0860:		jsr func_16_0230		; 20 30 82
 B22_0863:		lda #$08		; a9 08
 B22_0865:		sta $048c, x	; 9d 8c 04
 B22_0868:		lda #$46		; a9 46
@@ -1326,19 +1381,22 @@ B22_0887:		rti				; 40
 
 
 B22_0888:	.db $80
+
+
+entityPhaseFunc_99:
 B22_0889:		lda #$20		; a9 20
-B22_088b:		jsr $807f		; 20 7f 80
+B22_088b:		jsr func_16_007f		; 20 7f 80
 B22_088e:		ldy #$01		; a0 01
 B22_0890:		lda ($02), y	; b1 02
 B22_0892:		beq B22_08a7 ; f0 13
 
 B22_0894:		sec				; 38 
-B22_0895:		lda $041c, x	; bd 1c 04
+B22_0895:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_0898:		sbc #$10		; e9 10
 B22_089a:		cmp $ca			; c5 ca
 B22_089c:		bcc B22_08a6 ; 90 08
 
-B22_089e:		inc $05c1, x	; fe c1 05
+B22_089e:		inc wEntityPhase.w, x	; fe c1 05
 B22_08a1:		jsr $992b		; 20 2b 99
 B22_08a4:		ldx $6c			; a6 6c
 B22_08a6:		rts				; 60 
@@ -1348,16 +1406,16 @@ B22_08a7:		lda $0520, x	; bd 20 05
 B22_08aa:		bmi B22_08a6 ; 30 fa
 
 B22_08ac:		ldy #$06		; a0 06
-B22_08ae:		jsr $b7a6		; 20 a6 b7
+B22_08ae:		jsr func_17_17a6		; 20 a6 b7
 B22_08b1:		beq B22_08bc ; f0 09
 
-B22_08b3:		inc $05c1, x	; fe c1 05
+B22_08b3:		inc wEntityPhase.w, x	; fe c1 05
 B22_08b6:		jsr $8b95		; 20 95 8b
 B22_08b9:		jmp func_1f_1ec8		; 4c c8 fe
 
 
 B22_08bc:		sec				; 38 
-B22_08bd:		lda $041c, x	; bd 1c 04
+B22_08bd:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_08c0:		sbc #$10		; e9 10
 B22_08c2:		cmp $ca			; c5 ca
 B22_08c4:		bcc B22_08a6 ; 90 e0
@@ -1366,8 +1424,9 @@ B22_08c6:		jsr $992b		; 20 2b 99
 B22_08c9:		jmp $84b2		; 4c b2 84
 
 
+entityPhaseFunc_64:
 B22_08cc:		lda $0606, x	; bd 06 06
-B22_08cf:		jsr $807f		; 20 7f 80
+B22_08cf:		jsr func_16_007f		; 20 7f 80
 B22_08d2:		ldy #$01		; a0 01
 B22_08d4:		lda ($02), y	; b1 02
 B22_08d6:		cmp #$01		; c9 01
@@ -1383,52 +1442,52 @@ B22_08e3:		cmp #$03		; c9 03
 B22_08e5:		bne B22_08fd ; d0 16
 
 B22_08e7:		ldy #$00		; a0 00
-B22_08e9:		lda $32			; a5 32
+B22_08e9:		lda wCurrRoomGroup		; a5 32
 B22_08eb:		cmp #$08		; c9 08
 B22_08ed:		bne B22_08f5 ; d0 06
 
 B22_08ef:		iny				; c8 
-B22_08f0:		lda $33			; a5 33
+B22_08f0:		lda wCurrRoomSection			; a5 33
 B22_08f2:		bne B22_08f5 ; d0 01
 
 B22_08f4:		iny				; c8 
-B22_08f5:		lda $041c, x	; bd 1c 04
+B22_08f5:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_08f8:		cmp $8937, y	; d9 37 89
 B22_08fb:		bcs B22_092b ; b0 2e
 
 B22_08fd:		ldy #$06		; a0 06
-B22_08ff:		jsr $b7a6		; 20 a6 b7
+B22_08ff:		jsr func_17_17a6		; 20 a6 b7
 B22_0902:		beq B22_0913 ; f0 0f
 
 B22_0904:		ldx $6c			; a6 6c
 B22_0906:		jmp $88b3		; 4c b3 88
 
 
-B22_0909:		lda $041c, x	; bd 1c 04
+B22_0909:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_090c:		cmp #$f8		; c9 f8
 B22_090e:		bcc B22_0913 ; 90 03
 
-B22_0910:		inc $05c1, x	; fe c1 05
+B22_0910:		inc wEntityPhase.w, x	; fe c1 05
 B22_0913:		rts				; 60 
 
 
 B22_0914:		ldy #$00		; a0 00
-B22_0916:		lda $32			; a5 32
+B22_0916:		lda wCurrRoomGroup		; a5 32
 B22_0918:		cmp #$08		; c9 08
 B22_091a:		beq B22_091d ; f0 01
 
 B22_091c:		iny				; c8 
-B22_091d:		lda $041c, x	; bd 1c 04
+B22_091d:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_0920:		cmp $8935, y	; d9 35 89
 B22_0923:		bcc B22_0913 ; 90 ee
 
-B22_0925:		inc $05c1, x	; fe c1 05
+B22_0925:		inc wEntityPhase.w, x	; fe c1 05
 B22_0928:		jmp $992b		; 4c 2b 99
 
 
 B22_092b:		ldy #$02		; a0 02
 B22_092d:		lda ($02), y	; b1 02
-B22_092f:		sta $05c1, x	; 9d c1 05
+B22_092f:		sta wEntityPhase.w, x	; 9d c1 05
 B22_0932:		jmp $992b		; 4c 2b 99
 
 
@@ -1439,33 +1498,36 @@ B22_0937:		;removed
 	.db $d0 $c0
 
 B22_0939:		;removed
-	.db $b0 $a0
+	.db $b0
+	
 
-B22_093b:		ora ($20, x)	; 01 20
-B22_093d:		ldx $b7			; a6 b7
+entityPhaseFunc_1c:
+	ldy #$01
+B22_093c:		jsr $b7a6
 B22_093f:		bne B22_0957 ; d0 16
 
 B22_0941:		ldx $6c			; a6 6c
 B22_0943:		ldy #$06		; a0 06
-B22_0945:		jsr $b7a6		; 20 a6 b7
+B22_0945:		jsr func_17_17a6		; 20 a6 b7
 B22_0948:		bne B22_0957 ; d0 0d
 
 B22_094a:		ldx $6c			; a6 6c
-B22_094c:		inc $05c1, x	; fe c1 05
+B22_094c:		inc wEntityPhase.w, x	; fe c1 05
 B22_094f:		jsr func_1f_1ec8		; 20 c8 fe
 B22_0952:		lda #$01		; a9 01
 B22_0954:		sta $0520, x	; 9d 20 05
 B22_0957:		ldy #$00		; a0 00
-B22_0959:		jsr $b7a6		; 20 a6 b7
+B22_0959:		jsr func_17_17a6		; 20 a6 b7
 B22_095c:		beq B22_0969 ; f0 0b
 
+func_16_095e:
 B22_095e:		lda $04a8, x	; bd a8 04
 B22_0961:		eor #$01		; 49 01
 B22_0963:		sta $04a8, x	; 9d a8 04
-B22_0966:		jmp $804b		; 4c 4b 80
+B22_0966:		jmp reverseEnemyDirection_todo		; 4c 4b 80
 
 
-B22_0969:		lda $05ef, x	; bd ef 05
+B22_0969:		lda wEntityAI_idx.w, x	; bd ef 05
 B22_096c:		cmp #$02		; c9 02
 B22_096e:		bne B22_097d ; d0 0d
 
@@ -1473,42 +1535,44 @@ B22_0970:		ldx $6c			; a6 6c
 B22_0972:		dec $0606, x	; de 06 06
 B22_0975:		bne B22_097d ; d0 06
 
-B22_0977:		inc $05c1, x	; fe c1 05
-B22_097a:		inc $05c1, x	; fe c1 05
+B22_0977:		inc wEntityPhase.w, x	; fe c1 05
+B22_097a:		inc wEntityPhase.w, x	; fe c1 05
 B22_097d:		rts				; 60 
 
 
+entityPhaseFunc_1d:
 B22_097e:		ldy #$01		; a0 01
 B22_0980:		lda ($02), y	; b1 02
 B22_0982:		sta $0606, x	; 9d 06 06
 B22_0985:		iny				; c8 
 B22_0986:		lda ($02), y	; b1 02
 B22_0988:		tay				; a8 
-B22_0989:		jsr $b7a6		; 20 a6 b7
+B22_0989:		jsr func_17_17a6		; 20 a6 b7
 B22_098c:		beq B22_09a5 ; f0 17
 
 B22_098e:		ldx $6c			; a6 6c
 B22_0990:		jsr func_1f_1ec8		; 20 c8 fe
 B22_0993:		jsr func_16_01f8		; 20 f8 81
-B22_0996:		lda $041c, x	; bd 1c 04
+B22_0996:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_0999:		and #$f0		; 29 f0
-B22_099b:		sta $041c, x	; 9d 1c 04
+B22_099b:		sta wEntityBaseY.w, x	; 9d 1c 04
 B22_099e:		lda $0606, x	; bd 06 06
-B22_09a1:		sta $05c1, x	; 9d c1 05
+B22_09a1:		sta wEntityPhase.w, x	; 9d c1 05
 B22_09a4:		rts				; 60 
 
 
 B22_09a5:		ldx $6c			; a6 6c
 B22_09a7:		lda #$14		; a9 14
-B22_09a9:		jmp $807f		; 4c 7f 80
+B22_09a9:		jmp func_16_007f		; 4c 7f 80
 
 
+entityPhaseFunc_09:
 B22_09ac:		jsr func_16_01ec		; 20 ec 81
 B22_09af:		lda $1a			; a5 1a
-B22_09b1:		adc $0438, x	; 7d 38 04
+B22_09b1:		adc wEntityBaseX.w, x	; 7d 38 04
 B22_09b4:		and #$07		; 29 07
 B22_09b6:		sta $00			; 85 00
-B22_09b8:		lda $33			; a5 33
+B22_09b8:		lda wCurrRoomSection			; a5 33
 B22_09ba:		beq B22_09be ; f0 02
 
 B22_09bc:		lda #$01		; a9 01
@@ -1519,9 +1583,9 @@ B22_09c3:		lda $89f5, y	; b9 f5 89
 B22_09c6:		adc $00			; 65 00
 B22_09c8:		tay				; a8 
 B22_09c9:		lda $89dd, y	; b9 dd 89
-B22_09cc:		adc $0438		; 6d 38 04
-B22_09cf:		sta $0438, x	; 9d 38 04
-B22_09d2:		lda $05ef, x	; bd ef 05
+B22_09cc:		adc wEntityBaseX.w		; 6d 38 04
+B22_09cf:		sta wEntityBaseX.w, x	; 9d 38 04
+B22_09d2:		lda wEntityAI_idx.w, x	; bd ef 05
 B22_09d5:		cmp #$14		; c9 14
 B22_09d7:		beq B22_09dc ; f0 03
 
@@ -1560,11 +1624,13 @@ B22_09f2:	.db $44
 B22_09f3:		cpy #$2c		; c0 2c
 B22_09f5:		.db $00				; 00
 B22_09f6:		php				; 08 
-B22_09f7:		bpl B22_09f7 ; 10 fe
+B22_09f7:		.db $10
 
-B22_09f9:		cmp ($05, x)	; c1 05
+
+entityPhaseFunc_22:
+	inc $05c1, x
 B22_09fb:		lda $1a			; a5 1a
-B22_09fd:		adc $0438		; 6d 38 04
+B22_09fd:		adc wEntityBaseX.w		; 6d 38 04
 B22_0a00:		and #$07		; 29 07
 B22_0a02:		sta $10			; 85 10
 B22_0a04:		ldy #$01		; a0 01
@@ -1573,8 +1639,8 @@ B22_0a08:		clc				; 18
 B22_0a09:		adc $10			; 65 10
 B22_0a0b:		tay				; a8 
 B22_0a0c:		lda $8a16, y	; b9 16 8a
-B22_0a0f:		adc $0438		; 6d 38 04
-B22_0a12:		sta $0438, x	; 9d 38 04
+B22_0a0f:		adc wEntityBaseX.w		; 6d 38 04
+B22_0a12:		sta wEntityBaseX.w, x	; 9d 38 04
 B22_0a15:		rts				; 60 
 
 
@@ -1594,8 +1660,12 @@ B22_0a22:		;removed
 B22_0a24:		;removed
 	.db $50 $70
 
+
+entityPhaseFunc_a7:
 B22_0a26:		jsr $81ef		; 20 ef 81
-B22_0a29:		inc $05c1, x	; fe c1 05
+
+entityPhaseFunc_26:
+B22_0a29:		inc wEntityPhase.w, x	; fe c1 05
 B22_0a2c:		ldy #$01		; a0 01
 B22_0a2e:		lda ($02), y	; b1 02
 B22_0a30:		sta $061d, x	; 9d 1d 06
@@ -1605,30 +1675,33 @@ B22_0a36:		sta $0606, x	; 9d 06 06
 B22_0a39:		rts				; 60 
 
 
-B22_0a3a:		inc $05c1, x	; fe c1 05
+entityPhaseFunc_30:
+B22_0a3a:		inc wEntityPhase.w, x	; fe c1 05
 B22_0a3d:		ldy #$01		; a0 01
 B22_0a3f:		lda ($02), y	; b1 02
-B22_0a41:		sta $0454, x	; 9d 54 04
+B22_0a41:		sta wEntityPaletteOverride.w, x	; 9d 54 04
 B22_0a44:		rts				; 60 
 
 
+entityPhaseFunc_23:
 B22_0a45:		dec $0606, x	; de 06 06
 B22_0a48:		bne B22_0a64 ; d0 1a
 
 B22_0a4a:		ldy #$01		; a0 01
-B22_0a4c:		lda $0454, x	; bd 54 04
+B22_0a4c:		lda wEntityPaletteOverride.w, x	; bd 54 04
 B22_0a4f:		eor ($02), y	; 51 02
-B22_0a51:		sta $0454, x	; 9d 54 04
+B22_0a51:		sta wEntityPaletteOverride.w, x	; 9d 54 04
 B22_0a54:		jsr $8a33		; 20 33 8a
 B22_0a57:		dec $061d, x	; de 1d 06
 B22_0a5a:		bne B22_0a64 ; d0 08
 
 B22_0a5c:		lda #$00		; a9 00
-B22_0a5e:		sta $0454, x	; 9d 54 04
-B22_0a61:		inc $05c1, x	; fe c1 05
+B22_0a5e:		sta wEntityPaletteOverride.w, x	; 9d 54 04
+B22_0a61:		inc wEntityPhase.w, x	; fe c1 05
 B22_0a64:		rts				; 60 
 
 
+entityPhaseFunc_25:
 B22_0a65:		dec $0606, x	; de 06 06
 B22_0a68:		bne B22_0a64 ; d0 fa
 
@@ -1636,7 +1709,7 @@ B22_0a6a:		dec $061d, x	; de 1d 06
 B22_0a6d:		beq B22_0a61 ; f0 f2
 
 B22_0a6f:		ldy #$01		; a0 01
-B22_0a71:		lda $32			; a5 32
+B22_0a71:		lda wCurrRoomGroup		; a5 32
 B22_0a73:		cmp #$09		; c9 09
 B22_0a75:		bcc B22_0a79 ; 90 02
 
@@ -1650,18 +1723,18 @@ B22_0a83:		bne B22_0a64 ; d0 df
 B22_0a85:		lda $04a8, x	; bd a8 04
 B22_0a88:		asl a			; 0a
 B22_0a89:		tay				; a8 
-B22_0a8a:		lda $0438		; ad 38 04
-B22_0a8d:		cmp $0438, x	; dd 38 04
+B22_0a8a:		lda wEntityBaseX.w		; ad 38 04
+B22_0a8d:		cmp wEntityBaseX.w, x	; dd 38 04
 B22_0a90:		bcc B22_0a93 ; 90 01
 
 B22_0a92:		iny				; c8 
 B22_0a93:		clc				; 18 
 B22_0a94:		lda $8ac7, y	; b9 c7 8a
-B22_0a97:		adc $0438, x	; 7d 38 04
+B22_0a97:		adc wEntityBaseX.w, x	; 7d 38 04
 B22_0a9a:		sta $01			; 85 01
 B22_0a9c:		clc				; 18 
 B22_0a9d:		lda $8acb, y	; b9 cb 8a
-B22_0aa0:		adc $041c, x	; 7d 1c 04
+B22_0aa0:		adc wEntityBaseY.w, x	; 7d 1c 04
 B22_0aa3:		sta $02			; 85 02
 B22_0aa5:		lda $8acf, y	; b9 cf 8a
 B22_0aa8:		sta $0a			; 85 0a
@@ -1691,34 +1764,40 @@ B22_0acb:		ora #$fa		; 09 fa
 B22_0acd:	.db $fa
 B22_0ace:		ora #$00		; 09 00
 B22_0ad0:		ora ($00, x)	; 01 00
-B22_0ad2:		ora ($20, x)	; 01 20
-B22_0ad4:		;removed
-	.db $30 $82
+B22_0ad2:		.db $01
 
+
+entityPhaseFunc_24:
+	jsr $8230
 B22_0ad6:		jmp $844c		; 4c 4c 84
 
 
+entityPhaseFunc_6e:
 B22_0ad9:		jsr func_16_01ec		; 20 ec 81
 B22_0adc:		lda $0633, x	; bd 33 06
 B22_0adf:		sta $04a8, x	; 9d a8 04
 B22_0ae2:		rts				; 60 
 
 
-B22_0ae3:		inc $05c1, x	; fe c1 05
+entityPhaseFunc_52:
+B22_0ae3:		inc wEntityPhase.w, x	; fe c1 05
 B22_0ae6:		jmp $8a7e		; 4c 7e 8a
 
 
+entityPhaseFunc_31:
+entityPhaseFunc_32:
 B22_0ae9:		ldy #$01		; a0 01
 B22_0aeb:		lda ($02), y	; b1 02
-B22_0aed:		jsr $807f		; 20 7f 80
+B22_0aed:		jsr func_16_007f		; 20 7f 80
 B22_0af0:		jmp $8e20		; 4c 20 8e
 
 
+entityPhaseFunc_92:
 B22_0af3:		clc				; 18 
-B22_0af4:		lda $041c, x	; bd 1c 04
+B22_0af4:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_0af7:		adc #$10		; 69 10
 B22_0af9:		sta $00			; 85 00
-B22_0afb:		lda $0438, x	; bd 38 04
+B22_0afb:		lda wEntityBaseX.w, x	; bd 38 04
 B22_0afe:		sta $01			; 85 01
 B22_0b00:		lda $04a8, x	; bd a8 04
 B22_0b03:		sta $02			; 85 02
@@ -1731,7 +1810,7 @@ B22_0b11:		bne B22_0b4c ; d0 39
 
 B22_0b13:		stx $09			; 86 09
 B22_0b15:		ldx $08			; a6 08
-B22_0b17:		jsr $819e		; 20 9e 81
+B22_0b17:		jsr func_16_019e		; 20 9e 81
 B22_0b1a:		jsr $81ef		; 20 ef 81
 B22_0b1d:		ldx $09			; a6 09
 B22_0b1f:		jsr func_1f_1ed7		; 20 d7 fe
@@ -1744,13 +1823,13 @@ B22_0b2f:		jsr $9fc9		; 20 c9 9f
 B22_0b32:		lda #$52		; a9 52
 B22_0b34:		sta $054e, x	; 9d 4e 05
 B22_0b37:		lda #$69		; a9 69
-B22_0b39:		sta $05ef, x	; 9d ef 05
+B22_0b39:		sta wEntityAI_idx.w, x	; 9d ef 05
 B22_0b3c:		ldx $6c			; a6 6c
 B22_0b3e:		lda #$72		; a9 72
 B22_0b40:		sta $0400, x	; 9d 00 04
 B22_0b43:		lda #$10		; a9 10
 B22_0b45:		sta $0606, x	; 9d 06 06
-B22_0b48:		inc $05c1, x	; fe c1 05
+B22_0b48:		inc wEntityPhase.w, x	; fe c1 05
 B22_0b4b:		rts				; 60 
 
 
@@ -1759,9 +1838,9 @@ B22_0b4e:		rts				; 60
 
 
 B22_0b4f:		lda $00			; a5 00
-B22_0b51:		sta $041c, x	; 9d 1c 04
+B22_0b51:		sta wEntityBaseY.w, x	; 9d 1c 04
 B22_0b54:		lda $01			; a5 01
-B22_0b56:		sta $0438, x	; 9d 38 04
+B22_0b56:		sta wEntityBaseX.w, x	; 9d 38 04
 B22_0b59:		rts				; 60 
 
 
@@ -1777,6 +1856,7 @@ B22_0b66:		lda #$01		; a9 01
 B22_0b68:		rts				; 60 
 
 
+entityPhaseFunc_93:
 B22_0b69:		jsr $81a7		; 20 a7 81
 B22_0b6c:		jsr func_1f_1ec8		; 20 c8 fe
 B22_0b6f:		lda #$14		; a9 14
@@ -1784,42 +1864,45 @@ B22_0b71:		sta $061d, x	; 9d 1d 06
 B22_0b74:		rts				; 60 
 
 
+entityPhaseFunc_94:
 B22_0b75:		lda $061d, x	; bd 1d 06
-B22_0b78:		jsr $807f		; 20 7f 80
+B22_0b78:		jsr func_16_007f		; 20 7f 80
 B22_0b7b:		ldy #$0e		; a0 0e
-B22_0b7d:		jsr $b7a6		; 20 a6 b7
+B22_0b7d:		jsr func_17_17a6		; 20 a6 b7
 B22_0b80:		beq B22_0b8e ; f0 0c
 
-B22_0b82:		jsr $8b91		; 20 91 8b
+B22_0b82:		jsr func_16_0b91		; 20 91 8b
 B22_0b85:		jsr func_1f_1ec8		; 20 c8 fe
 B22_0b88:		sta $061d, x	; 9d 1d 06
-B22_0b8b:		inc $05c1, x	; fe c1 05
+B22_0b8b:		inc wEntityPhase.w, x	; fe c1 05
 B22_0b8e:		ldx $6c			; a6 6c
 B22_0b90:		rts				; 60 
 
 
+func_16_0b91:
 B22_0b91:		lda $68			; a5 68
 B22_0b93:		bmi B22_0b9e ; 30 09
 
-B22_0b95:		lda $041c, x	; bd 1c 04
+B22_0b95:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_0b98:		and #$f0		; 29 f0
-B22_0b9a:		sta $041c, x	; 9d 1c 04
+B22_0b9a:		sta wEntityBaseY.w, x	; 9d 1c 04
 B22_0b9d:		rts				; 60 
 
 
 B22_0b9e:		clc				; 18 
-B22_0b9f:		lda $041c, x	; bd 1c 04
+B22_0b9f:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_0ba2:		adc $56			; 65 56
 B22_0ba4:		and #$f0		; 29 f0
 B22_0ba6:		sec				; 38 
 B22_0ba7:		sbc $56			; e5 56
 B22_0ba9:		clc				; 18 
 B22_0baa:		adc #$03		; 69 03
-B22_0bac:		sta $041c, x	; 9d 1c 04
+B22_0bac:		sta wEntityBaseY.w, x	; 9d 1c 04
 B22_0baf:		rts				; 60 
 
 
-B22_0bb0:		inc $05c1, x	; fe c1 05
+entityPhaseFunc_90:
+B22_0bb0:		inc wEntityPhase.w, x	; fe c1 05
 B22_0bb3:		ldy #$00		; a0 00
 B22_0bb5:		jsr $80b3		; 20 b3 80
 B22_0bb8:		cmp #$40		; c9 40
@@ -1831,7 +1914,8 @@ B22_0bbe:		sta $0606, x	; 9d 06 06
 B22_0bc1:		rts				; 60 
 
 
-B22_0bc2:		inc $05c1, x	; fe c1 05
+entityPhaseFunc_8f:
+B22_0bc2:		inc wEntityPhase.w, x	; fe c1 05
 B22_0bc5:		lda #$32		; a9 32
 B22_0bc7:		ldy $0400, x	; bc 00 04
 B22_0bca:		cpy #$30		; c0 30
@@ -1842,6 +1926,7 @@ B22_0bd0:		sta $0400, x	; 9d 00 04
 B22_0bd3:		rts				; 60 
 
 
+entityPhaseFunc_3a:
 B22_0bd4:		jsr $83ad		; 20 ad 83
 B22_0bd7:		clc				; 18 
 B22_0bd8:		ldy #$03		; a0 03
@@ -1850,7 +1935,7 @@ B22_0bdc:		adc $04a8, x	; 7d a8 04
 B22_0bdf:		tay				; a8 
 B22_0be0:		lda $8bef, y	; b9 ef 8b
 B22_0be3:		sta $04f2, x	; 9d f2 04
-B22_0be6:		jsr $819e		; 20 9e 81
+B22_0be6:		jsr func_16_019e		; 20 9e 81
 B22_0be9:		jsr $8001		; 20 01 80
 B22_0bec:		jmp func_1f_1ec8		; 4c c8 fe
 
@@ -1864,6 +1949,8 @@ B22_0bf3:		;removed
 
 B22_0bf5:		beq B22_0c07 ; f0 10
 
+
+entityPhaseFunc_96:
 B22_0bf7:		jsr $81d4		; 20 d4 81
 B22_0bfa:		jsr $80e3		; 20 e3 80
 B22_0bfd:		bne B22_0c1f ; d0 20
@@ -1872,8 +1959,8 @@ B22_0bff:		jsr $81d4		; 20 d4 81
 B22_0c02:		lda #$68		; a9 68
 B22_0c04:		sta $054e, x	; 9d 4e 05
 B22_0c07:		lda #$00		; a9 00
-B22_0c09:		sta $05ef, x	; 9d ef 05
-B22_0c0c:		sta $05c1, x	; 9d c1 05
+B22_0c09:		sta wEntityAI_idx.w, x	; 9d ef 05
+B22_0c0c:		sta wEntityPhase.w, x	; 9d c1 05
 B22_0c0f:		txa				; 8a 
 B22_0c10:		ldx $6c			; a6 6c
 B22_0c12:		sta $061d, x	; 9d 1d 06
@@ -1887,6 +1974,7 @@ B22_0c1f:		ldx $6c			; a6 6c
 B22_0c21:		rts				; 60 
 
 
+entityPhaseFunc_50:
 B22_0c22:		jsr func_1f_1ec8		; 20 c8 fe
 B22_0c25:		jsr $81a7		; 20 a7 81
 B22_0c28:		lda #$01		; a9 01
@@ -1904,9 +1992,9 @@ B22_0c43:		stx $08			; 86 08
 B22_0c45:		lda $061d, x	; bd 1d 06
 B22_0c48:		tax				; aa 
 B22_0c49:		lda #$57		; a9 57
-B22_0c4b:		sta $05ef, x	; 9d ef 05
+B22_0c4b:		sta wEntityAI_idx.w, x	; 9d ef 05
 B22_0c4e:		lda #$00		; a9 00
-B22_0c50:		sta $05c1, x	; 9d c1 05
+B22_0c50:		sta wEntityPhase.w, x	; 9d c1 05
 B22_0c53:		lda #$68		; a9 68
 B22_0c55:		sta $054e, x	; 9d 4e 05
 B22_0c58:		lda $08			; a5 08
@@ -1916,9 +2004,11 @@ B22_0c5f:		rts				; 60
 
 
 B22_0c60:		ora ($fe, x)	; 01 fe
-B22_0c62:		jsr $bdd0		; 20 d0 bd
-B22_0c65:	.db $1c
-B22_0c66:	.db $04
+B22_0c62:		.db $20 $d0
+
+
+entityPhaseFunc_51:
+	lda $041c, x
 B22_0c67:		cmp #$30		; c9 30
 B22_0c69:		bcc B22_0c77 ; 90 0c
 
@@ -1926,29 +2016,30 @@ B22_0c6b:		dec $0606, x	; de 06 06
 B22_0c6e:		bne B22_0c5f ; d0 ef
 
 B22_0c70:		jsr func_1f_1ec8		; 20 c8 fe
-B22_0c73:		inc $05c1, x	; fe c1 05
+B22_0c73:		inc wEntityPhase.w, x	; fe c1 05
 B22_0c76:		rts				; 60 
 
 
 B22_0c77:		jsr $81d4		; 20 d4 81
 B22_0c7a:		jsr $81c5		; 20 c5 81
 B22_0c7d:		lda #$30		; a9 30
-B22_0c7f:		sta $041c, x	; 9d 1c 04
+B22_0c7f:		sta wEntityBaseY.w, x	; 9d 1c 04
 B22_0c82:		jsr func_1f_1ec8		; 20 c8 fe
 B22_0c85:		sta $04db, x	; 9d db 04
 B22_0c88:		lda $061d, x	; bd 1d 06
 B22_0c8b:		tax				; aa 
 B22_0c8c:		lda #$00		; a9 00
 B22_0c8e:		sta $054e, x	; 9d 4e 05
-B22_0c91:		sta $05ef, x	; 9d ef 05
+B22_0c91:		sta wEntityAI_idx.w, x	; 9d ef 05
 B22_0c94:		sta $0400, x	; 9d 00 04
 B22_0c97:		ldx $6c			; a6 6c
 B22_0c99:		rts				; 60 
 
 
+entityPhaseFunc_9b:
 B22_0c9a:		lda $0606, x	; bd 06 06
 B22_0c9d:		tax				; aa 
-B22_0c9e:		lda $0438, x	; bd 38 04
+B22_0c9e:		lda wEntityBaseX.w, x	; bd 38 04
 B22_0ca1:		sta $08			; 85 08
 B22_0ca3:		lda $0470, x	; bd 70 04
 B22_0ca6:		ora #$30		; 09 30
@@ -1970,9 +2061,9 @@ B22_0cc2:		sta $048c, x	; 9d 8c 04
 B22_0cc5:		lda #$01		; a9 01
 B22_0cc7:		sta $04a8, x	; 9d a8 04
 B22_0cca:		lda $8ce5, y	; b9 e5 8c
-B22_0ccd:		sta $041c, x	; 9d 1c 04
+B22_0ccd:		sta wEntityBaseY.w, x	; 9d 1c 04
 B22_0cd0:		lda $08			; a5 08
-B22_0cd2:		sta $0438, x	; 9d 38 04
+B22_0cd2:		sta wEntityBaseX.w, x	; 9d 38 04
 B22_0cd5:		lda $09			; a5 09
 B22_0cd7:		sta $0470, x	; 9d 70 04
 B22_0cda:		rts				; 60 
@@ -2001,12 +2092,14 @@ B22_0ceb:		rts				; 60
 B22_0cec:		pla				; 68 
 B22_0ced:		bvs B22_0d67 ; 70 78
 
+
+entityPhaseFunc_5d:
 B22_0cef:		lda #$02		; a9 02
 B22_0cf1:		sta $0606, x	; 9d 06 06
 B22_0cf4:		ldy $0606, x	; bc 06 06
 B22_0cf7:		lda $8d1c, y	; b9 1c 8d
 B22_0cfa:		tay				; a8 
-B22_0cfb:		lda $0438, x	; bd 38 04
+B22_0cfb:		lda wEntityBaseX.w, x	; bd 38 04
 B22_0cfe:		jsr $fc16		; 20 16 fc
 B22_0d01:		bne B22_0d0d ; d0 0a
 
@@ -2020,8 +2113,8 @@ B22_0d0a:		jmp $84b2		; 4c b2 84
 B22_0d0d:		ldx $6c			; a6 6c
 B22_0d0f:		ldy $0606, x	; bc 06 06
 B22_0d12:		lda $8d1f, y	; b9 1f 8d
-B22_0d15:		sta $041c, x	; 9d 1c 04
-B22_0d18:		inc $05c1, x	; fe c1 05
+B22_0d15:		sta wEntityBaseY.w, x	; 9d 1c 04
+B22_0d18:		inc wEntityPhase.w, x	; fe c1 05
 B22_0d1b:		rts				; 60 
 
 
@@ -2029,31 +2122,36 @@ B22_0d1c:		.db $00				; 00
 B22_0d1d:		ldy $a4, x		; b4 a4
 B22_0d1f:		.db $00				; 00
 B22_0d20:		ldy #$90		; a0 90
+
+
+entityPhaseFunc_89:
 B22_0d22:		ldy #$01		; a0 01
 B22_0d24:		lda ($02), y	; b1 02
-B22_0d26:		sta $041c, x	; 9d 1c 04
+B22_0d26:		sta wEntityBaseY.w, x	; 9d 1c 04
 B22_0d29:		clc				; 18 
 B22_0d2a:		adc #$10		; 69 10
 B22_0d2c:		tay				; a8 
-B22_0d2d:		lda $0438, x	; bd 38 04
+B22_0d2d:		lda wEntityBaseX.w, x	; bd 38 04
 B22_0d30:		jsr $fc16		; 20 16 fc
 B22_0d33:		cmp #$01		; c9 01
 B22_0d35:		bne B22_0d57 ; d0 20
 
 B22_0d37:		beq B22_0d72 ; f0 39
 
+
+entityPhaseFunc_5f:
 B22_0d39:		lda #$a8		; a9 a8
-B22_0d3b:		sta $041c, x	; 9d 1c 04
+B22_0d3b:		sta wEntityBaseY.w, x	; 9d 1c 04
 B22_0d3e:		clc				; 18 
 B22_0d3f:		adc #$10		; 69 10
 B22_0d41:		tay				; a8 
-B22_0d42:		lda $0438, x	; bd 38 04
+B22_0d42:		lda wEntityBaseX.w, x	; bd 38 04
 B22_0d45:		jsr $fc16		; 20 16 fc
 B22_0d48:		cmp #$01		; c9 01
 B22_0d4a:		bne B22_0d57 ; d0 0b
 
-B22_0d4c:		ldy $041c, x	; bc 1c 04
-B22_0d4f:		lda $0438, x	; bd 38 04
+B22_0d4c:		ldy wEntityBaseY.w, x	; bc 1c 04
+B22_0d4f:		lda wEntityBaseX.w, x	; bd 38 04
 B22_0d52:		jsr $fc16		; 20 16 fc
 B22_0d55:		beq B22_0d5c ; f0 05
 
@@ -2063,23 +2161,24 @@ B22_0d59:		jmp $84b2		; 4c b2 84
 
 B22_0d5c:		ldx $6c			; a6 6c
 B22_0d5e:		sec				; 38 
-B22_0d5f:		lda $041c, x	; bd 1c 04
+B22_0d5f:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_0d62:		sbc #$08		; e9 08
-B22_0d64:		sta $041c, x	; 9d 1c 04
+B22_0d64:		sta wEntityBaseY.w, x	; 9d 1c 04
 B22_0d67:		lda #$00		; a9 00
 B22_0d69:		sta $0400, x	; 9d 00 04
 B22_0d6c:		jsr $81ef		; 20 ef 81
 B22_0d6f:		jsr $81d4		; 20 d4 81
-B22_0d72:		inc $05c1, x	; fe c1 05
+B22_0d72:		inc wEntityPhase.w, x	; fe c1 05
 B22_0d75:		rts				; 60 
 
 
+entityPhaseFunc_8e:
 B22_0d76:		txa				; 8a 
 B22_0d77:		and #$01		; 29 01
 B22_0d79:		tay				; a8 
 B22_0d7a:		lda $8d84, y	; b9 84 8d
 B22_0d7d:		sta $0606, x	; 9d 06 06
-B22_0d80:		inc $05c1, x	; fe c1 05
+B22_0d80:		inc wEntityPhase.w, x	; fe c1 05
 B22_0d83:		rts				; 60 
 
 
@@ -2087,27 +2186,30 @@ B22_0d84:		rti				; 40
 
 
 B22_0d85:		;removed
-	.db $d0 $a0
-
-B22_0d87:		ora ($b1, x)	; 01 b1
-B22_0d89:	.db $02
+	.db $d0
+	
+	
+entityPhaseFunc_65:
+	ldy #$01
+B22_0d88:		lda ($02), y
 B22_0d8a:		sta $00			; 85 00
 B22_0d8c:		iny				; c8 
 B22_0d8d:		lda ($02), y	; b1 02
 B22_0d8f:		ldy $00			; a4 00
-B22_0d91:		jsr $fc1e		; 20 1e fc
+B22_0d91:		jsr func_1f_1c1e		; 20 1e fc
 B22_0d94:		bne B22_0d57 ; d0 c1
 
 B22_0d96:		ldx $6c			; a6 6c
-B22_0d98:		inc $05c1, x	; fe c1 05
+B22_0d98:		inc wEntityPhase.w, x	; fe c1 05
 B22_0d9b:		rts				; 60 
 
 
+entityPhaseFunc_4e:
 B22_0d9c:		lda #$0e		; a9 0e
 B22_0d9e:		ldy #$01		; a0 01
 B22_0da0:		jsr $8293		; 20 93 82
-B22_0da3:		inc $05c1, x	; fe c1 05
-B22_0da6:		lda $33			; a5 33
+B22_0da3:		inc wEntityPhase.w, x	; fe c1 05
+B22_0da6:		lda wCurrRoomSection			; a5 33
 B22_0da8:		beq B22_0dbe ; f0 14
 
 B22_0daa:		cmp #$01		; c9 01
@@ -2119,18 +2221,18 @@ B22_0db0:		beq B22_0dba ; f0 08
 B22_0db2:		cmp #$03		; c9 03
 B22_0db4:		beq B22_0dc4 ; f0 0e
 
-B22_0db6:		lda $34			; a5 34
+B22_0db6:		lda wCurrRoomIdx			; a5 34
 B22_0db8:		bne B22_0dc4 ; d0 0a
 
 B22_0dba:		lda #$00		; a9 00
 B22_0dbc:		beq B22_0dc6 ; f0 08
 
-B22_0dbe:		lda $34			; a5 34
+B22_0dbe:		lda wCurrRoomIdx			; a5 34
 B22_0dc0:		cmp #$02		; c9 02
 B22_0dc2:		bne B22_0dba ; d0 f6
 
 B22_0dc4:		lda #$03		; a9 03
-B22_0dc6:		sta $0454, x	; 9d 54 04
+B22_0dc6:		sta wEntityPaletteOverride.w, x	; 9d 54 04
 B22_0dc9:		rts				; 60 
 
 
@@ -2139,9 +2241,9 @@ B22_0dcd:		bne B22_0e0c ; d0 3d
 
 B22_0dcf:		jsr func_1f_1ed7		; 20 d7 fe
 B22_0dd2:		lda $01			; a5 01
-B22_0dd4:		sta $0438, x	; 9d 38 04
+B22_0dd4:		sta wEntityBaseX.w, x	; 9d 38 04
 B22_0dd7:		lda $02			; a5 02
-B22_0dd9:		sta $041c, x	; 9d 1c 04
+B22_0dd9:		sta wEntityBaseY.w, x	; 9d 1c 04
 B22_0ddc:		lda $03			; a5 03
 B22_0dde:		sta $04f2, x	; 9d f2 04
 B22_0de1:		lda $04			; a5 04
@@ -2158,7 +2260,7 @@ B22_0dfa:		lda $0a			; a5 0a
 B22_0dfc:		sta $04a8, x	; 9d a8 04
 B22_0dff:		jsr $9fc9		; 20 c9 9f
 B22_0e02:		lda $07			; a5 07
-B22_0e04:		sta $05ef, x	; 9d ef 05
+B22_0e04:		sta wEntityAI_idx.w, x	; 9d ef 05
 B22_0e07:		stx $08			; 86 08
 B22_0e09:		ldx $6c			; a6 6c
 B22_0e0b:		rts				; 60 
@@ -2178,44 +2280,49 @@ B22_0e1b:		sta $0a			; 85 0a
 B22_0e1d:		jmp $8dcf		; 4c cf 8d
 
 
-B22_0e20:		lda $0438, x	; bd 38 04
+entityPhaseFunc_0e:
+B22_0e20:		lda wEntityBaseX.w, x	; bd 38 04
 B22_0e23:		cmp #$04		; c9 04
 B22_0e25:		bcc B22_0e36 ; 90 0f
 
 B22_0e27:		cmp #$fc		; c9 fc
 B22_0e29:		bcs B22_0e36 ; b0 0b
 
-B22_0e2b:		lda $041c, x	; bd 1c 04
+B22_0e2b:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_0e2e:		cmp #$18		; c9 18
 B22_0e30:		bcc B22_0e36 ; 90 04
 
 B22_0e32:		cmp #$e8		; c9 e8
 B22_0e34:		bcc B22_0e3e ; 90 08
 
+func_16_0e36:
 B22_0e36:		lda #$00		; a9 00
 B22_0e38:		sta $054e, x	; 9d 4e 05
 B22_0e3b:		sta $0400, x	; 9d 00 04
 B22_0e3e:		rts				; 60 
 
 
+entityPhaseFunc_9a:
 B22_0e3f:		lda $0470, x	; bd 70 04
 B22_0e42:		and #$81		; 29 81
 B22_0e44:		bne B22_0e51 ; d0 0b
 
-B22_0e46:		lda $0438, x	; bd 38 04
+B22_0e46:		lda wEntityBaseX.w, x	; bd 38 04
 B22_0e49:		cmp #$f8		; c9 f8
 B22_0e4b:		bcs B22_0e51 ; b0 04
 
 B22_0e4d:		cmp #$08		; c9 08
 B22_0e4f:		bcs B22_0e55 ; b0 04
 
-B22_0e51:		inc $05c1, x	; fe c1 05
+B22_0e51:		inc wEntityPhase.w, x	; fe c1 05
 B22_0e54:		rts				; 60 
 
 
 B22_0e55:		lda #$32		; a9 32
 B22_0e57:		jsr playSound		; 20 5f e2
-B22_0e5a:		inc $05c1, x	; fe c1 05
+
+entityPhaseFunc_0d:
+B22_0e5a:		inc wEntityPhase.w, x	; fe c1 05
 B22_0e5d:		lda $0470, x	; bd 70 04
 B22_0e60:		and #$81		; 29 81
 B22_0e62:		bne B22_0e3e ; d0 da
@@ -2228,7 +2335,7 @@ B22_0e6c:		jmp $8dca		; 4c ca 8d
 
 
 B22_0e6f:		clc				; 18 
-B22_0e70:		lda $041c, x	; bd 1c 04
+B22_0e70:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_0e73:		adc $8ecc, y	; 79 cc 8e
 B22_0e76:		sta $02			; 85 02
 B22_0e78:		lda $8ed4, y	; b9 d4 8e
@@ -2248,7 +2355,7 @@ B22_0e92:		adc $04a8, x	; 7d a8 04
 B22_0e95:		tay				; a8 
 B22_0e96:		clc				; 18 
 B22_0e97:		lda $8edc, y	; b9 dc 8e
-B22_0e9a:		adc $0438, x	; 7d 38 04
+B22_0e9a:		adc wEntityBaseX.w, x	; 7d 38 04
 B22_0e9d:		sta $01			; 85 01
 B22_0e9f:		lda $8eec, y	; b9 ec 8e
 B22_0ea2:		sta $03			; 85 03
@@ -2371,12 +2478,15 @@ B22_0f30:		.db $00				; 00
 B22_0f31:		.db $00				; 00
 B22_0f32:		.db $00				; 00
 B22_0f33:		.db $00				; 00
-B22_0f34:		inc $05c1, x	; fe c1 05
+
+
+entityPhaseFunc_02:
+B22_0f34:		inc wEntityPhase.w, x	; fe c1 05
 B22_0f37:		lda #$04		; a9 04
 B22_0f39:		sta $08			; 85 08
-B22_0f3b:		lda $0438, x	; bd 38 04
+B22_0f3b:		lda wEntityBaseX.w, x	; bd 38 04
 B22_0f3e:		sta $00			; 85 00
-B22_0f40:		lda $041c, x	; bd 1c 04
+B22_0f40:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_0f43:		sta $01			; 85 01
 B22_0f45:		lda $0470, x	; bd 70 04
 B22_0f48:		ora #$40		; 09 40
@@ -2389,13 +2499,13 @@ B22_0f53:		jsr func_1f_1ed7		; 20 d7 fe
 B22_0f56:		lda #$46		; a9 46
 B22_0f58:		sta $054e, x	; 9d 4e 05
 B22_0f5b:		lda #$5e		; a9 5e
-B22_0f5d:		sta $05ef, x	; 9d ef 05
+B22_0f5d:		sta wEntityAI_idx.w, x	; 9d ef 05
 B22_0f60:		lda $09			; a5 09
 B22_0f62:		sta $0470, x	; 9d 70 04
 B22_0f65:		lda $00			; a5 00
-B22_0f67:		sta $0438, x	; 9d 38 04
+B22_0f67:		sta wEntityBaseX.w, x	; 9d 38 04
 B22_0f6a:		lda $01			; a5 01
-B22_0f6c:		sta $041c, x	; 9d 1c 04
+B22_0f6c:		sta wEntityBaseY.w, x	; 9d 1c 04
 B22_0f6f:		ldy $08			; a4 08
 B22_0f71:		lda $8f92, y	; b9 92 8f
 B22_0f74:		sta $04f2, x	; 9d f2 04
@@ -2425,8 +2535,11 @@ B22_0f9b:		bvc B22_0f9d ; 50 00
 
 B22_0f9d:		cpy #$80		; c0 80
 B22_0f9f:	.db $80
-B22_0fa0:		cpy #$a9		; c0 a9
-B22_0fa2:		sec				; 38 
+B22_0fa0:		.db $c0
+
+
+entityPhaseFunc_a2:
+	lda #$38
 B22_0fa3:		jsr playSound		; 20 5f e2
 B22_0fa6:		lda $0470, x	; bd 70 04
 B22_0fa9:		and #$f1		; 29 f1
@@ -2434,9 +2547,9 @@ B22_0fab:		ora #$60		; 09 60
 B22_0fad:		sta $04			; 85 04
 B22_0faf:		jsr $b52f		; 20 2f b5
 B22_0fb2:		sta $054e, x	; 9d 4e 05
-B22_0fb5:		lda $041c, x	; bd 1c 04
+B22_0fb5:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_0fb8:		sta $00			; 85 00
-B22_0fba:		lda $0438, x	; bd 38 04
+B22_0fba:		lda wEntityBaseX.w, x	; bd 38 04
 B22_0fbd:		sta $01			; 85 01
 B22_0fbf:		lda #$03		; a9 03
 B22_0fc1:		sta $03			; 85 03
@@ -2450,7 +2563,7 @@ B22_0fcc:		jsr $8b4f		; 20 4f 8b
 B22_0fcf:		lda #$6c		; a9 6c
 B22_0fd1:		sta $054e, x	; 9d 4e 05
 B22_0fd4:		lda #$6c		; a9 6c
-B22_0fd6:		sta $05ef, x	; 9d ef 05
+B22_0fd6:		sta wEntityAI_idx.w, x	; 9d ef 05
 B22_0fd9:		lda $04			; a5 04
 B22_0fdb:		sta $0470, x	; 9d 70 04
 B22_0fde:		jsr $b52f		; 20 2f b5
@@ -2461,16 +2574,18 @@ B22_0fe4:		ldx $6c			; a6 6c
 B22_0fe6:		rts				; 60 
 
 
-B22_0fe7:		inc $05c1, x	; fe c1 05
+entityPhaseFunc_6c_playSound:
+B22_0fe7:		inc wEntityPhase.w, x	; fe c1 05
 B22_0fea:		ldy #$01		; a0 01
 B22_0fec:		lda ($02), y	; b1 02
 B22_0fee:		jmp playSound		; 4c 5f e2
 
 
+entityPhaseFunc_29:
 B22_0ff1:		jsr $90c2		; 20 c2 90
 B22_0ff4:		jsr $93b0		; 20 b0 93
 B22_0ff7:		ldy #$10		; a0 10
-B22_0ff9:		jsr $fc1e		; 20 1e fc
+B22_0ff9:		jsr func_1f_1c1e		; 20 1e fc
 B22_0ffc:		beq B22_1022 ; f0 24
 
 B22_0ffe:		cmp #$04		; c9 04
@@ -2479,13 +2594,13 @@ B22_1000:		beq B22_1022 ; f0 20
 B22_1002:		ldx $6c			; a6 6c
 B22_1004:		jsr $93b0		; 20 b0 93
 B22_1007:		ldy #$08		; a0 08
-B22_1009:		jsr $fc1e		; 20 1e fc
+B22_1009:		jsr func_1f_1c1e		; 20 1e fc
 B22_100c:		bne B22_1022 ; d0 14
 
 B22_100e:		ldx $6c			; a6 6c
 B22_1010:		jsr $93b0		; 20 b0 93
 B22_1013:		ldy #$f8		; a0 f8
-B22_1015:		jsr $fc1e		; 20 1e fc
+B22_1015:		jsr func_1f_1c1e		; 20 1e fc
 B22_1018:		bne B22_1022 ; d0 08
 
 B22_101a:		ldx $6c			; a6 6c
@@ -2496,11 +2611,12 @@ B22_1021:		rts				; 60
 
 
 B22_1022:		ldx $6c			; a6 6c
-B22_1024:		jmp $804b		; 4c 4b 80
+B22_1024:		jmp reverseEnemyDirection_todo		; 4c 4b 80
 
 
+entityPhaseFunc_28:
 B22_1027:		jsr $8240		; 20 40 82
-B22_102a:		jsr $81aa		; 20 aa 81
+B22_102a:		jsr func_16_01aa		; 20 aa 81
 B22_102d:		lda $0657, x	; bd 57 06
 B22_1030:		ora #$03		; 09 03
 B22_1032:		sta $0657, x	; 9d 57 06
@@ -2555,14 +2671,14 @@ B22_1086:		bne B22_10a9 ; d0 21
 
 B22_1088:		ldx $6c			; a6 6c
 B22_108a:		jsr $81ef		; 20 ef 81
-B22_108d:		jsr $819e		; 20 9e 81
+B22_108d:		jsr func_16_019e		; 20 9e 81
 B22_1090:		lda $1a			; a5 1a
-B22_1092:		adc $0438, x	; 7d 38 04
+B22_1092:		adc wEntityBaseX.w, x	; 7d 38 04
 B22_1095:		and #$01		; 29 01
 B22_1097:		tay				; a8 
 B22_1098:		lda $90aa, y	; b9 aa 90
 B22_109b:		sta $0400, x	; 9d 00 04
-B22_109e:		inc $05c1, x	; fe c1 05
+B22_109e:		inc wEntityPhase.w, x	; fe c1 05
 B22_10a1:		lda $0633, x	; bd 33 06
 B22_10a4:		ora #$10		; 09 10
 B22_10a6:		sta $0633, x	; 9d 33 06
@@ -2598,7 +2714,7 @@ B22_10d1:		lda $054e, y	; b9 4e 05
 B22_10d4:		beq B22_10f6 ; f0 20
 
 B22_10d6:		ldy $00			; a4 00
-B22_10d8:		lda $0438, y	; b9 38 04
+B22_10d8:		lda wEntityBaseX.w, y	; b9 38 04
 B22_10db:		sta $10			; 85 10
 B22_10dd:		ldx $6c			; a6 6c
 B22_10df:		jsr $80cb		; 20 cb 80
@@ -2620,6 +2736,7 @@ B22_10fb:		sta $0633, x	; 9d 33 06
 B22_10fe:		rts				; 60 
 
 
+entityPhaseFunc_2c:
 B22_10ff:		ldy #$01		; a0 01
 B22_1101:		lda $0400, x	; bd 00 04
 B22_1104:		cmp #$32		; c9 32
@@ -2636,13 +2753,13 @@ B22_1118:		and #$70		; 29 70
 B22_111a:		ora $09			; 05 09
 B22_111c:		sta $0633, x	; 9d 33 06
 B22_111f:		lda #$00		; a9 00
-B22_1121:		sta $05c1, x	; 9d c1 05
+B22_1121:		sta wEntityPhase.w, x	; 9d c1 05
 B22_1124:		jmp func_16_01f8		; 4c f8 81
 
 
 B22_1127:		ldy #$01		; a0 01
-B22_1129:		lda $0438		; ad 38 04
-B22_112c:		cmp $0438, x	; dd 38 04
+B22_1129:		lda wEntityBaseX.w		; ad 38 04
+B22_112c:		cmp wEntityBaseX.w, x	; dd 38 04
 B22_112f:		bcc B22_1133 ; 90 02
 
 B22_1131:		ldy #$00		; a0 00
@@ -2650,15 +2767,16 @@ B22_1133:		rts				; 60
 
 
 B22_1134:		ldy #$00		; a0 00
-B22_1136:		lda $0438		; ad 38 04
-B22_1139:		cmp $0438, x	; dd 38 04
+B22_1136:		lda wEntityBaseX.w		; ad 38 04
+B22_1139:		cmp wEntityBaseX.w, x	; dd 38 04
 B22_113c:		bcc B22_1133 ; 90 f5
 
 B22_113e:		ldy #$01		; a0 01
 B22_1140:		rts				; 60 
 
 
-B22_1141:		lda $05ef, x	; bd ef 05
+entityPhaseFunc_2f:
+B22_1141:		lda wEntityAI_idx.w, x	; bd ef 05
 B22_1144:		cmp #$14		; c9 14
 B22_1146:		beq B22_114c ; f0 04
 
@@ -2666,19 +2784,19 @@ B22_1148:		cmp #$13		; c9 13
 B22_114a:		bne B22_1153 ; d0 07
 
 B22_114c:		ldy #$0d		; a0 0d
-B22_114e:		jsr $b7a6		; 20 a6 b7
+B22_114e:		jsr func_17_17a6		; 20 a6 b7
 B22_1151:		beq B22_1192 ; f0 3f
 
 B22_1153:		ldy #$05		; a0 05
-B22_1155:		jsr $b7a6		; 20 a6 b7
+B22_1155:		jsr func_17_17a6		; 20 a6 b7
 B22_1158:		beq B22_117f ; f0 25
 
-B22_115a:		jsr $8b91		; 20 91 8b
-B22_115d:		lda $05ef, x	; bd ef 05
+B22_115a:		jsr func_16_0b91		; 20 91 8b
+B22_115d:		lda wEntityAI_idx.w, x	; bd ef 05
 B22_1160:		cmp #$29		; c9 29
 B22_1162:		bne B22_1178 ; d0 14
 
-B22_1164:		lda $32			; a5 32
+B22_1164:		lda wCurrRoomGroup		; a5 32
 B22_1166:		cmp #$09		; c9 09
 B22_1168:		bne B22_1178 ; d0 0e
 
@@ -2687,50 +2805,48 @@ B22_116c:		bne B22_1178 ; d0 0a
 
 B22_116e:		clc				; 18 
 B22_116f:		lda $56			; a5 56
-B22_1171:		adc $0438, x	; 7d 38 04
+B22_1171:		adc wEntityBaseX.w, x	; 7d 38 04
 B22_1174:		cmp #$70		; c9 70
 B22_1176:		bcc B22_117f ; 90 07
 
 B22_1178:		ldy #$00		; a0 00
-B22_117a:		jsr $b7a6		; 20 a6 b7
+B22_117a:		jsr func_17_17a6		; 20 a6 b7
 B22_117d:		beq B22_1184 ; f0 05
 
 B22_117f:		ldx $6c			; a6 6c
-B22_1181:		jmp $895e		; 4c 5e 89
-
+B22_1181:		jmp func_16_095e		; 4c 5e 89
 
 B22_1184:		ldx $6c			; a6 6c
 B22_1186:		dec $0606, x	; de 06 06
 B22_1189:		bne B22_1191 ; d0 06
 
-B22_118b:		jsr $819e		; 20 9e 81
-B22_118e:		inc $05c1, x	; fe c1 05
+B22_118b:		jsr func_16_019e		; 20 9e 81
+B22_118e:		inc wEntityPhase.w, x	; fe c1 05
 B22_1191:		rts				; 60 
-
 
 B22_1192:		jsr func_1f_1ec8		; 20 c8 fe
 B22_1195:		lda #$01		; a9 01
 B22_1197:		sta $0520, x	; 9d 20 05
-B22_119a:		lda $05ef, x	; bd ef 05
+B22_119a:		lda wEntityAI_idx.w, x	; bd ef 05
 B22_119d:		cmp #$14		; c9 14
 B22_119f:		beq B22_11a5 ; f0 04
 
-B22_11a1:		inc $05c1, x	; fe c1 05
+B22_11a1:		inc wEntityPhase.w, x	; fe c1 05
 B22_11a4:		rts				; 60 
 
-
 B22_11a5:		lda #$25		; a9 25
-B22_11a7:		sta $05c1, x	; 9d c1 05
+B22_11a7:		sta wEntityPhase.w, x	; 9d c1 05
 B22_11aa:		rts				; 60 
 
 
+entityPhaseFunc_66:
 B22_11ab:		ldy #$05		; a0 05
-B22_11ad:		jsr $b7a6		; 20 a6 b7
+B22_11ad:		jsr func_17_17a6		; 20 a6 b7
 B22_11b0:		beq B22_117f ; f0 cd
 
 B22_11b2:		ldx $6c			; a6 6c
 B22_11b4:		ldy #$00		; a0 00
-B22_11b6:		jsr $b7a6		; 20 a6 b7
+B22_11b6:		jsr func_17_17a6		; 20 a6 b7
 B22_11b9:		bne B22_117f ; d0 c4
 
 B22_11bb:		ldx $6c			; a6 6c
@@ -2739,37 +2855,37 @@ B22_11c0:		bne B22_11e2 ; d0 20
 
 B22_11c2:		lda #$40		; a9 40
 B22_11c4:		sta $0606, x	; 9d 06 06
-B22_11c7:		jsr $8230		; 20 30 82
+B22_11c7:		jsr func_16_0230		; 20 30 82
 B22_11ca:		lda $04a8, x	; bd a8 04
 B22_11cd:		bne B22_11da ; d0 0b
 
 B22_11cf:		lda $04f2, x	; bd f2 04
 B22_11d2:		bpl B22_11e2 ; 10 0e
 
-B22_11d4:		jsr $804b		; 20 4b 80
+B22_11d4:		jsr reverseEnemyDirection_todo		; 20 4b 80
 B22_11d7:		jmp $91e2		; 4c e2 91
 
 
 B22_11da:		lda $04f2, x	; bd f2 04
 B22_11dd:		bmi B22_11e2 ; 30 03
 
-B22_11df:		jsr $804b		; 20 4b 80
+B22_11df:		jsr reverseEnemyDirection_todo		; 20 4b 80
 B22_11e2:		lda $0400, x	; bd 00 04
 B22_11e5:		cmp #$2c		; c9 2c
 B22_11e7:		bne B22_124d ; d0 64
 
-B22_11e9:		lda $057c, x	; bd 7c 05
+B22_11e9:		lda wEntityTimeUntilNextAnimation.w, x	; bd 7c 05
 B22_11ec:		cmp #$10		; c9 10
 B22_11ee:		bne B22_124d ; d0 5d
 
 B22_11f0:		ldy #$0b		; a0 0b
-B22_11f2:		jsr $b7a6		; 20 a6 b7
+B22_11f2:		jsr func_17_17a6		; 20 a6 b7
 B22_11f5:		beq B22_124d ; f0 56
 
 B22_11f7:		ldx $6c			; a6 6c
 B22_11f9:		ldy $04a8, x	; bc a8 04
 B22_11fc:		clc				; 18 
-B22_11fd:		lda $041c, x	; bd 1c 04
+B22_11fd:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_1200:		adc #$07		; 69 07
 B22_1202:		sta $01			; 85 01
 B22_1204:		lda $0470, x	; bd 70 04
@@ -2778,7 +2894,7 @@ B22_1209:		ora #$20		; 09 20
 B22_120b:		sta $09			; 85 09
 B22_120d:		clc				; 18 
 B22_120e:		lda $9250, y	; b9 50 92
-B22_1211:		adc $0438, x	; 7d 38 04
+B22_1211:		adc wEntityBaseX.w, x	; 7d 38 04
 B22_1214:		sta $00			; 85 00
 B22_1216:		lda $0470, x	; bd 70 04
 B22_1219:		and #$01		; 29 01
@@ -2790,17 +2906,17 @@ B22_1224:		jsr $80e3		; 20 e3 80
 B22_1227:		bne B22_124d ; d0 24
 
 B22_1229:		lda $00			; a5 00
-B22_122b:		sta $0438, x	; 9d 38 04
+B22_122b:		sta wEntityBaseX.w, x	; 9d 38 04
 B22_122e:		lda $01			; a5 01
-B22_1230:		sta $041c, x	; 9d 1c 04
+B22_1230:		sta wEntityBaseY.w, x	; 9d 1c 04
 B22_1233:		lda $0a			; a5 0a
 B22_1235:		sta $0470, x	; 9d 70 04
 B22_1238:		lda #$00		; a9 00
-B22_123a:		sta $05c1, x	; 9d c1 05
+B22_123a:		sta wEntityPhase.w, x	; 9d c1 05
 B22_123d:		lda #$47		; a9 47
 B22_123f:		sta $054e, x	; 9d 4e 05
 B22_1242:		lda #$5f		; a9 5f
-B22_1244:		sta $05ef, x	; 9d ef 05
+B22_1244:		sta wEntityAI_idx.w, x	; 9d ef 05
 B22_1247:		jsr $9fc9		; 20 c9 9f
 B22_124a:		jsr func_1f_1ec8		; 20 c8 fe
 B22_124d:		ldx $6c			; a6 6c
@@ -2813,19 +2929,20 @@ B22_1253:		.db $00				; 00
 B22_1254:		jsr func_1f_1ec8		; 20 c8 fe
 B22_1257:		lda #$01		; a9 01
 B22_1259:		sta $0520, x	; 9d 20 05
-B22_125c:		inc $05c1, x	; fe c1 05
+B22_125c:		inc wEntityPhase.w, x	; fe c1 05
 B22_125f:		rts				; 60 
 
 
+entityPhaseFunc_3b:
 B22_1260:		jsr $93a6		; 20 a6 93
 B22_1263:		ldy #$10		; a0 10
-B22_1265:		jsr $fc1e		; 20 1e fc
+B22_1265:		jsr func_1f_1c1e		; 20 1e fc
 B22_1268:		beq B22_1254 ; f0 ea
 
 B22_126a:		ldx $6c			; a6 6c
 B22_126c:		jsr $93b0		; 20 b0 93
 B22_126f:		ldy #$10		; a0 10
-B22_1271:		jsr $fc1e		; 20 1e fc
+B22_1271:		jsr func_1f_1c1e		; 20 1e fc
 B22_1274:		beq B22_12d6 ; f0 60
 
 B22_1276:		cmp #$04		; c9 04
@@ -2834,34 +2951,35 @@ B22_1278:		beq B22_12d6 ; f0 5c
 B22_127a:		ldx $6c			; a6 6c
 B22_127c:		jsr $93b0		; 20 b0 93
 B22_127f:		ldy #$08		; a0 08
-B22_1281:		jsr $fc1e		; 20 1e fc
+B22_1281:		jsr func_1f_1c1e		; 20 1e fc
 B22_1284:		bne B22_12d6 ; d0 50
 
 B22_1286:		dec $061d, x	; de 1d 06
 B22_1289:		bne B22_12c3 ; d0 38
 
 B22_128b:		jsr func_1f_1ec8		; 20 c8 fe
-B22_128e:		inc $05c1, x	; fe c1 05
-B22_1291:		inc $05c1, x	; fe c1 05
-B22_1294:		inc $05c1, x	; fe c1 05
+B22_128e:		inc wEntityPhase.w, x	; fe c1 05
+B22_1291:		inc wEntityPhase.w, x	; fe c1 05
+B22_1294:		inc wEntityPhase.w, x	; fe c1 05
 B22_1297:		rts				; 60 
 
 
+entityPhaseFunc_34:
 B22_1298:		jsr $93b0		; 20 b0 93
 B22_129b:		ldy #$10		; a0 10
-B22_129d:		jsr $fc1e		; 20 1e fc
+B22_129d:		jsr func_1f_1c1e		; 20 1e fc
 B22_12a0:		beq B22_12db ; f0 39
 
 B22_12a2:		ldx $6c			; a6 6c
 B22_12a4:		jsr $93ba		; 20 ba 93
 B22_12a7:		ldy #$08		; a0 08
-B22_12a9:		jsr $fc1e		; 20 1e fc
+B22_12a9:		jsr func_1f_1c1e		; 20 1e fc
 B22_12ac:		beq B22_12bc ; f0 0e
 
 B22_12ae:		ldx $6c			; a6 6c
 B22_12b0:		jsr $93ba		; 20 ba 93
 B22_12b3:		ldy #$f8		; a0 f8
-B22_12b5:		jsr $fc1e		; 20 1e fc
+B22_12b5:		jsr func_1f_1c1e		; 20 1e fc
 B22_12b8:		bne B22_12d6 ; d0 1c
 
 B22_12ba:		beq B22_12db ; f0 1f
@@ -2881,16 +2999,16 @@ B22_12cd:		jmp $808f		; 4c 8f 80
 
 
 B22_12d0:		lda #$04		; a9 04
-B22_12d2:		sta $05c1, x	; 9d c1 05
+B22_12d2:		sta wEntityPhase.w, x	; 9d c1 05
 B22_12d5:		rts				; 60 
 
 
 B22_12d6:		ldx $6c			; a6 6c
-B22_12d8:		jmp $804b		; 4c 4b 80
+B22_12d8:		jmp reverseEnemyDirection_todo		; 4c 4b 80
 
 
 B22_12db:		ldx $6c			; a6 6c
-B22_12dd:		inc $05c1, x	; fe c1 05
+B22_12dd:		inc wEntityPhase.w, x	; fe c1 05
 B22_12e0:		lda #$01		; a9 01
 B22_12e2:		ldy $04f2, x	; bc f2 04
 B22_12e5:		bpl B22_12e9 ; 10 02
@@ -2905,11 +3023,12 @@ B22_12f6:		sta $0537, x	; 9d 37 05
 B22_12f9:		jmp $81ef		; 4c ef 81
 
 
+entityPhaseFunc_33:
 B22_12fc:		ldy #$01		; a0 01
 B22_12fe:		lda ($02), y	; b1 02
 B22_1300:		sta $0606, x	; 9d 06 06
 B22_1303:		lda #$14		; a9 14
-B22_1305:		jsr $807f		; 20 7f 80
+B22_1305:		jsr func_16_007f		; 20 7f 80
 B22_1308:		lda $0520, x	; bd 20 05
 B22_130b:		bmi B22_131b ; 30 0e
 
@@ -2922,21 +3041,21 @@ B22_1316:		lda #$00		; a9 00
 B22_1318:		sta $0537, x	; 9d 37 05
 B22_131b:		jsr $93b0		; 20 b0 93
 B22_131e:		ldy #$10		; a0 10
-B22_1320:		jsr $fc1e		; 20 1e fc
+B22_1320:		jsr func_1f_1c1e		; 20 1e fc
 B22_1323:		beq B22_1341 ; f0 1c
 
 B22_1325:		ldx $6c			; a6 6c
 B22_1327:		ldy #$06		; a0 06
-B22_1329:		jsr $b7a6		; 20 a6 b7
+B22_1329:		jsr func_17_17a6		; 20 a6 b7
 B22_132c:		beq B22_1342 ; f0 14
 
 B22_132e:		ldx $6c			; a6 6c
 B22_1330:		jsr func_1f_1ec8		; 20 c8 fe
-B22_1333:		inc $05c1, x	; fe c1 05
+B22_1333:		inc wEntityPhase.w, x	; fe c1 05
 B22_1336:		jsr func_16_01f8		; 20 f8 81
-B22_1339:		lda $041c, x	; bd 1c 04
+B22_1339:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_133c:		and #$f0		; 29 f0
-B22_133e:		sta $041c, x	; 9d 1c 04
+B22_133e:		sta wEntityBaseY.w, x	; 9d 1c 04
 B22_1341:		rts				; 60 
 
 
@@ -2947,16 +3066,17 @@ B22_1349:		sta $0520, x	; 9d 20 05
 B22_134c:		lda #$80		; a9 80
 B22_134e:		sta $0537, x	; 9d 37 05
 B22_1351:		lda $0606, x	; bd 06 06
-B22_1354:		sta $05c1, x	; 9d c1 05
+B22_1354:		sta wEntityPhase.w, x	; 9d c1 05
 B22_1357:		rts				; 60 
 
 
-B22_1358:		inc $05c1, x	; fe c1 05
-B22_135b:		jsr $81aa		; 20 aa 81
+entityPhaseFunc_35:
+B22_1358:		inc wEntityPhase.w, x	; fe c1 05
+B22_135b:		jsr func_16_01aa		; 20 aa 81
 B22_135e:		jsr func_1f_1ec8		; 20 c8 fe
 B22_1361:		lda #$28		; a9 28
 B22_1363:		sta $061d, x	; 9d 1d 06
-B22_1366:		jsr $8230		; 20 30 82
+B22_1366:		jsr func_16_0230		; 20 30 82
 B22_1369:		lda $0470, x	; bd 70 04
 B22_136c:		and #$01		; 29 01
 B22_136e:		bne B22_1379 ; d0 09
@@ -3016,28 +3136,30 @@ B22_13c1:		lda #$18		; a9 18
 B22_13c3:		rts				; 60 
 
 
+entityPhaseFunc_36:
 B22_13c4:		jsr $80b3		; 20 b3 80
 B22_13c7:		ldy #$01		; a0 01
 B22_13c9:		cmp ($02), y	; d1 02
 B22_13cb:		bcs B22_13d1 ; b0 04
 
-B22_13cd:		inc $05c1, x	; fe c1 05
+B22_13cd:		inc wEntityPhase.w, x	; fe c1 05
 B22_13d0:		rts				; 60 
 
 
 B22_13d1:		ldy #$02		; a0 02
 B22_13d3:		lda ($02), y	; b1 02
-B22_13d5:		sta $05c1, x	; 9d c1 05
+B22_13d5:		sta wEntityPhase.w, x	; 9d c1 05
 B22_13d8:		rts				; 60 
 
 
-B22_13d9:		inc $05c1, x	; fe c1 05
+entityPhaseFunc_7e:
+B22_13d9:		inc wEntityPhase.w, x	; fe c1 05
 B22_13dc:		lda #$0f		; a9 0f
 B22_13de:		sta $0606, x	; 9d 06 06
 B22_13e1:		lda #$00		; a9 00
 B22_13e3:		sta $061d, x	; 9d 1d 06
-B22_13e6:		lda $0438, x	; bd 38 04
-B22_13e9:		adc $041c, x	; 7d 1c 04
+B22_13e6:		lda wEntityBaseX.w, x	; bd 38 04
+B22_13e9:		adc wEntityBaseY.w, x	; 7d 1c 04
 B22_13ec:		lsr a			; 4a
 B22_13ed:		lsr a			; 4a
 B22_13ee:		lsr a			; 4a
@@ -3056,6 +3178,9 @@ B22_13fe:		adc $63			; 65 63
 B22_1400:	.db $5c
 B22_1401:	.db $8f
 B22_1402:	.db $54
+
+
+entityPhaseFunc_7d:
 B22_1403:		lda $0470, x	; bd 70 04
 B22_1406:		and #$01		; 29 01
 B22_1408:		bne B22_13fa ; d0 f0
@@ -3080,12 +3205,15 @@ B22_142e:		bne B22_1438 ; d0 08
 
 B22_1430:		ldx $6c			; a6 6c
 B22_1432:		jsr $81bc		; 20 bc 81
-B22_1435:		inc $05c1, x	; fe c1 05
+B22_1435:		inc wEntityPhase.w, x	; fe c1 05
 B22_1438:		rts				; 60 
 
 
 B22_1439:		plp				; 28 
 B22_143a:	.db $07
+
+
+entityPhaseFunc_7f:
 B22_143b:		jsr $8240		; 20 40 82
 B22_143e:		jsr $80b3		; 20 b3 80
 B22_1441:		and #$f0		; 29 f0
@@ -3101,7 +3229,7 @@ B22_1451:		sta $0509, x	; 9d 09 05
 B22_1454:		lda $04a8, x	; bd a8 04
 B22_1457:		beq B22_145c ; f0 03
 
-B22_1459:		jsr $804b		; 20 4b 80
+B22_1459:		jsr reverseEnemyDirection_todo		; 20 4b 80
 B22_145c:		jsr $80d5		; 20 d5 80
 B22_145f:		and #$f0		; 29 f0
 B22_1461:		lsr a			; 4a
@@ -3147,6 +3275,9 @@ B22_1495:		cpy #$00		; c0 00
 B22_1497:	.db $80
 B22_1498:		cpy #$00		; c0 00
 B22_149a:	.db $80
+
+
+entityPhaseFunc_80:
 B22_149b:		lda $0520, x	; bd 20 05
 B22_149e:		bpl B22_14b8 ; 10 18
 
@@ -3158,7 +3289,7 @@ B22_14aa:		lda #$12		; a9 12
 B22_14ac:		jsr func_1f_0f5c		; 20 5c ef
 B22_14af:		lda #$30		; a9 30
 B22_14b1:		sta $0606, x	; 9d 06 06
-B22_14b4:		inc $05c1, x	; fe c1 05
+B22_14b4:		inc wEntityPhase.w, x	; fe c1 05
 B22_14b7:		rts				; 60 
 
 
@@ -3166,14 +3297,17 @@ B22_14b8:		lda #$10		; a9 10
 B22_14ba:		jmp $80a1		; 4c a1 80
 
 
+entityPhaseFunc_81:
 B22_14bd:		dec $0606, x	; de 06 06
 B22_14c0:		beq B22_14b4 ; f0 f2
 
 B22_14c2:		bne B22_14b8 ; d0 f4
 
+
+entityPhaseFunc_82:
 B22_14c4:		lda #$10		; a9 10
 B22_14c6:		jsr $80a1		; 20 a1 80
-B22_14c9:		lda $041c, x	; bd 1c 04
+B22_14c9:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_14cc:		cmp #$28		; c9 28
 B22_14ce:		bcc B22_14d4 ; 90 04
 
@@ -3188,13 +3322,15 @@ B22_14dd:		ldx $6c			; a6 6c
 B22_14df:		jmp $84b2		; 4c b2 84
 
 
-B22_14e2:		inc $05c1, x	; fe c1 05
+entityPhaseFunc_83:
+B22_14e2:		inc wEntityPhase.w, x	; fe c1 05
 B22_14e5:		jsr func_1f_1ec8		; 20 c8 fe
 B22_14e8:		lda #$ff		; a9 ff
 B22_14ea:		sta $0520, x	; 9d 20 05
 B22_14ed:		rts				; 60 
 
 
+entityPhaseFunc_3c:
 B22_14ee:		ldy #$01		; a0 01
 B22_14f0:		lda $0633, x	; bd 33 06
 B22_14f3:		cmp #$01		; c9 01
@@ -3204,29 +3340,31 @@ B22_14f7:		lda #$00		; a9 00
 B22_14f9:		sta $0633, x	; 9d 33 06
 B22_14fc:		iny				; c8 
 B22_14fd:		lda ($02), y	; b1 02
-B22_14ff:		sta $05c1, x	; 9d c1 05
+B22_14ff:		sta wEntityPhase.w, x	; 9d c1 05
 B22_1502:		rts				; 60 
 
 
+entityPhaseFunc_3e:
 B22_1503:		jsr func_1f_1ec8		; 20 c8 fe
 B22_1506:		lda #$ff		; a9 ff
 B22_1508:		sta $0520, x	; 9d 20 05
-B22_150b:		inc $05c1, x	; fe c1 05
+B22_150b:		inc wEntityPhase.w, x	; fe c1 05
 B22_150e:		rts				; 60 
 
 
+entityPhaseFunc_3d:
 B22_150f:		lda #$10		; a9 10
 B22_1511:		jsr $80a1		; 20 a1 80
 B22_1514:		ldy #$04		; a0 04
-B22_1516:		jsr $b7a6		; 20 a6 b7
+B22_1516:		jsr func_17_17a6		; 20 a6 b7
 B22_1519:		beq B22_1522 ; f0 07
 
 B22_151b:		jsr func_1f_1ec8		; 20 c8 fe
-B22_151e:		inc $05c1, x	; fe c1 05
+B22_151e:		inc wEntityPhase.w, x	; fe c1 05
 B22_1521:		rts				; 60 
 
 
-B22_1522:		lda $041c, x	; bd 1c 04
+B22_1522:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_1525:		cmp #$30		; c9 30
 B22_1527:		bcs B22_150e ; b0 e5
 
@@ -3235,23 +3373,25 @@ B22_152b:		sta $0400, x	; 9d 00 04
 B22_152e:		jsr func_1f_1ec8		; 20 c8 fe
 B22_1531:		ldy #$01		; a0 01
 B22_1533:		lda ($02), y	; b1 02
-B22_1535:		sta $05c1, x	; 9d c1 05
+B22_1535:		sta wEntityPhase.w, x	; 9d c1 05
 B22_1538:		rts				; 60 
 
 
-B22_1539:		jsr $8230		; 20 30 82
+entityPhaseFunc_40:
+B22_1539:		jsr func_16_0230		; 20 30 82
 B22_153c:		lda #$00		; a9 00
 B22_153e:		ldy #$c0		; a0 c0
-B22_1540:		jsr $84ff		; 20 ff 84
+B22_1540:		jsr func_16_04ff		; 20 ff 84
 B22_1543:		lda #$01		; a9 01
 B22_1545:		ldy #$80		; a0 80
 B22_1547:		jsr $8518		; 20 18 85
-B22_154a:		inc $05c1, x	; fe c1 05
+B22_154a:		inc wEntityPhase.w, x	; fe c1 05
 B22_154d:		rts				; 60 
 
 
+entityPhaseFunc_41:
 B22_154e:		ldy #$04		; a0 04
-B22_1550:		jsr $b7a6		; 20 a6 b7
+B22_1550:		jsr func_17_17a6		; 20 a6 b7
 B22_1553:		beq B22_155d ; f0 08
 
 B22_1555:		ldx $6c			; a6 6c
@@ -3268,7 +3408,7 @@ B22_1567:		bpl B22_154d ; 10 e4
 B22_1569:		cmp #$fd		; c9 fd
 B22_156b:		bcs B22_154d ; b0 e0
 
-B22_156d:		lda $041c, x	; bd 1c 04
+B22_156d:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_1570:		cmp #$30		; c9 30
 B22_1572:		bcc B22_157f ; 90 0b
 
@@ -3282,35 +3422,39 @@ B22_157e:		rts				; 60
 B22_157f:		jsr func_1f_1ec8		; 20 c8 fe
 B22_1582:		sta $0400, x	; 9d 00 04
 B22_1585:		lda #$17		; a9 17
-B22_1587:		sta $05c1, x	; 9d c1 05
+B22_1587:		sta wEntityPhase.w, x	; 9d c1 05
 B22_158a:		rts				; 60 
 
 
+entityPhaseFunc_42:
 B22_158b:		lda #$30		; a9 30
-B22_158d:		sta $041c, x	; 9d 1c 04
-B22_1590:		lda $0438		; ad 38 04
-B22_1593:		sta $0438, x	; 9d 38 04
+B22_158d:		sta wEntityBaseY.w, x	; 9d 1c 04
+B22_1590:		lda wEntityBaseX.w		; ad 38 04
+B22_1593:		sta wEntityBaseX.w, x	; 9d 38 04
+
+entityPhaseFunc_43:
 B22_1596:		ldy #$01		; a0 01
 B22_1598:		lda ($02), y	; b1 02
 B22_159a:		sta $0520, x	; 9d 20 05
 B22_159d:		iny				; c8 
 B22_159e:		lda ($02), y	; b1 02
 B22_15a0:		sta $0537, x	; 9d 37 05
-B22_15a3:		inc $05c1, x	; fe c1 05
+B22_15a3:		inc wEntityPhase.w, x	; fe c1 05
 B22_15a6:		rts				; 60 
 
 
+entityPhaseFunc_3f:
 B22_15a7:		ldy #$03		; a0 03
-B22_15a9:		jsr $b7a6		; 20 a6 b7
+B22_15a9:		jsr func_17_17a6		; 20 a6 b7
 B22_15ac:		beq B22_15b5 ; f0 07
 
 B22_15ae:		jsr func_1f_1ec8		; 20 c8 fe
-B22_15b1:		inc $05c1, x	; fe c1 05
+B22_15b1:		inc wEntityPhase.w, x	; fe c1 05
 B22_15b4:		rts				; 60 
 
 
 B22_15b5:		lda #$10		; a9 10
-B22_15b7:		jsr $807f		; 20 7f 80
+B22_15b7:		jsr func_16_007f		; 20 7f 80
 B22_15ba:		lda $0520, x	; bd 20 05
 B22_15bd:		cmp #$02		; c9 02
 B22_15bf:		bcc B22_15b4 ; 90 f3
@@ -3322,6 +3466,7 @@ B22_15c8:		sta $0537, x	; 9d 37 05
 B22_15cb:		rts				; 60 
 
 
+entityPhaseFunc_45:
 B22_15cc:		ldy #$01		; a0 01
 B22_15ce:		lda ($02), y	; b1 02
 B22_15d0:		sta $061d, x	; 9d 1d 06
@@ -3339,7 +3484,7 @@ B22_15eb:		lda $9613, y	; b9 13 96
 B22_15ee:		sta $0537, x	; 9d 37 05
 B22_15f1:		lda $961b, y	; b9 1b 96
 B22_15f4:		sta $0606, x	; 9d 06 06
-B22_15f7:		inc $05c1, x	; fe c1 05
+B22_15f7:		inc wEntityPhase.w, x	; fe c1 05
 B22_15fa:		rts				; 60 
 
 
@@ -3373,26 +3518,34 @@ B22_161f:		bmi B22_1649 ; 30 28
 
 B22_1621:	.db $1c
 B22_1622:		sec				; 38 
+
+
+entityPhaseFunc_46:
 B22_1623:		dec $061d, x	; de 1d 06
 B22_1626:		beq B22_1631 ; f0 09
 
 B22_1628:		lda $0606, x	; bd 06 06
-B22_162b:		jsr $807f		; 20 7f 80
+B22_162b:		jsr func_16_007f		; 20 7f 80
 B22_162e:		jmp $84b8		; 4c b8 84
 
 
 B22_1631:		jmp $84b2		; 4c b2 84
 
 
+entityPhaseFunc_5a:
 B22_1634:		lda $1a			; a5 1a
 B22_1636:		sta $0509, x	; 9d 09 05
 B22_1639:		txa				; 8a 
 B22_163a:		adc $1a			; 65 1a
 B22_163c:		and #$07		; 29 07
-B22_163e:		jsr $807f		; 20 7f 80
+B22_163e:		jsr func_16_007f		; 20 7f 80
 B22_1641:		jmp $84b8		; 4c b8 84
 
 
+entityPhaseFunc_47:
+entityPhaseFunc_4a:
+entityPhaseFunc_4b:
+entityPhaseFunc_4c:
 B22_1644:		lda #$00		; a9 00
 B22_1646:		sta $0633, x	; 9d 33 06
 B22_1649:		jsr $81a7		; 20 a7 81
@@ -3425,6 +3578,9 @@ B22_1677:		bpl B22_1691 ; 10 18
 
 B22_1679:	.db $1c
 B22_167a:	.db $14
+
+
+entityPhaseFunc_48:
 B22_167b:		dec $0606, x	; de 06 06
 B22_167e:		beq B22_1686 ; f0 06
 
@@ -3442,19 +3598,21 @@ B22_1691:		jmp $819b		; 4c 9b 81
 
 B22_1694:		jsr $1c18		; 20 18 1c
 B22_1697:		plp				; 28 
+
+entityPhaseFunc_49:
 B22_1698:		dec $0606, x	; de 06 06
 B22_169b:		bne B22_1672 ; d0 d5
 
-B22_169d:		jsr $81aa		; 20 aa 81
+B22_169d:		jsr func_16_01aa		; 20 aa 81
 B22_16a0:		jsr func_1f_1ec8		; 20 c8 fe
 B22_16a3:		inc $0633, x	; fe 33 06
 B22_16a6:		lda $0633, x	; bd 33 06
 B22_16a9:		cmp #$08		; c9 08
 B22_16ab:		bcc B22_16c7 ; 90 1a
 
-B22_16ad:		jsr $8230		; 20 30 82
+B22_16ad:		jsr func_16_0230		; 20 30 82
 B22_16b0:		lda #$00		; a9 00
-B22_16b2:		sta $05ef, x	; 9d ef 05
+B22_16b2:		sta wEntityAI_idx.w, x	; 9d ef 05
 B22_16b5:		lda $04a8, x	; bd a8 04
 B22_16b8:		asl a			; 0a
 B22_16b9:		tay				; a8 
@@ -3465,7 +3623,7 @@ B22_16c3:		sta $0509, x	; 9d 09 05
 B22_16c6:		rts				; 60 
 
 
-B22_16c7:		dec $05c1, x	; de c1 05
+B22_16c7:		dec wEntityPhase.w, x	; de c1 05
 B22_16ca:		jsr $9779		; 20 79 97
 B22_16cd:		jsr $80d5		; 20 d5 80
 B22_16d0:		cmp #$20		; c9 20
@@ -3571,15 +3729,15 @@ B22_176c:		lda #$08		; a9 08
 B22_176e:		ldy $061d, x	; bc 1d 06
 B22_1771:		beq B22_1776 ; f0 03
 
-B22_1773:		jmp $807f		; 4c 7f 80
+B22_1773:		jmp func_16_007f		; 4c 7f 80
 
 
 B22_1776:		jmp $80a1		; 4c a1 80
 
 
 B22_1779:		lda #$00		; a9 00
-B22_177b:		ldy $041c, x	; bc 1c 04
-B22_177e:		cpy $041c		; cc 1c 04
+B22_177b:		ldy wEntityBaseY.w, x	; bc 1c 04
+B22_177e:		cpy wEntityBaseY.w		; cc 1c 04
 B22_1781:		bcc B22_1785 ; 90 02
 
 B22_1783:		lda #$01		; a9 01
@@ -3587,13 +3745,14 @@ B22_1785:		sta $061d, x	; 9d 1d 06
 B22_1788:		rts				; 60 
 
 
-B22_1789:		inc $05c1, x	; fe c1 05
+entityPhaseFunc_56:
+B22_1789:		inc wEntityPhase.w, x	; fe c1 05
 B22_178c:		ldy #$01		; a0 01
 B22_178e:		lda ($02), y	; b1 02
 B22_1790:		sta $10			; 85 10
-B22_1792:		lda $0438		; ad 38 04
+B22_1792:		lda wEntityBaseX.w		; ad 38 04
 B22_1795:		sta $04			; 85 04
-B22_1797:		lda $041c		; ad 1c 04
+B22_1797:		lda wEntityBaseY.w		; ad 1c 04
 B22_179a:		sta $05			; 85 05
 B22_179c:		jsr $ff30		; 20 30 ff
 B22_179f:		lda $00			; a5 00
@@ -3618,7 +3777,7 @@ B22_17c8:		lda $00			; a5 00
 B22_17ca:		and #$10		; 29 10
 B22_17cc:		beq B22_17d1 ; f0 03
 
-B22_17ce:		jsr $804b		; 20 4b 80
+B22_17ce:		jsr reverseEnemyDirection_todo		; 20 4b 80
 B22_17d1:		clc				; 18 
 B22_17d2:		lda $00			; a5 00
 B22_17d4:		adc #$08		; 69 08
@@ -3729,6 +3888,9 @@ B22_1869:		ora ($d9, x)	; 01 d9
 B22_186b:		ora ($f5, x)	; 01 f5
 B22_186d:	.db $02
 B22_186e:		.db $00				; 00
+
+
+entityPhaseFunc_57:
 B22_186f:		jsr $8240		; 20 40 82
 B22_1872:		clc				; 18 
 B22_1873:		lda $07f6		; ad f6 07
@@ -3740,8 +3902,8 @@ B22_187e:		sta $04f2, x	; 9d f2 04
 B22_1881:		lda $98a3, y	; b9 a3 98
 B22_1884:		sta $0509, x	; 9d 09 05
 B22_1887:		ldy #$00		; a0 00
-B22_1889:		lda $041c, x	; bd 1c 04
-B22_188c:		cmp $041c		; cd 1c 04
+B22_1889:		lda wEntityBaseY.w, x	; bd 1c 04
+B22_188c:		cmp wEntityBaseY.w		; cd 1c 04
 B22_188f:		bcc B22_1892 ; 90 01
 
 B22_1891:		iny				; c8 
@@ -3764,24 +3926,28 @@ B22_18a8:	.db $ff
 B22_18a9:		rti				; 40 
 
 
-B22_18aa:		cpy #$de		; c0 de
-B22_18ac:		asl $06			; 06 06
+B22_18aa:		.db $c0
+
+
+entityPhaseFunc_5e:
+	dec $0606, x
 B22_18ae:		beq B22_18b7 ; f0 07
 
 B22_18b0:		ldy #$03		; a0 03
-B22_18b2:		jsr $b7a6		; 20 a6 b7
+B22_18b2:		jsr func_17_17a6		; 20 a6 b7
 B22_18b5:		beq B22_18bd ; f0 06
 
-B22_18b7:		jsr $819e		; 20 9e 81
-B22_18ba:		inc $05c1, x	; fe c1 05
+B22_18b7:		jsr func_16_019e		; 20 9e 81
+B22_18ba:		inc wEntityPhase.w, x	; fe c1 05
 B22_18bd:		rts				; 60 
 
 
 B22_18be:		lda #$17		; a9 17
-B22_18c0:		sta $05c1, x	; 9d c1 05
+B22_18c0:		sta wEntityPhase.w, x	; 9d c1 05
 B22_18c3:		rts				; 60 
 
 
+entityPhaseFunc_5b:
 B22_18c4:		jsr $80d5		; 20 d5 80
 B22_18c7:		cmp #$18		; c9 18
 B22_18c9:		bcs B22_18d2 ; b0 07
@@ -3790,7 +3956,7 @@ B22_18cb:		jsr $80b3		; 20 b3 80
 B22_18ce:		cmp #$30		; c9 30
 B22_18d0:		bcc B22_18be ; 90 ec
 
-B22_18d2:		lda $34			; a5 34
+B22_18d2:		lda wCurrRoomIdx			; a5 34
 B22_18d4:		bne B22_18da ; d0 04
 
 B22_18d6:		ldy #$00		; a0 00
@@ -3813,19 +3979,19 @@ B22_18fd:		dec $061d, x	; de 1d 06
 B22_1900:		bne B22_1907 ; d0 05
 
 B22_1902:		lda #$29		; a9 29
-B22_1904:		sta $05c1, x	; 9d c1 05
+B22_1904:		sta wEntityPhase.w, x	; 9d c1 05
 B22_1907:		ldy #$08		; a0 08
-B22_1909:		jsr $b7a6		; 20 a6 b7
+B22_1909:		jsr func_17_17a6		; 20 a6 b7
 B22_190c:		cmp #$01		; c9 01
 B22_190e:		beq B22_1913 ; f0 03
 
-B22_1910:		inc $05c1, x	; fe c1 05
-B22_1913:		inc $05c1, x	; fe c1 05
-B22_1916:		jsr $81aa		; 20 aa 81
+B22_1910:		inc wEntityPhase.w, x	; fe c1 05
+B22_1913:		inc wEntityPhase.w, x	; fe c1 05
+B22_1916:		jsr func_16_01aa		; 20 aa 81
 B22_1919:		lda $04a8, x	; bd a8 04
 B22_191c:		beq B22_18bd ; f0 9f
 
-B22_191e:		jmp $804b		; 4c 4b 80
+B22_191e:		jmp reverseEnemyDirection_todo		; 4c 4b 80
 
 
 B22_1921:	.db $fd $fc $00
@@ -3834,7 +4000,7 @@ B22_1925:		plp				; 28
 B22_1926:	.db $20 $01 $00
 B22_1929:		jsr $20c0		; 20 c0 20
 B22_192c:		stx $3899		; 8e 99 38
-B22_192f:		lda $041c, x	; bd 1c 04
+B22_192f:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_1932:		sbc #$18		; e9 18
 B22_1934:		sta $01			; 85 01
 B22_1936:		jsr $80e3		; 20 e3 80
@@ -3842,15 +4008,16 @@ B22_1939:		bne B22_1968 ; d0 2d
 
 B22_193b:		jsr $996b		; 20 6b 99
 B22_193e:		lda #$2a		; a9 2a
-B22_1940:		sta $05ef, x	; 9d ef 05
+B22_1940:		sta wEntityAI_idx.w, x	; 9d ef 05
 B22_1943:		jmp $9936		; 4c 36 99
 
 
-B22_1946:		inc $05c1, x	; fe c1 05
+entityPhaseFunc_68:
+B22_1946:		inc wEntityPhase.w, x	; fe c1 05
 B22_1949:		jsr $998e		; 20 8e 99
 B22_194c:		ldy #$01		; a0 01
 B22_194e:		sec				; 38 
-B22_194f:		lda $041c, x	; bd 1c 04
+B22_194f:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_1952:		sbc ($02), y	; f1 02
 B22_1954:		sta $01			; 85 01
 B22_1956:		jsr $80e3		; 20 e3 80
@@ -3859,7 +4026,7 @@ B22_1959:		bne B22_1968 ; d0 0d
 B22_195b:		jsr $996b		; 20 6b 99
 B22_195e:		ldy #$02		; a0 02
 B22_1960:		lda ($02), y	; b1 02
-B22_1962:		sta $05ef, x	; 9d ef 05
+B22_1962:		sta wEntityAI_idx.w, x	; 9d ef 05
 B22_1965:		jmp $9956		; 4c 56 99
 
 
@@ -3868,22 +4035,22 @@ B22_196a:		rts				; 60
 
 
 B22_196b:		lda $00			; a5 00
-B22_196d:		sta $0438, x	; 9d 38 04
+B22_196d:		sta wEntityBaseX.w, x	; 9d 38 04
 B22_1970:		lda $01			; a5 01
-B22_1972:		sta $041c, x	; 9d 1c 04
+B22_1972:		sta wEntityBaseY.w, x	; 9d 1c 04
 B22_1975:		lda #$68		; a9 68
 B22_1977:		sta $054e, x	; 9d 4e 05
 B22_197a:		lda $0e			; a5 0e
 B22_197c:		sta $0470, x	; 9d 70 04
 B22_197f:		lda #$00		; a9 00
-B22_1981:		sta $05c1, x	; 9d c1 05
+B22_1981:		sta wEntityPhase.w, x	; 9d c1 05
 B22_1984:		sta $0400, x	; 9d 00 04
 B22_1987:		sta $048c, x	; 9d 8c 04
 B22_198a:		sta $0657, x	; 9d 57 06
 B22_198d:		rts				; 60 
 
 
-B22_198e:		lda $0438, x	; bd 38 04
+B22_198e:		lda wEntityBaseX.w, x	; bd 38 04
 B22_1991:		sta $00			; 85 00
 B22_1993:		lda $0470, x	; bd 70 04
 B22_1996:		and #$fb		; 29 fb
@@ -3892,31 +4059,32 @@ B22_199a:		sta $0e			; 85 0e
 B22_199c:		rts				; 60 
 
 
+entityPhaseFunc_6b:
 B22_199d:		ldx $6c			; a6 6c
 B22_199f:		ldy #$06		; a0 06
-B22_19a1:		jsr $b7a6		; 20 a6 b7
+B22_19a1:		jsr func_17_17a6		; 20 a6 b7
 B22_19a4:		bne B22_19b4 ; d0 0e
 
 B22_19a6:		ldx $6c			; a6 6c
 B22_19a8:		jsr func_1f_1ec8		; 20 c8 fe
 B22_19ab:		lda #$01		; a9 01
 B22_19ad:		sta $0520, x	; 9d 20 05
-B22_19b0:		inc $05c1, x	; fe c1 05
+B22_19b0:		inc wEntityPhase.w, x	; fe c1 05
 B22_19b3:		rts				; 60 
 
 
-B22_19b4:		jsr $8b91		; 20 91 8b
+B22_19b4:		jsr func_16_0b91		; 20 91 8b
 B22_19b7:		ldx $6c			; a6 6c
 B22_19b9:		ldy #$08		; a0 08
-B22_19bb:		jsr $b7a6		; 20 a6 b7
+B22_19bb:		jsr func_17_17a6		; 20 a6 b7
 B22_19be:		beq B22_19ee ; f0 2e
 
 B22_19c0:		ldx $6c			; a6 6c
 B22_19c2:		ldy #$0c		; a0 0c
-B22_19c4:		jsr $b7a6		; 20 a6 b7
+B22_19c4:		jsr func_17_17a6		; 20 a6 b7
 B22_19c7:		bne B22_19ee ; d0 25
 
-B22_19c9:		lda $05ef, x	; bd ef 05
+B22_19c9:		lda wEntityAI_idx.w, x	; bd ef 05
 B22_19cc:		cmp #$71		; c9 71
 B22_19ce:		bne B22_19d5 ; d0 05
 
@@ -3927,7 +4095,7 @@ B22_19d5:		ldx $6c			; a6 6c
 B22_19d7:		dec $0606, x	; de 06 06
 B22_19da:		beq B22_19ee ; f0 12
 
-B22_19dc:		ldy $0438, x	; bc 38 04
+B22_19dc:		ldy wEntityBaseX.w, x	; bc 38 04
 B22_19df:		lda $04a8, x	; bd a8 04
 B22_19e2:		bne B22_19e9 ; d0 05
 
@@ -3947,9 +4115,9 @@ B22_19ee:		ldx $6c			; a6 6c
 B22_19f0:		lda $04a8, x	; bd a8 04
 B22_19f3:		eor #$01		; 49 01
 B22_19f5:		sta $04a8, x	; 9d a8 04
-B22_19f8:		jsr $804b		; 20 4b 80
+B22_19f8:		jsr reverseEnemyDirection_todo		; 20 4b 80
 B22_19fb:		lda $1a			; a5 1a
-B22_19fd:		adc $0438		; 6d 38 04
+B22_19fd:		adc wEntityBaseX.w		; 6d 38 04
 B22_1a00:		and #$03		; 29 03
 B22_1a02:		tay				; a8 
 B22_1a03:		lda $9a0a, y	; b9 0a 9a
@@ -3969,8 +4137,8 @@ B22_1a18:		cmp #$20		; c9 20
 B22_1a1a:		bcs B22_1a36 ; b0 1a
 
 B22_1a1c:		lda #$00		; a9 00
-B22_1a1e:		ldy $0438, x	; bc 38 04
-B22_1a21:		cpy $0438		; cc 38 04
+B22_1a1e:		ldy wEntityBaseX.w, x	; bc 38 04
+B22_1a21:		cpy wEntityBaseX.w		; cc 38 04
 B22_1a24:		bcc B22_1a28 ; 90 02
 
 B22_1a26:		lda #$01		; a9 01
@@ -3979,7 +4147,7 @@ B22_1a2b:		bne B22_1a36 ; d0 09
 
 B22_1a2d:		jsr func_1f_1ec8		; 20 c8 fe
 B22_1a30:		lda #$05		; a9 05
-B22_1a32:		sta $05c1, x	; 9d c1 05
+B22_1a32:		sta wEntityPhase.w, x	; 9d c1 05
 B22_1a35:		rts				; 60 
 
 
@@ -3987,11 +4155,13 @@ B22_1a36:		lda #$00		; a9 00
 B22_1a38:		rts				; 60 
 
 
+entityPhaseFunc_79:
 B22_1a39:		jsr $9dc5		; 20 c5 9d
 B22_1a3c:		ldx $6c			; a6 6c
 B22_1a3e:		rts				; 60 
 
 
+entityPhaseFunc_77:
 B22_1a3f:		lda $0470, x	; bd 70 04
 B22_1a42:		and #$01		; 29 01
 B22_1a44:		bne B22_1a6f ; d0 29
@@ -4020,6 +4190,9 @@ B22_1a73:		php				; 08
 B22_1a74:		.db $00				; 00
 B22_1a75:		ora ($08, x)	; 01 08
 B22_1a77:		clc				; 18 
+
+
+entityPhaseFunc_76:
 B22_1a78:		dec $0606, x	; de 06 06
 B22_1a7b:		bne B22_1a6f ; d0 f2
 
@@ -4033,10 +4206,10 @@ B22_1a8a:		sta $00			; 85 00
 B22_1a8c:		lda $9b72, y	; b9 72 9b
 B22_1a8f:		sta $09			; 85 09
 B22_1a91:		clc				; 18 
-B22_1a92:		lda $0438, x	; bd 38 04
+B22_1a92:		lda wEntityBaseX.w, x	; bd 38 04
 B22_1a95:		adc $9a72, y	; 79 72 9a
 B22_1a98:		ldy $061d, x	; bc 1d 06
-B22_1a9b:		sta $0438, y	; 99 38 04
+B22_1a9b:		sta wEntityBaseX.w, y	; 99 38 04
 B22_1a9e:		lda $0470, x	; bd 70 04
 B22_1aa1:		and #$be		; 29 be
 B22_1aa3:		sta $08			; 85 08
@@ -4048,21 +4221,21 @@ B22_1aae:		ora $08			; 05 08
 B22_1ab0:		sta $0470, y	; 99 70 04
 B22_1ab3:		lda $00			; a5 00
 B22_1ab5:		sta $04a8, y	; 99 a8 04
-B22_1ab8:		lda $041c, x	; bd 1c 04
-B22_1abb:		sta $041c, y	; 99 1c 04
+B22_1ab8:		lda wEntityBaseY.w, x	; bd 1c 04
+B22_1abb:		sta wEntityBaseY.w, y	; 99 1c 04
 B22_1abe:		lda #$12		; a9 12
 B22_1ac0:		sta $048c, y	; 99 8c 04
 B22_1ac3:		lda #$2d		; a9 2d
-B22_1ac5:		sta $05ef, y	; 99 ef 05
+B22_1ac5:		sta wEntityAI_idx.w, y	; 99 ef 05
 B22_1ac8:		lda #$59		; a9 59
 B22_1aca:		sta $054e, y	; 99 4e 05
 B22_1acd:		lda #$00		; a9 00
-B22_1acf:		sta $0454, y	; 99 54 04
+B22_1acf:		sta wEntityPaletteOverride.w, y	; 99 54 04
 B22_1ad2:		sta $04f2, y	; 99 f2 04
 B22_1ad5:		sta $0509, y	; 99 09 05
 B22_1ad8:		sta $0520, y	; 99 20 05
 B22_1adb:		sta $0537, y	; 99 37 05
-B22_1ade:		sta $05c1, y	; 99 c1 05
+B22_1ade:		sta wEntityPhase.w, y	; 99 c1 05
 B22_1ae1:		lda #$20		; a9 20
 B22_1ae3:		sta $067b, y	; 99 7b 06
 B22_1ae6:		lda #$20		; a9 20
@@ -4080,11 +4253,11 @@ B22_1afc:		inc $061d, x	; fe 1d 06
 B22_1aff:		jmp $9a6a		; 4c 6a 9a
 
 
-B22_1b02:		inc $05c1, x	; fe c1 05
+B22_1b02:		inc wEntityPhase.w, x	; fe c1 05
 B22_1b05:		jsr func_1f_1ec8		; 20 c8 fe
 B22_1b08:		lda #$00		; a9 00
 B22_1b0a:		sta $07ec		; 8d ec 07
-B22_1b0d:		jsr $819e		; 20 9e 81
+B22_1b0d:		jsr func_16_019e		; 20 9e 81
 B22_1b10:		ldy $07ed		; ac ed 07
 B22_1b13:		lda $9a76, y	; b9 76 9a
 B22_1b16:		sta $07			; 85 07
@@ -4100,7 +4273,7 @@ B22_1b2b:		bcc B22_1b1a ; 90 ed
 
 B22_1b2d:		ldx #$01		; a2 01
 B22_1b2f:		lda #$02		; a9 02
-B22_1b31:		sta $05c1, x	; 9d c1 05
+B22_1b31:		sta wEntityPhase.w, x	; 9d c1 05
 B22_1b34:		inx				; e8 
 B22_1b35:		cpx #$08		; e0 08
 B22_1b37:		bcc B22_1b2f ; 90 f6
@@ -4151,6 +4324,9 @@ B22_1b70:	.db $80
 B22_1b71:	.db $80
 B22_1b72:	.db $ff
 B22_1b73:		.db $00				; 00
+
+
+entityPhaseFunc_78:
 B22_1b74:		jsr $9b83		; 20 83 9b
 B22_1b77:		jsr $9bf8		; 20 f8 9b
 B22_1b7a:		jsr $9de9		; 20 e9 9d
@@ -4237,24 +4413,24 @@ B22_1bfc:		ldx $10			; a6 10
 B22_1bfe:		cpx #$07		; e0 07
 B22_1c00:		beq B22_1c23 ; f0 21
 
-B22_1c02:		lda $0438, x	; bd 38 04
+B22_1c02:		lda wEntityBaseX.w, x	; bd 38 04
 B22_1c05:		sta $04			; 85 04
-B22_1c07:		lda $041c, x	; bd 1c 04
+B22_1c07:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_1c0a:		sta $05			; 85 05
 B22_1c0c:		ldy $0606, x	; bc 06 06
 B22_1c0f:		jsr $9d7f		; 20 7f 9d
 B22_1c12:		clc				; 18 
 B22_1c13:		lda $9c67, y	; b9 67 9c
 B22_1c16:		adc $05			; 65 05
-B22_1c18:		sta $041c, x	; 9d 1c 04
+B22_1c18:		sta wEntityBaseY.w, x	; 9d 1c 04
 B22_1c1b:		jsr $9c89		; 20 89 9c
 B22_1c1e:		inc $10			; e6 10
 B22_1c20:		jmp $9bfc		; 4c fc 9b
 
 
-B22_1c23:		lda $0438, x	; bd 38 04
+B22_1c23:		lda wEntityBaseX.w, x	; bd 38 04
 B22_1c26:		sta $04			; 85 04
-B22_1c28:		lda $041c, x	; bd 1c 04
+B22_1c28:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_1c2b:		sta $05			; 85 05
 B22_1c2d:		lda $0470, x	; bd 70 04
 B22_1c30:		and #$fe		; 29 fe
@@ -4265,7 +4441,7 @@ B22_1c36:		ldy $07ed		; ac ed 07
 B22_1c39:		lda $9c87, y	; b9 87 9c
 B22_1c3c:		jsr $9d8b		; 20 8b 9d
 B22_1c3f:		lda $05			; a5 05
-B22_1c41:		sta $041c, x	; 9d 1c 04
+B22_1c41:		sta wEntityBaseY.w, x	; 9d 1c 04
 B22_1c44:		ldx $6c			; a6 6c
 B22_1c46:		rts				; 60 
 
@@ -4386,17 +4562,20 @@ B22_1cdf:		ora ($01, x)	; 01 01
 B22_1ce1:		ora ($01, x)	; 01 01
 B22_1ce3:		ora ($01, x)	; 01 01
 B22_1ce5:		ora ($01, x)	; 01 01
-B22_1ce7:		ora ($a2, x)	; 01 a2
-B22_1ce9:		ora ($a5, x)	; 01 a5
-B22_1ceb:	.db $1a
+B22_1ce7:		.db $01
+
+
+entityPhaseFunc_7a:
+	ldx #$01
+B22_1cea:		lda $1a
 B22_1cec:		and #$01		; 29 01
 B22_1cee:		tay				; a8 
 B22_1cef:		lda $9d0c, y	; b9 0c 9d
 B22_1cf2:		sta $054e, x	; 9d 4e 05
 B22_1cf5:		lda $9d0e, y	; b9 0e 9d
-B22_1cf8:		sta $05ef, x	; 9d ef 05
+B22_1cf8:		sta wEntityAI_idx.w, x	; 9d ef 05
 B22_1cfb:		lda #$00		; a9 00
-B22_1cfd:		sta $05c1, x	; 9d c1 05
+B22_1cfd:		sta wEntityPhase.w, x	; 9d c1 05
 B22_1d00:		sta $0400, x	; 9d 00 04
 B22_1d03:		sta $048c, x	; 9d 8c 04
 B22_1d06:		inx				; e8 
@@ -4499,12 +4678,12 @@ B22_1d88:		lda $9c47, y	; b9 47 9c
 B22_1d8b:		bpl B22_1d96 ; 10 09
 
 B22_1d8d:		adc $04			; 65 04
-B22_1d8f:		sta $0438, x	; 9d 38 04
+B22_1d8f:		sta wEntityBaseX.w, x	; 9d 38 04
 B22_1d92:		lda #$ff		; a9 ff
 B22_1d94:		bne B22_1d9d ; d0 07
 
 B22_1d96:		adc $04			; 65 04
-B22_1d98:		sta $0438, x	; 9d 38 04
+B22_1d98:		sta wEntityBaseX.w, x	; 9d 38 04
 B22_1d9b:		lda #$00		; a9 00
 B22_1d9d:		sta $01			; 85 01
 B22_1d9f:		dex				; ca 
@@ -4582,7 +4761,7 @@ B22_1e0f:		bne B22_1e61 ; d0 50
 
 B22_1e11:		jsr func_1f_1ed7		; 20 d7 fe
 B22_1e14:		lda #$58		; a9 58
-B22_1e16:		sta $05ef, x	; 9d ef 05
+B22_1e16:		sta wEntityAI_idx.w, x	; 9d ef 05
 B22_1e19:		lda #$40		; a9 40
 B22_1e1b:		sta $054e, x	; 9d 4e 05
 B22_1e1e:		lda $04b0		; ad b0 04
@@ -4592,7 +4771,7 @@ B22_1e26:		jsr $9fc9		; 20 c9 9f
 B22_1e29:		clc				; 18 
 B22_1e2a:		lda $0424		; ad 24 04
 B22_1e2d:		adc #$04		; 69 04
-B22_1e2f:		sta $041c, x	; 9d 1c 04
+B22_1e2f:		sta wEntityBaseY.w, x	; 9d 1c 04
 B22_1e32:		lda $0478		; ad 78 04
 B22_1e35:		and #$ba		; 29 ba
 B22_1e37:		ora #$60		; 09 60
@@ -4601,7 +4780,7 @@ B22_1e3b:		clc				; 18
 B22_1e3c:		ldy $07ed		; ac ed 07
 B22_1e3f:		lda $9e73, y	; b9 73 9e
 B22_1e42:		adc $0440		; 6d 40 04
-B22_1e45:		sta $0438, x	; 9d 38 04
+B22_1e45:		sta wEntityBaseX.w, x	; 9d 38 04
 B22_1e48:		lda $0478		; ad 78 04
 B22_1e4b:		and #$01		; 29 01
 B22_1e4d:		adc $9e79, y	; 79 79 9e
@@ -4644,6 +4823,9 @@ B22_1e89:	.db $3a
 B22_1e8a:		pha				; 48 
 B22_1e8b:	.db $3c
 B22_1e8c:		lsr a			; 4a
+
+
+entityPhaseFunc_84:
 B22_1e8d:		ldy $0633, x	; bc 33 06
 B22_1e90:		lda $9f0d, y	; b9 0d 9f
 B22_1e93:		sta $0606, x	; 9d 06 06
@@ -4755,6 +4937,9 @@ B22_1f21:	.db $03
 B22_1f22:		.db $00				; 00
 B22_1f23:		.db $00				; 00
 B22_1f24:		.db $00				; 00
+
+
+entityPhaseFunc_85:
 B22_1f25:		jsr $9f8e		; 20 8e 9f
 B22_1f28:		jsr $9f9b		; 20 9b 9f
 B22_1f2b:		beq B22_1f41 ; f0 14
@@ -4771,7 +4956,7 @@ B22_1f3e:		jmp $9f84		; 4c 84 9f
 
 
 B22_1f41:		ldx $6c			; a6 6c
-B22_1f43:		inc $05c1, x	; fe c1 05
+B22_1f43:		inc wEntityPhase.w, x	; fe c1 05
 B22_1f46:		jmp $9f81		; 4c 81 9f
 
 
@@ -4787,6 +4972,9 @@ B22_1f53:		ora ($02, x)	; 01 02
 B22_1f55:		ora ($02, x)	; 01 02
 B22_1f57:	.db $03
 B22_1f58:		.db $00				; 00
+
+
+entityPhaseFunc_86:
 B22_1f59:		jsr $9f8e		; 20 8e 9f
 B22_1f5c:		jsr $9f9b		; 20 9b 9f
 B22_1f5f:		bne B22_1f75 ; d0 14
@@ -4801,7 +4989,7 @@ B22_1f6d:		jsr $9f8e		; 20 8e 9f
 B22_1f70:		adc #$04		; 69 04
 B22_1f72:		jsr $9f84		; 20 84 9f
 B22_1f75:		ldx $6c			; a6 6c
-B22_1f77:		dec $05c1, x	; de c1 05
+B22_1f77:		dec wEntityPhase.w, x	; de c1 05
 B22_1f7a:		rts				; 60 
 
 
@@ -4831,7 +5019,7 @@ B22_1f9c:		lda $9fb9, y	; b9 b9 9f
 B22_1f9f:		sta $00			; 85 00
 B22_1fa1:		lda $9fa9, y	; b9 a9 9f
 B22_1fa4:		ldy $00			; a4 00
-B22_1fa6:		jmp $fc1e		; 4c 1e fc
+B22_1fa6:		jmp func_1f_1c1e		; 4c 1e fc
 
 
 B22_1fa9:	.db $07
@@ -4869,7 +5057,7 @@ B22_1fc8:		sed				; f8
 B22_1fc9:		lda $07f6		; ad f6 07
 B22_1fcc:		bne B22_1fe3 ; d0 15
 
-B22_1fce:		lda $32			; a5 32
+B22_1fce:		lda wCurrRoomGroup		; a5 32
 B22_1fd0:		ldy #$00		; a0 00
 B22_1fd2:		cmp #$03		; c9 03
 B22_1fd4:		bcc B22_1fdc ; 90 06
@@ -4890,18 +5078,22 @@ B22_1fe5:		bne B22_1fdf ; d0 f8
 B22_1fe7:		;removed
 	.db $10 $20
 
-B22_1fe9:		bmi B22_1fe9 ; 30 fe
+B22_1fe9:		.db $30 
 
-B22_1feb:		cmp ($05, x)	; c1 05
+
+entityPhaseFunc_69:
+	inc $05c1, x
 B22_1fed:		ldy #$01		; a0 01
 B22_1fef:		lda ($02), y	; b1 02
 B22_1ff1:		sta $061d, x	; 9d 1d 06
 B22_1ff4:		iny				; c8 
 B22_1ff5:		lda ($02), y	; b1 02
 B22_1ff7:		sta $0606, x	; 9d 06 06
-B22_1ffa:		rts				; 60 
+-	rts				; 60 
 
 
+entityPhaseFunc_6a:
 B22_1ffb:		jsr $8120		; 20 20 81
-		.db $b0
-		.db $fa
+	bcs -
+
+; cont.

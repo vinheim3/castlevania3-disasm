@@ -16,6 +16,9 @@
 
     wTempJoy2ButtonsPressedPass1: ; $01
         db
+.nextu
+    wCurrEntityPhaseFuncAddr: ; $00
+        dw
 .endu
 
 .union
@@ -33,16 +36,27 @@
 
     wTempJoy2ButtonsPressedPass2: ; $03
         db
+.nextu
+    wPhaseFuncDataAddr: ; $02
+        dw
+.nextu
+    wCurrEntityScriptAddr: ; $02
+        dw
 .endu
 
-wJoy1IsButtonPressed: ; $04
-    db
+.union
+    wJoy1IsButtonPressed: ; $04
+        db
 
-wJoy2IsButtonPressed: ; $05
-    db
+    wJoy2IsButtonPressed: ; $05
+        db
+.nextu
+    wCurrSectionEntityDataAddr: ; $04
+        dw
 
-w006:
-    dsb 2
+    wCurrRoomGroupEntityDataAddr: ; $06
+        dw
+.endu
 
 .union
     wCurrRoomGroupMetaDataAddress: ; $08
@@ -166,6 +180,9 @@ w042:
 wIRQFuncAddr: ; $44
     dw
 
+wChrBanks:
+    .db
+
 wChrBankSpr_0000: ; $46
     db
 
@@ -200,7 +217,16 @@ wRoomMetaTilesAddr: ; $50
     dw
 
 w052:
-    dsb $d-2
+    dsb 4
+
+wCurrScrollXWithinRoom: ; $56
+    db
+
+wCurrScrollXRoom: ; $57
+    db
+
+w058:
+    dsb $d-8
 
 wCurrRoomGroupMetaTileTiles: ; $5d
     dw
@@ -235,7 +261,19 @@ wGameplayScrollX: ; $6f
     db
 
 w070:
-    dsb $e0-$70
+    dsb 6
+
+wCurrRoomXQuarter: ; $76
+    db
+
+w077:
+    dsb $98-$77
+
+wCurrRoomEntityDataAddr: ; $98
+    dw
+
+w09a:
+    dsb $e0-$9a
 
 wCurrInstrumentDataAddr: ; $e0
     dw
@@ -435,7 +473,9 @@ wStackEnd:
     .db
 
 wOam: ; $200
-    dsb $100
+    instanceof Oam
+wOamCont:
+    dsb $100-Oam.size
 
 ; todo: unknown size
 wVramQueue: ; $300
@@ -457,7 +497,47 @@ wInstrumentEnvelopeMultiplier: ; $3e1
     dsb 3
 
 w3e4:
-    dsb $6a0-$3e4
+    dsb $41c-$3e4
+
+wEntityBaseY: ; $41c
+    dsb NUM_ENTITIES
+
+wEntityBaseX: ; $438
+    dsb NUM_ENTITIES
+
+wEntityPaletteOverride: ; $454
+    dsb NUM_ENTITIES
+
+w470:
+    dsb $57c-$470
+
+; todo: unknown size
+wEntityTimeUntilNextAnimation: ; $57c
+    db
+
+w57d:
+    dsb $93-$7d
+
+; todo: unknown size
+wEntityAnimationIdxes: ; $593
+    db
+
+w594:
+    dsb $c1-$94
+
+; which step in their AI to perform
+; todo: trevor fall switch
+wEntityPhase: ; $5c1
+    dsb NUM_ENTITIES
+
+w5dd:
+    dsb $ef-$dd
+
+wEntityAI_idx: ; $5ef
+    dsb NUM_ENTITIES
+
+w60b:
+    dsb $a0-$b
 
 wInstrumentEnvelopeLoopToIdx: ; $6a0
     dsb 3

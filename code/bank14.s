@@ -1,85 +1,104 @@
 
-func_14_0001:
+getCurrRoomXplus2_roomQuarterIdx:
 	clc
-B20_0002:		lda $56			; a5 56
-B20_0004:		adc #$02		; 69 02
-B20_0006:		pha				; 48 
-B20_0007:		lda $57			; a5 57
-B20_0009:		adc #$00		; 69 00
-B20_000b:		sta $76			; 85 76
-B20_000d:		pla				; 68 
-B20_000e:		jmp $8017		; 4c 17 80
+	lda wCurrScrollXWithinRoom
+	adc #$02
+	pha
+	lda wCurrScrollXRoom
+	adc #$00
+	sta wCurrRoomXQuarter
+	pla
+	jmp +
 
 
-B20_0011:		lda $57			; a5 57
-B20_0013:		sta $76			; 85 76
-B20_0015:		lda $56			; a5 56
-B20_0017:		asl a			; 0a
-B20_0018:		rol $76			; 26 76
-B20_001a:		asl a			; 0a
-B20_001b:		rol $76			; 26 76
-B20_001d:		rts				; 60 
+getCurrRoomX_roomQuarterIdx:
+	lda wCurrScrollXRoom
+	sta wCurrRoomXQuarter
+	lda wCurrScrollXWithinRoom
+
++
+	asl a
+	rol wCurrRoomXQuarter
+	asl a
+	rol wCurrRoomXQuarter
+	rts
 
 
-B20_001e:		lda $32			; a5 32
-B20_0020:		asl a			; 0a
-B20_0021:		tay				; a8 
-B20_0022:		lda $937f, y	; b9 7f 93
-B20_0025:		sta $06			; 85 06
-B20_0027:		lda $9380, y	; b9 80 93
-B20_002a:		sta $07			; 85 07
-B20_002c:		lda $33			; a5 33
-B20_002e:		asl a			; 0a
-B20_002f:		tay				; a8 
-B20_0030:		lda ($06), y	; b1 06
-B20_0032:		sta $04			; 85 04
-B20_0034:		iny				; c8 
-B20_0035:		lda ($06), y	; b1 06
-B20_0037:		sta $05			; 85 05
-B20_0039:		lda $34			; a5 34
-B20_003b:		asl a			; 0a
-B20_003c:		tay				; a8 
-B20_003d:		lda ($04), y	; b1 04
-B20_003f:		sta $98			; 85 98
-B20_0041:		iny				; c8 
-B20_0042:		lda ($04), y	; b1 04
-B20_0044:		sta $99			; 85 99
-B20_0046:		rts				; 60 
+getRoomLuminaryDataAddr:
+	lda wCurrRoomGroup
+	asl a
+	tay
+	lda roomLuminaryDataAddresses.w, y
+	sta wCurrRoomGroupEntityDataAddr
+	lda roomLuminaryDataAddresses.w+1, y
+	sta wCurrRoomGroupEntityDataAddr+1
+
+	lda wCurrRoomSection
+	asl a
+	tay
+	lda (wCurrRoomGroupEntityDataAddr), y
+	sta wCurrSectionEntityDataAddr
+	iny
+	lda (wCurrRoomGroupEntityDataAddr), y
+	sta wCurrSectionEntityDataAddr+1
+
+	lda wCurrRoomIdx
+	asl a
+	tay
+	lda (wCurrSectionEntityDataAddr), y
+	sta wCurrRoomEntityDataAddr
+	iny
+	lda (wCurrSectionEntityDataAddr), y
+	sta wCurrRoomEntityDataAddr+1
+	rts
 
 
-func_14_0047:
+loadRoomLuminaries:
 B20_0047:		ldx #$00		; a2 00
+
+; clear f0 to f3
 B20_0049:		lda #$00		; a9 00
 B20_004b:		sta $f0, x		; 95 f0
 B20_004d:		inx				; e8 
 B20_004e:		cpx #$04		; e0 04
 B20_0050:		bcc B20_0049 ; 90 f7
 
-B20_0052:		jsr $8011		; 20 11 80
-B20_0055:		jsr $801e		; 20 1e 80
+B20_0052:		jsr getCurrRoomX_roomQuarterIdx		; 20 11 80
+B20_0055:		jsr getRoomLuminaryDataAddr		; 20 1e 80
+
+; 6 luminaries
 B20_0058:		lda #$06		; a9 06
 B20_005a:		sta $0c			; 85 0c
-B20_005c:		lda $56			; a5 56
+
+; 08 is offset within room quarter
+B20_005c:		lda wCurrScrollXWithinRoom			; a5 56
 B20_005e:		and #$3f		; 29 3f
 B20_0060:		sta $08			; 85 08
+
 B20_0062:		lda #$c0		; a9 c0
 B20_0064:		sec				; 38 
 B20_0065:		sbc $08			; e5 08
 B20_0067:		sta $09			; 85 09
+
 B20_0069:		lda #$01		; a9 01
 B20_006b:		sta $0a			; 85 0a
-B20_006d:		jsr $80fc		; 20 fc 80
-B20_0070:		inc $76			; e6 76
+@nextLuminary:
+B20_006d:		jsr loadLuminary		; 20 fc 80
+B20_0070:		inc wCurrRoomXQuarter			; e6 76
+
+; 09/0a += 140
 B20_0072:		lda $09			; a5 09
 B20_0074:		clc				; 18 
 B20_0075:		adc #$40		; 69 40
 B20_0077:		sta $09			; 85 09
+
 B20_0079:		lda $0a			; a5 0a
 B20_007b:		adc #$00		; 69 00
 B20_007d:		and #$01		; 29 01
 B20_007f:		sta $0a			; 85 0a
+
 B20_0081:		dec $0c			; c6 0c
-B20_0083:		bne B20_006d ; d0 e8
+B20_0083:		bne B20_006d ; @nextLuminary
 
 B20_0085:		lda #$ff		; a9 ff
 B20_0087:		sta $77			; 85 77
@@ -100,36 +119,36 @@ B20_0094:		ldy $6e			; a4 6e
 B20_0096:		cpy #$ff		; c0 ff
 B20_0098:		beq B20_00b9 ; f0 1f
 
-B20_009a:		lda $56			; a5 56
+B20_009a:		lda wCurrScrollXWithinRoom			; a5 56
 B20_009c:		and #$3f		; 29 3f
 B20_009e:		cmp #$3f		; c9 3f
 B20_00a0:		bne B20_00b9 ; d0 17
 
-B20_00a2:		lda $56			; a5 56
+B20_00a2:		lda wCurrScrollXWithinRoom			; a5 56
 B20_00a4:		clc				; 18 
 B20_00a5:		adc #$01		; 69 01
 B20_00a7:		jmp B20_00c1		; 4c c1 80
 
-B20_00aa:		lda $56			; a5 56
+B20_00aa:		lda wCurrScrollXWithinRoom			; a5 56
 B20_00ac:		and #$3f		; 29 3f
 B20_00ae:		cmp #$01		; c9 01
 B20_00b0:		bne B20_00b9 ; d0 07
 
-B20_00b2:		lda $56			; a5 56
+B20_00b2:		lda wCurrScrollXWithinRoom			; a5 56
 B20_00b4:		and #$fe		; 29 fe
 B20_00b6:		jmp B20_00c1		; 4c c1 80
 
-B20_00b9:		lda $56			; a5 56
+B20_00b9:		lda wCurrScrollXWithinRoom			; a5 56
 B20_00bb:		and #$3f		; 29 3f
 B20_00bd:		bne B20_0089 ; d0 ca
 
-B20_00bf:		lda $56			; a5 56
+B20_00bf:		lda wCurrScrollXWithinRoom			; a5 56
 
 B20_00c1:		cmp $77			; c5 77
 B20_00c3:		beq B20_0089 ; f0 c4
 
 B20_00c5:		sta $77			; 85 77
-B20_00c7:		jsr func_14_0001		; 20 01 80
+B20_00c7:		jsr getCurrRoomXplus2_roomQuarterIdx		; 20 01 80
 B20_00ca:		lda #$00		; a9 00
 B20_00cc:		ldy #$c0		; a0 c0
 B20_00ce:		ldx $65			; a6 65
@@ -139,7 +158,7 @@ B20_00d2:		lda #$05		; a9 05
 B20_00d4:		ldy #$00		; a0 00
 B20_00d6:		sty $09			; 84 09
 B20_00d8:		sta $08			; 85 08
-B20_00da:		lda $56			; a5 56
+B20_00da:		lda wCurrScrollXWithinRoom			; a5 56
 B20_00dc:		and #$3f		; 29 3f
 B20_00de:		sta $0e			; 85 0e
 B20_00e0:		and #$20		; 29 20
@@ -153,26 +172,29 @@ B20_00ea:		lda $0e			; a5 0e
 B20_00ec:		clc				; 18 
 B20_00ed:		adc $09			; 65 09
 B20_00ef:		sta $09			; 85 09
-B20_00f1:		lda $76			; a5 76
+B20_00f1:		lda wCurrRoomXQuarter			; a5 76
 B20_00f3:		clc				; 18 
 B20_00f4:		adc $08			; 65 08
-B20_00f6:		sta $76			; 85 76
+B20_00f6:		sta wCurrRoomXQuarter			; 85 76
 B20_00f8:		lda #$01		; a9 01
 B20_00fa:		sta $0a			; 85 0a
-B20_00fc:		ldy $76			; a4 76
-B20_00fe:		ldx $840c, y	; be 0c 84
-B20_0101:		lda $76			; a5 76
+
+loadLuminary:
+B20_00fc:		ldy wCurrRoomXQuarter			; a4 76
+B20_00fe:		ldx offsetMod6.w, y	; be 0c 84
+B20_0101:		lda wCurrRoomXQuarter			; a5 76
 B20_0103:		asl a			; 0a
 B20_0104:		tay				; a8 
 B20_0105:		sty $0b			; 84 0b
-B20_0107:		lda ($98), y	; b1 98
+B20_0107:		lda (wCurrRoomEntityDataAddr), y	; b1 98
 B20_0109:		asl a			; 0a
 B20_010a:		bcs B20_011a ; b0 0e
 
+; 5-byte structs
 B20_010c:		tay				; a8 
-B20_010d:		lda $a03f, y	; b9 3f a0
+B20_010d:		lda data_15_003f.w, y	; b9 3f a0
 B20_0110:		sta $00			; 85 00
-B20_0112:		lda $a040, y	; b9 40 a0
+B20_0112:		lda data_15_003f.w+1, y	; b9 40 a0
 B20_0115:		sta $01			; 85 01
 B20_0117:		jmp B20_0132		; 4c 32 81
 
@@ -186,36 +208,48 @@ B20_0123:		lda #$00		; a9 00
 B20_0125:		beq B20_010c ; f0 e5
 
 B20_0127:		tay				; a8 
-B20_0128:		lda $a13f, y	; b9 3f a1
+B20_0128:		lda data_15_013f.w, y	; b9 3f a1
 B20_012b:		sta $00			; 85 00
-B20_012d:		lda $a140, y	; b9 40 a1
+B20_012d:		lda data_15_013f.w+1, y	; b9 40 a1
 B20_0130:		sta $01			; 85 01
 
+; 1st byte in 7c2
 B20_0132:		ldy #$00		; a0 00
 B20_0134:		lda ($00), y	; b1 00
 B20_0136:		sta $07c2, x	; 9d c2 07
 B20_0139:		beq B20_0178 ; f0 3d
 
+; 2nd byte
 B20_013b:		iny				; c8 
 B20_013c:		lda ($00), y	; b1 00
 B20_013e:		clc				; 18 
 B20_013f:		adc $09			; 65 09
 B20_0141:		sta $07da, x	; 9d da 07
+
 B20_0144:		lda $0a			; a5 0a
 B20_0146:		adc #$00		; 69 00
 B20_0148:		and #$01		; 29 01
 B20_014a:		sta $07e0, x	; 9d e0 07
+
+; 3rd byte in 7d4
 B20_014d:		iny				; c8 
 B20_014e:		lda ($00), y	; b1 00
 B20_0150:		sta $07d4, x	; 9d d4 07
+
+; 4th byte in 7e6
 B20_0153:		iny				; c8 
 B20_0154:		lda ($00), y	; b1 00
 B20_0156:		sta $07e6, x	; 9d e6 07
+
+; 5th byte in 7ce
 B20_0159:		iny				; c8 
 B20_015a:		lda ($00), y	; b1 00
 B20_015c:		sta $07ce, x	; 9d ce 07
+
+; preserve X
 B20_015f:		txa				; 8a 
 B20_0160:		pha				; 48 
+
 B20_0161:		lda $07c8, x	; bd c8 07
 B20_0164:		lsr a			; 4a
 B20_0165:		lsr a			; 4a
@@ -225,15 +259,20 @@ B20_0168:		tax				; aa
 B20_0169:		lda $0470, x	; bd 70 04
 B20_016c:		and #$fb		; 29 fb
 B20_016e:		sta $0470, x	; 9d 70 04
+
+; restore X
 B20_0171:		pla				; 68 
 B20_0172:		tax				; aa 
+
 B20_0173:		lda #$00		; a9 00
 B20_0175:		sta $07c8, x	; 9d c8 07
-B20_0178:		jsr func_14_048d		; 20 8d 84
+
+B20_0178:		jsr retZifPendulumRoomBeforeDracula		; 20 8d 84
 B20_017b:		bne B20_017e ; d0 01
 
 B20_017d:		rts				; 60 
 
+; x += 0xd
 B20_017e:		txa				; 8a 
 B20_017f:		clc				; 18 
 B20_0180:		adc #$0d		; 69 0d
@@ -241,10 +280,11 @@ B20_0182:		tax				; aa
 B20_0183:		jsr func_14_043c		; 20 3c 84
 B20_0186:		bne B20_01e6 ; d0 5e
 
+; for torch, 0b=0a,98=949d,x=$12
 B20_0188:		ldy $0b			; a4 0b
 B20_018a:		iny				; c8 
-B20_018b:		lda ($98), y	; b1 98
-B20_018d:		beq B20_01e6 ; f0 57
+B20_018b:		lda (wCurrRoomEntityDataAddr), y	; b1 98
+B20_018d:		beq B20_01e6 ; @done
 
 B20_018f:		asl a			; 0a
 B20_0190:		bcs B20_01a0 ; b0 0e
@@ -263,67 +303,78 @@ B20_01a6:		lda data_15_0744.w+1, y	; b9 45 a7
 B20_01a9:		sta $01			; 85 01
 
 B20_01ab:		jsr func_1f_1ed7	; sets entity vals to 0
+
+; 1st byte
 B20_01ae:		ldy #$00		; a0 00
 B20_01b0:		lda ($00), y	; b1 00
 B20_01b2:		sta $054e, x	; 9d 4e 05
+
+; 2nd byte is luminary contents
 B20_01b5:		iny				; c8 
 B20_01b6:		lda ($00), y	; b1 00
 B20_01b8:		sta $05d8, x	; 9d d8 05
+
+; 3rd byte
 B20_01bb:		iny				; c8 
 B20_01bc:		lda ($00), y	; b1 00
 B20_01be:		clc				; 18 
 B20_01bf:		adc $09			; 65 09
-B20_01c1:		sta $0438, x	; 9d 38 04
+B20_01c1:		sta wEntityBaseX.w, x	; 9d 38 04
+
 B20_01c4:		lda $0a			; a5 0a
 B20_01c6:		adc #$00		; 69 00
 B20_01c8:		and #$01		; 29 01
 B20_01ca:		sta $0470, x	; 9d 70 04
+
+; 4th byte
 B20_01cd:		iny				; c8 
 B20_01ce:		lda ($00), y	; b1 00
-B20_01d0:		sta $041c, x	; 9d 1c 04
+B20_01d0:		sta wEntityBaseY.w, x	; 9d 1c 04
+
 B20_01d3:		lda $054e, x	; bd 4e 05
 B20_01d6:		sec				; 38 
 B20_01d7:		sbc #$90		; e9 90
 B20_01d9:		tay				; a8 
 B20_01da:		lda $8325, y	; b9 25 83
-B20_01dd:		sta $05ef, x	; 9d ef 05
-B20_01e0:		lda $76			; a5 76
+B20_01dd:		sta wEntityAI_idx.w, x	; 9d ef 05
+B20_01e0:		lda wCurrRoomXQuarter			; a5 76
 B20_01e2:		sta $0645, x	; 9d 45 06
 B20_01e5:		rts				; 60 
 
-
+@done:
 B20_01e6:		jsr func_1f_1ed7		; 20 d7 fe
 B20_01e9:		lda #$00		; a9 00
 B20_01eb:		sta $054e, x	; 9d 4e 05
 B20_01ee:		sta $0470, x	; 9d 70 04
 B20_01f1:		sta $0400, x	; 9d 00 04
-B20_01f4:		sta $05ef, x	; 9d ef 05
+B20_01f4:		sta wEntityAI_idx.w, x	; 9d ef 05
 B20_01f7:		rts				; 60 
 
 
+;
 B20_01f8:		jsr $8369		; 20 69 83
 B20_01fb:		lda #$00		; a9 00
 B20_01fd:		sta $79			; 85 79
 B20_01ff:		sta $7a			; 85 7a
-B20_0201:		jsr $801e		; 20 1e 80
+B20_0201:		jsr getRoomLuminaryDataAddr		; 20 1e 80
 B20_0204:		ldy $79			; a4 79
-B20_0206:		lda ($98), y	; b1 98
+B20_0206:		lda (wCurrRoomEntityDataAddr), y	; b1 98
 B20_0208:		cmp #$ff		; c9 ff
 B20_020a:		beq B20_025d ; f0 51
 
 B20_020c:		jsr $831d		; 20 1d 83
 B20_020f:		lda $0a			; a5 0a
 B20_0211:		sec				; 38 
-B20_0212:		sbc $56			; e5 56
+B20_0212:		sbc wCurrScrollXWithinRoom			; e5 56
 B20_0214:		sta $02			; 85 02
 B20_0216:		lda $09			; a5 09
-B20_0218:		sbc $57			; e5 57
+B20_0218:		sbc wCurrScrollXRoom			; e5 57
 B20_021a:		sta $03			; 85 03
 B20_021c:		bmi B20_0253 ; 30 35
 
 B20_021e:		sec				; 38 
 B20_021f:		lda $09			; a5 09
-B20_0221:		sbc $57			; e5 57
+B20_0221:		sbc wCurrScrollXRoom			; e5 57
 B20_0223:		beq B20_0235 ; f0 10
 
 B20_0225:		sec				; 38 
@@ -368,7 +419,7 @@ B20_025f:		sta $79			; 85 79
 B20_0261:		rts				; 60 
 
 
-B20_0262:		lda $56			; a5 56
+B20_0262:		lda wCurrScrollXWithinRoom			; a5 56
 B20_0264:		and #$f0		; 29 f0
 B20_0266:		cmp $77			; c5 77
 B20_0268:		beq B20_0261 ; f0 f7
@@ -382,23 +433,23 @@ B20_0272:		lda $79			; a5 79
 B20_0274:		adc #$07		; 69 07
 B20_0276:		sta $79			; 85 79
 B20_0278:		iny				; c8 
-B20_0279:		lda ($98), y	; b1 98
+B20_0279:		lda (wCurrRoomEntityDataAddr), y	; b1 98
 B20_027b:		bmi B20_02a8 ; 30 2b
 
 B20_027d:		jsr $835b		; 20 5b 83
 B20_0280:		bne B20_02d6 ; d0 54
 
-B20_0282:		lda ($98), y	; b1 98
+B20_0282:		lda (wCurrRoomEntityDataAddr), y	; b1 98
 B20_0284:		sta $07c2, x	; 9d c2 07
 B20_0287:		iny				; c8 
-B20_0288:		lda ($98), y	; b1 98
+B20_0288:		lda (wCurrRoomEntityDataAddr), y	; b1 98
 B20_028a:		sta $07da, x	; 9d da 07
 B20_028d:		iny				; c8 
 B20_028e:		iny				; c8 
-B20_028f:		lda ($98), y	; b1 98
+B20_028f:		lda (wCurrRoomEntityDataAddr), y	; b1 98
 B20_0291:		sta $07e6, x	; 9d e6 07
 B20_0294:		iny				; c8 
-B20_0295:		lda ($98), y	; b1 98
+B20_0295:		lda (wCurrRoomEntityDataAddr), y	; b1 98
 B20_0297:		sta $07ce, x	; 9d ce 07
 B20_029a:		lda $0a			; a5 0a
 B20_029c:		sta $07d4, x	; 9d d4 07
@@ -413,37 +464,37 @@ B20_02ab:		bne B20_02d6 ; d0 29
 
 B20_02ad:		jsr func_1f_1ed7		; 20 d7 fe
 B20_02b0:		sta $0470, x	; 9d 70 04
-B20_02b3:		lda ($98), y	; b1 98
+B20_02b3:		lda (wCurrRoomEntityDataAddr), y	; b1 98
 B20_02b5:		sta $054e, x	; 9d 4e 05
 B20_02b8:		iny				; c8 
-B20_02b9:		lda ($98), y	; b1 98
-B20_02bb:		sta $0438, x	; 9d 38 04
+B20_02b9:		lda (wCurrRoomEntityDataAddr), y	; b1 98
+B20_02bb:		sta wEntityBaseX.w, x	; 9d 38 04
 B20_02be:		iny				; c8 
-B20_02bf:		lda ($98), y	; b1 98
+B20_02bf:		lda (wCurrRoomEntityDataAddr), y	; b1 98
 B20_02c1:		sta $05d8, x	; 9d d8 05
 B20_02c4:		lda $0a			; a5 0a
-B20_02c6:		sta $041c, x	; 9d 1c 04
+B20_02c6:		sta wEntityBaseY.w, x	; 9d 1c 04
 B20_02c9:		lda $054e, x	; bd 4e 05
 B20_02cc:		sec				; 38 
 B20_02cd:		sbc #$90		; e9 90
 B20_02cf:		tay				; a8 
 B20_02d0:		lda $8325, y	; b9 25 83
-B20_02d3:		sta $05ef, x	; 9d ef 05
+B20_02d3:		sta wEntityAI_idx.w, x	; 9d ef 05
 B20_02d6:		rts				; 60 
 
 
 B20_02d7:		ldy $79			; a4 79
-B20_02d9:		lda ($98), y	; b1 98
+B20_02d9:		lda (wCurrRoomEntityDataAddr), y	; b1 98
 B20_02db:		cmp #$ff		; c9 ff
 B20_02dd:		beq B20_02f1 ; f0 12
 
 B20_02df:		jsr $831d		; 20 1d 83
 B20_02e2:		lda $0a			; a5 0a
 B20_02e4:		sec				; 38 
-B20_02e5:		sbc $56			; e5 56
+B20_02e5:		sbc wCurrScrollXWithinRoom			; e5 56
 B20_02e7:		sta $02			; 85 02
 B20_02e9:		lda $09			; a5 09
-B20_02eb:		sbc $57			; e5 57
+B20_02eb:		sbc wCurrScrollXRoom			; e5 57
 B20_02ed:		sta $03			; 85 03
 B20_02ef:		bpl B20_02f3 ; 10 02
 
@@ -453,7 +504,7 @@ B20_02f2:		rts				; 60
 
 B20_02f3:		sec				; 38 
 B20_02f4:		lda $09			; a5 09
-B20_02f6:		sbc $57			; e5 57
+B20_02f6:		sbc wCurrScrollXRoom			; e5 57
 B20_02f8:		beq B20_030a ; f0 10
 
 B20_02fa:		sec				; 38 
@@ -484,7 +535,7 @@ B20_031c:		rts				; 60
 
 B20_031d:		sta $09			; 85 09
 B20_031f:		iny				; c8 
-B20_0320:		lda ($98), y	; b1 98
+B20_0320:		lda (wCurrRoomEntityDataAddr), y	; b1 98
 B20_0322:		sta $0a			; 85 0a
 B20_0324:		rts				; 60 
 
@@ -658,43 +709,19 @@ B20_0408:		sta $07c2, x	; 9d c2 07
 B20_040b:		rts				; 60 
 
 
-B20_040c:		.db $00				; 00
-B20_040d:		ora ($02, x)	; 01 02
-B20_040f:	.db $03
-B20_0410:	.db $04
-B20_0411:		ora $00			; 05 00
-B20_0413:		ora ($02, x)	; 01 02
-B20_0415:	.db $03
-B20_0416:	.db $04
-B20_0417:		ora $00			; 05 00
-B20_0419:		ora ($02, x)	; 01 02
-B20_041b:	.db $03
-B20_041c:	.db $04
-B20_041d:		ora $00			; 05 00
-B20_041f:		ora ($02, x)	; 01 02
-B20_0421:	.db $03
-B20_0422:	.db $04
-B20_0423:		ora $00			; 05 00
-B20_0425:		ora ($02, x)	; 01 02
-B20_0427:	.db $03
-B20_0428:	.db $04
-B20_0429:		ora $00			; 05 00
-B20_042b:		ora ($02, x)	; 01 02
-B20_042d:	.db $03
-B20_042e:	.db $04
-B20_042f:		ora $00			; 05 00
-B20_0431:		ora ($02, x)	; 01 02
-B20_0433:	.db $03
-B20_0434:	.db $04
-B20_0435:		ora $00			; 05 00
-B20_0437:		ora ($02, x)	; 01 02
-B20_0439:	.db $03
-B20_043a:	.db $04
-B20_043b:		.db $05
+offsetMod6:
+	.db $00 $01 $02 $03 $04 $05
+	.db $00 $01 $02 $03 $04 $05
+	.db $00 $01 $02 $03 $04 $05
+	.db $00 $01 $02 $03 $04 $05
+	.db $00 $01 $02 $03 $04 $05
+	.db $00 $01 $02 $03 $04 $05
+	.db $00 $01 $02 $03 $04 $05
+	.db $00 $01 $02 $03 $04 $05
 
 
 func_14_043c:
-	ldy $76
+	ldy wCurrRoomXQuarter
 	lda $844d, y
 	sta $0f
 B20_0443:		lda $846d, y	; b9 6d 84
@@ -770,18 +797,19 @@ B20_048b:	.db $03
 B20_048c:	.db $03
 
 
-func_14_048d:
-B20_048d:		lda $32			; a5 32
-B20_048f:		cmp #$0e		; c9 0e
-B20_0491:		bne B20_049d ; d0 0a
+retZifPendulumRoomBeforeDracula:
+	lda wCurrRoomGroup
+	cmp #$0e
+	bne +
 
-B20_0493:		lda $33			; a5 33
-B20_0495:		cmp #$01		; c9 01
-B20_0497:		bne B20_049d ; d0 04
+	lda wCurrRoomSection
+	cmp #$01
+	bne +
 
-B20_0499:		lda $34			; a5 34
-B20_049b:		cmp #$01		; c9 01
-B20_049d:		rts				; 60 
+	lda wCurrRoomIdx
+	cmp #$01
+
++	rts
 
 
 B20_049e:		ldx #$01		; a2 01
@@ -830,11 +858,12 @@ B20_04d8:		lda #$00		; a9 00
 B20_04da:		sta $054e, x	; 9d 4e 05
 B20_04dd:		sta $0400, x	; 9d 00 04
 B20_04e0:		sta $0470, x	; 9d 70 04
-B20_04e3:		sta $0438, x	; 9d 38 04
-B20_04e6:		sta $041c, x	; 9d 1c 04
+B20_04e3:		sta wEntityBaseX.w, x	; 9d 38 04
+B20_04e6:		sta wEntityBaseY.w, x	; 9d 1c 04
 B20_04e9:		rts				; 60 
 
 
+func_14_04ea:
 B20_04ea:		ldx #$00		; a2 00
 B20_04ec:		lda $07c2, x	; bd c2 07
 B20_04ef:		beq B20_04ff ; f0 0e
@@ -1002,7 +1031,7 @@ B20_05f9:		sta $00			; 85 00
 B20_05fb:		lda #$b0		; a9 b0
 B20_05fd:		sta $01			; 85 01
 B20_05ff:		jsr $8dde		; 20 de 8d
-B20_0602:		lda $0438, x	; bd 38 04
+B20_0602:		lda wEntityBaseX.w, x	; bd 38 04
 B20_0605:		sta $08			; 85 08
 B20_0607:		txa				; 8a 
 B20_0608:		ldx $6c			; a6 6c
@@ -1016,7 +1045,7 @@ B20_0616:		ldx $6c			; a6 6c
 B20_0618:		lda $07e6, x	; bd e6 07
 B20_061b:		tax				; aa 
 B20_061c:		lda #$90		; a9 90
-B20_061e:		sta $041c, x	; 9d 1c 04
+B20_061e:		sta wEntityBaseY.w, x	; 9d 1c 04
 B20_0621:		lda #$81		; a9 81
 B20_0623:		ldx $6c			; a6 6c
 B20_0625:		sta $07ce, x	; 9d ce 07
@@ -1122,7 +1151,7 @@ B20_06d4:		bne B20_06ee ; d0 18
 
 B20_06d6:		txa				; 8a 
 B20_06d7:		adc $1a			; 65 1a
-B20_06d9:		adc $0438		; 6d 38 04
+B20_06d9:		adc wEntityBaseX.w		; 6d 38 04
 B20_06dc:		and #$01		; 29 01
 B20_06de:		tay				; a8 
 B20_06df:		lda $85e4, y	; b9 e4 85
@@ -1182,7 +1211,7 @@ B20_0735:		adc $875a, y	; 79 5a 87
 B20_0738:		tay				; a8 
 B20_0739:		clc				; 18 
 B20_073a:		lda $874a, y	; b9 4a 87
-B20_073d:		adc $0438		; 6d 38 04
+B20_073d:		adc wEntityBaseX.w		; 6d 38 04
 B20_0740:		sta $00			; 85 00
 B20_0742:		lda $ca			; a5 ca
 B20_0744:		sta $01			; 85 01
@@ -1227,7 +1256,7 @@ B20_0770:		dec $a685, x	; de 85 a6
 B20_0773:		jmp ($1aa5)		; 6c a5 1a
 
 
-B20_0776:		adc $0438, x	; 7d 38 04
+B20_0776:		adc wEntityBaseX.w, x	; 7d 38 04
 B20_0779:		and #$03		; 29 03
 B20_077b:		tay				; a8 
 B20_077c:		lda $8783, y	; b9 83 87
@@ -1249,14 +1278,14 @@ B20_0792:		;removed
 
 B20_0794:		txa				; 8a 
 B20_0795:		adc $1a			; 65 1a
-B20_0797:		adc $0438		; 6d 38 04
+B20_0797:		adc wEntityBaseX.w		; 6d 38 04
 B20_079a:		and #$03		; 29 03
 B20_079c:		clc				; 18 
 B20_079d:		ldy $04a8		; ac a8 04
 B20_07a0:		adc $87ba, y	; 79 ba 87
 B20_07a3:		tay				; a8 
 B20_07a4:		lda $87b2, y	; b9 b2 87
-B20_07a7:		adc $0438		; 6d 38 04
+B20_07a7:		adc wEntityBaseX.w		; 6d 38 04
 B20_07aa:		sta $00			; 85 00
 B20_07ac:		jsr $8dde		; 20 de 8d
 B20_07af:		jmp $86e7		; 4c e7 86
@@ -1289,14 +1318,14 @@ B20_07d1:		bne B20_07ee ; d0 1b
 
 B20_07d3:		txa				; 8a 
 B20_07d4:		adc $1a			; 65 1a
-B20_07d6:		adc $0438		; 6d 38 04
+B20_07d6:		adc wEntityBaseX.w		; 6d 38 04
 B20_07d9:		and #$07		; 29 07
 B20_07db:		clc				; 18 
 B20_07dc:		ldy $04a8		; ac a8 04
 B20_07df:		adc $880d, y	; 79 0d 88
 B20_07e2:		tay				; a8 
 B20_07e3:		lda $87fd, y	; b9 fd 87
-B20_07e6:		adc $0438		; 6d 38 04
+B20_07e6:		adc wEntityBaseX.w		; 6d 38 04
 B20_07e9:		sta $00			; 85 00
 B20_07eb:		jsr $8dde		; 20 de 8d
 B20_07ee:		ldx $6c			; a6 6c
@@ -1376,7 +1405,7 @@ B20_085b:		adc $0a			; 65 0a
 B20_085d:		tay				; a8 
 B20_085e:		lda $886a, y	; b9 6a 88
 B20_0861:		clc				; 18 
-B20_0862:		adc $041c		; 6d 1c 04
+B20_0862:		adc wEntityBaseY.w		; 6d 1c 04
 B20_0865:		sta $01			; 85 01
 B20_0867:		jmp $88c4		; 4c c4 88
 
@@ -1412,11 +1441,11 @@ B20_0889:		jsr $8de7		; 20 e7 8d
 B20_088c:		jsr $8e54		; 20 54 8e
 B20_088f:		bne B20_08b6 ; d0 25
 
-B20_0891:		lda $32			; a5 32
+B20_0891:		lda wCurrRoomGroup		; a5 32
 B20_0893:		cmp #$0a		; c9 0a
 B20_0895:		bne B20_08a4 ; d0 0d
 
-B20_0897:		lda $041c		; ad 1c 04
+B20_0897:		lda wEntityBaseY.w		; ad 1c 04
 B20_089a:		cmp #$a0		; c9 a0
 B20_089c:		bcc B20_08a4 ; 90 06
 
@@ -1427,7 +1456,7 @@ B20_08a1:		jmp $88ac		; 4c ac 88
 B20_08a4:		jsr $89f4		; 20 f4 89
 B20_08a7:		lda $8882, y	; b9 82 88
 B20_08aa:		sta $00			; 85 00
-B20_08ac:		lda $041c		; ad 1c 04
+B20_08ac:		lda wEntityBaseY.w		; ad 1c 04
 B20_08af:		adc #$04		; 69 04
 B20_08b1:		sta $01			; 85 01
 B20_08b3:		jsr $88c4		; 20 c4 88
@@ -1525,7 +1554,7 @@ B20_092b:		rti				; 40
 B20_092c:		rts				; 60 
 
 
-B20_092d:		lda $0438		; ad 38 04
+B20_092d:		lda wEntityBaseX.w		; ad 38 04
 B20_0930:		cmp #$c0		; c9 c0
 B20_0932:		bcs B20_093b ; b0 07
 
@@ -1589,7 +1618,7 @@ B20_097d:		bne B20_09d9 ; d0 5a
 B20_097f:		lda #$c0		; a9 c0
 B20_0981:		sta $07ce, x	; 9d ce 07
 B20_0984:		jsr $8de7		; 20 e7 8d
-B20_0987:		jsr func_14_048d		; 20 8d 84
+B20_0987:		jsr retZifPendulumRoomBeforeDracula		; 20 8d 84
 B20_098a:		bne B20_0992 ; d0 06
 
 B20_098c:		jsr $8e89		; 20 89 8e
@@ -1598,7 +1627,7 @@ B20_098f:		beq B20_09a3 ; f0 12
 B20_0991:		rts				; 60 
 
 
-B20_0992:		lda $32			; a5 32
+B20_0992:		lda wCurrRoomGroup		; a5 32
 B20_0994:		cmp #$01		; c9 01
 B20_0996:		bne B20_099e ; d0 06
 
@@ -1614,7 +1643,7 @@ B20_09a1:		bne B20_09d9 ; d0 36
 B20_09a3:		jsr $89b7		; 20 b7 89
 B20_09a6:		lda $8882, y	; b9 82 88
 B20_09a9:		sta $00			; 85 00
-B20_09ab:		lda $041c		; ad 1c 04
+B20_09ab:		lda wEntityBaseY.w		; ad 1c 04
 B20_09ae:		sta $01			; 85 01
 B20_09b0:		jmp $8dde		; 4c de 8d
 
@@ -1625,7 +1654,7 @@ B20_09b5:		bne B20_09b9 ; d0 02
 B20_09b7:		lda #$00		; a9 00
 B20_09b9:		sta $0f			; 85 0f
 B20_09bb:		ldy #$01		; a0 01
-B20_09bd:		lda $0438		; ad 38 04
+B20_09bd:		lda wEntityBaseX.w		; ad 38 04
 B20_09c0:		cmp #$50		; c9 50
 B20_09c2:		bcc B20_09d9 ; 90 15
 
@@ -1636,7 +1665,7 @@ B20_09c7:		bcs B20_09d9 ; b0 10
 B20_09c9:		lda $0f			; a5 0f
 B20_09cb:		bne B20_09da ; d0 0d
 
-B20_09cd:		lda $041c		; ad 1c 04
+B20_09cd:		lda wEntityBaseY.w		; ad 1c 04
 B20_09d0:		lsr a			; 4a
 B20_09d1:		lsr a			; 4a
 B20_09d2:		lsr a			; 4a
@@ -1659,14 +1688,14 @@ B20_09e4:		rts				; 60
 B20_09e5:		lda #$00		; a9 00
 B20_09e7:		sta $0f			; 85 0f
 B20_09e9:		ldy #$01		; a0 01
-B20_09eb:		lda $0438		; ad 38 04
+B20_09eb:		lda wEntityBaseX.w		; ad 38 04
 B20_09ee:		cmp #$60		; c9 60
 B20_09f0:		bcc B20_09d9 ; 90 e7
 
 B20_09f2:		bcs B20_09c4 ; b0 d0
 
 B20_09f4:		ldy #$01		; a0 01
-B20_09f6:		lda $0438		; ad 38 04
+B20_09f6:		lda wEntityBaseX.w		; ad 38 04
 B20_09f9:		cmp #$40		; c9 40
 B20_09fb:		bcc B20_09d9 ; 90 dc
 
@@ -1706,7 +1735,7 @@ B20_0a2a:		jsr $8d7b		; 20 7b 8d
 B20_0a2d:		bne B20_0aa1 ; d0 72
 
 B20_0a2f:		jsr $8a44		; 20 44 8a
-B20_0a32:		lda $041c		; ad 1c 04
+B20_0a32:		lda wEntityBaseY.w		; ad 1c 04
 B20_0a35:		cmp #$20		; c9 20
 B20_0a37:		bcc B20_0aa1 ; 90 68
 
@@ -1719,7 +1748,7 @@ B20_0a41:		jmp $89b0		; 4c b0 89
 
 
 B20_0a44:		ldy #$00		; a0 00
-B20_0a46:		lda $0438		; ad 38 04
+B20_0a46:		lda wEntityBaseX.w		; ad 38 04
 B20_0a49:		cmp #$80		; c9 80
 B20_0a4b:		bcs B20_0a4e ; b0 01
 
@@ -1763,7 +1792,7 @@ B20_0a87:		ldy $07e6, x	; bc e6 07
 B20_0a8a:		lda $8aa2, y	; b9 a2 8a
 B20_0a8d:		adc $07da, x	; 7d da 07
 B20_0a90:		ldx $09			; a6 09
-B20_0a92:		sta $0438, x	; 9d 38 04
+B20_0a92:		sta wEntityBaseX.w, x	; 9d 38 04
 B20_0a95:		ldx $6c			; a6 6c
 B20_0a97:		dec $07e6, x	; de e6 07
 B20_0a9a:		bne B20_0a77 ; d0 db
@@ -1922,14 +1951,14 @@ B20_0b79:		lda $03			; a5 03
 B20_0b7b:		cmp #$63		; c9 63
 B20_0b7d:		bne B20_0bbe ; d0 3f
 
-B20_0b7f:		lda $32			; a5 32
+B20_0b7f:		lda wCurrRoomGroup		; a5 32
 B20_0b81:		cmp #$0c		; c9 0c
 B20_0b83:		beq B20_0bbe ; f0 39
 
 B20_0b85:		cmp #$01		; c9 01
 B20_0b87:		bne B20_0b8f ; d0 06
 
-B20_0b89:		lda $34			; a5 34
+B20_0b89:		lda wCurrRoomIdx			; a5 34
 B20_0b8b:		cmp #$01		; c9 01
 B20_0b8d:		beq B20_0bbe ; f0 2f
 
@@ -2144,14 +2173,14 @@ B20_0ce6:		ldx #$01		; a2 01
 B20_0ce8:		jsr func_1f_1ed7		; 20 d7 fe
 B20_0ceb:		sta $0400, x	; 9d 00 04
 B20_0cee:		lda $01			; a5 01
-B20_0cf0:		sta $041c, x	; 9d 1c 04
+B20_0cf0:		sta wEntityBaseY.w, x	; 9d 1c 04
 B20_0cf3:		sec				; 38 
 B20_0cf4:		lda $00			; a5 00
-B20_0cf6:		sta $0438, x	; 9d 38 04
+B20_0cf6:		sta wEntityBaseX.w, x	; 9d 38 04
 B20_0cf9:		lda $03			; a5 03
 B20_0cfb:		sta $054e, x	; 9d 4e 05
 B20_0cfe:		lda #$2e		; a9 2e
-B20_0d00:		sta $05ef, x	; 9d ef 05
+B20_0d00:		sta wEntityAI_idx.w, x	; 9d ef 05
 B20_0d03:		jsr func_1f_1ec8		; 20 c8 fe
 B20_0d06:		lda #$60		; a9 60
 B20_0d08:		sta $0470, x	; 9d 70 04
@@ -2163,12 +2192,12 @@ B20_0d16:		ldx #$08		; a2 08
 B20_0d18:		jsr func_1f_1ed7		; 20 d7 fe
 B20_0d1b:		sta $0400, x	; 9d 00 04
 B20_0d1e:		lda $01			; a5 01
-B20_0d20:		sta $041c, x	; 9d 1c 04
+B20_0d20:		sta wEntityBaseY.w, x	; 9d 1c 04
 B20_0d23:		clc				; 18 
 B20_0d24:		lda $00			; a5 00
 B20_0d26:		ldy $17			; a4 17
 B20_0d28:		adc $8d62, y	; 79 62 8d
-B20_0d2b:		sta $0438, x	; 9d 38 04
+B20_0d2b:		sta wEntityBaseX.w, x	; 9d 38 04
 B20_0d2e:		lda #$00		; a9 00
 B20_0d30:		adc $8d64, y	; 79 64 8d
 B20_0d33:		ora #$60		; 09 60
@@ -2177,7 +2206,7 @@ B20_0d37:		sta $0470, x	; 9d 70 04
 B20_0d3a:		lda $03			; a5 03
 B20_0d3c:		sta $054e, x	; 9d 4e 05
 B20_0d3f:		lda #$2c		; a9 2c
-B20_0d41:		sta $05ef, x	; 9d ef 05
+B20_0d41:		sta wEntityAI_idx.w, x	; 9d ef 05
 B20_0d44:		lda $17			; a5 17
 B20_0d46:		sta $04a8, x	; 9d a8 04
 B20_0d49:		jsr $9332		; 20 32 93
@@ -2199,7 +2228,7 @@ B20_0d62:		php				; 08
 B20_0d63:		sed				; f8 
 B20_0d64:		.db $00				; 00
 B20_0d65:	.db $ff
-B20_0d66:		lda $56			; a5 56
+B20_0d66:		lda wCurrScrollXWithinRoom			; a5 56
 B20_0d68:		bne B20_0d72 ; d0 08
 
 B20_0d6a:		lda $07e0, x	; bd e0 07
@@ -2294,11 +2323,11 @@ func_14_0dff:
 B20_0dff:		jsr func_1f_1ed7		; 20 d7 fe
 B20_0e02:		sta $0400, x	; 9d 00 04
 B20_0e05:		lda $00			; a5 00
-B20_0e07:		sta $0438, x	; 9d 38 04
+B20_0e07:		sta wEntityBaseX.w, x	; 9d 38 04
 B20_0e0a:		lda $01			; a5 01
-B20_0e0c:		sta $041c, x	; 9d 1c 04
+B20_0e0c:		sta wEntityBaseY.w, x	; 9d 1c 04
 B20_0e0f:		lda $02			; a5 02
-B20_0e11:		sta $05ef, x	; 9d ef 05
+B20_0e11:		sta wEntityAI_idx.w, x	; 9d ef 05
 B20_0e14:		lda $03			; a5 03
 B20_0e16:		sta $054e, x	; 9d 4e 05
 B20_0e19:		rts				; 60 
@@ -2306,7 +2335,7 @@ B20_0e19:		rts				; 60
 
 B20_0e1a:		sec				; 38 
 B20_0e1b:		lda $07da, x	; bd da 07
-B20_0e1e:		sbc $0438		; ed38 04
+B20_0e1e:		sbc wEntityBaseX.w		; ed38 04
 B20_0e21:		bcs B20_0e27 ; b0 04
 
 B20_0e23:		eor #$ff		; 49 ff
@@ -2317,14 +2346,14 @@ B20_0e27:		rts				; 60
 B20_0e28:		ldy $07f6		; ac f6 07
 B20_0e2b:		beq B20_0e46 ; f0 19
 
-B20_0e2d:		lda $32			; a5 32
+B20_0e2d:		lda wCurrRoomGroup		; a5 32
 B20_0e2f:		cmp #$04		; c9 04
 B20_0e31:		beq B20_0e3f ; f0 0c
 
 B20_0e33:		cmp #$0d		; c9 0d
 B20_0e35:		bne B20_0e4c ; d0 15
 
-B20_0e37:		lda $33			; a5 33
+B20_0e37:		lda wCurrRoomSection			; a5 33
 B20_0e39:		cmp #$01		; c9 01
 B20_0e3b:		bne B20_0e4c ; d0 0f
 
@@ -2474,9 +2503,9 @@ B20_0f19:		bcc B20_0f15 ; 90 fa
 
 B20_0f1b:		dey				; 88 
 B20_0f1c:		lda $8f55, y	; b9 55 8f
-B20_0f1f:		sta $48			; 85 48
+B20_0f1f:		sta wChrBankSpr_0800			; 85 48
 B20_0f21:		lda $8f64, y	; b9 64 8f
-B20_0f24:		sta $49			; 85 49
+B20_0f24:		sta wChrBankSpr_0c00			; 85 49
 B20_0f26:		jmp chrSwitch_0_to_c00_1400		; 4c 3c e3
 
 
@@ -2503,11 +2532,11 @@ B20_0f43:		clc				; 18
 B20_0f44:		rts				; 60 
 
 
-B20_0f45:		lda $32			; a5 32
+B20_0f45:		lda wCurrRoomGroup		; a5 32
 B20_0f47:		cmp #$01		; c9 01
 B20_0f49:		bne B20_0f53 ; d0 08
 
-B20_0f4b:		lda $33			; a5 33
+B20_0f4b:		lda wCurrRoomSection			; a5 33
 B20_0f4d:		cmp #$03		; c9 03
 B20_0f4f:		bne B20_0f53 ; d0 02
 
@@ -2565,7 +2594,7 @@ B20_0fa0:		ldx $0f			; a6 0f
 B20_0fa2:		rts				; 60 
 
 
-B20_0fa3:		sta $0300, x	; 9d 00 03
+B20_0fa3:		sta wVramQueue.w, x	; 9d 00 03
 B20_0fa6:		inx				; e8 
 B20_0fa7:		rts				; 60 
 
@@ -2676,7 +2705,7 @@ B20_101f:		lda $bd			; a5 bd
 B20_1021:		sta $16			; 85 16
 B20_1023:		lda #$0c		; a9 0c
 B20_1025:		sta $15			; 85 15
-B20_1027:		lda $33			; a5 33
+B20_1027:		lda wCurrRoomSection			; a5 33
 B20_1029:		cmp #$02		; c9 02
 B20_102b:		beq B20_1035 ; f0 08
 
@@ -2697,7 +2726,7 @@ B20_1048:		lda #$2d		; a9 2d
 B20_104a:		sta $03			; 85 03
 B20_104c:		lda #$80		; a9 80
 B20_104e:		sta $02			; 85 02
-B20_1050:		lda $33			; a5 33
+B20_1050:		lda wCurrRoomSection			; a5 33
 B20_1052:		cmp #$02		; c9 02
 B20_1054:		beq B20_105d ; f0 07
 
@@ -2814,8 +2843,8 @@ B20_110d:		lda #$ff		; a9 ff
 B20_110f:		sta $17			; 85 17
 B20_1111:		lda $9142, y	; b9 42 91
 B20_1114:		clc				; 18 
-B20_1115:		adc $0438, x	; 7d 38 04
-B20_1118:		sta $0438, x	; 9d 38 04
+B20_1115:		adc wEntityBaseX.w, x	; 7d 38 04
+B20_1118:		sta wEntityBaseX.w, x	; 9d 38 04
 B20_111b:		lda $17			; a5 17
 B20_111d:		adc #$00		; 69 00
 B20_111f:		and #$01		; 29 01
@@ -2874,12 +2903,12 @@ B20_1177:		asl a			; 0a
 B20_1178:		asl a			; 0a
 B20_1179:		sta $05d8, x	; 9d d8 05
 B20_117c:		lda #$80		; a9 80
-B20_117e:		sta $05ef, x	; 9d ef 05
+B20_117e:		sta wEntityAI_idx.w, x	; 9d ef 05
 B20_1181:		ldy $16			; a4 16
 B20_1183:		lda $91a3, y	; b9 a3 91
 B20_1186:		clc				; 18 
-B20_1187:		adc $0438, x	; 7d 38 04
-B20_118a:		sta $0438, x	; 9d 38 04
+B20_1187:		adc wEntityBaseX.w, x	; 7d 38 04
+B20_118a:		sta wEntityBaseX.w, x	; 9d 38 04
 B20_118d:		inx				; e8 
 B20_118e:		inc $16			; e6 16
 B20_1190:		lda $16			; a5 16
@@ -2918,7 +2947,7 @@ B20_11bf:		bne B20_1216 ; d0 55
 B20_11c1:		lda #$13		; a9 13
 B20_11c3:		sta $054e, x	; 9d 4e 05
 B20_11c6:		lda #$00		; a9 00
-B20_11c8:		sta $05ef, x	; 9d ef 05
+B20_11c8:		sta wEntityAI_idx.w, x	; 9d ef 05
 B20_11cb:		beq B20_11e5 ; f0 18
 
 B20_11cd:		jsr $8d66		; 20 66 8d
@@ -2932,18 +2961,18 @@ B20_11d9:		bne B20_1216 ; d0 3b
 B20_11db:		lda #$78		; a9 78
 B20_11dd:		sta $054e, x	; 9d 4e 05
 B20_11e0:		lda #$60		; a9 60
-B20_11e2:		sta $05ef, x	; 9d ef 05
+B20_11e2:		sta wEntityAI_idx.w, x	; 9d ef 05
 B20_11e5:		ldy $10			; a4 10
 B20_11e7:		lda $9217, y	; b9 17 92
-B20_11ea:		sta $0438, x	; 9d 38 04
+B20_11ea:		sta wEntityBaseX.w, x	; 9d 38 04
 B20_11ed:		lda $921a, y	; b9 1a 92
-B20_11f0:		sta $041c, x	; 9d 1c 04
+B20_11f0:		sta wEntityBaseY.w, x	; 9d 1c 04
 B20_11f3:		lda #$00		; a9 00
 B20_11f5:		sta $04f2, x	; 9d f2 04
 B20_11f8:		sta $0509, x	; 9d 09 05
 B20_11fb:		sta $0520, x	; 9d 20 05
 B20_11fe:		sta $0537, x	; 9d 37 05
-B20_1201:		sta $05c1, x	; 9d c1 05
+B20_1201:		sta wEntityPhase.w, x	; 9d c1 05
 B20_1204:		lda #$c8		; a9 c8
 B20_1206:		sta $0470, x	; 9d 70 04
 B20_1209:		lda $10			; a5 10
@@ -2977,15 +3006,15 @@ B20_122d:		bne B20_1269 ; d0 3a
 B20_122f:		lda #$12		; a9 12
 B20_1231:		sta $054e, x	; 9d 4e 05
 B20_1234:		lda #$00		; a9 00
-B20_1236:		sta $05ef, x	; 9d ef 05
+B20_1236:		sta wEntityAI_idx.w, x	; 9d ef 05
 B20_1239:		ldy $10			; a4 10
 B20_123b:		tya				; 98 
 B20_123c:		ora #$80		; 09 80
 B20_123e:		sta $0645, x	; 9d 45 06
 B20_1241:		lda $926a, y	; b9 6a 92
-B20_1244:		sta $0438, x	; 9d 38 04
+B20_1244:		sta wEntityBaseX.w, x	; 9d 38 04
 B20_1247:		lda $926f, y	; b9 6f 92
-B20_124a:		sta $041c, x	; 9d 1c 04
+B20_124a:		sta wEntityBaseY.w, x	; 9d 1c 04
 B20_124d:		lda #$88		; a9 88
 B20_124f:		sta $0470, x	; 9d 70 04
 B20_1252:		lda #$00		; a9 00
@@ -3198,7 +3227,7 @@ B20_1360:	.db $04
 B20_1361:	.db $04
 B20_1362:	.db $04
 B20_1363:	.db $0c
-B20_1364:		bmi B20_138a ; 30 24
+B20_1364:		.db $30 $24
 
 B20_1366:	.db $04
 B20_1367:	.db $04
@@ -3225,33 +3254,30 @@ B20_137b:	.db $04
 B20_137c:	.db $04
 B20_137d:	.db $04
 B20_137e:	.db $04
-B20_137f:		sta $a593, x	; 9d 93 a5
-B20_1382:	.db $93
-B20_1383:		lda ($93), y	; b1 93
-B20_1385:	.db $bb
-B20_1386:	.db $93
-B20_1387:		cmp $93			; c5 93
-B20_1389:	.db $cb
-B20_138a:	.db $93
-B20_138b:	.db $d3
-B20_138c:	.db $93
-B20_138d:		cmp $e793, y	; d9 93 e7
-B20_1390:	.db $93
-B20_1391:		cmp $9b			; c5 9b
-B20_1393:		cmp #$9b		; c9 9b
-B20_1395:	.db $d7
-B20_1396:	.db $9b
-B20_1397:		cmp $e39b, x	; dd 9b e3
-B20_139a:	.db $9b
-B20_139b:	.db $eb
-B20_139c:	.db $9b
-B20_139d:		sbc ($93), y	; f1 93
-B20_139f:	.db $f3
-B20_13a0:	.db $93
-B20_13a1:	.db $fb
-B20_13a2:	.db $93
-B20_13a3:	.db $ff
-B20_13a4:	.db $93
+
+
+roomLuminaryDataAddresses:
+	.dw @group0
+	.dw $93a5
+	.dw $93b1
+	.dw $93bb
+	.dw $93c5
+	.dw $93cb
+	.dw $93d3
+	.dw $93d9
+	.dw $93e7
+	.dw $9bc5
+	.dw $9bc9
+	.dw $9bd7
+	.dw $9bdd
+	.dw $9be3
+	.dw $9beb
+
+@group0:
+	.dw data_14_13f1
+	.dw $93f3
+	.dw $93fb
+	.dw $93ff
 B20_13a5:		ora ($94, x)	; 01 94
 B20_13a7:	.db $07
 B20_13a8:		sty $0d, x		; 94 0d
@@ -3290,8 +3316,13 @@ B20_13e8:		sty $93, x		; 94 93
 B20_13ea:		sty $95, x		; 94 95
 B20_13ec:		sty $99, x		; 94 99
 B20_13ee:		sty $9b, x		; 94 9b
-B20_13f0:		sty $9d, x		; 94 9d
-B20_13f2:		sty $b9, x		; 94 b9
+B20_13f0:		.db $94
+
+
+data_14_13f1:
+	.dw $949d
+
+.db $b9
 B20_13f4:		sty $34, x		; 94 34
 B20_13f6:		ldy $94c5		; ac c5 94
 B20_13f9:		sbc ($94, x)	; e1 94
@@ -3313,7 +3344,7 @@ B20_1421:		eor ($95), y	; 51 95
 B20_1423:		adc $95			; 65 95
 B20_1425:		lda $d595, y	; b9 95 d5
 B20_1428:		sta $f1, x		; 95 f1
-B20_142a:		sta $25, x		; 95 25
+B20_142a:		sta wNametableMapping, x		; 95 25
 B20_142c:		stx $49, y		; 96 49
 B20_142e:		stx $6d, y		; 96 6d
 B20_1430:		stx $79, y		; 96 79
@@ -3371,6 +3402,8 @@ B20_1495:		and $519b		; 2d 9b 51
 B20_1498:	.db $9b
 B20_1499:		adc $999b		; 6d 9b 99
 B20_149c:	.db $9b
+
+; entities in group 0 section 0 room 0
 B20_149d:		.db $00				; 00
 B20_149e:		.db $00				; 00
 B20_149f:		.db $00				; 00
@@ -3379,24 +3412,29 @@ B20_14a1:		.db $00				; 00
 B20_14a2:		.db $00				; 00
 B20_14a3:		.db $00				; 00
 B20_14a4:	.db $0f
+
 B20_14a5:		.db $00				; 00
 B20_14a6:		.db $00				; 00
 B20_14a7:		cmp ($46), y	; d1 46
 B20_14a9:		.db $00				; 00
 B20_14aa:		.db $00				; 00
 B20_14ab:		cmp ($0c), y	; d1 0c
-B20_14ad:		bne B20_14e4 ; d0 35
 
+B20_14ad:		bne B20_14e4 ; d0 35
 B20_14af:		.db $00				; 00
 B20_14b0:		.db $00				; 00
 B20_14b1:		.db $00				; 00
 B20_14b2:		.db $00				; 00
 B20_14b3:		.db $00				; 00
 B20_14b4:	.db $0b
+
 B20_14b5:		.db $00				; 00
 B20_14b6:		.db $00				; 00
 B20_14b7:		.db $00				; 00
 B20_14b8:		.db $00				; 00
+
+
+
 B20_14b9:		.db $00				; 00
 B20_14ba:		.db $00				; 00
 B20_14bb:		.db $00				; 00
@@ -3410,6 +3448,9 @@ B20_14c1:	.db $9f
 B20_14c2:	.db $47
 B20_14c3:		.db $00				; 00
 B20_14c4:		.db $00				; 00
+
+
+
 B20_14c5:		.db $00				; 00
 B20_14c6:		.db $00				; 00
 B20_14c7:		.db $00				; 00

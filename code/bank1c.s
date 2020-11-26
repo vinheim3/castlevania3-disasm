@@ -99,11 +99,11 @@ B28_00b9:		lda $56			; a5 56
 B28_00bb:		ora $57			; 05 57
 B28_00bd:		bne B28_00d8 ; d0 19
 
-B28_00bf:		lda $0438		; ad 38 04
+B28_00bf:		lda wEntityBaseX.w		; ad 38 04
 B28_00c2:		cmp #$40		; c9 40
 B28_00c4:		bcs B28_00d8 ; b0 12
 
-B28_00c6:		lda $041c		; ad 1c 04
+B28_00c6:		lda wEntityBaseY.w		; ad 1c 04
 B28_00c9:		sec				; 38 
 B28_00ca:		sbc #$70		; e9 70
 B28_00cc:		bcs B28_00d0 ; b0 02
@@ -117,15 +117,15 @@ B28_00d6:		sta $81			; 85 81
 B28_00d8:		rts				; 60 
 
 
-B28_00d9:		lda $32			; a5 32
+B28_00d9:		lda wCurrRoomGroup		; a5 32
 B28_00db:		cmp #$0e		; c9 0e
 B28_00dd:		bne B28_00ee ; d0 0f
 
-B28_00df:		lda $33			; a5 33
+B28_00df:		lda wCurrRoomSection			; a5 33
 B28_00e1:		cmp #$01		; c9 01
 B28_00e3:		bne B28_00ee ; d0 09
 
-B28_00e5:		lda $34			; a5 34
+B28_00e5:		lda wCurrRoomIdx			; a5 34
 B28_00e7:		cmp #$01		; c9 01
 B28_00e9:		bne B28_00ee ; d0 03
 
@@ -193,7 +193,7 @@ B28_0145:		lda $0565		; ad 65 05
 B28_0148:		ora #$80		; 09 80
 B28_014a:		sta $0565		; 8d 65 05
 B28_014d:		lda #$2c		; a9 2c
-B28_014f:		sta $30			; 85 30
+B28_014f:		sta wGenericStateTimer			; 85 30
 B28_0151:		pla				; 68 
 B28_0152:		pla				; 68 
 B28_0153:		rts				; 60 
@@ -204,7 +204,7 @@ B28_0156:		ldx #$10		; a2 10
 B28_0158:		jsr func_1f_1cdd		; 20 dd fc
 B28_015b:		beq B28_0172 ; f0 15
 
-B28_015d:		lda $32			; a5 32
+B28_015d:		lda wCurrRoomGroup		; a5 32
 B28_015f:		cmp #$01		; c9 01
 B28_0161:		beq B28_0167 ; f0 04
 
@@ -226,10 +226,10 @@ B28_0176:		lda $054e		; ad 4e 05
 B28_0179:		cmp #$02		; c9 02
 B28_017b:		bne B28_0186 ; d0 09
 
-B28_017d:		lda $041c		; ad 1c 04
+B28_017d:		lda wEntityBaseY.w		; ad 1c 04
 B28_0180:		clc				; 18 
 B28_0181:		adc #$04		; 69 04
-B28_0183:		sta $041c		; 8d 1c 04
+B28_0183:		sta wEntityBaseY.w		; 8d 1c 04
 B28_0186:		lda #$18		; a9 18
 B28_0188:		sta $2a			; 85 2a
 B28_018a:		lda #$00		; a9 00
@@ -282,7 +282,7 @@ B28_01d4:		lda $8294, y	; b9 94 82
 B28_01d7:		jsr playSound		; 20 5f e2
 B28_01da:		jsr $bdc4		; 20 c4 bd
 B28_01dd:		lda #$00		; a9 00
-B28_01df:		sta $0454		; 8d 54 04
+B28_01df:		sta wEntityPaletteOverride.w		; 8d 54 04
 B28_01e2:		lda $0565		; ad 65 05
 B28_01e5:		sta $05d4		; 8d d4 05
 B28_01e8:		lda #$20		; a9 20
@@ -308,7 +308,7 @@ B28_020e:		lda $8294, y	; b9 94 82
 B28_0211:		jsr playSound		; 20 5f e2
 B28_0214:		jsr $bdc4		; 20 c4 bd
 B28_0217:		lda #$00		; a9 00
-B28_0219:		sta $0454		; 8d 54 04
+B28_0219:		sta wEntityPaletteOverride.w		; 8d 54 04
 B28_021c:		lda $0565		; ad 65 05
 B28_021f:		sta $05d4		; 8d d4 05
 B28_0222:		lda #$20		; a9 20
@@ -550,10 +550,10 @@ B28_0384:		lda $8b			; a5 8b
 B28_0386:		cmp #$01		; c9 01
 B28_0388:		beq B28_0393 ; f0 09
 
-B28_038a:		lda $041c		; ad 1c 04
+B28_038a:		lda wEntityBaseY.w		; ad 1c 04
 B28_038d:		clc				; 18 
 B28_038e:		adc #$04		; 69 04
-B28_0390:		sta $041c		; 8d 1c 04
+B28_0390:		sta wEntityBaseY.w		; 8d 1c 04
 B28_0393:		lda $3c			; a5 3c
 B28_0395:		beq B28_0398 ; f0 01
 
@@ -616,7 +616,7 @@ B28_03dd:		clc				; 18
 B28_03de:		rts				; 60 
 
 
-B28_03df:		jsr $fbe8		; 20 e8 fb
+B28_03df:		jsr func_1f_1be8		; 20 e8 fb
 B28_03e2:		ldx $08			; a6 08
 B28_03e4:		lda #$fb		; a9 fb
 B28_03e6:		jsr func_1f_1cdd		; 20 dd fc
@@ -626,8 +626,7 @@ B28_03eb:		beq B28_03ef ; f0 02
 B28_03ed:		sec				; 38 
 B28_03ee:		rts				; 60 
 
-
-B28_03ef:		jsr $fbe8		; 20 e8 fb
+B28_03ef:		jsr func_1f_1be8		; 20 e8 fb
 B28_03f2:		sec				; 38 
 B28_03f3:		rts				; 60 
 
@@ -666,6 +665,7 @@ B28_041b:		pla				; 68
 B28_041c:		rts				; 60 
 
 
+func_1c_041d:
 B28_041d:		ldx #$0c		; a2 0c
 B28_041f:		bne B28_0423 ; d0 02
 
@@ -677,18 +677,15 @@ B28_0429:		bne B28_042e ; d0 03
 
 B28_042b:		jmp $84e0		; 4c e0 84
 
-
 B28_042e:		cmp #$05		; c9 05
 B28_0430:		bne B28_0435 ; d0 03
 
 B28_0432:		jmp $8513		; 4c 13 85
 
-
 B28_0435:		cmp #$06		; c9 06
 B28_0437:		bne B28_043c ; d0 03
 
 B28_0439:		jmp $851e		; 4c 1e 85
-
 
 B28_043c:		lda #$05		; a9 05
 B28_043e:		jsr func_1f_1cdd		; 20 dd fc
@@ -805,9 +802,9 @@ B28_04cd:		lda $04db		; ad db 04
 B28_04d0:		clc				; 18 
 B28_04d1:		adc #$40		; 69 40
 B28_04d3:		sta $04db		; 8d db 04
-B28_04d6:		lda $041c		; ad 1c 04
+B28_04d6:		lda wEntityBaseY.w		; ad 1c 04
 B28_04d9:		adc #$00		; 69 00
-B28_04db:		sta $041c		; 8d 1c 04
+B28_04db:		sta wEntityBaseY.w		; 8d 1c 04
 B28_04de:		sec				; 38 
 B28_04df:		rts				; 60 
 
@@ -835,25 +832,25 @@ B28_0500:		ldy $054e		; ac 4e 05
 B28_0503:		cpy #$02		; c0 02
 B28_0505:		bne B28_04f7 ; d0 f0
 
-B28_0507:		lda $041c		; ad 1c 04
+B28_0507:		lda wEntityBaseY.w		; ad 1c 04
 B28_050a:		clc				; 18 
 B28_050b:		adc #$04		; 69 04
-B28_050d:		sta $041c		; 8d 1c 04
+B28_050d:		sta wEntityBaseY.w		; 8d 1c 04
 B28_0510:		jmp $84f7		; 4c f7 84
 
 
-B28_0513:		lda $041c		; ad 1c 04
+B28_0513:		lda wEntityBaseY.w		; ad 1c 04
 B28_0516:		clc				; 18 
 B28_0517:		adc $91			; 65 91
-B28_0519:		sta $041c		; 8d 1c 04
+B28_0519:		sta wEntityBaseY.w		; 8d 1c 04
 B28_051c:		sec				; 38 
 B28_051d:		rts				; 60 
 
 
-B28_051e:		lda $041c		; ad 1c 04
+B28_051e:		lda wEntityBaseY.w		; ad 1c 04
 B28_0521:		clc				; 18 
 B28_0522:		adc $91			; 65 91
-B28_0524:		sta $041c		; 8d 1c 04
+B28_0524:		sta wEntityBaseY.w		; 8d 1c 04
 B28_0527:		sec				; 38 
 B28_0528:		rts				; 60 
 
@@ -871,9 +868,9 @@ B28_0536:		iny				; c8
 B28_0537:		cmp $0565		; cd 65 05
 B28_053a:		bne B28_052f ; d0 f3
 
-B28_053c:		lda $0454		; ad 54 04
+B28_053c:		lda wEntityPaletteOverride.w		; ad 54 04
 B28_053f:		and #$df		; 29 df
-B28_0541:		sta $0454		; 8d 54 04
+B28_0541:		sta wEntityPaletteOverride.w		; 8d 54 04
 B28_0544:		rts				; 60 
 
 
@@ -881,16 +878,16 @@ B28_0545:		lda $7d			; a5 7d
 B28_0547:		and #$0f		; 29 0f
 B28_0549:		asl a			; 0a
 B28_054a:		tay				; a8 
-B28_054b:		lda $041c		; ad 1c 04
+B28_054b:		lda wEntityBaseY.w		; ad 1c 04
 B28_054e:		cmp $8568, y	; d9 68 85
 B28_0551:		bcc B28_053c ; 90 e9
 
 B28_0553:		cmp $8569, y	; d9 69 85
 B28_0556:		bcs B28_053c ; b0 e4
 
-B28_0558:		lda $0454		; ad 54 04
+B28_0558:		lda wEntityPaletteOverride.w		; ad 54 04
 B28_055b:		ora #$20		; 09 20
-B28_055d:		sta $0454		; 8d 54 04
+B28_055d:		sta wEntityPaletteOverride.w		; 8d 54 04
 B28_0560:		rts				; 60 
 
 
@@ -915,10 +912,10 @@ B28_0574:		bcs B28_0577 ; b0 01
 B28_0576:		rts				; 60 
 
 
-B28_0577:		lda $041c		; ad 1c 04
+B28_0577:		lda wEntityBaseY.w		; ad 1c 04
 B28_057a:		clc				; 18 
 B28_057b:		adc $6e			; 65 6e
-B28_057d:		sta $041c		; 8d 1c 04
+B28_057d:		sta wEntityBaseY.w		; 8d 1c 04
 B28_0580:		lda $d3			; a5 d3
 B28_0582:		clc				; 18 
 B28_0583:		adc $6e			; 65 6e
@@ -940,8 +937,8 @@ B28_0594:		rts				; 60
 
 B28_0595:		lda $56			; a5 56
 B28_0597:		clc				; 18 
-B28_0598:		adc $0438		; 6d 38 04
-B28_059b:		sta $0438		; 8d 38 04
+B28_0598:		adc wEntityBaseX.w		; 6d 38 04
+B28_059b:		sta wEntityBaseX.w		; 8d 38 04
 B28_059e:		lda $71			; a5 71
 B28_05a0:		sta $57			; 85 57
 B28_05a2:		lda #$00		; a9 00
@@ -949,8 +946,8 @@ B28_05a4:		beq B28_05b3 ; f0 0d
 
 B28_05a6:		lda $56			; a5 56
 B28_05a8:		clc				; 18 
-B28_05a9:		adc $0438		; 6d 38 04
-B28_05ac:		sta $0438		; 8d 38 04
+B28_05a9:		adc wEntityBaseX.w		; 6d 38 04
+B28_05ac:		sta wEntityBaseX.w		; 8d 38 04
 B28_05af:		lda #$00		; a9 00
 B28_05b1:		sta $57			; 85 57
 B28_05b3:		sta $56			; 85 56
@@ -978,35 +975,35 @@ B28_05d2:		inx				; e8
 B28_05d3:		inx				; e8 
 B28_05d4:		inx				; e8 
 B28_05d5:		inx				; e8 
-B28_05d6:		lda $05ef		; ad ef 05
+B28_05d6:		lda wEntityAI_idx.w		; ad ef 05
 B28_05d9:		beq B28_05dd ; f0 02
 
 B28_05db:		inx				; e8 
 B28_05dc:		inx				; e8 
 B28_05dd:		lda $861a, x	; bd 1a 86
 B28_05e0:		clc				; 18 
-B28_05e1:		adc $0438		; 6d 38 04
-B28_05e4:		sta $0438		; 8d 38 04
+B28_05e1:		adc wEntityBaseX.w		; 6d 38 04
+B28_05e4:		sta wEntityBaseX.w		; 8d 38 04
 B28_05e7:		lda $861b, x	; bd 1b 86
-B28_05ea:		sta $041c		; 8d 1c 04
+B28_05ea:		sta wEntityBaseY.w		; 8d 1c 04
 B28_05ed:		ldy $054e		; ac 4e 05
 B28_05f0:		lda $8632, y	; b9 32 86
 B28_05f3:		clc				; 18 
-B28_05f4:		adc $041c		; 6d 1c 04
-B28_05f7:		sta $041c		; 8d 1c 04
-B28_05fa:		lda $0438		; ad 38 04
-B28_05fd:		ldx $05ef		; ae ef 05
+B28_05f4:		adc wEntityBaseY.w		; 6d 1c 04
+B28_05f7:		sta wEntityBaseY.w		; 8d 1c 04
+B28_05fa:		lda wEntityBaseX.w		; ad 38 04
+B28_05fd:		ldx wEntityAI_idx.w		; ae ef 05
 B28_0600:		beq B28_060a ; f0 08
 
 B28_0602:		clc				; 18 
 B28_0603:		adc $8632, y	; 79 32 86
-B28_0606:		sta $0438		; 8d 38 04
+B28_0606:		sta wEntityBaseX.w		; 8d 38 04
 B28_0609:		rts				; 60 
 
 
 B28_060a:		sec				; 38 
 B28_060b:		sbc $8632, y	; f9 32 86
-B28_060e:		sta $0438		; 8d 38 04
+B28_060e:		sta wEntityBaseX.w		; 8d 38 04
 B28_0611:		rts				; 60 
 
 
@@ -1043,15 +1040,15 @@ B28_0636:		lda $56			; a5 56
 B28_0638:		beq B28_066f ; f0 35
 
 B28_063a:		clc				; 18 
-B28_063b:		adc $0438		; 6d 38 04
-B28_063e:		sta $0438		; 8d 38 04
+B28_063b:		adc wEntityBaseX.w		; 6d 38 04
+B28_063e:		sta wEntityBaseX.w		; 8d 38 04
 B28_0641:		rts				; 60 
 
 
 B28_0642:		lda $68			; a5 68
 B28_0644:		bmi B28_0636 ; 30 f0
 
-B28_0646:		lda $0438		; ad 38 04
+B28_0646:		lda wEntityBaseX.w		; ad 38 04
 B28_0649:		bmi B28_067a ; 30 2f
 
 B28_064b:		lda $56			; a5 56
@@ -1060,7 +1057,7 @@ B28_064f:		beq B28_0679 ; f0 28
 
 B28_0651:		lda #$80		; a9 80
 B28_0653:		sec				; 38 
-B28_0654:		sbc $0438		; ed38 04
+B28_0654:		sbc wEntityBaseX.w		; ed38 04
 B28_0657:		sta $08			; 85 08
 B28_0659:		lda $56			; a5 56
 B28_065b:		sec				; 38 
@@ -1073,7 +1070,7 @@ B28_0663:		bpl B28_0670 ; 10 0b
 
 B28_0665:		clc				; 18 
 B28_0666:		adc #$80		; 69 80
-B28_0668:		sta $0438		; 8d 38 04
+B28_0668:		sta wEntityBaseX.w		; 8d 38 04
 B28_066b:		lda #$00		; a9 00
 B28_066d:		sta $56			; 85 56
 B28_066f:		rts				; 60 
@@ -1082,7 +1079,7 @@ B28_066f:		rts				; 60
 B28_0670:		sty $57			; 84 57
 B28_0672:		sta $56			; 85 56
 B28_0674:		lda #$80		; a9 80
-B28_0676:		sta $0438		; 8d 38 04
+B28_0676:		sta wEntityBaseX.w		; 8d 38 04
 B28_0679:		rts				; 60 
 
 
@@ -1090,7 +1087,7 @@ B28_067a:		lda $57			; a5 57
 B28_067c:		cmp $71			; c5 71
 B28_067e:		beq B28_0679 ; f0 f9
 
-B28_0680:		lda $0438		; ad 38 04
+B28_0680:		lda wEntityBaseX.w		; ad 38 04
 B28_0683:		sec				; 38 
 B28_0684:		sbc #$80		; e9 80
 B28_0686:		beq B28_0679 ; f0 f1
@@ -1108,7 +1105,7 @@ B28_0696:		bne B28_0670 ; d0 d8
 
 B28_0698:		clc				; 18 
 B28_0699:		adc #$80		; 69 80
-B28_069b:		sta $0438		; 8d 38 04
+B28_069b:		sta wEntityBaseX.w		; 8d 38 04
 B28_069e:		sty $57			; 84 57
 B28_06a0:		lda #$00		; a9 00
 B28_06a2:		sta $56			; 85 56
@@ -1158,7 +1155,7 @@ B28_06e0:		lda $68			; a5 68
 B28_06e2:		and #$01		; 29 01
 B28_06e4:		beq B28_0716 ; f0 30
 
-B28_06e6:		lda $041c		; ad 1c 04
+B28_06e6:		lda wEntityBaseY.w		; ad 1c 04
 B28_06e9:		bpl B28_0716 ; 10 2b
 
 B28_06eb:		lda $71			; a5 71
@@ -1178,7 +1175,7 @@ B28_06fc:		lda $68			; a5 68
 B28_06fe:		and #$01		; 29 01
 B28_0700:		bne B28_0716 ; d0 14
 
-B28_0702:		lda $041c		; ad 1c 04
+B28_0702:		lda wEntityBaseY.w		; ad 1c 04
 B28_0705:		bmi B28_0716 ; 30 0f
 
 B28_0707:		lda $56			; a5 56
@@ -1197,9 +1194,9 @@ B28_0716:		lda $04db		; ad db 04
 B28_0719:		clc				; 18 
 B28_071a:		adc $0537		; 6d 37 05
 B28_071d:		sta $04db		; 8d db 04
-B28_0720:		lda $041c		; ad 1c 04
+B28_0720:		lda wEntityBaseY.w		; ad 1c 04
 B28_0723:		adc $0520		; 6d 20 05
-B28_0726:		sta $041c		; 8d 1c 04
+B28_0726:		sta wEntityBaseY.w		; 8d 1c 04
 B28_0729:		rts				; 60 
 
 
@@ -1237,7 +1234,7 @@ B28_0752:		lda $71			; a5 71
 B28_0754:		cmp $57			; c5 57
 B28_0756:		beq B28_0762 ; f0 0a
 
-B28_0758:		lda $0438		; ad 38 04
+B28_0758:		lda wEntityBaseX.w		; ad 38 04
 B28_075b:		bpl B28_0762 ; 10 05
 
 B28_075d:		lda #$01		; a9 01
@@ -1249,9 +1246,9 @@ B28_0762:		lda $04c4		; ad c4 04
 B28_0765:		clc				; 18 
 B28_0766:		adc $0509		; 6d 09 05
 B28_0769:		sta $04c4		; 8d c4 04
-B28_076c:		lda $0438		; ad 38 04
+B28_076c:		lda wEntityBaseX.w		; ad 38 04
 B28_076f:		adc $04f2		; 6d f2 04
-B28_0772:		sta $0438		; 8d 38 04
+B28_0772:		sta wEntityBaseX.w		; 8d 38 04
 B28_0775:		ldy $68			; a4 68
 B28_0777:		bmi B28_07a2 ; 30 29
 
@@ -1271,7 +1268,7 @@ B28_0786:		lda $56			; a5 56
 B28_0788:		ora $57			; 05 57
 B28_078a:		beq B28_0762 ; f0 d6
 
-B28_078c:		ldy $0438		; ac 38 04
+B28_078c:		ldy wEntityBaseX.w		; ac 38 04
 B28_078f:		dey				; 88 
 B28_0790:		bmi B28_0762 ; 30 d0
 
@@ -1287,7 +1284,7 @@ B28_079b:		ldx #$01		; a2 01
 B28_079d:		jsr $e69a		; 20 9a e6
 B28_07a0:		bcs B28_07d2 ; b0 30
 
-B28_07a2:		lda $0438		; ad 38 04
+B28_07a2:		lda wEntityBaseX.w		; ad 38 04
 B28_07a5:		cmp #$10		; c9 10
 B28_07a7:		bcc B28_07b3 ; 90 0a
 
@@ -1300,7 +1297,7 @@ B28_07b1:		bne B28_07b7 ; d0 04
 
 B28_07b3:		ldx #$00		; a2 00
 B28_07b5:		lda #$10		; a9 10
-B28_07b7:		sta $0438		; 8d 38 04
+B28_07b7:		sta wEntityBaseX.w		; 8d 38 04
 B28_07ba:		lda $054e		; ad 4e 05
 B28_07bd:		cmp #$03		; c9 03
 B28_07bf:		bne B28_07d1 ; d0 10
@@ -1325,7 +1322,7 @@ B28_07d6:		lda #$e9		; a9 e9
 B28_07d8:		bne B28_07dc ; d0 02
 
 B28_07da:		lda #$17		; a9 17
-B28_07dc:		sta $0438		; 8d 38 04
+B28_07dc:		sta wEntityBaseX.w		; 8d 38 04
 B28_07df:		rts				; 60 
 
 
@@ -1723,21 +1720,21 @@ B28_0a01:		rts				; 60
 B28_0a02:		lda $68			; a5 68
 B28_0a04:		bmi B28_0a0f ; 30 09
 
-B28_0a06:		lda $041c		; ad 1c 04
+B28_0a06:		lda wEntityBaseY.w		; ad 1c 04
 B28_0a09:		and #$f0		; 29 f0
-B28_0a0b:		sta $041c		; 8d 1c 04
+B28_0a0b:		sta wEntityBaseY.w		; 8d 1c 04
 B28_0a0e:		rts				; 60 
 
 
 B28_0a0f:		clc				; 18 
-B28_0a10:		lda $041c		; ad 1c 04
+B28_0a10:		lda wEntityBaseY.w		; ad 1c 04
 B28_0a13:		adc $56			; 65 56
 B28_0a15:		and #$f0		; 29 f0
 B28_0a17:		sec				; 38 
 B28_0a18:		sbc $56			; e5 56
 B28_0a1a:		clc				; 18 
 B28_0a1b:		adc #$03		; 69 03
-B28_0a1d:		sta $041c		; 8d 1c 04
+B28_0a1d:		sta wEntityBaseY.w		; 8d 1c 04
 B28_0a20:		rts				; 60 
 
 
@@ -1865,18 +1862,18 @@ B28_0ae2:		jsr jumpTablePreserveY		; 20 6d e8
 	.dw $8b48
 
 B28_0aeb:		ldy #$00		; a0 00
-B28_0aed:		sty $0593		; 8c 93 05
+B28_0aed:		sty wEntityAnimationIdxes.w		; 8c 93 05
 B28_0af0:		sty $0413		; 8c 13 04
 B28_0af3:		sty $80			; 84 80
 B28_0af5:		sty $0470		; 8c 70 04
 B28_0af8:		iny				; c8 
-B28_0af9:		sty $057c		; 8c 7c 05
+B28_0af9:		sty wEntityTimeUntilNextAnimation.w		; 8c 7c 05
 B28_0afc:		inc $bf			; e6 bf
 B28_0afe:		rts				; 60 
 
 
 B28_0aff:		jsr $8b1a		; 20 1a 8b
-B28_0b02:		lda $057c		; ad 7c 05
+B28_0b02:		lda wEntityTimeUntilNextAnimation.w		; ad 7c 05
 B28_0b05:		cmp #$ff		; c9 ff
 B28_0b07:		beq B28_0b0a ; f0 01
 
@@ -1892,29 +1889,29 @@ B28_0b17:		inc $bf			; e6 bf
 B28_0b19:		rts				; 60 
 
 
-B28_0b1a:		dec $057c		; ce 7c 05
+B28_0b1a:		dec wEntityTimeUntilNextAnimation.w		; ce 7c 05
 B28_0b1d:		beq B28_0b20 ; f0 01
 
 B28_0b1f:		rts				; 60 
 
 
-B28_0b20:		lda $0593		; ad 93 05
+B28_0b20:		lda wEntityAnimationIdxes.w		; ad 93 05
 B28_0b23:		asl a			; 0a
 B28_0b24:		tay				; a8 
 B28_0b25:		lda $8b4b, y	; b9 4b 8b
 B28_0b28:		sta $0400		; 8d 00 04
 B28_0b2b:		lda $8b4c, y	; b9 4c 8b
-B28_0b2e:		sta $057c		; 8d 7c 05
+B28_0b2e:		sta wEntityTimeUntilNextAnimation.w		; 8d 7c 05
 B28_0b31:		lda $054e		; ad 4e 05
 B28_0b34:		asl a			; 0a
 B28_0b35:		clc				; 18 
-B28_0b36:		adc $0593		; 6d 93 05
+B28_0b36:		adc wEntityAnimationIdxes.w		; 6d 93 05
 B28_0b39:		tay				; a8 
 B28_0b3a:		lda $8b4f, y	; b9 4f 8b
 B28_0b3d:		clc				; 18 
-B28_0b3e:		adc $041c		; 6d 1c 04
-B28_0b41:		sta $041c		; 8d 1c 04
-B28_0b44:		inc $0593		; ee 93 05
+B28_0b3e:		adc wEntityBaseY.w		; 6d 1c 04
+B28_0b41:		sta wEntityBaseY.w		; 8d 1c 04
+B28_0b44:		inc wEntityAnimationIdxes.w		; ee 93 05
 B28_0b47:		rts				; 60 
 
 
@@ -1937,7 +1934,7 @@ B28_0b59:		and #$7f		; 29 7f
 B28_0b5b:		tay				; a8 
 B28_0b5c:		bne B28_0b8f ; d0 31
 
-B28_0b5e:		lda $041c		; ad 1c 04
+B28_0b5e:		lda wEntityBaseY.w		; ad 1c 04
 B28_0b61:		ldy $68			; a4 68
 B28_0b63:		bmi B28_0b6b ; 30 06
 
@@ -1989,8 +1986,8 @@ B28_0baa:		beq B28_0bad ; f0 01
 B28_0bac:		rts				; 60 
 
 
-B28_0bad:		lda #$05		; a9 05
-B28_0baf:		sta $18			; 85 18
+B28_0bad:		lda #GS_05		; a9 05
+B28_0baf:		sta wGameState			; 85 18
 B28_0bb1:		lda #$00		; a9 00
 B28_0bb3:		sta $19			; 85 19
 B28_0bb5:		lda $0565		; ad 65 05
@@ -2020,7 +2017,7 @@ B28_0bd5:		beq B28_0c1e ; f0 47
 B28_0bd7:		cmp #$70		; c9 70
 B28_0bd9:		beq B28_0bfc ; f0 21
 
-B28_0bdb:		lda $041c		; ad 1c 04
+B28_0bdb:		lda wEntityBaseY.w		; ad 1c 04
 B28_0bde:		ldy $68			; a4 68
 B28_0be0:		bpl B28_0bf4 ; 10 12
 
@@ -2052,7 +2049,7 @@ B28_0bfc:		lda $7d			; a5 7d
 B28_0bfe:		and #$0f		; 29 0f
 B28_0c00:		tay				; a8 
 B28_0c01:		lda $8c56, y	; b9 56 8c
-B28_0c04:		cmp $041c		; cd 1c 04
+B28_0c04:		cmp wEntityBaseY.w		; cd 1c 04
 B28_0c07:		bcs B28_0bfb ; b0 f2
 
 B28_0c09:		lda $82			; a5 82
@@ -2074,11 +2071,11 @@ B28_0c1e:		lda $7d			; a5 7d
 B28_0c20:		and #$0f		; 29 0f
 B28_0c22:		bne B28_0bdb ; d0 b7
 
-B28_0c24:		lda $041c		; ad 1c 04
+B28_0c24:		lda wEntityBaseY.w		; ad 1c 04
 B28_0c27:		cmp #$c0		; c9 c0
 B28_0c29:		bcc B28_0bfb ; 90 d0
 
-B28_0c2b:		lda $0438		; ad 38 04
+B28_0c2b:		lda wEntityBaseX.w		; ad 38 04
 B28_0c2e:		clc				; 18 
 B28_0c2f:		adc $56			; 65 56
 B28_0c31:		sta $0a			; 85 0a
@@ -2132,14 +2129,14 @@ B28_0c76:		adc $00			; 65 00
 B28_0c78:		tay				; a8 
 B28_0c79:		lda $8cc9, y	; b9 c9 8c
 B28_0c7c:		clc				; 18 
-B28_0c7d:		adc $0438		; 6d 38 04
-B28_0c80:		sta $0438, x	; 9d 38 04
+B28_0c7d:		adc wEntityBaseX.w		; 6d 38 04
+B28_0c80:		sta wEntityBaseX.w, x	; 9d 38 04
 B28_0c83:		lda $8cca, y	; b9 ca 8c
 B28_0c86:		clc				; 18 
-B28_0c87:		adc $041c		; 6d 1c 04
+B28_0c87:		adc wEntityBaseY.w		; 6d 1c 04
 B28_0c8a:		sec				; 38 
 B28_0c8b:		sbc #$0c		; e9 0c
-B28_0c8d:		sta $041c, x	; 9d 1c 04
+B28_0c8d:		sta wEntityBaseY.w, x	; 9d 1c 04
 B28_0c90:		lda $8ccb, y	; b9 cb 8c
 B28_0c93:		sta $04f2, x	; 9d f2 04
 B28_0c96:		lda $8ccc, y	; b9 cc 8c
@@ -2251,7 +2248,7 @@ B28_0d39:		and #$0f		; 29 0f
 B28_0d3b:		bne B28_0d7b ; d0 3e
 
 B28_0d3d:		lda $56			; a5 56
-B28_0d3f:		adc $0438		; 6d 38 04
+B28_0d3f:		adc wEntityBaseX.w		; 6d 38 04
 B28_0d42:		sta $00			; 85 00
 B28_0d44:		lda $57			; a5 57
 B28_0d46:		adc #$00		; 69 00
@@ -2326,12 +2323,12 @@ B28_0dae:		bne B28_0da0 ; d0 f0
 B28_0db0:		lda $04a8		; ad a8 04
 B28_0db3:		beq B28_0dda ; f0 25
 
-B28_0db5:		lda $0438		; ad 38 04
+B28_0db5:		lda wEntityBaseX.w		; ad 38 04
 B28_0db8:		clc				; 18 
 B28_0db9:		adc ($08), y	; 71 08
 B28_0dbb:		sta $0452		; 8d 52 04
 B28_0dbe:		iny				; c8 
-B28_0dbf:		lda $041c		; ad 1c 04
+B28_0dbf:		lda wEntityBaseY.w		; ad 1c 04
 B28_0dc2:		clc				; 18 
 B28_0dc3:		adc ($08), y	; 71 08
 B28_0dc5:		cmp #$38		; c9 38
@@ -2346,7 +2343,7 @@ B28_0dd6:		sta $048a		; 8d 8a 04
 B28_0dd9:		rts				; 60 
 
 
-B28_0dda:		lda $0438		; ad 38 04
+B28_0dda:		lda wEntityBaseX.w		; ad 38 04
 B28_0ddd:		sec				; 38 
 B28_0dde:		sbc ($08), y	; f1 08
 B28_0de0:		jmp $8dbb		; 4c bb 8d
@@ -3270,7 +3267,7 @@ B28_13b6:		dec $05d4		; ce d4 05
 B28_13b9:		beq B28_13db ; f0 20
 
 B28_13bb:		lda #$02		; a9 02
-B28_13bd:		sta $0454		; 8d 54 04
+B28_13bd:		sta wEntityPaletteOverride.w		; 8d 54 04
 B28_13c0:		lda $05eb		; ad eb 05
 B28_13c3:		bne B28_13e6 ; d0 21
 
@@ -3285,19 +3282,19 @@ B28_13cd:		sta $05eb		; 8d eb 05
 B28_13d0:		lda #$0c		; a9 0c
 B28_13d2:		sta $05d8		; 8d d8 05
 B28_13d5:		lda #$01		; a9 01
-B28_13d7:		sta $05c1		; 8d c1 05
+B28_13d7:		sta wEntityPhase.w		; 8d c1 05
 B28_13da:		rts				; 60 
 
 
 B28_13db:		lda #$00		; a9 00
-B28_13dd:		sta $0454		; 8d 54 04
+B28_13dd:		sta wEntityPaletteOverride.w		; 8d 54 04
 B28_13e0:		lda #$02		; a9 02
 B28_13e2:		sta $0565		; 8d 65 05
 B28_13e5:		rts				; 60 
 
 
 B28_13e6:		jsr $984f		; 20 4f 98
-B28_13e9:		lda $05c1		; ad c1 05
+B28_13e9:		lda wEntityPhase.w		; ad c1 05
 B28_13ec:		beq B28_13e5 ; f0 f7
 
 B28_13ee:		ldx #$10		; a2 10
@@ -3431,9 +3428,9 @@ B28_14a9:		rts				; 60
 
 B28_14aa:		sta $0565		; 8d 65 05
 B28_14ad:		lda #$00		; a9 00
-B28_14af:		sta $0593		; 8d 93 05
+B28_14af:		sta wEntityAnimationIdxes.w		; 8d 93 05
 B28_14b2:		lda #$01		; a9 01
-B28_14b4:		sta $057c		; 8d 7c 05
+B28_14b4:		sta wEntityTimeUntilNextAnimation.w		; 8d 7c 05
 B28_14b7:		rts				; 60 
 
 
@@ -3548,14 +3545,14 @@ B28_1546:		bne B28_1537 ; d0 ef
 
 B28_1548:		lda #$02		; a9 02
 B28_154a:		sta $0400		; 8d 00 04
-B28_154d:		lda $26			; a5 26
+B28_154d:		lda wJoy1NewButtonsPressed			; a5 26
 B28_154f:		asl a			; 0a
 B28_1550:		bcs B28_1594 ; b0 42
 
 B28_1552:		asl a			; 0a
 B28_1553:		bcs B28_1571 ; b0 1c
 
-B28_1555:		lda $28			; a5 28
+B28_1555:		lda wJoy1ButtonsPressed			; a5 28
 B28_1557:		lsr a			; 4a
 B28_1558:		bcc B28_155d ; 90 03
 
@@ -3579,7 +3576,7 @@ B28_156b:		sta $0400		; 8d 00 04
 B28_156e:		jmp $918e		; 4c 8e 91
 
 
-B28_1571:		lda $28			; a5 28
+B28_1571:		lda wJoy1ButtonsPressed			; a5 28
 B28_1573:		and #$08		; 29 08
 B28_1575:		bne B28_158a ; d0 13
 
@@ -3622,7 +3619,7 @@ B28_15aa:		jsr $e6d4		; 20 d4 e6
 B28_15ad:		bcc B28_159f ; 90 f0
 
 B28_15af:		lda #$00		; a9 00
-B28_15b1:		sta $05c1		; 8d c1 05
+B28_15b1:		sta wEntityPhase.w		; 8d c1 05
 B28_15b4:		ldx #$01		; a2 01
 B28_15b6:		bne B28_15c4 ; d0 0c
 
@@ -3630,7 +3627,7 @@ B28_15b8:		jsr $e6df		; 20 df e6
 B28_15bb:		bcc B28_1569 ; 90 ac
 
 B28_15bd:		lda #$01		; a9 01
-B28_15bf:		sta $05c1		; 8d c1 05
+B28_15bf:		sta wEntityPhase.w		; 8d c1 05
 B28_15c2:		ldx #$00		; a2 00
 B28_15c4:		ldy #$00		; a0 00
 B28_15c6:		lda $0a			; a5 0a
@@ -3641,7 +3638,7 @@ B28_15cb:		txa				; 8a
 B28_15cc:		eor #$01		; 49 01
 B28_15ce:		tax				; aa 
 B28_15cf:		iny				; c8 
-B28_15d0:		sty $05ef		; 8c ef 05
+B28_15d0:		sty wEntityAI_idx.w		; 8c ef 05
 B28_15d3:		stx $04a8		; 8e a8 04
 B28_15d6:		lda $0b			; a5 0b
 B28_15d8:		sta $061d		; 8d 1d 06
@@ -3684,13 +3681,13 @@ B28_161a:		jmp $ef4a		; 4c 4a ef
 
 B28_161d:		lda #$08		; a9 08
 B28_161f:		sta $0565		; 8d 65 05
-B28_1622:		lda $28			; a5 28
+B28_1622:		lda wJoy1ButtonsPressed			; a5 28
 B28_1624:		sta $10			; 85 10
 B28_1626:		ldx #$00		; a2 00
 B28_1628:		lda #$16		; a9 16
 B28_162a:		sta $0400, x	; 9d 00 04
 B28_162d:		lda #$00		; a9 00
-B28_162f:		sta $05c1, x	; 9d c1 05
+B28_162f:		sta wEntityPhase.w, x	; 9d c1 05
 B28_1632:		lda #$09		; a9 09
 B28_1634:		sta $05d8, x	; 9d d8 05
 B28_1637:		lda $10			; a5 10
@@ -3726,7 +3723,7 @@ B28_1663:		bcs B28_1668 ; b0 03
 B28_1665:		jmp $9734		; 4c 34 97
 
 
-B28_1668:		lda $26			; a5 26
+B28_1668:		lda wJoy1NewButtonsPressed			; a5 26
 B28_166a:		asl a			; 0a
 B28_166b:		bcc B28_1670 ; 90 03
 
@@ -3736,7 +3733,7 @@ B28_166d:		jmp $9594		; 4c 94 95
 B28_1670:		asl a			; 0a
 B28_1671:		bcs B28_168f ; b0 1c
 
-B28_1673:		lda $28			; a5 28
+B28_1673:		lda wJoy1ButtonsPressed			; a5 28
 B28_1675:		lsr a			; 4a
 B28_1676:		bcs B28_16ba ; b0 42
 
@@ -3754,7 +3751,7 @@ B28_1689:		jsr $873a		; 20 3a 87
 B28_168c:		jmp $8712		; 4c 12 87
 
 
-B28_168f:		lda $28			; a5 28
+B28_168f:		lda wJoy1ButtonsPressed			; a5 28
 B28_1691:		and #$08		; 29 08
 B28_1693:		beq B28_16a4 ; f0 0f
 
@@ -3881,7 +3878,7 @@ B28_1751:		sta $05d8, x	; 9d d8 05
 .else
 B28_1754:		lda #$01		; a9 01
 .endif
-B28_1756:		sta $05c1, x	; 9d c1 05
+B28_1756:		sta wEntityPhase.w, x	; 9d c1 05
 
 .ifdef IMPROVED_CONTROLS_TEST
 	lda #$16
@@ -3912,11 +3909,11 @@ B28_176c:		ldy #$e0		; a0 e0
 B28_176e:		bne B28_1762 ; d0 f2
 .endif
 
-B28_1770:		lda $26			; a5 26
+B28_1770:		lda wJoy1NewButtonsPressed			; a5 26
 B28_1772:		and #$40		; 29 40
 B28_1774:		beq B28_179c ; f0 26
 
-B28_1776:		lda $28			; a5 28
+B28_1776:		lda wJoy1ButtonsPressed			; a5 28
 B28_1778:		and #$08		; 29 08
 B28_177a:		beq B28_1790 ; f0 14
 
@@ -3968,10 +3965,10 @@ B28_17c7:		jsr func_1f_1cdd		; 20 dd fc
 B28_17ca:		bne B28_17cf ; d0 03
 
 B28_17cc:		jsr $873a		; 20 3a 87
-B28_17cf:		lda $041c		; ad 1c 04
+B28_17cf:		lda wEntityBaseY.w		; ad 1c 04
 B28_17d2:		sta $06			; 85 06
 B28_17d4:		jsr $984f		; 20 4f 98
-B28_17d7:		lda $05c1		; ad c1 05
+B28_17d7:		lda wEntityPhase.w		; ad c1 05
 B28_17da:		beq B28_1841 ; f0 65
 
 B28_17dc:		ldx #$10		; a2 10
@@ -4042,15 +4039,15 @@ B28_1841:		jmp $8712		; 4c 12 87
 B28_1844:		lda $06			; a5 06
 B28_1846:		clc				; 18 
 B28_1847:		adc $91			; 65 91
-B28_1849:		sta $041c		; 8d 1c 04
+B28_1849:		sta wEntityBaseY.w		; 8d 1c 04
 B28_184c:		jmp $983b		; 4c 3b 98
 
 
-B28_184f:		lda $041c		; ad 1c 04
+B28_184f:		lda wEntityBaseY.w		; ad 1c 04
 B28_1852:		cmp #$08		; c9 08
 B28_1854:		bcs B28_1867 ; b0 11
 
-B28_1856:		lda $05c1		; ad c1 05
+B28_1856:		lda wEntityPhase.w		; ad c1 05
 B28_1859:		bne B28_1867 ; d0 0c
 
 B28_185b:		lda $0565		; ad 65 05
@@ -4101,7 +4098,7 @@ B28_18a0:		sta $0520		; 8d 20 05
 B28_18a3:		bpl B28_18ab ; 10 06
 
 B28_18a5:		lda #$00		; a9 00
-B28_18a7:		sta $05c1		; 8d c1 05
+B28_18a7:		sta wEntityPhase.w		; 8d c1 05
 B28_18aa:		rts				; 60 
 
 
@@ -4113,7 +4110,7 @@ B28_18b1:		sta $0520		; 8d 20 05
 B28_18b4:		lda #$00		; a9 00
 B28_18b6:		sta $0537		; 8d 37 05
 B28_18b9:		lda #$01		; a9 01
-B28_18bb:		sta $05c1		; 8d c1 05
+B28_18bb:		sta wEntityPhase.w		; 8d c1 05
 B28_18be:		rts				; 60 
 
 
@@ -4127,7 +4124,7 @@ B28_18c8:		lda #$00		; a9 00
 B28_18ca:		sta $0537, x	; 9d 37 05
 B28_18cd:		sta $04db, x	; 9d db 04
 B28_18d0:		ldy $05d8, x	; bc d8 05
-B28_18d3:		lda $05c1, x	; bd c1 05
+B28_18d3:		lda wEntityPhase.w, x	; bd c1 05
 B28_18d6:		bne B28_18f4 ; d0 1c
 
 B28_18d8:		lda $9874, y	; b9 74 98
@@ -4143,7 +4140,7 @@ B28_18e6:		lda #$00		; a9 00
 B28_18e8:		sta $0520, x	; 9d 20 05
 B28_18eb:		dec $05d8, x	; de d8 05
 B28_18ee:		lda #$01		; a9 01
-B28_18f0:		sta $05c1, x	; 9d c1 05
+B28_18f0:		sta wEntityPhase.w, x	; 9d c1 05
 B28_18f3:		rts				; 60 
 
 
@@ -4181,7 +4178,7 @@ B28_191e:		jmp $973a		; 4c 3a 97
 
 
 B28_1921:		jsr $918e		; 20 8e 91
-B28_1924:		lda $26			; a5 26
+B28_1924:		lda wJoy1NewButtonsPressed			; a5 26
 B28_1926:		and #$40		; 29 40
 B28_1928:		beq B28_1936 ; f0 0c
 
@@ -4191,7 +4188,7 @@ B28_192f:		beq B28_190c ; f0 db
 
 B28_1931:		lda #$1c		; a9 1c
 B28_1933:		jsr $940a		; 20 0a 94
-B28_1936:		lda $28			; a5 28
+B28_1936:		lda wJoy1ButtonsPressed			; a5 28
 B28_1938:		and #$04		; 29 04
 B28_193a:		bne B28_1941 ; d0 05
 
@@ -4226,7 +4223,7 @@ B28_1963:		sta $0565		; 8d 65 05
 B28_1966:		rts				; 60 
 
 
-B28_1967:		lda $05c1		; ad c1 05
+B28_1967:		lda wEntityPhase.w		; ad c1 05
 B28_196a:		bne B28_196f ; d0 03
 
 B28_196c:		jmp $9b9a		; 4c 9a 9b
@@ -4235,7 +4232,7 @@ B28_196c:		jmp $9b9a		; 4c 9a 9b
 B28_196f:		jmp $9b8e		; 4c 8e 9b
 
 
-B28_1972:		lda $28			; a5 28
+B28_1972:		lda wJoy1ButtonsPressed			; a5 28
 B28_1974:		and #$08		; 29 08
 B28_1976:		bne B28_1984 ; d0 0c
 
@@ -4258,12 +4255,12 @@ B28_198b:		jmp $94aa		; 4c aa 94
 	jsr func4
 	nop
 .else
-B28_198e:		lda $28			; a5 28
+B28_198e:		lda wJoy1ButtonsPressed			; a5 28
 B28_1990:		and #$40		; 29 40
 .endif
 B28_1992:		bne B28_1972 ; d0 de
 
-B28_1994:		lda $28			; a5 28
+B28_1994:		lda wJoy1ButtonsPressed			; a5 28
 B28_1996:		lsr a			; 4a
 B28_1997:		bcs B28_19b3 ; b0 1a
 
@@ -4293,7 +4290,7 @@ B28_19b2:		rts				; 60
 
 B28_19b3:		lda #$00		; a9 00
 B28_19b5:		sta $04a8		; 8d a8 04
-B28_19b8:		lda $05ef		; ad ef 05
+B28_19b8:		lda wEntityAI_idx.w		; ad ef 05
 B28_19bb:		beq B28_19c9 ; f0 0c
 
 B28_19bd:		jsr $99f7		; 20 f7 99
@@ -4314,7 +4311,7 @@ B28_19d2:		jmp $9baf		; 4c af 9b
 
 B28_19d5:		lda #$01		; a9 01
 B28_19d7:		sta $04a8		; 8d a8 04
-B28_19da:		lda $05ef		; ad ef 05
+B28_19da:		lda wEntityAI_idx.w		; ad ef 05
 B28_19dd:		beq B28_19eb ; f0 0c
 
 B28_19df:		jsr $9a16		; 20 16 9a
@@ -4333,7 +4330,7 @@ B28_19f2:		ldy #$04		; a0 04
 B28_19f4:		jmp $9baf		; 4c af 9b
 
 
-B28_19f7:		lda $041c		; ad 1c 04
+B28_19f7:		lda wEntityBaseY.w		; ad 1c 04
 B28_19fa:		cmp #$d7		; c9 d7
 B28_19fc:		bcc B28_1a14 ; 90 16
 
@@ -4359,7 +4356,7 @@ B28_1a14:		clc				; 18
 B28_1a15:		rts				; 60 
 
 
-B28_1a16:		lda $041c		; ad 1c 04
+B28_1a16:		lda wEntityBaseY.w		; ad 1c 04
 B28_1a19:		cmp #$37		; c9 37
 B28_1a1b:		bcs B28_1a14 ; b0 f7
 
@@ -4377,7 +4374,7 @@ B28_1a2b:		sec				; 38
 B28_1a2c:		rts				; 60 
 
 
-B28_1a2d:		lda $041c		; ad 1c 04
+B28_1a2d:		lda wEntityBaseY.w		; ad 1c 04
 B28_1a30:		ldx $0520		; ae 20 05
 B28_1a33:		bmi B28_1a45 ; 30 10
 
@@ -4478,10 +4475,10 @@ B28_1a9f:		lda $061d		; ad 1d 06
 B28_1aa2:		beq B28_1af0 ; f0 4c
 
 B28_1aa4:		dec $061d		; ce 1d 06
-B28_1aa7:		lda $057c		; ad 7c 05
+B28_1aa7:		lda wEntityTimeUntilNextAnimation.w		; ad 7c 05
 B28_1aaa:		beq B28_1ab0 ; f0 04
 
-B28_1aac:		dec $057c		; ce 7c 05
+B28_1aac:		dec wEntityTimeUntilNextAnimation.w		; ce 7c 05
 B28_1aaf:		rts				; 60 
 
 
@@ -4489,29 +4486,29 @@ B28_1ab0:		lda $054e		; ad 4e 05
 B28_1ab3:		cmp #$02		; c9 02
 B28_1ab5:		beq B28_1acc ; f0 15
 
-B28_1ab7:		lda $0593		; ad 93 05
+B28_1ab7:		lda wEntityAnimationIdxes.w		; ad 93 05
 B28_1aba:		asl a			; 0a
 B28_1abb:		tay				; a8 
 B28_1abc:		lda $9bec, y	; b9 ec 9b
 B28_1abf:		sta $0400		; 8d 00 04
 B28_1ac2:		lda $9bed, y	; b9 ed 9b
-B28_1ac5:		sta $057c		; 8d 7c 05
-B28_1ac8:		inc $0593		; ee 93 05
+B28_1ac5:		sta wEntityTimeUntilNextAnimation.w		; 8d 7c 05
+B28_1ac8:		inc wEntityAnimationIdxes.w		; ee 93 05
 B28_1acb:		rts				; 60 
 
 
-B28_1acc:		lda $0593		; ad 93 05
+B28_1acc:		lda wEntityAnimationIdxes.w		; ad 93 05
 B28_1acf:		asl a			; 0a
 B28_1ad0:		tay				; a8 
 B28_1ad1:		lda $9bf4, y	; b9 f4 9b
 B28_1ad4:		sta $0400		; 8d 00 04
 B28_1ad7:		lda $9bf5, y	; b9 f5 9b
-B28_1ada:		sta $057c		; 8d 7c 05
-B28_1add:		inc $0593		; ee 93 05
+B28_1ada:		sta wEntityTimeUntilNextAnimation.w		; 8d 7c 05
+B28_1add:		inc wEntityAnimationIdxes.w		; ee 93 05
 B28_1ae0:		rts				; 60 
 
 
-B28_1ae1:		lda $041c		; ad 1c 04
+B28_1ae1:		lda wEntityBaseY.w		; ad 1c 04
 B28_1ae4:		sec				; 38 
 B28_1ae5:		sbc #$04		; e9 04
 B28_1ae7:		jmp $9b06		; 4c 06 9b
@@ -4532,7 +4529,7 @@ B28_1afc:		ldy $054e		; ac 4e 05
 B28_1aff:		cpy #$02		; c0 02
 B28_1b01:		beq B28_1ae1 ; f0 de
 
-B28_1b03:		lda $041c		; ad 1c 04
+B28_1b03:		lda wEntityBaseY.w		; ad 1c 04
 B28_1b06:		clc				; 18 
 B28_1b07:		adc #$03		; 69 03
 B28_1b09:		clc				; 18 
@@ -4545,7 +4542,7 @@ B28_1b13:		beq B28_1aea ; f0 d5
 
 B28_1b15:		clc				; 18 
 B28_1b16:		adc #$03		; 69 03
-B28_1b18:		sta $041c		; 8d 1c 04
+B28_1b18:		sta wEntityBaseY.w		; 8d 1c 04
 B28_1b1b:		lda $0520		; ad 20 05
 B28_1b1e:		bmi B28_1b64 ; 30 44
 
@@ -4576,10 +4573,10 @@ B28_1b49:		lda $054e		; ad 4e 05
 B28_1b4c:		cmp #$02		; c9 02
 B28_1b4e:		bne B28_1b59 ; d0 09
 
-B28_1b50:		lda $041c		; ad 1c 04
+B28_1b50:		lda wEntityBaseY.w		; ad 1c 04
 B28_1b53:		clc				; 18 
 B28_1b54:		adc #$04		; 69 04
-B28_1b56:		sta $041c		; 8d 1c 04
+B28_1b56:		sta wEntityBaseY.w		; 8d 1c 04
 B28_1b59:		lda #$02		; a9 02
 B28_1b5b:		sta $0565		; 8d 65 05
 B28_1b5e:		lda #$02		; a9 02
@@ -4613,13 +4610,13 @@ B28_1b8d:		rts				; 60
 
 
 B28_1b8e:		ldx #$02		; a2 02
-B28_1b90:		lda $05ef		; ad ef 05
+B28_1b90:		lda wEntityAI_idx.w		; ad ef 05
 B28_1b93:		sta $04a8		; 8d a8 04
 B28_1b96:		ldy #$08		; a0 08
 B28_1b98:		bne B28_1ba6 ; d0 0c
 
 B28_1b9a:		ldx #$00		; a2 00
-B28_1b9c:		lda $05ef		; ad ef 05
+B28_1b9c:		lda wEntityAI_idx.w		; ad ef 05
 B28_1b9f:		eor #$01		; 49 01
 B28_1ba1:		sta $04a8		; 8d a8 04
 B28_1ba4:		ldy #$00		; a0 00
@@ -4630,7 +4627,7 @@ B28_1bab:		iny				; c8
 B28_1bac:		iny				; c8 
 B28_1bad:		iny				; c8 
 B28_1bae:		iny				; c8 
-B28_1baf:		stx $0593		; 8e 93 05
+B28_1baf:		stx wEntityAnimationIdxes.w		; 8e 93 05
 B28_1bb2:		lda $9bdc, y	; b9 dc 9b
 B28_1bb5:		sta $04f2		; 8d f2 04
 B28_1bb8:		lda $9bdd, y	; b9 dd 9b
@@ -4640,7 +4637,7 @@ B28_1bc1:		sta $0520		; 8d 20 05
 B28_1bc4:		lda $9bdf, y	; b9 df 9b
 B28_1bc7:		sta $0537		; 8d 37 05
 B28_1bca:		lda #$01		; a9 01
-B28_1bcc:		sta $057c		; 8d 7c 05
+B28_1bcc:		sta wEntityTimeUntilNextAnimation.w		; 8d 7c 05
 B28_1bcf:		lda $9bdb		; ad db 9b
 B28_1bd2:		sta $061d		; 8d 1d 06
 B28_1bd5:		lda #$14		; a9 14
@@ -4753,7 +4750,7 @@ B28_1c3e:		jsr jumpTableNoPreserveY		; 20 86 e8
 	.dw $a188
 	.dw $a226
 	.dw $a333
-B28_1c8b:		jsr $841d		; 20 1d 84
+B28_1c8b:		jsr func_1c_041d		; 20 1d 84
 B28_1c8e:		bcs B28_1c98 ; b0 08
 
 B28_1c90:		lda #$00		; a9 00
@@ -4768,7 +4765,7 @@ B28_1c9b:		jmp $9428		; 4c 28 94
 B28_1c9e:		rts				; 60 
 
 
-B28_1c9f:		jsr $841d		; 20 1d 84
+B28_1c9f:		jsr func_1c_041d		; 20 1d 84
 B28_1ca2:		bcc B28_1c90 ; 90 ec
 
 B28_1ca4:		jsr $918e		; 20 8e 91
@@ -4801,20 +4798,20 @@ B28_1cd1:		sta $0400		; 8d 00 04
 B28_1cd4:		rts				; 60 
 
 
-B28_1cd5:		jsr $841d		; 20 1d 84
+B28_1cd5:		jsr func_1c_041d		; 20 1d 84
 B28_1cd8:		bcs B28_1cdd ; b0 03
 
 B28_1cda:		jmp $a08d		; 4c 8d a0
 
 
 B28_1cdd:		jsr $918e		; 20 8e 91
-B28_1ce0:		lda $26			; a5 26
+B28_1ce0:		lda wJoy1NewButtonsPressed			; a5 26
 B28_1ce2:		and #$40		; 29 40
 B28_1ce4:		beq B28_1ceb ; f0 05
 
 B28_1ce6:		lda #$1c		; a9 1c
 B28_1ce8:		jsr $940a		; 20 0a 94
-B28_1ceb:		lda $28			; a5 28
+B28_1ceb:		lda wJoy1ButtonsPressed			; a5 28
 B28_1ced:		and #$04		; 29 04
 B28_1cef:		bne B28_1cf7 ; d0 06
 
@@ -4834,18 +4831,18 @@ B28_1d03:		jsr $9d28		; 20 28 9d
 B28_1d06:		bne B28_1cf6 ; d0 ee
 
 B28_1d08:		lda $04a8		; ad a8 04
-B28_1d0b:		sta $05c1		; 8d c1 05
+B28_1d0b:		sta wEntityPhase.w		; 8d c1 05
 B28_1d0e:		jsr $a527		; 20 27 a5
-B28_1d11:		lda $041c		; ad 1c 04
+B28_1d11:		lda wEntityBaseY.w		; ad 1c 04
 B28_1d14:		clc				; 18 
 B28_1d15:		adc #$0c		; 69 0c
 B28_1d17:		sta $d3			; 85 d3
 B28_1d19:		lda #$40		; a9 40
 B28_1d1b:		sta $0565		; 8d 65 05
 B28_1d1e:		ldy #$00		; a0 00
-B28_1d20:		sty $0593		; 8c 93 05
+B28_1d20:		sty wEntityAnimationIdxes.w		; 8c 93 05
 B28_1d23:		iny				; c8 
-B28_1d24:		sty $057c		; 8c 7c 05
+B28_1d24:		sty wEntityTimeUntilNextAnimation.w		; 8c 7c 05
 B28_1d27:		rts				; 60 
 
 
@@ -4862,13 +4859,13 @@ B28_1d37:		cmp $04a8		; cd a8 04
 B28_1d3a:		rts				; 60 
 
 
-B28_1d3b:		jsr $841d		; 20 1d 84
+B28_1d3b:		jsr func_1c_041d		; 20 1d 84
 B28_1d3e:		bcs B28_1d43 ; b0 03
 
 B28_1d40:		jmp $a08d		; 4c 8d a0
 
 
-B28_1d43:		lda $26			; a5 26
+B28_1d43:		lda wJoy1NewButtonsPressed			; a5 26
 B28_1d45:		asl a			; 0a
 B28_1d46:		bcc B28_1d4b ; 90 03
 
@@ -4878,7 +4875,7 @@ B28_1d48:		jmp $9dff		; 4c ff 9d
 B28_1d4b:		asl a			; 0a
 B28_1d4c:		bcs B28_1d67 ; b0 19
 
-B28_1d4e:		lda $28			; a5 28
+B28_1d4e:		lda wJoy1ButtonsPressed			; a5 28
 B28_1d50:		lsr a			; 4a
 B28_1d51:		bcs B28_1d85 ; b0 32
 
@@ -4893,7 +4890,7 @@ B28_1d61:		jsr $873a		; 20 3a 87
 B28_1d64:		jmp $8712		; 4c 12 87
 
 
-B28_1d67:		lda $28			; a5 28
+B28_1d67:		lda wJoy1ButtonsPressed			; a5 28
 B28_1d69:		and #$08		; 29 08
 B28_1d6b:		bne B28_1d75 ; d0 08
 
@@ -5003,22 +5000,22 @@ B28_1e1b:		lda #$18		; a9 18
 B28_1e1d:		sta $0400		; 8d 00 04
 B28_1e20:		jsr $9e3f		; 20 3f 9e
 B28_1e23:		lda #$00		; a9 00
-B28_1e25:		sta $05c1		; 8d c1 05
+B28_1e25:		sta wEntityPhase.w		; 8d c1 05
 B28_1e28:		lda #$00		; a9 00
 B28_1e2a:		sta $05d8		; 8d d8 05
-B28_1e2d:		sta $0593		; 8d 93 05
+B28_1e2d:		sta wEntityAnimationIdxes.w		; 8d 93 05
 B28_1e30:		lda #$30		; a9 30
 B28_1e32:		sta $0565		; 8d 65 05
 B28_1e35:		rts				; 60 
 
 
-B28_1e36:		lda $0438		; ad 38 04
+B28_1e36:		lda wEntityBaseX.w		; ad 38 04
 B28_1e39:		clc				; 18 
 B28_1e3a:		adc #$07		; 69 07
 B28_1e3c:		jmp $9e42		; 4c 42 9e
 
 
-B28_1e3f:		lda $0438		; ad 38 04
+B28_1e3f:		lda wEntityBaseX.w		; ad 38 04
 B28_1e42:		ldy $68			; a4 68
 B28_1e44:		bmi B28_1e52 ; 30 0c
 
@@ -5027,12 +5024,12 @@ B28_1e47:		adc $56			; 65 56
 B28_1e49:		and #$f8		; 29 f8
 B28_1e4b:		sec				; 38 
 B28_1e4c:		sbc $56			; e5 56
-B28_1e4e:		sta $0438		; 8d 38 04
+B28_1e4e:		sta wEntityBaseX.w		; 8d 38 04
 B28_1e51:		rts				; 60 
 
 
 B28_1e52:		and #$f8		; 29 f8
-B28_1e54:		sta $0438		; 8d 38 04
+B28_1e54:		sta wEntityBaseX.w		; 8d 38 04
 B28_1e57:		rts				; 60 
 
 
@@ -5077,11 +5074,11 @@ B28_1e96:	.db $04
 B28_1e97:		lda #$04		; a9 04
 B28_1e99:		sta $b9			; 85 b9
 B28_1e9b:		lda #$00		; a9 00
-B28_1e9d:		sta $05c1		; 8d c1 05
+B28_1e9d:		sta wEntityPhase.w		; 8d c1 05
 B28_1ea0:		lda #$1e		; a9 1e
 B28_1ea2:		sta $05d8		; 8d d8 05
 B28_1ea5:		lda #$00		; a9 00
-B28_1ea7:		sta $05ef		; 8d ef 05
+B28_1ea7:		sta wEntityAI_idx.w		; 8d ef 05
 B28_1eaa:		sta $0606		; 8d 06 06
 B28_1ead:		sta $0509		; 8d 09 05
 B28_1eb0:		sta $04f2		; 8d f2 04
@@ -5142,15 +5139,15 @@ B28_1f08:		bcs B28_1ee0 ; b0 d6
 B28_1f0a:		rts				; 60 
 
 
-B28_1f0b:		lda $041c		; ad 1c 04
+B28_1f0b:		lda wEntityBaseY.w		; ad 1c 04
 B28_1f0e:		clc				; 18 
 B28_1f0f:		adc #$01		; 69 01
-B28_1f11:		sta $041c		; 8d 1c 04
+B28_1f11:		sta wEntityBaseY.w		; 8d 1c 04
 B28_1f14:		jsr $8a02		; 20 02 8a
-B28_1f17:		lda $041c		; ad 1c 04
+B28_1f17:		lda wEntityBaseY.w		; ad 1c 04
 B28_1f1a:		clc				; 18 
 B28_1f1b:		adc #$05		; 69 05
-B28_1f1d:		sta $041c		; 8d 1c 04
+B28_1f1d:		sta wEntityBaseY.w		; 8d 1c 04
 B28_1f20:		lda #$02		; a9 02
 B28_1f22:		jsr $ef57		; 20 57 ef
 B28_1f25:		lda #$32		; a9 32
@@ -5174,11 +5171,11 @@ B28_1f3a:		sec				; 38
 B28_1f3b:		rts				; 60 
 
 
-B28_1f3c:		lda $26			; a5 26
+B28_1f3c:		lda wJoy1NewButtonsPressed			; a5 26
 B28_1f3e:		and #$40		; 29 40
 B28_1f40:		beq B28_1f5a ; f0 18
 
-B28_1f42:		lda $28			; a5 28
+B28_1f42:		lda wJoy1ButtonsPressed			; a5 28
 B28_1f44:		and #$08		; 29 08
 B28_1f46:		bne B28_1f50 ; d0 08
 
@@ -5195,7 +5192,7 @@ B28_1f57:		jsr $94aa		; 20 aa 94
 B28_1f5a:		jsr $83aa		; 20 aa 83
 B28_1f5d:		bcs B28_1f3b ; b0 dc
 
-B28_1f5f:		lda $28			; a5 28
+B28_1f5f:		lda wJoy1ButtonsPressed			; a5 28
 B28_1f61:		lsr a			; 4a
 B28_1f62:		bcs B28_1f87 ; b0 23
 
@@ -5236,7 +5233,7 @@ B28_1fa2:		bcc B28_1fa7 ; 90 03
 B28_1fa4:		jmp $9e1b		; 4c 1b 9e
 
 
-B28_1fa7:		lda $28			; a5 28
+B28_1fa7:		lda wJoy1ButtonsPressed			; a5 28
 B28_1fa9:		and #$08		; 29 08
 B28_1fab:		beq B28_1fc1 ; f0 14
 

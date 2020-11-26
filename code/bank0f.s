@@ -28,14 +28,14 @@ B15_14ad:	.db $0c
 B15_14ae:		lda $56			; a5 56
 B15_14b0:		bne B15_152c ; d0 7a
 
-B15_14b2:		lda $32			; a5 32
+B15_14b2:		lda wCurrRoomGroup		; a5 32
 B15_14b4:		asl a			; 0a
 B15_14b5:		tay				; a8 
 B15_14b6:		lda $b66d, y	; b9 6d b6
 B15_14b9:		sta $08			; 85 08
 B15_14bb:		lda $b66e, y	; b9 6e b6
 B15_14be:		sta $09			; 85 09
-B15_14c0:		lda $33			; a5 33
+B15_14c0:		lda wCurrRoomSection			; a5 33
 B15_14c2:		asl a			; 0a
 B15_14c3:		sta $00			; 85 00
 B15_14c5:		asl a			; 0a
@@ -60,7 +60,7 @@ B15_14dd:		iny				; c8
 B15_14de:		lda ($08), y	; b1 08
 B15_14e0:		iny				; c8 
 B15_14e1:		sec				; 38 
-B15_14e2:		sbc $041c		; ed1c 04
+B15_14e2:		sbc wEntityBaseY.w		; ed1c 04
 B15_14e5:		bcs B15_14e9 ; b0 02
 
 B15_14e7:		eor #$ff		; 49 ff
@@ -71,7 +71,7 @@ B15_14ed:		bcc B15_14fd ; 90 0e
 
 B15_14ef:		lda ($08), y	; b1 08
 B15_14f1:		sec				; 38 
-B15_14f2:		sbc $041c		; ed1c 04
+B15_14f2:		sbc wEntityBaseY.w		; ed1c 04
 B15_14f5:		bcs B15_14f9 ; b0 02
 
 B15_14f7:		eor #$ff		; 49 ff
@@ -87,7 +87,7 @@ B15_1506:		bne B15_152a ; d0 22
 
 B15_1508:		iny				; c8 
 B15_1509:		lda ($08), y	; b1 08
-B15_150b:		sta $34			; 85 34
+B15_150b:		sta wCurrRoomIdx			; 85 34
 B15_150d:		stx $65			; 86 65
 B15_150f:		txa				; 8a 
 B15_1510:		eor #$01		; 49 01
@@ -120,14 +120,14 @@ B15_153d:		sec				; 38
 B15_153e:		rts				; 60 
 
 
-B15_153f:		lda $32			; a5 32
+B15_153f:		lda wCurrRoomGroup		; a5 32
 B15_1541:		asl a			; 0a
 B15_1542:		tay				; a8 
 B15_1543:		lda $b7c6, y	; b9 c6 b7
 B15_1546:		sta $08			; 85 08
 B15_1548:		lda $b7c7, y	; b9 c7 b7
 B15_154b:		sta $09			; 85 09
-B15_154d:		lda $33			; a5 33
+B15_154d:		lda wCurrRoomSection			; a5 33
 B15_154f:		asl a			; 0a
 B15_1550:		tay				; a8 
 B15_1551:		lda ($08), y	; b1 08
@@ -135,7 +135,7 @@ B15_1553:		sta $0a			; 85 0a
 B15_1555:		iny				; c8 
 B15_1556:		lda ($08), y	; b1 08
 B15_1558:		sta $0b			; 85 0b
-B15_155a:		lda $34			; a5 34
+B15_155a:		lda wCurrRoomIdx			; a5 34
 B15_155c:		asl a			; 0a
 B15_155d:		tay				; a8 
 B15_155e:		lda ($0a), y	; b1 0a
@@ -148,7 +148,7 @@ B15_1567:		rts				; 60
 
 B15_1568:		lda $57			; a5 57
 B15_156a:		sta $08			; 85 08
-B15_156c:		lda $041c		; ad 1c 04
+B15_156c:		lda wEntityBaseY.w		; ad 1c 04
 B15_156f:		sec				; 38 
 B15_1570:		sbc #$33		; e9 33
 B15_1572:		bcc B15_15f0 ; 90 7c
@@ -219,7 +219,7 @@ B15_15d0:		bcs B15_15ed ; b0 1b
 B15_15d2:		ldx #$00		; a2 00
 B15_15d4:		sec				; 38 
 B15_15d5:		lda ($69), y	; b1 69
-B15_15d7:		sbc $0438		; ed38 04
+B15_15d7:		sbc wEntityBaseX.w		; ed38 04
 B15_15da:		bcs B15_15e2 ; b0 06
 
 B15_15dc:		inx				; e8 
@@ -254,7 +254,7 @@ B15_15fc:		bpl B15_1601 ; 10 03
 B15_15fe:		jmp $b568		; 4c 68 b5
 
 
-B15_1601:		lda $0438		; ad 38 04
+B15_1601:		lda wEntityBaseX.w		; ad 38 04
 B15_1604:		clc				; 18 
 B15_1605:		adc $56			; 65 56
 B15_1607:		sta $0c			; 85 0c
@@ -282,7 +282,7 @@ B15_1624:		sta $0a			; 85 0a
 B15_1626:		asl a			; 0a
 B15_1627:		asl a			; 0a
 B15_1628:		asl a			; 0a
-B15_1629:		sbc $041c		; ed1c 04
+B15_1629:		sbc wEntityBaseY.w		; ed1c 04
 B15_162c:		bcs B15_1630 ; b0 02
 
 B15_162e:		eor #$ff		; 49 ff
