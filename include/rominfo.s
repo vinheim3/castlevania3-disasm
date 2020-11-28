@@ -15,6 +15,9 @@
 
     slotsize $2000
     slot 4 $e000
+
+    slotsize $2000
+    slot 5 $6000
 .endme
 
 .rombanksize $2000

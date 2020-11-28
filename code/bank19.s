@@ -92,7 +92,7 @@ B25_048a:		lda #$16		; a9 16
 B25_048c:		bne B25_0491 ; d0 03
 
 B25_048e:		lda $048d		; ad 8d 04
-B25_0491:		sta $048c, x	; 9d 8c 04
+B25_0491:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B25_0494:		lda #$0f		; a9 0f
 B25_0496:		sta $054e, x	; 9d 4e 05
 B25_0499:		rts				; 60 
@@ -201,7 +201,7 @@ B25_053f:		bcc B25_0535 ; 90 f4
 
 B25_0541:		bcs B25_0515 ; b0 d2
 
-B25_0543:		lda $0565, x	; bd 65 05
+B25_0543:		lda wPlayerStateDoubled.w, x	; bd 65 05
 B25_0546:		bne B25_053c ; d0 f4
 
 B25_0548:		lda $01			; a5 01
@@ -234,20 +234,20 @@ B25_056d:		bmi B25_0579 ; 30 0a
 B25_056f:		asl $30			; 06 30
 B25_0571:		php				; 08 
 B25_0572:		ora $30			; 05 30
-B25_0574:		lda $0565, x	; bd 65 05
+B25_0574:		lda wPlayerStateDoubled.w, x	; bd 65 05
 B25_0577:		pha				; 48 
 B25_0578:		sec				; 38 
 B25_0579:		sbc #$10		; e9 10
 B25_057b:		tay				; a8 
 B25_057c:		lda $a599, y	; b9 99 a5
-B25_057f:		sta $0565, x	; 9d 65 05
+B25_057f:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B25_0582:		lda $0633, x	; bd 33 06
 B25_0585:		sta $054e, x	; 9d 4e 05
 B25_0588:		lda #$05		; a9 05
 B25_058a:		jsr $a44c		; 20 4c a4
 B25_058d:		ldx $6c			; a6 6c
 B25_058f:		pla				; 68 
-B25_0590:		sta $0565, x	; 9d 65 05
+B25_0590:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B25_0593:		lda #$0b		; a9 0b
 B25_0595:		sta $054e, x	; 9d 4e 05
 B25_0598:		rts				; 60 
@@ -257,12 +257,12 @@ B25_0599:		jsr $a922		; 20 22 a9
 B25_059c:		.db $00				; 00
 B25_059d:		sta $0657, x	; 9d 57 06
 B25_05a0:		sta wEntityAI_idx.w, x	; 9d ef 05
-B25_05a3:		sta $0565, x	; 9d 65 05
+B25_05a3:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B25_05a6:		jsr $a8b8		; 20 b8 a8
 B25_05a9:		lda #$01		; a9 01
-B25_05ab:		sta $04a8, x	; 9d a8 04
+B25_05ab:		sta wEntityXFlipped.w, x	; 9d a8 04
 B25_05ae:		lda #$00		; a9 00
-B25_05b0:		sta $0400, x	; 9d 00 04
+B25_05b0:		sta wOamSpecIdx.w, x	; 9d 00 04
 B25_05b3:		lda #$01		; a9 01
 B25_05b5:		sta $b0			; 85 b0
 B25_05b7:		lda $78			; a5 78
@@ -274,7 +274,7 @@ B25_05c0:		rts				; 60
 
 
 B25_05c1:		ldx $6c			; a6 6c
-B25_05c3:		lda $0565, x	; bd 65 05
+B25_05c3:		lda wPlayerStateDoubled.w, x	; bd 65 05
 B25_05c6:		cmp #$19		; c9 19
 B25_05c8:		bcc B25_05cd ; 90 03
 
@@ -283,7 +283,7 @@ B25_05ca:		jmp $a62a		; 4c 2a a6
 
 B25_05cd:		jsr $a8b4		; 20 b4 a8
 B25_05d0:		lda #$19		; a9 19
-B25_05d2:		sta $0565, x	; 9d 65 05
+B25_05d2:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B25_05d5:		jmp $a62a		; 4c 2a a6
 
 
@@ -293,9 +293,9 @@ B25_05db:		beq B25_05de ; f0 01
 B25_05dd:		rts				; 60 
 
 
-B25_05de:		lda $0565, x	; bd 65 05
+B25_05de:		lda wPlayerStateDoubled.w, x	; bd 65 05
 B25_05e1:		and #$7f		; 29 7f
-B25_05e3:		sta $0565, x	; 9d 65 05
+B25_05e3:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B25_05e6:		lda $07ee		; ad ee 07
 B25_05e9:		sta $0470, x	; 9d 70 04
 B25_05ec:		lda #$01		; a9 01
@@ -305,9 +305,9 @@ B25_05f1:		rts				; 60
 
 B25_05f2:		lda #$00		; a9 00
 B25_05f4:		sta $0669, x	; 9d 69 06
-B25_05f7:		lda $0565, x	; bd 65 05
+B25_05f7:		lda wPlayerStateDoubled.w, x	; bd 65 05
 B25_05fa:		ora #$80		; 09 80
-B25_05fc:		sta $0565, x	; 9d 65 05
+B25_05fc:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B25_05ff:		lda #$0c		; a9 0c
 B25_0601:		sta $0606, x	; 9d 06 06
 B25_0604:		lda $0470, x	; bd 70 04
@@ -329,62 +329,50 @@ B25_0620:		jsr $a66e		; 20 6e a6
 B25_0623:		bcc B25_062a ; 90 05
 
 B25_0625:		lda #$05		; a9 05
-B25_0627:		sta $0565, x	; 9d 65 05
+B25_0627:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B25_062a:		ldx $6c			; a6 6c
-B25_062c:		lda $0565, x	; bd 65 05
+B25_062c:		lda wPlayerStateDoubled.w, x	; bd 65 05
 B25_062f:		bmi B25_05d8 ; 30 a7
 
 B25_0631:		jsr jumpTablePreserveY		; 20 6d e8
-B25_0634:	.db $8b
-B25_0635:	.db $a7
-B25_0636:		sta $aaa7, x	; 9d a7 aa
-B25_0639:	.db $a7
-B25_063a:		sta $c0a7, x	; 9d a7 c0
-B25_063d:	.db $a7
-B25_063e:		jmp ($7da7)		; 6c a7 7d
-
-
-B25_0641:	.db $a7
-B25_0642:		sta $aaa7, x	; 9d a7 aa
-B25_0645:	.db $a7
-B25_0646:		sta $c0a7, x	; 9d a7 c0
-B25_0649:	.db $a7
-B25_064a:	.db $e2
-B25_064b:		lda #$f1		; a9 f1
-B25_064d:		lda #$78		; a9 78
-B25_064f:		tax				; aa 
-B25_0650:	.db $04
-B25_0651:	.db $ab
-B25_0652:	.db $22
-B25_0653:	.db $ab
-B25_0654:	.db $7f
-B25_0655:	.db $ab
-B25_0656:	.db $22
-B25_0657:	.db $ab
-B25_0658:	.db $93
-B25_0659:	.db $ab
-B25_065a:		sty $ab, x		; 94 ab
-B25_065c:		tay				; a8 
-B25_065d:	.db $ab
-B25_065e:		tay				; a8 
-B25_065f:	.db $ab
-B25_0660:	.db $e2
-B25_0661:		lda #$e2		; a9 e2
-B25_0663:		lda #$e2		; a9 e2
-B25_0665:		lda #$e7		; a9 e7
-B25_0667:		ldx $19			; a6 19
-B25_0669:	.db $a7
-B25_066a:		and $6ba7, y	; 39 a7 6b
-B25_066d:	.db $a7
+	.dw $a78b
+	.dw $a79d
+	.dw $a7aa
+	.dw $a79d
+	.dw $a7c0
+	.dw $a76c
+	.dw $a77d
+	.dw $a79d
+	.dw $a7aa
+	.dw $a79d
+	.dw $a7c0
+	.dw $a9e2
+	.dw $a9f1
+	.dw $aa78
+	.dw $ab04
+	.dw $ab22
+	.dw $ab7f
+	.dw $ab22
+	.dw $ab93
+	.dw $ab94
+	.dw $aba8
+	.dw $aba8
+	.dw $a9e2
+	.dw $a9e2
+	.dw $a9e2
+	.dw $a6e7
+	.dw $a719
+	.dw $a739
+	.dw $a76b
 B25_066e:		ldx $6c			; a6 6c
-B25_0670:		lda $0565, x	; bd 65 05
+B25_0670:		lda wPlayerStateDoubled.w, x	; bd 65 05
 B25_0673:		cmp #$0b		; c9 0b
 B25_0675:		bcc B25_0685 ; 90 0e
 
 B25_0677:		cmp #$19		; c9 19
 B25_0679:		bcs B25_0685 ; b0 0a
 
-B25_067b:		lda $054e		; ad 4e 05
+B25_067b:		lda wCurrPlayer.w		; ad 4e 05
 B25_067e:		cmp $0633, x	; dd 33 06
 B25_0681:		beq B25_0685 ; f0 02
 
@@ -398,7 +386,7 @@ B25_0686:		rts				; 60
 
 B25_0687:		ldx #$02		; a2 02
 B25_0689:		lda #$00		; a9 00
-B25_068b:		sta $0400, x	; 9d 00 04
+B25_068b:		sta wOamSpecIdx.w, x	; 9d 00 04
 B25_068e:		sta $054e, x	; 9d 4e 05
 B25_0691:		sta wEntityBaseX.w, x	; 9d 38 04
 B25_0694:		sta wEntityBaseY.w, x	; 9d 1c 04
@@ -469,14 +457,14 @@ B25_070a:		jsr $a89c		; 20 9c a8
 B25_070d:		jsr $a8a4		; 20 a4 a8
 B25_0710:		lda #$b4		; a9 b4
 B25_0712:		sta $0606, x	; 9d 06 06
-B25_0715:		inc $0565, x	; fe 65 05
+B25_0715:		inc wPlayerStateDoubled.w, x	; fe 65 05
 B25_0718:		rts				; 60 
 
 
 B25_0719:		dec $0606, x	; de 06 06
 B25_071c:		bne B25_0721 ; d0 03
 
-B25_071e:		inc $0565, x	; fe 65 05
+B25_071e:		inc wPlayerStateDoubled.w, x	; fe 65 05
 B25_0721:		ldx #$03		; a2 03
 B25_0723:		jsr updateEntityXanimationFrame		; 20 75 ef
 B25_0726:		inx				; e8 
@@ -508,7 +496,7 @@ B25_0759:		lda #$92		; a9 92
 B25_075b:		jsr $e62f		; 20 2f e6
 B25_075e:		ldx $6c			; a6 6c
 B25_0760:		lda #$00		; a9 00
-B25_0762:		sta $0400, x	; 9d 00 04
+B25_0762:		sta wOamSpecIdx.w, x	; 9d 00 04
 B25_0765:		sta $054e, x	; 9d 4e 05
 B25_0768:		rts				; 60 
 
@@ -523,7 +511,7 @@ B25_076f:		ldx $6c			; a6 6c
 B25_0771:		lda #$18		; a9 18
 B25_0773:		sta $0606, x	; 9d 06 06
 B25_0776:		jsr $a8ac		; 20 ac a8
-B25_0779:		inc $0565, x	; fe 65 05
+B25_0779:		inc wPlayerStateDoubled.w, x	; fe 65 05
 B25_077c:		rts				; 60 
 
 
@@ -537,7 +525,7 @@ B25_0788:		jsr playSound		; 20 5f e2
 B25_078b:		jsr $a8b4		; 20 b4 a8
 B25_078e:		lda #$20		; a9 20
 B25_0790:		sta $0606, x	; 9d 06 06
-B25_0793:		inc $0565, x	; fe 65 05
+B25_0793:		inc wPlayerStateDoubled.w, x	; fe 65 05
 B25_0796:		lda #$00		; a9 00
 B25_0798:		ldy #$0e		; a0 0e
 B25_079a:		jmp func_1f_0f5c		; 4c 5c ef
@@ -550,7 +538,7 @@ B25_07a2:		rts				; 60
 
 
 B25_07a3:		jsr $a8b0		; 20 b0 a8
-B25_07a6:		inc $0565, x	; fe 65 05
+B25_07a6:		inc wPlayerStateDoubled.w, x	; fe 65 05
 B25_07a9:		rts				; 60 
 
 
@@ -559,16 +547,16 @@ B25_07ac:		sta wChrBankSpr_0c00			; 85 49
 B25_07ae:		jsr $a8b4		; 20 b4 a8
 B25_07b1:		lda #$10		; a9 10
 B25_07b3:		sta $0606, x	; 9d 06 06
-B25_07b6:		inc $0565, x	; fe 65 05
+B25_07b6:		inc wPlayerStateDoubled.w, x	; fe 65 05
 B25_07b9:		lda #$00		; a9 00
 B25_07bb:		ldy #$0f		; a0 0f
 B25_07bd:		jmp func_1f_0f5c		; 4c 5c ef
 
 
-B25_07c0:		lda $054e		; ad 4e 05
+B25_07c0:		lda wCurrPlayer.w		; ad 4e 05
 B25_07c3:		jsr $a7da		; 20 da a7
 B25_07c6:		lda $00			; a5 00
-B25_07c8:		sta $0565, x	; 9d 65 05
+B25_07c8:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B25_07cb:		lda #$04		; a9 04
 B25_07cd:		sta $0606, x	; 9d 06 06
 B25_07d0:		ldy $0633, x	; bc 33 06
@@ -601,7 +589,7 @@ B25_0800:		clc				; 18
 B25_0801:		adc $0633, x	; 7d 33 06
 B25_0804:		tay				; a8 
 B25_0805:		lda $a824, y	; b9 24 a8
-B25_0808:		sta $048c, x	; 9d 8c 04
+B25_0808:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B25_080b:		lda $a825, y	; b9 25 a8
 B25_080e:		sta $00			; 85 00
 B25_0810:		lda $a826, y	; b9 26 a8
@@ -610,7 +598,7 @@ B25_0815:		tay				; a8
 B25_0816:		iny				; c8 
 B25_0817:		sty $49			; 84 49
 B25_0819:		lda #$02		; a9 02
-B25_081b:		sta $0400, x	; 9d 00 04
+B25_081b:		sta wOamSpecIdx.w, x	; 9d 00 04
 B25_081e:		lda #$02		; a9 02
 B25_0820:		sta wEntityPaletteOverride.w, x	; 9d 54 04
 B25_0823:		rts				; 60 
@@ -673,12 +661,12 @@ B25_085c:		lda #$01		; a9 01
 B25_085e:		bne B25_0862 ; d0 02
 
 B25_0860:		lda #$00		; a9 00
-B25_0862:		sta $04a8, x	; 9d a8 04
+B25_0862:		sta wEntityXFlipped.w, x	; 9d a8 04
 B25_0865:		pla				; 68 
 B25_0866:		rts				; 60 
 
 
-B25_0867:		lda $04f2, x	; bd f2 04
+B25_0867:		lda wEntityHorizSpeed.w, x	; bd f2 04
 B25_086a:		bpl B25_0870 ; 10 04
 
 B25_086c:		lda #$f8		; a9 f8
@@ -717,9 +705,9 @@ B25_089a:		sec				; 38
 B25_089b:		rts				; 60 
 
 
-B25_089c:		sta $04f2, x	; 9d f2 04
+B25_089c:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B25_089f:		tya				; 98 
-B25_08a0:		sta $0509, x	; 9d 09 05
+B25_08a0:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
 B25_08a3:		rts				; 60 
 
 
@@ -749,7 +737,7 @@ B25_08c2:		sta $0470, x	; 9d 70 04
 B25_08c5:		rts				; 60 
 
 
-B25_08c6:		lda $0565, x	; bd 65 05
+B25_08c6:		lda wPlayerStateDoubled.w, x	; bd 65 05
 B25_08c9:		cmp #$11		; c9 11
 B25_08cb:		beq B25_08d1 ; f0 04
 
@@ -761,7 +749,7 @@ B25_08d4:		clc				; 18
 B25_08d5:		adc #$04		; 69 04
 B25_08d7:		bne B25_08dc ; d0 03
 
-B25_08d9:		lda $054e		; ad 4e 05
+B25_08d9:		lda wCurrPlayer.w		; ad 4e 05
 B25_08dc:		sta $07ec		; 8d ec 07
 B25_08df:		rts				; 60 
 
@@ -806,7 +794,7 @@ B25_0913:	.db $0c
 B25_0914:	.db $1f
 B25_0915:		ora ($0f), y	; 11 0f
 B25_0917:		lda #$13		; a9 13
-B25_0919:		sta $0565, x	; 9d 65 05
+B25_0919:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B25_091c:		lda $0633, x	; bd 33 06
 B25_091f:		tay				; a8 
 B25_0920:		ldx #$05		; a2 05
@@ -815,7 +803,7 @@ B25_0925:		sta $0645, x	; 9d 45 06
 B25_0928:		lda #$0f		; a9 0f
 B25_092a:		sta $054e, x	; 9d 4e 05
 B25_092d:		lda #$00		; a9 00
-B25_092f:		sta $0565, x	; 9d 65 05
+B25_092f:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B25_0932:		sta $0657, x	; 9d 57 06
 B25_0935:		jsr $a8c0		; 20 c0 a8
 B25_0938:		ldx $6c			; a6 6c
@@ -873,10 +861,10 @@ B25_0975:		rts				; 60
 
 B25_0976:		lda $0633, x	; bd 33 06
 B25_0979:		sta $054e, x	; 9d 4e 05
-B25_097c:		lda $0565, x	; bd 65 05
+B25_097c:		lda wPlayerStateDoubled.w, x	; bd 65 05
 B25_097f:		pha				; 48 
 B25_0980:		lda #$18		; a9 18
-B25_0982:		sta $0565, x	; 9d 65 05
+B25_0982:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B25_0985:		ldx #$05		; a2 05
 B25_0987:		lda $0633, x	; bd 33 06
 B25_098a:		sta $054e, x	; 9d 4e 05
@@ -908,7 +896,7 @@ B25_09c1:		lda $a9dc, y	; b9 dc a9
 B25_09c4:		sta $bb			; 85 bb
 B25_09c6:		ldx $6c			; a6 6c
 B25_09c8:		pla				; 68 
-B25_09c9:		sta $0565, x	; 9d 65 05
+B25_09c9:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B25_09cc:		lda #$0b		; a9 0b
 B25_09ce:		sta $054e, x	; 9d 4e 05
 B25_09d1:		lsr $01			; 46 01
@@ -930,7 +918,7 @@ B25_09e2:		jsr $a8c6		; 20 c6 a8
 B25_09e5:		jsr $a856		; 20 56 a8
 B25_09e8:		jsr $a8e0		; 20 e0 a8
 B25_09eb:		lda #$0c		; a9 0c
-B25_09ed:		sta $0565, x	; 9d 65 05
+B25_09ed:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B25_09f0:		rts				; 60 
 
 
@@ -944,12 +932,12 @@ B25_09ff:		jsr $a8b8		; 20 b8 a8
 B25_0a02:		lda #$02		; a9 02
 B25_0a04:		jsr $a44c		; 20 4c a4
 B25_0a07:		lda #$0f		; a9 0f
-B25_0a09:		sta $0565, x	; 9d 65 05
+B25_0a09:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B25_0a0c:		rts				; 60 
 
 
 B25_0a0d:		lda #$02		; a9 02
-B25_0a0f:		sta $0400, x	; 9d 00 04
+B25_0a0f:		sta wOamSpecIdx.w, x	; 9d 00 04
 B25_0a12:		lda $0606, x	; bd 06 06
 B25_0a15:		beq B25_0a1c ; f0 05
 
@@ -975,12 +963,12 @@ B25_0a3a:		jsr $a834		; 20 34 a8
 B25_0a3d:		bcc B25_0a4b ; 90 0c
 
 B25_0a3f:		sty $00			; 84 00
-B25_0a41:		eor $04a8, x	; 5d a8 04
+B25_0a41:		eor wEntityXFlipped.w, x	; 5d a8 04
 B25_0a44:		beq B25_0a4b ; f0 05
 
 B25_0a46:		lda $00			; a5 00
-B25_0a48:		sta $04a8, x	; 9d a8 04
-B25_0a4b:		lda $04a8, x	; bd a8 04
+B25_0a48:		sta wEntityXFlipped.w, x	; 9d a8 04
+B25_0a4b:		lda wEntityXFlipped.w, x	; bd a8 04
 B25_0a4e:		beq B25_0a54 ; f0 04
 
 B25_0a50:		lda #$ff		; a9 ff
@@ -990,7 +978,7 @@ B25_0a54:		lda #$01		; a9 01
 B25_0a56:		ldy #$00		; a0 00
 B25_0a58:		jsr $a89c		; 20 9c a8
 B25_0a5b:		lda #$0d		; a9 0d
-B25_0a5d:		sta $0565, x	; 9d 65 05
+B25_0a5d:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B25_0a60:		rts				; 60 
 
 
@@ -1006,7 +994,7 @@ B25_0a6e:		rts				; 60
 
 
 B25_0a6f:		lda #$10		; a9 10
-B25_0a71:		sta $0565, x	; 9d 65 05
+B25_0a71:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B25_0a74:		jsr $a8c0		; 20 c0 a8
 B25_0a77:		rts				; 60 
 
@@ -1025,7 +1013,7 @@ B25_0a88:		jmp $aae7		; 4c e7 aa
 B25_0a8b:		lda #$02		; a9 02
 B25_0a8d:		jsr $a44c		; 20 4c a4
 B25_0a90:		lda #$0f		; a9 0f
-B25_0a92:		sta $0565, x	; 9d 65 05
+B25_0a92:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B25_0a95:		rts				; 60 
 
 
@@ -1040,7 +1028,7 @@ B25_0a9f:		sta wEntityBaseX.w, x	; 9d 38 04
 B25_0aa2:		lda #$10		; a9 10
 B25_0aa4:		sta $0606, x	; 9d 06 06
 B25_0aa7:		lda #$0c		; a9 0c
-B25_0aa9:		sta $0565, x	; 9d 65 05
+B25_0aa9:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B25_0aac:		rts				; 60 
 
 
@@ -1060,7 +1048,7 @@ B25_0ac1:		lda $1a			; a5 1a
 B25_0ac3:		and #$07		; 29 07
 B25_0ac5:		tay				; a8 
 B25_0ac6:		lda $aafc, y	; b9 fc aa
-B25_0ac9:		sta $0565, x	; 9d 65 05
+B25_0ac9:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B25_0acc:		cmp #$10		; c9 10
 B25_0ace:		beq B25_0af1 ; f0 21
 
@@ -1077,11 +1065,11 @@ B25_0ae0:		rts				; 60
 
 
 B25_0ae1:		lda #$0e		; a9 0e
-B25_0ae3:		sta $0565, x	; 9d 65 05
+B25_0ae3:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B25_0ae6:		rts				; 60 
 
 
-B25_0ae7:		lda $04a8, x	; bd a8 04
+B25_0ae7:		lda wEntityXFlipped.w, x	; bd a8 04
 B25_0aea:		tay				; a8 
 B25_0aeb:		iny				; c8 
 B25_0aec:		sty $07ed		; 8c ed 07
@@ -1112,7 +1100,7 @@ B25_0b0d:		lda $ab1b, y	; b9 1b ab
 B25_0b10:		sta $10			; 85 10
 B25_0b12:		lda #$00		; a9 00
 B25_0b14:		jsr $a44c		; 20 4c a4
-B25_0b17:		inc $0565, x	; fe 65 05
+B25_0b17:		inc wPlayerStateDoubled.w, x	; fe 65 05
 B25_0b1a:		rts				; 60 
 
 
@@ -1173,7 +1161,7 @@ B25_0b73:		clc				; 18
 B25_0b74:		adc #$04		; 69 04
 B25_0b76:		sta wEntityBaseY.w, x	; 9d 1c 04
 B25_0b79:		lda #$0b		; a9 0b
-B25_0b7b:		sta $0565, x	; 9d 65 05
+B25_0b7b:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B25_0b7e:		rts				; 60 
 
 
@@ -1185,9 +1173,9 @@ B25_0b87:		rts				; 60
 
 
 B25_0b88:		lda #$0c		; a9 0c
-B25_0b8a:		sta $0565, x	; 9d 65 05
+B25_0b8a:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B25_0b8d:		lda #$02		; a9 02
-B25_0b8f:		sta $0400, x	; 9d 00 04
+B25_0b8f:		sta wOamSpecIdx.w, x	; 9d 00 04
 B25_0b92:		rts				; 60 
 
 
@@ -1202,9 +1190,9 @@ B25_0b9c:		rts				; 60
 
 
 B25_0b9d:		lda #$0b		; a9 0b
-B25_0b9f:		sta $0565, x	; 9d 65 05
+B25_0b9f:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B25_0ba2:		lda #$02		; a9 02
-B25_0ba4:		sta $0400, x	; 9d 00 04
+B25_0ba4:		sta wOamSpecIdx.w, x	; 9d 00 04
 B25_0ba7:		rts				; 60 
 
 
@@ -1976,13 +1964,13 @@ B25_100e:		sta $0537, x	; 9d 37 05
 B25_1011:		lda #$ff		; a9 ff
 B25_1013:		sta $0520, x	; 9d 20 05
 B25_1016:		lda #$00		; a9 00
-B25_1018:		sta $04f2, x	; 9d f2 04
-B25_101b:		sta $0509, x	; 9d 09 05
+B25_1018:		sta wEntityHorizSpeed.w, x	; 9d f2 04
+B25_101b:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
 B25_101e:		inc $0606, x	; fe 06 06
 B25_1021:		lda #$6e		; a9 6e
-B25_1023:		sta $0400, x	; 9d 00 04
+B25_1023:		sta wOamSpecIdx.w, x	; 9d 00 04
 B25_1026:		lda #$0e		; a9 0e
-B25_1028:		sta $048c, x	; 9d 8c 04
+B25_1028:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B25_102b:		rts				; 60 
 
 
@@ -1994,16 +1982,16 @@ B25_1031:		cmp wEntityBaseY.w, x	; dd 1c 04
 B25_1034:		bcc B25_1058 ; 90 22
 
 B25_1036:		lda #$e0		; a9 e0
-B25_1038:		sta $0509, x	; 9d 09 05
+B25_1038:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
 B25_103b:		lda #$00		; a9 00
-B25_103d:		sta $04f2, x	; 9d f2 04
+B25_103d:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B25_1040:		lda $0645, x	; bd 45 06
 B25_1043:		bne B25_104f ; d0 0a
 
 B25_1045:		lda #$20		; a9 20
-B25_1047:		sta $0509, x	; 9d 09 05
+B25_1047:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
 B25_104a:		lda #$ff		; a9 ff
-B25_104c:		sta $04f2, x	; 9d f2 04
+B25_104c:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B25_104f:		inc $0606, x	; fe 06 06
 B25_1052:		lda $0645, x	; bd 45 06
 B25_1055:		sta $061d, x	; 9d 1d 06
@@ -2088,8 +2076,8 @@ B25_10c5:		lda #$e0		; a9 e0
 B25_10c7:		sta $0537, x	; 9d 37 05
 B25_10ca:		lda #$00		; a9 00
 B25_10cc:		sta $0520, x	; 9d 20 05
-B25_10cf:		sta $04f2, x	; 9d f2 04
-B25_10d2:		sta $0509, x	; 9d 09 05
+B25_10cf:		sta wEntityHorizSpeed.w, x	; 9d f2 04
+B25_10d2:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
 B25_10d5:		inc $0606, x	; fe 06 06
 B25_10d8:		rts				; 60 
 
@@ -2177,8 +2165,8 @@ B25_1163:		rts				; 60
 
 B25_1164:		lda #$04		; a9 04
 B25_1166:		jsr $b1a9		; 20 a9 b1
-B25_1169:		lda $04f2, x	; bd f2 04
-B25_116c:		ora $0509, x	; 1d 09 05
+B25_1169:		lda wEntityHorizSpeed.w, x	; bd f2 04
+B25_116c:		ora wEntityHorizSubSpeed.w, x	; 1d 09 05
 B25_116f:		bne B25_1163 ; d0 f2
 
 B25_1171:		inc $061d, x	; fe 1d 06
@@ -2202,8 +2190,8 @@ B25_118f:		rts				; 60
 
 B25_1190:		lda #$04		; a9 04
 B25_1192:		jsr $b1c3		; 20 c3 b1
-B25_1195:		lda $04f2, x	; bd f2 04
-B25_1198:		ora $0509, x	; 1d 09 05
+B25_1195:		lda wEntityHorizSpeed.w, x	; bd f2 04
+B25_1198:		ora wEntityHorizSubSpeed.w, x	; 1d 09 05
 B25_119b:		bne B25_1163 ; d0 c6
 
 B25_119d:		inc $061d, x	; fe 1d 06
@@ -2214,44 +2202,44 @@ B25_11a8:		rts				; 60
 
 
 B25_11a9:		clc				; 18 
-B25_11aa:		adc $0509, x	; 7d 09 05
-B25_11ad:		sta $0509, x	; 9d 09 05
-B25_11b0:		lda $04f2, x	; bd f2 04
+B25_11aa:		adc wEntityHorizSubSpeed.w, x	; 7d 09 05
+B25_11ad:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
+B25_11b0:		lda wEntityHorizSpeed.w, x	; bd f2 04
 B25_11b3:		adc #$00		; 69 00
-B25_11b5:		sta $04f2, x	; 9d f2 04
+B25_11b5:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B25_11b8:		bcc B25_11c2 ; 90 08
 
 B25_11ba:		lda #$00		; a9 00
-B25_11bc:		sta $0509, x	; 9d 09 05
-B25_11bf:		sta $04f2, x	; 9d f2 04
+B25_11bc:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
+B25_11bf:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B25_11c2:		rts				; 60 
 
 
 B25_11c3:		sta $00			; 85 00
-B25_11c5:		lda $0509, x	; bd 09 05
+B25_11c5:		lda wEntityHorizSubSpeed.w, x	; bd 09 05
 B25_11c8:		sec				; 38 
 B25_11c9:		sbc $00			; e5 00
-B25_11cb:		sta $0509, x	; 9d 09 05
-B25_11ce:		lda $04f2, x	; bd f2 04
+B25_11cb:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
+B25_11ce:		lda wEntityHorizSpeed.w, x	; bd f2 04
 B25_11d1:		sbc #$00		; e9 00
-B25_11d3:		sta $04f2, x	; 9d f2 04
+B25_11d3:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B25_11d6:		rts				; 60 
 
 
-B25_11d7:		lda $04f2, x	; bd f2 04
+B25_11d7:		lda wEntityHorizSpeed.w, x	; bd f2 04
 B25_11da:		bpl B25_11f3 ; 10 17
 
 B25_11dc:		cmp #$ff		; c9 ff
 B25_11de:		bne B25_11e7 ; d0 07
 
-B25_11e0:		lda $0509, x	; bd 09 05
+B25_11e0:		lda wEntityHorizSubSpeed.w, x	; bd 09 05
 B25_11e3:		cmp #$80		; c9 80
 B25_11e5:		bcs B25_11f3 ; b0 0c
 
 B25_11e7:		lda #$ff		; a9 ff
-B25_11e9:		sta $04f2, x	; 9d f2 04
+B25_11e9:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B25_11ec:		lda #$80		; a9 80
-B25_11ee:		sta $0509, x	; 9d 09 05
+B25_11ee:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
 B25_11f1:		sec				; 38 
 B25_11f2:		rts				; 60 
 
@@ -2260,19 +2248,19 @@ B25_11f3:		clc				; 18
 B25_11f4:		rts				; 60 
 
 
-B25_11f5:		lda $04f2, x	; bd f2 04
+B25_11f5:		lda wEntityHorizSpeed.w, x	; bd f2 04
 B25_11f8:		bmi B25_120f ; 30 15
 
 B25_11fa:		bne B25_1203 ; d0 07
 
-B25_11fc:		lda $0509, x	; bd 09 05
+B25_11fc:		lda wEntityHorizSubSpeed.w, x	; bd 09 05
 B25_11ff:		cmp #$80		; c9 80
 B25_1201:		bcc B25_120f ; 90 0c
 
 B25_1203:		lda #$00		; a9 00
-B25_1205:		sta $04f2, x	; 9d f2 04
+B25_1205:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B25_1208:		lda #$80		; a9 80
-B25_120a:		sta $0509, x	; 9d 09 05
+B25_120a:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
 B25_120d:		sec				; 38 
 B25_120e:		rts				; 60 
 
@@ -2416,9 +2404,9 @@ B25_12ea:		jsr func_1f_1ed7		; 20 d7 fe
 B25_12ed:		lda #$8b		; a9 8b
 B25_12ef:		sta $054e, x	; 9d 4e 05
 B25_12f2:		lda #$0e		; a9 0e
-B25_12f4:		sta $048c, x	; 9d 8c 04
+B25_12f4:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B25_12f7:		lda #$50		; a9 50
-B25_12f9:		sta $0400, x	; 9d 00 04
+B25_12f9:		sta wOamSpecIdx.w, x	; 9d 00 04
 B25_12fc:		lda #$70		; a9 70
 B25_12fe:		sta $0470, x	; 9d 70 04
 B25_1301:		lda #$02		; a9 02

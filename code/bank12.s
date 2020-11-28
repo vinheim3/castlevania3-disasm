@@ -1071,13 +1071,13 @@ B18_0636:		lda $054e, x	; bd 4e 05
 B18_0639:		cmp #$01		; c9 01
 B18_063b:		bne B18_0642 ; d0 05
 
-B18_063d:		lda $04a8, x	; bd a8 04
+B18_063d:		lda wEntityXFlipped.w, x	; bd a8 04
 B18_0640:		sta $17			; 85 17
 B18_0642:		rts				; 60 
 
 
 B18_0643:		lda $17			; a5 17
-B18_0645:		sta $04a8, x	; 9d a8 04
+B18_0645:		sta wEntityXFlipped.w, x	; 9d a8 04
 B18_0648:		tay				; a8 
 B18_0649:		lda $864d, y	; b9 4d 86
 B18_064c:		rts				; 60 
@@ -1224,7 +1224,7 @@ B18_0720:		lda #$11		; a9 11
 B18_0722:		sta $054e, x	; 9d 4e 05
 B18_0725:		jsr $8779		; 20 79 87
 B18_0728:		lda #$04		; a9 04
-B18_072a:		sta $0565, x	; 9d 65 05
+B18_072a:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B18_072d:		txa				; 8a 
 B18_072e:		tay				; a8 
 B18_072f:		ldx $10			; a6 10
@@ -1240,8 +1240,8 @@ B18_0739:		rts				; 60
 
 B18_073a:		lda #$00		; a9 00
 B18_073c:		sta $054e, x	; 9d 4e 05
-B18_073f:		sta $0400, x	; 9d 00 04
-B18_0742:		sta $048c, x	; 9d 8c 04
+B18_073f:		sta wOamSpecIdx.w, x	; 9d 00 04
+B18_0742:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B18_0745:		lda #$00		; a9 00
 B18_0747:		sta $05d8, x	; 9d d8 05
 B18_074a:		sta wEntityAI_idx.w, x	; 9d ef 05
@@ -1422,7 +1422,7 @@ B18_085d:		sta $0470, y	; 99 70 04
 B18_0860:		lda #$00		; a9 00
 B18_0862:		sta wEntityAI_idx.w, y	; 99 ef 05
 B18_0865:		lda #$02		; a9 02
-B18_0867:		sta $0400, y	; 99 00 04
+B18_0867:		sta wOamSpecIdx.w, y	; 99 00 04
 B18_086a:		lda #$0e		; a9 0e
 B18_086c:		sta $0657, y	; 99 57 06
 B18_086f:		lda #$03		; a9 03
@@ -1466,7 +1466,7 @@ B18_08be:		bne B18_08c9 ; d0 09
 
 B18_08c0:		sta $054e, x	; 9d 4e 05
 B18_08c3:		sta $0470, x	; 9d 70 04
-B18_08c6:		sta $0400, x	; 9d 00 04
+B18_08c6:		sta wOamSpecIdx.w, x	; 9d 00 04
 B18_08c9:		sec				; 38 
 B18_08ca:		rts				; 60 
 
@@ -3124,7 +3124,7 @@ B18_12c1:		jsr $ff30		; 20 30 ff
 B18_12c4:		lda $00			; a5 00
 B18_12c6:		lsr a			; 4a
 B18_12c7:		and #$0f		; 29 0f
-B18_12c9:		sta $0565, x	; 9d 65 05
+B18_12c9:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B18_12cc:		inc wEntityPhase.w, x	; fe c1 05
 B18_12cf:		rts				; 60 
 
@@ -3279,18 +3279,18 @@ B18_1392:		cmp $00			; c5 00
 B18_1394:		bne B18_13a3 ; d0 0d
 
 B18_1396:		ldy $07ec		; ac ec 07
-B18_1399:		lda $0565, y	; b9 65 05
-B18_139c:		sta $0565, x	; 9d 65 05
+B18_1399:		lda wPlayerStateDoubled.w, y	; b9 65 05
+B18_139c:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B18_139f:		sta $07ed		; 8d ed 07
 B18_13a2:		rts				; 60 
 
 
 B18_13a3:		lda $07ed		; ad ed 07
 B18_13a6:		sta $00			; 85 00
-B18_13a8:		lda $0565, x	; bd 65 05
+B18_13a8:		lda wPlayerStateDoubled.w, x	; bd 65 05
 B18_13ab:		sta $07ed		; 8d ed 07
 B18_13ae:		lda $00			; a5 00
-B18_13b0:		sta $0565, x	; 9d 65 05
+B18_13b0:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B18_13b3:		rts				; 60 
 
 
@@ -3305,11 +3305,11 @@ B18_13bd:		inc wEntityPhase.w, x	; fe c1 05
 B18_13c0:		ldy #$01		; a0 01
 B18_13c2:		lda ($02), y	; b1 02
 B18_13c4:		sta $00			; 85 00
-B18_13c6:		lda $0565, x	; bd 65 05
+B18_13c6:		lda wPlayerStateDoubled.w, x	; bd 65 05
 B18_13c9:		and #$04		; 29 04
 B18_13cb:		beq B18_13e7 ; f0 1a
 
-B18_13cd:		lda $0565, x	; bd 65 05
+B18_13cd:		lda wPlayerStateDoubled.w, x	; bd 65 05
 B18_13d0:		and #$08		; 29 08
 B18_13d2:		beq B18_13dd ; f0 09
 
@@ -3325,7 +3325,7 @@ B18_13e3:		sta wEntityBaseX.w, x	; 9d 38 04
 B18_13e6:		rts				; 60 
 
 
-B18_13e7:		lda $0565, x	; bd 65 05
+B18_13e7:		lda wPlayerStateDoubled.w, x	; bd 65 05
 B18_13ea:		and #$08		; 29 08
 B18_13ec:		bne B18_13f7 ; d0 09
 
@@ -3363,7 +3363,7 @@ B18_1427:		dey				; 88
 B18_1428:		asl a			; 0a
 B18_1429:		clc				; 18 
 B18_142a:		adc ($00), y	; 71 00
-B18_142c:		sta $0400, x	; 9d 00 04
+B18_142c:		sta wOamSpecIdx.w, x	; 9d 00 04
 B18_142f:		lda $0470, x	; bd 70 04
 B18_1432:		and #$40		; 29 40
 B18_1434:		ora #$20		; 09 20
@@ -3390,16 +3390,16 @@ B18_145a:		rts				; 60
 
 
 B18_145b:		inc wEntityPhase.w, x	; fe c1 05
-B18_145e:		lda $0565, x	; bd 65 05
+B18_145e:		lda wPlayerStateDoubled.w, x	; bd 65 05
 B18_1461:		clc				; 18 
 B18_1462:		adc #$08		; 69 08
 B18_1464:		and #$0f		; 29 0f
-B18_1466:		sta $0565, x	; 9d 65 05
+B18_1466:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B18_1469:		and #$08		; 29 08
 B18_146b:		beq B18_146f ; f0 02
 
 B18_146d:		lda #$01		; a9 01
-B18_146f:		sta $04a8, x	; 9d a8 04
+B18_146f:		sta wEntityXFlipped.w, x	; 9d a8 04
 B18_1472:		rts				; 60 
 
 
@@ -3413,7 +3413,7 @@ B18_147e:		jmp $9484		; 4c 84 94
 
 B18_1481:		lda wEntityBaseX.w		; ad 38 04
 B18_1484:		sta $00			; 85 00
-B18_1486:		lda $04a8, x	; bd a8 04
+B18_1486:		lda wEntityXFlipped.w, x	; bd a8 04
 B18_1489:		beq B18_148f ; f0 04
 
 B18_148b:		lda #$fc		; a9 fc
@@ -3486,18 +3486,18 @@ B18_14fa:		sta $01			; 85 01
 B18_14fc:		lda #$00		; a9 00
 B18_14fe:		asl $01			; 06 01
 B18_1500:		rol a			; 2a
-B18_1501:		sta $04f2, x	; 9d f2 04
+B18_1501:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B18_1504:		lda $01			; a5 01
-B18_1506:		sta $0509, x	; 9d 09 05
+B18_1506:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
 B18_1509:		inc wEntityPhase.w, x	; fe c1 05
 B18_150c:		lda #$00		; a9 00
-B18_150e:		sta $04a8, x	; 9d a8 04
+B18_150e:		sta wEntityXFlipped.w, x	; 9d a8 04
 B18_1511:		lda #$04		; a9 04
-B18_1513:		sta $0565, x	; 9d 65 05
+B18_1513:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B18_1516:		rts				; 60 
 
 
-B18_1517:		lda $048c, x	; bd 8c 04
+B18_1517:		lda wEntityOamSpecGroupDoubled.w, x	; bd 8c 04
 B18_151a:		ldy $05aa, x	; bc aa 05
 B18_151d:		iny				; c8 
 B18_151e:		jsr func_1f_0f5c		; 20 5c ef
@@ -3507,7 +3507,7 @@ B18_1526:		lda ($02), y	; b1 02
 B18_1528:		sta $00			; 85 00
 B18_152a:		beq B18_153a ; f0 0e
 
-B18_152c:		lda $04a8, x	; bd a8 04
+B18_152c:		lda wEntityXFlipped.w, x	; bd a8 04
 B18_152f:		beq B18_153d ; f0 0c
 
 B18_1531:		lda wEntityBaseX.w, x	; bd 38 04
@@ -3551,7 +3551,7 @@ B18_1573:		sta wEntityPhase.w, x	; 9d c1 05
 B18_1576:		rts				; 60 
 
 
-B18_1577:		lda $0565, x	; bd 65 05
+B18_1577:		lda wPlayerStateDoubled.w, x	; bd 65 05
 B18_157a:		clc				; 18 
 B18_157b:		adc #$08		; 69 08
 B18_157d:		and #$0f		; 29 0f
@@ -3559,7 +3559,7 @@ B18_157f:		sta $05			; 85 05
 B18_1581:		jmp $9589		; 4c 89 95
 
 
-B18_1584:		lda $0565, x	; bd 65 05
+B18_1584:		lda wPlayerStateDoubled.w, x	; bd 65 05
 B18_1587:		sta $05			; 85 05
 B18_1589:		inc wEntityPhase.w, x	; fe c1 05
 B18_158c:		jsr func_1f_1ec8		; 20 c8 fe
@@ -3582,9 +3582,9 @@ B18_15aa:		beq B18_15af ; f0 03
 
 B18_15ac:		jsr $95ce		; 20 ce 95
 B18_15af:		lda $00			; a5 00
-B18_15b1:		sta $04f2, x	; 9d f2 04
+B18_15b1:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B18_15b4:		lda $01			; a5 01
-B18_15b6:		sta $0509, x	; 9d 09 05
+B18_15b6:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
 B18_15b9:		rts				; 60 
 
 
@@ -3623,15 +3623,15 @@ B18_15ea:		lda $96db, y	; b9 db 96
 B18_15ed:		sta $00			; 85 00
 B18_15ef:		lda $96dc, y	; b9 dc 96
 B18_15f2:		sta $01			; 85 01
-B18_15f4:		lda $0565, x	; bd 65 05
+B18_15f4:		lda wPlayerStateDoubled.w, x	; bd 65 05
 B18_15f7:		and #$08		; 29 08
 B18_15f9:		beq B18_15fe ; f0 03
 
 B18_15fb:		jsr $95ce		; 20 ce 95
 B18_15fe:		lda $00			; a5 00
-B18_1600:		sta $04f2, x	; 9d f2 04
+B18_1600:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B18_1603:		lda $01			; a5 01
-B18_1605:		sta $0509, x	; 9d 09 05
+B18_1605:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
 B18_1608:		ldy #$01		; a0 01
 B18_160a:		lda ($02), y	; b1 02
 B18_160c:		sta $0537, x	; 9d 37 05
@@ -3650,15 +3650,15 @@ B18_161f:		lda $96db, y	; b9 db 96
 B18_1622:		sta $00			; 85 00
 B18_1624:		lda $96dc, y	; b9 dc 96
 B18_1627:		sta $01			; 85 01
-B18_1629:		lda $0565, x	; bd 65 05
+B18_1629:		lda wPlayerStateDoubled.w, x	; bd 65 05
 B18_162c:		and #$08		; 29 08
 B18_162e:		beq B18_1633 ; f0 03
 
 B18_1630:		jsr $95ce		; 20 ce 95
 B18_1633:		lda $00			; a5 00
-B18_1635:		sta $04f2, x	; 9d f2 04
+B18_1635:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B18_1638:		lda $01			; a5 01
-B18_163a:		sta $0509, x	; 9d 09 05
+B18_163a:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
 B18_163d:		ldy #$01		; a0 01
 B18_163f:		lda ($02), y	; b1 02
 B18_1641:		asl a			; 0a
@@ -3698,7 +3698,7 @@ B18_1680:		cmp #$01		; c9 01
 B18_1682:		bne B18_1686 ; d0 02
 
 B18_1684:		ldy #$18		; a0 18
-B18_1686:		lda $04a8, x	; bd a8 04
+B18_1686:		lda wEntityXFlipped.w, x	; bd a8 04
 B18_1689:		beq B18_168f ; f0 04
 
 B18_168b:		lda #$fc		; a9 fc
@@ -3786,11 +3786,11 @@ B18_170c:		inc wEntityPhase.w, x	; fe c1 05
 B18_170f:		rts				; 60 
 
 
-B18_1710:		lda $0565, x	; bd 65 05
+B18_1710:		lda wPlayerStateDoubled.w, x	; bd 65 05
 B18_1713:		clc				; 18 
 B18_1714:		adc #$04		; 69 04
 B18_1716:		and #$0f		; 29 0f
-B18_1718:		sta $0565, x	; 9d 65 05
+B18_1718:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B18_171b:		inc wEntityPhase.w, x	; fe c1 05
 B18_171e:		rts				; 60 
 
@@ -3814,7 +3814,7 @@ B18_1735:		lda $0645, x	; bd 45 06
 B18_1738:		cmp #$10		; c9 10
 B18_173a:		bcs B18_1749 ; b0 0d
 
-B18_173c:		lda $04f2, x	; bd f2 04
+B18_173c:		lda wEntityHorizSpeed.w, x	; bd f2 04
 B18_173f:		bmi B18_1749 ; 30 08
 
 B18_1741:		inc wEntityPhase.w, x	; fe c1 05
@@ -3831,15 +3831,15 @@ B18_1751:		bcc B18_1774 ; 90 21
 B18_1753:		lda $0633, x	; bd 33 06
 B18_1756:		bne B18_1779 ; d0 21
 
-B18_1758:		lda $0509, x	; bd 09 05
+B18_1758:		lda wEntityHorizSubSpeed.w, x	; bd 09 05
 B18_175b:		eor #$ff		; 49 ff
 B18_175d:		clc				; 18 
 B18_175e:		adc #$01		; 69 01
-B18_1760:		sta $0509, x	; 9d 09 05
-B18_1763:		lda $04f2, x	; bd f2 04
+B18_1760:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
+B18_1763:		lda wEntityHorizSpeed.w, x	; bd f2 04
 B18_1766:		eor #$ff		; 49 ff
 B18_1768:		adc #$00		; 69 00
-B18_176a:		sta $04f2, x	; 9d f2 04
+B18_176a:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B18_176d:		lda #$01		; a9 01
 B18_176f:		sta $0633, x	; 9d 33 06
 B18_1772:		bne B18_1779 ; d0 05
@@ -3960,7 +3960,7 @@ B18_183b:		asl a			; 0a
 B18_183c:		asl a			; 0a
 B18_183d:		sta $08			; 85 08
 B18_183f:		inc wEntityPhase.w, x	; fe c1 05
-B18_1842:		ldy $0565, x	; bc 65 05
+B18_1842:		ldy wPlayerStateDoubled.w, x	; bc 65 05
 B18_1845:		tya				; 98 
 B18_1846:		pha				; 48 
 B18_1847:		lda $9893, y	; b9 93 98
@@ -4160,7 +4160,7 @@ B18_1961:		ldy #$01		; a0 01
 B18_1963:		lda ($02), y	; b1 02
 B18_1965:		sta $05			; 85 05
 B18_1967:		inc wEntityPhase.w, x	; fe c1 05
-B18_196a:		ldy $0565, x	; bc 65 05
+B18_196a:		ldy wPlayerStateDoubled.w, x	; bc 65 05
 B18_196d:		tya				; 98 
 B18_196e:		pha				; 48 
 B18_196f:		lda $99cd, y	; b9 cd 99
@@ -4206,9 +4206,9 @@ B18_19b2:		lda #$00		; a9 00
 B18_19b4:		sbc $08			; e5 08
 B18_19b6:		sta $08			; 85 08
 B18_19b8:		lda $08			; a5 08
-B18_19ba:		sta $04f2, x	; 9d f2 04
+B18_19ba:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B18_19bd:		lda $09			; a5 09
-B18_19bf:		sta $0509, x	; 9d 09 05
+B18_19bf:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
 B18_19c2:		lda $0a			; a5 0a
 B18_19c4:		sta $0520, x	; 9d 20 05
 B18_19c7:		lda $0b			; a5 0b
@@ -4436,11 +4436,11 @@ B18_1ae9:		sec				; 38
 B18_1aea:		sbc $01			; e5 01
 B18_1aec:		bpl B18_1af2 ; 10 04
 
-B18_1aee:		inc $0565, x	; fe 65 05
+B18_1aee:		inc wPlayerStateDoubled.w, x	; fe 65 05
 B18_1af1:		rts				; 60 
 
 
-B18_1af2:		dec $0565, x	; de 65 05
+B18_1af2:		dec wPlayerStateDoubled.w, x	; de 65 05
 B18_1af5:		rts				; 60 
 
 
@@ -4488,7 +4488,7 @@ B18_1b3c:		sta $0633, x	; 9d 33 06
 B18_1b3f:		lda $0633, x	; bd 33 06
 B18_1b42:		and #$7f		; 29 7f
 B18_1b44:		sec				; 38 
-B18_1b45:		sbc $0565, x	; fd 65 05
+B18_1b45:		sbc wPlayerStateDoubled.w, x	; fd 65 05
 B18_1b48:		beq B18_1bb3 ; f0 69
 
 B18_1b4a:		bpl B18_1b68 ; 10 1c
@@ -4502,11 +4502,11 @@ B18_1b53:		bcc B18_1bb3 ; 90 5e
 B18_1b55:		cmp #$10		; c9 10
 B18_1b57:		bcs B18_1b70 ; b0 17
 
-B18_1b59:		lda $0565, x	; bd 65 05
+B18_1b59:		lda wPlayerStateDoubled.w, x	; bd 65 05
 B18_1b5c:		sec				; 38 
 B18_1b5d:		sbc $17			; e5 17
 B18_1b5f:		and #$1f		; 29 1f
-B18_1b61:		sta $0565, x	; 9d 65 05
+B18_1b61:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B18_1b64:		inc wEntityPhase.w, x	; fe c1 05
 B18_1b67:		rts				; 60 
 
@@ -4517,7 +4517,7 @@ B18_1b6a:		bcc B18_1bb3 ; 90 47
 B18_1b6c:		cmp #$10		; c9 10
 B18_1b6e:		bcs B18_1b59 ; b0 e9
 
-B18_1b70:		lda $0565, x	; bd 65 05
+B18_1b70:		lda wPlayerStateDoubled.w, x	; bd 65 05
 B18_1b73:		clc				; 18 
 B18_1b74:		adc $17			; 65 17
 B18_1b76:		and #$1f		; 29 1f
@@ -4532,7 +4532,7 @@ B18_1b82:		sta $0633, x	; 9d 33 06
 B18_1b85:		lda $0633, x	; bd 33 06
 B18_1b88:		and #$7f		; 29 7f
 B18_1b8a:		sec				; 38 
-B18_1b8b:		sbc $0565, x	; fd 65 05
+B18_1b8b:		sbc wPlayerStateDoubled.w, x	; fd 65 05
 B18_1b8e:		beq B18_1bb3 ; f0 23
 
 B18_1b90:		bpl B18_1ba5 ; 10 13
@@ -4543,7 +4543,7 @@ B18_1b95:		adc #$01		; 69 01
 B18_1b97:		cmp #$08		; c9 08
 B18_1b99:		bcs B18_1ba9 ; b0 0e
 
-B18_1b9b:		ldy $0565, x	; bc 65 05
+B18_1b9b:		ldy wPlayerStateDoubled.w, x	; bc 65 05
 B18_1b9e:		dey				; 88 
 B18_1b9f:		tya				; 98 
 B18_1ba0:		and #$0f		; 29 0f
@@ -4553,7 +4553,7 @@ B18_1ba2:		jmp $9b61		; 4c 61 9b
 B18_1ba5:		cmp #$08		; c9 08
 B18_1ba7:		bcs B18_1b9b ; b0 f2
 
-B18_1ba9:		ldy $0565, x	; bc 65 05
+B18_1ba9:		ldy wPlayerStateDoubled.w, x	; bc 65 05
 B18_1bac:		iny				; c8 
 B18_1bad:		tya				; 98 
 B18_1bae:		and #$0f		; 29 0f
@@ -4638,7 +4638,7 @@ B18_1c1d:		lda #$00		; a9 00
 B18_1c1f:		sta wEntityPhase.w, x	; 9d c1 05
 B18_1c22:		sta $0657, x	; 9d 57 06
 B18_1c25:		sta $0470, x	; 9d 70 04
-B18_1c28:		sta $0400, x	; 9d 00 04
+B18_1c28:		sta wOamSpecIdx.w, x	; 9d 00 04
 B18_1c2b:		rts				; 60 
 
 
@@ -4648,7 +4648,7 @@ B18_1c31:		lda ($02), y	; b1 02
 B18_1c33:		cmp #$ff		; c9 ff
 B18_1c35:		beq B18_1c3a ; f0 03
 
-B18_1c37:		sta $04a8, x	; 9d a8 04
+B18_1c37:		sta wEntityXFlipped.w, x	; 9d a8 04
 B18_1c3a:		ldy #$01		; a0 01
 B18_1c3c:		lda ($02), y	; b1 02
 B18_1c3e:		cmp #$ff		; c9 ff
@@ -4657,20 +4657,20 @@ B18_1c40:		beq B18_1c57 ; f0 15
 B18_1c42:		cmp #$fe		; c9 fe
 B18_1c44:		beq B18_1c50 ; f0 0a
 
-B18_1c46:		sta $048c, x	; 9d 8c 04
+B18_1c46:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B18_1c49:		iny				; c8 
 B18_1c4a:		lda ($02), y	; b1 02
-B18_1c4c:		sta $0400, x	; 9d 00 04
+B18_1c4c:		sta wOamSpecIdx.w, x	; 9d 00 04
 B18_1c4f:		rts				; 60 
 
 
-B18_1c50:		dec $0400, x	; de 00 04
-B18_1c53:		dec $0400, x	; de 00 04
+B18_1c50:		dec wOamSpecIdx.w, x	; de 00 04
+B18_1c53:		dec wOamSpecIdx.w, x	; de 00 04
 B18_1c56:		rts				; 60 
 
 
-B18_1c57:		inc $0400, x	; fe 00 04
-B18_1c5a:		inc $0400, x	; fe 00 04
+B18_1c57:		inc wOamSpecIdx.w, x	; fe 00 04
+B18_1c5a:		inc wOamSpecIdx.w, x	; fe 00 04
 B18_1c5d:		rts				; 60 
 
 
@@ -4688,22 +4688,22 @@ B18_1c74:		sta $0645, x	; 9d 45 06
 B18_1c77:		lda #$01		; a9 01
 B18_1c79:		sta $0633, x	; 9d 33 06
 B18_1c7c:		lda $0645, x	; bd 45 06
-B18_1c7f:		cmp $0565, x	; dd 65 05
+B18_1c7f:		cmp wPlayerStateDoubled.w, x	; dd 65 05
 B18_1c82:		beq B18_1caa ; f0 26
 
 B18_1c84:		lda $061d, x	; bd 1d 06
 B18_1c87:		beq B18_1c92 ; f0 09
 
-B18_1c89:		inc $0565, x	; fe 65 05
-B18_1c8c:		inc $0565, x	; fe 65 05
+B18_1c89:		inc wPlayerStateDoubled.w, x	; fe 65 05
+B18_1c8c:		inc wPlayerStateDoubled.w, x	; fe 65 05
 B18_1c8f:		jmp $9c98		; 4c 98 9c
 
 
-B18_1c92:		dec $0565, x	; de 65 05
-B18_1c95:		dec $0565, x	; de 65 05
-B18_1c98:		lda $0565, x	; bd 65 05
+B18_1c92:		dec wPlayerStateDoubled.w, x	; de 65 05
+B18_1c95:		dec wPlayerStateDoubled.w, x	; de 65 05
+B18_1c98:		lda wPlayerStateDoubled.w, x	; bd 65 05
 B18_1c9b:		and #$1e		; 29 1e
-B18_1c9d:		sta $0565, x	; 9d 65 05
+B18_1c9d:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B18_1ca0:		ldy #$01		; a0 01
 B18_1ca2:		lda ($02), y	; b1 02
 B18_1ca4:		sta $05d8, x	; 9d d8 05
@@ -4827,11 +4827,11 @@ B18_1d66:		inc wEntityPhase.w, x	; fe c1 05
 B18_1d69:		rts				; 60 
 
 
-B18_1d6a:		lda $0565, x	; bd 65 05
+B18_1d6a:		lda wPlayerStateDoubled.w, x	; bd 65 05
 B18_1d6d:		clc				; 18 
 B18_1d6e:		adc #$08		; 69 08
 B18_1d70:		and #$0f		; 29 0f
-B18_1d72:		sta $0565, x	; 9d 65 05
+B18_1d72:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B18_1d75:		jmp $9d66		; 4c 66 9d
 
 
@@ -4871,10 +4871,10 @@ B18_1db6:		jmp $9d66		; 4c 66 9d
 B18_1db9:		ldy #$01		; a0 01
 B18_1dbb:		lda ($02), y	; b1 02
 B18_1dbd:		jsr $8766		; 20 66 87
-B18_1dc0:		lda $04a8, x	; bd a8 04
-B18_1dc3:		sta $04a8, y	; 99 a8 04
-B18_1dc6:		lda $0565, x	; bd 65 05
-B18_1dc9:		sta $0565, y	; 99 65 05
+B18_1dc0:		lda wEntityXFlipped.w, x	; bd a8 04
+B18_1dc3:		sta wEntityXFlipped.w, y	; 99 a8 04
+B18_1dc6:		lda wPlayerStateDoubled.w, x	; bd 65 05
+B18_1dc9:		sta wPlayerStateDoubled.w, y	; 99 65 05
 B18_1dcc:		lda #$00		; a9 00
 B18_1dce:		sta $0606, y	; 99 06 06
 B18_1dd1:		sta wEntityPhase.w, y	; 99 c1 05
@@ -4904,7 +4904,7 @@ B18_1dfe:		and #$10		; 29 10
 B18_1e00:		beq B18_1e04 ; f0 02
 
 B18_1e02:		lda #$01		; a9 01
-B18_1e04:		cmp $04a8, x	; dd a8 04
+B18_1e04:		cmp wEntityXFlipped.w, x	; dd a8 04
 B18_1e07:		beq B18_1e12 ; f0 09
 
 B18_1e09:		lda $00			; a5 00
@@ -4940,7 +4940,7 @@ B18_1e34:		cmp #$0c		; c9 0c
 B18_1e36:		bcc B18_1e3a ; 90 02
 
 B18_1e38:		lda #$0b		; a9 0b
-B18_1e3a:		sta $0565, x	; 9d 65 05
+B18_1e3a:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B18_1e3d:		jmp $9d66		; 4c 66 9d
 
 
@@ -4989,8 +4989,8 @@ B18_1e85:		cmp #$04		; c9 04
 B18_1e87:		beq B18_1ecc ; f0 43
 
 B18_1e89:		lda #$00		; a9 00
-B18_1e8b:		sta $04f2, y	; 99 f2 04
-B18_1e8e:		sta $0509, y	; 99 09 05
+B18_1e8b:		sta wEntityHorizSpeed.w, y	; 99 f2 04
+B18_1e8e:		sta wEntityHorizSubSpeed.w, y	; 99 09 05
 B18_1e91:		sta $0520, y	; 99 20 05
 B18_1e94:		sta $0537, y	; 99 37 05
 B18_1e97:		lda $01			; a5 01
@@ -5005,7 +5005,7 @@ B18_1ea5:		jmp $9ee3		; 4c e3 9e
 
 
 B18_1ea8:		lda $05			; a5 05
-B18_1eaa:		sta $0565, y	; 99 65 05
+B18_1eaa:		sta wPlayerStateDoubled.w, y	; 99 65 05
 B18_1ead:		jmp $9ee3		; 4c e3 9e
 
 
@@ -5016,22 +5016,22 @@ B18_1eb6:		clc				; 18
 B18_1eb7:		adc $05			; 65 05
 B18_1eb9:		and #$0f		; 29 0f
 B18_1ebb:		ldy $04			; a4 04
-B18_1ebd:		sta $0565, y	; 99 65 05
+B18_1ebd:		sta wPlayerStateDoubled.w, y	; 99 65 05
 B18_1ec0:		and #$08		; 29 08
 B18_1ec2:		beq B18_1ec6 ; f0 02
 
 B18_1ec4:		lda #$01		; a9 01
-B18_1ec6:		sta $04a8, y	; 99 a8 04
+B18_1ec6:		sta wEntityXFlipped.w, y	; 99 a8 04
 B18_1ec9:		jmp $9ee3		; 4c e3 9e
 
 
 B18_1ecc:		ldy $04			; a4 04
 B18_1ece:		lda #$00		; a9 00
 B18_1ed0:		sta wEntityPhase.w, y	; 99 c1 05
-B18_1ed3:		sta $0400, y	; 99 00 04
+B18_1ed3:		sta wOamSpecIdx.w, y	; 99 00 04
 B18_1ed6:		sta $0470, y	; 99 70 04
 B18_1ed9:		lda $06			; a5 06
-B18_1edb:		sta $0565, y	; 99 65 05
+B18_1edb:		sta wPlayerStateDoubled.w, y	; 99 65 05
 B18_1ede:		lda #$80		; a9 80
 B18_1ee0:		sta wEntityAI_idx.w, y	; 99 ef 05
 B18_1ee3:		dec $01			; c6 01
@@ -5084,7 +5084,7 @@ B18_1f26:		lda $9f56, y	; b9 56 9f
 B18_1f29:		sta $00			; 85 00
 B18_1f2b:		lda $9f57, y	; b9 57 9f
 B18_1f2e:		sta $01			; 85 01
-B18_1f30:		lda $04a8, x	; bd a8 04
+B18_1f30:		lda wEntityXFlipped.w, x	; bd a8 04
 B18_1f33:		beq B18_1f46 ; f0 11
 
 B18_1f35:		lda $00			; a5 00
@@ -5098,9 +5098,9 @@ B18_1f42:		adc #$00		; 69 00
 B18_1f44:		sta $01			; 85 01
 B18_1f46:		ldy $05			; a4 05
 B18_1f48:		lda $00			; a5 00
-B18_1f4a:		sta $0509, y	; 99 09 05
+B18_1f4a:		sta wEntityHorizSubSpeed.w, y	; 99 09 05
 B18_1f4d:		lda $01			; a5 01
-B18_1f4f:		sta $04f2, y	; 99 f2 04
+B18_1f4f:		sta wEntityHorizSpeed.w, y	; 99 f2 04
 B18_1f52:		inc wEntityPhase.w, x	; fe c1 05
 B18_1f55:		rts				; 60 
 
@@ -5200,8 +5200,8 @@ B18_1fd4:		sta wEntityBaseX.w, x	; 9d 38 04
 B18_1fd7:		lda #$40		; a9 40
 B18_1fd9:		sta wEntityBaseY.w, x	; 9d 1c 04
 B18_1fdc:		lda #$00		; a9 00
-B18_1fde:		sta $04f2, x	; 9d f2 04
-B18_1fe1:		sta $0509, x	; 9d 09 05
+B18_1fde:		sta wEntityHorizSpeed.w, x	; 9d f2 04
+B18_1fe1:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
 B18_1fe4:		inc wEntityPhase.w, x	; fe c1 05
 B18_1fe7:		jsr $a13b		; 20 3b a1
 B18_1fea:		bne B18_1fee ; d0 02

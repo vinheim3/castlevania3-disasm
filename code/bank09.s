@@ -9,7 +9,7 @@ B9_11be:		tay				; a8
 B9_11bf:	.db $b9 $39 $00
 B9_11c2:		bmi B9_11e4 ; 30 20
 
-B9_11c4:		lda $0565		; ad 65 05
+B9_11c4:		lda wPlayerStateDoubled.w		; ad 65 05
 B9_11c7:		cmp #$2c		; c9 2c
 B9_11c9:		beq B9_11e4 ; f0 19
 
@@ -21,7 +21,7 @@ B9_11d1:		bmi B9_11e0 ; 30 0d
 
 B9_11d3:		jsr $b1e6		; 20 e6 b1
 B9_11d6:		lda #$0b		; a9 0b
-B9_11d8:		sta $2a			; 85 2a
+B9_11d8:		sta wInGameSubstate			; 85 2a
 B9_11da:		lda #$00		; a9 00
 B9_11dc:		sta $6b			; 85 6b
 B9_11de:		sec				; 38 
@@ -43,7 +43,7 @@ B9_11ee:		lda $42			; a5 42
 B9_11f0:		sta $a8			; 85 a8
 B9_11f2:		lda $40			; a5 40
 B9_11f4:		sta $a9			; 85 a9
-B9_11f6:		lda $2a			; a5 2a
+B9_11f6:		lda wInGameSubstate			; a5 2a
 B9_11f8:		sta $aa			; 85 aa
 B9_11fa:		rts				; 60 
 
@@ -78,11 +78,11 @@ B9_1222:		lda $b269, y	; b9 69 b2
 B9_1225:		sta $08			; 85 08
 B9_1227:		lda $b26a, y	; b9 6a b2
 B9_122a:		sta $09			; 85 09
-B9_122c:		lda $0565		; ad 65 05
+B9_122c:		lda wPlayerStateDoubled.w		; ad 65 05
 B9_122f:		lsr a			; 4a
 B9_1230:		tay				; a8 
 B9_1231:		lda ($08), y	; b1 08
-B9_1233:		sta $0565		; 8d 65 05
+B9_1233:		sta wPlayerStateDoubled.w		; 8d 65 05
 B9_1236:		beq B9_1263 ; f0 2b
 
 B9_1238:		cmp #$12		; c9 12
@@ -91,7 +91,7 @@ B9_123a:		bne B9_1268 ; d0 2c
 B9_123c:		lda #$00		; a9 00
 B9_123e:		sta $0413		; 8d 13 04
 B9_1241:		sta $0630		; 8d 30 06
-B9_1244:		lda $04a8		; ad a8 04
+B9_1244:		lda wEntityXFlipped.w		; ad a8 04
 B9_1247:		beq B9_1250 ; f0 07
 
 B9_1249:		lda wEntityAI_idx.w		; ad ef 05
@@ -105,17 +105,17 @@ B9_1253:		bne B9_1257 ; d0 02
 B9_1255:		beq B9_125d ; f0 06
 
 B9_1257:		lda #$0a		; a9 0a
-B9_1259:		sta $0400		; 8d 00 04
+B9_1259:		sta wOamSpecIdx.w		; 8d 00 04
 B9_125c:		rts				; 60 
 
 
 B9_125d:		lda #$0c		; a9 0c
-B9_125f:		sta $0400		; 8d 00 04
+B9_125f:		sta wOamSpecIdx.w		; 8d 00 04
 B9_1262:		rts				; 60 
 
 
 B9_1263:		lda #$02		; a9 02
-B9_1265:		sta $0400		; 8d 00 04
+B9_1265:		sta wOamSpecIdx.w		; 8d 00 04
 B9_1268:		rts				; 60 
 
 
@@ -300,7 +300,7 @@ B9_1351:		jmp $b357		; 4c 57 b3
 func_09_1354:
 B9_1354:		jsr func_09_1325		; 20 25 b3
 B9_1357:		jsr func_09_136b		; 20 6b b3
-B9_135a:		lda $054e		; ad 4e 05
+B9_135a:		lda wCurrPlayer.w		; ad 4e 05
 B9_135d:		cmp #$02		; c9 02
 B9_135f:		bne B9_136a ; d0 09
 
@@ -349,7 +349,7 @@ B9_13a3:		lda wEntityBaseX.w		; ad 38 04
 B9_13a6:		bpl B9_13a9 ; 10 01
 
 B9_13a8:		iny				; c8 
-B9_13a9:		sty $04a8		; 8c a8 04
+B9_13a9:		sty wEntityXFlipped.w		; 8c a8 04
 B9_13ac:		rts				; 60 
 
 
@@ -1068,7 +1068,7 @@ B9_1771:		beq B9_178b ; f0 18
 B9_1773:		lda #$00		; a9 00
 B9_1775:		sta $054e, x	; 9d 4e 05
 B9_1778:		sta $0470, x	; 9d 70 04
-B9_177b:		sta $0400, x	; 9d 00 04
+B9_177b:		sta wOamSpecIdx.w, x	; 9d 00 04
 B9_177e:		sta wEntityAI_idx.w, x	; 9d ef 05
 B9_1781:		rts				; 60 
 
@@ -1091,7 +1091,7 @@ B9_179b:		lda #$00		; a9 00
 B9_179d:		sta $0657, x	; 9d 57 06
 B9_17a0:		sta $0470, x	; 9d 70 04
 B9_17a3:		sta wEntityPhase.w, x	; 9d c1 05
-B9_17a6:		sta $0400, x	; 9d 00 04
+B9_17a6:		sta wOamSpecIdx.w, x	; 9d 00 04
 B9_17a9:		sta $054e, x	; 9d 4e 05
 B9_17ac:		rts				; 60 
 
@@ -1430,7 +1430,7 @@ B9_195a:		bcs B9_1964 ; b0 08
 
 B9_195c:		lda #$00		; a9 00
 B9_195e:		sta $054e, x	; 9d 4e 05
-B9_1961:		sta $0400, x	; 9d 00 04
+B9_1961:		sta wOamSpecIdx.w, x	; 9d 00 04
 B9_1964:		rts				; 60 
 
 B9_1965:		clc				; 18 
@@ -1527,7 +1527,7 @@ B9_19ff:		asl a			; 0a
 B9_1a00:		tay				; a8 
 B9_1a01:		lda $ba4d, y	; b9 4d ba
 B9_1a04:		sta $0c			; 85 0c
-B9_1a06:		lda $04a8, x	; bd a8 04
+B9_1a06:		lda wEntityXFlipped.w, x	; bd a8 04
 B9_1a09:		bne B9_1a11 ; d0 06
 
 B9_1a0b:		lda $0c			; a5 0c
@@ -1664,8 +1664,8 @@ B9_1abb:		sta wEntityAI_idx.w, x	; 9d ef 05
 B9_1abe:		lda #$68		; a9 68
 B9_1ac0:		sta $054e, x	; 9d 4e 05
 B9_1ac3:		lda #$00		; a9 00
-B9_1ac5:		sta $0400, x	; 9d 00 04
-B9_1ac8:		sta $048c, x	; 9d 8c 04
+B9_1ac5:		sta wOamSpecIdx.w, x	; 9d 00 04
+B9_1ac8:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B9_1acb:		sta wEntityPhase.w, x	; 9d c1 05
 B9_1ace:		lda #$30		; a9 30
 B9_1ad0:		sta $0470, x	; 9d 70 04

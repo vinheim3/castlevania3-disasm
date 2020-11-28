@@ -18,7 +18,7 @@ B25_01a7:		jsr displayStaticLayoutA		; 20 e9 ec
 B25_01aa:		lda #$82		; a9 82
 B25_01ac:		jsr displayStaticLayoutA		; 20 e9 ec
 B25_01af:		lda #$00		; a9 00
-B25_01b1:		sta $0400		; 8d 00 04
+B25_01b1:		sta wOamSpecIdx.w		; 8d 00 04
 B25_01b4:		sta wSoundModeCtrlState			; 85 6b
 B25_01b6:		sta wSoundModeSongSelected.w		; 8d 80 07
 B25_01b9:		inc wGameSubstate			; e6 19
@@ -27,7 +27,7 @@ B25_01bb:		rts				; 60
 soundModeSubstate1:
 B25_01bc:		ldx #$98		; a2 98
 B25_01be:		lda #$67		; a9 67
-B25_01c0:		jsr func_1f_0cdc		; 20 dc ec
+B25_01c0:		jsr displayStaticLayoutAbankX		; 20 dc ec
 B25_01c3:		inc wGameSubstate			; e6 19
 B25_01c5:		rts				; 60 
 
@@ -178,35 +178,22 @@ B25_0282:		iny				; c8
 B25_0283:		bne B25_0275 ; d0 f0
 
 
-; todo: box to display sound text in
-B25_0285:	.db $cb
-B25_0286:	.db $22
-B25_0287:	.db $22
-B25_0288:		asl $1d24, x	; 1e 24 1d
-B25_028b:	.db $13
-B25_028c:		.db $00				; 00
-B25_028d:	.db $1c
-B25_028e:		asl $1413, x	; 1e 13 14
-B25_0291:		inc $22ea, x	; fe ea 22
-B25_0294:		rol $2e2e		; 2e 2e 2e
-B25_0297:		rol $2e2e		; 2e 2e 2e
-B25_029a:		rol $2e2e		; 2e 2e 2e
-B25_029d:		rol $2e2e		; 2e 2e 2e
-B25_02a0:		inc $2309, x	; fe 09 23
-B25_02a3:		and $15fe		; 2d fe 15
-B25_02a6:	.db $23
-B25_02a7:		and $29fe		; 2d fe 29
-B25_02aa:	.db $23
-B25_02ab:		and $35fe		; 2d fe 35
-B25_02ae:	.db $23
-B25_02af:		and $49fe		; 2d fe 49
-B25_02b2:	.db $23
-B25_02b3:		and $2e2e		; 2d 2e 2e
-B25_02b6:		rol $2e2e		; 2e 2e 2e
-B25_02b9:		rol $2e2e		; 2e 2e 2e
-B25_02bc:		rol $2e2e		; 2e 2e 2e
-B25_02bf:	.db $2f
-B25_02c0:	.db $ff
+staticLayout_soundModeBox:
+	.dw $22cb ; sound mode
+	.db $22 $1e $24 $1d $13 $00 $1c $1e $13 $14 $fe
+	.dw $22ea
+	.db $2e $2e $2e $2e $2e $2e $2e $2e $2e $2e $2e $2e $fe
+	.dw $2309
+	.db $2d $fe
+	.dw $2315
+	.db $2d $fe
+	.dw $2329
+	.db $2d $fe
+	.dw $2335
+	.db $2d $fe
+	.dw $2349
+	.db $2d $2e $2e $2e $2e $2e $2e $2e $2e $2e $2e $2e $2f
+	.db $ff
 
 
 soundModeSongIdxes:

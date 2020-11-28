@@ -104,7 +104,7 @@ B2_1fd9:		lda PPUSTATUS.w		; ad 02 20
 B2_1fdc:		ldx $078c		; ae 8c 07
 B2_1fdf:		lda $078d		; ad 8d 07
 B2_1fe2:		sta PPUADDR.w		; 8d 06 20
-B2_1fe5:		stx $2006		; 8e 06 20
+B2_1fe5:		stx PPUADDR.w		; 8e 06 20
 B2_1fe8:		lda $078a		; ad 8a 07
 B2_1feb:		sta PPUSCROLL.w		; 8d 05 20
 B2_1fee:		lda #$00		; a9 00

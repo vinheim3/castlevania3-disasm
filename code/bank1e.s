@@ -344,6 +344,7 @@ B30_0b06:		sty $5b			; 84 5b
 B30_0b08:		jmp $cad7		; 4c d7 ca
 
 
+func_1e_0b0b:
 B30_0b0b:		jsr $ca3e		; 20 3e ca
 B30_0b0e:		bcc B30_0b1a ; 90 0a
 
@@ -517,6 +518,7 @@ B30_0c44:		inc $11			; e6 11
 B30_0c46:		rts				; 60 
 
 
+func_1e_0c47:
 B30_0c47:		jsr setBankOfRoomGroupLayoutData_todo		; 20 05 c9
 B30_0c4a:		lda $5a			; a5 5a
 B30_0c4c:		bpl B30_0c51 ; 10 03
@@ -703,11 +705,13 @@ B30_0d78:		sta $64			; 85 64
 B30_0d7a:		rts				; 60 
 
 
+func_1e_0d7b:
 B30_0d7b:		lda #$00		; a9 00
 B30_0d7d:		sta $b6			; 85 b6
 B30_0d7f:		lda #$10		; a9 10
 B30_0d81:		bne B30_0d85 ; d0 02
 
+func_1e_0d83:
 B30_0d83:		lda #$0c		; a9 0c
 B30_0d85:		sta $64			; 85 64
 B30_0d87:		lda $59			; a5 59
@@ -854,7 +858,7 @@ B30_0e57:		sbc #$0c		; e9 0c
 B30_0e59:		jmp B30_0e53		; 4c 53 ce
 
 B30_0e5c:		tay				; a8 
-B30_0e5d:		lda $fd4c, y	; b9 4c fd
+B30_0e5d:		lda data_1f_1d4c.w, y	; b9 4c fd
 B30_0e60:		clc				; 18 
 B30_0e61:		adc $00			; 65 00
 B30_0e63:		sta $12			; 85 12
@@ -1443,7 +1447,7 @@ B30_120b:		sbc #$0c		; e9 0c
 B30_120d:		jmp B30_1207		; 4c 07 d2
 
 B30_1210:		tay				; a8 
-B30_1211:		lda $fd4c, y	; b9 4c fd
+B30_1211:		lda data_1f_1d4c.w, y	; b9 4c fd
 B30_1214:		clc				; 18 
 B30_1215:		adc $00			; 65 00
 B30_1217:		sta $10			; 85 10
@@ -1616,10 +1620,10 @@ B30_133c:		lda #$ff		; a9 ff
 B30_133e:		sta $00			; 85 00
 B30_1340:		lda $58			; a5 58
 B30_1342:		clc				; 18 
-B30_1343:		adc $0509		; 6d 09 05
+B30_1343:		adc wEntityHorizSubSpeed.w		; 6d 09 05
 B30_1346:		sta $58			; 85 58
 B30_1348:		lda $56			; a5 56
-B30_134a:		adc $04f2		; 6d f2 04
+B30_134a:		adc wEntityHorizSpeed.w		; 6d f2 04
 B30_134d:		sta $56			; 85 56
 B30_134f:		lda $57			; a5 57
 B30_1351:		adc $00			; 65 00
@@ -1669,22 +1673,22 @@ B30_1396:		beq B30_13a5 ; f0 0d
 
 B30_1398:		lda #$02		; a9 02
 B30_139a:		sta $1c			; 85 1c
-B30_139c:		jsr $d4c7		; 20 c7 d4
+B30_139c:		jsr func_1e_14c7		; 20 c7 d4
 B30_139f:		beq B30_13a2 ; f0 01
 
 B30_13a1:		rts				; 60 
 
-B30_13a2:		jmp $d57e		; 4c 7e d5
+B30_13a2:		jmp func_1e_157e		; 4c 7e d5
 
 B30_13a5:		lda #$00		; a9 00
 B30_13a7:		sta $1c			; 85 1c
-B30_13a9:		jsr $f753		; 20 53 f7
+B30_13a9:		jsr func_1f_1753		; 20 53 f7
 B30_13ac:		lda #$0c		; a9 0c
 B30_13ae:		sta $64			; 85 64
 B30_13b0:		lda #$00		; a9 00
 B30_13b2:		sta $8d			; 85 8d
 B30_13b4:		lda #$02		; a9 02
-B30_13b6:		sta $2a			; 85 2a
+B30_13b6:		sta wInGameSubstate			; 85 2a
 B30_13b8:		rts				; 60 
 
 
@@ -1831,7 +1835,7 @@ B30_1465:		tay				; a8
 B30_1466:		lda data_1e_175a.w, y	; b9 5a d7
 B30_1469:		sta wCurrRoomSectionMetaDataAddress			; 85 0a
 B30_146b:		lda data_1e_175a.w+1, y	; b9 5b d7
-B30_146e:		sta $0b			; 85 0b
+B30_146e:		sta wCurrRoomSectionMetaDataAddress+1			; 85 0b
 B30_1470:		ldy #$00		; a0 00
 B30_1472:		lda (wCurrRoomSectionMetaDataAddress), y	; b1 0a
 B30_1474:		iny				; c8 
@@ -1843,7 +1847,7 @@ B30_147b:		beq B30_1480 ; f0 03
 
 B30_147d:		jmp rts_1e_1441		; 4c 41 d4
 
-B30_1480:		inc $33			; e6 33
+B30_1480:		inc wCurrRoomSection			; e6 33
 B30_1482:		lda (wCurrRoomSectionMetaDataAddress), y	; b1 0a
 B30_1484:		sta $57			; 85 57
 B30_1486:		lda #$00		; a9 00
@@ -1897,6 +1901,7 @@ B30_14c4:		sta wRoomMetaTilesAddr+1			; 85 51
 B30_14c6:		rts				; 60 
 
 
+func_1e_14c7:
 B30_14c7:		jsr setBankOfRoomGroupLayoutData_todo		; 20 05 c9
 B30_14ca:		lda $7d			; a5 7d
 B30_14cc:		and #$0f		; 29 0f
@@ -2007,6 +2012,9 @@ B30_157a:	.db $02
 B30_157b:	.db $32
 B30_157c:	.db $33
 B30_157d:		.db $00				; 00
+
+
+func_1e_157e:
 B30_157e:		lda $7d			; a5 7d
 B30_1580:		and #$0f		; 29 0f
 B30_1582:		cmp #$02		; c9 02
@@ -2043,6 +2051,7 @@ B30_15b4:		bne B30_15af ; d0 f9
 B30_15b6:		jmp setVramQueueNextFillIdxAndTerminate		; 4c de e8
 
 
+func_1e_15b9:
 B30_15b9:		lda #$03		; a9 03
 B30_15bb:		sta $72			; 85 72
 B30_15bd:		jsr $d5c3		; 20 c3 d5
@@ -2134,13 +2143,10 @@ roomGroupMetatilePalettes:
 
 
 data_1e_175a:
-B30_175a:	.db $62
-B30_175b:	.db $d7
-B30_175c:		pla				; 68 
-B30_175d:	.db $d7
-B30_175e:		ror a			; 6a
-B30_175f:	.db $d7
-B30_1760:		bvs B30_1739 ; 70 d7
+	.dw $d762
+	.dw $d768
+	.dw $d76a
+	.dw $d770
 
 B30_1762:		;removed
 	.db $f0 $01
@@ -2156,8 +2162,10 @@ B30_176c:		sta ($e0, x)	; 81 e0
 B30_176e:	.db $ff
 B30_176f:		cpx #$f1		; e0 f1
 B30_1771:	.db $03
-B30_1772:		.db $00				; 00
-B30_1773:		plp				; 28 
+
+
+data_1e_0772:
+	.dw $2800
 B30_1774:		bit $00			; 24 00
 B30_1776:		clc				; 18 
 B30_1777:	.db $2e $07 $00
@@ -2434,6 +2442,8 @@ B30_1911:		inc $0433		; ee 33 04
 B30_1914:		.db $00				; 00
 B30_1915:		sty $55			; 84 55
 B30_1917:		sta $ffee, y	; 99 ee ff
+
+
 B30_191a:	.db $04
 B30_191b:		.db $00				; 00
 B30_191c:		sty $55			; 84 55
@@ -2938,9 +2948,9 @@ B30_1c17:		.db $81
 
 ; unused?
 A29_1f39:		lda #$01
-	sta $04f2
+	sta wEntityHorizSpeed.w
 
-func1:
+playerState08_exceptGrant:
 
 A29_1f3e:		lda #>(B28_1770-1)		; a9 97
 A29_1f40:		pha				; 48 
@@ -2957,7 +2967,7 @@ A29_1f4e:		bcc A29_1f5c ; 90 0c
 
 A29_1f50:		ldy #$00		; a0 00
 A29_1f52:		ldx #$01		; a2 01
-A29_1f54:		stx $04f2		; 8e f2 04
+A29_1f54:		stx wEntityHorizSpeed.w		; 8e f2 04
 A29_1f57:		bpl A29_1f99 ; 10 40
 
 A29_1f59:		lsr a			; 4a
@@ -2965,7 +2975,7 @@ A29_1f5a:		bcc A29_1faa ; 90 4e
 
 A29_1f5c:		ldy #$01		; a0 01
 A29_1f5e:		ldx #$ff		; a2 ff
-A29_1f60:		stx $04f2		; 8e f2 04
+A29_1f60:		stx wEntityHorizSpeed.w		; 8e f2 04
 A29_1f63:		jmp A29_1f99		; 4c 99 bf
 
 
@@ -2978,7 +2988,7 @@ A29_1f6a:		lda $0520		; ad 20 05
 A29_1f6d:		bmi A29_1f88 ; 30 19
 
 A29_1f6f:		lda #$08		; a9 08
-A29_1f71:		sta $0565		; 8d 65 05
+A29_1f71:		sta wPlayerStateDoubled.w		; 8d 65 05
 A29_1f74:		lda $49			; a5 49
 A29_1f76:		beq A29_1f8b ; f0 13
 
@@ -2989,7 +2999,7 @@ A29_1f7c:		bne A29_1f8b ; d0 0d
 A29_1f7e:		lda #$38		; a9 38
 A29_1f80:		sta $05d8		; 8d d8 05
 A29_1f83:		lda #$16		; a9 16
-A29_1f85:		sta $0400		; 8d 00 04
+A29_1f85:		sta wOamSpecIdx.w		; 8d 00 04
 A29_1f88:		jmp A29_1f93		; 4c 93 bf
 
 
@@ -2997,19 +3007,19 @@ A29_1f8b:		lda #$1c		; a9 1c
 A29_1f8d:		sta $05d8		; 8d d8 05
 A29_1f90:		lda $a6a2, y	; b9 89 a6
 A29_1f93:		lda #$08		; a9 08
-A29_1f95:		ldy $04f2		; ac f2 04
+A29_1f95:		ldy wEntityHorizSpeed.w		; ac f2 04
 A29_1f98:		rts				; 60 
 
 
-A29_1f99:		lda $0565		; ad 65 05
+A29_1f99:		lda wPlayerStateDoubled.w		; ad 65 05
 A29_1f9c:		cmp #$08		; c9 08
 A29_1f9e:		bne A29_1faa ; d0 0a
 
-A29_1fa0:		lda $0400		; ad 00 04
+A29_1fa0:		lda wOamSpecIdx.w		; ad 00 04
 A29_1fa3:		cmp #$10		; c9 10
 A29_1fa5:		beq A29_1faa ; f0 03
 
-A29_1fa7:		sty $04a8		; 8c a8 04
+A29_1fa7:		sty wEntityXFlipped.w		; 8c a8 04
 
 A29_1faa:		lda wJoy1ButtonsPressed			; a5 2a
 A29_1fac:		and #$80		; 29 80
@@ -3025,30 +3035,30 @@ A29_1fbc:		sta $0520		; 8d 20 05
 A29_1fbf:		rts				; 60 
 
 
-A29_1fc0:		sta $04f2		; 8d f2 04
+A29_1fc0:		sta wEntityHorizSpeed.w		; 8d f2 04
 A29_1fc3:		jmp A29_1faa		; 4c aa bf
 
 
-func3:
+playerState1a_11_body:
 
 A29_1fc6:		jsr A29_1f44		; 20 44 bf
 A29_1fc9:		jmp B28_179c		; 4c a3 97
 
 
-func4:
+playerState12_0a_body:
 
 A29_1fcc:		lda wJoy1NewButtonsPressed			; a5 28
 A29_1fce:		and #$80		; 29 80
 A29_1fd0:		beq A29_1fda ; f0 08
 
 A29_1fd2:		lda #$06		; a9 06
-A29_1fd4:		sta $0565		; 8d 65 05
+A29_1fd4:		sta wPlayerStateDoubled.w		; 8d 65 05
 A29_1fd7:		pla				; 68 
 A29_1fd8:		pla				; 68 
 A29_1fd9:		rts				; 60 
 
 
-A29_1fda:		lda $0565		; ad 65 05
+A29_1fda:		lda wPlayerStateDoubled.w		; ad 65 05
 A29_1fdd:		cmp #$14		; c9 14
 A29_1fdf:		beq A29_1fe6 ; f0 05
 
@@ -3059,17 +3069,75 @@ A29_1fe5:		rts				; 60
 
 A29_1fe6:		jmp B28_1a2d		; 4c 43 9a
 
-func5:
+playerState0a_exceptGrant_body:
 A29_1fe9:		lda wJoy1ButtonsPressed			; a5 2a
 A29_1feb:		lsr a			; 4a
 A29_1fec:		bcc A29_1ff3 ; 90 05
 
 A29_1fee:		ldx #$00		; a2 00
-A29_1ff0:		stx $04a8		; 8e a8 04
+A29_1ff0:		stx wEntityXFlipped.w		; 8e a8 04
 A29_1ff3:		lsr a			; 4a
 A29_1ff4:		bcc A29_1ffb ; 90 05
 
 A29_1ff6:		ldx #$01		; a2 01
-A29_1ff8:		stx $04a8		; 8e a8 04
-A29_1ffb:		jmp $8421		; 4c 0c 84
+A29_1ff8:		stx wEntityXFlipped.w		; 8e a8 04
+A29_1ffb:		jmp func_1c_0421		; 4c 0c 84
+
+.endif
+
+.ifdef WEAPON_SWAPPING
+checkSubweaponIntegrity:
+	ldy $3b
+	lda wCurrSubweapon.w, y
+	beq +
+	rts
++
+	sta wTrevorNumSubweapons.w, y
+	sta wP2NumSubweapons.w, y
+	rts
+
+shuffleSubweapon:
+	lda wJoy1NewButtonsPressed
+	and #PADF_SELECT
+	bne @selectPressed
+@done:
+	lda wJoy1NewButtonsPressed
+	asl a
+	rts
+@selectPressed:
+	jsr checkSubweaponIntegrity
+
+	lda $3b
+	asl a
+	asl a
+	asl a
+	asl a
+	tay
+	sta wNumWeaponsOffset.w
+	lda wTrevorNumSubweapons.w, y
+	tax
+	beq @done
+	dex
+	beq @done
+; x = num subweapons-1
+; find idx of current subweapon
+	inx
+	ldy $3b
+	lda wCurrSubweapon.w, y
+	ldy wNumWeaponsOffset.w
+	iny
+-	cmp wTrevorSubweapons.w, y
+	beq +
+	iny
+	jmp -
++
+	sty wCurrSubweaponOffset.w
+	cpx wCurrSubweaponOffset.w
+	bne +
+	ldy wNumWeaponsOffset.w
++	iny
+	lda wTrevorSubweapons.w, y
+	ldy $3b
+	sta wCurrSubweapon.w, y
+	jmp @done
 .endif

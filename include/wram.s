@@ -147,8 +147,11 @@ wInGameSubstate: ; $2a
 wIsPaused: ; $2b
     db
 
-w02c:
-    dsb $30-$2c
+wCinematicsController: ; $2c
+    db
+
+w02d:
+    dsb $30-$2d
 
 wGenericStateTimer: ; $30
     dw
@@ -267,7 +270,14 @@ wCurrRoomXQuarter: ; $76
     db
 
 w077:
-    dsb $98-$77
+    dsb $85-$77
+
+; 03 - dagger
+wCurrSubweapon: ; $85
+    db
+
+w086:
+    dsb $98-$86
 
 wCurrRoomEntityDataAddr: ; $98
     dw
@@ -497,7 +507,10 @@ wInstrumentEnvelopeMultiplier: ; $3e1
     dsb 3
 
 w3e4:
-    dsb $41c-$3e4
+    dsb $400-$3e4
+
+wOamSpecIdx: ; $400
+    dsb NUM_ENTITIES
 
 wEntityBaseY: ; $41c
     dsb NUM_ENTITIES
@@ -509,7 +522,40 @@ wEntityPaletteOverride: ; $454
     dsb NUM_ENTITIES
 
 w470:
-    dsb $57c-$470
+    dsb NUM_ENTITIES
+
+wEntityOamSpecGroupDoubled: ; $48c
+    dsb NUM_ENTITIES
+
+; 1 is facing left
+wEntityXFlipped: ; $4a8
+    dsb NUM_ENTITIES
+
+w4c4:
+    dsb $f2-$c4
+
+wEntityHorizSpeed: ; $4f2
+    dsb $17
+
+wEntityHorizSubSpeed: ; $509
+    dsb $17
+
+w520:
+    dsb $4e-$20
+
+; trevor, sypha, grant, alucard 
+; todo: also used by other entities
+wCurrPlayer: ; $54e
+    db
+
+w54f:
+    dsb $65-$4f
+
+wPlayerStateDoubled: ; $565
+    db
+
+w566:
+    dsb $7c-$66
 
 ; todo: unknown size
 wEntityTimeUntilNextAnimation: ; $57c
@@ -568,3 +614,32 @@ wramEnd:
     .db
 
 .ends
+
+.ifdef EXTENDED_RAM
+;=========================================================================================
+; Bank 1
+;=========================================================================================
+
+.ramsection "RAM 1" bank 1 slot 5
+.ifdef WEAPON_SWAPPING
+    wTrevorNumSubweapons: ; $6000
+        .db
+
+    wTrevorSubweapons: ; $6000
+        dsb $10
+
+    wP2NumSubweapons: ; $6010
+        .db
+
+    wP2Subweapons: ; $6010
+        dsb $10
+
+    wNumWeaponsOffset: ; $6020
+        db
+
+    wCurrSubweaponOffset: ; $6021
+        db
+.endif
+.ends
+
+.endif

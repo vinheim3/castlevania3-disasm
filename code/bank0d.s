@@ -34,6 +34,9 @@ B13_1e1a:		eor $0546		; 4d 46 05
 B13_1e1d:		ora $47			; 05 47
 B13_1e1f:	.db $4b
 B13_1e20:	.db $0b
+
+
+func_0d_1e21:
 B13_1e21:		jsr func_1f_1ec8		; 20 c8 fe
 B13_1e24:		ldy $9e			; a4 9e
 B13_1e26:		lda $054e, y	; b9 4e 05
@@ -44,9 +47,8 @@ B13_1e2d:		bne B13_1e31 ; d0 02
 B13_1e2f:		clc				; 18 
 B13_1e30:		rts				; 60 
 
-
 B13_1e31:		lda #$01		; a9 01
-B13_1e33:		sta $04a8, x	; 9d a8 04
+B13_1e33:		sta wEntityXFlipped.w, x	; 9d a8 04
 B13_1e36:		lda $0470, x	; bd 70 04
 B13_1e39:		ora #$20		; 09 20
 B13_1e3b:		sta $0470, x	; 9d 70 04

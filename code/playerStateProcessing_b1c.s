@@ -1,4 +1,5 @@
 
+func_1c_0001:
 B28_0001:		lda $95			; a5 95
 B28_0003:		asl a			; 0a
 B28_0004:		asl a			; 0a
@@ -16,24 +17,23 @@ B28_001c:		bpl B28_0035 ; 10 17
 
 B28_001e:		and #$7f		; 29 7f
 B28_0020:		tay				; a8 
-B28_0021:		lda $0509		; ad 09 05
+B28_0021:		lda wEntityHorizSubSpeed.w		; ad 09 05
 B28_0024:		sec				; 38 
 B28_0025:		sbc ($08), y	; f1 08
-B28_0027:		sta $0509		; 8d 09 05
-B28_002a:		lda $04f2		; ad f2 04
+B28_0027:		sta wEntityHorizSubSpeed.w		; 8d 09 05
+B28_002a:		lda wEntityHorizSpeed.w		; ad f2 04
 B28_002d:		sbc #$00		; e9 00
-B28_002f:		sta $04f2		; 8d f2 04
+B28_002f:		sta wEntityHorizSpeed.w		; 8d f2 04
 B28_0032:		jmp $8047		; 4c 47 80
 
-
 B28_0035:		tay				; a8 
-B28_0036:		lda $0509		; ad 09 05
+B28_0036:		lda wEntityHorizSubSpeed.w		; ad 09 05
 B28_0039:		clc				; 18 
 B28_003a:		adc ($08), y	; 71 08
-B28_003c:		sta $0509		; 8d 09 05
-B28_003f:		lda $04f2		; ad f2 04
+B28_003c:		sta wEntityHorizSubSpeed.w		; 8d 09 05
+B28_003f:		lda wEntityHorizSpeed.w		; ad f2 04
 B28_0042:		adc #$00		; 69 00
-B28_0044:		sta $04f2		; 8d f2 04
+B28_0044:		sta wEntityHorizSpeed.w		; 8d f2 04
 B28_0047:		cpy #$34		; c0 34
 B28_0049:		bcs B28_005d ; b0 12
 
@@ -45,7 +45,6 @@ B28_0054:		lda $0520		; ad 20 05
 B28_0057:		adc #$00		; 69 00
 B28_0059:		sta $0520		; 8d 20 05
 B28_005c:		rts				; 60 
-
 
 B28_005d:		tya				; 98 
 B28_005e:		sec				; 38 
@@ -62,29 +61,29 @@ B28_0073:		sta $0520		; 8d 20 05
 B28_0076:		rts				; 60 
 
 
+func_1c_0077:
 B28_0077:		lda $90			; a5 90
 B28_0079:		bmi B28_0091 ; 30 16
 
 B28_007b:		tay				; a8 
-B28_007c:		lda $0509		; ad 09 05
+B28_007c:		lda wEntityHorizSubSpeed.w		; ad 09 05
 B28_007f:		sec				; 38 
 B28_0080:		sbc $892c, y	; f9 2c 89
-B28_0083:		sta $0509		; 8d 09 05
-B28_0086:		lda $04f2		; ad f2 04
+B28_0083:		sta wEntityHorizSubSpeed.w		; 8d 09 05
+B28_0086:		lda wEntityHorizSpeed.w		; ad f2 04
 B28_0089:		sbc #$00		; e9 00
-B28_008b:		sta $04f2		; 8d f2 04
+B28_008b:		sta wEntityHorizSpeed.w		; 8d f2 04
 B28_008e:		jmp $80a6		; 4c a6 80
-
 
 B28_0091:		and #$7f		; 29 7f
 B28_0093:		tay				; a8 
-B28_0094:		lda $0509		; ad 09 05
+B28_0094:		lda wEntityHorizSubSpeed.w		; ad 09 05
 B28_0097:		clc				; 18 
 B28_0098:		adc $892c, y	; 79 2c 89
-B28_009b:		sta $0509		; 8d 09 05
-B28_009e:		lda $04f2		; ad f2 04
+B28_009b:		sta wEntityHorizSubSpeed.w		; 8d 09 05
+B28_009e:		lda wEntityHorizSpeed.w		; ad f2 04
 B28_00a1:		adc #$00		; 69 00
-B28_00a3:		sta $04f2		; 8d f2 04
+B28_00a3:		sta wEntityHorizSpeed.w		; 8d f2 04
 B28_00a6:		lda $0537		; ad 37 05
 B28_00a9:		clc				; 18 
 B28_00aa:		adc $894d, y	; 79 4d 89
@@ -95,6 +94,7 @@ B28_00b5:		sta $0520		; 8d 20 05
 B28_00b8:		rts				; 60 
 
 
+func_1c_00b9:
 B28_00b9:		lda $56			; a5 56
 B28_00bb:		ora $57			; 05 57
 B28_00bd:		bne B28_00d8 ; d0 19
@@ -117,6 +117,7 @@ B28_00d6:		sta $81			; 85 81
 B28_00d8:		rts				; 60 
 
 
+func_1c_00d9:
 B28_00d9:		lda wCurrRoomGroup		; a5 32
 B28_00db:		cmp #$0e		; c9 0e
 B28_00dd:		bne B28_00ee ; d0 0f
@@ -129,20 +130,20 @@ B28_00e5:		lda wCurrRoomIdx			; a5 34
 B28_00e7:		cmp #$01		; c9 01
 B28_00e9:		bne B28_00ee ; d0 03
 
-B28_00eb:		jsr $80b9		; 20 b9 80
-B28_00ee:		lda $0565		; ad 65 05
+B28_00eb:		jsr func_1c_00b9		; 20 b9 80
+B28_00ee:		lda wPlayerStateDoubled.w		; ad 65 05
 B28_00f1:		cmp #$0a		; c9 0a
 B28_00f3:		beq B28_00f9 ; f0 04
 
 B28_00f5:		cmp #$1c		; c9 1c
 B28_00f7:		bne B28_0101 ; d0 08
 
-B28_00f9:		lda $054e		; ad 4e 05
+B28_00f9:		lda wCurrPlayer.w		; ad 4e 05
 B28_00fc:		clc				; 18 
 B28_00fd:		adc #$04		; 69 04
 B28_00ff:		bne B28_0104 ; d0 03
 
-B28_0101:		lda $054e		; ad 4e 05
+B28_0101:		lda wCurrPlayer.w		; ad 4e 05
 B28_0104:		sta $82			; 85 82
 B28_0106:		lda $af			; a5 af
 B28_0108:		beq B28_010c ; f0 02
@@ -170,7 +171,6 @@ B28_0129:		bne B28_012c ; d0 01
 
 B28_012b:		rts				; 60 
 
-
 B28_012c:		cmp #$0d		; c9 0d
 B28_012e:		beq B28_018f ; f0 5f
 
@@ -182,22 +182,20 @@ B28_0136:		bne B28_01a2 ; d0 6a
 
 B28_0138:		rts				; 60 
 
-
 B28_0139:		lda #$00		; a9 00
 B28_013b:		sta $b7			; 85 b7
-B28_013d:		lda $2a			; a5 2a
+B28_013d:		lda wInGameSubstate			; a5 2a
 B28_013f:		sta $9f			; 85 9f
 B28_0141:		lda #$19		; a9 19
-B28_0143:		sta $2a			; 85 2a
-B28_0145:		lda $0565		; ad 65 05
+B28_0143:		sta wInGameSubstate			; 85 2a
+B28_0145:		lda wPlayerStateDoubled.w		; ad 65 05
 B28_0148:		ora #$80		; 09 80
-B28_014a:		sta $0565		; 8d 65 05
+B28_014a:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_014d:		lda #$2c		; a9 2c
 B28_014f:		sta wGenericStateTimer			; 85 30
 B28_0151:		pla				; 68 
 B28_0152:		pla				; 68 
 B28_0153:		rts				; 60 
-
 
 B28_0154:		lda #$00		; a9 00
 B28_0156:		ldx #$10		; a2 10
@@ -211,7 +209,7 @@ B28_0161:		beq B28_0167 ; f0 04
 B28_0163:		lda $56			; a5 56
 B28_0165:		bne B28_0172 ; d0 0b
 
-B28_0167:		lda $0565		; ad 65 05
+B28_0167:		lda wPlayerStateDoubled.w		; ad 65 05
 B28_016a:		cmp #$02		; c9 02
 B28_016c:		beq B28_0173 ; f0 05
 
@@ -220,9 +218,8 @@ B28_0170:		beq B28_0173 ; f0 01
 
 B28_0172:		rts				; 60 
 
-
 B28_0173:		jsr $8a02		; 20 02 8a
-B28_0176:		lda $054e		; ad 4e 05
+B28_0176:		lda wCurrPlayer.w		; ad 4e 05
 B28_0179:		cmp #$02		; c9 02
 B28_017b:		bne B28_0186 ; d0 09
 
@@ -231,28 +228,26 @@ B28_0180:		clc				; 18
 B28_0181:		adc #$04		; 69 04
 B28_0183:		sta wEntityBaseY.w		; 8d 1c 04
 B28_0186:		lda #$18		; a9 18
-B28_0188:		sta $2a			; 85 2a
+B28_0188:		sta wInGameSubstate			; 85 2a
 B28_018a:		lda #$00		; a9 00
 B28_018c:		sta $6b			; 85 6b
 B28_018e:		rts				; 60 
 
-
-B28_018f:		jsr $bdc4		; 20 c4 bd
+B28_018f:		jsr func_1d_1dc4		; 20 c4 bd
 B28_0192:		lda #$3c		; a9 3c
 B28_0194:		sta $05d4		; 8d d4 05
 B28_0197:		lda #$28		; a9 28
-B28_0199:		sta $0565		; 8d 65 05
+B28_0199:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_019c:		lda #$00		; a9 00
 B28_019e:		sta $05eb		; 8d eb 05
 B28_01a1:		rts				; 60 
-
 
 B28_01a2:		nop				; ea 
 B28_01a3:		lda $80			; a5 80
 B28_01a5:		ora $ad			; 05 ad
 B28_01a7:		bne B28_012b ; d0 82
 
-B28_01a9:		lda $054e		; ad 4e 05
+B28_01a9:		lda wCurrPlayer.w		; ad 4e 05
 B28_01ac:		asl a			; 0a
 B28_01ad:		tay				; a8 
 B28_01ae:		lda $8298, y	; b9 98 82
@@ -263,7 +258,7 @@ B28_01b8:		ldy #$00		; a0 00
 B28_01ba:		lda ($08), y	; b1 08
 B28_01bc:		bmi B28_0208 ; 30 4a
 
-B28_01be:		cmp $0565		; cd 65 05
+B28_01be:		cmp wPlayerStateDoubled.w		; cd 65 05
 B28_01c1:		beq B28_01c7 ; f0 04
 
 B28_01c3:		iny				; c8 
@@ -274,16 +269,16 @@ B28_01c7:		iny				; c8
 B28_01c8:		lda ($08), y	; b1 08
 B28_01ca:		beq B28_0153 ; f0 87
 
-B28_01cc:		jsr $8263		; 20 63 82
+B28_01cc:		jsr func_1c_0263		; 20 63 82
 B28_01cf:		beq B28_020b ; f0 3a
 
-B28_01d1:		ldy $054e		; ac 4e 05
+B28_01d1:		ldy wCurrPlayer.w		; ac 4e 05
 B28_01d4:		lda $8294, y	; b9 94 82
 B28_01d7:		jsr playSound		; 20 5f e2
-B28_01da:		jsr $bdc4		; 20 c4 bd
+B28_01da:		jsr func_1d_1dc4		; 20 c4 bd
 B28_01dd:		lda #$00		; a9 00
 B28_01df:		sta wEntityPaletteOverride.w		; 8d 54 04
-B28_01e2:		lda $0565		; ad 65 05
+B28_01e2:		lda wPlayerStateDoubled.w		; ad 65 05
 B28_01e5:		sta $05d4		; 8d d4 05
 B28_01e8:		lda #$20		; a9 20
 B28_01ea:		sta $05eb		; 8d eb 05
@@ -292,24 +287,22 @@ B28_01ef:		sta $0602		; 8d 02 06
 B28_01f2:		lda #$78		; a9 78
 B28_01f4:		sta $80			; 85 80
 B28_01f6:		lda #$26		; a9 26
-B28_01f8:		sta $0565		; 8d 65 05
+B28_01f8:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_01fb:		rts				; 60 
-
-
-B28_01fc:		ldy $054e		; ac 4e 05
+; unused?
+B28_01fc:		ldy wCurrPlayer.w		; ac 4e 05
 B28_01ff:		lda $8294, y	; b9 94 82
 B28_0202:		jsr playSound		; 20 5f e2
 B28_0205:		jmp $8cf9		; 4c f9 8c
 
-
-B28_0208:		jsr $8263		; 20 63 82
-B28_020b:		ldy $054e		; ac 4e 05
+B28_0208:		jsr func_1c_0263		; 20 63 82
+B28_020b:		ldy wCurrPlayer.w		; ac 4e 05
 B28_020e:		lda $8294, y	; b9 94 82
 B28_0211:		jsr playSound		; 20 5f e2
-B28_0214:		jsr $bdc4		; 20 c4 bd
+B28_0214:		jsr func_1d_1dc4		; 20 c4 bd
 B28_0217:		lda #$00		; a9 00
 B28_0219:		sta wEntityPaletteOverride.w		; 8d 54 04
-B28_021c:		lda $0565		; ad 65 05
+B28_021c:		lda wPlayerStateDoubled.w		; ad 65 05
 B28_021f:		sta $05d4		; 8d d4 05
 B28_0222:		lda #$20		; a9 20
 B28_0224:		sta $05eb		; 8d eb 05
@@ -318,9 +311,9 @@ B28_0229:		sta $0602		; 8d 02 06
 B28_022c:		lda #$78		; a9 78
 B28_022e:		sta $80			; 85 80
 B28_0230:		lda #$26		; a9 26
-B28_0232:		sta $0565		; 8d 65 05
+B28_0232:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_0235:		lda #$10		; a9 10
-B28_0237:		sta $0400		; 8d 00 04
+B28_0237:		sta wOamSpecIdx.w		; 8d 00 04
 B28_023a:		lda #$fe		; a9 fe
 B28_023c:		sta $0520		; 8d 20 05
 B28_023f:		lda #$00		; a9 00
@@ -329,21 +322,22 @@ B28_0244:		lda $90			; a5 90
 B28_0246:		beq B28_0253 ; f0 0b
 
 B28_0248:		lda #$01		; a9 01
-B28_024a:		sta $04a8		; 8d a8 04
+B28_024a:		sta wEntityXFlipped.w		; 8d a8 04
 B28_024d:		lda #$01		; a9 01
 B28_024f:		ldy #$00		; a0 00
 B28_0251:		beq B28_025c ; f0 09
 
 B28_0253:		lda #$00		; a9 00
-B28_0255:		sta $04a8		; 8d a8 04
+B28_0255:		sta wEntityXFlipped.w		; 8d a8 04
 B28_0258:		lda #$ff		; a9 ff
 B28_025a:		ldy #$00		; a0 00
-B28_025c:		sta $04f2		; 8d f2 04
-B28_025f:		sty $0509		; 8c 09 05
+B28_025c:		sta wEntityHorizSpeed.w		; 8d f2 04
+B28_025f:		sty wEntityHorizSubSpeed.w		; 8c 09 05
 B28_0262:		rts				; 60 
 
 
-B28_0263:		lda $054e		; ad 4e 05
+func_1c_0263:
+B28_0263:		lda wCurrPlayer.w		; ad 4e 05
 B28_0266:		asl a			; 0a
 B28_0267:		tay				; a8 
 B28_0268:		lda $82e4, y	; b9 e4 82
@@ -370,7 +364,6 @@ B28_0288:		lda #$00		; a9 00
 B28_028a:		sta $3c			; 85 3c
 B28_028c:		clc				; 18 
 B28_028d:		rts				; 60 
-
 
 B28_028e:		lda #$00		; a9 00
 B28_0290:		sta $3c			; 85 3c
@@ -473,7 +466,8 @@ B28_031a:	.db $3c
 B28_031b:		rti				; 40 
 
 
-B28_031c:		lda $054e		; ad 4e 05
+playerState26:
+B28_031c:		lda wCurrPlayer.w		; ad 4e 05
 B28_031f:		cmp #$03		; c9 03
 B28_0321:		bne B28_033c ; d0 19
 
@@ -491,7 +485,7 @@ B28_0333:		iny				; c8
 B28_0334:		bne B28_0329 ; d0 f3
 
 B28_0336:		lda #$3c		; a9 3c
-B28_0338:		sta $0565		; 8d 65 05
+B28_0338:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_033b:		rts				; 60 
 
 
@@ -502,7 +496,7 @@ B28_0341:		dec $05eb		; ce eb 05
 B28_0344:		bne B28_034c ; d0 06
 
 B28_0346:		lda $05d4		; ad d4 05
-B28_0349:		sta $0565		; 8d 65 05
+B28_0349:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_034c:		rts				; 60 
 
 
@@ -513,7 +507,7 @@ B28_034d:
 	jsr func2
 .else
 B28_034d:		lda #$08		; a9 08
-B28_034f:		ldy $04f2		; ac f2 04
+B28_034f:		ldy wEntityHorizSpeed.w		; ac f2 04
 .endif
 B28_0352:		bpl B28_0356 ; 10 02
 
@@ -533,7 +527,7 @@ B28_036b:		jmp $8371		; 4c 71 83
 
 
 B28_036e:		jsr $97a1		; 20 a1 97
-B28_0371:		lda $0565		; ad 65 05
+B28_0371:		lda wPlayerStateDoubled.w		; ad 65 05
 B28_0374:		cmp #$02		; c9 02
 B28_0376:		beq B28_0379 ; f0 01
 
@@ -542,7 +536,7 @@ B28_0378:		rts				; 60
 
 B28_0379:		lda #$00		; a9 00
 B28_037b:		sta $b9			; 85 b9
-B28_037d:		lda $054e		; ad 4e 05
+B28_037d:		lda wCurrPlayer.w		; ad 4e 05
 B28_0380:		cmp #$02		; c9 02
 B28_0382:		bne B28_0393 ; d0 0f
 
@@ -566,7 +560,7 @@ B28_039a:		bne B28_03a9 ; d0 0d
 B28_039c:		lda #$00		; a9 00
 B28_039e:		sta $3c			; 85 3c
 B28_03a0:		lda #$2e		; a9 2e
-B28_03a2:		sta $0565		; 8d 65 05
+B28_03a2:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_03a5:		lda #$80		; a9 80
 B28_03a7:		sta $bf			; 85 bf
 B28_03a9:		rts				; 60 
@@ -626,6 +620,7 @@ B28_03eb:		beq B28_03ef ; f0 02
 B28_03ed:		sec				; 38 
 B28_03ee:		rts				; 60 
 
+func_1c_03ef:
 B28_03ef:		jsr func_1f_1be8		; 20 e8 fb
 B28_03f2:		sec				; 38 
 B28_03f3:		rts				; 60 
@@ -649,6 +644,7 @@ B28_0408:		cmp #$08		; c9 08
 B28_040a:		rts				; 60 
 
 
+func_1c_040b:
 B28_040b:		jsr func_1f_1cdd		; 20 dd fc
 B28_040e:		beq B28_0412 ; f0 02
 
@@ -669,24 +665,29 @@ func_1c_041d:
 B28_041d:		ldx #$0c		; a2 0c
 B28_041f:		bne B28_0423 ; d0 02
 
+func_1c_0421:
 B28_0421:		ldx #$10		; a2 10
 B28_0423:		stx $08			; 86 08
+
 B28_0425:		lda $8b			; a5 8b
 B28_0427:		cmp #$01		; c9 01
 B28_0429:		bne B28_042e ; d0 03
 
-B28_042b:		jmp $84e0		; 4c e0 84
+B28_042b:		jmp B28_04e0		; 4c e0 84
 
+; 8b not 1
 B28_042e:		cmp #$05		; c9 05
 B28_0430:		bne B28_0435 ; d0 03
 
-B28_0432:		jmp $8513		; 4c 13 85
+B28_0432:		jmp B28_0513		; 4c 13 85
 
+; 8b not 1/5
 B28_0435:		cmp #$06		; c9 06
 B28_0437:		bne B28_043c ; d0 03
 
-B28_0439:		jmp $851e		; 4c 1e 85
+B28_0439:		jmp B28_051e		; 4c 1e 85
 
+; 8b not 1/5/6
 B28_043c:		lda #$05		; a9 05
 B28_043e:		jsr func_1f_1cdd		; 20 dd fc
 B28_0441:		beq B28_0461 ; f0 1e
@@ -731,8 +732,7 @@ B28_0474:		beq B28_04aa ; f0 34
 B28_0476:		cmp #$04		; c9 04
 B28_0478:		bne B28_047d ; d0 03
 
-B28_047a:		jmp $83ef		; 4c ef 83
-
+B28_047a:		jmp func_1c_03ef		; 4c ef 83
 
 B28_047d:		cmp #$05		; c9 05
 B28_047f:		beq B28_0413 ; f0 92
@@ -743,18 +743,15 @@ B28_0483:		beq B28_0413 ; f0 8e
 B28_0485:		cmp #$0c		; c9 0c
 B28_0487:		bcc B28_048c ; 90 03
 
-B28_0489:		jmp $83ef		; 4c ef 83
-
+B28_0489:		jmp func_1c_03ef		; 4c ef 83
 
 B28_048c:		sec				; 38 
 B28_048d:		rts				; 60 
 
-
 B28_048e:		clc				; 18 
 B28_048f:		rts				; 60 
 
-
-B28_0490:		lda $2a			; a5 2a
+B28_0490:		lda wInGameSubstate			; a5 2a
 B28_0492:		cmp #$1b		; c9 1b
 B28_0494:		bne B28_049a ; d0 04
 
@@ -773,8 +770,7 @@ B28_04a6:		sta $8b			; 85 8b
 B28_04a8:		sec				; 38 
 B28_04a9:		rts				; 60 
 
-
-B28_04aa:		lda $2a			; a5 2a
+B28_04aa:		lda wInGameSubstate			; a5 2a
 B28_04ac:		cmp #$1b		; c9 1b
 B28_04ae:		bne B28_04b4 ; d0 04
 
@@ -790,10 +786,9 @@ B28_04bc:		sta $8b			; 85 8b
 B28_04be:		sec				; 38 
 B28_04bf:		rts				; 60 
 
-
 B28_04c0:		ldx $08			; a6 08
 B28_04c2:		lda #$fb		; a9 fb
-B28_04c4:		jsr $840b		; 20 0b 84
+B28_04c4:		jsr func_1c_040b		; 20 0b 84
 B28_04c7:		bne B28_048c ; d0 c3
 
 B28_04c9:		lda #$07		; a9 07
@@ -807,7 +802,6 @@ B28_04d9:		adc #$00		; 69 00
 B28_04db:		sta wEntityBaseY.w		; 8d 1c 04
 B28_04de:		sec				; 38 
 B28_04df:		rts				; 60 
-
 
 B28_04e0:		ldx $08			; a6 08
 B28_04e2:		lda #$05		; a9 05
@@ -824,11 +818,10 @@ B28_04f4:		jsr $fe9c		; 20 9c fe
 B28_04f7:		sec				; 38 
 B28_04f8:		rts				; 60 
 
-
 B28_04f9:		lda #$00		; a9 00
 B28_04fb:		sta $8b			; 85 8b
 B28_04fd:		jsr $8a02		; 20 02 8a
-B28_0500:		ldy $054e		; ac 4e 05
+B28_0500:		ldy wCurrPlayer.w		; ac 4e 05
 B28_0503:		cpy #$02		; c0 02
 B28_0505:		bne B28_04f7 ; d0 f0
 
@@ -838,14 +831,12 @@ B28_050b:		adc #$04		; 69 04
 B28_050d:		sta wEntityBaseY.w		; 8d 1c 04
 B28_0510:		jmp $84f7		; 4c f7 84
 
-
 B28_0513:		lda wEntityBaseY.w		; ad 1c 04
 B28_0516:		clc				; 18 
 B28_0517:		adc $91			; 65 91
 B28_0519:		sta wEntityBaseY.w		; 8d 1c 04
 B28_051c:		sec				; 38 
 B28_051d:		rts				; 60 
-
 
 B28_051e:		lda wEntityBaseY.w		; ad 1c 04
 B28_0521:		clc				; 18 
@@ -855,6 +846,7 @@ B28_0527:		sec				; 38
 B28_0528:		rts				; 60 
 
 
+func_1c_0529:
 B28_0529:		jsr $852d		; 20 2d 85
 B28_052c:		rts				; 60 
 
@@ -865,7 +857,7 @@ B28_0532:		cmp #$ff		; c9 ff
 B28_0534:		beq B28_0545 ; f0 0f
 
 B28_0536:		iny				; c8 
-B28_0537:		cmp $0565		; cd 65 05
+B28_0537:		cmp wPlayerStateDoubled.w		; cd 65 05
 B28_053a:		bne B28_052f ; d0 f3
 
 B28_053c:		lda wEntityPaletteOverride.w		; ad 54 04
@@ -905,6 +897,8 @@ B28_056d:		rts				; 60
 B28_056e:		;removed
 	.db $b0 $e0
 
+
+func_1c_0570:
 B28_0570:		lda $68			; a5 68
 B28_0572:		cmp #$82		; c9 82
 B28_0574:		bcs B28_0577 ; b0 01
@@ -923,6 +917,7 @@ B28_0585:		sta $d3			; 85 d3
 B28_0587:		rts				; 60 
 
 
+func_1c_0588:
 B28_0588:		lda $68			; a5 68
 B28_058a:		bmi B28_05b7 ; 30 2b
 
@@ -955,9 +950,10 @@ B28_05b5:		sta $58			; 85 58
 B28_05b7:		rts				; 60 
 
 
+func_1c_05b8:
 B28_05b8:		lda #$00		; a9 00
 B28_05ba:		sta $58			; 85 58
-B28_05bc:		lda $0565		; ad 65 05
+B28_05bc:		lda wPlayerStateDoubled.w		; ad 65 05
 B28_05bf:		cmp #$16		; c9 16
 B28_05c1:		bne B28_0611 ; d0 4e
 
@@ -986,7 +982,7 @@ B28_05e1:		adc wEntityBaseX.w		; 6d 38 04
 B28_05e4:		sta wEntityBaseX.w		; 8d 38 04
 B28_05e7:		lda $861b, x	; bd 1b 86
 B28_05ea:		sta wEntityBaseY.w		; 8d 1c 04
-B28_05ed:		ldy $054e		; ac 4e 05
+B28_05ed:		ldy wCurrPlayer.w		; ac 4e 05
 B28_05f0:		lda $8632, y	; b9 32 86
 B28_05f3:		clc				; 18 
 B28_05f4:		adc wEntityBaseY.w		; 6d 1c 04
@@ -1045,6 +1041,7 @@ B28_063e:		sta wEntityBaseX.w		; 8d 38 04
 B28_0641:		rts				; 60 
 
 
+func_1c_0642:
 B28_0642:		lda $68			; a5 68
 B28_0644:		bmi B28_0636 ; 30 f0
 
@@ -1187,6 +1184,7 @@ B28_070f:		sta $65			; 85 65
 B28_0711:		rts				; 60 
 
 
+func_1c_0712:
 B28_0712:		lda $68			; a5 68
 B28_0714:		bmi B28_06d2 ; 30 bc
 
@@ -1200,7 +1198,8 @@ B28_0726:		sta wEntityBaseY.w		; 8d 1c 04
 B28_0729:		rts				; 60 
 
 
-B28_072a:		ldy $04f2		; ac f2 04
+; from below
+B28_072a:		ldy wEntityHorizSpeed.w		; ac f2 04
 B28_072d:		bpl B28_0734 ; 10 05
 
 B28_072f:		lda $90			; a5 90
@@ -1208,12 +1207,12 @@ B28_0731:		beq B28_0740 ; f0 0d
 
 B28_0733:		rts				; 60 
 
-
 B28_0734:		lda $90			; a5 90
 B28_0736:		beq B28_0733 ; f0 fb
 
 B28_0738:		bne B28_0740 ; d0 06
 
+func_1c_073a:
 B28_073a:		lda $8b			; a5 8b
 B28_073c:		cmp #$02		; c9 02
 B28_073e:		beq B28_072a ; f0 ea
@@ -1224,10 +1223,10 @@ B28_0742:		bne B28_0762 ; d0 1e
 B28_0744:		lda $68			; a5 68
 B28_0746:		bmi B28_0762 ; 30 1a
 
-B28_0748:		lda $04f2		; ad f2 04
+B28_0748:		lda wEntityHorizSpeed.w		; ad f2 04
 B28_074b:		bmi B28_0782 ; 30 35
 
-B28_074d:		ora $0509		; 0d 09 05
+B28_074d:		ora wEntityHorizSubSpeed.w		; 0d 09 05
 B28_0750:		beq B28_0781 ; f0 2f
 
 B28_0752:		lda $71			; a5 71
@@ -1241,14 +1240,14 @@ B28_075d:		lda #$01		; a9 01
 B28_075f:		sta $65			; 85 65
 B28_0761:		rts				; 60 
 
-
 B28_0762:		lda $04c4		; ad c4 04
 B28_0765:		clc				; 18 
-B28_0766:		adc $0509		; 6d 09 05
+B28_0766:		adc wEntityHorizSubSpeed.w		; 6d 09 05
 B28_0769:		sta $04c4		; 8d c4 04
 B28_076c:		lda wEntityBaseX.w		; ad 38 04
-B28_076f:		adc $04f2		; 6d f2 04
+B28_076f:		adc wEntityHorizSpeed.w		; 6d f2 04
 B28_0772:		sta wEntityBaseX.w		; 8d 38 04
+
 B28_0775:		ldy $68			; a4 68
 B28_0777:		bmi B28_07a2 ; 30 29
 
@@ -1298,16 +1297,16 @@ B28_07b1:		bne B28_07b7 ; d0 04
 B28_07b3:		ldx #$00		; a2 00
 B28_07b5:		lda #$10		; a9 10
 B28_07b7:		sta wEntityBaseX.w		; 8d 38 04
-B28_07ba:		lda $054e		; ad 4e 05
+B28_07ba:		lda wCurrPlayer.w		; ad 4e 05
 B28_07bd:		cmp #$03		; c9 03
 B28_07bf:		bne B28_07d1 ; d0 10
 
-B28_07c1:		lda $0565		; ad 65 05
+B28_07c1:		lda wPlayerStateDoubled.w		; ad 65 05
 B28_07c4:		cmp #$34		; c9 34
 B28_07c6:		bne B28_07d1 ; d0 09
 
 B28_07c8:		lda #$36		; a9 36
-B28_07ca:		sta $0565		; 8d 65 05
+B28_07ca:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_07cd:		stx $05d8		; 8e d8 05
 B28_07d0:		rts				; 60 
 
@@ -1647,12 +1646,13 @@ B28_0993:		sta $35			; 85 35
 B28_0995:		rts				; 60 
 
 
+func_1c_0996:
 B28_0996:		lda $7e			; a5 7e
 B28_0998:		ora $7f			; 05 7f
 B28_099a:		bne B28_09a3 ; d0 07
 
 B28_099c:		jsr $8398		; 20 98 83
-B28_099f:		jsr $bdc4		; 20 c4 bd
+B28_099f:		jsr func_1d_1dc4		; 20 c4 bd
 B28_09a2:		rts				; 60 
 
 
@@ -1738,6 +1738,7 @@ B28_0a1d:		sta wEntityBaseY.w		; 8d 1c 04
 B28_0a20:		rts				; 60 
 
 
+func_1c_0a21:
 B28_0a21:		lda $7f			; a5 7f
 B28_0a23:		bne B28_0a36 ; d0 11
 
@@ -1755,7 +1756,7 @@ B28_0a36:		lda $1a			; a5 1a
 B28_0a38:		and #$3f		; 29 3f
 B28_0a3a:		bne B28_0a3f ; d0 03
 
-B28_0a3c:		jsr $8996		; 20 96 89
+B28_0a3c:		jsr func_1c_0996		; 20 96 89
 B28_0a3f:		lda $ab			; a5 ab
 B28_0a41:		beq B28_0a59 ; f0 16
 
@@ -1771,11 +1772,11 @@ B28_0a52:		bne B28_0a59 ; d0 05
 
 B28_0a54:		lda #$3c		; a9 3c
 B28_0a56:		jsr playSound		; 20 5f e2
-B28_0a59:		jsr $ae52		; 20 52 ae
-B28_0a5c:		lda $0565		; ad 65 05
+B28_0a59:		jsr func_1d_0e52		; 20 52 ae
+B28_0a5c:		lda wPlayerStateDoubled.w		; ad 65 05
 B28_0a5f:		bmi B28_0a20 ; 30 bf
 
-B28_0a61:		jsr $80d9		; 20 d9 80
+B28_0a61:		jsr func_1c_00d9		; 20 d9 80
 B28_0a64:		lda $8b			; a5 8b
 B28_0a66:		sta $cf			; 85 cf
 B28_0a68:		lda $81			; a5 81
@@ -1803,7 +1804,7 @@ B28_0a89:		adc #$03		; 69 03
 B28_0a8b:		sta $d0			; 85 d0
 B28_0a8d:		lda #$02		; a9 02
 B28_0a8f:		sta $65			; 85 65
-B28_0a91:		ldy $054e		; ac 4e 05
+B28_0a91:		ldy wCurrPlayer.w		; ac 4e 05
 B28_0a94:		beq B28_0aa2 ; f0 0c
 
 B28_0a96:		dey				; 88 
@@ -1812,48 +1813,55 @@ B28_0a97:		beq B28_0ab0 ; f0 17
 B28_0a99:		dey				; 88 
 B28_0a9a:		beq B28_0ab6 ; f0 1a
 
-B28_0a9c:		jsr $a5a8		; 20 a8 a5
-B28_0a9f:		jmp $8aa5		; 4c a5 8a
+; alucard
+B28_0a9c:		jsr processAlucardState		; 20 a8 a5
+B28_0a9f:		jmp B28_0aa5		; 4c a5 8a
 
+; trevor
+B28_0aa2:		jsr processTrevorState		; 20 7b 93
 
-B28_0aa2:		jsr func_1c_137b		; 20 7b 93
-B28_0aa5:		lda $0565		; ad 65 05
+B28_0aa5:		lda wPlayerStateDoubled.w		; ad 65 05
 B28_0aa8:		bmi B28_0ac4 ; 30 1a
 
-B28_0aaa:		jsr $8bc0		; 20 c0 8b
-B28_0aad:		jmp $8d13		; 4c 13 8d
+B28_0aaa:		jsr func_1c_0bc0		; 20 c0 8b
+B28_0aad:		jmp func_1c_0d13		; 4c 13 8d
 
+; sypha
+B28_0ab0:		jsr processSyphaState		; 20 fc 9b
+B28_0ab3:		jmp B28_0aa5		; 4c a5 8a
 
-B28_0ab0:		jsr $9bfc		; 20 fc 9b
-B28_0ab3:		jmp $8aa5		; 4c a5 8a
+; grant
+B28_0ab6:		jsr processGrantState		; 20 3b 9c
+B28_0ab9:		jmp B28_0aa5		; 4c a5 8a
 
-
-B28_0ab6:		jsr $9c3b		; 20 3b 9c
-B28_0ab9:		jmp $8aa5		; 4c a5 8a
-
-
+func_1c_0abc:
 B28_0abc:		lda #$00		; a9 00
 B28_0abe:		sta $0520		; 8d 20 05
 B28_0ac1:		sta $0537		; 8d 37 05
+
 B28_0ac4:		rts				; 60 
 
 
-B28_0ac5:		ldy $054e		; ac 4e 05
-B28_0ac8:		lda $8ada, y	; b9 da 8a
-B28_0acb:		sta $048c		; 8d 8c 04
-B28_0ace:		lda #$02		; a9 02
-B28_0ad0:		sta $0400		; 8d 00 04
-B28_0ad3:		inc $0565		; ee 65 05
-B28_0ad6:		inc $0565		; ee 65 05
-B28_0ad9:		rts				; 60 
+playerState00_init:
+; set spec group
+	ldy wCurrPlayer.w
+	lda @charSpecGroups.w, y
+	sta wEntityOamSpecGroupDoubled.w
+
+; non-invisible spec idx
+	lda #$02
+	sta wOamSpecIdx.w
+
+; next player state
+	inc wPlayerStateDoubled.w
+	inc wPlayerStateDoubled.w
+	rts
+
+@charSpecGroups:
+	.db $00 $02 $04 $06
 
 
-B28_0ada:		.db $00				; 00
-B28_0adb:	.db $02
-B28_0adc:	.db $04
-B28_0add:		.db $06
-
-
+playerState2e:
 B28_0ade:		lda $bf
 B28_0ae0:		and #$7f		; 29 7f
 B28_0ae2:		jsr jumpTablePreserveY		; 20 6d e8
@@ -1899,10 +1907,10 @@ B28_0b20:		lda wEntityAnimationIdxes.w		; ad 93 05
 B28_0b23:		asl a			; 0a
 B28_0b24:		tay				; a8 
 B28_0b25:		lda $8b4b, y	; b9 4b 8b
-B28_0b28:		sta $0400		; 8d 00 04
+B28_0b28:		sta wOamSpecIdx.w		; 8d 00 04
 B28_0b2b:		lda $8b4c, y	; b9 4c 8b
 B28_0b2e:		sta wEntityTimeUntilNextAnimation.w		; 8d 7c 05
-B28_0b31:		lda $054e		; ad 4e 05
+B28_0b31:		lda wCurrPlayer.w		; ad 4e 05
 B28_0b34:		asl a			; 0a
 B28_0b35:		clc				; 18 
 B28_0b36:		adc wEntityAnimationIdxes.w		; 6d 93 05
@@ -1929,6 +1937,9 @@ B28_0b53:	.db $04
 B28_0b54:	.db $ff
 B28_0b55:	.db $04
 B28_0b56:	.db $fc
+
+
+playerState2c:
 B28_0b57:		lda $bf			; a5 bf
 B28_0b59:		and #$7f		; 29 7f
 B28_0b5b:		tay				; a8 
@@ -1959,7 +1970,7 @@ B28_0b7e:		sta $0537		; 8d 37 05
 B28_0b81:		lda $0520		; ad 20 05
 B28_0b84:		adc #$00		; 69 00
 B28_0b86:		sta $0520		; 8d 20 05
-B28_0b89:		jmp $8712		; 4c 12 87
+B28_0b89:		jmp func_1c_0712		; 4c 12 87
 
 
 B28_0b8c:		inc $bf			; e6 bf
@@ -1970,7 +1981,7 @@ B28_0b8f:		dey				; 88
 B28_0b90:		bne B28_0ba7 ; d0 15
 
 B28_0b92:		lda #$00		; a9 00
-B28_0b94:		sta $0400		; 8d 00 04
+B28_0b94:		sta wOamSpecIdx.w		; 8d 00 04
 B28_0b97:		lda #$80		; a9 80
 B28_0b99:		sta $05d4		; 8d d4 05
 B28_0b9c:		lda #$4e		; a9 4e
@@ -1990,19 +2001,20 @@ B28_0bad:		lda #GS_05		; a9 05
 B28_0baf:		sta wGameState			; 85 18
 B28_0bb1:		lda #$00		; a9 00
 B28_0bb3:		sta $19			; 85 19
-B28_0bb5:		lda $0565		; ad 65 05
+B28_0bb5:		lda wPlayerStateDoubled.w		; ad 65 05
 B28_0bb8:		ora #$80		; 09 80
-B28_0bba:		sta $0565		; 8d 65 05
+B28_0bba:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_0bbd:		jmp $e5ca		; 4c ca e5
 
 
+func_1c_0bc0:
 B28_0bc0:		lda $bf			; a5 bf
 B28_0bc2:		beq B28_0bc5 ; f0 01
 
 B28_0bc4:		rts				; 60 
 
 
-B28_0bc5:		lda $2a			; a5 2a
+B28_0bc5:		lda wInGameSubstate			; a5 2a
 B28_0bc7:		cmp #$10		; c9 10
 B28_0bc9:		beq B28_0bc4 ; f0 f9
 
@@ -2138,9 +2150,9 @@ B28_0c8a:		sec				; 38
 B28_0c8b:		sbc #$0c		; e9 0c
 B28_0c8d:		sta wEntityBaseY.w, x	; 9d 1c 04
 B28_0c90:		lda $8ccb, y	; b9 cb 8c
-B28_0c93:		sta $04f2, x	; 9d f2 04
+B28_0c93:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B28_0c96:		lda $8ccc, y	; b9 cc 8c
-B28_0c99:		sta $0509, x	; 9d 09 05
+B28_0c99:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
 B28_0c9c:		lda $8ccd, y	; b9 cd 8c
 B28_0c9f:		sta $0520, x	; 9d 20 05
 B28_0ca2:		lda $8cce, y	; b9 ce 8c
@@ -2149,7 +2161,7 @@ B28_0ca8:		lda #$0c		; a9 0c
 B28_0caa:		sta $054e, x	; 9d 4e 05
 B28_0cad:		lda #$00		; a9 00
 B28_0caf:		sta $0470, x	; 9d 70 04
-B28_0cb2:		sta $0565, x	; 9d 65 05
+B28_0cb2:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B28_0cb5:		inc $0f			; e6 0f
 B28_0cb7:		inx				; e8 
 B28_0cb8:		cpx #$17		; e0 17
@@ -2214,11 +2226,12 @@ B28_0d06:		sta $0537		; 8d 37 05
 B28_0d09:		lda #$80		; a9 80
 B28_0d0b:		sta $bf			; 85 bf
 B28_0d0d:		lda #$2c		; a9 2c
-B28_0d0f:		sta $0565		; 8d 65 05
+B28_0d0f:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_0d12:		rts				; 60 
 
 
-B28_0d13:		lda $2a			; a5 2a
+func_1c_0d13:
+B28_0d13:		lda wInGameSubstate			; a5 2a
 B28_0d15:		cmp #$1b		; c9 1b
 B28_0d17:		beq B28_0d89 ; f0 70
 
@@ -2300,7 +2313,7 @@ B28_0d8b:		sta $041a		; 8d 1a 04
 B28_0d8e:		rts				; 60 
 
 
-B28_0d8f:		lda $054e		; ad 4e 05
+B28_0d8f:		lda wCurrPlayer.w		; ad 4e 05
 B28_0d92:		asl a			; 0a
 B28_0d93:		tay				; a8 
 B28_0d94:		lda $8de3, y	; b9 e3 8d
@@ -2313,14 +2326,14 @@ B28_0da2:		cmp #$ff		; c9 ff
 B28_0da4:		beq B28_0d8e ; f0 e8
 
 B28_0da6:		iny				; c8 
-B28_0da7:		cmp $0400		; cd 00 04
+B28_0da7:		cmp wOamSpecIdx.w		; cd 00 04
 B28_0daa:		beq B28_0db0 ; f0 04
 
 B28_0dac:		iny				; c8 
 B28_0dad:		iny				; c8 
 B28_0dae:		bne B28_0da0 ; d0 f0
 
-B28_0db0:		lda $04a8		; ad a8 04
+B28_0db0:		lda wEntityXFlipped.w		; ad a8 04
 B28_0db3:		beq B28_0dda ; f0 25
 
 B28_0db5:		lda wEntityBaseX.w		; ad 38 04
@@ -2428,14 +2441,14 @@ B28_0e75:	.db $ff
 B28_0e76:	.db $02
 B28_0e77:	.db $80
 B28_0e78:		ora ($80, x)	; 01 80
-B28_0e7a:		sty $0509		; 8c 09 05
-B28_0e7d:		sta $04f2		; 8d f2 04
-B28_0e80:		jsr $8abc		; 20 bc 8a
+B28_0e7a:		sty wEntityHorizSubSpeed.w		; 8c 09 05
+B28_0e7d:		sta wEntityHorizSpeed.w		; 8d f2 04
+B28_0e80:		jsr func_1c_0abc		; 20 bc 8a
 B28_0e83:		sec				; 38 
 B28_0e84:		rts				; 60 
 
 
-B28_0e85:		lda $2a			; a5 2a
+B28_0e85:		lda wInGameSubstate			; a5 2a
 B28_0e87:		cmp #$1b		; c9 1b
 B28_0e89:		beq B28_0eb5 ; f0 2a
 
@@ -2477,7 +2490,7 @@ B28_0eb0:		beq B28_0ef3 ; f0 41
 B28_0eb2:		dey				; 88 
 B28_0eb3:		beq B28_0efa ; f0 45
 
-B28_0eb5:		jsr $8abc		; 20 bc 8a
+B28_0eb5:		jsr func_1c_0abc		; 20 bc 8a
 B28_0eb8:		clc				; 18 
 B28_0eb9:		rts				; 60 
 
@@ -2488,12 +2501,12 @@ B28_0ebe:		lda $054e, x	; bd 4e 05
 B28_0ec1:		cmp #$79		; c9 79
 B28_0ec3:		bcc B28_0ed7 ; 90 12
 
-B28_0ec5:		jsr $91c2		; 20 c2 91
-B28_0ec8:		lda $0509, x	; bd 09 05
+B28_0ec5:		jsr func_1c_11c2		; 20 c2 91
+B28_0ec8:		lda wEntityHorizSubSpeed.w, x	; bd 09 05
 B28_0ecb:		clc				; 18 
 B28_0ecc:		adc #$00		; 69 00
 B28_0ece:		tay				; a8 
-B28_0ecf:		lda $04f2, x	; bd f2 04
+B28_0ecf:		lda wEntityHorizSpeed.w, x	; bd f2 04
 B28_0ed2:		adc #$01		; 69 01
 B28_0ed4:		jmp $8f57		; 4c 57 8f
 
@@ -2529,7 +2542,7 @@ B28_0efe:		jmp $8e7a		; 4c 7a 8e
 
 
 func_1c_0f01:
-B28_0f01:		lda $2a			; a5 2a
+B28_0f01:		lda wInGameSubstate			; a5 2a
 B28_0f03:		cmp #$1b		; c9 1b
 B28_0f05:		beq B28_0f31 ; f0 2a
 
@@ -2571,7 +2584,7 @@ B28_0f2c:		beq B28_0f87 ; f0 59
 B28_0f2e:		dey				; 88 
 B28_0f2f:		beq B28_0f8e ; f0 5d
 
-B28_0f31:		jsr $8abc		; 20 bc 8a
+B28_0f31:		jsr func_1c_0abc		; 20 bc 8a
 B28_0f34:		clc				; 18 
 B28_0f35:		rts				; 60 
 
@@ -2582,26 +2595,26 @@ B28_0f3a:		lda $054e, x	; bd 4e 05
 B28_0f3d:		cmp #$79		; c9 79
 B28_0f3f:		bcc B28_0f53 ; 90 12
 
-B28_0f41:		jsr $91c2		; 20 c2 91
-B28_0f44:		lda $0509, x	; bd 09 05
+B28_0f41:		jsr func_1c_11c2		; 20 c2 91
+B28_0f44:		lda wEntityHorizSubSpeed.w, x	; bd 09 05
 B28_0f47:		clc				; 18 
 B28_0f48:		adc #$00		; 69 00
 B28_0f4a:		tay				; a8 
-B28_0f4b:		lda $04f2, x	; bd f2 04
+B28_0f4b:		lda wEntityHorizSpeed.w, x	; bd f2 04
 B28_0f4e:		adc #$ff		; 69 ff
 B28_0f50:		jmp $8f57		; 4c 57 8f
 
 
 B28_0f53:		lda #$ff		; a9 ff
 B28_0f55:		ldy #$00		; a0 00
-B28_0f57:		sta $04f2		; 8d f2 04
+B28_0f57:		sta wEntityHorizSpeed.w		; 8d f2 04
 B28_0f5a:		tya				; 98 
-B28_0f5b:		sta $0509		; 8d 09 05
+B28_0f5b:		sta wEntityHorizSubSpeed.w		; 8d 09 05
 B28_0f5e:		jsr $9153		; 20 53 91
 B28_0f61:		bcs B28_0f6c ; b0 09
 
-B28_0f63:		lda $04f2		; ad f2 04
-B28_0f66:		ldy $0509		; ac 09 05
+B28_0f63:		lda wEntityHorizSpeed.w		; ad f2 04
+B28_0f66:		ldy wEntityHorizSubSpeed.w		; ac 09 05
 B28_0f69:		jmp $8e7a		; 4c 7a 8e
 
 
@@ -2659,9 +2672,9 @@ B28_0fbd:		sec				; 38
 B28_0fbe:		sbc $00			; e5 00
 B28_0fc0:		tay				; a8 
 B28_0fc1:		lda $fd81, y	; b9 81 fd
-B28_0fc4:		sta $0509		; 8d 09 05
+B28_0fc4:		sta wEntityHorizSubSpeed.w		; 8d 09 05
 B28_0fc7:		lda #$00		; a9 00
-B28_0fc9:		sta $04f2		; 8d f2 04
+B28_0fc9:		sta wEntityHorizSpeed.w		; 8d f2 04
 B28_0fcc:		jmp $9009		; 4c 09 90
 
 
@@ -2691,10 +2704,10 @@ B28_0ffa:		tay				; a8
 B28_0ffb:		lda #$00		; a9 00
 B28_0ffd:		sec				; 38 
 B28_0ffe:		sbc $fd81, y	; f9 81 fd
-B28_1001:		sta $0509		; 8d 09 05
+B28_1001:		sta wEntityHorizSubSpeed.w		; 8d 09 05
 B28_1004:		lda #$ff		; a9 ff
-B28_1006:		sta $04f2		; 8d f2 04
-B28_1009:		jsr $8077		; 20 77 80
+B28_1006:		sta wEntityHorizSpeed.w		; 8d f2 04
+B28_1009:		jsr func_1c_0077		; 20 77 80
 B28_100c:		jsr $9153		; 20 53 91
 B28_100f:		bcs B28_1013 ; b0 02
 
@@ -2703,8 +2716,8 @@ B28_1012:		rts				; 60
 
 
 B28_1013:		lda #$00		; a9 00
-B28_1015:		sta $04f2		; 8d f2 04
-B28_1018:		sta $0509		; 8d 09 05
+B28_1015:		sta wEntityHorizSpeed.w		; 8d f2 04
+B28_1018:		sta wEntityHorizSubSpeed.w		; 8d 09 05
 B28_101b:		sta $0520		; 8d 20 05
 B28_101e:		sta $0537		; 8d 37 05
 B28_1021:		sec				; 38 
@@ -2732,9 +2745,9 @@ B28_103f:		and #$7f		; 29 7f
 B28_1041:		sta $00			; 85 00
 B28_1043:		tay				; a8 
 B28_1044:		lda ($08), y	; b1 08
-B28_1046:		sta $0509		; 8d 09 05
+B28_1046:		sta wEntityHorizSubSpeed.w		; 8d 09 05
 B28_1049:		lda #$00		; a9 00
-B28_104b:		sta $04f2		; 8d f2 04
+B28_104b:		sta wEntityHorizSpeed.w		; 8d f2 04
 B28_104e:		lda #$40		; a9 40
 B28_1050:		sec				; 38 
 B28_1051:		sbc $00			; e5 00
@@ -2757,12 +2770,12 @@ B28_106e:		jmp $913e		; 4c 3e 91
 
 
 B28_1071:		ldx $94			; a6 94
-B28_1073:		lda $04f2, x	; bd f2 04
-B28_1076:		sta $04f2		; 8d f2 04
+B28_1073:		lda wEntityHorizSpeed.w, x	; bd f2 04
+B28_1076:		sta wEntityHorizSpeed.w		; 8d f2 04
 B28_1079:		lda $0520, x	; bd 20 05
 B28_107c:		sta $0520		; 8d 20 05
 B28_107f:		lda #$00		; a9 00
-B28_1081:		sta $0509		; 8d 09 05
+B28_1081:		sta wEntityHorizSubSpeed.w		; 8d 09 05
 B28_1084:		sta $0537		; 8d 37 05
 B28_1087:		sec				; 38 
 B28_1088:		rts				; 60 
@@ -2772,21 +2785,21 @@ B28_1089:		lda $90			; a5 90
 B28_108b:		bpl B28_103d ; 10 b0
 
 B28_108d:		ldx $94			; a6 94
-B28_108f:		lda $04f2, x	; bd f2 04
+B28_108f:		lda wEntityHorizSpeed.w, x	; bd f2 04
 B28_1092:		bpl B28_10a8 ; 10 14
 
-B28_1094:		sta $04f2		; 8d f2 04
+B28_1094:		sta wEntityHorizSpeed.w		; 8d f2 04
 B28_1097:		lda $0520, x	; bd 20 05
 B28_109a:		sta $0520		; 8d 20 05
 B28_109d:		lda #$00		; a9 00
-B28_109f:		sta $0509		; 8d 09 05
+B28_109f:		sta wEntityHorizSubSpeed.w		; 8d 09 05
 B28_10a2:		sta $0537		; 8d 37 05
 B28_10a5:		jmp $913e		; 4c 3e 91
 
 
 B28_10a8:		lda #$00		; a9 00
-B28_10aa:		sta $0509		; 8d 09 05
-B28_10ad:		sta $04f2		; 8d f2 04
+B28_10aa:		sta wEntityHorizSubSpeed.w		; 8d 09 05
+B28_10ad:		sta wEntityHorizSpeed.w		; 8d f2 04
 B28_10b0:		sta $0537		; 8d 37 05
 B28_10b3:		sta $0520		; 8d 20 05
 B28_10b6:		jmp $913e		; 4c 3e 91
@@ -2815,9 +2828,9 @@ B28_10d9:		tay				; a8
 B28_10da:		lda #$00		; a9 00
 B28_10dc:		sec				; 38 
 B28_10dd:		sbc ($08), y	; f1 08
-B28_10df:		sta $0509		; 8d 09 05
+B28_10df:		sta wEntityHorizSubSpeed.w		; 8d 09 05
 B28_10e2:		lda #$ff		; a9 ff
-B28_10e4:		sta $04f2		; 8d f2 04
+B28_10e4:		sta wEntityHorizSpeed.w		; 8d f2 04
 B28_10e7:		lda #$40		; a9 40
 B28_10e9:		sec				; 38 
 B28_10ea:		sbc $00			; e5 00
@@ -2840,12 +2853,12 @@ B28_1107:		jmp $913e		; 4c 3e 91
 
 
 B28_110a:		ldx $94			; a6 94
-B28_110c:		lda $04f2, x	; bd f2 04
-B28_110f:		sta $04f2		; 8d f2 04
+B28_110c:		lda wEntityHorizSpeed.w, x	; bd f2 04
+B28_110f:		sta wEntityHorizSpeed.w		; 8d f2 04
 B28_1112:		lda $0520, x	; bd 20 05
 B28_1115:		sta $0520		; 8d 20 05
 B28_1118:		lda #$00		; a9 00
-B28_111a:		sta $0509		; 8d 09 05
+B28_111a:		sta wEntityHorizSubSpeed.w		; 8d 09 05
 B28_111d:		sta $0537		; 8d 37 05
 B28_1120:		sec				; 38 
 B28_1121:		rts				; 60 
@@ -2855,28 +2868,28 @@ B28_1122:		lda $90			; a5 90
 B28_1124:		bmi B28_10d3 ; 30 ad
 
 B28_1126:		ldx $94			; a6 94
-B28_1128:		lda $04f2, x	; bd f2 04
+B28_1128:		lda wEntityHorizSpeed.w, x	; bd f2 04
 B28_112b:		bmi B28_1143 ; 30 16
 
-B28_112d:		sta $04f2		; 8d f2 04
+B28_112d:		sta wEntityHorizSpeed.w		; 8d f2 04
 B28_1130:		lda $0520, x	; bd 20 05
 B28_1133:		sta $0520		; 8d 20 05
 B28_1136:		lda #$00		; a9 00
-B28_1138:		sta $0509		; 8d 09 05
+B28_1138:		sta wEntityHorizSubSpeed.w		; 8d 09 05
 B28_113b:		sta $0537		; 8d 37 05
-B28_113e:		jsr $8001		; 20 01 80
+B28_113e:		jsr func_1c_0001		; 20 01 80
 B28_1141:		sec				; 38 
 B28_1142:		rts				; 60 
 
 
 B28_1143:		lda #$00		; a9 00
-B28_1145:		sta $0509		; 8d 09 05
-B28_1148:		sta $04f2		; 8d f2 04
+B28_1145:		sta wEntityHorizSubSpeed.w		; 8d 09 05
+B28_1148:		sta wEntityHorizSpeed.w		; 8d f2 04
 B28_114b:		sta $0537		; 8d 37 05
 B28_114e:		sta $0520		; 8d 20 05
 B28_1151:		beq B28_113e ; f0 eb
 
-B28_1153:		lda $04f2		; ad f2 04
+B28_1153:		lda wEntityHorizSpeed.w		; ad f2 04
 B28_1156:		bmi B28_115c ; 30 04
 
 B28_1158:		lda #$08		; a9 08
@@ -2921,11 +2934,13 @@ B28_1189:		beq B28_119a ; f0 0f
 B28_118b:	.db $0f
 B28_118c:	.db $0b
 B28_118d:	.db $0f
+
+
+func_1c_118e:
 B28_118e:		lda $8b			; a5 8b
 B28_1190:		bne B28_1193 ; d0 01
 
 B28_1192:		rts				; 60 
-
 
 B28_1193:		cmp #$01		; c9 01
 B28_1195:		beq B28_11f9 ; f0 62
@@ -2936,44 +2951,39 @@ B28_119a:		bcc B28_1192 ; 90 f6
 
 B28_119c:		bne B28_11a1 ; d0 03
 
-B28_119e:		jmp $9314		; 4c 14 93
-
+B28_119e:		jmp func_1c_1314		; 4c 14 93
 
 B28_11a1:		tay				; a8 
 B28_11a2:		dey				; 88 
 B28_11a3:		bne B28_11a8 ; d0 03
 
-B28_11a5:		jmp $9340		; 4c 40 93
-
+B28_11a5:		jmp func_1c_1340		; 4c 40 93
 
 B28_11a8:		dey				; 88 
 B28_11a9:		dey				; 88 
 B28_11aa:		bne B28_11af ; d0 03
 
-B28_11ac:		jmp $9242		; 4c 42 92
-
+B28_11ac:		jmp func_1c_1242		; 4c 42 92
 
 B28_11af:		dey				; 88 
 B28_11b0:		bne B28_11b5 ; d0 03
 
-B28_11b2:		jmp $9288		; 4c 88 92
-
+B28_11b2:		jmp func_1c_1288		; 4c 88 92
 
 B28_11b5:		dey				; 88 
 B28_11b6:		bne B28_11bb ; d0 03
 
-B28_11b8:		jmp $92bb		; 4c bb 92
-
+B28_11b8:		jmp func_1c_12bb		; 4c bb 92
 
 B28_11bb:		dey				; 88 
 B28_11bc:		bne B28_11c1 ; d0 03
 
-B28_11be:		jmp $92ee		; 4c ee 92
-
+B28_11be:		jmp func_1c_12ee		; 4c ee 92
 
 B28_11c1:		rts				; 60 
 
 
+func_1c_11c2:
 B28_11c2:		cmp #$6e		; c9 6e
 B28_11c4:		beq B28_11f2 ; f0 2c
 
@@ -3018,12 +3028,12 @@ B28_11fd:		lda $054e, x	; bd 4e 05
 B28_1200:		cmp #$79		; c9 79
 B28_1202:		bcc B28_1237 ; 90 33
 
-B28_1204:		jsr $91c2		; 20 c2 91
+B28_1204:		jsr func_1c_11c2		; 20 c2 91
 B28_1207:		lda $82			; a5 82
 B28_1209:		cmp #$04		; c9 04
 B28_120b:		bcs B28_1226 ; b0 19
 
-B28_120d:		lda $04f2, x	; bd f2 04
+B28_120d:		lda wEntityHorizSpeed.w, x	; bd f2 04
 B28_1210:		bpl B28_121d ; 10 0b
 
 B28_1212:		lda #$f8		; a9 f8
@@ -3039,20 +3049,21 @@ B28_1221:		jsr func_1f_1cdd		; 20 dd fc
 B28_1224:		bne B28_1237 ; d0 11
 
 B28_1226:		ldx $91			; a6 91
-B28_1228:		lda $0509, x	; bd 09 05
-B28_122b:		sta $0509		; 8d 09 05
-B28_122e:		lda $04f2, x	; bd f2 04
-B28_1231:		sta $04f2		; 8d f2 04
-B28_1234:		jmp $873a		; 4c 3a 87
+B28_1228:		lda wEntityHorizSubSpeed.w, x	; bd 09 05
+B28_122b:		sta wEntityHorizSubSpeed.w		; 8d 09 05
+B28_122e:		lda wEntityHorizSpeed.w, x	; bd f2 04
+B28_1231:		sta wEntityHorizSpeed.w		; 8d f2 04
+B28_1234:		jmp func_1c_073a		; 4c 3a 87
 
 
 B28_1237:		lda #$00		; a9 00
-B28_1239:		sta $0509		; 8d 09 05
-B28_123c:		sta $04f2		; 8d f2 04
-B28_123f:		jmp $873a		; 4c 3a 87
+B28_1239:		sta wEntityHorizSubSpeed.w		; 8d 09 05
+B28_123c:		sta wEntityHorizSpeed.w		; 8d f2 04
+B28_123f:		jmp func_1c_073a		; 4c 3a 87
 
 
-B28_1242:		lda $2a			; a5 2a
+func_1c_1242:
+B28_1242:		lda wInGameSubstate			; a5 2a
 B28_1244:		cmp #$1b		; c9 1b
 B28_1246:		beq B28_125a ; f0 12
 
@@ -3074,26 +3085,27 @@ B28_125d:		and #$0c		; 29 0c
 B28_125f:		bne B28_126e ; d0 0d
 
 B28_1261:		lda #$ff		; a9 ff
-B28_1263:		sta $04f2		; 8d f2 04
+B28_1263:		sta wEntityHorizSpeed.w		; 8d f2 04
 B28_1266:		lda #$40		; a9 40
-B28_1268:		sta $0509		; 8d 09 05
-B28_126b:		jmp $873a		; 4c 3a 87
+B28_1268:		sta wEntityHorizSubSpeed.w		; 8d 09 05
+B28_126b:		jmp func_1c_073a		; 4c 3a 87
 
 
 B28_126e:		lda #$ff		; a9 ff
-B28_1270:		sta $04f2		; 8d f2 04
+B28_1270:		sta wEntityHorizSpeed.w		; 8d f2 04
 B28_1273:		lda #$a0		; a9 a0
-B28_1275:		sta $0509		; 8d 09 05
-B28_1278:		jmp $873a		; 4c 3a 87
+B28_1275:		sta wEntityHorizSubSpeed.w		; 8d 09 05
+B28_1278:		jmp func_1c_073a		; 4c 3a 87
 
 
 B28_127b:		lda #$00		; a9 00
-B28_127d:		sta $04f2		; 8d f2 04
+B28_127d:		sta wEntityHorizSpeed.w		; 8d f2 04
 B28_1280:		lda #$60		; a9 60
-B28_1282:		sta $0509		; 8d 09 05
-B28_1285:		jmp $873a		; 4c 3a 87
+B28_1282:		sta wEntityHorizSubSpeed.w		; 8d 09 05
+B28_1285:		jmp func_1c_073a		; 4c 3a 87
 
 
+func_1c_1288:
 B28_1288:		ldx #$01		; a2 01
 B28_128a:		lda #$08		; a9 08
 B28_128c:		jsr func_1f_1cdd		; 20 dd fc
@@ -3112,19 +3124,20 @@ B28_129d:		and #$0c		; 29 0c
 B28_129f:		bne B28_127b ; d0 da
 
 B28_12a1:		lda #$00		; a9 00
-B28_12a3:		sta $04f2		; 8d f2 04
+B28_12a3:		sta wEntityHorizSpeed.w		; 8d f2 04
 B28_12a6:		lda #$c0		; a9 c0
-B28_12a8:		sta $0509		; 8d 09 05
-B28_12ab:		jmp $873a		; 4c 3a 87
+B28_12a8:		sta wEntityHorizSubSpeed.w		; 8d 09 05
+B28_12ab:		jmp func_1c_073a		; 4c 3a 87
 
 
 B28_12ae:		lda #$ff		; a9 ff
-B28_12b0:		sta $04f2		; 8d f2 04
+B28_12b0:		sta wEntityHorizSpeed.w		; 8d f2 04
 B28_12b3:		lda #$c0		; a9 c0
-B28_12b5:		sta $0509		; 8d 09 05
-B28_12b8:		jmp $873a		; 4c 3a 87
+B28_12b5:		sta wEntityHorizSubSpeed.w		; 8d 09 05
+B28_12b8:		jmp func_1c_073a		; 4c 3a 87
 
 
+func_1c_12bb:
 B28_12bb:		ldx #$01		; a2 01
 B28_12bd:		lda #$f8		; a9 f8
 B28_12bf:		jsr func_1f_1cdd		; 20 dd fc
@@ -3143,19 +3156,20 @@ B28_12d0:		and #$0c		; 29 0c
 B28_12d2:		bne B28_12ae ; d0 da
 
 B28_12d4:		lda #$ff		; a9 ff
-B28_12d6:		sta $04f2		; 8d f2 04
+B28_12d6:		sta wEntityHorizSpeed.w		; 8d f2 04
 B28_12d9:		lda #$80		; a9 80
-B28_12db:		sta $0509		; 8d 09 05
-B28_12de:		jmp $873a		; 4c 3a 87
+B28_12db:		sta wEntityHorizSubSpeed.w		; 8d 09 05
+B28_12de:		jmp func_1c_073a		; 4c 3a 87
 
 
 B28_12e1:		lda #$00		; a9 00
-B28_12e3:		sta $04f2		; 8d f2 04
+B28_12e3:		sta wEntityHorizSpeed.w		; 8d f2 04
 B28_12e6:		lda #$40		; a9 40
-B28_12e8:		sta $0509		; 8d 09 05
-B28_12eb:		jmp $873a		; 4c 3a 87
+B28_12e8:		sta wEntityHorizSubSpeed.w		; 8d 09 05
+B28_12eb:		jmp func_1c_073a		; 4c 3a 87
 
 
+func_1c_12ee:
 B28_12ee:		ldx #$01		; a2 01
 B28_12f0:		lda #$08		; a9 08
 B28_12f2:		jsr func_1f_1cdd		; 20 dd fc
@@ -3174,32 +3188,33 @@ B28_1303:		and #$0c		; 29 0c
 B28_1305:		bne B28_12e1 ; d0 da
 
 B28_1307:		lda #$00		; a9 00
-B28_1309:		sta $04f2		; 8d f2 04
+B28_1309:		sta wEntityHorizSpeed.w		; 8d f2 04
 B28_130c:		lda #$80		; a9 80
-B28_130e:		sta $0509		; 8d 09 05
-B28_1311:		jmp $873a		; 4c 3a 87
+B28_130e:		sta wEntityHorizSubSpeed.w		; 8d 09 05
+B28_1311:		jmp func_1c_073a		; 4c 3a 87
 
 
+func_1c_1314:
 B28_1314:		lda #$00		; a9 00
-B28_1316:		sta $0509		; 8d 09 05
-B28_1319:		sta $04f2		; 8d f2 04
+B28_1316:		sta wEntityHorizSubSpeed.w		; 8d 09 05
+B28_1319:		sta wEntityHorizSpeed.w		; 8d f2 04
 B28_131c:		sta $0537		; 8d 37 05
 B28_131f:		sta $0520		; 8d 20 05
-B28_1322:		jsr $8077		; 20 77 80
+B28_1322:		jsr func_1c_0077		; 20 77 80
 B28_1325:		jsr $9153		; 20 53 91
 B28_1328:		bcs B28_1330 ; b0 06
 
-B28_132a:		jsr $873a		; 20 3a 87
-B28_132d:		jmp $8712		; 4c 12 87
-
+B28_132a:		jsr func_1c_073a		; 20 3a 87
+B28_132d:		jmp func_1c_0712		; 4c 12 87
 
 B28_1330:		lda #$00		; a9 00
-B28_1332:		sta $0509		; 8d 09 05
-B28_1335:		sta $04f2		; 8d f2 04
+B28_1332:		sta wEntityHorizSubSpeed.w		; 8d 09 05
+B28_1335:		sta wEntityHorizSpeed.w		; 8d f2 04
 B28_1338:		sta $0537		; 8d 37 05
 B28_133b:		sta $0520		; 8d 20 05
 B28_133e:		beq B28_132a ; f0 ea
 
+func_1c_1340:
 B28_1340:		ldx $d4			; a6 d4
 B28_1342:		stx $d2			; 86 d2
 B28_1344:		ldy $93			; a4 93
@@ -3210,59 +3225,56 @@ B28_1349:		dey				; 88
 B28_134a:		beq B28_1363 ; f0 17
 
 B28_134c:		lda #$00		; a9 00
-B28_134e:		sta $0509		; 8d 09 05
-B28_1351:		sta $04f2		; 8d f2 04
+B28_134e:		sta wEntityHorizSubSpeed.w		; 8d 09 05
+B28_1351:		sta wEntityHorizSpeed.w		; 8d f2 04
 B28_1354:		sta $0537		; 8d 37 05
 B28_1357:		sta $0520		; 8d 20 05
-B28_135a:		jsr $8001		; 20 01 80
-B28_135d:		jsr $873a		; 20 3a 87
-B28_1360:		jmp $8712		; 4c 12 87
-
+B28_135a:		jsr func_1c_0001		; 20 01 80
+B28_135d:		jsr func_1c_073a		; 20 3a 87
+B28_1360:		jmp func_1c_0712		; 4c 12 87
 
 B28_1363:		ldx $94			; a6 94
-B28_1365:		lda $04f2, x	; bd f2 04
-B28_1368:		sta $04f2		; 8d f2 04
+B28_1365:		lda wEntityHorizSpeed.w, x	; bd f2 04
+B28_1368:		sta wEntityHorizSpeed.w		; 8d f2 04
 B28_136b:		lda $0520, x	; bd 20 05
 B28_136e:		sta $0520		; 8d 20 05
 B28_1371:		lda #$00		; a9 00
-B28_1373:		sta $0509		; 8d 09 05
+B28_1373:		sta wEntityHorizSubSpeed.w		; 8d 09 05
 B28_1376:		sta $0537		; 8d 37 05
 B28_1379:		beq B28_135d ; f0 e2
 
-func_1c_137b:
-B28_137b:		ldy $0565		; ac 65 05
-B28_137e:		jsr jumpTableNoPreserveY		; 20 86 e8
-	.dw $8ac5
-	.dw $9538
-	.dw $9660
-	.dw $961d
-.ifdef IMPROVED_CONTROLS_TEST
-	.dw func1
-.else
-	.dw $9770
-.endif
-	.dw $9919
-	.dw $9770
-	.dw $9953
-	.dw $9967
-	.dw $998e
-	.dw $9a93
-	.dw $9942
-	.dw $9418
-	.dw $943a
-	.dw $9465
-	.dw $949e
-	.dw $94b8
-	.dw $94d4
-	.dw $94ff
-	.dw $831c
-	.dw $93b1
-	.dw $93b1
-	.dw $8b57
-	.dw $8ade
+processTrevorState:
+	ldy wPlayerStateDoubled.w
+	jsr jumpTableNoPreserveY
 
+	.dw playerState00_init
+	.dw playerState02_standIdle
+	.dw playerState04_exceptGrant
+	.dw playerState06_exceptGrant
+	.dw playerState08_exceptGrant
+	.dw playerState0a_exceptGrant
+	.dw playerState0c_exceptGrant
+	.dw playerState0e
+	.dw playerState10
+	.dw playerState12
+	.dw playerState14
+	.dw playerState16
+	.dw playerState18_trevor_sypha
+	.dw playerState1a_trevor_sypha
+	.dw playerState1c_trevor_sypha
+	.dw playerState1e_exceptAlucard
+	.dw playerState20
+	.dw playerState22_exceptGrant
+	.dw playerState24
+	.dw playerState26
+	.dw playerState28_2a
+	.dw playerState28_2a
+	.dw playerState2c
+	.dw playerState2e
+
+playerState28_2a:
 B28_13b1:		lda #$02
-B28_13b3:		sta $0400		; 8d 00 04
+B28_13b3:		sta wOamSpecIdx.w		; 8d 00 04
 B28_13b6:		dec $05d4		; ce d4 05
 B28_13b9:		beq B28_13db ; f0 20
 
@@ -3271,7 +3283,7 @@ B28_13bd:		sta wEntityPaletteOverride.w		; 8d 54 04
 B28_13c0:		lda $05eb		; ad eb 05
 B28_13c3:		bne B28_13e6 ; d0 21
 
-B28_13c5:		jsr $8421		; 20 21 84
+B28_13c5:		jsr func_1c_0421		; 20 21 84
 B28_13c8:		bcc B28_13cb ; 90 01
 
 B28_13ca:		rts				; 60 
@@ -3289,7 +3301,7 @@ B28_13da:		rts				; 60
 B28_13db:		lda #$00		; a9 00
 B28_13dd:		sta wEntityPaletteOverride.w		; 8d 54 04
 B28_13e0:		lda #$02		; a9 02
-B28_13e2:		sta $0565		; 8d 65 05
+B28_13e2:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_13e5:		rts				; 60 
 
 
@@ -3316,7 +3328,8 @@ B28_1406:		sta $05eb		; 8d eb 05
 B28_1409:		rts				; 60 
 
 
-B28_140a:		sta $0565		; 8d 65 05
+func_1c_140a:
+B28_140a:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_140d:		lda #$72		; a9 72
 B28_140f:		jsr playSound		; 20 5f e2
 B28_1412:		lda #$00		; a9 00
@@ -3324,15 +3337,16 @@ B28_1414:		sta $0578		; 8d 78 05
 B28_1417:		rts				; 60 
 
 
-B28_1418:		jsr $8421		; 20 21 84
+playerState18_trevor_sypha:
+B28_1418:		jsr func_1c_0421		; 20 21 84
 B28_141b:		bcs B28_1425 ; b0 08
 
 B28_141d:		lda #$00		; a9 00
 B28_141f:		sta $0413		; 8d 13 04
-B28_1422:		jmp $973a		; 4c 3a 97
+B28_1422:		jmp func_1c_173a		; 4c 3a 97
 
 
-B28_1425:		jsr $918e		; 20 8e 91
+B28_1425:		jsr func_1c_118e		; 20 8e 91
 B28_1428:		jsr $bc89		; 20 89 bc
 B28_142b:		bcs B28_142e ; b0 01
 
@@ -3340,19 +3354,20 @@ B28_142d:		rts				; 60
 
 
 B28_142e:		lda #$02		; a9 02
-B28_1430:		sta $0565		; 8d 65 05
+B28_1430:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_1433:		lda #$02		; a9 02
-B28_1435:		sta $0400		; 8d 00 04
+B28_1435:		sta wOamSpecIdx.w		; 8d 00 04
 B28_1438:		sec				; 38 
 B28_1439:		rts				; 60 
 
 
+playerState1a_trevor_sypha:
 .ifdef IMPROVED_CONTROLS_TEST
-	jsr func3
+	jsr playerState1a_11_body
 .else
 B28_143a:		jsr $979c		; 20 9c 97
 .endif
-B28_143d:		lda $0565		; ad 65 05
+B28_143d:		lda wPlayerStateDoubled.w		; ad 65 05
 B28_1440:		cmp #$26		; c9 26
 B28_1442:		beq B28_1459 ; f0 15
 
@@ -3362,7 +3377,7 @@ B28_1446:		bne B28_1454 ; d0 0c
 B28_1448:		lda #$00		; a9 00
 B28_144a:		sta $b9			; 85 b9
 B28_144c:		lda #$18		; a9 18
-B28_144e:		sta $0565		; 8d 65 05
+B28_144e:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_1451:		jmp $9428		; 4c 28 94
 
 
@@ -3373,32 +3388,33 @@ B28_1459:		rts				; 60
 
 
 B28_145a:		lda #$08		; a9 08
-B28_145c:		sta $0565		; 8d 65 05
+B28_145c:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_145f:		lda #$02		; a9 02
-B28_1461:		sta $0400		; 8d 00 04
+B28_1461:		sta wOamSpecIdx.w		; 8d 00 04
 B28_1464:		rts				; 60 
 
 
-B28_1465:		jsr $8421		; 20 21 84
+playerState1c_trevor_sypha:
+B28_1465:		jsr func_1c_0421		; 20 21 84
 B28_1468:		bcs B28_146d ; b0 03
 
 B28_146a:		jmp $941d		; 4c 1d 94
 
 
-B28_146d:		jsr $918e		; 20 8e 91
+B28_146d:		jsr func_1c_118e		; 20 8e 91
 B28_1470:		jsr $9936		; 20 36 99
-B28_1473:		lda $0565		; ad 65 05
+B28_1473:		lda wPlayerStateDoubled.w		; ad 65 05
 B28_1476:		cmp #$02		; c9 02
 B28_1478:		bne B28_148d ; d0 13
 
 B28_147a:		lda #$18		; a9 18
-B28_147c:		sta $0565		; 8d 65 05
+B28_147c:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_147f:		jsr $9428		; 20 28 94
-B28_1482:		lda $0565		; ad 65 05
+B28_1482:		lda wPlayerStateDoubled.w		; ad 65 05
 B28_1485:		cmp #$18		; c9 18
 B28_1487:		bne B28_148c ; d0 03
 
-B28_1489:		jsr $becb		; 20 cb be
+B28_1489:		jsr func_1d_1ecb		; 20 cb be
 B28_148c:		rts				; 60 
 
 
@@ -3409,12 +3425,13 @@ B28_1492:		rts				; 60
 
 
 B28_1493:		lda #$0a		; a9 0a
-B28_1495:		sta $0565		; 8d 65 05
+B28_1495:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_1498:		lda #$0e		; a9 0e
-B28_149a:		sta $0400		; 8d 00 04
+B28_149a:		sta wOamSpecIdx.w		; 8d 00 04
 B28_149d:		rts				; 60 
 
 
+playerState1e_exceptAlucard:
 B28_149e:		jsr $bc89		; 20 89 bc
 B28_14a1:		bcs B28_14a4 ; b0 01
 
@@ -3422,44 +3439,45 @@ B28_14a3:		rts				; 60
 
 
 B28_14a4:		lda #$12		; a9 12
-B28_14a6:		sta $0565		; 8d 65 05
+B28_14a6:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_14a9:		rts				; 60 
 
 
-B28_14aa:		sta $0565		; 8d 65 05
-B28_14ad:		lda #$00		; a9 00
-B28_14af:		sta wEntityAnimationIdxes.w		; 8d 93 05
-B28_14b2:		lda #$01		; a9 01
-B28_14b4:		sta wEntityTimeUntilNextAnimation.w		; 8d 7c 05
-B28_14b7:		rts				; 60 
+setPlayerState_resetAnimation:
+	sta wPlayerStateDoubled.w
+	lda #$00
+	sta wEntityAnimationIdxes.w
+	lda #$01
+	sta wEntityTimeUntilNextAnimation.w
+	rts
 
 
-B28_14b8:		jsr $8421		; 20 21 84
+playerState20:
+B28_14b8:		jsr func_1c_0421		; 20 21 84
 B28_14bb:		bcs B28_14c0 ; b0 03
 
-B28_14bd:		jmp $973a		; 4c 3a 97
+B28_14bd:		jmp func_1c_173a		; 4c 3a 97
 
-
-B28_14c0:		jsr $918e		; 20 8e 91
-B28_14c3:		jsr $baf2		; 20 f2 ba
+B28_14c0:		jsr func_1c_118e		; 20 8e 91
+B28_14c3:		jsr func_1d_1af2		; 20 f2 ba
 B28_14c6:		bcs B28_14c9 ; b0 01
 
 B28_14c8:		rts				; 60 
 
-
-B28_14c9:		lda #$02		; a9 02
-B28_14cb:		sta $0565		; 8d 65 05
+B28_14c9:		lda #PS_IDLE		; a9 02
+B28_14cb:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_14ce:		lda #$02		; a9 02
-B28_14d0:		sta $0400		; 8d 00 04
+B28_14d0:		sta wOamSpecIdx.w		; 8d 00 04
 B28_14d3:		rts				; 60 
 
 
+playerState22_exceptGrant:
 .ifdef IMPROVED_CONTROLS_TEST
-	jsr func3
+	jsr playerState1a_11_body
 .else
 B28_14d4:		jsr $979c		; 20 9c 97
 .endif
-B28_14d7:		lda $0565		; ad 65 05
+B28_14d7:		lda wPlayerStateDoubled.w		; ad 65 05
 B28_14da:		cmp #$26		; c9 26
 B28_14dc:		beq B28_14f3 ; f0 15
 
@@ -3469,41 +3487,43 @@ B28_14e0:		bne B28_14ee ; d0 0c
 B28_14e2:		lda #$00		; a9 00
 B28_14e4:		sta $b9			; 85 b9
 B28_14e6:		lda #$20		; a9 20
-B28_14e8:		sta $0565		; 8d 65 05
+B28_14e8:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_14eb:		jmp $94c3		; 4c c3 94
 
 
-B28_14ee:		jsr $baf2		; 20 f2 ba
+B28_14ee:		jsr func_1d_1af2		; 20 f2 ba
 B28_14f1:		bcs B28_14f4 ; b0 01
 
 B28_14f3:		rts				; 60 
 
 
 B28_14f4:		lda #$08		; a9 08
-B28_14f6:		sta $0565		; 8d 65 05
+B28_14f6:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_14f9:		lda #$02		; a9 02
-B28_14fb:		sta $0400		; 8d 00 04
+B28_14fb:		sta wOamSpecIdx.w		; 8d 00 04
 B28_14fe:		rts				; 60 
 
 
-B28_14ff:		jsr $baf2		; 20 f2 ba
+playerState24:
+B28_14ff:		jsr func_1d_1af2		; 20 f2 ba
 B28_1502:		bcs B28_1505 ; b0 01
 
 B28_1504:		rts				; 60 
 
 
 B28_1505:		lda #$12		; a9 12
-B28_1507:		sta $0565		; 8d 65 05
+B28_1507:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_150a:		rts				; 60 
 
 
-B28_150b:		lda $054e		; ad 4e 05
-B28_150e:		cmp #$02		; c9 02
+func_1c_150b_clcIfCanJump:
+B28_150b:		lda wCurrPlayer.w		; ad 4e 05
+B28_150e:		cmp #PLAYER_GRANT		; c9 02
 B28_1510:		beq B28_1534 ; f0 22
 
 B28_1512:		ldx #$e8		; a2 e8
 B28_1514:		lda #$fb		; a9 fb
-B28_1516:		jsr $840b		; 20 0b 84
+B28_1516:		jsr func_1c_040b		; 20 0b 84
 B28_1519:		beq B28_1523 ; f0 08
 
 B28_151b:		cmp #$05		; c9 05
@@ -3514,7 +3534,7 @@ B28_1521:		bne B28_1536 ; d0 13
 
 B28_1523:		ldx #$e8		; a2 e8
 B28_1525:		lda #$05		; a9 05
-B28_1527:		jsr $840b		; 20 0b 84
+B28_1527:		jsr func_1c_040b		; 20 0b 84
 B28_152a:		beq B28_1534 ; f0 08
 
 B28_152c:		cmp #$05		; c9 05
@@ -3526,16 +3546,15 @@ B28_1532:		bne B28_1536 ; d0 02
 B28_1534:		clc				; 18 
 B28_1535:		rts				; 60 
 
-
 B28_1536:		sec				; 38 
 B28_1537:		rts				; 60 
 
 
-B28_1538:		jsr $8421		; 20 21 84
+playerState02_standIdle:
+B28_1538:		jsr func_1c_0421		; 20 21 84
 B28_153b:		bcs B28_1540 ; b0 03
 
-B28_153d:		jmp $973a		; 4c 3a 97
-
+B28_153d:		jmp func_1c_173a		; 4c 3a 97
 
 B28_1540:		lda $b9			; a5 b9
 B28_1542:		beq B28_154d ; f0 09
@@ -3544,9 +3563,14 @@ B28_1544:		dec $b9			; c6 b9
 B28_1546:		bne B28_1537 ; d0 ef
 
 B28_1548:		lda #$02		; a9 02
-B28_154a:		sta $0400		; 8d 00 04
+B28_154a:		sta wOamSpecIdx.w		; 8d 00 04
+
+.ifdef WEAPON_SWAPPING
+B28_154d:	jsr shuffleSubweapon
+.else
 B28_154d:		lda wJoy1NewButtonsPressed			; a5 26
 B28_154f:		asl a			; 0a
+.endif
 B28_1550:		bcs B28_1594 ; b0 42
 
 B28_1552:		asl a			; 0a
@@ -3556,14 +3580,14 @@ B28_1555:		lda wJoy1ButtonsPressed			; a5 28
 B28_1557:		lsr a			; 4a
 B28_1558:		bcc B28_155d ; 90 03
 
-B28_155a:		jmp $9602		; 4c 02 96
-
+; right held
+B28_155a:		jmp B28_1602		; @rightHeld
 
 B28_155d:		lsr a			; 4a
 B28_155e:		bcc B28_1563 ; 90 03
 
-B28_1560:		jmp $9606		; 4c 06 96
-
+; left held
+B28_1560:		jmp B28_1606		; @leftHeld
 
 B28_1563:		lsr a			; 4a
 B28_1564:		bcs B28_15aa ; b0 44
@@ -3571,51 +3595,53 @@ B28_1564:		bcs B28_15aa ; b0 44
 B28_1566:		lsr a			; 4a
 B28_1567:		bcs B28_15b8 ; b0 4f
 
+; nothing
 B28_1569:		lda #$02		; a9 02
-B28_156b:		sta $0400		; 8d 00 04
-B28_156e:		jmp $918e		; 4c 8e 91
+B28_156b:		sta wOamSpecIdx.w		; 8d 00 04
+B28_156e:		jmp func_1c_118e		; 4c 8e 91
 
-
+; b pressed
 B28_1571:		lda wJoy1ButtonsPressed			; a5 28
-B28_1573:		and #$08		; 29 08
+B28_1573:		and #PADF_UP		; 29 08
 B28_1575:		bne B28_158a ; d0 13
 
-B28_1577:		lda $054e		; ad 4e 05
+B28_1577:		lda wCurrPlayer.w		; ad 4e 05
 B28_157a:		cmp #$03		; c9 03
 B28_157c:		beq B28_1583 ; f0 05
 
 B28_157e:		lda #$18		; a9 18
-B28_1580:		jmp $940a		; 4c 0a 94
-
+B28_1580:		jmp func_1c_140a		; 4c 0a 94
 
 B28_1583:		jsr $ba69		; 20 69 ba
 B28_1586:		bcs B28_158f ; b0 07
 
 B28_1588:		bcc B28_1555 ; 90 cb
 
-B28_158a:		jsr $b9f5		; 20 f5 b9
+; b+up pressed
+B28_158a:		jsr func_1d_19f5		; 20 f5 b9
 B28_158d:		bcc B28_1577 ; 90 e8
 
 B28_158f:		lda #$20		; a9 20
-B28_1591:		jmp $94aa		; 4c aa 94
+B28_1591:		jmp setPlayerState_resetAnimation		; 4c aa 94
 
-
-B28_1594:		jsr $950b		; 20 0b 95
+func_1c_1594:
+; a pressed
+B28_1594:		jsr func_1c_150b_clcIfCanJump		; 20 0b 95
 B28_1597:		bcs B28_159e ; b0 05
 
-B28_1599:		lda #$06		; a9 06
-B28_159b:		sta $0565		; 8d 65 05
+B28_1599:		lda #PS_JUMP_START		; a9 06
+B28_159b:		sta wPlayerStateDoubled.w		; 8d 65 05
+
 B28_159e:		rts				; 60 
 
-
-B28_159f:		lda #$0a		; a9 0a
-B28_15a1:		sta $0565		; 8d 65 05
+B28_159f:		lda #PS_DUCKING		; a9 0a
+B28_15a1:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_15a4:		lda #$0e		; a9 0e
-B28_15a6:		sta $0400		; 8d 00 04
+B28_15a6:		sta wOamSpecIdx.w		; 8d 00 04
 B28_15a9:		rts				; 60 
 
-
-B28_15aa:		jsr $e6d4		; 20 d4 e6
+; down held
+B28_15aa:		jsr func_1f_06d4_clcIfCanDuck		; 20 d4 e6
 B28_15ad:		bcc B28_159f ; 90 f0
 
 B28_15af:		lda #$00		; a9 00
@@ -3623,12 +3649,14 @@ B28_15b1:		sta wEntityPhase.w		; 8d c1 05
 B28_15b4:		ldx #$01		; a2 01
 B28_15b6:		bne B28_15c4 ; d0 0c
 
-B28_15b8:		jsr $e6df		; 20 df e6
+; up held
+B28_15b8:		jsr func_1f_06df		; 20 df e6
 B28_15bb:		bcc B28_1569 ; 90 ac
 
 B28_15bd:		lda #$01		; a9 01
 B28_15bf:		sta wEntityPhase.w		; 8d c1 05
 B28_15c2:		ldx #$00		; a2 00
+
 B28_15c4:		ldy #$00		; a0 00
 B28_15c6:		lda $0a			; a5 0a
 B28_15c8:		asl a			; 0a
@@ -3639,7 +3667,7 @@ B28_15cc:		eor #$01		; 49 01
 B28_15ce:		tax				; aa 
 B28_15cf:		iny				; c8 
 B28_15d0:		sty wEntityAI_idx.w		; 8c ef 05
-B28_15d3:		stx $04a8		; 8e a8 04
+B28_15d3:		stx wEntityXFlipped.w		; 8e a8 04
 B28_15d6:		lda $0b			; a5 0b
 B28_15d8:		sta $061d		; 8d 1d 06
 B28_15db:		ldy #$00		; a0 00
@@ -3657,39 +3685,46 @@ B28_15ec:		beq B28_15f2 ; f0 04
 
 B28_15ee:		lda #$01		; a9 01
 B28_15f0:		ldy #$00		; a0 00
-B28_15f2:		sty $0509		; 8c 09 05
-B28_15f5:		sta $04f2		; 8d f2 04
-B28_15f8:		lda #$0e		; a9 0e
-B28_15fa:		sta $0565		; 8d 65 05
+B28_15f2:		sty wEntityHorizSubSpeed.w		; 8c 09 05
+B28_15f5:		sta wEntityHorizSpeed.w		; 8d f2 04
+B28_15f8:		lda #PS_WALK_TO_STAIR		; a9 0e
+B28_15fa:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_15fd:		lda #$00		; a9 00
-B28_15ff:		jmp $ef4a		; 4c 4a ef
+B28_15ff:		jmp func_1f_0f4a		; 4c 4a ef
 
-
+@rightHeld:
 B28_1602:		lda #$00		; a9 00
 B28_1604:		beq B28_1608 ; f0 02
 
+@leftHeld:
 B28_1606:		lda #$01		; a9 01
-B28_1608:		sta $04a8		; 8d a8 04
+
+B28_1608:		sta wEntityXFlipped.w		; 8d a8 04
+
 B28_160b:		lda #$00		; a9 00
-B28_160d:		sta $04f2		; 8d f2 04
-B28_1610:		sta $0509		; 8d 09 05
-B28_1613:		lda #$04		; a9 04
-B28_1615:		sta $0565		; 8d 65 05
+B28_160d:		sta wEntityHorizSpeed.w		; 8d f2 04
+B28_1610:		sta wEntityHorizSubSpeed.w		; 8d 09 05
+
+B28_1613:		lda #PS_WALKING		; a9 04
+B28_1615:		sta wPlayerStateDoubled.w		; 8d 65 05
+
 B28_1618:		lda #$00		; a9 00
-B28_161a:		jmp $ef4a		; 4c 4a ef
+B28_161a:		jmp func_1f_0f4a		; 4c 4a ef
 
 
-B28_161d:		lda #$08		; a9 08
-B28_161f:		sta $0565		; 8d 65 05
+playerState06_exceptGrant:
+B28_161d:		lda #PS_JUMPING		; a9 08
+B28_161f:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_1622:		lda wJoy1ButtonsPressed			; a5 28
 B28_1624:		sta $10			; 85 10
 B28_1626:		ldx #$00		; a2 00
 B28_1628:		lda #$16		; a9 16
-B28_162a:		sta $0400, x	; 9d 00 04
+B28_162a:		sta wOamSpecIdx.w, x	; 9d 00 04
 B28_162d:		lda #$00		; a9 00
 B28_162f:		sta wEntityPhase.w, x	; 9d c1 05
 B28_1632:		lda #$09		; a9 09
 B28_1634:		sta $05d8, x	; 9d d8 05
+
 B28_1637:		lda $10			; a5 10
 B28_1639:		lsr a			; 4a
 B28_163a:		bcs B28_1644 ; b0 08
@@ -3697,38 +3732,42 @@ B28_163a:		bcs B28_1644 ; b0 08
 B28_163c:		lsr a			; 4a
 B28_163d:		bcs B28_164f ; b0 10
 
+; no directions pressed
 B28_163f:		lda #$00		; a9 00
 B28_1641:		tay				; a8 
 B28_1642:		beq B28_1658 ; f0 14
 
+; right pressed
 B28_1644:		lda #$00		; a9 00
-B28_1646:		sta $04a8, x	; 9d a8 04
+B28_1646:		sta wEntityXFlipped.w, x	; 9d a8 04
 B28_1649:		lda #$01		; a9 01
 B28_164b:		ldy #$00		; a0 00
 B28_164d:		beq B28_1658 ; f0 09
 
+; left pressed
 B28_164f:		lda #$01		; a9 01
-B28_1651:		sta $04a8, x	; 9d a8 04
+B28_1651:		sta wEntityXFlipped.w, x	; 9d a8 04
 B28_1654:		lda #$ff		; a9 ff
 B28_1656:		ldy #$00		; a0 00
-B28_1658:		sta $04f2, x	; 9d f2 04
+
+B28_1658:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B28_165b:		tya				; 98 
-B28_165c:		sta $0509, x	; 9d 09 05
+B28_165c:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
 B28_165f:		rts				; 60 
 
 
-B28_1660:		jsr $8421		; 20 21 84
+playerState04_exceptGrant:
+B28_1660:		jsr func_1c_0421		; 20 21 84
 B28_1663:		bcs B28_1668 ; b0 03
 
-B28_1665:		jmp $9734		; 4c 34 97
-
+B28_1665:		jmp B28_1734		; 4c 34 97
 
 B28_1668:		lda wJoy1NewButtonsPressed			; a5 26
 B28_166a:		asl a			; 0a
 B28_166b:		bcc B28_1670 ; 90 03
 
-B28_166d:		jmp $9594		; 4c 94 95
-
+; a pressed
+B28_166d:		jmp func_1c_1594		; 4c 94 95
 
 B28_1670:		asl a			; 0a
 B28_1671:		bcs B28_168f ; b0 1c
@@ -3740,44 +3779,49 @@ B28_1676:		bcs B28_16ba ; b0 42
 B28_1678:		lsr a			; 4a
 B28_1679:		bcc B28_167e ; 90 03
 
-B28_167b:		jmp $96f6		; 4c f6 96
+; left held
+B28_167b:		jmp B28_16f6		; 4c f6 96
 
+; neither a,b pressed, or left,right held
+B28_167e:		lda #PS_IDLE		; a9 02
+B28_1680:		sta wPlayerStateDoubled.w		; 8d 65 05
 
-B28_167e:		lda #$02		; a9 02
-B28_1680:		sta $0565		; 8d 65 05
-B28_1683:		jsr $8abc		; 20 bc 8a
-B28_1686:		jsr $ef73		; 20 73 ef
-B28_1689:		jsr $873a		; 20 3a 87
-B28_168c:		jmp $8712		; 4c 12 87
+B28_1683:		jsr func_1c_0abc		; 20 bc 8a
 
+B28_1686:		jsr updatePlayerAnimationFrame		; 20 73 ef
+B28_1689:		jsr func_1c_073a		; 20 3a 87
+B28_168c:		jmp func_1c_0712		; 4c 12 87
 
+; b pressed
 B28_168f:		lda wJoy1ButtonsPressed			; a5 28
-B28_1691:		and #$08		; 29 08
+B28_1691:		and #PADF_UP		; 29 08
 B28_1693:		beq B28_16a4 ; f0 0f
 
-B28_1695:		jsr $b9f5		; 20 f5 b9
+; b pressed, up held
+B28_1695:		jsr func_1d_19f5		; 20 f5 b9
 B28_1698:		bcc B28_16a4 ; 90 0a
 
-B28_169a:		lda #$20		; a9 20
-B28_169c:		jsr $94aa		; 20 aa 94
-B28_169f:		jsr $8abc		; 20 bc 8a
+B28_169a:		lda #PS_STANDING_ITEM		; a9 20
+B28_169c:		jsr setPlayerState_resetAnimation		; 20 aa 94
+B28_169f:		jsr func_1c_0abc		; 20 bc 8a
 B28_16a2:		beq B28_1689 ; f0 e5
 
-B28_16a4:		lda $054e		; ad 4e 05
+B28_16a4:		lda wCurrPlayer.w		; ad 4e 05
 B28_16a7:		cmp #$03		; c9 03
 B28_16a9:		beq B28_16b3 ; f0 08
 
 B28_16ab:		lda #$18		; a9 18
-B28_16ad:		jsr $940a		; 20 0a 94
-B28_16b0:		jmp $9683		; 4c 83 96
+B28_16ad:		jsr func_1c_140a		; 20 0a 94
+B28_16b0:		jmp B28_1683		; 4c 83 96
 
 B28_16b3:		jsr $ba69		; 20 69 ba
 B28_16b6:		bcc B28_1673 ; 90 bb
 
 B28_16b8:		bcs B28_169a ; b0 e0
 
+; right held
 B28_16ba:		lda #$00		; a9 00
-B28_16bc:		sta $04a8		; 8d a8 04
+B28_16bc:		sta wEntityXFlipped.w		; 8d a8 04
 B28_16bf:		jsr $8e85		; 20 85 8e
 B28_16c2:		bcc B28_16d9 ; 90 15
 
@@ -3791,7 +3835,7 @@ B28_16cf:		lda #$08		; a9 08
 B28_16d1:		jsr func_1f_1cdd		; 20 dd fc
 B28_16d4:		bne B28_16f1 ; d0 1b
 
-B28_16d6:		jmp $9686		; 4c 86 96
+B28_16d6:		jmp B28_1686		; 4c 86 96
 
 B28_16d9:		ldx #$00		; a2 00
 B28_16db:		lda #$08		; a9 08
@@ -3812,7 +3856,7 @@ B28_16f3:		tay				; a8
 B28_16f4:		beq B28_172b ; f0 35
 
 B28_16f6:		lda #$01		; a9 01
-B28_16f8:		sta $04a8		; 8d a8 04
+B28_16f8:		sta wEntityXFlipped.w		; 8d a8 04
 B28_16fb:		jsr func_1c_0f01		; 20 01 8f
 B28_16fe:		bcc B28_1715 ; 90 15
 
@@ -3826,7 +3870,7 @@ B28_170b:		lda #$f8		; a9 f8
 B28_170d:		jsr func_1f_1cdd		; 20 dd fc
 B28_1710:		bne B28_16f1 ; d0 df
 
-B28_1712:		jmp $9686		; 4c 86 96
+B28_1712:		jmp B28_1686		; 4c 86 96
 
 B28_1715:		ldx #$00		; a2 00
 B28_1717:		lda #$f8		; a9 f8
@@ -3841,15 +3885,15 @@ B28_1725:		bne B28_16f1 ; d0 ca
 B28_1727:		lda #$ff		; a9 ff
 B28_1729:		ldy #$00		; a0 00
 
-B28_172b:		sty $0509		; 8c 09 05
-B28_172e:		sta $04f2		; 8d f2 04
-B28_1731:		jmp $9683		; 4c 83 96
+B28_172b:		sty wEntityHorizSubSpeed.w		; 8c 09 05
+B28_172e:		sta wEntityHorizSpeed.w		; 8d f2 04
+B28_1731:		jmp B28_1683		; 4c 83 96
+
+B28_1734:		jsr func_1c_173a		; 20 3a 97
+B28_1737:		jmp B28_1686		; 4c 86 96
 
 
-B28_1734:		jsr $973a		; 20 3a 97
-B28_1737:		jmp $9686		; 4c 86 96
-
-
+func_1c_173a:
 B28_173a:		lda $cf			; a5 cf
 B28_173c:		cmp #$01		; c9 01
 B28_173e:		beq B28_1744 ; f0 04
@@ -3861,11 +3905,11 @@ B28_1744:		lda #$08		; a9 08
 B28_1746:		sta $af			; 85 af
 .ifdef IMPROVED_CONTROLS_TEST
 B28_1748:
-	lda #$08
+	lda #PS_JUMPING
 .else
-B28_1748:		lda #$0c		; a9 0c
+B28_1748:		lda #PS_FALLING		; a9 0c
 .endif
-B28_174a:		sta $0565		; 8d 65 05
+B28_174a:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_174d:		ldx #$00		; a2 00
 .ifdef IMPROVED_CONTROLS_TEST
 	lda #$1c
@@ -3882,33 +3926,34 @@ B28_1756:		sta wEntityPhase.w, x	; 9d c1 05
 
 .ifdef IMPROVED_CONTROLS_TEST
 	lda #$16
-	sta $0400
+	sta wOamSpecIdx.w
 B28_175e:
 	lda #$00
-	sta $0509
+	sta wEntityHorizSubSpeed.w
 	.rept 6
 	nop
 	.endr
 .else
-B28_1759:		lda $04a8, x	; bd a8 04
+B28_1759:		lda wEntityXFlipped.w, x	; bd a8 04
 B28_175c:		bne B28_176a ; d0 0c
 B28_175e:		lda #$00		; a9 00
 B28_1760:		ldy #$20		; a0 20
-B28_1762:		sta $04f2, x	; 9d f2 04
+
+B28_1762:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B28_1765:		tya				; 98 
-B28_1766:		sta $0509, x	; 9d 09 05
+B28_1766:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
 .endif
 B28_1769:		rts				; 60 
 
-
 B28_176a:		lda #$ff		; a9 ff
 B28_176c:		ldy #$e0		; a0 e0
-.ifdef IMPROVED_CONTROLS_TEST
-	bne -$0e
-.else
-B28_176e:		bne B28_1762 ; d0 f2
-.endif
+B28_176e:		bne B28_175e+4 ; d0 f2
 
+
+.ifndef IMPROVED_CONTROLS_TEST
+playerState08_exceptGrant:
+.endif
+playerState0c_exceptGrant:
 B28_1770:		lda wJoy1NewButtonsPressed			; a5 26
 B28_1772:		and #$40		; 29 40
 B28_1774:		beq B28_179c ; f0 26
@@ -3917,29 +3962,28 @@ B28_1776:		lda wJoy1ButtonsPressed			; a5 28
 B28_1778:		and #$08		; 29 08
 B28_177a:		beq B28_1790 ; f0 14
 
-B28_177c:		jsr $b9f5		; 20 f5 b9
+B28_177c:		jsr func_1d_19f5		; 20 f5 b9
 B28_177f:		bcc B28_1790 ; 90 0f
 
 B28_1781:		lda #$22		; a9 22
-B28_1783:		jsr $94aa		; 20 aa 94
+B28_1783:		jsr setPlayerState_resetAnimation		; 20 aa 94
 B28_1786:		jmp $979c		; 4c 9c 97
-
 
 B28_1789:		jsr $ba69		; 20 69 ba
 B28_178c:		bcc B28_179c ; 90 0e
 
 B28_178e:		bcs B28_1781 ; b0 f1
 
-B28_1790:		lda $054e		; ad 4e 05
+B28_1790:		lda wCurrPlayer.w		; ad 4e 05
 B28_1793:		cmp #$03		; c9 03
 B28_1795:		beq B28_1789 ; f0 f2
 
 B28_1797:		lda #$1a		; a9 1a
-B28_1799:		jsr $940a		; 20 0a 94
+B28_1799:		jsr func_1c_140a		; 20 0a 94
 B28_179c:		jsr $83aa		; 20 aa 83
 B28_179f:		bcs B28_1769 ; b0 c8
 
-B28_17a1:		lda $04f2		; ad f2 04
+B28_17a1:		lda wEntityHorizSpeed.w		; ad f2 04
 B28_17a4:		bpl B28_17ba ; 10 14
 
 B28_17a6:		ldx #$10		; a2 10
@@ -3964,7 +4008,7 @@ B28_17c5:		lda #$08		; a9 08
 B28_17c7:		jsr func_1f_1cdd		; 20 dd fc
 B28_17ca:		bne B28_17cf ; d0 03
 
-B28_17cc:		jsr $873a		; 20 3a 87
+B28_17cc:		jsr func_1c_073a		; 20 3a 87
 B28_17cf:		lda wEntityBaseY.w		; ad 1c 04
 B28_17d2:		sta $06			; 85 06
 B28_17d4:		jsr $984f		; 20 4f 98
@@ -3983,7 +4027,6 @@ B28_17ec:		beq B28_181e ; f0 30
 
 B28_17ee:		jmp $9841		; 4c 41 98
 
-
 B28_17f1:		ldx #$10		; a2 10
 B28_17f3:		lda #$05		; a9 05
 B28_17f5:		jsr func_1f_1cdd		; 20 dd fc
@@ -3995,7 +4038,6 @@ B28_17fe:		jsr $83ff		; 20 ff 83
 B28_1801:		beq B28_181e ; f0 1b
 
 B28_1803:		jmp $9841		; 4c 41 98
-
 
 B28_1806:		lda $8b			; a5 8b
 B28_1808:		cmp #$01		; c9 01
@@ -4013,11 +4055,10 @@ B28_1816:		ldx $91			; a6 91
 B28_1818:		jsr $fe9c		; 20 9c fe
 B28_181b:		jmp $983b		; 4c 3b 98
 
-
 B28_181e:		lda $05d8		; ad d8 05
 B28_1821:		bne B28_1838 ; d0 15
 
-B28_1823:		lda $0565		; ad 65 05
+B28_1823:		lda wPlayerStateDoubled.w		; ad 65 05
 B28_1826:		cmp #$26		; c9 26
 B28_1828:		beq B28_1838 ; f0 0e
 
@@ -4026,15 +4067,13 @@ B28_182c:		jsr playSound		; 20 5f e2
 B28_182f:		lda #$0c		; a9 0c
 B28_1831:		sta $b9			; 85 b9
 B28_1833:		lda #$0e		; a9 0e
-B28_1835:		sta $0400		; 8d 00 04
+B28_1835:		sta wOamSpecIdx.w		; 8d 00 04
 B28_1838:		jsr $8a02		; 20 02 8a
 B28_183b:		lda #$02		; a9 02
-B28_183d:		sta $0565		; 8d 65 05
+B28_183d:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_1840:		rts				; 60 
 
-
-B28_1841:		jmp $8712		; 4c 12 87
-
+B28_1841:		jmp func_1c_0712		; 4c 12 87
 
 B28_1844:		lda $06			; a5 06
 B28_1846:		clc				; 18 
@@ -4050,7 +4089,7 @@ B28_1854:		bcs B28_1867 ; b0 11
 B28_1856:		lda wEntityPhase.w		; ad c1 05
 B28_1859:		bne B28_1867 ; d0 0c
 
-B28_185b:		lda $0565		; ad 65 05
+B28_185b:		lda wPlayerStateDoubled.w		; ad 65 05
 B28_185e:		cmp #$26		; c9 26
 B28_1860:		beq B28_186a ; f0 08
 
@@ -4114,7 +4153,7 @@ B28_18bb:		sta wEntityPhase.w		; 8d c1 05
 B28_18be:		rts				; 60 
 
 
-B28_18bf:		lda $0565		; ad 65 05
+B28_18bf:		lda wPlayerStateDoubled.w		; ad 65 05
 B28_18c2:		cmp #$26		; c9 26
 B28_18c4:		;removed
 	.db $f0 $cc
@@ -4163,41 +4202,43 @@ B28_190c:		jsr $ba69		; 20 69 ba
 B28_190f:		bcc B28_1936 ; 90 25
 
 B28_1911:		lda #$1c		; a9 1c
-B28_1913:		jsr $94aa		; 20 aa 94
+B28_1913:		jsr setPlayerState_resetAnimation		; 20 aa 94
 B28_1916:		jmp $9936		; 4c 36 99
 
 
+playerState0a_exceptGrant:
 .ifdef IMPROVED_CONTROLS_TEST
-	jsr func5
+	jsr playerState0a_exceptGrant_body
 .else
-B28_1919:		jsr $8421		; 20 21 84
+B28_1919:		jsr func_1c_0421		; 20 21 84
 .endif
 B28_191c:		bcs B28_1921 ; b0 03
 
-B28_191e:		jmp $973a		; 4c 3a 97
+B28_191e:		jmp func_1c_173a		; 4c 3a 97
 
 
-B28_1921:		jsr $918e		; 20 8e 91
+B28_1921:		jsr func_1c_118e		; 20 8e 91
 B28_1924:		lda wJoy1NewButtonsPressed			; a5 26
 B28_1926:		and #$40		; 29 40
 B28_1928:		beq B28_1936 ; f0 0c
 
-B28_192a:		lda $054e		; ad 4e 05
+B28_192a:		lda wCurrPlayer.w		; ad 4e 05
 B28_192d:		cmp #$03		; c9 03
 B28_192f:		beq B28_190c ; f0 db
 
 B28_1931:		lda #$1c		; a9 1c
-B28_1933:		jsr $940a		; 20 0a 94
+B28_1933:		jsr func_1c_140a		; 20 0a 94
 B28_1936:		lda wJoy1ButtonsPressed			; a5 28
 B28_1938:		and #$04		; 29 04
 B28_193a:		bne B28_1941 ; d0 05
 
 B28_193c:		lda #$02		; a9 02
-B28_193e:		sta $0565		; 8d 65 05
+B28_193e:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_1941:		rts				; 60 
 
 
-B28_1942:		jsr $fb89		; 20 89 fb
+playerState16:
+B28_1942:		jsr func_1f_1b89		; 20 89 fb
 B28_1945:		lda $0520		; ad 20 05
 B28_1948:		bmi B28_194d ; 30 03
 
@@ -4210,19 +4251,21 @@ B28_194d:		jmp $9b8e		; 4c 8e 9b
 B28_1950:		jmp $9b8e		; 4c 8e 9b
 
 
+playerState0e:
 B28_1953:		lda $061d		; ad 1d 06
 B28_1956:		beq B28_1961 ; f0 09
 
 B28_1958:		dec $061d		; ce 1d 06
-B28_195b:		jsr $ef73		; 20 73 ef
-B28_195e:		jmp $873a		; 4c 3a 87
+B28_195b:		jsr updatePlayerAnimationFrame		; 20 73 ef
+B28_195e:		jmp func_1c_073a		; 4c 3a 87
 
 
 B28_1961:		lda #$10		; a9 10
-B28_1963:		sta $0565		; 8d 65 05
+B28_1963:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_1966:		rts				; 60 
 
 
+playerState10:
 B28_1967:		lda wEntityPhase.w		; ad c1 05
 B28_196a:		bne B28_196f ; d0 03
 
@@ -4236,23 +4279,24 @@ B28_1972:		lda wJoy1ButtonsPressed			; a5 28
 B28_1974:		and #$08		; 29 08
 B28_1976:		bne B28_1984 ; d0 0c
 
-B28_1978:		lda $054e		; ad 4e 05
+B28_1978:		lda wCurrPlayer.w		; ad 4e 05
 B28_197b:		cmp #$03		; c9 03
 B28_197d:		beq B28_1994 ; f0 15
 
 B28_197f:		lda #$1e		; a9 1e
-B28_1981:		jmp $940a		; 4c 0a 94
+B28_1981:		jmp func_1c_140a		; 4c 0a 94
 
 
-B28_1984:		jsr $b9f5		; 20 f5 b9
+B28_1984:		jsr func_1d_19f5		; 20 f5 b9
 B28_1987:		bcc B28_1978 ; 90 ef
 
 B28_1989:		lda #$24		; a9 24
-B28_198b:		jmp $94aa		; 4c aa 94
+B28_198b:		jmp setPlayerState_resetAnimation		; 4c aa 94
 
 
+playerState12:
 .ifdef IMPROVED_CONTROLS_TEST
-	jsr func4
+	jsr playerState12_0a_body
 	nop
 .else
 B28_198e:		lda wJoy1ButtonsPressed			; a5 28
@@ -4289,7 +4333,7 @@ B28_19b2:		rts				; 60
 
 
 B28_19b3:		lda #$00		; a9 00
-B28_19b5:		sta $04a8		; 8d a8 04
+B28_19b5:		sta wEntityXFlipped.w		; 8d a8 04
 B28_19b8:		lda wEntityAI_idx.w		; ad ef 05
 B28_19bb:		beq B28_19c9 ; f0 0c
 
@@ -4310,7 +4354,7 @@ B28_19d2:		jmp $9baf		; 4c af 9b
 
 
 B28_19d5:		lda #$01		; a9 01
-B28_19d7:		sta $04a8		; 8d a8 04
+B28_19d7:		sta wEntityXFlipped.w		; 8d a8 04
 B28_19da:		lda wEntityAI_idx.w		; ad ef 05
 B28_19dd:		beq B28_19eb ; f0 0c
 
@@ -4412,7 +4456,7 @@ B28_1a53:		clc				; 18
 B28_1a54:		rts				; 60 
 
 
-B28_1a55:		lda $2a			; a5 2a
+B28_1a55:		lda wInGameSubstate			; a5 2a
 B28_1a57:		cmp #$10		; c9 10
 B28_1a59:		bne B28_1a5f ; d0 04
 
@@ -4420,9 +4464,9 @@ B28_1a5b:		inc $6b			; e6 6b
 B28_1a5d:		bne B28_1a63 ; d0 04
 
 B28_1a5f:		lda #$06		; a9 06
-B28_1a61:		sta $2a			; 85 2a
+B28_1a61:		sta wInGameSubstate			; 85 2a
 B28_1a63:		lda #$96		; a9 96
-B28_1a65:		sta $0565		; 8d 65 05
+B28_1a65:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_1a68:		jsr $fb85		; 20 85 fb
 B28_1a6b:		sec				; 38 
 B28_1a6c:		rts				; 60 
@@ -4459,8 +4503,9 @@ B28_1a91:		sec				; 38
 B28_1a92:		rts				; 60 
 
 
+playerState14:
 .ifdef IMPROVED_CONTROLS_TEST
-	jsr func4
+	jsr playerState12_0a_body
 .else
 B28_1a93:		jsr $9a2d		; 20 2d 9a
 .endif
@@ -4470,7 +4515,7 @@ B28_1a98:		rts				; 60
 
 
 B28_1a99:		jsr $8740		; 20 40 87
-B28_1a9c:		jsr $8712		; 20 12 87
+B28_1a9c:		jsr func_1c_0712		; 20 12 87
 B28_1a9f:		lda $061d		; ad 1d 06
 B28_1aa2:		beq B28_1af0 ; f0 4c
 
@@ -4482,7 +4527,7 @@ B28_1aac:		dec wEntityTimeUntilNextAnimation.w		; ce 7c 05
 B28_1aaf:		rts				; 60 
 
 
-B28_1ab0:		lda $054e		; ad 4e 05
+B28_1ab0:		lda wCurrPlayer.w		; ad 4e 05
 B28_1ab3:		cmp #$02		; c9 02
 B28_1ab5:		beq B28_1acc ; f0 15
 
@@ -4490,7 +4535,7 @@ B28_1ab7:		lda wEntityAnimationIdxes.w		; ad 93 05
 B28_1aba:		asl a			; 0a
 B28_1abb:		tay				; a8 
 B28_1abc:		lda $9bec, y	; b9 ec 9b
-B28_1abf:		sta $0400		; 8d 00 04
+B28_1abf:		sta wOamSpecIdx.w		; 8d 00 04
 B28_1ac2:		lda $9bed, y	; b9 ed 9b
 B28_1ac5:		sta wEntityTimeUntilNextAnimation.w		; 8d 7c 05
 B28_1ac8:		inc wEntityAnimationIdxes.w		; ee 93 05
@@ -4501,7 +4546,7 @@ B28_1acc:		lda wEntityAnimationIdxes.w		; ad 93 05
 B28_1acf:		asl a			; 0a
 B28_1ad0:		tay				; a8 
 B28_1ad1:		lda $9bf4, y	; b9 f4 9b
-B28_1ad4:		sta $0400		; 8d 00 04
+B28_1ad4:		sta wOamSpecIdx.w		; 8d 00 04
 B28_1ad7:		lda $9bf5, y	; b9 f5 9b
 B28_1ada:		sta wEntityTimeUntilNextAnimation.w		; 8d 7c 05
 B28_1add:		inc wEntityAnimationIdxes.w		; ee 93 05
@@ -4525,7 +4570,7 @@ B28_1af5:		sta $04db		; 8d db 04
 B28_1af8:		ldy $68			; a4 68
 B28_1afa:		bpl B28_1b1b ; 10 1f
 
-B28_1afc:		ldy $054e		; ac 4e 05
+B28_1afc:		ldy wCurrPlayer.w		; ac 4e 05
 B28_1aff:		cpy #$02		; c0 02
 B28_1b01:		beq B28_1ae1 ; f0 de
 
@@ -4569,7 +4614,7 @@ B28_1b41:		jsr func_1f_1cdd		; 20 dd fc
 B28_1b44:		beq B28_1b88 ; f0 42
 
 B28_1b46:		jsr $8a02		; 20 02 8a
-B28_1b49:		lda $054e		; ad 4e 05
+B28_1b49:		lda wCurrPlayer.w		; ad 4e 05
 B28_1b4c:		cmp #$02		; c9 02
 B28_1b4e:		bne B28_1b59 ; d0 09
 
@@ -4578,9 +4623,9 @@ B28_1b53:		clc				; 18
 B28_1b54:		adc #$04		; 69 04
 B28_1b56:		sta wEntityBaseY.w		; 8d 1c 04
 B28_1b59:		lda #$02		; a9 02
-B28_1b5b:		sta $0565		; 8d 65 05
+B28_1b5b:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_1b5e:		lda #$02		; a9 02
-B28_1b60:		sta $0400		; 8d 00 04
+B28_1b60:		sta wOamSpecIdx.w		; 8d 00 04
 B28_1b63:		rts				; 60 
 
 
@@ -4605,22 +4650,22 @@ B28_1b83:		jsr func_1f_1cdd		; 20 dd fc
 B28_1b86:		beq B28_1b46 ; f0 be
 
 B28_1b88:		lda #$12		; a9 12
-B28_1b8a:		sta $0565		; 8d 65 05
+B28_1b8a:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_1b8d:		rts				; 60 
 
 
 B28_1b8e:		ldx #$02		; a2 02
 B28_1b90:		lda wEntityAI_idx.w		; ad ef 05
-B28_1b93:		sta $04a8		; 8d a8 04
+B28_1b93:		sta wEntityXFlipped.w		; 8d a8 04
 B28_1b96:		ldy #$08		; a0 08
 B28_1b98:		bne B28_1ba6 ; d0 0c
 
 B28_1b9a:		ldx #$00		; a2 00
 B28_1b9c:		lda wEntityAI_idx.w		; ad ef 05
 B28_1b9f:		eor #$01		; 49 01
-B28_1ba1:		sta $04a8		; 8d a8 04
+B28_1ba1:		sta wEntityXFlipped.w		; 8d a8 04
 B28_1ba4:		ldy #$00		; a0 00
-B28_1ba6:		lda $04a8		; ad a8 04
+B28_1ba6:		lda wEntityXFlipped.w		; ad a8 04
 B28_1ba9:		beq B28_1baf ; f0 04
 
 B28_1bab:		iny				; c8 
@@ -4629,9 +4674,9 @@ B28_1bad:		iny				; c8
 B28_1bae:		iny				; c8 
 B28_1baf:		stx wEntityAnimationIdxes.w		; 8e 93 05
 B28_1bb2:		lda $9bdc, y	; b9 dc 9b
-B28_1bb5:		sta $04f2		; 8d f2 04
+B28_1bb5:		sta wEntityHorizSpeed.w		; 8d f2 04
 B28_1bb8:		lda $9bdd, y	; b9 dd 9b
-B28_1bbb:		sta $0509		; 8d 09 05
+B28_1bbb:		sta wEntityHorizSubSpeed.w		; 8d 09 05
 B28_1bbe:		lda $9bde, y	; b9 de 9b
 B28_1bc1:		sta $0520		; 8d 20 05
 B28_1bc4:		lda $9bdf, y	; b9 df 9b
@@ -4641,7 +4686,7 @@ B28_1bcc:		sta wEntityTimeUntilNextAnimation.w		; 8d 7c 05
 B28_1bcf:		lda $9bdb		; ad db 9b
 B28_1bd2:		sta $061d		; 8d 1d 06
 B28_1bd5:		lda #$14		; a9 14
-B28_1bd7:		sta $0565		; 8d 65 05
+B28_1bd7:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_1bda:		rts				; 60 
 
 
@@ -4678,110 +4723,115 @@ B28_1bf8:		pha				; 48
 B28_1bf9:	.db $07
 B28_1bfa:	.db $0c
 B28_1bfb:	.db $ff
-B28_1bfc:		ldy $0565		; ac 65 05
+
+
+processSyphaState:
+B28_1bfc:		ldy wPlayerStateDoubled.w		; ac 65 05
 B28_1bff:		jsr jumpTableNoPreserveY		; 20 86 e8
-	.dw $8ac5
-	.dw $9538
-	.dw $9660
-	.dw $961d
-.ifdef IMPROVED_CONTROLS_TEST
-	.dw func1
-.else
-	.dw $9770
-.endif
-	.dw $9919
-	.dw $9770
-	.dw $9953
-	.dw $9967
-	.dw $998e
-	.dw $9a93
-	.dw $9942
-	.dw $9418
-	.dw $943a
-	.dw $9465
-	.dw $949e
-	.dw $9c32
-	.dw $9c35
-	.dw $9c38
-	.dw $831c
-	.dw $93b1
-	.dw $93b1
-	.dw $8b57
-	.dw $8ade
-B28_1c32:		jmp $94b8
-B28_1c35:		jmp $94d4
-B28_1c38:		jmp $94ff
-B28_1c3b:		ldy $0565
+	.dw playerState00_init
+	.dw playerState02_standIdle
+	.dw playerState04_exceptGrant
+	.dw playerState06_exceptGrant
+	.dw playerState08_exceptGrant
+	.dw playerState0a_exceptGrant
+	.dw playerState0c_exceptGrant
+	.dw playerState0e
+	.dw playerState10
+	.dw playerState12
+	.dw playerState14
+	.dw playerState16
+	.dw playerState18_trevor_sypha
+	.dw playerState1a_trevor_sypha
+	.dw playerState1c_trevor_sypha
+	.dw playerState1e_exceptAlucard
+	.dw +
+	.dw ++
+	.dw +++
+	.dw playerState26
+	.dw playerState28_2a
+	.dw playerState28_2a
+	.dw playerState2c
+	.dw playerState2e
++	jmp playerState20
+++	jmp playerState22_exceptGrant
++++	jmp playerState24
+
+
+processGrantState:
+B28_1c3b:		ldy wPlayerStateDoubled.w
 B28_1c3e:		jsr jumpTableNoPreserveY		; 20 86 e8
-	.dw $8ac5
-	.dw $9538
-	.dw $9d3b
-	.dw $9e92
-	.dw $9f3c
-	.dw $9cd5
-	.dw $9f3c
-	.dw $9953
-	.dw $9967
-	.dw $998e
-	.dw $9a93
-	.dw $9942
-	.dw $9c8b
-	.dw $9eeb
-	.dw $9c9f
-	.dw $949e
-	.dw $94b8
-	.dw $9ec0
-	.dw $94ff
-	.dw $831c
-	.dw $93b1
-	.dw $93b1
-	.dw $8b57
-	.dw $8ade
-	.dw $a23b
-	.dw $a365
-	.dw $a42e
-	.dw $a441
-	.dw $a464
-	.dw $a477
-	.dw $a480
-	.dw $a493
-	.dw $a49f
-	.dw $a4b2
-	.dw $a188
-	.dw $a226
-	.dw $a333
+	.dw playerState00_init
+	.dw playerState02_standIdle
+	.dw playerState04_grant
+	.dw playerState06_grant
+	.dw playerState08_06_grant
+	.dw playerState0a_grant
+	.dw playerState08_06_grant
+	.dw playerState0e
+	.dw playerState10
+	.dw playerState12
+	.dw playerState14
+	.dw playerState16
+	.dw playerState18_grant
+	.dw playerState1a_grant
+	.dw playerState1c_grant
+	.dw playerState1e_exceptAlucard
+	.dw playerState20
+	.dw playerState22_grant
+	.dw playerState24
+	.dw playerState26
+	.dw playerState28_2a
+	.dw playerState28_2a
+	.dw playerState2c
+	.dw playerState2e
+	.dw playerState30_grant
+	.dw playerState32_grant
+	.dw playerState34_grant
+	.dw playerState36_grant
+	.dw playerState38_grant
+	.dw playerState3a_grant
+	.dw playerState3c_grant
+	.dw playerState3e_grant
+	.dw playerState40_grant
+	.dw playerState42_grant
+	.dw playerState44_grant
+	.dw playerState46_grant
+	.dw playerState48_grant
+
+playerState18_grant:
 B28_1c8b:		jsr func_1c_041d		; 20 1d 84
 B28_1c8e:		bcs B28_1c98 ; b0 08
 
 B28_1c90:		lda #$00		; a9 00
 B28_1c92:		sta $0413		; 8d 13 04
-B28_1c95:		jmp $a08d		; 4c 8d a0
+B28_1c95:		jmp func_1d_008d		; 4c 8d a0
 
 
-B28_1c98:		jsr $918e		; 20 8e 91
+B28_1c98:		jsr func_1c_118e		; 20 8e 91
 B28_1c9b:		jmp $9428		; 4c 28 94
 
 
 B28_1c9e:		rts				; 60 
 
 
+playerState1c_grant:
 B28_1c9f:		jsr func_1c_041d		; 20 1d 84
 B28_1ca2:		bcc B28_1c90 ; 90 ec
 
-B28_1ca4:		jsr $918e		; 20 8e 91
+B28_1ca4:		jsr func_1c_118e		; 20 8e 91
 B28_1ca7:		jsr $9ceb		; 20 eb 9c
-B28_1caa:		lda $0565		; ad 65 05
+B28_1caa:		lda wPlayerStateDoubled.w		; ad 65 05
 B28_1cad:		cmp #$02		; c9 02
 B28_1caf:		bne B28_1cc4 ; d0 13
 
 B28_1cb1:		lda #$18		; a9 18
-B28_1cb3:		sta $0565		; 8d 65 05
+B28_1cb3:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_1cb6:		jsr $9428		; 20 28 94
-B28_1cb9:		lda $0565		; ad 65 05
+B28_1cb9:		lda wPlayerStateDoubled.w		; ad 65 05
 B28_1cbc:		cmp #$18		; c9 18
 B28_1cbe:		bne B28_1cc3 ; d0 03
 
-B28_1cc0:		jsr $becb		; 20 cb be
+B28_1cc0:		jsr func_1d_1ecb		; 20 cb be
 B28_1cc3:		rts				; 60 
 
 
@@ -4792,35 +4842,36 @@ B28_1cc9:		rts				; 60
 
 
 B28_1cca:		lda #$0a		; a9 0a
-B28_1ccc:		sta $0565		; 8d 65 05
+B28_1ccc:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_1ccf:		lda #$0e		; a9 0e
-B28_1cd1:		sta $0400		; 8d 00 04
+B28_1cd1:		sta wOamSpecIdx.w		; 8d 00 04
 B28_1cd4:		rts				; 60 
 
 
+playerState0a_grant:
 B28_1cd5:		jsr func_1c_041d		; 20 1d 84
 B28_1cd8:		bcs B28_1cdd ; b0 03
 
-B28_1cda:		jmp $a08d		; 4c 8d a0
+B28_1cda:		jmp func_1d_008d		; 4c 8d a0
 
 
-B28_1cdd:		jsr $918e		; 20 8e 91
+B28_1cdd:		jsr func_1c_118e		; 20 8e 91
 B28_1ce0:		lda wJoy1NewButtonsPressed			; a5 26
 B28_1ce2:		and #$40		; 29 40
 B28_1ce4:		beq B28_1ceb ; f0 05
 
 B28_1ce6:		lda #$1c		; a9 1c
-B28_1ce8:		jsr $940a		; 20 0a 94
+B28_1ce8:		jsr func_1c_140a		; 20 0a 94
 B28_1ceb:		lda wJoy1ButtonsPressed			; a5 28
 B28_1ced:		and #$04		; 29 04
 B28_1cef:		bne B28_1cf7 ; d0 06
 
 B28_1cf1:		lda #$02		; a9 02
-B28_1cf3:		sta $0565		; 8d 65 05
+B28_1cf3:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_1cf6:		rts				; 60 
 
 
-B28_1cf7:		lda $0565		; ad 65 05
+B28_1cf7:		lda wPlayerStateDoubled.w		; ad 65 05
 B28_1cfa:		cmp #$0a		; c9 0a
 B28_1cfc:		bne B28_1cf6 ; d0 f8
 
@@ -4830,7 +4881,7 @@ B28_1d01:		bcc B28_1cf6 ; 90 f3
 B28_1d03:		jsr $9d28		; 20 28 9d
 B28_1d06:		bne B28_1cf6 ; d0 ee
 
-B28_1d08:		lda $04a8		; ad a8 04
+B28_1d08:		lda wEntityXFlipped.w		; ad a8 04
 B28_1d0b:		sta wEntityPhase.w		; 8d c1 05
 B28_1d0e:		jsr $a527		; 20 27 a5
 B28_1d11:		lda wEntityBaseY.w		; ad 1c 04
@@ -4838,7 +4889,7 @@ B28_1d14:		clc				; 18
 B28_1d15:		adc #$0c		; 69 0c
 B28_1d17:		sta $d3			; 85 d3
 B28_1d19:		lda #$40		; a9 40
-B28_1d1b:		sta $0565		; 8d 65 05
+B28_1d1b:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_1d1e:		ldy #$00		; a0 00
 B28_1d20:		sty wEntityAnimationIdxes.w		; 8c 93 05
 B28_1d23:		iny				; c8 
@@ -4855,22 +4906,22 @@ B28_1d31:		lda #$01		; a9 01
 B28_1d33:		bne B28_1d37 ; d0 02
 
 B28_1d35:		lda #$00		; a9 00
-B28_1d37:		cmp $04a8		; cd a8 04
+B28_1d37:		cmp wEntityXFlipped.w		; cd a8 04
 B28_1d3a:		rts				; 60 
 
 
+playerState04_grant:
 B28_1d3b:		jsr func_1c_041d		; 20 1d 84
 B28_1d3e:		bcs B28_1d43 ; b0 03
 
-B28_1d40:		jmp $a08d		; 4c 8d a0
-
+B28_1d40:		jmp func_1d_008d		; 4c 8d a0
 
 B28_1d43:		lda wJoy1NewButtonsPressed			; a5 26
 B28_1d45:		asl a			; 0a
 B28_1d46:		bcc B28_1d4b ; 90 03
 
-B28_1d48:		jmp $9dff		; 4c ff 9d
-
+; a pressed
+B28_1d48:		jmp func_1c_1dff		; 4c ff 9d
 
 B28_1d4b:		asl a			; 0a
 B28_1d4c:		bcs B28_1d67 ; b0 19
@@ -4882,34 +4933,36 @@ B28_1d51:		bcs B28_1d85 ; b0 32
 B28_1d53:		lsr a			; 4a
 B28_1d54:		bcs B28_1dbc ; b0 66
 
-B28_1d56:		lda #$02		; a9 02
-B28_1d58:		sta $0565		; 8d 65 05
-B28_1d5b:		jsr $8abc		; 20 bc 8a
-B28_1d5e:		jsr $ef73		; 20 73 ef
-B28_1d61:		jsr $873a		; 20 3a 87
-B28_1d64:		jmp $8712		; 4c 12 87
+B28_1d56:		lda #PS_IDLE		; a9 02
+B28_1d58:		sta wPlayerStateDoubled.w		; 8d 65 05
 
+func_1c_1d5b:
+B28_1d5b:		jsr func_1c_0abc		; 20 bc 8a
+B28_1d5e:		jsr updatePlayerAnimationFrame		; 20 73 ef
+B28_1d61:		jsr func_1c_073a		; 20 3a 87
+B28_1d64:		jmp func_1c_0712		; 4c 12 87
 
+; b pressed
 B28_1d67:		lda wJoy1ButtonsPressed			; a5 28
-B28_1d69:		and #$08		; 29 08
+B28_1d69:		and #PADF_UP		; 29 08
 B28_1d6b:		bne B28_1d75 ; d0 08
 
 B28_1d6d:		lda #$18		; a9 18
-B28_1d6f:		jsr $940a		; 20 0a 94
-B28_1d72:		jmp $9d5b		; 4c 5b 9d
+B28_1d6f:		jsr func_1c_140a		; 20 0a 94
+B28_1d72:		jmp func_1c_1d5b		; 4c 5b 9d
 
-
-B28_1d75:		jsr $b9f5		; 20 f5 b9
+; b pressed, upheld
+B28_1d75:		jsr func_1d_19f5		; 20 f5 b9
 B28_1d78:		bcc B28_1d6d ; 90 f3
 
-B28_1d7a:		lda #$20		; a9 20
-B28_1d7c:		jsr $94aa		; 20 aa 94
-B28_1d7f:		jsr $8abc		; 20 bc 8a
+B28_1d7a:		lda #PS_STANDING_ITEM		; a9 20
+B28_1d7c:		jsr setPlayerState_resetAnimation		; 20 aa 94
+B28_1d7f:		jsr func_1c_0abc		; 20 bc 8a
 B28_1d82:		jmp $9d61		; 4c 61 9d
 
-
+; right held
 B28_1d85:		lda #$00		; a9 00
-B28_1d87:		sta $04a8		; 8d a8 04
+B28_1d87:		sta wEntityXFlipped.w		; 8d a8 04
 B28_1d8a:		jsr $8e85		; 20 85 8e
 B28_1d8d:		bcc B28_1da4 ; 90 15
 
@@ -4925,7 +4978,6 @@ B28_1d9f:		bne B28_1dfa ; d0 59
 
 B28_1da1:		jmp $9d5e		; 4c 5e 9d
 
-
 B28_1da4:		ldx #$00		; a2 00
 B28_1da6:		lda #$08		; a9 08
 B28_1da8:		jsr func_1f_1cdd		; 20 dd fc
@@ -4940,8 +4992,9 @@ B28_1db6:		lda #$01		; a9 01
 B28_1db8:		ldy #$40		; a0 40
 B28_1dba:		bne B28_1df1 ; d0 35
 
+; left held
 B28_1dbc:		lda #$01		; a9 01
-B28_1dbe:		sta $04a8		; 8d a8 04
+B28_1dbe:		sta wEntityXFlipped.w		; 8d a8 04
 B28_1dc1:		jsr func_1c_0f01		; 20 01 8f
 B28_1dc4:		bcc B28_1ddb ; 90 15
 
@@ -4957,10 +5010,9 @@ B28_1dd6:		bne B28_1dfa ; d0 22
 
 B28_1dd8:		jmp $9d5e		; 4c 5e 9d
 
-
 B28_1ddb:		ldx #$00		; a2 00
 B28_1ddd:		lda #$f8		; a9 f8
-B28_1ddf:		jsr $840b		; 20 0b 84
+B28_1ddf:		jsr func_1c_040b		; 20 0b 84
 B28_1de2:		bne B28_1e0b ; d0 27
 
 B28_1de4:		ldx #$f4		; a2 f4
@@ -4970,25 +5022,26 @@ B28_1deb:		bne B28_1dfa ; d0 0d
 
 B28_1ded:		lda #$fe		; a9 fe
 B28_1def:		ldy #$c0		; a0 c0
-B28_1df1:		sty $0509		; 8c 09 05
-B28_1df4:		sta $04f2		; 8d f2 04
-B28_1df7:		jmp $9d5b		; 4c 5b 9d
-
+B28_1df1:		sty wEntityHorizSubSpeed.w		; 8c 09 05
+B28_1df4:		sta wEntityHorizSpeed.w		; 8d f2 04
+B28_1df7:		jmp func_1c_1d5b		; 4c 5b 9d
 
 B28_1dfa:		lda #$00		; a9 00
 B28_1dfc:		tay				; a8 
 B28_1dfd:		beq B28_1df1 ; f0 f2
 
-B28_1dff:		lda #$06		; a9 06
-B28_1e01:		sta $0565		; 8d 65 05
-B28_1e04:		jmp $9d5b		; 4c 5b 9d
+func_1c_1dff:
+B28_1dff:		lda #PS_JUMP_START		; a9 06
+B28_1e01:		sta wPlayerStateDoubled.w		; 8d 65 05
+B28_1e04:		jmp func_1c_1d5b		; 4c 5b 9d
 
 
+;
 B28_1e07:		lda #$36		; a9 36
 B28_1e09:		bne B28_1e0d ; d0 02
 
 B28_1e0b:		lda #$18		; a9 18
-B28_1e0d:		sta $0400		; 8d 00 04
+B28_1e0d:		sta wOamSpecIdx.w		; 8d 00 04
 B28_1e10:		jsr $9e36		; 20 36 9e
 B28_1e13:		lda #$01		; a9 01
 B28_1e15:		bne B28_1e25 ; d0 0e
@@ -4997,7 +5050,7 @@ B28_1e17:		lda #$36		; a9 36
 B28_1e19:		bne B28_1e1d ; d0 02
 
 B28_1e1b:		lda #$18		; a9 18
-B28_1e1d:		sta $0400		; 8d 00 04
+B28_1e1d:		sta wOamSpecIdx.w		; 8d 00 04
 B28_1e20:		jsr $9e3f		; 20 3f 9e
 B28_1e23:		lda #$00		; a9 00
 B28_1e25:		sta wEntityPhase.w		; 8d c1 05
@@ -5005,7 +5058,7 @@ B28_1e28:		lda #$00		; a9 00
 B28_1e2a:		sta $05d8		; 8d d8 05
 B28_1e2d:		sta wEntityAnimationIdxes.w		; 8d 93 05
 B28_1e30:		lda #$30		; a9 30
-B28_1e32:		sta $0565		; 8d 65 05
+B28_1e32:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_1e35:		rts				; 60 
 
 
@@ -5068,9 +5121,12 @@ B28_1e8d:		.db $00				; 00
 B28_1e8e:		.db $00				; 00
 B28_1e8f:		.db $00				; 00
 B28_1e90:		.db $00				; 00
-B28_1e91:		sta ($a9, x)	; 81 a9
-B28_1e93:	.db $0e $8d $00
-B28_1e96:	.db $04
+B28_1e91:		.db $81
+
+
+playerState06_grant:
+	lda #$0e
+B28_1e94:	sta wOamSpecIdx.w
 B28_1e97:		lda #$04		; a9 04
 B28_1e99:		sta $b9			; 85 b9
 B28_1e9b:		lda #$00		; a9 00
@@ -5080,18 +5136,19 @@ B28_1ea2:		sta $05d8		; 8d d8 05
 B28_1ea5:		lda #$00		; a9 00
 B28_1ea7:		sta wEntityAI_idx.w		; 8d ef 05
 B28_1eaa:		sta $0606		; 8d 06 06
-B28_1ead:		sta $0509		; 8d 09 05
-B28_1eb0:		sta $04f2		; 8d f2 04
+B28_1ead:		sta wEntityHorizSubSpeed.w		; 8d 09 05
+B28_1eb0:		sta wEntityHorizSpeed.w		; 8d f2 04
 B28_1eb3:		sta $9d			; 85 9d
 B28_1eb5:		lda #$01		; a9 01
 B28_1eb7:		sta $061d		; 8d 1d 06
-B28_1eba:		lda #$08		; a9 08
-B28_1ebc:		sta $0565		; 8d 65 05
+B28_1eba:		lda #PS_JUMPING		; a9 08
+B28_1ebc:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_1ebf:		rts				; 60 
 
 
+playerState22_grant:
 B28_1ec0:		jsr $9f5a		; 20 5a 9f
-B28_1ec3:		lda $0565		; ad 65 05
+B28_1ec3:		lda wPlayerStateDoubled.w		; ad 65 05
 B28_1ec6:		cmp #$26		; c9 26
 B28_1ec8:		beq B28_1f0a ; f0 40
 
@@ -5101,25 +5158,26 @@ B28_1ecc:		bne B28_1eda ; d0 0c
 B28_1ece:		lda #$00		; a9 00
 B28_1ed0:		sta $b9			; 85 b9
 B28_1ed2:		lda #$20		; a9 20
-B28_1ed4:		sta $0565		; 8d 65 05
+B28_1ed4:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_1ed7:		jmp $94c3		; 4c c3 94
 
 
-B28_1eda:		jsr $baf2		; 20 f2 ba
+B28_1eda:		jsr func_1d_1af2		; 20 f2 ba
 B28_1edd:		bcs B28_1ee0 ; b0 01
 
 B28_1edf:		rts				; 60 
 
 
 B28_1ee0:		lda #$08		; a9 08
-B28_1ee2:		sta $0565		; 8d 65 05
+B28_1ee2:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_1ee5:		lda #$02		; a9 02
-B28_1ee7:		sta $0400		; 8d 00 04
+B28_1ee7:		sta wOamSpecIdx.w		; 8d 00 04
 B28_1eea:		rts				; 60 
 
 
+playerState1a_grant:
 B28_1eeb:		jsr $9f5a		; 20 5a 9f
-B28_1eee:		lda $0565		; ad 65 05
+B28_1eee:		lda wPlayerStateDoubled.w		; ad 65 05
 B28_1ef1:		cmp #$26		; c9 26
 B28_1ef3:		beq B28_1f0a ; f0 15
 
@@ -5129,7 +5187,7 @@ B28_1ef7:		bne B28_1f05 ; d0 0c
 B28_1ef9:		lda #$00		; a9 00
 B28_1efb:		sta $b9			; 85 b9
 B28_1efd:		lda #$18		; a9 18
-B28_1eff:		sta $0565		; 8d 65 05
+B28_1eff:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_1f02:		jmp $9428		; 4c 28 94
 
 
@@ -5151,7 +5209,7 @@ B28_1f1d:		sta wEntityBaseY.w		; 8d 1c 04
 B28_1f20:		lda #$02		; a9 02
 B28_1f22:		jsr $ef57		; 20 57 ef
 B28_1f25:		lda #$32		; a9 32
-B28_1f27:		sta $0565		; 8d 65 05
+B28_1f27:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_1f2a:		rts				; 60 
 
 
@@ -5160,7 +5218,7 @@ B28_1f2d:		beq B28_1f31 ; f0 02
 
 B28_1f2f:		lda #$ff		; a9 ff
 B28_1f31:		ldx #$00		; a2 00
-B28_1f33:		jsr $840b		; 20 0b 84
+B28_1f33:		jsr func_1c_040b		; 20 0b 84
 B28_1f36:		beq B28_1f3a ; f0 02
 
 B28_1f38:		clc				; 18 
@@ -5171,24 +5229,27 @@ B28_1f3a:		sec				; 38
 B28_1f3b:		rts				; 60 
 
 
+playerState08_06_grant:
 B28_1f3c:		lda wJoy1NewButtonsPressed			; a5 26
-B28_1f3e:		and #$40		; 29 40
+B28_1f3e:		and #PADF_B		; 29 40
 B28_1f40:		beq B28_1f5a ; f0 18
 
 B28_1f42:		lda wJoy1ButtonsPressed			; a5 28
-B28_1f44:		and #$08		; 29 08
+B28_1f44:		and #PADF_UP		; 29 08
 B28_1f46:		bne B28_1f50 ; d0 08
 
 B28_1f48:		lda #$1a		; a9 1a
-B28_1f4a:		jsr $940a		; 20 0a 94
-B28_1f4d:		jmp $9f5a		; 4c 5a 9f
+B28_1f4a:		jsr func_1c_140a		; 20 0a 94
+B28_1f4d:		jmp B28_1f5a		; 4c 5a 9f
 
-
-B28_1f50:		jsr $b9f5		; 20 f5 b9
+; up held
+B28_1f50:		jsr func_1d_19f5		; 20 f5 b9
 B28_1f53:		bcc B28_1f48 ; 90 f3
 
-B28_1f55:		lda #$22		; a9 22
-B28_1f57:		jsr $94aa		; 20 aa 94
+B28_1f55:		lda #PS_JUMPING_ITEM		; a9 22
+B28_1f57:		jsr setPlayerState_resetAnimation		; 20 aa 94
+
+; b pressed
 B28_1f5a:		jsr $83aa		; 20 aa 83
 B28_1f5d:		bcs B28_1f3b ; b0 dc
 
@@ -5199,15 +5260,16 @@ B28_1f62:		bcs B28_1f87 ; b0 23
 B28_1f64:		lsr a			; 4a
 B28_1f65:		bcc B28_1fa7 ; 90 40
 
+; left held
 B28_1f67:		lda #$01		; a9 01
-B28_1f69:		sta $04a8		; 8d a8 04
+B28_1f69:		sta wEntityXFlipped.w		; 8d a8 04
 B28_1f6c:		lda #$ff		; a9 ff
-B28_1f6e:		sta $04f2		; 8d f2 04
+B28_1f6e:		sta wEntityHorizSpeed.w		; 8d f2 04
 B28_1f71:		lda #$00		; a9 00
-B28_1f73:		sta $0509		; 8d 09 05
+B28_1f73:		sta wEntityHorizSubSpeed.w		; 8d 09 05
 B28_1f76:		ldx #$00		; a2 00
 B28_1f78:		lda #$f8		; a9 f8
-B28_1f7a:		jsr $840b		; 20 0b 84
+B28_1f7a:		jsr func_1c_040b		; 20 0b 84
 B28_1f7d:		beq B28_1fa7 ; f0 28
 
 B28_1f7f:		jsr $9f2f		; 20 2f 9f
@@ -5215,16 +5277,16 @@ B28_1f82:		bcc B28_1fa7 ; 90 23
 
 B28_1f84:		jmp $9e0b		; 4c 0b 9e
 
-
+; right held
 B28_1f87:		lda #$00		; a9 00
-B28_1f89:		sta $04a8		; 8d a8 04
+B28_1f89:		sta wEntityXFlipped.w		; 8d a8 04
 B28_1f8c:		lda #$01		; a9 01
-B28_1f8e:		sta $04f2		; 8d f2 04
+B28_1f8e:		sta wEntityHorizSpeed.w		; 8d f2 04
 B28_1f91:		lda #$00		; a9 00
-B28_1f93:		sta $0509		; 8d 09 05
+B28_1f93:		sta wEntityHorizSubSpeed.w		; 8d 09 05
 B28_1f96:		ldx #$00		; a2 00
 B28_1f98:		lda #$08		; a9 08
-B28_1f9a:		jsr $840b		; 20 0b 84
+B28_1f9a:		jsr func_1c_040b		; 20 0b 84
 B28_1f9d:		beq B28_1fa7 ; f0 08
 
 B28_1f9f:		jsr $9f2b		; 20 2b 9f
@@ -5232,65 +5294,60 @@ B28_1fa2:		bcc B28_1fa7 ; 90 03
 
 B28_1fa4:		jmp $9e1b		; 4c 1b 9e
 
-
+; nothing above pressed/held
 B28_1fa7:		lda wJoy1ButtonsPressed			; a5 28
-B28_1fa9:		and #$08		; 29 08
+B28_1fa9:		and #PADF_UP		; 29 08
 B28_1fab:		beq B28_1fc1 ; f0 14
 
+; up held
 B28_1fad:		ldx #$f8		; a2 f8
 B28_1faf:		lda #$00		; a9 00
-B28_1fb1:		jsr $840b		; 20 0b 84
+B28_1fb1:		jsr func_1c_040b		; 20 0b 84
 B28_1fb4:		beq B28_1fc1 ; f0 0b
 
 B28_1fb6:		ldx #$00		; a2 00
 B28_1fb8:		txa				; 8a 
-B28_1fb9:		jsr $840b		; 20 0b 84
+B28_1fb9:		jsr func_1c_040b		; 20 0b 84
 B28_1fbc:		bne B28_1fc1 ; d0 03
 
 B28_1fbe:		jmp $9f0b		; 4c 0b 9f
 
-
-B28_1fc1:		lda $04f2		; ad f2 04
+; nothing above pressed/held
+B28_1fc1:		lda wEntityHorizSpeed.w		; ad f2 04
 B28_1fc4:		bpl B28_1fe3 ; 10 1d
 
 B28_1fc6:		ldx #$0c		; a2 0c
 B28_1fc8:		lda #$f8		; a9 f8
 B28_1fca:		jsr func_1f_1cdd		; 20 dd fc
-B28_1fcd:		;removed
-	.db $d0 $2f
+B28_1fcd:		bne B28_1ffe
 
 B28_1fcf:		ldx #$00		; a2 00
 B28_1fd1:		lda #$f8		; a9 f8
 B28_1fd3:		jsr func_1f_1cdd		; 20 dd fc
-B28_1fd6:		;removed
-	.db $d0 $26
+B28_1fd6:		bne B28_1ffe
 
 B28_1fd8:		ldx #$f4		; a2 f4
 B28_1fda:		lda #$f8		; a9 f8
 B28_1fdc:		jsr func_1f_1cdd		; 20 dd fc
-B28_1fdf:		;removed
-	.db $f0 $25
+B28_1fdf:		beq B29_0006
 
-B28_1fe1:		;removed
-	.db $d0 $1b
+B28_1fe1:		bne B28_1ffe
 
 B28_1fe3:		ldx #$0c		; a2 0c
 B28_1fe5:		lda #$08		; a9 08
 B28_1fe7:		jsr func_1f_1cdd		; 20 dd fc
-B28_1fea:		;removed
-	.db $d0 $12
+B28_1fea:		bne B28_1ffe
 
 B28_1fec:		ldx #$00		; a2 00
 B28_1fee:		lda #$08		; a9 08
 B28_1ff0:		jsr func_1f_1cdd		; 20 dd fc
-B28_1ff3:		;removed
-	.db $d0 $09
+B28_1ff3:		bne B28_1ffe
 
 B28_1ff5:		ldx #$f4		; a2 f4
 B28_1ff7:		lda #$08		; a9 08
 B28_1ff9:		jsr func_1f_1cdd		; 20 dd fc
-B28_1ffc:		;removed
-	.db $f0 $08
+B28_1ffc:		beq B29_0006
 
-		.db $a9
-		.db $00
+B28_1ffe:		lda #$00
+
+; cont.

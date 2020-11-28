@@ -315,12 +315,12 @@ B3_1167:		adc #$60		; 69 60
 B3_1169:		sta $01			; 85 01
 B3_116b:		jsr $b1ac		; 20 ac b1
 B3_116e:		lda #$f6		; a9 f6
-B3_1170:		sta $0400, x	; 9d 00 04
+B3_1170:		sta wOamSpecIdx.w, x	; 9d 00 04
 B3_1173:		rts				; 60 
 
 
 B3_1174:		lda #$00		; a9 00
-B3_1176:		sta $0400, x	; 9d 00 04
+B3_1176:		sta wOamSpecIdx.w, x	; 9d 00 04
 B3_1179:		rts				; 60 
 
 
@@ -333,7 +333,7 @@ B3_1187:		bne B3_118b ; d0 02
 
 B3_1189:		ldy #$fa		; a0 fa
 B3_118b:		tya				; 98 
-B3_118c:		sta $0400, x	; 9d 00 04
+B3_118c:		sta wOamSpecIdx.w, x	; 9d 00 04
 B3_118f:		rts				; 60 
 
 
@@ -360,7 +360,7 @@ B3_11ae:		sta wEntityBaseY.w, x	; 9d 1c 04
 B3_11b1:		lda $01			; a5 01
 B3_11b3:		sta wEntityBaseX.w, x	; 9d 38 04
 B3_11b6:		lda $b1c3, y	; b9 c3 b1
-B3_11b9:		sta $048c, x	; 9d 8c 04
+B3_11b9:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B3_11bc:		lda $b1c5, y	; b9 c5 b1
 B3_11bf:		sta wEntityPaletteOverride.w, x	; 9d 54 04
 B3_11c2:		rts				; 60 
@@ -736,9 +736,9 @@ B3_1413:		rts				; 60
 
 
 B3_1414:		lda $b427, y	; b9 27 b4
-B3_1417:		sta $0400, x	; 9d 00 04
+B3_1417:		sta wOamSpecIdx.w, x	; 9d 00 04
 B3_141a:		lda $b42b, y	; b9 2b b4
-B3_141d:		sta $048c, x	; 9d 8c 04
+B3_141d:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B3_1420:		lda $b42f, y	; b9 2f b4
 B3_1423:		sta wEntityPaletteOverride.w, x	; 9d 54 04
 B3_1426:		rts				; 60 
@@ -1047,13 +1047,13 @@ B3_1622:		jmp setNewGameState		; 4c 74 e5
 
 B3_1625:		ldx #$00		; a2 00
 B3_1627:		lda #$00		; a9 00
-B3_1629:		sta $0400, x	; 9d 00 04
+B3_1629:		sta wOamSpecIdx.w, x	; 9d 00 04
 B3_162c:		sta wEntityBaseY.w, x	; 9d 1c 04
 B3_162f:		sta wEntityBaseX.w, x	; 9d 38 04
 B3_1632:		sta wEntityPaletteOverride.w, x	; 9d 54 04
 B3_1635:		sta $0470, x	; 9d 70 04
-B3_1638:		sta $048c, x	; 9d 8c 04
-B3_163b:		sta $04a8, x	; 9d a8 04
+B3_1638:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
+B3_163b:		sta wEntityXFlipped.w, x	; 9d a8 04
 B3_163e:		sta $054e, x	; 9d 4e 05
 B3_1641:		inx				; e8 
 B3_1642:		cpx #$17		; e0 17
@@ -1549,9 +1549,9 @@ B3_1948:		lda $07a0, y	; b9 a0 07
 B3_194b:		and #$03		; 29 03
 B3_194d:		tay				; a8 
 B3_194e:		lda $b982, y	; b9 82 b9
-B3_1951:		sta $0400, x	; 9d 00 04
+B3_1951:		sta wOamSpecIdx.w, x	; 9d 00 04
 B3_1954:		lda $b97e, y	; b9 7e b9
-B3_1957:		sta $048c, x	; 9d 8c 04
+B3_1957:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B3_195a:		ldy $00			; a4 00
 B3_195c:		lda $07a0, y	; b9 a0 07
 B3_195f:		and #$3c		; 29 3c

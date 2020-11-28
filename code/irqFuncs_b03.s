@@ -28,7 +28,7 @@ B3_002f:		ldx #$00		; a2 00
 B3_0031:		lda PPUSTATUS.w		; ad 02 20
 B3_0034:		lda #$29		; a9 29
 B3_0036:		sta PPUADDR.w		; 8d 06 20
-B3_0039:		stx $2006		; 8e 06 20
+B3_0039:		stx PPUADDR.w		; 8e 06 20
 B3_003c:		lda $6f			; a5 6f
 B3_003e:		sta PPUSCROLL.w		; 8d 05 20
 B3_0041:		lda #$00		; a9 00
@@ -243,7 +243,7 @@ B3_01c9:		lda PPUSTATUS.w		; ad 02 20
 B3_01cc:		ldx $6f			; a6 6f
 B3_01ce:		lda $70			; a5 70
 B3_01d0:		sta PPUADDR.w		; 8d 06 20
-B3_01d3:		stx $2006		; 8e 06 20
+B3_01d3:		stx PPUADDR.w		; 8e 06 20
 B3_01d6:		lda #$00		; a9 00
 B3_01d8:		sta PPUSCROLL.w		; 8d 05 20
 B3_01db:		sta PPUSCROLL.w		; 8d 05 20
@@ -287,7 +287,7 @@ B3_0228:		lda PPUSTATUS.w		; ad 02 20
 B3_022b:		ldx $6f			; a6 6f
 B3_022d:		lda $70			; a5 70
 B3_022f:		sta PPUADDR.w		; 8d 06 20
-B3_0232:		stx $2006		; 8e 06 20
+B3_0232:		stx PPUADDR.w		; 8e 06 20
 B3_0235:		lda #$00		; a9 00
 B3_0237:		sta PPUSCROLL.w		; 8d 05 20
 B3_023a:		sta PPUSCROLL.w		; 8d 05 20

@@ -1,4 +1,5 @@
 .include "constants/sounds.s"
+.include "constants/playerStates.s"
 
 .define CB_ASCII_ROUND_RECTANGLE $41
 .define CB_STATUS_BAR_CHAR_FACES $42

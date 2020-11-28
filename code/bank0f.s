@@ -43,7 +43,7 @@ B15_14c6:		clc				; 18
 B15_14c7:		adc $00			; 65 00
 B15_14c9:		tay				; a8 
 B15_14ca:		lda ($08), y	; b1 08
-B15_14cc:		cmp $34			; c5 34
+B15_14cc:		cmp wCurrRoomIdx			; c5 34
 B15_14ce:		bne B15_152c ; d0 5c
 
 B15_14d0:		iny				; c8 
@@ -78,7 +78,7 @@ B15_14f7:		eor #$ff		; 49 ff
 B15_14f9:		cmp #$08		; c9 08
 B15_14fb:		bcs B15_152a ; b0 2d
 
-B15_14fd:		lda $0565		; ad 65 05
+B15_14fd:		lda wPlayerStateDoubled.w		; ad 65 05
 B15_1500:		cmp #$34		; c9 34
 B15_1502:		beq B15_152e ; f0 2a
 
@@ -91,14 +91,14 @@ B15_150b:		sta wCurrRoomIdx			; 85 34
 B15_150d:		stx $65			; 86 65
 B15_150f:		txa				; 8a 
 B15_1510:		eor #$01		; 49 01
-B15_1512:		sta $04a8		; 8d a8 04
-B15_1515:		lda $0565		; ad 65 05
+B15_1512:		sta wEntityXFlipped.w		; 8d a8 04
+B15_1515:		lda wPlayerStateDoubled.w		; ad 65 05
 B15_1518:		ora #$80		; 09 80
-B15_151a:		sta $0565		; 8d 65 05
+B15_151a:		sta wPlayerStateDoubled.w		; 8d 65 05
 B15_151d:		lda #$02		; a9 02
-B15_151f:		sta $0400		; 8d 00 04
+B15_151f:		sta wOamSpecIdx.w		; 8d 00 04
 B15_1522:		lda #$08		; a9 08
-B15_1524:		sta $2a			; 85 2a
+B15_1524:		sta wInGameSubstate			; 85 2a
 B15_1526:		lda #$00		; a9 00
 B15_1528:		sta $6b			; 85 6b
 B15_152a:		sec				; 38 
@@ -109,24 +109,26 @@ B15_152c:		clc				; 18
 B15_152d:		rts				; 60 
 
 
-B15_152e:		lda $054e		; ad 4e 05
+B15_152e:		lda wCurrPlayer.w		; ad 4e 05
 B15_1531:		cmp #$03		; c9 03
 B15_1533:		bne B15_152a ; d0 f5
 
 B15_1535:		lda #$36		; a9 36
-B15_1537:		sta $0565		; 8d 65 05
+B15_1537:		sta wPlayerStateDoubled.w		; 8d 65 05
 B15_153a:		stx $05d8		; 8e d8 05
 B15_153d:		sec				; 38 
 B15_153e:		rts				; 60 
 
 
+func_0f_153f:
 B15_153f:		lda wCurrRoomGroup		; a5 32
 B15_1541:		asl a			; 0a
 B15_1542:		tay				; a8 
-B15_1543:		lda $b7c6, y	; b9 c6 b7
+B15_1543:		lda data_0f_17c6.w, y	; b9 c6 b7
 B15_1546:		sta $08			; 85 08
-B15_1548:		lda $b7c7, y	; b9 c7 b7
+B15_1548:		lda data_0f_17c6.w+1, y	; b9 c7 b7
 B15_154b:		sta $09			; 85 09
+
 B15_154d:		lda wCurrRoomSection			; a5 33
 B15_154f:		asl a			; 0a
 B15_1550:		tay				; a8 
@@ -135,6 +137,8 @@ B15_1553:		sta $0a			; 85 0a
 B15_1555:		iny				; c8 
 B15_1556:		lda ($08), y	; b1 08
 B15_1558:		sta $0b			; 85 0b
+
+; load 2 room vars into 69/6a
 B15_155a:		lda wCurrRoomIdx			; a5 34
 B15_155c:		asl a			; 0a
 B15_155d:		tay				; a8 
@@ -146,6 +150,7 @@ B15_1565:		sta $6a			; 85 6a
 B15_1567:		rts				; 60 
 
 
+func_0f_1568:
 B15_1568:		lda $57			; a5 57
 B15_156a:		sta $08			; 85 08
 B15_156c:		lda wEntityBaseY.w		; ad 1c 04
@@ -243,16 +248,18 @@ B15_15f0:		clc				; 18
 B15_15f1:		rts				; 60 
 
 
+func_0f_15f2:
 B15_15f2:		lda #$01		; a9 01
 B15_15f4:		bne B15_15f8 ; d0 02
 
+func_0f_15f6:
 B15_15f6:		lda #$00		; a9 00
+
 B15_15f8:		sta $0e			; 85 0e
 B15_15fa:		lda $68			; a5 68
 B15_15fc:		bpl B15_1601 ; 10 03
 
-B15_15fe:		jmp $b568		; 4c 68 b5
-
+B15_15fe:		jmp func_0f_1568		; 4c 68 b5
 
 B15_1601:		lda wEntityBaseX.w		; ad 38 04
 B15_1604:		clc				; 18 
@@ -536,13 +543,13 @@ B15_1766:		.db $00				; 00
 B15_1767:		.db $00				; 00
 B15_1768:		.db $00				; 00
 B15_1769:		.db $00				; 00
-B15_176a:		bvs B15_17dc ; 70 70
+B15_176a:		.db $70 $70
 
 B15_176c:		.db $00				; 00
 B15_176d:		.db $00				; 00
 B15_176e:		.db $00				; 00
 B15_176f:		.db $00				; 00
-B15_1770:		bvs B15_17e2 ; 70 70
+B15_1770:		.db $70 $70
 
 B15_1772:		.db $00				; 00
 B15_1773:		cpx #$e0		; e0 e0
@@ -610,34 +617,31 @@ B15_17bf:		cpx #$e0		; e0 e0
 B15_17c1:		cpx #$e0		; e0 e0
 B15_17c3:		cpx #$e0		; e0 e0
 B15_17c5:	.db $ff
-B15_17c6:		cpx $b7			; e4 b7
-B15_17c8:		cpx $f8b7		; ec b7 f8
-B15_17cb:	.db $b7
-B15_17cc:	.db $02
-B15_17cd:		clv				; b8 
-B15_17ce:	.db $0c
-B15_17cf:		clv				; b8 
-B15_17d0:	.db $12
-B15_17d1:		clv				; b8 
-B15_17d2:	.db $1a
-B15_17d3:		clv				; b8 
-B15_17d4:		jsr $2eb8		; 20 b8 2e
-B15_17d7:		clv				; b8 
-B15_17d8:		sec				; 38 
-B15_17d9:		clv				; b8 
-B15_17da:	.db $3c
-B15_17db:		clv				; b8 
-B15_17dc:		lsr a			; 4a
-B15_17dd:		clv				; b8 
-B15_17de:		bvc B15_1798 ; 50 b8
 
-B15_17e0:		lsr $b8, x		; 56 b8
-B15_17e2:		lsr $7fb8, x	; 5e b8 7f
-B15_17e5:		clv				; b8 
-B15_17e6:		sta ($b8, x)	; 81 b8
-B15_17e8:	.db $89
-B15_17e9:		clv				; b8 
-B15_17ea:		sta $0fb8		; 8d b8 0f
+
+data_0f_17c6:
+	.dw @group0
+	.dw $b7ec
+	.dw $b7f8
+	.dw $b802
+	.dw $b80c
+	.dw $b812
+	.dw $b81a
+	.dw $b820
+	.dw $b82e
+	.dw $b838
+	.dw $b83c
+	.dw $b84a
+	.dw $b850
+	.dw $b856
+	.dw $b85e
+
+@group0:
+	.dw $b87f
+	.dw $b881
+	.dw $b889
+	.dw $b88d
+B15_17ec:		.db $0f
 B15_17ed:		lda $b915, y	; b9 15 b9
 B15_17f0:	.db $1b
 B15_17f1:		lda $b91b, y	; b9 1b b9

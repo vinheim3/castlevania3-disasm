@@ -115,6 +115,7 @@
 .org 0
 
     .include "data/roomMetatilesPalettesData_b11.s"
+    .include "data/staticLayouts_b11.s"
     .include "code/bank11.s"
 
 .bank $12 slot 1
@@ -133,14 +134,19 @@
 
     .db $94
     .include "code/bank14.s"
+    .include "data/roomEntities_b14.s"
 
 .bank $15 slot 2
 .org 0
 
-    .include "code/bank15.s"
-    .include "code/gameStateC.s"
+    .include "data/roomEntities_b15.s"
+    .include "data/enemyMetadata.s"
     ; todo: possibly contains junk at the end
+    .include "data/luminaryMetadata.s"
+    .include "code/gameStateC.s"
     .include "code/gameStateD.s"
+    ; todo: possibly contains junk at the end
+    .include "data/staticLayouts_b15.s"
 
 .bank $16 slot 1
 .org 0
@@ -152,7 +158,7 @@ func_16_0001:
 B22_0004:		and #$fe		; 29 fe
 B22_0006:		sta $00			; 85 00
 B22_0008:		ldy #$00		; a0 00
-B22_000a:		lda $04f2, x	; bd f2 04
+B22_000a:		lda wEntityHorizSpeed.w, x	; bd f2 04
 B22_000d:		bpl B22_0010 ; 10 01
 
 B22_000f:		dey				; 88 
@@ -173,14 +179,13 @@ B22_0030:		adc $0520, x	; 7d 20 05
 B22_0033:		sta wEntityBaseY.w, x	; 9d 1c 04
 B22_0036:		rts				; 60 
 
-
 func_16_0037:
 B22_0037:		clc				; 18 
 B22_0038:		lda $04c4, x	; bd c4 04
-B22_003b:		adc $0509, x	; 7d 09 05
+B22_003b:		adc wEntityHorizSubSpeed.w, x	; 7d 09 05
 B22_003e:		sta $04c4, x	; 9d c4 04
 B22_0041:		lda wEntityBaseX.w, x	; bd 38 04
-B22_0044:		adc $04f2, x	; 7d f2 04
+B22_0044:		adc wEntityHorizSpeed.w, x	; 7d f2 04
 B22_0047:		sta wEntityBaseX.w, x	; 9d 38 04
 B22_004a:		rts				; 60 
 
@@ -229,12 +234,13 @@ B22_004a:		rts				; 60
 .org 0
 
     .db $9c
-    .include "code/bank1c.s"
+    .include "code/playerStateProcessing_b1c.s"
 
 .bank $1d slot 2
 .org 0
 
-    .include "code/bank1d.s"
+    ; todo: possibly contains junk at the end
+    .include "code/playerStateProcessing_b1d.s"
 
 .bank $1e slot 3
 .org 0

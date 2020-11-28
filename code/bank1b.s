@@ -1,6 +1,6 @@
 
 B27_1765:		lda #$10		; a9 10
-B27_1767:		ldy $054e		; ac 4e 05
+B27_1767:		ldy wCurrPlayer.w		; ac 4e 05
 B27_176a:		cpy #$02		; c0 02
 B27_176c:		bne B27_1770 ; d0 02
 
@@ -184,10 +184,10 @@ B27_1899:		lda #$0c		; a9 0c
 B27_189b:		ldy #$00		; a0 00
 B27_189d:		jsr func_1f_0f5c		; 20 5c ef
 B27_18a0:		lda #$e8		; a9 e8
-B27_18a2:		sta $0400, x	; 9d 00 04
+B27_18a2:		sta wOamSpecIdx.w, x	; 9d 00 04
 B27_18a5:		lda #$01		; a9 01
 B27_18a7:		sta $0657, x	; 9d 57 06
-B27_18aa:		sta $04a8, x	; 9d a8 04
+B27_18aa:		sta wEntityXFlipped.w, x	; 9d a8 04
 B27_18ad:		lda #$60		; a9 60
 B27_18af:		sta $0470, x	; 9d 70 04
 B27_18b2:		lda #$03		; a9 03

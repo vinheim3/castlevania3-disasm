@@ -8,9 +8,9 @@ B23_0008:		eor #$01		; 49 01
 B23_000a:		sta $061d, x	; 9d 1d 06
 B23_000d:		tay				; a8 
 B23_000e:		lda $a039, y	; b9 39 a0
-B23_0011:		sta $04f2, x	; 9d f2 04
+B23_0011:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B23_0014:		lda #$00		; a9 00
-B23_0016:		sta $0509, x	; 9d 09 05
+B23_0016:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
 B23_0019:		lda #$38		; a9 38
 B23_001b:		sta $0606, x	; 9d 06 06
 B23_001e:		lda $061d, x	; bd 1d 06
@@ -49,7 +49,7 @@ B23_0057:		bcs B23_0068 ; b0 0f
 B23_0059:		inc wEntityPhase.w, x	; fe c1 05
 B23_005c:		inc wEntityPhase.w, x	; fe c1 05
 B23_005f:		jsr func_1f_1ec8		; 20 c8 fe
-B23_0062:		jsr $a0fc		; 20 fc a0
+B23_0062:		jsr func_17_00fc		; 20 fc a0
 B23_0065:		jmp $e76c		; 4c 6c e7
 
 B23_0068:		lda #$00		; a9 00
@@ -96,11 +96,11 @@ B23_00a8:		jsr $a0ef		; 20 ef a0
 B23_00ab:		bcs B23_00c2 ; b0 15
 
 B23_00ad:		inc wEntityPhase.w, x	; fe c1 05
-B23_00b0:		jsr $a0fc		; 20 fc a0
+B23_00b0:		jsr func_17_00fc		; 20 fc a0
 B23_00b3:		jmp $e76c		; 4c 6c e7
 
 B23_00b6:		lda #$00		; a9 00
-B23_00b8:		sta $0400, x	; 9d 00 04
+B23_00b8:		sta wOamSpecIdx.w, x	; 9d 00 04
 B23_00bb:		sta $054e, x	; 9d 4e 05
 B23_00be:		sta wEntityAI_idx.w, x	; 9d ef 05
 B23_00c1:		rts				; 60 
@@ -141,67 +141,87 @@ B23_00f9:		cmp #$14		; c9 14
 B23_00fb:		rts				; 60 
 
 
+func_17_00fc:
 B23_00fc:		sec				; 38 
 B23_00fd:		lda $054e, x	; bd 4e 05
 B23_0100:		sbc #$93		; e9 93
 B23_0102:		jsr jumpTablePreserveY		; 20 6d e8
-B23_0105:		bvc B23_00a8 ; 50 a1
+	.dw func_17_0150
+	.dw func_17_015e
+	.dw func_17_0142
+	.dw func_17_015e
+	.dw func_17_015e
+	.dw func_17_015e
+	.dw func_17_015e
+	.dw func_17_015e
+	.dw func_17_0142
+	.dw func_17_0150
+	.dw func_17_0189
+	.dw func_17_0189
+	.dw func_17_0141
+	.dw func_17_0141
+	.dw func_17_01a9
+	.dw func_17_01b5
+	.dw func_17_01ef
+	.dw func_17_01ef
+	.dw func_17_01ef
+	.dw func_17_01ef
+	.dw func_17_01ef
+	.dw func_17_01ef
+	.dw func_17_01ef
+	.dw func_17_01ef
+	.dw func_17_01ef
+	.dw func_17_0221
+	.dw func_17_022b
+	.dw func_17_022b
+	.dw func_17_0242
+	.dw func_17_0242
 
-B23_0107:		lsr $42a1, x	; 5e a1 42
-B23_010a:		lda ($5e, x)	; a1 5e
-B23_010c:		lda ($5e, x)	; a1 5e
-B23_010e:		lda ($5e, x)	; a1 5e
-B23_0110:		lda ($5e, x)	; a1 5e
-B23_0112:		lda ($5e, x)	; a1 5e
-B23_0114:		lda ($42, x)	; a1 42
-B23_0116:		lda ($50, x)	; a1 50
-B23_0118:		lda ($89, x)	; a1 89
-B23_011a:		lda ($89, x)	; a1 89
-B23_011c:		lda ($41, x)	; a1 41
-B23_011e:		lda ($41, x)	; a1 41
-B23_0120:		lda ($a9, x)	; a1 a9
-B23_0122:		lda ($b5, x)	; a1 b5
-B23_0124:		lda ($ef, x)	; a1 ef
-B23_0126:		lda ($ef, x)	; a1 ef
-B23_0128:		lda ($ef, x)	; a1 ef
-B23_012a:		lda ($ef, x)	; a1 ef
-B23_012c:		lda ($ef, x)	; a1 ef
-B23_012e:		lda ($ef, x)	; a1 ef
-B23_0130:		lda ($ef, x)	; a1 ef
-B23_0132:		lda ($ef, x)	; a1 ef
-B23_0134:		lda ($ef, x)	; a1 ef
-B23_0136:		lda ($21, x)	; a1 21
-B23_0138:		ldx #$2b		; a2 2b
-B23_013a:		ldx #$2b		; a2 2b
-B23_013c:		ldx #$42		; a2 42
-B23_013e:		ldx #$42		; a2 42
-B23_0140:		ldx #$60		; a2 60
-B23_0142:		jsr $a17b		; 20 7b a1
-B23_0145:		ldy $054e		; ac 4e 05
+func_17_0141:
+B23_0141:		rts
+
+
+; eg dagger, grant's dagger
+func_17_0142:
+B23_0142:		jsr func_17_017b		; 20 7b a1
+B23_0145:		ldy wCurrPlayer.w		; ac 4e 05
 B23_0148:		lda $a14d, y	; b9 4d a1
 B23_014b:		bne B23_016b ; d0 1e
 
 B23_014d:	.db $03
 B23_014e:		.db $00				; 00
 B23_014f:		php				; 08 
-B23_0150:		jsr $a17b		; 20 7b a1
-B23_0153:		ldy $054e		; ac 4e 05
+
+
+; eg axe, grant's axe
+func_17_0150:
+B23_0150:		jsr func_17_017b		; 20 7b a1
+B23_0153:		ldy wCurrPlayer.w		; ac 4e 05
 B23_0156:		lda $a15b, y	; b9 5b a1
 B23_0159:		bne B23_016b ; d0 10
 
 B23_015b:		ora ($00, x)	; 01 00
-B23_015d:		ora #$20		; 09 20
-B23_015f:	.db $7b
-B23_0160:		lda ($38, x)	; a1 38
+B23_015d:		.db $09
+
+
+; eg cross, holy water, stopwatch, sypha's weapons
+func_17_015e:
+	jsr func_17_017b
+	sec
 B23_0162:		lda $054e, x	; bd 4e 05
 B23_0165:		sbc #$93		; e9 93
 B23_0167:		tay				; a8 
-B23_0168:		lda $a171, y	; b9 71 a1
+B23_0168:		lda data_17_0171.w, y	; b9 71 a1
+
 B23_016b:		ldy $3b			; a4 3b
-B23_016d:	.db $99 $85 $00
+.ifdef WEAPON_SWAPPING
+	jsr addNewSubweapon
+.else
+B23_016d:		sta wCurrSubweapon.w, y
+.endif
 B23_0170:		rts				; 60 
 
-
+data_17_0171:
 B23_0171:		ora ($02, x)	; 01 02
 B23_0173:	.db $03
 B23_0174:	.db $04
@@ -209,15 +229,19 @@ B23_0175:	.db $0b
 B23_0176:		ora $06			; 05 06
 B23_0178:	.db $07
 B23_0179:		php				; 08 
-B23_017a:		ora #$a9		; 09 a9
-B23_017c:		.db $00				; 00
+B23_017a:		.db $09
+
+
+func_17_017b:
+	lda #$00
 B23_017d:		sta $9c			; 85 9c
 B23_017f:		ldy $3b			; a4 3b
-B23_0181:	.db $99 $87 $00
+B23_0181:		sta $87.w, y
 B23_0184:		lda #$1c		; a9 1c
 B23_0186:		jmp playSound		; 4c 5f e2
 
 
+func_17_0189:
 B23_0189:		lda #$1c		; a9 1c
 B23_018b:		jsr playSound		; 20 5f e2
 B23_018e:		lda #$01		; a9 01
@@ -228,12 +252,14 @@ B23_0195:		lda $054e, x	; bd 4e 05
 B23_0198:		sbc #$9c		; e9 9c
 B23_019a:	.db $99 $8e $00
 B23_019d:		lda #$00		; a9 00
-B23_019f:		sta $0400, x	; 9d 00 04
+B23_019f:		sta wOamSpecIdx.w, x	; 9d 00 04
 B23_01a2:		sta $054e, x	; 9d 4e 05
 B23_01a5:		sta wEntityAI_idx.w, x	; 9d ef 05
 B23_01a8:		rts				; 60 
 
 
+; eg invincibility
+func_17_01a9:
 B23_01a9:		lda #$17		; a9 17
 B23_01ab:		jsr playSound		; 20 5f e2
 B23_01ae:		lda #$b4		; a9 b4
@@ -242,6 +268,8 @@ B23_01b2:		ldx $6c			; a6 6c
 B23_01b4:		rts				; 60 
 
 
+; eg rosary
+func_17_01b5:
 B23_01b5:		lda #$4a		; a9 4a
 B23_01b7:		jsr playSound		; 20 5f e2
 B23_01ba:		ldx #$01		; a2 01
@@ -275,6 +303,8 @@ B23_01ec:		ldx $6c			; a6 6c
 B23_01ee:		rts				; 60 
 
 
+; eg point bags
+func_17_01ef:
 B23_01ef:		lda #$18		; a9 18
 B23_01f1:		jsr playSound		; 20 5f e2
 B23_01f4:		sec				; 38 
@@ -311,14 +341,20 @@ B23_021c:		.db $00				; 00
 B23_021d:		.db $00				; 00
 B23_021e:		.db $00				; 00
 B23_021f:		.db $00				; 00
-B23_0220:		ora ($a9, x)	; 01 a9
-B23_0222:		ora ($85, x)	; 01 85
-B23_0224:	.db $d7
+B23_0220:		.db $01
+
+
+; eg 1-up
+func_17_0221:
+	lda #$01
+	sta $d7
 B23_0225:		jsr $e748		; 20 48 e7
 B23_0228:		ldx $6c			; a6 6c
 B23_022a:		rts				; 60 
 
 
+; eg hearts
+func_17_022b:
 B23_022b:		lda #$1b		; a9 1b
 B23_022d:		jsr playSound		; 20 5f e2
 B23_0230:		sec				; 38 
@@ -332,6 +368,10 @@ B23_023f:		rts				; 60
 
 
 B23_0240:		ora $01			; 05 01
+
+
+; eg multipliers
+func_17_0242:
 B23_0242:		lda #$1c		; a9 1c
 B23_0244:		jsr playSound		; 20 5f e2
 B23_0247:		ldy $3b			; a4 3b
@@ -363,7 +403,7 @@ B23_0273:		ldy #$04		; a0 04
 B23_0275:		jmp $a1fb		; 4c fb a1
 
 
-B23_0278:		lda $054e		; ad 4e 05
+B23_0278:		lda wCurrPlayer.w		; ad 4e 05
 B23_027b:		jsr jumpTablePreserveY		; 20 6d e8
 	.dw $a286
 	.dw $a3b4
@@ -467,7 +507,7 @@ B23_0316:	.db $a3
 B23_0317:		eor $a3			; 45 a3
 B23_0319:	.db $53
 B23_031a:	.db $a3
-B23_031b:		lda $054e		; ad 4e 05
+B23_031b:		lda wCurrPlayer.w		; ad 4e 05
 B23_031e:		jsr jumpTablePreserveY		; 20 6d e8
 B23_0321:		cli				; 58 
 B23_0322:	.db $a3
@@ -475,7 +515,7 @@ B23_0323:		sty $a3, x		; 94 a3
 B23_0325:		cli				; 58 
 B23_0326:	.db $a3
 B23_0327:		ldy $a3, x		; b4 a3
-B23_0329:		lda $054e		; ad 4e 05
+B23_0329:		lda wCurrPlayer.w		; ad 4e 05
 B23_032c:		jsr jumpTablePreserveY		; 20 6d e8
 B23_032f:	.db $80
 B23_0330:	.db $a3
@@ -485,13 +525,13 @@ B23_0331:		;removed
 B23_0333:		cli				; 58 
 B23_0334:	.db $a3
 B23_0335:		ldy $a3, x		; b4 a3
-B23_0337:		lda $054e		; ad 4e 05
+B23_0337:		lda wCurrPlayer.w		; ad 4e 05
 B23_033a:		jsr jumpTablePreserveY		; 20 6d e8
 B23_033d:		adc ($a3), y	; 71 a3
 B23_033f:		sty $a3, x		; 94 a3
 B23_0341:		adc ($a3), y	; 71 a3
 B23_0343:		ldy $a3, x		; b4 a3
-B23_0345:		lda $054e		; ad 4e 05
+B23_0345:		lda wCurrPlayer.w		; ad 4e 05
 B23_0348:		jsr jumpTablePreserveY		; 20 6d e8
 B23_034b:		dey				; 88 
 B23_034c:	.db $a3
@@ -502,7 +542,7 @@ B23_0353:		lda #$97		; a9 97
 B23_0355:		jmp $a398		; 4c 98 a3
 
 
-B23_0358:		lda $054e		; ad 4e 05
+B23_0358:		lda wCurrPlayer.w		; ad 4e 05
 B23_035b:		beq B23_036c ; f0 0f
 
 B23_035d:		lda $86			; a5 86
@@ -521,7 +561,7 @@ B23_036c:		lda #$93		; a9 93
 B23_036e:		jmp $a398		; 4c 98 a3
 
 
-B23_0371:		lda $054e		; ad 4e 05
+B23_0371:		lda wCurrPlayer.w		; ad 4e 05
 B23_0374:		beq B23_0384 ; f0 0e
 
 B23_0376:		lda $86			; a5 86
@@ -582,7 +622,7 @@ B23_03c5:		bne B23_03ac ; d0 e5
 
 B23_03c7:		lda #$00		; a9 00
 B23_03c9:		sta $9c			; 85 9c
-B23_03cb:		lda $054e		; ad 4e 05
+B23_03cb:		lda wCurrPlayer.w		; ad 4e 05
 B23_03ce:		and #$01		; 29 01
 B23_03d0:		bne B23_03c3 ; d0 f1
 

@@ -155,11 +155,11 @@ B21_11f9:		sta $078a		; 8d 8a 07
 B21_11fc:		ldx #$03		; a2 03
 B21_11fe:		lda #$00		; a9 00
 B21_1200:		sta $0520, x	; 9d 20 05
-B21_1203:		sta $04f2, x	; 9d f2 04
+B21_1203:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B21_1206:		lda #$40		; a9 40
 B21_1208:		sta $0537, x	; 9d 37 05
 B21_120b:		lda #$01		; a9 01
-B21_120d:		sta $04f2, x	; 9d f2 04
+B21_120d:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B21_1210:		lda #$01		; a9 01
 B21_1212:		sta $0784		; 8d 84 07
 B21_1215:		lda #$07		; a9 07
@@ -186,16 +186,16 @@ B21_1234:		adc $0520, x	; 7d 20 05
 B21_1237:		sta wEntityBaseY.w, x	; 9d 1c 04
 B21_123a:		clc				; 18 
 B21_123b:		lda wEntityBaseX.w, x	; bd 38 04
-B21_123e:		adc $04f2, x	; 7d f2 04
+B21_123e:		adc wEntityHorizSpeed.w, x	; 7d f2 04
 B21_1241:		sta wEntityBaseX.w, x	; 9d 38 04
 B21_1244:		dec $0784		; ce 84 07
 B21_1247:		bne B21_1256 ; d0 0d
 
 B21_1249:		lda #$02		; a9 02
 B21_124b:		sta $0784		; 8d 84 07
-B21_124e:		lda $04f2, x	; bd f2 04
+B21_124e:		lda wEntityHorizSpeed.w, x	; bd f2 04
 B21_1251:		eor #$fe		; 49 fe
-B21_1253:		sta $04f2, x	; 9d f2 04
+B21_1253:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B21_1256:		rts				; 60 
 
 B21_1257:		lda #$00		; a9 00
@@ -287,7 +287,7 @@ B21_12e0:		jmp gameStateC_inc783_setTimerA		; 4c a7 b2
 
 gameStateC_783_0b:
 B21_12e3:		lda #$00		; a9 00
-B21_12e5:		sta $0400		; 8d 00 04
+B21_12e5:		sta wOamSpecIdx.w		; 8d 00 04
 B21_12e8:		ldx #$01		; a2 01
 B21_12ea:		lda #$3e		; a9 3e
 B21_12ec:		jsr func_15_1518		; 20 18 b5
@@ -336,7 +336,7 @@ B21_1338:		ldy $0782		; ac 82 07
 B21_133b:		lda $b5a5, y	; b9 a5 b5
 B21_133e:		sta $0785		; 8d 85 07
 B21_1341:		tay				; a8 
-B21_1342:		lda $b5a9, y	; b9 a9 b5
+B21_1342:		lda data_15_15a9.w, y	; b9 a9 b5
 B21_1345:		jsr func_15_15ee		; 20 ee b5
 B21_1348:		inc $0785		; ee 85 07
 B21_134b:		jsr func_15_119b		; 20 9b b1
@@ -373,7 +373,7 @@ B21_137b:		bne B21_1390 ; d0 13
 
 B21_137d:		jsr func_15_1366		; 20 66 b3
 B21_1380:		ldy $0785		; ac 85 07
-B21_1383:		lda $b5a9, y	; b9 a9 b5
+B21_1383:		lda data_15_15a9.w, y	; b9 a9 b5
 B21_1386:		cmp #$ff		; c9 ff
 B21_1388:		beq B21_13b6 ; f0 2c
 
@@ -468,7 +468,7 @@ B21_1414:		jmp func_1f_1baf		; 4c af fb
 
 B21_1417:		ldx #$00		; a2 00
 B21_1419:		lda #$00		; a9 00
-B21_141b:		sta $0400, x	; 9d 00 04
+B21_141b:		sta wOamSpecIdx.w, x	; 9d 00 04
 B21_141e:		inx				; e8 
 B21_141f:		cpx #$04		; e0 04
 B21_1421:		bcc B21_1419 ; 90 f6
@@ -626,9 +626,9 @@ B21_1515:		jmp B21_14e0		; 4c e0 b4
 
 
 func_15_1518:
-B21_1518:		sta $0400, x	; 9d 00 04
+B21_1518:		sta wOamSpecIdx.w, x	; 9d 00 04
 B21_151b:		lda #$14		; a9 14
-B21_151d:		sta $048c, x	; 9d 8c 04
+B21_151d:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B21_1520:		rts				; 60 
 
 
@@ -650,7 +650,7 @@ B21_1537:		sta $0470, x	; 9d 70 04
 B21_153a:		rts				; 60 
 
 
-B21_153b:		lda $0400, x	; bd 00 04
+B21_153b:		lda wOamSpecIdx.w, x	; bd 00 04
 B21_153e:		beq B21_153a ; f0 fa
 
 B21_1540:		lda $0470, x	; bd 70 04
@@ -678,15 +678,15 @@ B21_155e:		pla				; 68
 func_15_155f:
 B21_155f:		tay				; a8 
 B21_1560:		lda $b57d, y	; b9 7d b5
-B21_1563:		sta $0400, x	; 9d 00 04
+B21_1563:		sta wOamSpecIdx.w, x	; 9d 00 04
 B21_1566:		lda $b585, y	; b9 85 b5
 B21_1569:		sta wEntityBaseX.w, x	; 9d 38 04
 B21_156c:		lda $b58d, y	; b9 8d b5
 B21_156f:		sta wEntityBaseY.w, x	; 9d 1c 04
 B21_1572:		lda #$01		; a9 01
-B21_1574:		sta $04a8, x	; 9d a8 04
+B21_1574:		sta wEntityXFlipped.w, x	; 9d a8 04
 B21_1577:		lda #$14		; a9 14
-B21_1579:		sta $048c, x	; 9d 8c 04
+B21_1579:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B21_157c:		rts				; 60 
 
 
@@ -735,6 +735,9 @@ B21_15a2:		ora ($00, x)	; 01 00
 B21_15a4:		ora ($00, x)	; 01 00
 B21_15a6:		ora ($22), y	; 11 22
 B21_15a8:	.db $33
+
+
+data_15_15a9:
 B21_15a9:		and $3b3a, y	; 39 3a 3b
 B21_15ac:		rol $403f, x	; 3e 3f 40
 B21_15af:		eor ($42, x)	; 41 42
@@ -798,3 +801,31 @@ B21_15f9:		lda #$00		; a9 00
 B21_15fb:		sta $0789		; 8d 89 07
 
 B21_15fe:		rts				; 60 
+
+
+
+
+func_15_15ff:
+B21_15ff:		sta $00			; 85 00
+B21_1601:		asl a			; 0a
+B21_1602:		clc				; 18 
+B21_1603:		adc $00			; 65 00
+B21_1605:		tay				; a8 
+B21_1606:		lda data_15_1616.w, y	; b9 16 b6
+B21_1609:		sta $16			; 85 16
+B21_160b:		lda data_15_1616.w+1, y	; b9 17 b6
+B21_160e:		sta $17			; 85 17
+B21_1610:		lda data_15_1616.w+2, y	; b9 18 b6
+B21_1613:		jmp func_1f_1bba		; 4c ba fb
+
+data_15_1616:
+	.table word byte
+	.row func_00_052c $80
+	.row func_00_0001 $80
+	.row getCurrRoomsChrBanks $80
+	.row func_1e_1067 $00
+	.row func_1e_10f8 $00
+	.row func_1e_0db8 $00
+	.row func_00_10cd $80
+	.row func_1f_1ba4 $80
+	.row func_1f_1baf $80

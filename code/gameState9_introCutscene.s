@@ -65,7 +65,7 @@ B3_066f:		jsr func_1f_0bd5		; 20 d5 eb
 B3_0672:		ldy #$00		; a0 00
 B3_0674:		jsr func_03_076d		; 20 6d a7
 B3_0677:		lda #$01		; a9 01
-B3_0679:		sta $04a8		; 8d a8 04
+B3_0679:		sta wEntityXFlipped.w		; 8d a8 04
 B3_067c:		lda #$80		; a9 80
 B3_067e:		sta wEntityBaseX.w		; 8d 38 04
 B3_0681:		lda #$b0		; a9 b0
@@ -236,9 +236,9 @@ B3_076c:		.db $01
 
 func_03_076d:
 	lda $a77e, y		; b9 7e a7
-B3_0770:	sta $0400	; 8d 00 04
+B3_0770:	sta wOamSpecIdx.w	; 8d 00 04
 B3_0773:		lda #$0c		; a9 0c
-B3_0775:		sta $048c		; 8d 8c 04
+B3_0775:		sta wEntityOamSpecGroupDoubled.w		; 8d 8c 04
 B3_0778:		lda #$00		; a9 00
 B3_077a:		sta wEntityPaletteOverride.w		; 8d 54 04
 B3_077d:		rts				; 60 

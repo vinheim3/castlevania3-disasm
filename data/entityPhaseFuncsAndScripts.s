@@ -302,3 +302,40 @@ entityPhaseFunc_19_stub:
 ; unused?
 	.dw entityPhaseFunc_19_stub
 	.dw entityPhaseFunc_19_stub
+
+.ifdef WEAPON_SWAPPING
+addNewSubweapon:
+; check if currently in list already
+	pha
+	jsr checkSubweaponIntegrity
+
+	lda $3b
+	asl a
+	asl a
+	asl a
+	asl a
+	tax
+	sta wNumWeaponsOffset.w
+	lda wTrevorNumSubweapons.w, x
+	beq +
+	tax
+
+	pla
+	pha
+-	cmp wTrevorNumSubweapons.w, x
+	beq @toDone
+	dex
+	bne -
++
+	pla
+	ldx wNumWeaponsOffset.w
+	inc wTrevorNumSubweapons.w, x
+	ldy wTrevorNumSubweapons.w, x
+	sta wTrevorSubweapons.w, y
+-	ldy $3b
+	sta wCurrSubweapon.w, y
+	rts
+@toDone:
+	pla
+	jmp -
+.endif

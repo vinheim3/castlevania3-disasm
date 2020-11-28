@@ -321,9 +321,9 @@ B3_09ac:		lda #$7b		; a9 7b
 B3_09ae:		sta wChrBankSpr_0c00			; 85 49
 B3_09b0:		jsr chrSwitch_0_to_c00_1400		; 20 3c e3
 B3_09b3:		lda #$0c		; a9 0c
-B3_09b5:		sta $048c, x	; 9d 8c 04
+B3_09b5:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B3_09b8:		lda #$da		; a9 da
-B3_09ba:		sta $0400, x	; 9d 00 04
+B3_09ba:		sta wOamSpecIdx.w, x	; 9d 00 04
 B3_09bd:		lda #$00		; a9 00
 B3_09bf:		sta $0786		; 8d 86 07
 B3_09c2:		sta $0793		; 8d 93 07
@@ -582,9 +582,9 @@ B3_0b73:		ldx #$00		; a2 00
 B3_0b75:		lda #$01		; a9 01
 B3_0b77:		sta $054e, x	; 9d 4e 05
 B3_0b7a:		lda #$14		; a9 14
-B3_0b7c:		sta $048c, x	; 9d 8c 04
+B3_0b7c:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B3_0b7f:		lda #$10		; a9 10
-B3_0b81:		sta $0400, x	; 9d 00 04
+B3_0b81:		sta wOamSpecIdx.w, x	; 9d 00 04
 B3_0b84:		txa				; 8a 
 B3_0b85:		asl a			; 0a
 B3_0b86:		tay				; a8 
@@ -893,8 +893,8 @@ B3_0d72:		lda #$01		; a9 01
 B3_0d74:		sta $10			; 85 10
 B3_0d76:		lda #$00		; a9 00
 B3_0d78:		sta $054e, x	; 9d 4e 05
-B3_0d7b:		sta $0400, x	; 9d 00 04
-B3_0d7e:		sta $048c, x	; 9d 8c 04
+B3_0d7b:		sta wOamSpecIdx.w, x	; 9d 00 04
+B3_0d7e:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B3_0d81:		rts				; 60 
 
 
@@ -1025,16 +1025,16 @@ B3_0e3b:		cmp #$68		; c9 68
 B3_0e3d:		bcs B3_0e4a ; b0 0b
 
 B3_0e3f:		lda #$14		; a9 14
-B3_0e41:		sta $048c, x	; 9d 8c 04
+B3_0e41:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B3_0e44:		lda #$12		; a9 12
-B3_0e46:		sta $0400, x	; 9d 00 04
+B3_0e46:		sta wOamSpecIdx.w, x	; 9d 00 04
 B3_0e49:		rts				; 60 
 
 
 B3_0e4a:		lda #$14		; a9 14
-B3_0e4c:		sta $048c, x	; 9d 8c 04
+B3_0e4c:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B3_0e4f:		lda #$10		; a9 10
-B3_0e51:		sta $0400, x	; 9d 00 04
+B3_0e51:		sta wOamSpecIdx.w, x	; 9d 00 04
 B3_0e54:		rts				; 60 
 
 
@@ -1051,8 +1051,8 @@ B3_0e62:		rts				; 60
 
 B3_0e63:		lda #$00		; a9 00
 B3_0e65:		sta $054e, x	; 9d 4e 05
-B3_0e68:		sta $0400, x	; 9d 00 04
-B3_0e6b:		sta $048c, x	; 9d 8c 04
+B3_0e68:		sta wOamSpecIdx.w, x	; 9d 00 04
+B3_0e6b:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B3_0e6e:		rts				; 60 
 
 
@@ -1202,7 +1202,7 @@ B3_0f64:		rts				; 60
 .include "code/gameStateAB.s"
 
 func_03_1c8d:
-B3_1c8d:		lda $0565, x	; bd 65 05
+B3_1c8d:		lda wPlayerStateDoubled.w, x	; bd 65 05
 B3_1c90:		lsr a			; 4a
 B3_1c91:		lsr a			; 4a
 B3_1c92:		lsr a			; 4a
@@ -1210,10 +1210,10 @@ B3_1c93:		lsr a			; 4a
 B3_1c94:		lsr a			; 4a
 B3_1c95:		lsr a			; 4a
 B3_1c96:		jsr jumpTablePreserveY		; 20 6d e8
-B3_1c99:	.db $9f
-B3_1c9a:		ldy $bca7, x	; bc a7 bc
-B3_1c9d:		ldy $a9bc, x	; bc bc a9
-B3_1ca0:	.db $80
+	.dw $bc9f
+	.dw $bca7
+	.dw $bcbc
+B3_1c9f:	lda #$80
 B3_1ca1:		sta $05d8, x	; 9d d8 05
 B3_1ca4:		jmp func_1f_1f8a		; 4c 8a ff
 
@@ -1223,10 +1223,10 @@ B3_1caa:		bne B3_1cbb ; d0 0f
 
 B3_1cac:		lda #$08		; a9 08
 B3_1cae:		sta $05d8, x	; 9d d8 05
-B3_1cb1:		lda $0565, x	; bd 65 05
+B3_1cb1:		lda wPlayerStateDoubled.w, x	; bd 65 05
 B3_1cb4:		and #$bf		; 29 bf
 B3_1cb6:		ora #$80		; 09 80
-B3_1cb8:		sta $0565, x	; 9d 65 05
+B3_1cb8:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B3_1cbb:		rts				; 60 
 
 

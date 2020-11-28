@@ -24,13 +24,13 @@ getCurrRoomX_roomQuarterIdx:
 	rts
 
 
-getRoomLuminaryDataAddr:
+getRoomEntityDataAddr:
 	lda wCurrRoomGroup
 	asl a
 	tay
-	lda roomLuminaryDataAddresses.w, y
+	lda roomEntityDataAddresses.w, y
 	sta wCurrRoomGroupEntityDataAddr
-	lda roomLuminaryDataAddresses.w+1, y
+	lda roomEntityDataAddresses.w+1, y
 	sta wCurrRoomGroupEntityDataAddr+1
 
 	lda wCurrRoomSection
@@ -53,7 +53,7 @@ getRoomLuminaryDataAddr:
 	rts
 
 
-loadRoomLuminaries:
+loadRoomEntities:
 B20_0047:		ldx #$00		; a2 00
 
 ; clear f0 to f3
@@ -64,7 +64,7 @@ B20_004e:		cpx #$04		; e0 04
 B20_0050:		bcc B20_0049 ; 90 f7
 
 B20_0052:		jsr getCurrRoomX_roomQuarterIdx		; 20 11 80
-B20_0055:		jsr getRoomLuminaryDataAddr		; 20 1e 80
+B20_0055:		jsr getRoomEntityDataAddr		; 20 1e 80
 
 ; 6 luminaries
 B20_0058:		lda #$06		; a9 06
@@ -83,7 +83,7 @@ B20_0067:		sta $09			; 85 09
 B20_0069:		lda #$01		; a9 01
 B20_006b:		sta $0a			; 85 0a
 @nextLuminary:
-B20_006d:		jsr loadLuminary		; 20 fc 80
+B20_006d:		jsr loadEntityMetadata		; 20 fc 80
 B20_0070:		inc wCurrRoomXQuarter			; e6 76
 
 ; 09/0a += 140
@@ -179,7 +179,7 @@ B20_00f6:		sta wCurrRoomXQuarter			; 85 76
 B20_00f8:		lda #$01		; a9 01
 B20_00fa:		sta $0a			; 85 0a
 
-loadLuminary:
+loadEntityMetadata:
 B20_00fc:		ldy wCurrRoomXQuarter			; a4 76
 B20_00fe:		ldx offsetMod6.w, y	; be 0c 84
 B20_0101:		lda wCurrRoomXQuarter			; a5 76
@@ -346,17 +346,17 @@ B20_01e6:		jsr func_1f_1ed7		; 20 d7 fe
 B20_01e9:		lda #$00		; a9 00
 B20_01eb:		sta $054e, x	; 9d 4e 05
 B20_01ee:		sta $0470, x	; 9d 70 04
-B20_01f1:		sta $0400, x	; 9d 00 04
+B20_01f1:		sta wOamSpecIdx.w, x	; 9d 00 04
 B20_01f4:		sta wEntityAI_idx.w, x	; 9d ef 05
 B20_01f7:		rts				; 60 
 
 
-;
+func_14_01f8:
 B20_01f8:		jsr $8369		; 20 69 83
 B20_01fb:		lda #$00		; a9 00
 B20_01fd:		sta $79			; 85 79
 B20_01ff:		sta $7a			; 85 7a
-B20_0201:		jsr getRoomLuminaryDataAddr		; 20 1e 80
+B20_0201:		jsr getRoomEntityDataAddr		; 20 1e 80
 B20_0204:		ldy $79			; a4 79
 B20_0206:		lda (wCurrRoomEntityDataAddr), y	; b1 98
 B20_0208:		cmp #$ff		; c9 ff
@@ -419,6 +419,7 @@ B20_025f:		sta $79			; 85 79
 B20_0261:		rts				; 60 
 
 
+func_14_0262:
 B20_0262:		lda wCurrScrollXWithinRoom			; a5 56
 B20_0264:		and #$f0		; 29 f0
 B20_0266:		cmp $77			; c5 77
@@ -856,7 +857,7 @@ B20_04d6:		beq B20_04c0 ; f0 e8
 
 B20_04d8:		lda #$00		; a9 00
 B20_04da:		sta $054e, x	; 9d 4e 05
-B20_04dd:		sta $0400, x	; 9d 00 04
+B20_04dd:		sta wOamSpecIdx.w, x	; 9d 00 04
 B20_04e0:		sta $0470, x	; 9d 70 04
 B20_04e3:		sta wEntityBaseX.w, x	; 9d 38 04
 B20_04e6:		sta wEntityBaseY.w, x	; 9d 1c 04
@@ -1021,7 +1022,7 @@ B20_05e5:		sed				; f8
 B20_05e6:		dec $07ce, x	; de ce 07
 B20_05e9:		bne B20_05e3 ; d0 f8
 
-B20_05eb:		jsr $8de7		; 20 e7 8d
+B20_05eb:		jsr func_14_0de7		; 20 e7 8d
 B20_05ee:		jsr $8d73		; 20 73 8d
 B20_05f1:		bne B20_0621 ; d0 2e
 
@@ -1056,7 +1057,7 @@ B20_0629:		and $4b86		; 2d 86 4b
 B20_062c:		stx $fe			; 86 fe
 B20_062e:		iny				; c8 
 B20_062f:	.db $07
-B20_0630:		jsr $8de7		; 20 e7 8d
+B20_0630:		jsr func_14_0de7		; 20 e7 8d
 B20_0633:		jsr $8d73		; 20 73 8d
 B20_0636:		bne B20_0643 ; d0 0b
 
@@ -1085,7 +1086,7 @@ B20_0659:		jmp $85de		; 4c de 85
 B20_065c:		dec $07ce, x	; de ce 07
 B20_065f:		bne B20_064a ; d0 e9
 
-B20_0661:		jsr $8de7		; 20 e7 8d
+B20_0661:		jsr func_14_0de7		; 20 e7 8d
 B20_0664:		jsr $8d73		; 20 73 8d
 B20_0667:		bne B20_0674 ; d0 0b
 
@@ -1107,7 +1108,7 @@ B20_0682:		stx $4c			; 86 4c
 B20_0684:		dec $de85, x	; de 85 de
 B20_0687:		dec $d007		; ce 07 d0
 B20_068a:	.db $27
-B20_068b:		jsr $8de7		; 20 e7 8d
+B20_068b:		jsr func_14_0de7		; 20 e7 8d
 B20_068e:		jsr $8d73		; 20 73 8d
 B20_0691:		bne B20_06ab ; d0 18
 
@@ -1145,8 +1146,8 @@ B20_06c7:		beq B20_06ee ; f0 25
 B20_06c9:		lda $07e0, x	; bd e0 07
 B20_06cc:		bne B20_06ee ; d0 20
 
-B20_06ce:		jsr $8de7		; 20 e7 8d
-B20_06d1:		jsr $8e54		; 20 54 8e
+B20_06ce:		jsr func_14_0de7		; 20 e7 8d
+B20_06d1:		jsr func_14_0e54		; 20 54 8e
 B20_06d4:		bne B20_06ee ; d0 18
 
 B20_06d6:		txa				; 8a 
@@ -1199,11 +1200,11 @@ B20_0720:		dex				; ca
 B20_0721:		cmp #$80		; c9 80
 B20_0723:		bcc B20_0749 ; 90 24
 
-B20_0725:		jsr $8de7		; 20 e7 8d
+B20_0725:		jsr func_14_0de7		; 20 e7 8d
 B20_0728:		jsr $8d73		; 20 73 8d
 B20_072b:		bne B20_0749 ; d0 1c
 
-B20_072d:		ldy $04a8		; ac a8 04
+B20_072d:		ldy wEntityXFlipped.w		; ac a8 04
 B20_0730:		lda $1f			; a5 1f
 B20_0732:		and #$07		; 29 07
 B20_0734:		clc				; 18 
@@ -1271,7 +1272,7 @@ B20_0786:		plp				; 28
 B20_0787:		dec $07ce, x	; de ce 07
 B20_078a:		bne B20_07fc ; d0 70
 
-B20_078c:		jsr $8de7		; 20 e7 8d
+B20_078c:		jsr func_14_0de7		; 20 e7 8d
 B20_078f:		jsr $8383		; 20 83 83
 B20_0792:		;removed
 	.db $d0 $de
@@ -1281,7 +1282,7 @@ B20_0795:		adc $1a			; 65 1a
 B20_0797:		adc wEntityBaseX.w		; 6d 38 04
 B20_079a:		and #$03		; 29 03
 B20_079c:		clc				; 18 
-B20_079d:		ldy $04a8		; ac a8 04
+B20_079d:		ldy wEntityXFlipped.w		; ac a8 04
 B20_07a0:		adc $87ba, y	; 79 ba 87
 B20_07a3:		tay				; a8 
 B20_07a4:		lda $87b2, y	; b9 b2 87
@@ -1312,7 +1313,7 @@ B20_07c3:		jmp $85de		; 4c de 85
 B20_07c6:		dec $07ce, x	; de ce 07
 B20_07c9:		bne B20_07fc ; d0 31
 
-B20_07cb:		jsr $8de7		; 20 e7 8d
+B20_07cb:		jsr func_14_0de7		; 20 e7 8d
 B20_07ce:		jsr $8d73		; 20 73 8d
 B20_07d1:		bne B20_07ee ; d0 1b
 
@@ -1321,7 +1322,7 @@ B20_07d4:		adc $1a			; 65 1a
 B20_07d6:		adc wEntityBaseX.w		; 6d 38 04
 B20_07d9:		and #$07		; 29 07
 B20_07db:		clc				; 18 
-B20_07dc:		ldy $04a8		; ac a8 04
+B20_07dc:		ldy wEntityXFlipped.w		; ac a8 04
 B20_07df:		adc $880d, y	; 79 0d 88
 B20_07e2:		tay				; a8 
 B20_07e3:		lda $87fd, y	; b9 fd 87
@@ -1361,7 +1362,7 @@ B20_080f:	.db $13
 B20_0810:		dey				; 88 
 B20_0811:		bit $88			; 24 88
 B20_0813:		inc $07c8, x	; fe c8 07
-B20_0816:		jsr $8de7		; 20 e7 8d
+B20_0816:		jsr func_14_0de7		; 20 e7 8d
 B20_0819:		jsr $83ae		; 20 ae 83
 B20_081c:		bne B20_0821 ; d0 03
 
@@ -1379,7 +1380,7 @@ B20_082a:		rol $7288		; 2e 88 72
 B20_082d:		dey				; 88 
 B20_082e:		inc $07c8, x	; fe c8 07
 B20_0831:		jsr $88b6		; 20 b6 88
-B20_0834:		jsr $8de7		; 20 e7 8d
+B20_0834:		jsr func_14_0de7		; 20 e7 8d
 B20_0837:		jsr $8d73		; 20 73 8d
 B20_083a:		bne B20_0829 ; d0 ed
 
@@ -1437,8 +1438,8 @@ B20_0883:		sed				; f8
 B20_0884:		jsr $8e28		; 20 28 8e
 B20_0887:		bne B20_08c3 ; d0 3a
 
-B20_0889:		jsr $8de7		; 20 e7 8d
-B20_088c:		jsr $8e54		; 20 54 8e
+B20_0889:		jsr func_14_0de7		; 20 e7 8d
+B20_088c:		jsr func_14_0e54		; 20 54 8e
 B20_088f:		bne B20_08b6 ; d0 25
 
 B20_0891:		lda wCurrRoomGroup		; a5 32
@@ -1493,7 +1494,7 @@ B20_08dc:		jmp $85de		; 4c de 85
 B20_08df:		dec $07ce, x	; de ce 07
 B20_08e2:		bne B20_0877 ; d0 93
 
-B20_08e4:		jsr $8de7		; 20 e7 8d
+B20_08e4:		jsr func_14_0de7		; 20 e7 8d
 B20_08e7:		jsr $83a0		; 20 a0 83
 B20_08ea:		bne B20_0910 ; d0 24
 
@@ -1590,11 +1591,11 @@ B20_0955:		bne B20_096d ; d0 16
 
 B20_0957:		lda #$80		; a9 80
 B20_0959:		sta $07ce, x	; 9d ce 07
-B20_095c:		jsr $8de7		; 20 e7 8d
+B20_095c:		jsr func_14_0de7		; 20 e7 8d
 B20_095f:		jsr $8d7b		; 20 7b 8d
 B20_0962:		bne B20_096d ; d0 09
 
-B20_0964:		ldy $04a8		; ac a8 04
+B20_0964:		ldy wEntityXFlipped.w		; ac a8 04
 B20_0967:		lda $896e, y	; b9 6e 89
 B20_096a:		jmp $89a9		; 4c a9 89
 
@@ -1617,7 +1618,7 @@ B20_097d:		bne B20_09d9 ; d0 5a
 
 B20_097f:		lda #$c0		; a9 c0
 B20_0981:		sta $07ce, x	; 9d ce 07
-B20_0984:		jsr $8de7		; 20 e7 8d
+B20_0984:		jsr func_14_0de7		; 20 e7 8d
 B20_0987:		jsr retZifPendulumRoomBeforeDracula		; 20 8d 84
 B20_098a:		bne B20_0992 ; d0 06
 
@@ -1703,7 +1704,7 @@ B20_09fd:		dey				; 88
 B20_09fe:		cmp #$c0		; c9 c0
 B20_0a00:		bcs B20_09d9 ; b0 d7
 
-B20_0a02:		lda $04a8		; ad a8 04
+B20_0a02:		lda wEntityXFlipped.w		; ad a8 04
 B20_0a05:		eor #$01		; 49 01
 B20_0a07:		tay				; a8 
 B20_0a08:		rts				; 60 
@@ -1730,7 +1731,7 @@ B20_0a20:		;removed
 
 B20_0a22:		lda #$90		; a9 90
 B20_0a24:		sta $07ce, x	; 9d ce 07
-B20_0a27:		jsr $8de7		; 20 e7 8d
+B20_0a27:		jsr func_14_0de7		; 20 e7 8d
 B20_0a2a:		jsr $8d7b		; 20 7b 8d
 B20_0a2d:		bne B20_0aa1 ; d0 72
 
@@ -1780,8 +1781,8 @@ B20_0a6d:		bcs B20_0aa1 ; b0 32
 B20_0a6f:		lda #$02		; a9 02
 B20_0a71:		sta $07e6, x	; 9d e6 07
 B20_0a74:		jsr $85de		; 20 de 85
-B20_0a77:		jsr $8de7		; 20 e7 8d
-B20_0a7a:		jsr $8e54		; 20 54 8e
+B20_0a77:		jsr func_14_0de7		; 20 e7 8d
+B20_0a7a:		jsr func_14_0e54		; 20 54 8e
 B20_0a7d:		bne B20_0a95 ; d0 16
 
 B20_0a7f:		jsr $8dde		; 20 de 8d
@@ -1825,11 +1826,11 @@ B20_0aba:		jmp $85de		; 4c de 85
 B20_0abd:		dec $07ce, x	; de ce 07
 B20_0ac0:		bne B20_0ad7 ; d0 15
 
-B20_0ac2:		jsr $8de7		; 20 e7 8d
+B20_0ac2:		jsr func_14_0de7		; 20 e7 8d
 B20_0ac5:		lda $07e0, x	; bd e0 07
 B20_0ac8:		bne B20_0ad2 ; d0 08
 
-B20_0aca:		jsr $8e54		; 20 54 8e
+B20_0aca:		jsr func_14_0e54		; 20 54 8e
 B20_0acd:		bne B20_0ad2 ; d0 03
 
 B20_0acf:		jsr $8bbe		; 20 be 8b
@@ -1841,7 +1842,7 @@ B20_0ad7:		rts				; 60
 B20_0ad8:		dec $ee8a, x	; de 8a ee
 B20_0adb:		txa				; 8a 
 B20_0adc:		sbc #$8a		; e9 8a
-B20_0ade:		jsr $8de7		; 20 e7 8d
+B20_0ade:		jsr func_14_0de7		; 20 e7 8d
 B20_0ae1:		jsr $8d8b		; 20 8b 8d
 B20_0ae4:		bne B20_0ad7 ; d0 f1
 
@@ -1860,7 +1861,7 @@ B20_0af4:		sty $e0bd		; 8c bd e0
 B20_0af7:	.db $07
 B20_0af8:		bne B20_0b15 ; d0 1b
 
-B20_0afa:		jsr $8de7		; 20 e7 8d
+B20_0afa:		jsr func_14_0de7		; 20 e7 8d
 B20_0afd:		lda $07e6, x	; bd e6 07
 B20_0b00:		sta $04			; 85 04
 B20_0b02:		jsr $feb9		; 20 b9 fe
@@ -1885,7 +1886,7 @@ B20_0b1b:		sty $e0bd		; 8c bd e0
 B20_0b1e:	.db $07
 B20_0b1f:		bne B20_0b60 ; d0 3f
 
-B20_0b21:		jsr $8de7		; 20 e7 8d
+B20_0b21:		jsr func_14_0de7		; 20 e7 8d
 B20_0b24:		jsr $83ae		; 20 ae 83
 B20_0b27:		bne B20_0b60 ; d0 37
 
@@ -1904,7 +1905,7 @@ B20_0b35:		bne B20_0b60 ; d0 29
 B20_0b37:		jsr $8e9c		; 20 9c 8e
 B20_0b3a:		bne B20_0b4a ; d0 0e
 
-B20_0b3c:		jsr $8de7		; 20 e7 8d
+B20_0b3c:		jsr func_14_0de7		; 20 e7 8d
 B20_0b3f:		jsr $8e50		; 20 50 8e
 B20_0b42:		bne B20_0b4a ; d0 06
 
@@ -1924,7 +1925,7 @@ B20_0b52:		sty $e0bd		; 8c bd e0
 B20_0b55:	.db $07
 B20_0b56:		bne B20_0b60 ; d0 08
 
-B20_0b58:		jsr $8de7		; 20 e7 8d
+B20_0b58:		jsr func_14_0de7		; 20 e7 8d
 B20_0b5b:		jsr $83ae		; 20 ae 83
 B20_0b5e:		beq B20_0bbe ; f0 5e
 
@@ -1940,8 +1941,8 @@ B20_0b66:		sty $e0bd		; 8c bd e0
 B20_0b69:	.db $07
 B20_0b6a:		bne B20_0baa ; d0 3e
 
-B20_0b6c:		jsr $8de7		; 20 e7 8d
-B20_0b6f:		jsr $8e54		; 20 54 8e
+B20_0b6c:		jsr func_14_0de7		; 20 e7 8d
+B20_0b6f:		jsr func_14_0e54		; 20 54 8e
 B20_0b72:		bne B20_0baa ; d0 36
 
 B20_0b74:		lda $07f6		; ad f6 07
@@ -1986,8 +1987,8 @@ B20_0bb0:		sty $e0bd		; 8c bd e0
 B20_0bb3:	.db $07
 B20_0bb4:		bne B20_0bf8 ; d0 42
 
-B20_0bb6:		jsr $8de7		; 20 e7 8d
-B20_0bb9:		jsr $8e54		; 20 54 8e
+B20_0bb6:		jsr func_14_0de7		; 20 e7 8d
+B20_0bb9:		jsr func_14_0e54		; 20 54 8e
 B20_0bbc:		bne B20_0bcd ; d0 0f
 
 B20_0bbe:		jsr func_14_0dff		; 20 ff 8d
@@ -2035,7 +2036,7 @@ B20_0c01:		sta $e0bd		; 8d bd e0
 B20_0c04:	.db $07
 B20_0c05:		bne B20_0bf8 ; d0 f1
 
-B20_0c07:		jsr $8e54		; 20 54 8e
+B20_0c07:		jsr func_14_0e54		; 20 54 8e
 B20_0c0a:		bne B20_0bf8 ; d0 ec
 
 B20_0c0c:		jmp $8bbe		; 4c be 8b
@@ -2051,7 +2052,7 @@ B20_0c17:		sta $e0bd		; 8d bd e0
 B20_0c1a:	.db $07
 B20_0c1b:		bne B20_0c64 ; d0 47
 
-B20_0c1d:		jsr $8e54		; 20 54 8e
+B20_0c1d:		jsr func_14_0e54		; 20 54 8e
 B20_0c20:		bne B20_0c64 ; d0 42
 
 B20_0c22:		jsr func_14_0dff		; 20 ff 8d
@@ -2116,7 +2117,7 @@ B20_0c82:		sta $04			; 85 04
 B20_0c84:		lda $07e0, x	; bd e0 07
 B20_0c87:		bne B20_0c64 ; d0 db
 
-B20_0c89:		jsr $8e54		; 20 54 8e
+B20_0c89:		jsr func_14_0e54		; 20 54 8e
 B20_0c8c:		bne B20_0c64 ; d0 d6
 
 B20_0c8e:		jsr $8dde		; 20 de 8d
@@ -2168,10 +2169,10 @@ B20_0cdc:		bne B20_0cd2 ; d0 f4
 
 B20_0cde:		lda $07e6, x	; bd e6 07
 B20_0ce1:		sta $17			; 85 17
-B20_0ce3:		jsr $8de7		; 20 e7 8d
+B20_0ce3:		jsr func_14_0de7		; 20 e7 8d
 B20_0ce6:		ldx #$01		; a2 01
 B20_0ce8:		jsr func_1f_1ed7		; 20 d7 fe
-B20_0ceb:		sta $0400, x	; 9d 00 04
+B20_0ceb:		sta wOamSpecIdx.w, x	; 9d 00 04
 B20_0cee:		lda $01			; a5 01
 B20_0cf0:		sta wEntityBaseY.w, x	; 9d 1c 04
 B20_0cf3:		sec				; 38 
@@ -2185,12 +2186,12 @@ B20_0d03:		jsr func_1f_1ec8		; 20 c8 fe
 B20_0d06:		lda #$60		; a9 60
 B20_0d08:		sta $0470, x	; 9d 70 04
 B20_0d0b:		lda $17			; a5 17
-B20_0d0d:		sta $04a8, x	; 9d a8 04
+B20_0d0d:		sta wEntityXFlipped.w, x	; 9d a8 04
 B20_0d10:		jsr $9332		; 20 32 93
 B20_0d13:		jsr $e7ec		; 20 ec e7
 B20_0d16:		ldx #$08		; a2 08
 B20_0d18:		jsr func_1f_1ed7		; 20 d7 fe
-B20_0d1b:		sta $0400, x	; 9d 00 04
+B20_0d1b:		sta wOamSpecIdx.w, x	; 9d 00 04
 B20_0d1e:		lda $01			; a5 01
 B20_0d20:		sta wEntityBaseY.w, x	; 9d 1c 04
 B20_0d23:		clc				; 18 
@@ -2208,7 +2209,7 @@ B20_0d3c:		sta $054e, x	; 9d 4e 05
 B20_0d3f:		lda #$2c		; a9 2c
 B20_0d41:		sta wEntityAI_idx.w, x	; 9d ef 05
 B20_0d44:		lda $17			; a5 17
-B20_0d46:		sta $04a8, x	; 9d a8 04
+B20_0d46:		sta wEntityXFlipped.w, x	; 9d a8 04
 B20_0d49:		jsr $9332		; 20 32 93
 B20_0d4c:		jsr $e7ec		; 20 ec e7
 B20_0d4f:		lda $6c			; a5 6c
@@ -2269,15 +2270,15 @@ B20_0d96:		sta $8c57		; 8d 57 8c
 B20_0d99:		lda $07e0, x	; bd e0 07
 B20_0d9c:		bne B20_0dc4 ; d0 26
 
-B20_0d9e:		jsr $8de7		; 20 e7 8d
+B20_0d9e:		jsr func_14_0de7		; 20 e7 8d
 B20_0da1:		jsr $feb9		; 20 b9 fe
 B20_0da4:		lda #$08		; a9 08
 B20_0da6:		sta $0657, x	; 9d 57 06
 B20_0da9:		jsr func_14_0dff		; 20 ff 8d
 B20_0dac:		lda #$08		; a9 08
-B20_0dae:		sta $0400, x	; 9d 00 04
+B20_0dae:		sta wOamSpecIdx.w, x	; 9d 00 04
 B20_0db1:		lda #$00		; a9 00
-B20_0db3:		sta $048c, x	; 9d 8c 04
+B20_0db3:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B20_0db6:		lda $0470, x	; bd 70 04
 B20_0db9:		ora #$a8		; 09 a8
 B20_0dbb:		sta $0470, x	; 9d 70 04
@@ -2295,7 +2296,7 @@ B20_0dca:		sty $e0bd		; 8c bd e0
 B20_0dcd:	.db $07
 B20_0dce:		bne B20_0dc4 ; d0 f4
 
-B20_0dd0:		jsr $8de7		; 20 e7 8d
+B20_0dd0:		jsr func_14_0de7		; 20 e7 8d
 B20_0dd3:		jsr $feb9		; 20 b9 fe
 B20_0dd6:		lda #$0e		; a9 0e
 B20_0dd8:		sta $0657, x	; 9d 57 06
@@ -2307,21 +2308,23 @@ B20_0de1:		jsr $9332		; 20 32 93
 B20_0de4:		jmp $e7ec		; 4c ec e7
 
 
+func_14_0de7:
 B20_0de7:		lda $07da, x	; bd da 07
 B20_0dea:		sta $00			; 85 00
 B20_0dec:		lda $07d4, x	; bd d4 07
 B20_0def:		sta $01			; 85 01
 B20_0df1:		ldy $07c2, x	; bc c2 07
-B20_0df4:		lda $9282, y	; b9 82 92
+; 02 becomes entity AI
+B20_0df4:		lda data_14_1282.w, y	; b9 82 92
 B20_0df7:		sta $02			; 85 02
-B20_0df9:		lda $92da, y	; b9 da 92
+B20_0df9:		lda data_14_12da.w, y	; b9 da 92
 B20_0dfc:		sta $03			; 85 03
 B20_0dfe:		rts				; 60 
 
 
 func_14_0dff:
 B20_0dff:		jsr func_1f_1ed7		; 20 d7 fe
-B20_0e02:		sta $0400, x	; 9d 00 04
+B20_0e02:		sta wOamSpecIdx.w, x	; 9d 00 04
 B20_0e05:		lda $00			; a5 00
 B20_0e07:		sta wEntityBaseX.w, x	; 9d 38 04
 B20_0e0a:		lda $01			; a5 01
@@ -2374,6 +2377,7 @@ B20_0e4f:		rts				; 60
 B20_0e50:		lda #$02		; a9 02
 B20_0e52:		bne B20_0e56 ; d0 02
 
+func_14_0e54:
 B20_0e54:		lda #$03		; a9 03
 B20_0e56:		sta $0d			; 85 0d
 B20_0e58:		lda #$00		; a9 00
@@ -2480,7 +2484,7 @@ B20_0eee:		bcc B20_0ef1 ; 90 01
 B20_0ef0:		rts				; 60 
 
 
-B20_0ef1:		jsr $8de7		; 20 e7 8d
+B20_0ef1:		jsr func_14_0de7		; 20 e7 8d
 B20_0ef4:		lda $07e0, x	; bd e0 07
 B20_0ef7:		bne B20_0f15 ; d0 1c
 
@@ -2491,7 +2495,7 @@ B20_0f00:		jsr func_14_0dff		; 20 ff 8d
 B20_0f03:		jsr $9332		; 20 32 93
 B20_0f06:		sta $3d			; 85 3d
 B20_0f08:		jsr $8f16		; 20 16 8f
-B20_0f0b:		jsr $8f73		; 20 73 8f
+B20_0f0b:		jsr func_14_0f73		; 20 73 8f
 B20_0f0e:		ldx $6c			; a6 6c
 B20_0f10:		inc $07c8, x	; fe c8 07
 B20_0f13:		stx $c3			; 86 c3
@@ -2502,7 +2506,8 @@ B20_0f16:		jsr $8f32		; 20 32 8f
 B20_0f19:		bcc B20_0f15 ; 90 fa
 
 B20_0f1b:		dey				; 88 
-B20_0f1c:		lda $8f55, y	; b9 55 8f
+
+B20_0f1c:		lda data_14_0f55.w, y	; b9 55 8f
 B20_0f1f:		sta wChrBankSpr_0800			; 85 48
 B20_0f21:		lda $8f64, y	; b9 64 8f
 B20_0f24:		sta wChrBankSpr_0c00			; 85 49
@@ -2543,11 +2548,11 @@ B20_0f4f:		bne B20_0f53 ; d0 02
 B20_0f51:		sec				; 38 
 B20_0f52:		rts				; 60 
 
-
 B20_0f53:		clc				; 18 
 B20_0f54:		rts				; 60 
 
 
+data_14_0f55:
 B20_0f55:		clc				; 18 
 B20_0f56:	.db $1c
 B20_0f57:	.db $1a
@@ -2563,8 +2568,11 @@ B20_0f6a:	.db $23
 B20_0f6b:		and ($29, x)	; 21 29
 B20_0f6d:		and $2f			; 25 2f
 B20_0f6f:		and $1b31		; 2d 31 1b
-B20_0f72:		ora $3220, x	; 1d 20 32
-B20_0f75:	.db $8f
+B20_0f72:		.db $1d
+
+
+func_14_0f73:
+B20_0f73:		jsr $8f32
 B20_0f76:		bcc B20_0fa7 ; 90 2f
 
 B20_0f78:		lda $054e, x	; bd 4e 05
@@ -2584,7 +2592,7 @@ B20_0f8e:		sbc #$11		; e9 11
 B20_0f90:		tax				; aa 
 B20_0f91:		lda #$04		; a9 04
 B20_0f93:		sta $0e			; 85 0e
-B20_0f95:		lda $8fa8, y	; b9 a8 8f
+B20_0f95:		lda data_14_0fa8.w, y	; b9 a8 8f
 B20_0f98:		jsr $8fa3		; 20 a3 8f
 B20_0f9b:		iny				; c8 
 B20_0f9c:		dec $0e			; c6 0e
@@ -2593,12 +2601,11 @@ B20_0f9e:		bne B20_0f95 ; d0 f5
 B20_0fa0:		ldx $0f			; a6 0f
 B20_0fa2:		rts				; 60 
 
-
 B20_0fa3:		sta wVramQueue.w, x	; 9d 00 03
 B20_0fa6:		inx				; e8 
 B20_0fa7:		rts				; 60 
 
-
+data_14_0fa8:
 B20_0fa8:	.db $0f
 B20_0fa9:		.db $00				; 00
 B20_0faa:		.db $00				; 00
@@ -2700,7 +2707,7 @@ B20_1017:		bne B20_1011 ; d0 f8
 B20_1019:		jmp $8f0e		; 4c 0e 8f
 
 
-B20_101c:		jsr $8de7		; 20 e7 8d
+B20_101c:		jsr func_14_0de7		; 20 e7 8d
 B20_101f:		lda $bd			; a5 bd
 B20_1021:		sta $16			; 85 16
 B20_1023:		lda #$0c		; a9 0c
@@ -2767,7 +2774,7 @@ B20_108e:		bne B20_1040 ; d0 b0
 B20_1090:		ldx #$01		; a2 01
 B20_1092:		lda $15			; a5 15
 B20_1094:		sta $061d, x	; 9d 1d 06
-B20_1097:		jsr $8f73		; 20 73 8f
+B20_1097:		jsr func_14_0f73		; 20 73 8f
 B20_109a:		ldx $6c			; a6 6c
 B20_109c:		inc $07c8, x	; fe c8 07
 B20_109f:		rts				; 60 
@@ -2806,7 +2813,7 @@ B20_10ce:		bne B20_10b9 ; d0 e9
 
 B20_10d0:		dex				; ca 
 B20_10d1:		jsr $8f16		; 20 16 8f
-B20_10d4:		jsr $8f73		; 20 73 8f
+B20_10d4:		jsr func_14_0f73		; 20 73 8f
 B20_10d7:		ldx $6c			; a6 6c
 B20_10d9:		inc $07c8, x	; fe c8 07
 B20_10dc:		rts				; 60 
@@ -2863,7 +2870,7 @@ B20_1133:		bne B20_10f6 ; d0 c1
 
 B20_1135:		dex				; ca 
 B20_1136:		jsr $8f16		; 20 16 8f
-B20_1139:		jsr $8f73		; 20 73 8f
+B20_1139:		jsr func_14_0f73		; 20 73 8f
 B20_113c:		ldx $6c			; a6 6c
 B20_113e:		inc $07c8, x	; fe c8 07
 B20_1141:		rts				; 60 
@@ -2917,7 +2924,7 @@ B20_1194:		bne B20_1163 ; d0 cd
 
 B20_1196:		dex				; ca 
 B20_1197:		jsr $8f16		; 20 16 8f
-B20_119a:		jsr $8f73		; 20 73 8f
+B20_119a:		jsr func_14_0f73		; 20 73 8f
 B20_119d:		ldx $6c			; a6 6c
 B20_119f:		inc $07c8, x	; fe c8 07
 B20_11a2:		rts				; 60 
@@ -2968,8 +2975,8 @@ B20_11ea:		sta wEntityBaseX.w, x	; 9d 38 04
 B20_11ed:		lda $921a, y	; b9 1a 92
 B20_11f0:		sta wEntityBaseY.w, x	; 9d 1c 04
 B20_11f3:		lda #$00		; a9 00
-B20_11f5:		sta $04f2, x	; 9d f2 04
-B20_11f8:		sta $0509, x	; 9d 09 05
+B20_11f5:		sta wEntityHorizSpeed.w, x	; 9d f2 04
+B20_11f8:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
 B20_11fb:		sta $0520, x	; 9d 20 05
 B20_11fe:		sta $0537, x	; 9d 37 05
 B20_1201:		sta wEntityPhase.w, x	; 9d c1 05
@@ -3018,8 +3025,8 @@ B20_124a:		sta wEntityBaseY.w, x	; 9d 1c 04
 B20_124d:		lda #$88		; a9 88
 B20_124f:		sta $0470, x	; 9d 70 04
 B20_1252:		lda #$00		; a9 00
-B20_1254:		sta $04f2, x	; 9d f2 04
-B20_1257:		sta $0509, x	; 9d 09 05
+B20_1254:		sta wEntityHorizSpeed.w, x	; 9d f2 04
+B20_1257:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
 B20_125a:		sta $0520, x	; 9d 20 05
 B20_125d:		sta $0537, x	; 9d 37 05
 B20_1260:		dec $10			; c6 10
@@ -3051,6 +3058,7 @@ B20_127e:		sta $07ec		; 8d ec 07
 B20_1281:		rts				; 60 
 
 
+data_14_1282:
 B20_1282:		.db $00				; 00
 B20_1283:		ora ($02, x)	; 01 02
 B20_1285:	.db $07
@@ -3119,6 +3127,9 @@ B20_12d4:	.db $0d $00 $00
 B20_12d7:		.db $00				; 00
 B20_12d8:		.db $00				; 00
 B20_12d9:		.db $00				; 00
+
+
+data_14_12da:
 B20_12da:		.db $00				; 00
 B20_12db:		pha				; 48 
 B20_12dc:		pha				; 48 
@@ -3254,2583 +3265,3 @@ B20_137b:	.db $04
 B20_137c:	.db $04
 B20_137d:	.db $04
 B20_137e:	.db $04
-
-
-roomLuminaryDataAddresses:
-	.dw @group0
-	.dw $93a5
-	.dw $93b1
-	.dw $93bb
-	.dw $93c5
-	.dw $93cb
-	.dw $93d3
-	.dw $93d9
-	.dw $93e7
-	.dw $9bc5
-	.dw $9bc9
-	.dw $9bd7
-	.dw $9bdd
-	.dw $9be3
-	.dw $9beb
-
-@group0:
-	.dw data_14_13f1
-	.dw $93f3
-	.dw $93fb
-	.dw $93ff
-B20_13a5:		ora ($94, x)	; 01 94
-B20_13a7:	.db $07
-B20_13a8:		sty $0d, x		; 94 0d
-B20_13aa:		sty $13, x		; 94 13
-B20_13ac:		sty $19, x		; 94 19
-B20_13ae:		sty $1f, x		; 94 1f
-B20_13b0:		sty $25, x		; 94 25
-B20_13b2:		sty $29, x		; 94 29
-B20_13b4:		sty $2b, x		; 94 2b
-B20_13b6:		sty $2f, x		; 94 2f
-B20_13b8:		sty $35, x		; 94 35
-B20_13ba:		sty $39, x		; 94 39
-B20_13bc:		sty $3f, x		; 94 3f
-B20_13be:		sty $43, x		; 94 43
-B20_13c0:		sty $47, x		; 94 47
-B20_13c2:		sty $4b, x		; 94 4b
-B20_13c4:		sty $51, x		; 94 51
-B20_13c6:		sty $57, x		; 94 57
-B20_13c8:		sty $5d, x		; 94 5d
-B20_13ca:		sty $63, x		; 94 63
-B20_13cc:		sty $65, x		; 94 65
-B20_13ce:		sty $67, x		; 94 67
-B20_13d0:		sty $6b, x		; 94 6b
-B20_13d2:		sty $6f, x		; 94 6f
-B20_13d4:		sty $73, x		; 94 73
-B20_13d6:		sty $75, x		; 94 75
-B20_13d8:		sty $7b, x		; 94 7b
-B20_13da:		sty $7f, x		; 94 7f
-B20_13dc:		sty $81, x		; 94 81
-B20_13de:		sty $83, x		; 94 83
-B20_13e0:		sty $85, x		; 94 85
-B20_13e2:		sty $89, x		; 94 89
-B20_13e4:		sty $8d, x		; 94 8d
-B20_13e6:		sty $8f, x		; 94 8f
-B20_13e8:		sty $93, x		; 94 93
-B20_13ea:		sty $95, x		; 94 95
-B20_13ec:		sty $99, x		; 94 99
-B20_13ee:		sty $9b, x		; 94 9b
-B20_13f0:		.db $94
-
-
-data_14_13f1:
-	.dw $949d
-
-.db $b9
-B20_13f4:		sty $34, x		; 94 34
-B20_13f6:		ldy $94c5		; ac c5 94
-B20_13f9:		sbc ($94, x)	; e1 94
-B20_13fb:		sbc $94, x		; f5 94
-B20_13fd:		ora ($95), y	; 11 95
-B20_13ff:		and $7495		; 2d 95 74
-B20_1402:		ldy $9551		; ac 51 95
-B20_1405:		adc $95			; 65 95
-B20_1407:		adc $d095, y	; 79 95 d0
-B20_140a:		ldy $958d		; ac 8d 95
-B20_140d:		sta $0295, y	; 99 95 02
-B20_1410:		lda $95a5		; ad a5 95
-B20_1413:		sta $1f95, y	; 99 95 1f
-B20_1416:		lda $95a5		; ad a5 95
-B20_1419:		adc $4395, y	; 79 95 43
-B20_141c:		lda $958d		; ad 8d 95
-B20_141f:		adc $ad, x		; 75 ad
-B20_1421:		eor ($95), y	; 51 95
-B20_1423:		adc $95			; 65 95
-B20_1425:		lda $d595, y	; b9 95 d5
-B20_1428:		sta $f1, x		; 95 f1
-B20_142a:		sta wNametableMapping, x		; 95 25
-B20_142c:		stx $49, y		; 96 49
-B20_142e:		stx $6d, y		; 96 6d
-B20_1430:		stx $79, y		; 96 79
-B20_1432:		stx $9d, y		; 96 9d
-B20_1434:		stx $a9, y		; 96 a9
-B20_1436:		stx $bd, y		; 96 bd
-B20_1438:		stx $e1, y		; 96 e1
-B20_143a:		stx $f5, y		; 96 f5
-B20_143c:		stx $09, y		; 96 09
-B20_143e:	.db $97
-B20_143f:		ora $4997, x	; 1d 97 49
-B20_1442:	.db $97
-B20_1443:		eor $8197, x	; 5d 97 81
-B20_1446:	.db $97
-B20_1447:		sta $97, x		; 95 97
-B20_1449:		lda ($97), y	; b1 97
-B20_144b:		cmp $d997		; cd 97 d9
-B20_144e:	.db $97
-B20_144f:		sbc $97, x		; f5 97
-B20_1451:		ora ($98, x)	; 01 98
-B20_1453:	.db $f4
-B20_1454:		lda $9815		; ad 15 98
-B20_1457:		and ($98, x)	; 21 98
-B20_1459:		;removed
-	.db $50 $ae
-
-B20_145b:		and $4198		; 2d 98 41
-B20_145e:		tya				; 98 
-B20_145f:		cmp ($ae, x)	; c1 ae
-B20_1461:		eor $6998		; 4d 98 69
-B20_1464:		tya				; 98 
-B20_1465:		adc $a198, x	; 7d 98 a1
-B20_1468:		tya				; 98 
-B20_1469:		lda $98, x		; b5 98
-B20_146b:		cmp $ed98, y	; d9 98 ed
-B20_146e:		tya				; 98 
-B20_146f:		ora ($99), y	; 11 99
-B20_1471:		and $99			; 25 99
-B20_1473:		eor #$99		; 49 99
-B20_1475:		adc $8999, x	; 7d 99 89
-B20_1478:		sta $99a5, y	; 99 a5 99
-B20_147b:		lda $cd99, y	; b9 99 cd
-B20_147e:		sta $99f1, y	; 99 f1 99
-B20_1481:		ora $9a			; 05 9a
-B20_1483:		ora ($9a), y	; 11 9a
-B20_1485:		and $9a			; 25 9a
-B20_1487:		eor #$9a		; 49 9a
-B20_1489:		eor $819a, x	; 5d 9a 81
-B20_148c:		txs				; 9a 
-B20_148d:		sta $9a, x		; 95 9a
-B20_148f:		cmp ($9a, x)	; c1 9a
-B20_1491:		cmp $9a, x		; d5 9a
-B20_1493:		ora ($9b, x)	; 01 9b
-B20_1495:		and $519b		; 2d 9b 51
-B20_1498:	.db $9b
-B20_1499:		adc $999b		; 6d 9b 99
-B20_149c:	.db $9b
-
-; entities in group 0 section 0 room 0
-B20_149d:		.db $00				; 00
-B20_149e:		.db $00				; 00
-B20_149f:		.db $00				; 00
-B20_14a0:		.db $00				; 00
-B20_14a1:		.db $00				; 00
-B20_14a2:		.db $00				; 00
-B20_14a3:		.db $00				; 00
-B20_14a4:	.db $0f
-
-B20_14a5:		.db $00				; 00
-B20_14a6:		.db $00				; 00
-B20_14a7:		cmp ($46), y	; d1 46
-B20_14a9:		.db $00				; 00
-B20_14aa:		.db $00				; 00
-B20_14ab:		cmp ($0c), y	; d1 0c
-
-B20_14ad:		bne B20_14e4 ; d0 35
-B20_14af:		.db $00				; 00
-B20_14b0:		.db $00				; 00
-B20_14b1:		.db $00				; 00
-B20_14b2:		.db $00				; 00
-B20_14b3:		.db $00				; 00
-B20_14b4:	.db $0b
-
-B20_14b5:		.db $00				; 00
-B20_14b6:		.db $00				; 00
-B20_14b7:		.db $00				; 00
-B20_14b8:		.db $00				; 00
-
-
-
-B20_14b9:		.db $00				; 00
-B20_14ba:		.db $00				; 00
-B20_14bb:		.db $00				; 00
-B20_14bc:		bvc B20_14be ; 50 00
-
-B20_14be:		;removed
-	.db $50 $a0
-
-B20_14c0:		pla				; 68 
-B20_14c1:	.db $9f
-B20_14c2:	.db $47
-B20_14c3:		.db $00				; 00
-B20_14c4:		.db $00				; 00
-
-
-
-B20_14c5:		.db $00				; 00
-B20_14c6:		.db $00				; 00
-B20_14c7:		.db $00				; 00
-B20_14c8:		.db $00				; 00
-B20_14c9:		.db $00				; 00
-B20_14ca:	.db $3f
-B20_14cb:		.db $00				; 00
-B20_14cc:		.db $00				; 00
-B20_14cd:		.db $00				; 00
-B20_14ce:	.db $3f
-B20_14cf:		.db $00				; 00
-B20_14d0:	.db $63
-B20_14d1:		ora #$00		; 09 00
-B20_14d3:		.db $00				; 00
-B20_14d4:	.db $07
-B20_14d5:		.db $00				; 00
-B20_14d6:		php				; 08 
-B20_14d7:		.db $00				; 00
-B20_14d8:		.db $00				; 00
-B20_14d9:		.db $00				; 00
-B20_14da:	.db $99 $09 $00
-B20_14dd:		.db $00				; 00
-B20_14de:		.db $00				; 00
-B20_14df:		.db $00				; 00
-B20_14e0:		.db $00				; 00
-B20_14e1:		.db $00				; 00
-B20_14e2:		.db $00				; 00
-B20_14e3:		.db $00				; 00
-B20_14e4:	.db $4b
-B20_14e5:	.db $d3
-B20_14e6:		bvc B20_154d ; 50 65
-
-B20_14e8:		jmp $5900		; 4c 00 59
-
-
-B20_14eb:		adc $77			; 65 77
-B20_14ed:	.db $d3
-B20_14ee:	.db $02
-B20_14ef:	.db $1d $e6 $00
-B20_14f2:		bpl B20_14f4 ; 10 00
-
-B20_14f4:		.db $00				; 00
-B20_14f5:		.db $00				; 00
-B20_14f6:		.db $00				; 00
-B20_14f7:		.db $00				; 00
-B20_14f8:	.db $cc $00 $00
-B20_14fb:		.db $00				; 00
-B20_14fc:		cli				; 58 
-B20_14fd:		.db $00				; 00
-B20_14fe:		rol $5010		; 2e 10 50
-B20_1501:		.db $00				; 00
-B20_1502:	.db $53
-B20_1503:		asl a			; 0a
-B20_1504:	.db $53
-B20_1505:		.db $00				; 00
-B20_1506:		cmp $5326		; cd 26 53
-B20_1509:		.db $00				; 00
-B20_150a:	.db $53
-B20_150b:		ora ($00), y	; 11 00
-B20_150d:		.db $00				; 00
-B20_150e:		.db $00				; 00
-B20_150f:		.db $00				; 00
-B20_1510:		.db $00				; 00
-B20_1511:		.db $00				; 00
-B20_1512:		.db $00				; 00
-B20_1513:		.db $00				; 00
-B20_1514:	.db $e7
-B20_1515:		ror $e8			; 66 e8
-B20_1517:		.db $00				; 00
-B20_1518:		.db $00				; 00
-B20_1519:	.db $d4
-B20_151a:		.db $00				; 00
-B20_151b:		.db $00				; 00
-B20_151c:	.db $3f
-B20_151d:		ror $ec			; 66 ec
-B20_151f:	.db $d4
-B20_1520:		.db $00				; 00
-B20_1521:		.db $00				; 00
-B20_1522:		.db $00				; 00
-B20_1523:		.db $00				; 00
-B20_1524:		.db $00				; 00
-B20_1525:		ror $34			; 66 34
-B20_1527:	.db $d4
-B20_1528:	.db $57
-B20_1529:		.db $00				; 00
-B20_152a:	.db $57
-B20_152b:		.db $00				; 00
-B20_152c:		.db $00				; 00
-B20_152d:		.db $00				; 00
-B20_152e:		.db $00				; 00
-B20_152f:		.db $00				; 00
-B20_1530:		ldx $340b		; ae 0b 34
-B20_1533:		.db $00				; 00
-B20_1534:	.db $54
-B20_1535:		ora ($00, x)	; 01 00
-B20_1537:		.db $00				; 00
-B20_1538:		.db $00				; 00
-B20_1539:		.db $00				; 00
-B20_153a:		asl a			; 0a
-B20_153b:		.db $00				; 00
-B20_153c:		.db $00				; 00
-B20_153d:	.db $0b
-B20_153e:		.db $00				; 00
-B20_153f:	.db $0e $0d $00
-B20_1542:	.db $0d $00 $00
-B20_1545:		.db $00				; 00
-B20_1546:		.db $00				; 00
-B20_1547:		.db $00				; 00
-B20_1548:		.db $00				; 00
-B20_1549:		.db $00				; 00
-B20_154a:		.db $00				; 00
-B20_154b:	.db $03
-B20_154c:		.db $00				; 00
-B20_154d:		.db $00				; 00
-B20_154e:	.db $de $00 $00
-B20_1551:		.db $00				; 00
-B20_1552:		.db $00				; 00
-B20_1553:	.db $5a
-B20_1554:		.db $00				; 00
-B20_1555:	.db $e3
-B20_1556:	.db $23
-B20_1557:		.db $00				; 00
-B20_1558:		.db $00				; 00
-B20_1559:		.db $00				; 00
-B20_155a:	.db $22
-B20_155b:		tsx				; ba 
-B20_155c:		bit $58			; 24 58
-B20_155e:	.db $73
-B20_155f:		.db $00				; 00
-B20_1560:	.db $0d $59 $00
-B20_1563:		.db $00				; 00
-B20_1564:		.db $00				; 00
-B20_1565:		.db $00				; 00
-B20_1566:		.db $00				; 00
-B20_1567:		.db $00				; 00
-B20_1568:		.db $00				; 00
-B20_1569:	.db $d4
-B20_156a:		.db $00				; 00
-B20_156b:		.db $00				; 00
-B20_156c:		.db $00				; 00
-B20_156d:		.db $00				; 00
-B20_156e:		.db $00				; 00
-B20_156f:		.db $00				; 00
-B20_1570:		.db $00				; 00
-B20_1571:		.db $00				; 00
-B20_1572:		.db $00				; 00
-B20_1573:	.db $d4
-B20_1574:		.db $00				; 00
-B20_1575:		.db $00				; 00
-B20_1576:		.db $00				; 00
-B20_1577:		.db $00				; 00
-B20_1578:		.db $00				; 00
-B20_1579:		.db $00				; 00
-B20_157a:		.db $00				; 00
-B20_157b:		.db $00				; 00
-B20_157c:		.db $00				; 00
-B20_157d:		.db $00				; 00
-B20_157e:		.db $00				; 00
-B20_157f:		.db $00				; 00
-B20_1580:	.db $74
-B20_1581:	.db $5c
-B20_1582:		.db $00				; 00
-B20_1583:		.db $00				; 00
-B20_1584:		.db $00				; 00
-B20_1585:		.db $00				; 00
-B20_1586:		adc $00, x		; 75 00
-B20_1588:		.db $00				; 00
-B20_1589:		.db $00				; 00
-B20_158a:		ror $00, x		; 76 00
-B20_158c:		.db $00				; 00
-B20_158d:		.db $00				; 00
-B20_158e:		.db $00				; 00
-B20_158f:		.db $00				; 00
-B20_1590:		.db $00				; 00
-B20_1591:		.db $00				; 00
-B20_1592:		.db $00				; 00
-B20_1593:		.db $00				; 00
-B20_1594:		.db $00				; 00
-B20_1595:		.db $00				; 00
-B20_1596:		.db $00				; 00
-B20_1597:		.db $00				; 00
-B20_1598:		.db $00				; 00
-B20_1599:		.db $00				; 00
-B20_159a:		.db $00				; 00
-B20_159b:		.db $00				; 00
-B20_159c:		sei				; 78 
-B20_159d:		.db $00				; 00
-B20_159e:		adc $bd00, y	; 79 00 bd
-B20_15a1:		.db $00				; 00
-B20_15a2:	.db $f7
-B20_15a3:		.db $00				; 00
-B20_15a4:		.db $00				; 00
-B20_15a5:		.db $00				; 00
-B20_15a6:		.db $00				; 00
-B20_15a7:		ora $00			; 05 00
-B20_15a9:		.db $00				; 00
-B20_15aa:		sty $00, x		; 94 00
-B20_15ac:	.db $3b
-B20_15ad:		.db $00				; 00
-B20_15ae:		.db $00				; 00
-B20_15af:		.db $00				; 00
-B20_15b0:		stx $bb, y		; 96 bb
-B20_15b2:	.db $7b
-B20_15b3:		.db $00				; 00
-B20_15b4:		sta $0500, x	; 9d 00 05
-B20_15b7:		.db $00				; 00
-B20_15b8:		.db $00				; 00
-B20_15b9:		.db $00				; 00
-B20_15ba:		.db $00				; 00
-B20_15bb:		.db $00				; 00
-B20_15bc:		.db $00				; 00
-B20_15bd:		.db $00				; 00
-B20_15be:		and #$00		; 29 00
-B20_15c0:	.db $42
-B20_15c1:		.db $00				; 00
-B20_15c2:	.db $3e $d2 $00
-B20_15c5:		.db $00				; 00
-B20_15c6:	.db $3f
-B20_15c7:		.db $00				; 00
-B20_15c8:	.db $3f
-B20_15c9:		.db $00				; 00
-B20_15ca:	.db $3f
-B20_15cb:		.db $00				; 00
-B20_15cc:	.db $2c $14 $00
-B20_15cf:	.db $d2
-B20_15d0:	.db $02
-B20_15d1:		.db $00				; 00
-B20_15d2:		.db $00				; 00
-B20_15d3:		.db $00				; 00
-B20_15d4:		.db $00				; 00
-B20_15d5:		.db $00				; 00
-B20_15d6:		.db $00				; 00
-B20_15d7:		.db $00				; 00
-B20_15d8:		.db $00				; 00
-B20_15d9:		adc $10			; 65 10
-B20_15db:		.db $00				; 00
-B20_15dc:		.db $00				; 00
-B20_15dd:		.db $00				; 00
-B20_15de:		.db $00				; 00
-B20_15df:		pla				; 68 
-B20_15e0:		.db $00				; 00
-B20_15e1:		.db $00				; 00
-B20_15e2:	.db $42
-B20_15e3:	.db $1d $00 $00
-B20_15e6:		.db $00				; 00
-B20_15e7:		.db $00				; 00
-B20_15e8:		rol $00			; 26 00
-B20_15ea:		.db $00				; 00
-B20_15eb:		.db $00				; 00
-B20_15ec:		.db $00				; 00
-B20_15ed:		.db $00				; 00
-B20_15ee:		.db $00				; 00
-B20_15ef:		.db $00				; 00
-B20_15f0:		.db $00				; 00
-B20_15f1:		.db $00				; 00
-B20_15f2:		.db $00				; 00
-B20_15f3:		.db $00				; 00
-B20_15f4:		.db $00				; 00
-B20_15f5:		.db $00				; 00
-B20_15f6:	.db $4d $00 $00
-B20_15f9:		.db $00				; 00
-B20_15fa:	.db $4d $00 $00
-B20_15fd:		.db $00				; 00
-B20_15fe:		.db $00				; 00
-B20_15ff:		sec				; 38 
-B20_1600:		and #$37		; 29 37
-B20_1602:		.db $00				; 00
-B20_1603:	.db $47
-B20_1604:	.db $4f
-B20_1605:	.db $3c
-B20_1606:		.db $00				; 00
-B20_1607:		eor $00			; 45 00
-B20_1609:		.db $00				; 00
-B20_160a:	.db $4d $00 $00
-B20_160d:		pha				; 48 
-B20_160e:		.db $00				; 00
-B20_160f:		.db $00				; 00
-B20_1610:		.db $00				; 00
-B20_1611:		.db $00				; 00
-B20_1612:		.db $00				; 00
-B20_1613:	.db $47
-B20_1614:		eor ($46), y	; 51 46
-B20_1616:		.db $00				; 00
-B20_1617:	.db $3c
-B20_1618:		.db $00				; 00
-B20_1619:		.db $00				; 00
-B20_161a:		and #$00		; 29 00
-B20_161c:		.db $00				; 00
-B20_161d:		.db $00				; 00
-B20_161e:		.db $00				; 00
-B20_161f:		.db $00				; 00
-B20_1620:	.db $4b
-B20_1621:		.db $00				; 00
-B20_1622:	.db $2e $00 $00
-B20_1625:		.db $00				; 00
-B20_1626:		.db $00				; 00
-B20_1627:		.db $00				; 00
-B20_1628:	.db $9d $00 $00
-B20_162b:		ror $2690		; 6e 90 26
-B20_162e:	.db $6d $00 $00
-B20_1631:		.db $00				; 00
-B20_1632:		.db $00				; 00
-B20_1633:		.db $00				; 00
-B20_1634:		.db $00				; 00
-B20_1635:		.db $00				; 00
-B20_1636:		.db $00				; 00
-B20_1637:		.db $00				; 00
-B20_1638:		.db $00				; 00
-B20_1639:		.db $00				; 00
-B20_163a:		.db $00				; 00
-B20_163b:		.db $00				; 00
-B20_163c:		.db $00				; 00
-B20_163d:		.db $00				; 00
-B20_163e:		.db $00				; 00
-B20_163f:		.db $00				; 00
-B20_1640:		.db $00				; 00
-B20_1641:		.db $00				; 00
-B20_1642:		.db $00				; 00
-B20_1643:	.db $74
-B20_1644:		.db $00				; 00
-B20_1645:		.db $00				; 00
-B20_1646:		.db $00				; 00
-B20_1647:		.db $00				; 00
-B20_1648:		.db $00				; 00
-B20_1649:		.db $00				; 00
-B20_164a:		.db $00				; 00
-B20_164b:		.db $00				; 00
-B20_164c:		.db $00				; 00
-B20_164d:		.db $00				; 00
-B20_164e:		.db $00				; 00
-B20_164f:		.db $00				; 00
-B20_1650:		.db $00				; 00
-B20_1651:		asl $00			; 06 00
-B20_1653:		.db $00				; 00
-B20_1654:		.db $00				; 00
-B20_1655:	.db $87
-B20_1656:		.db $00				; 00
-B20_1657:		.db $00				; 00
-B20_1658:		.db $00				; 00
-B20_1659:		adc #$00		; 69 00
-B20_165b:		asl $00			; 06 00
-B20_165d:		.db $00				; 00
-B20_165e:		.db $00				; 00
-B20_165f:		.db $00				; 00
-B20_1660:		.db $00				; 00
-B20_1661:	.db $87
-B20_1662:		.db $00				; 00
-B20_1663:		ror a			; 6a
-B20_1664:		.db $00				; 00
-B20_1665:		.db $00				; 00
-B20_1666:		.db $00				; 00
-B20_1667:		asl $00			; 06 00
-B20_1669:		.db $00				; 00
-B20_166a:		.db $00				; 00
-B20_166b:		.db $00				; 00
-B20_166c:		.db $00				; 00
-B20_166d:		.db $00				; 00
-B20_166e:		.db $00				; 00
-B20_166f:		.db $00				; 00
-B20_1670:		.db $00				; 00
-B20_1671:		.db $00				; 00
-B20_1672:		.db $00				; 00
-B20_1673:	.db $67
-B20_1674:	.db $7b
-B20_1675:		.db $00				; 00
-B20_1676:	.db $2e $00 $00
-B20_1679:		.db $00				; 00
-B20_167a:		.db $00				; 00
-B20_167b:		.db $00				; 00
-B20_167c:		.db $00				; 00
-B20_167d:	.db $5f
-B20_167e:		.db $00				; 00
-B20_167f:		rts				; 60 
-
-
-B20_1680:		.db $00				; 00
-B20_1681:		.db $00				; 00
-B20_1682:		.db $00				; 00
-B20_1683:		.db $00				; 00
-B20_1684:		.db $00				; 00
-B20_1685:		.db $00				; 00
-B20_1686:		.db $00				; 00
-B20_1687:	.db $5f
-B20_1688:		.db $00				; 00
-B20_1689:		.db $00				; 00
-B20_168a:		.db $00				; 00
-B20_168b:		rts				; 60 
-
-
-B20_168c:		.db $00				; 00
-B20_168d:		.db $00				; 00
-B20_168e:		.db $00				; 00
-B20_168f:		rts				; 60 
-
-
-B20_1690:		.db $00				; 00
-B20_1691:		rts				; 60 
-
-
-B20_1692:		.db $00				; 00
-B20_1693:		.db $00				; 00
-B20_1694:		.db $00				; 00
-B20_1695:	.db $5f
-B20_1696:		.db $00				; 00
-B20_1697:		.db $00				; 00
-B20_1698:		.db $00				; 00
-B20_1699:		.db $00				; 00
-B20_169a:		.db $00				; 00
-B20_169b:		.db $00				; 00
-B20_169c:		.db $00				; 00
-B20_169d:		.db $00				; 00
-B20_169e:		.db $00				; 00
-B20_169f:		.db $00				; 00
-B20_16a0:	.db $dc
-B20_16a1:		.db $00				; 00
-B20_16a2:		tay				; a8 
-B20_16a3:		dey				; 88 
-B20_16a4:		.db $00				; 00
-B20_16a5:		.db $00				; 00
-B20_16a6:	.db $4d $00 $00
-B20_16a9:		.db $00				; 00
-B20_16aa:		.db $00				; 00
-B20_16ab:		.db $00				; 00
-B20_16ac:		.db $00				; 00
-B20_16ad:		.db $00				; 00
-B20_16ae:		.db $00				; 00
-B20_16af:	.db $d7
-B20_16b0:	.db $3f
-B20_16b1:		.db $00				; 00
-B20_16b2:		.db $00				; 00
-B20_16b3:	.db $07
-B20_16b4:		.db $00				; 00
-B20_16b5:		php				; 08 
-B20_16b6:		.db $00				; 00
-B20_16b7:		asl $00			; 06 00
-B20_16b9:	.db $04
-B20_16ba:		.db $00				; 00
-B20_16bb:		.db $00				; 00
-B20_16bc:		.db $00				; 00
-B20_16bd:		.db $00				; 00
-B20_16be:		.db $00				; 00
-B20_16bf:		.db $00				; 00
-B20_16c0:		.db $00				; 00
-B20_16c1:		bmi B20_16c3 ; 30 00
-
-B20_16c3:		.db $00				; 00
-B20_16c4:	.db $2f
-B20_16c5:		bmi B20_16f7 ; 30 30
-
-B20_16c7:		.db $00				; 00
-B20_16c8:		.db $00				; 00
-B20_16c9:		.db $00				; 00
-B20_16ca:		eor ($67), y	; 51 67
-B20_16cc:		eor ($00), y	; 51 00
-B20_16ce:	.db $ed $30 $00
-B20_16d1:		.db $00				; 00
-B20_16d2:		lda $00			; a5 00
-B20_16d4:	.db $0b
-B20_16d5:		bmi B20_1728 ; 30 51
-
-B20_16d7:	.db $67
-B20_16d8:		.db $00				; 00
-B20_16d9:		.db $00				; 00
-B20_16da:	.db $53
-B20_16db:		.db $00				; 00
-B20_16dc:	.db $53
-B20_16dd:		.db $00				; 00
-B20_16de:		.db $00				; 00
-B20_16df:		.db $00				; 00
-B20_16e0:		.db $00				; 00
-B20_16e1:		.db $00				; 00
-B20_16e2:		.db $00				; 00
-B20_16e3:		.db $00				; 00
-B20_16e4:	.db $17
-B20_16e5:	.db $d2
-B20_16e6:	.db $7d $00 $00
-B20_16e9:	.db $3a
-B20_16ea:		ror $1c00, x	; 7e 00 1c
-B20_16ed:	.db $2f
-B20_16ee:	.db $1c
-B20_16ef:	.db $d2
-B20_16f0:		.db $00				; 00
-B20_16f1:		.db $00				; 00
-B20_16f2:	.db $87
-B20_16f3:		.db $00				; 00
-B20_16f4:		.db $00				; 00
-B20_16f5:		.db $00				; 00
-B20_16f6:		.db $00				; 00
-B20_16f7:		.db $00				; 00
-B20_16f8:	.db $13
-B20_16f9:		dec $1b, x		; d6 1b
-B20_16fb:	.db $2f
-B20_16fc:		ora $00, x		; 15 00
-B20_16fe:	.db $17
-B20_16ff:		.db $00				; 00
-B20_1700:		.db $00				; 00
-B20_1701:		.db $00				; 00
-B20_1702:	.db $1b
-B20_1703:		and ($7f), y	; 31 7f
-B20_1705:		.db $00				; 00
-B20_1706:	.db $1b
-B20_1707:		.db $00				; 00
-B20_1708:		.db $00				; 00
-B20_1709:		.db $00				; 00
-B20_170a:		.db $00				; 00
-B20_170b:		.db $00				; 00
-B20_170c:		.db $00				; 00
-B20_170d:		.db $00				; 00
-B20_170e:		ora ($00), y	; 11 00
-B20_1710:		.db $00				; 00
-B20_1711:		.db $00				; 00
-B20_1712:		ora ($00), y	; 11 00
-B20_1714:	.db $1a
-B20_1715:		.db $00				; 00
-B20_1716:	.db $82
-B20_1717:		.db $00				; 00
-B20_1718:		.db $00				; 00
-B20_1719:		.db $00				; 00
-B20_171a:	.db $ee $00 $00
-B20_171d:		.db $00				; 00
-B20_171e:		.db $00				; 00
-B20_171f:		.db $00				; 00
-B20_1720:		ora $1de1, x	; 1d e1 1d
-B20_1723:	.db $57
-B20_1724:	.db $1d $00 $00
-B20_1727:	.db $da
-B20_1728:	.db $1b
-B20_1729:		.db $00				; 00
-B20_172a:	.db $8f
-B20_172b:		cpx #$1b		; e0 1b
-B20_172d:	.db $14
-B20_172e:	.db $1e $00 $00
-B20_1731:		sbc ($1d, x)	; e1 1d
-B20_1733:		.db $00				; 00
-B20_1734:		ora $1d00, x	; 1d 00 1d
-B20_1737:		.db $00				; 00
-B20_1738:		sty $57			; 84 57
-B20_173a:		.db $00				; 00
-B20_173b:		.db $00				; 00
-B20_173c:	.db $1f
-B20_173d:		ror $e100		; 6e 00 e1
-B20_1740:	.db $1f
-B20_1741:		.db $00				; 00
-B20_1742:		jsr $2016		; 20 16 20
-B20_1745:		.db $00				; 00
-B20_1746:		.db $00				; 00
-B20_1747:		.db $00				; 00
-B20_1748:		.db $00				; 00
-B20_1749:		.db $00				; 00
-B20_174a:		.db $00				; 00
-B20_174b:		.db $00				; 00
-B20_174c:		.db $00				; 00
-B20_174d:	.db $e2
-B20_174e:	.db $1b
-B20_174f:	.db $79 $1f $00
-B20_1752:		.db $00				; 00
-B20_1753:	.db $02
-B20_1754:		.db $00				; 00
-B20_1755:	.db $d3
-B20_1756:	.db $1b
-B20_1757:		ora $12, x		; 15 12
-B20_1759:		.db $00				; 00
-B20_175a:	.db $12
-B20_175b:		.db $00				; 00
-B20_175c:		.db $00				; 00
-B20_175d:		.db $00				; 00
-B20_175e:		.db $00				; 00
-B20_175f:		.db $00				; 00
-B20_1760:		.db $00				; 00
-B20_1761:		.db $00				; 00
-B20_1762:	.db $1b
-B20_1763:	.db $14
-B20_1764:		stx $d4			; 86 d4
-B20_1766:	.db $87
-B20_1767:		.db $00				; 00
-B20_1768:	.db $1b
-B20_1769:		.db $00				; 00
-B20_176a:		.db $00				; 00
-B20_176b:		.db $00				; 00
-B20_176c:		.db $00				; 00
-B20_176d:		.db $00				; 00
-B20_176e:		.db $00				; 00
-B20_176f:		.db $00				; 00
-B20_1770:		.db $00				; 00
-B20_1771:	.db $d4
-B20_1772:	.db $7e $00 $00
-B20_1775:		.db $00				; 00
-B20_1776:	.db $7c
-B20_1777:		.db $00				; 00
-B20_1778:	.db $f9 $00 $00
-B20_177b:	.db $d4
-B20_177c:		.db $00				; 00
-B20_177d:		.db $00				; 00
-B20_177e:	.db $1b
-B20_177f:		.db $00				; 00
-B20_1780:		.db $00				; 00
-B20_1781:		.db $00				; 00
-B20_1782:		.db $00				; 00
-B20_1783:		.db $00				; 00
-B20_1784:		.db $00				; 00
-B20_1785:		.db $00				; 00
-B20_1786:		asl $00, x		; 16 00
-B20_1788:		.db $00				; 00
-B20_1789:		.db $00				; 00
-B20_178a:	.db $1b
-B20_178b:		.db $00				; 00
-B20_178c:		dey				; 88 
-B20_178d:		.db $00				; 00
-B20_178e:		.db $00				; 00
-B20_178f:		.db $00				; 00
-B20_1790:		.db $00				; 00
-B20_1791:	.db $27
-B20_1792:		.db $00				; 00
-B20_1793:		.db $00				; 00
-B20_1794:		.db $00				; 00
-B20_1795:		.db $00				; 00
-B20_1796:		.db $00				; 00
-B20_1797:		.db $00				; 00
-B20_1798:		stx $315e		; 8e 5e 31
-B20_179b:		cmp $8b, x		; d5 8b
-B20_179d:		adc $1f, x		; 75 1f
-B20_179f:		.db $00				; 00
-B20_17a0:		.db $00				; 00
-B20_17a1:		cmp $1c, x		; d5 1c
-B20_17a3:		adc $8c, x		; 75 8c
-B20_17a5:	.db $5e $1c $00
-B20_17a8:	.db $17
-B20_17a9:		eor $d519, x	; 5d 19 d5
-B20_17ac:	.db $7d $00 $00
-B20_17af:		.db $00				; 00
-B20_17b0:		.db $00				; 00
-B20_17b1:		.db $00				; 00
-B20_17b2:		.db $00				; 00
-B20_17b3:		.db $00				; 00
-B20_17b4:		.db $00				; 00
-B20_17b5:		.db $00				; 00
-B20_17b6:	.db $17
-B20_17b7:		.db $00				; 00
-B20_17b8:	.db $17
-B20_17b9:		.db $00				; 00
-B20_17ba:		.db $00				; 00
-B20_17bb:		.db $00				; 00
-B20_17bc:		.db $00				; 00
-B20_17bd:		.db $00				; 00
-B20_17be:		.db $00				; 00
-B20_17bf:		.db $00				; 00
-B20_17c0:		.db $00				; 00
-B20_17c1:		.db $00				; 00
-B20_17c2:		.db $00				; 00
-B20_17c3:		.db $00				; 00
-B20_17c4:		.db $00				; 00
-B20_17c5:		.db $00				; 00
-B20_17c6:		asl $8600, x	; 1e 00 86
-B20_17c9:		.db $00				; 00
-B20_17ca:	.db $1e $00 $00
-B20_17cd:		.db $00				; 00
-B20_17ce:		.db $00				; 00
-B20_17cf:		.db $00				; 00
-B20_17d0:	.db $32
-B20_17d1:		sei				; 78 
-B20_17d2:	.db $89
-B20_17d3:	.db $57
-B20_17d4:		txa				; 8a 
-B20_17d5:		.db $00				; 00
-B20_17d6:		.db $00				; 00
-B20_17d7:		.db $00				; 00
-B20_17d8:		.db $00				; 00
-B20_17d9:		.db $00				; 00
-B20_17da:		.db $00				; 00
-B20_17db:		.db $00				; 00
-B20_17dc:		.db $00				; 00
-B20_17dd:		.db $00				; 00
-B20_17de:		.db $00				; 00
-B20_17df:		.db $00				; 00
-B20_17e0:	.db $f2
-B20_17e1:		rol $3e1b, x	; 3e 1b 3e
-B20_17e4:		.db $00				; 00
-B20_17e5:	.db $3b
-B20_17e6:		.db $00				; 00
-B20_17e7:		.db $00				; 00
-B20_17e8:		.db $00				; 00
-B20_17e9:		.db $00				; 00
-B20_17ea:		sta ($00, x)	; 81 00
-B20_17ec:		.db $00				; 00
-B20_17ed:		.db $00				; 00
-B20_17ee:		.db $00				; 00
-B20_17ef:		and #$00		; 29 00
-B20_17f1:		.db $00				; 00
-B20_17f2:		.db $00				; 00
-B20_17f3:		.db $00				; 00
-B20_17f4:		.db $00				; 00
-B20_17f5:		.db $00				; 00
-B20_17f6:		.db $00				; 00
-B20_17f7:		.db $00				; 00
-B20_17f8:		.db $00				; 00
-B20_17f9:		and $3d00, x	; 3d 00 3d
-B20_17fc:		.db $00				; 00
-B20_17fd:		.db $00				; 00
-B20_17fe:	.db $89
-B20_17ff:		.db $00				; 00
-B20_1800:		.db $00				; 00
-B20_1801:		.db $00				; 00
-B20_1802:		.db $00				; 00
-B20_1803:		.db $00				; 00
-B20_1804:	.db $3b
-B20_1805:		.db $00				; 00
-B20_1806:	.db $74
-B20_1807:		.db $00				; 00
-B20_1808:		eor $40			; 45 40
-B20_180a:		.db $00				; 00
-B20_180b:		.db $00				; 00
-B20_180c:	.db $37
-B20_180d:		.db $00				; 00
-B20_180e:		sec				; 38 
-B20_180f:	.db $3f
-B20_1810:		.db $00				; 00
-B20_1811:		.db $00				; 00
-B20_1812:		.db $00				; 00
-B20_1813:		.db $00				; 00
-B20_1814:		.db $00				; 00
-B20_1815:		.db $00				; 00
-B20_1816:		.db $00				; 00
-B20_1817:		.db $00				; 00
-B20_1818:	.db $b3
-B20_1819:		eor ($41, x)	; 41 41
-B20_181b:		.db $00				; 00
-B20_181c:	.db $07
-B20_181d:		.db $00				; 00
-B20_181e:		sbc ($00), y	; f1 00
-B20_1820:		.db $00				; 00
-B20_1821:		.db $00				; 00
-B20_1822:		.db $00				; 00
-B20_1823:		.db $00				; 00
-B20_1824:	.db $3a
-B20_1825:	.db $7a
-B20_1826:	.db $42
-B20_1827:		lsr a			; 4a
-B20_1828:	.db $43
-B20_1829:		.db $00				; 00
-B20_182a:		.db $00				; 00
-B20_182b:		.db $00				; 00
-B20_182c:		.db $00				; 00
-B20_182d:		.db $00				; 00
-B20_182e:		.db $00				; 00
-B20_182f:		.db $00				; 00
-B20_1830:		.db $00				; 00
-B20_1831:	.db $32
-B20_1832:		bit $00			; 24 00
-B20_1834:		sbc $00, x		; f5 00
-B20_1836:	.db $23
-B20_1837:		.db $00				; 00
-B20_1838:	.db $22
-B20_1839:		.db $00				; 00
-B20_183a:	.db $23
-B20_183b:	.db $32
-B20_183c:	.db $22
-B20_183d:		.db $00				; 00
-B20_183e:	.db $23
-B20_183f:		.db $00				; 00
-B20_1840:		.db $00				; 00
-B20_1841:		.db $00				; 00
-B20_1842:		.db $00				; 00
-B20_1843:		.db $00				; 00
-B20_1844:		and $fa34		; 2d 34 fa
-B20_1847:	.db $d4
-B20_1848:	.db $3b
-B20_1849:		.db $00				; 00
-B20_184a:		sty $00, x		; 94 00
-B20_184c:		.db $00				; 00
-B20_184d:		.db $00				; 00
-B20_184e:		.db $00				; 00
-B20_184f:		.db $00				; 00
-B20_1850:	.db $3b
-B20_1851:		cmp $4400, y	; d9 00 44
-B20_1854:		rol $25da		; 2e da 25
-B20_1857:	.db $44
-B20_1858:		adc $db			; 65 db
-B20_185a:		and ($00, x)	; 21 00
-B20_185c:		.db $00				; 00
-B20_185d:	.db $dc
-B20_185e:		.db $00				; 00
-B20_185f:		.db $00				; 00
-B20_1860:		.db $00				; 00
-B20_1861:		.db $00				; 00
-B20_1862:		.db $00				; 00
-B20_1863:		bit $00			; 24 00
-B20_1865:		.db $00				; 00
-B20_1866:		.db $00				; 00
-B20_1867:		.db $00				; 00
-B20_1868:		.db $00				; 00
-B20_1869:		.db $00				; 00
-B20_186a:		.db $00				; 00
-B20_186b:		.db $00				; 00
-B20_186c:	.db $9d $00 $00
-B20_186f:		ror a			; 6a
-B20_1870:		adc $936a		; 6d 6a 93
-B20_1873:		.db $00				; 00
-B20_1874:	.db $7a
-B20_1875:	.db $34
-B20_1876:	.db $9d $00 $00
-B20_1879:		bpl B20_18dc ; 10 61
-
-B20_187b:		.db $00				; 00
-B20_187c:		.db $00				; 00
-B20_187d:		.db $00				; 00
-B20_187e:		.db $00				; 00
-B20_187f:		.db $00				; 00
-B20_1880:	.db $e7
-B20_1881:		.db $00				; 00
-B20_1882:		.db $00				; 00
-B20_1883:	.db $6f
-B20_1884:	.db $9b
-B20_1885:	.db $80
-B20_1886:		.db $00				; 00
-B20_1887:		.db $00				; 00
-B20_1888:		.db $00				; 00
-B20_1889:		cld				; d8 
-B20_188a:	.db $9c
-B20_188b:	.db $80
-B20_188c:		.db $00				; 00
-B20_188d:	.db $6f
-B20_188e:		jmp ($6c00)		; 6c 00 6c
-
-
-B20_1891:		eor ($00), y	; 51 00
-B20_1893:		cld				; d8 
-B20_1894:		.db $00				; 00
-B20_1895:	.db $6f
-B20_1896:		jmp ($6c00)		; 6c 00 6c
-
-
-B20_1899:	.db $63
-B20_189a:		.db $00				; 00
-B20_189b:		.db $00				; 00
-B20_189c:		eor #$7c		; 49 7c
-B20_189e:		.db $00				; 00
-B20_189f:		.db $00				; 00
-B20_18a0:		.db $00				; 00
-B20_18a1:		.db $00				; 00
-B20_18a2:		.db $00				; 00
-B20_18a3:		.db $00				; 00
-B20_18a4:	.db $73
-B20_18a5:	.db $0b
-B20_18a6:		.db $00				; 00
-B20_18a7:		.db $00				; 00
-B20_18a8:		sta $83, x		; 95 83
-B20_18aa:		adc ($00, x)	; 61 00
-B20_18ac:		stx $d4, y		; 96 d4
-B20_18ae:		adc $7e			; 65 7e
-B20_18b0:		stx $41, y		; 96 41
-B20_18b2:	.db $cb
-B20_18b3:		.db $00				; 00
-B20_18b4:		.db $00				; 00
-B20_18b5:		.db $00				; 00
-B20_18b6:		.db $00				; 00
-B20_18b7:		.db $00				; 00
-B20_18b8:		bcc B20_18ba ; 90 00
-
-B20_18ba:	.db $93
-B20_18bb:		.db $00				; 00
-B20_18bc:		sty $41, x		; 94 41
-B20_18be:		.db $00				; 00
-B20_18bf:	.db $82
-B20_18c0:	.db $93
-B20_18c1:	.db $7d $94 $00
-B20_18c4:		sty $00, x		; 94 00
-B20_18c6:		.db $00				; 00
-B20_18c7:		.db $00				; 00
-B20_18c8:		.db $00				; 00
-B20_18c9:		.db $00				; 00
-B20_18ca:		tya				; 98 
-B20_18cb:	.db $0f
-B20_18cc:	.db $97
-B20_18cd:		.db $00				; 00
-B20_18ce:		.db $00				; 00
-B20_18cf:		.db $00				; 00
-B20_18d0:		sty $36, x		; 94 36
-B20_18d2:		sty $41, x		; 94 41
-B20_18d4:		sty $0b, x		; 94 0b
-B20_18d6:		.db $00				; 00
-B20_18d7:		.db $00				; 00
-B20_18d8:		.db $00				; 00
-B20_18d9:		.db $00				; 00
-B20_18da:		.db $00				; 00
-B20_18db:		.db $00				; 00
-B20_18dc:		.db $00				; 00
-B20_18dd:		.db $00				; 00
-B20_18de:	.db $92
-B20_18df:		.db $00				; 00
-B20_18e0:		sei				; 78 
-B20_18e1:		.db $00				; 00
-B20_18e2:		sta ($00), y	; 91 00
-B20_18e4:		.db $00				; 00
-B20_18e5:	.db $62
-B20_18e6:		.db $00				; 00
-B20_18e7:		.db $00				; 00
-B20_18e8:		.db $00				; 00
-B20_18e9:		.db $00				; 00
-B20_18ea:		.db $00				; 00
-B20_18eb:		.db $00				; 00
-B20_18ec:		.db $00				; 00
-B20_18ed:		.db $00				; 00
-B20_18ee:		.db $00				; 00
-B20_18ef:		.db $00				; 00
-B20_18f0:		bcc B20_18f2 ; 90 00
-
-B20_18f2:		.db $00				; 00
-B20_18f3:	.db $7f
-B20_18f4:		txs				; 9a 
-B20_18f5:		.db $00				; 00
-B20_18f6:		.db $00				; 00
-B20_18f7:		.db $00				; 00
-B20_18f8:		.db $00				; 00
-B20_18f9:		.db $00				; 00
-B20_18fa:		.db $00				; 00
-B20_18fb:		and ($00, x)	; 21 00
-B20_18fd:		and ($00, x)	; 21 00
-B20_18ff:		.db $00				; 00
-B20_1900:		cli				; 58 
-B20_1901:		.db $00				; 00
-B20_1902:		.db $00				; 00
-B20_1903:	.db $1b
-B20_1904:		.db $00				; 00
-B20_1905:		.db $00				; 00
-B20_1906:		sta $6500, y	; 99 00 65
-B20_1909:	.db $1b
-B20_190a:		.db $00				; 00
-B20_190b:		.db $00				; 00
-B20_190c:		.db $00				; 00
-B20_190d:	.db $1b
-B20_190e:		cli				; 58 
-B20_190f:		.db $00				; 00
-B20_1910:		.db $00				; 00
-B20_1911:		.db $00				; 00
-B20_1912:		.db $00				; 00
-B20_1913:		.db $00				; 00
-B20_1914:		.db $00				; 00
-B20_1915:	.db $6b
-B20_1916:		.db $00				; 00
-B20_1917:		.db $00				; 00
-B20_1918:		.db $00				; 00
-B20_1919:		.db $00				; 00
-B20_191a:		.db $00				; 00
-B20_191b:		.db $00				; 00
-B20_191c:	.db $99 $6c $00
-B20_191f:		.db $00				; 00
-B20_1920:		.db $00				; 00
-B20_1921:		.db $00				; 00
-B20_1922:		adc ($00, x)	; 61 00
-B20_1924:		.db $00				; 00
-B20_1925:		.db $00				; 00
-B20_1926:		.db $00				; 00
-B20_1927:		.db $00				; 00
-B20_1928:		.db $00				; 00
-B20_1929:		.db $00				; 00
-B20_192a:	.db $9e
-B20_192b:	.db $6c $00 $00
-B20_192e:		.db $00				; 00
-B20_192f:		.db $00				; 00
-B20_1930:		.db $00				; 00
-B20_1931:		.db $00				; 00
-B20_1932:		.db $00				; 00
-B20_1933:		.db $00				; 00
-B20_1934:		.db $00				; 00
-B20_1935:	.db $6c $00 $00
-B20_1938:		.db $00				; 00
-B20_1939:		.db $00				; 00
-B20_193a:		.db $00				; 00
-B20_193b:	.db $6c $00 $00
-B20_193e:		.db $00				; 00
-B20_193f:		.db $00				; 00
-B20_1940:		.db $00				; 00
-B20_1941:		.db $00				; 00
-B20_1942:	.db $9f
-B20_1943:		.db $00				; 00
-B20_1944:		.db $00				; 00
-B20_1945:		.db $00				; 00
-B20_1946:		.db $00				; 00
-B20_1947:		.db $00				; 00
-B20_1948:		.db $00				; 00
-B20_1949:		.db $00				; 00
-B20_194a:		.db $00				; 00
-B20_194b:		.db $00				; 00
-B20_194c:		eor $590b, y	; 59 0b 59
-B20_194f:	.db $6b
-B20_1950:		.db $00				; 00
-B20_1951:		.db $00				; 00
-B20_1952:		.db $00				; 00
-B20_1953:	.db $6b
-B20_1954:		.db $00				; 00
-B20_1955:		.db $00				; 00
-B20_1956:		.db $00				; 00
-B20_1957:	.db $6b
-B20_1958:		.db $00				; 00
-B20_1959:		.db $00				; 00
-B20_195a:		.db $00				; 00
-B20_195b:		.db $00				; 00
-B20_195c:		sta ($6b), y	; 91 6b
-B20_195e:		.db $00				; 00
-B20_195f:	.db $0b
-B20_1960:		sta $00, x		; 95 00
-B20_1962:		adc $a000		; 6d 00 a0
-B20_1965:	.db $6b
-B20_1966:		.db $00				; 00
-B20_1967:		.db $00				; 00
-B20_1968:		lda ($0b, x)	; a1 0b
-B20_196a:		ldx #$00		; a2 00
-B20_196c:		.db $00				; 00
-B20_196d:	.db $6b
-B20_196e:		ldx #$0b		; a2 0b
-B20_1970:		.db $00				; 00
-B20_1971:	.db $6b
-B20_1972:		.db $00				; 00
-B20_1973:	.db $0b
-B20_1974:		adc $a36b		; 6d 6b a3
-B20_1977:	.db $0b
-B20_1978:	.db $92
-B20_1979:		.db $00				; 00
-B20_197a:		stx $00, y		; 96 00
-B20_197c:		.db $00				; 00
-B20_197d:		.db $00				; 00
-B20_197e:		.db $00				; 00
-B20_197f:		.db $00				; 00
-B20_1980:		.db $00				; 00
-B20_1981:		.db $00				; 00
-B20_1982:		.db $00				; 00
-B20_1983:	.db $1e $00 $00
-B20_1986:		.db $00				; 00
-B20_1987:		.db $00				; 00
-B20_1988:		.db $00				; 00
-B20_1989:		.db $00				; 00
-B20_198a:		.db $00				; 00
-B20_198b:		.db $00				; 00
-B20_198c:	.db $97
-B20_198d:		.db $00				; 00
-B20_198e:		.db $00				; 00
-B20_198f:		.db $00				; 00
-B20_1990:		adc $c0			; 65 c0
-B20_1992:		ror a			; 6a
-B20_1993:	.db $6b
-B20_1994:		.db $00				; 00
-B20_1995:	.db $6b
-B20_1996:		.db $00				; 00
-B20_1997:		.db $00				; 00
-B20_1998:		pla				; 68 
-B20_1999:	.db $8b
-B20_199a:		adc $688b		; 6d 8b 68
-B20_199d:	.db $0b
-B20_199e:		pla				; 68 
-B20_199f:		txa				; 8a 
-B20_19a0:		.db $00				; 00
-B20_19a1:		.db $00				; 00
-B20_19a2:		adc ($00, x)	; 61 00
-B20_19a4:		.db $00				; 00
-B20_19a5:		.db $00				; 00
-B20_19a6:		.db $00				; 00
-B20_19a7:		.db $00				; 00
-B20_19a8:		eor $6685, y	; 59 85 66
-B20_19ab:		stx $00			; 86 00
-B20_19ad:		pla				; 68 
-B20_19ae:		ldx #$00		; a2 00
-B20_19b0:		sta $9400, x	; 9d 00 94
-B20_19b3:	.db $89
-B20_19b4:		.db $00				; 00
-B20_19b5:	.db $57
-B20_19b6:	.db $07
-B20_19b7:		.db $00				; 00
-B20_19b8:		.db $00				; 00
-B20_19b9:		.db $00				; 00
-B20_19ba:		.db $00				; 00
-B20_19bb:		.db $00				; 00
-B20_19bc:		bcc B20_19be ; 90 00
-
-B20_19be:	.db $ab
-B20_19bf:		.db $00				; 00
-B20_19c0:		.db $00				; 00
-B20_19c1:	.db $d3
-B20_19c2:		bcc B20_19c4 ; 90 00
-
-B20_19c4:		.db $00				; 00
-B20_19c5:		.db $00				; 00
-B20_19c6:		.db $00				; 00
-B20_19c7:	.db $d3
-B20_19c8:		tax				; aa 
-B20_19c9:		.db $00				; 00
-B20_19ca:	.db $6c $00 $00
-B20_19cd:		.db $00				; 00
-B20_19ce:		.db $00				; 00
-B20_19cf:		.db $00				; 00
-B20_19d0:		eor $5900, y	; 59 00 59
-B20_19d3:		cmp ($5c, x)	; c1 5c
-B20_19d5:		.db $00				; 00
-B20_19d6:		eor $a9c1, y	; 59 c1 a9
-B20_19d9:		.db $00				; 00
-B20_19da:		.db $00				; 00
-B20_19db:		.db $00				; 00
-B20_19dc:		.db $00				; 00
-B20_19dd:		.db $00				; 00
-B20_19de:		inc $00, x		; f6 00
-B20_19e0:		ldx #$00		; a2 00
-B20_19e2:	.db $4c $71 $00
-B20_19e5:	.db $72
-B20_19e6:		bvc B20_19e8 ; 50 00
-
-B20_19e8:	.db $53
-B20_19e9:		.db $00				; 00
-B20_19ea:	.db $97
-B20_19eb:		adc ($68), y	; 71 68
-B20_19ed:		.db $00				; 00
-B20_19ee:	.db $6d $00 $00
-B20_19f1:		.db $00				; 00
-B20_19f2:		.db $00				; 00
-B20_19f3:		.db $00				; 00
-B20_19f4:	.db $f3
-B20_19f5:		stx $95ac		; 8e ac 95
-B20_19f8:		ldy $9000		; ac 00 90
-B20_19fb:		sta $9a, x		; 95 9a
-B20_19fd:	.db $8f
-B20_19fe:		ldx $ae95		; ae 95 ae
-B20_1a01:		.db $00				; 00
-B20_1a02:	.db $99 $00 $00
-B20_1a05:		.db $00				; 00
-B20_1a06:		.db $00				; 00
-B20_1a07:		.db $00				; 00
-B20_1a08:	.db $ad $00 $00
-B20_1a0b:		.db $00				; 00
-B20_1a0c:		.db $00				; 00
-B20_1a0d:		.db $00				; 00
-B20_1a0e:		.db $00				; 00
-B20_1a0f:		.db $00				; 00
-B20_1a10:		.db $00				; 00
-B20_1a11:		.db $00				; 00
-B20_1a12:		.db $00				; 00
-B20_1a13:		.db $00				; 00
-B20_1a14:	.db $f3
-B20_1a15:		adc ($5c), y	; 71 5c
-B20_1a17:	.db $c2
-B20_1a18:	.db $3a
-B20_1a19:		.db $00				; 00
-B20_1a1a:		.db $00				; 00
-B20_1a1b:	.db $c2
-B20_1a1c:	.db $72
-B20_1a1d:		sta $c2b0		; 8d b0 c2
-B20_1a20:		.db $00				; 00
-B20_1a21:		.db $00				; 00
-B20_1a22:	.db $72
-B20_1a23:		.db $00				; 00
-B20_1a24:		.db $00				; 00
-B20_1a25:		.db $00				; 00
-B20_1a26:		.db $00				; 00
-B20_1a27:		.db $00				; 00
-B20_1a28:		bcc B20_19ee ; 90 c4
-
-B20_1a2a:	.db $77
-B20_1a2b:		.db $00				; 00
-B20_1a2c:		ldy $ae00		; ac 00 ae
-B20_1a2f:		.db $00				; 00
-B20_1a30:	.db $9b
-B20_1a31:		.db $00				; 00
-B20_1a32:		.db $00				; 00
-B20_1a33:		.db $00				; 00
-B20_1a34:	.db $77
-B20_1a35:		.db $00				; 00
-B20_1a36:		stx $00, y		; 96 00
-B20_1a38:		.db $00				; 00
-B20_1a39:	.db $4b
-B20_1a3a:		.db $00				; 00
-B20_1a3b:		bcc B20_1a3d ; 90 00
-
-B20_1a3d:		.db $00				; 00
-B20_1a3e:	.db $9b
-B20_1a3f:		.db $00				; 00
-B20_1a40:		.db $00				; 00
-B20_1a41:		.db $00				; 00
-B20_1a42:		ror a			; 6a
-B20_1a43:		.db $00				; 00
-B20_1a44:	.db $bc $00 $00
-B20_1a47:		.db $00				; 00
-B20_1a48:		.db $00				; 00
-B20_1a49:		.db $00				; 00
-B20_1a4a:		.db $00				; 00
-B20_1a4b:		.db $00				; 00
-B20_1a4c:	.db $af
-B20_1a4d:	.db $13
-B20_1a4e:		.db $00				; 00
-B20_1a4f:		.db $00				; 00
-B20_1a50:		bcs B20_1a52 ; b0 00
-
-B20_1a52:		.db $00				; 00
-B20_1a53:		.db $00				; 00
-B20_1a54:		.db $00				; 00
-B20_1a55:		.db $00				; 00
-B20_1a56:		.db $00				; 00
-B20_1a57:	.db $1f
-B20_1a58:		.db $00				; 00
-B20_1a59:		.db $00				; 00
-B20_1a5a:		.db $00				; 00
-B20_1a5b:		.db $00				; 00
-B20_1a5c:		.db $00				; 00
-B20_1a5d:		.db $00				; 00
-B20_1a5e:		.db $00				; 00
-B20_1a5f:		.db $00				; 00
-B20_1a60:		sta $9600, x	; 9d 00 96
-B20_1a63:	.db $1c
-B20_1a64:		lda ($1c, x)	; a1 1c
-B20_1a66:		stx $00, y		; 96 00
-B20_1a68:		.db $00				; 00
-B20_1a69:		.db $00				; 00
-B20_1a6a:	.db $af
-B20_1a6b:	.db $92
-B20_1a6c:	.db $92
-B20_1a6d:		.db $00				; 00
-B20_1a6e:		eor $6a00, y	; 59 00 6a
-B20_1a71:		.db $00				; 00
-B20_1a72:		stx $00, y		; 96 00
-B20_1a74:		lda ($93), y	; b1 93
-B20_1a76:		.db $00				; 00
-B20_1a77:		.db $00				; 00
-B20_1a78:	.db $92
-B20_1a79:	.db $92
-B20_1a7a:	.db $3c
-B20_1a7b:	.db $93
-B20_1a7c:		jmp ($ab00)		; 6c 00 ab
-
-
-B20_1a7f:		.db $00				; 00
-B20_1a80:		.db $00				; 00
-B20_1a81:		.db $00				; 00
-B20_1a82:		.db $00				; 00
-B20_1a83:	.db $8c $00 $00
-B20_1a86:		.db $00				; 00
-B20_1a87:		.db $00				; 00
-B20_1a88:		lda $00, x		; b5 00
-B20_1a8a:		ldy $6e, x		; b4 6e
-B20_1a8c:		sta $b294, x	; 9d 94 b2
-B20_1a8f:		.db $00				; 00
-B20_1a90:	.db $b3
-B20_1a91:		.db $00				; 00
-B20_1a92:	.db $63
-B20_1a93:		.db $00				; 00
-B20_1a94:		.db $00				; 00
-B20_1a95:		.db $00				; 00
-B20_1a96:		.db $00				; 00
-B20_1a97:		.db $00				; 00
-B20_1a98:		.db $00				; 00
-B20_1a99:		.db $00				; 00
-B20_1a9a:		.db $00				; 00
-B20_1a9b:	.db $03
-B20_1a9c:		.db $00				; 00
-B20_1a9d:		.db $00				; 00
-B20_1a9e:		.db $00				; 00
-B20_1a9f:		.db $00				; 00
-B20_1aa0:	.db $74
-B20_1aa1:		.db $00				; 00
-B20_1aa2:		.db $00				; 00
-B20_1aa3:		.db $00				; 00
-B20_1aa4:		.db $00				; 00
-B20_1aa5:		.db $00				; 00
-B20_1aa6:		.db $00				; 00
-B20_1aa7:	.db $14
-B20_1aa8:		.db $00				; 00
-B20_1aa9:		.db $00				; 00
-B20_1aaa:	.db $62
-B20_1aab:		cmp $3f			; c5 3f
-B20_1aad:		.db $00				; 00
-B20_1aae:		ldx $a5, y		; b6 a5
-B20_1ab0:		sei				; 78 
-B20_1ab1:		.db $00				; 00
-B20_1ab2:		.db $00				; 00
-B20_1ab3:		.db $00				; 00
-B20_1ab4:		.db $00				; 00
-B20_1ab5:		.db $00				; 00
-B20_1ab6:		.db $00				; 00
-B20_1ab7:	.db $14
-B20_1ab8:	.db $3f
-B20_1ab9:	.db $c3
-B20_1aba:	.db $2f
-B20_1abb:		.db $00				; 00
-B20_1abc:	.db $be $00 $00
-B20_1abf:		.db $00				; 00
-B20_1ac0:		.db $00				; 00
-B20_1ac1:		.db $00				; 00
-B20_1ac2:		.db $00				; 00
-B20_1ac3:		.db $00				; 00
-B20_1ac4:		.db $00				; 00
-B20_1ac5:		bvs B20_1b28 ; 70 61
-
-B20_1ac7:		.db $00				; 00
-B20_1ac8:		.db $00				; 00
-B20_1ac9:		bvs B20_1b30 ; 70 65
-
-B20_1acb:		.db $00				; 00
-B20_1acc:	.db $64
-B20_1acd:		bvs B20_1b34 ; 70 65
-
-B20_1acf:		.db $00				; 00
-B20_1ad0:	.db $62
-B20_1ad1:		;removed
-	.db $70 $63
-
-B20_1ad3:		.db $00				; 00
-B20_1ad4:		.db $00				; 00
-B20_1ad5:		.db $00				; 00
-B20_1ad6:		.db $00				; 00
-B20_1ad7:		and $00, x		; 35 00
-B20_1ad9:		.db $00				; 00
-B20_1ada:		.db $00				; 00
-B20_1adb:		.db $00				; 00
-B20_1adc:		eor $5900, y	; 59 00 59
-B20_1adf:		.db $00				; 00
-B20_1ae0:	.db $67
-B20_1ae1:	.db $39 $50 $00
-B20_1ae4:		eor $5900, y	; 59 00 59
-B20_1ae7:		.db $00				; 00
-B20_1ae8:		.db $00				; 00
-B20_1ae9:		lsr $5e, x		; 56 5e
-B20_1aeb:		.db $00				; 00
-B20_1aec:	.db $5f
-B20_1aed:		.db $00				; 00
-B20_1aee:		rts				; 60 
-
-
-B20_1aef:		lsr $3a, x		; 56 3a
-B20_1af1:		.db $00				; 00
-B20_1af2:		.db $00				; 00
-B20_1af3:		.db $00				; 00
-B20_1af4:	.db $eb
-B20_1af5:		.db $00				; 00
-B20_1af6:		eor $4b00, y	; 59 00 4b
-B20_1af9:	.db $33
-B20_1afa:	.db $5c
-B20_1afb:		.db $00				; 00
-B20_1afc:	.db $5b
-B20_1afd:		.db $00				; 00
-B20_1afe:	.db $5a
-B20_1aff:		.db $00				; 00
-B20_1b00:		.db $00				; 00
-B20_1b01:		.db $00				; 00
-B20_1b02:		.db $00				; 00
-B20_1b03:		and $00, x		; 35 00
-B20_1b05:		.db $00				; 00
-B20_1b06:		.db $00				; 00
-B20_1b07:		.db $00				; 00
-B20_1b08:	.db $3a
-B20_1b09:		.db $00				; 00
-B20_1b0a:	.db $3a
-B20_1b0b:		.db $00				; 00
-B20_1b0c:	.db $3a
-B20_1b0d:		.db $00				; 00
-B20_1b0e:	.db $59 $00 $00
-B20_1b11:		.db $00				; 00
-B20_1b12:		jmp ($6d00)		; 6c 00 6d
-
-
-B20_1b15:		.db $00				; 00
-B20_1b16:		.db $00				; 00
-B20_1b17:		.db $00				; 00
-B20_1b18:	.db $5c
-B20_1b19:		.db $00				; 00
-B20_1b1a:		.db $00				; 00
-B20_1b1b:	.db $54
-B20_1b1c:		jmp ($3a54)		; 6c 54 3a
-
-
-B20_1b1f:	.db $54
-B20_1b20:		eor $6655, y	; 59 55 66
-B20_1b23:		eor $00, x		; 55 00
-B20_1b25:		eor $68, x		; 55 68
-B20_1b27:	.db $54
-B20_1b28:		pla				; 68 
-B20_1b29:	.db $54
-B20_1b2a:		.db $00				; 00
-B20_1b2b:		.db $00				; 00
-B20_1b2c:		.db $00				; 00
-B20_1b2d:		.db $00				; 00
-B20_1b2e:		.db $00				; 00
-B20_1b2f:		.db $00				; 00
-B20_1b30:		.db $00				; 00
-B20_1b31:		.db $00				; 00
-B20_1b32:		adc ($00, x)	; 61 00
-B20_1b34:	.db $5d $00 $00
-B20_1b37:		bvc B20_1b9c ; 50 63
-
-B20_1b39:		.db $00				; 00
-B20_1b3a:	.db $6f
-B20_1b3b:		.db $00				; 00
-B20_1b3c:	.db $6f
-B20_1b3d:		.db $00				; 00
-B20_1b3e:	.db $6f
-B20_1b3f:		.db $00				; 00
-B20_1b40:	.db $6f
-B20_1b41:		.db $00				; 00
-B20_1b42:	.db $6f
-B20_1b43:	.db $4f
-B20_1b44:		.db $00				; 00
-B20_1b45:		.db $00				; 00
-B20_1b46:		.db $00				; 00
-B20_1b47:		.db $00				; 00
-B20_1b48:		ror a			; 6a
-B20_1b49:		.db $00				; 00
-B20_1b4a:	.db $3a
-B20_1b4b:		.db $00				; 00
-B20_1b4c:	.db $6e $00 $00
-B20_1b4f:		.db $00				; 00
-B20_1b50:		.db $00				; 00
-B20_1b51:		.db $00				; 00
-B20_1b52:		.db $00				; 00
-B20_1b53:		.db $00				; 00
-B20_1b54:		.db $00				; 00
-B20_1b55:		.db $00				; 00
-B20_1b56:	.db $72
-B20_1b57:		.db $00				; 00
-B20_1b58:		adc $7100		; 6d 00 71
-B20_1b5b:		.db $00				; 00
-B20_1b5c:		.db $00				; 00
-B20_1b5d:		.db $00				; 00
-B20_1b5e:		.db $00				; 00
-B20_1b5f:	.db $53
-B20_1b60:		.db $00				; 00
-B20_1b61:		.db $00				; 00
-B20_1b62:		.db $00				; 00
-B20_1b63:		.db $00				; 00
-B20_1b64:		.db $00				; 00
-B20_1b65:		.db $00				; 00
-B20_1b66:		.db $00				; 00
-B20_1b67:	.db $20 $00 $00
-B20_1b6a:		.db $00				; 00
-B20_1b6b:		.db $00				; 00
-B20_1b6c:		.db $00				; 00
-B20_1b6d:		.db $00				; 00
-B20_1b6e:		.db $00				; 00
-B20_1b6f:		.db $00				; 00
-B20_1b70:		.db $00				; 00
-B20_1b71:		dec $559d, x	; de 9d 55
-B20_1b74:		.db $00				; 00
-B20_1b75:		.db $00				; 00
-B20_1b76:		txs				; 9a 
-B20_1b77:	.db $bf
-B20_1b78:	.db $d2
-B20_1b79:		eor $3a, x		; 55 3a
-B20_1b7b:		dec $5590, x	; de 90 55
-B20_1b7e:	.db $9c
-B20_1b7f:		.db $00				; 00
-B20_1b80:	.db $93
-B20_1b81:	.db $bf
-B20_1b82:		bcc B20_1bd9 ; 90 55
-
-B20_1b84:		clv				; b8 
-B20_1b85:		dec $bf00, x	; de 00 bf
-B20_1b88:		.db $00				; 00
-B20_1b89:		eor $3f, x		; 55 3f
-B20_1b8b:		.db $00				; 00
-B20_1b8c:		lda #$00		; a9 00
-B20_1b8e:		.db $00				; 00
-B20_1b8f:		dec $bfc4, x	; de c4 bf
-B20_1b92:		.db $00				; 00
-B20_1b93:		eor $c3, x		; 55 c3
-B20_1b95:		.db $00				; 00
-B20_1b96:		.db $00				; 00
-B20_1b97:		.db $00				; 00
-B20_1b98:		.db $00				; 00
-B20_1b99:		.db $00				; 00
-B20_1b9a:		.db $00				; 00
-B20_1b9b:		.db $00				; 00
-B20_1b9c:		.db $00				; 00
-B20_1b9d:	.db $20 $00 $00
-B20_1ba0:		.db $00				; 00
-B20_1ba1:		.db $00				; 00
-B20_1ba2:		.db $00				; 00
-B20_1ba3:		.db $00				; 00
-B20_1ba4:		.db $00				; 00
-B20_1ba5:		.db $00				; 00
-B20_1ba6:	.db $3a
-B20_1ba7:		.db $00				; 00
-B20_1ba8:		ror a			; 6a
-B20_1ba9:		eor $3a, x		; 55 3a
-B20_1bab:	.db $bf
-B20_1bac:		cld				; d8 
-B20_1bad:		dec $553a, x	; de 3a 55
-B20_1bb0:	.db $3a
-B20_1bb1:		.db $00				; 00
-B20_1bb2:		ror a			; 6a
-B20_1bb3:		eor $00, x		; 55 00
-B20_1bb5:	.db $bf
-B20_1bb6:	.db $33
-B20_1bb7:		dec $5590, x	; de 90 55
-B20_1bba:		pla				; 68 
-B20_1bbb:	.db $bf
-B20_1bbc:		bcc B20_1bbe ; 90 00
-
-B20_1bbe:	.db $3f
-B20_1bbf:		eor $3f, x		; 55 3f
-B20_1bc1:	.db $de $6c $00
-B20_1bc4:		.db $00				; 00
-B20_1bc5:		sbc ($9b), y	; f1 9b
-B20_1bc7:		sbc $9b, x		; f5 9b
-B20_1bc9:	.db $fb
-B20_1bca:	.db $9b
-B20_1bcb:	.db $ff
-B20_1bcc:	.db $9b
-B20_1bcd:		ora ($9c, x)	; 01 9c
-B20_1bcf:	.db $03
-B20_1bd0:	.db $9c
-B20_1bd1:	.db $07
-B20_1bd2:	.db $9c
-B20_1bd3:		ora $119c		; 0d 9c 11
-B20_1bd6:	.db $9c
-B20_1bd7:	.db $17
-B20_1bd8:	.db $9c
-B20_1bd9:	.db $1b
-B20_1bda:	.db $9c
-B20_1bdb:	.db $1f
-B20_1bdc:	.db $9c
-B20_1bdd:		and $9c			; 25 9c
-B20_1bdf:		and #$9c		; 29 9c
-B20_1be1:		and $2f9c		; 2d 9c 2f
-B20_1be4:	.db $9c
-B20_1be5:		and $9c, x		; 35 9c
-B20_1be7:	.db $3b
-B20_1be8:	.db $9c
-B20_1be9:		eor ($9c, x)	; 41 9c
-B20_1beb:		eor $9c			; 45 9c
-B20_1bed:	.db $4b
-B20_1bee:	.db $9c
-B20_1bef:	.db $4f
-B20_1bf0:	.db $9c
-B20_1bf1:	.db $53
-B20_1bf2:	.db $9c
-B20_1bf3:	.db $6f
-B20_1bf4:	.db $9c
-B20_1bf5:	.db $8b
-B20_1bf6:	.db $9c
-B20_1bf7:	.db $9f
-B20_1bf8:	.db $9c
-B20_1bf9:	.db $c3
-B20_1bfa:	.db $9c
-B20_1bfb:	.db $d7
-B20_1bfc:	.db $9c
-B20_1bfd:	.db $e3
-B20_1bfe:	.db $9c
-B20_1bff:	.db $ef
-B20_1c00:	.db $9c
-B20_1c01:	.db $03
-B20_1c02:		sta $9d0f, x	; 9d 0f 9d
-B20_1c05:	.db $2b
-B20_1c06:		sta $af08, x	; 9d 08 af
-B20_1c09:	.db $47
-B20_1c0a:		sta $9d5b, x	; 9d 5b 9d
-B20_1c0d:	.db $6f
-B20_1c0e:		sta $9d8b, x	; 9d 8b 9d
-B20_1c11:	.db $a7
-B20_1c12:		sta $af17, x	; 9d 17 af
-B20_1c15:	.db $b3
-B20_1c16:		sta $9dc7, x	; 9d c7 9d
-B20_1c19:	.db $eb
-B20_1c1a:		sta $9dff, x	; 9d ff 9d
-B20_1c1d:	.db $1b
-B20_1c1e:	.db $9e
-B20_1c1f:	.db $37
-B20_1c20:	.db $9e
-B20_1c21:	.db $b2
-B20_1c22:	.db $af
-B20_1c23:	.db $4b
-B20_1c24:	.db $9e
-B20_1c25:	.db $67
-B20_1c26:	.db $9e
-B20_1c27:	.db $8b
-B20_1c28:	.db $9e
-B20_1c29:	.db $9f
-B20_1c2a:	.db $9e
-B20_1c2b:	.db $b3
-B20_1c2c:	.db $9e
-B20_1c2d:	.db $c7
-B20_1c2e:	.db $9e
-B20_1c2f:	.db $03
-B20_1c30:	.db $9f
-B20_1c31:	.db $0f
-B20_1c32:	.db $9f
-B20_1c33:	.db $3b
-B20_1c34:	.db $9f
-B20_1c35:	.db $47
-B20_1c36:	.db $9f
-B20_1c37:		dec $af, x		; d6 af
-B20_1c39:	.db $5b
-B20_1c3a:	.db $9f
-B20_1c3b:	.db $67
-B20_1c3c:	.db $9f
-B20_1c3d:	.db $0f
-B20_1c3e:		;removed
-	.db $b0 $73
-
-B20_1c40:	.db $9f
-B20_1c41:	.db $7f
-B20_1c42:	.db $9f
-B20_1c43:	.db $9b
-B20_1c44:	.db $9f
-B20_1c45:	.db $b7
-B20_1c46:	.db $9f
-B20_1c47:		lda ($b0), y	; b1 b0
-B20_1c49:	.db $cb
-B20_1c4a:	.db $9f
-B20_1c4b:	.db $df
-B20_1c4c:	.db $9f
-B20_1c4d:	.db $f3
-B20_1c4e:	.db $9f
-B20_1c4f:	.db $0f
-B20_1c50:		ldy #$23		; a0 23
-B20_1c52:		ldy #$00		; a0 00
-B20_1c54:		.db $00				; 00
-B20_1c55:		.db $00				; 00
-B20_1c56:		sta $6c0b, x	; 9d 0b 6c
-B20_1c59:		.db $00				; 00
-B20_1c5a:		pla				; 68 
-B20_1c5b:		.db $00				; 00
-B20_1c5c:		.db $00				; 00
-B20_1c5d:		.db $00				; 00
-B20_1c5e:		.db $00				; 00
-B20_1c5f:		lda $0bc3, y	; b9 c3 0b
-B20_1c62:		nop				; ea 
-B20_1c63:		.db $00				; 00
-B20_1c64:		ldx $e900		; ae 00 e9
-B20_1c67:		.db $00				; 00
-B20_1c68:	.db $42
-B20_1c69:		.db $00				; 00
-B20_1c6a:		.db $00				; 00
-B20_1c6b:	.db $0b
-B20_1c6c:		.db $00				; 00
-B20_1c6d:		.db $00				; 00
-B20_1c6e:		.db $00				; 00
-B20_1c6f:		.db $00				; 00
-B20_1c70:		.db $00				; 00
-B20_1c71:		.db $00				; 00
-B20_1c72:	.db $92
-B20_1c73:		.db $00				; 00
-B20_1c74:		sta $9dbc, x	; 9d bc 9d
-B20_1c77:		.db $00				; 00
-B20_1c78:		sta $5cbc, x	; 9d bc 5c
-B20_1c7b:		ldx $4b, y		; b6 4b
-B20_1c7d:		ldx $5c, y		; b6 5c
-B20_1c7f:		.db $00				; 00
-B20_1c80:	.db $33
-B20_1c81:		.db $00				; 00
-B20_1c82:		cpx $b5			; e4 b5
-B20_1c84:		jmp ($6800)		; 6c 00 68
-
-
-B20_1c87:		.db $00				; 00
-B20_1c88:	.db $eb
-B20_1c89:		.db $00				; 00
-B20_1c8a:		.db $00				; 00
-B20_1c8b:		.db $00				; 00
-B20_1c8c:		.db $00				; 00
-B20_1c8d:		.db $00				; 00
-B20_1c8e:		bcc B20_1ca5 ; 90 15
-
-B20_1c90:		cpy #$00		; c0 00
-B20_1c92:		.db $00				; 00
-B20_1c93:		.db $00				; 00
-B20_1c94:		pla				; 68 
-B20_1c95:		.db $00				; 00
-B20_1c96:		.db $00				; 00
-B20_1c97:	.db $64
-B20_1c98:		dec $be			; c6 be
-B20_1c9a:		eor $9600, y	; 59 00 96
-B20_1c9d:		.db $00				; 00
-B20_1c9e:		.db $00				; 00
-B20_1c9f:		.db $00				; 00
-B20_1ca0:		.db $00				; 00
-B20_1ca1:		.db $00				; 00
-B20_1ca2:	.db $42
-B20_1ca3:		.db $00				; 00
-B20_1ca4:	.db $3b
-B20_1ca5:		.db $00				; 00
-B20_1ca6:	.db $3b
-B20_1ca7:		eor $0b9d, y	; 59 9d 0b
-B20_1caa:		.db $00				; 00
-B20_1cab:		.db $00				; 00
-B20_1cac:	.db $74
-B20_1cad:		.db $00				; 00
-B20_1cae:	.db $74
-B20_1caf:		.db $00				; 00
-B20_1cb0:	.db $c7
-B20_1cb1:		.db $00				; 00
-B20_1cb2:		sta $9d0b, x	; 9d 0b 9d
-B20_1cb5:		.db $00				; 00
-B20_1cb6:		.db $00				; 00
-B20_1cb7:		cli				; 58 
-B20_1cb8:		.db $00				; 00
-B20_1cb9:		.db $00				; 00
-B20_1cba:		.db $00				; 00
-B20_1cbb:		tya				; 98 
-B20_1cbc:		sta $6800, y	; 99 00 68
-B20_1cbf:		.db $00				; 00
-B20_1cc0:		ldx #$00		; a2 00
-B20_1cc2:		.db $00				; 00
-B20_1cc3:		.db $00				; 00
-B20_1cc4:		.db $00				; 00
-B20_1cc5:	.db $02
-B20_1cc6:		.db $00				; 00
-B20_1cc7:		.db $00				; 00
-B20_1cc8:		.db $00				; 00
-B20_1cc9:	.db $bd $95 $00
-B20_1ccc:		pla				; 68 
-B20_1ccd:		.db $00				; 00
-B20_1cce:		.db $00				; 00
-B20_1ccf:		.db $00				; 00
-B20_1cd0:		.db $00				; 00
-B20_1cd1:		bit $00			; 24 00
-B20_1cd3:		.db $00				; 00
-B20_1cd4:		.db $00				; 00
-B20_1cd5:		.db $00				; 00
-B20_1cd6:		.db $00				; 00
-B20_1cd7:		.db $00				; 00
-B20_1cd8:		.db $00				; 00
-B20_1cd9:		.db $00				; 00
-B20_1cda:		.db $00				; 00
-B20_1cdb:	.db $5d $d1 $00
-B20_1cde:		eor $2731		; 4d 31 27
-B20_1ce1:		.db $00				; 00
-B20_1ce2:		.db $00				; 00
-B20_1ce3:		.db $00				; 00
-B20_1ce4:		.db $00				; 00
-B20_1ce5:		.db $00				; 00
-B20_1ce6:		.db $00				; 00
-B20_1ce7:		.db $00				; 00
-B20_1ce8:		.db $00				; 00
-B20_1ce9:		ldx #$00		; a2 00
-B20_1ceb:		rol $00			; 26 00
-B20_1ced:		.db $00				; 00
-B20_1cee:		.db $00				; 00
-B20_1cef:		.db $00				; 00
-B20_1cf0:		.db $00				; 00
-B20_1cf1:		.db $00				; 00
-B20_1cf2:		;removed
-	.db $90 $0b
-
-B20_1cf4:		bvc B20_1cf6 ; 50 00
-
-B20_1cf6:	.db $d2
-B20_1cf7:	.db $0b
-B20_1cf8:		.db $00				; 00
-B20_1cf9:		.db $00				; 00
-B20_1cfa:	.db $fc
-B20_1cfb:	.db $0b
-B20_1cfc:	.db $d2
-B20_1cfd:		.db $00				; 00
-B20_1cfe:		adc $0b			; 65 0b
-B20_1d00:		.db $00				; 00
-B20_1d01:		.db $00				; 00
-B20_1d02:		.db $00				; 00
-B20_1d03:		.db $00				; 00
-B20_1d04:		.db $00				; 00
-B20_1d05:		.db $00				; 00
-B20_1d06:		.db $00				; 00
-B20_1d07:		.db $00				; 00
-B20_1d08:		.db $00				; 00
-B20_1d09:		.db $00				; 00
-B20_1d0a:		.db $00				; 00
-B20_1d0b:	.db $a3
-B20_1d0c:		.db $00				; 00
-B20_1d0d:		.db $00				; 00
-B20_1d0e:		.db $00				; 00
-B20_1d0f:		.db $00				; 00
-B20_1d10:		.db $00				; 00
-B20_1d11:		.db $00				; 00
-B20_1d12:	.db $b3
-B20_1d13:	.db $17
-B20_1d14:		.db $00				; 00
-B20_1d15:		.db $00				; 00
-B20_1d16:		.db $00				; 00
-B20_1d17:		.db $00				; 00
-B20_1d18:		.db $00				; 00
-B20_1d19:		.db $00				; 00
-B20_1d1a:		.db $00				; 00
-B20_1d1b:		.db $00				; 00
-B20_1d1c:		.db $00				; 00
-B20_1d1d:	.db $17
-B20_1d1e:		.db $00				; 00
-B20_1d1f:		.db $00				; 00
-B20_1d20:		.db $00				; 00
-B20_1d21:		.db $00				; 00
-B20_1d22:		.db $00				; 00
-B20_1d23:		.db $00				; 00
-B20_1d24:		.db $00				; 00
-B20_1d25:		.db $00				; 00
-B20_1d26:		.db $00				; 00
-B20_1d27:	.db $17
-B20_1d28:		adc $00			; 65 00
-B20_1d2a:		.db $00				; 00
-B20_1d2b:		.db $00				; 00
-B20_1d2c:		.db $00				; 00
-B20_1d2d:		.db $00				; 00
-B20_1d2e:	.db $93
-B20_1d2f:	.db $33
-B20_1d30:		eor $5995, y	; 59 95 59
-B20_1d33:		and $95c0, y	; 39 c0 95
-B20_1d36:	.db $fb
-B20_1d37:		.db $00				; 00
-B20_1d38:		cli				; 58 
-B20_1d39:		.db $00				; 00
-B20_1d3a:	.db $d4
-B20_1d3b:	.db $33
-B20_1d3c:		pla				; 68 
-B20_1d3d:		.db $00				; 00
-B20_1d3e:		.db $00				; 00
-B20_1d3f:		.db $00				; 00
-B20_1d40:		.db $00				; 00
-B20_1d41:	.db $1e $00 $00
-B20_1d44:		.db $00				; 00
-B20_1d45:		.db $00				; 00
-B20_1d46:		.db $00				; 00
-B20_1d47:		.db $00				; 00
-B20_1d48:		.db $00				; 00
-B20_1d49:		.db $00				; 00
-B20_1d4a:		.db $00				; 00
-B20_1d4b:		bmi B20_1d4d ; 30 00
-
-B20_1d4d:		.db $00				; 00
-B20_1d4e:	.db $2f
-B20_1d4f:		.db $00				; 00
-B20_1d50:		dec $6b30, x	; de 30 6b
-B20_1d53:	.db $64
-B20_1d54:		.db $00				; 00
-B20_1d55:		.db $00				; 00
-B20_1d56:		.db $00				; 00
-B20_1d57:		bmi B20_1d1c ; 30 c3
-
-B20_1d59:		.db $00				; 00
-B20_1d5a:		.db $00				; 00
-B20_1d5b:		.db $00				; 00
-B20_1d5c:		.db $00				; 00
-B20_1d5d:		.db $00				; 00
-B20_1d5e:		.db $00				; 00
-B20_1d5f:		.db $00				; 00
-B20_1d60:		.db $00				; 00
-B20_1d61:		.db $00				; 00
-B20_1d62:		.db $00				; 00
-B20_1d63:		.db $00				; 00
-B20_1d64:		.db $00				; 00
-B20_1d65:		dey				; 88 
-B20_1d66:		.db $00				; 00
-B20_1d67:		.db $00				; 00
-B20_1d68:		.db $00				; 00
-B20_1d69:		dey				; 88 
-B20_1d6a:		.db $00				; 00
-B20_1d6b:		.db $00				; 00
-B20_1d6c:		.db $00				; 00
-B20_1d6d:		.db $00				; 00
-B20_1d6e:		.db $00				; 00
-B20_1d6f:		.db $00				; 00
-B20_1d70:		.db $00				; 00
-B20_1d71:		.db $00				; 00
-B20_1d72:		cmp $0b, x		; d5 0b
-B20_1d74:		.db $00				; 00
-B20_1d75:		.db $00				; 00
-B20_1d76:		.db $00				; 00
-B20_1d77:		.db $00				; 00
-B20_1d78:		.db $00				; 00
-B20_1d79:	.db $0b
-B20_1d7a:		.db $00				; 00
-B20_1d7b:		.db $00				; 00
-B20_1d7c:		adc $00			; 65 00
-B20_1d7e:		adc $00			; 65 00
-B20_1d80:		.db $00				; 00
-B20_1d81:		.db $00				; 00
-B20_1d82:		.db $00				; 00
-B20_1d83:	.db $0b
-B20_1d84:		clv				; b8 
-B20_1d85:		.db $00				; 00
-B20_1d86:		stx $00, y		; 96 00
-B20_1d88:		bvc B20_1d8a ; 50 00
-
-B20_1d8a:		.db $00				; 00
-B20_1d8b:		.db $00				; 00
-B20_1d8c:		.db $00				; 00
-B20_1d8d:		.db $00				; 00
-B20_1d8e:		sty $09, x		; 94 09
-B20_1d90:		eor $9000, y	; 59 00 90
-B20_1d93:		.db $00				; 00
-B20_1d94:	.db $93
-B20_1d95:		.db $00				; 00
-B20_1d96:		and $9000, y	; 39 00 90
-B20_1d99:		ora #$63		; 09 63
-B20_1d9b:		.db $00				; 00
-B20_1d9c:		bcc B20_1d9e ; 90 00
-
-B20_1d9e:		sta $9200, x	; 9d 00 92
-B20_1da1:		.db $00				; 00
-B20_1da2:		sty $09, x		; 94 09
-B20_1da4:		sty $00, x		; 94 00
-B20_1da6:		.db $00				; 00
-B20_1da7:		.db $00				; 00
-B20_1da8:		.db $00				; 00
-B20_1da9:		bmi B20_1d3b ; 30 90
-
-B20_1dab:	.db $2f
-B20_1dac:		.db $00				; 00
-B20_1dad:		.db $00				; 00
-B20_1dae:		stx $00, y		; 96 00
-B20_1db0:		stx $00, y		; 96 00
-B20_1db2:		.db $00				; 00
-B20_1db3:		.db $00				; 00
-B20_1db4:		.db $00				; 00
-B20_1db5:		.db $00				; 00
-B20_1db6:		sta $9034, x	; 9d 34 90
-B20_1db9:		sty $4b, x		; 94 4b
-B20_1dbb:		.db $00				; 00
-B20_1dbc:		.db $00				; 00
-B20_1dbd:		.db $00				; 00
-B20_1dbe:		.db $00				; 00
-B20_1dbf:		.db $00				; 00
-B20_1dc0:		.db $00				; 00
-B20_1dc1:	.db $2d $00 $00
-B20_1dc4:		.db $00				; 00
-B20_1dc5:		.db $00				; 00
-B20_1dc6:		.db $00				; 00
-B20_1dc7:		.db $00				; 00
-B20_1dc8:		.db $00				; 00
-B20_1dc9:		.db $00				; 00
-B20_1dca:		.db $00				; 00
-B20_1dcb:		.db $00				; 00
-B20_1dcc:		adc $00			; 65 00
-B20_1dce:	.db $43
-B20_1dcf:	.db $33
-B20_1dd0:	.db $9d $00 $00
-B20_1dd3:		.db $00				; 00
-B20_1dd4:	.db $d7
-B20_1dd5:	.db $8d $9d $00
-B20_1dd8:		.db $00				; 00
-B20_1dd9:		.db $00				; 00
-B20_1dda:		.db $00				; 00
-B20_1ddb:		.db $00				; 00
-B20_1ddc:		.db $00				; 00
-B20_1ddd:		.db $00				; 00
-B20_1dde:		cld				; d8 
-B20_1ddf:		.db $00				; 00
-B20_1de0:		.db $00				; 00
-B20_1de1:	.db $a7
-B20_1de2:	.db $42
-B20_1de3:		ldx $00			; a6 00
-B20_1de5:		adc #$93		; 69 93
-B20_1de7:		.db $00				; 00
-B20_1de8:		.db $00				; 00
-B20_1de9:		.db $00				; 00
-B20_1dea:		.db $00				; 00
-B20_1deb:		.db $00				; 00
-B20_1dec:		.db $00				; 00
-B20_1ded:		.db $00				; 00
-B20_1dee:		cmp #$4e		; c9 4e
-B20_1df0:		tya				; 98 
-B20_1df1:		.db $00				; 00
-B20_1df2:		iny				; c8 
-B20_1df3:		.db $00				; 00
-B20_1df4:		cpy #$00		; c0 00
-B20_1df6:		pha				; 48 
-B20_1df7:		.db $00				; 00
-B20_1df8:		.db $00				; 00
-B20_1df9:		.db $00				; 00
-B20_1dfa:	.db $cb
-B20_1dfb:	.db $4e $00 $00
-B20_1dfe:		.db $00				; 00
-B20_1dff:		.db $00				; 00
-B20_1e00:		.db $00				; 00
-B20_1e01:		.db $00				; 00
-B20_1e02:		sei				; 78 
-B20_1e03:		.db $00				; 00
-B20_1e04:		dex				; ca 
-B20_1e05:		.db $00				; 00
-B20_1e06:		sta $65ae, x	; 9d ae 65
-B20_1e09:		.db $00				; 00
-B20_1e0a:		cpy $76af		; cc af 76
-B20_1e0d:		bcs B20_1ddb ; b0 cc
-
-B20_1e0f:	.db $af
-B20_1e10:		ror $b0, x		; 76 b0
-B20_1e12:		.db $00				; 00
-B20_1e13:	.db $ae $fd $00
-B20_1e16:		dec $7400		; ce 00 74
-B20_1e19:		.db $00				; 00
-B20_1e1a:		.db $00				; 00
-B20_1e1b:		.db $00				; 00
-B20_1e1c:		.db $00				; 00
-B20_1e1d:		.db $00				; 00
-B20_1e1e:		.db $00				; 00
-B20_1e1f:		.db $00				; 00
-B20_1e20:		.db $00				; 00
-B20_1e21:		.db $00				; 00
-B20_1e22:		.db $00				; 00
-B20_1e23:		.db $00				; 00
-B20_1e24:		.db $00				; 00
-B20_1e25:		.db $00				; 00
-B20_1e26:		.db $00				; 00
-B20_1e27:		.db $00				; 00
-B20_1e28:		.db $00				; 00
-B20_1e29:		.db $00				; 00
-B20_1e2a:		.db $00				; 00
-B20_1e2b:		.db $00				; 00
-B20_1e2c:		.db $00				; 00
-B20_1e2d:		.db $00				; 00
-B20_1e2e:		.db $00				; 00
-B20_1e2f:		.db $00				; 00
-B20_1e30:		.db $00				; 00
-B20_1e31:		.db $00				; 00
-B20_1e32:		.db $00				; 00
-B20_1e33:		.db $00				; 00
-B20_1e34:		.db $00				; 00
-B20_1e35:		.db $00				; 00
-B20_1e36:		.db $00				; 00
-B20_1e37:		.db $00				; 00
-B20_1e38:		.db $00				; 00
-B20_1e39:		.db $00				; 00
-B20_1e3a:		ldy $9d64		; ac 64 9d
-B20_1e3d:		.db $00				; 00
-B20_1e3e:		.db $00				; 00
-B20_1e3f:		.db $00				; 00
-B20_1e40:		stx $00, y		; 96 00
-B20_1e42:		.db $00				; 00
-B20_1e43:		.db $00				; 00
-B20_1e44:		.db $00				; 00
-B20_1e45:	.db $2d $00 $00
-B20_1e48:		.db $00				; 00
-B20_1e49:		.db $00				; 00
-B20_1e4a:		.db $00				; 00
-B20_1e4b:		.db $00				; 00
-B20_1e4c:		.db $00				; 00
-B20_1e4d:		.db $00				; 00
-B20_1e4e:		bcc B20_1e50 ; 90 00
-
-B20_1e50:		adc $a5			; 65 a5
-B20_1e52:		.db $00				; 00
-B20_1e53:		dey				; 88 
-B20_1e54:		.db $00				; 00
-B20_1e55:		.db $00				; 00
-B20_1e56:		.db $00				; 00
-B20_1e57:	.db $9b
-B20_1e58:		bcc B20_1dff ; 90 a5
-
-B20_1e5a:		.db $00				; 00
-B20_1e5b:		dey				; 88 
-B20_1e5c:		.db $00				; 00
-B20_1e5d:		.db $00				; 00
-B20_1e5e:		.db $00				; 00
-B20_1e5f:		.db $00				; 00
-B20_1e60:		.db $00				; 00
-B20_1e61:	.db $9c
-B20_1e62:	.db $6c $00 $00
-B20_1e65:		.db $00				; 00
-B20_1e66:		.db $00				; 00
-B20_1e67:		.db $00				; 00
-B20_1e68:		.db $00				; 00
-B20_1e69:		lda ($ae), y	; b1 ae
-B20_1e6b:	.db $0b
-B20_1e6c:	.db $e3
-B20_1e6d:		.db $00				; 00
-B20_1e6e:	.db $ad $00 $00
-B20_1e71:		.db $00				; 00
-B20_1e72:		ldx $ae00		; ae 00 ae
-B20_1e75:	.db $0b
-B20_1e76:		.db $00				; 00
-B20_1e77:		lda ($ae), y	; b1 ae
-B20_1e79:		.db $00				; 00
-B20_1e7a:	.db $ae $00 $00
-B20_1e7d:		.db $00				; 00
-B20_1e7e:		cpy #$00		; c0 00
-B20_1e80:		clv				; b8 
-B20_1e81:		bcs B20_1e2c ; b0 a9
-
-B20_1e83:		.db $00				; 00
-B20_1e84:	.db $bf
-B20_1e85:		tya				; 98 
-B20_1e86:	.db $9b
-B20_1e87:		.db $00				; 00
-B20_1e88:	.db $bf
-B20_1e89:		.db $00				; 00
-B20_1e8a:		.db $00				; 00
-B20_1e8b:		.db $00				; 00
-B20_1e8c:		.db $00				; 00
-B20_1e8d:		bmi B20_1efe ; 30 6f
-
-B20_1e8f:		.db $00				; 00
-B20_1e90:	.db $bb
-B20_1e91:		adc $bb, x		; 75 bb
-B20_1e93:		bmi B20_1ed7 ; 30 42
-
-B20_1e95:		adc $42, x		; 75 42
-B20_1e97:		bmi B20_1e99 ; 30 00
-
-B20_1e99:		adc $c0, x		; 75 c0
-B20_1e9b:		.db $00				; 00
-B20_1e9c:		.db $00				; 00
-B20_1e9d:		.db $00				; 00
-B20_1e9e:		.db $00				; 00
-B20_1e9f:		.db $00				; 00
-B20_1ea0:		.db $00				; 00
-B20_1ea1:		.db $00				; 00
-B20_1ea2:	.db $9b
-B20_1ea3:	.db $23
-B20_1ea4:	.db $72
-B20_1ea5:	.db $77
-B20_1ea6:		cpx $00			; e4 00
-B20_1ea8:	.db $ab
-B20_1ea9:		txs				; 9a 
-B20_1eaa:		jmp ($7261)		; 6c 61 72
-
-
-B20_1ead:		ldy $ab			; a4 ab
-B20_1eaf:		.db $00				; 00
-B20_1eb0:		cpy #$00		; c0 00
-B20_1eb2:		.db $00				; 00
-B20_1eb3:		.db $00				; 00
-B20_1eb4:		.db $00				; 00
-B20_1eb5:	.db $99 $95 $00
-B20_1eb8:	.db $bf
-B20_1eb9:		tya				; 98 
-B20_1eba:		cmp ($00, x)	; c1 00
-B20_1ebc:		sta $9a, x		; 95 9a
-B20_1ebe:		jmp ($6a9a)		; 6c 9a 6a
-
-
-B20_1ec1:		tya				; 98 
-B20_1ec2:		jmp ($3f00)		; 6c 00 3f
-
-
-B20_1ec5:		.db $00				; 00
-B20_1ec6:		.db $00				; 00
-B20_1ec7:		.db $00				; 00
-B20_1ec8:		.db $00				; 00
-B20_1ec9:		.db $00				; 00
-B20_1eca:	.db $42
-B20_1ecb:		.db $00				; 00
-B20_1ecc:	.db $b7
-B20_1ecd:		.db $00				; 00
-B20_1ece:		and $00, x		; 35 00
-B20_1ed0:	.db $c2
-B20_1ed1:		.db $00				; 00
-B20_1ed2:	.db $c3
-B20_1ed3:		.db $00				; 00
-B20_1ed4:		rol $c300, x	; 3e 00 c3
-B20_1ed7:		.db $00				; 00
-B20_1ed8:		rol $c300, x	; 3e 00 c3
-B20_1edb:		.db $00				; 00
-B20_1edc:		.db $00				; 00
-B20_1edd:		.db $00				; 00
-B20_1ede:	.db $43
-B20_1edf:		.db $00				; 00
-B20_1ee0:		rol $9b00, x	; 3e 00 9b
-B20_1ee3:		.db $00				; 00
-B20_1ee4:	.db $ef
-B20_1ee5:		.db $00				; 00
-B20_1ee6:	.db $9b
-B20_1ee7:		stx $c3, y		; 96 c3
-B20_1ee9:		.db $00				; 00
-B20_1eea:	.db $a7
-B20_1eeb:		.db $00				; 00
-B20_1eec:	.db $c3
-B20_1eed:		.db $00				; 00
-B20_1eee:	.db $3d $00 $00
-B20_1ef1:		.db $00				; 00
-B20_1ef2:		.db $00				; 00
-B20_1ef3:		.db $00				; 00
-B20_1ef4:		.db $00				; 00
-B20_1ef5:	.db $2b
-B20_1ef6:		.db $00				; 00
-B20_1ef7:		.db $00				; 00
-B20_1ef8:		.db $00				; 00
-B20_1ef9:		.db $00				; 00
-B20_1efa:		.db $00				; 00
-B20_1efb:		.db $00				; 00
-B20_1efc:		.db $00				; 00
-B20_1efd:		.db $00				; 00
-B20_1efe:		.db $00				; 00
-B20_1eff:	.db $2b
-B20_1f00:		.db $00				; 00
-B20_1f01:		.db $00				; 00
-B20_1f02:		.db $00				; 00
-B20_1f03:		.db $00				; 00
-B20_1f04:		.db $00				; 00
-B20_1f05:		.db $00				; 00
-B20_1f06:		.db $00				; 00
-B20_1f07:		.db $00				; 00
-B20_1f08:	.db $9d $00 $00
-B20_1f0b:		.db $00				; 00
-B20_1f0c:		stx $00, y		; 96 00
-B20_1f0e:		.db $00				; 00
-B20_1f0f:		.db $00				; 00
-B20_1f10:		.db $00				; 00
-B20_1f11:		.db $00				; 00
-B20_1f12:	.db $6e $00 $00
-B20_1f15:		.db $00				; 00
-B20_1f16:	.db $dc
-B20_1f17:		.db $00				; 00
-B20_1f18:		.db $00				; 00
-B20_1f19:		.db $00				; 00
-B20_1f1a:		.db $00				; 00
-B20_1f1b:	.db $4e $00 $00
-B20_1f1e:		.db $00				; 00
-B20_1f1f:		.db $00				; 00
-B20_1f20:	.db $2f
-B20_1f21:		.db $00				; 00
-B20_1f22:		.db $00				; 00
-B20_1f23:	.db $4e $00 $00
-B20_1f26:		.db $00				; 00
-B20_1f27:		.db $00				; 00
-B20_1f28:		.db $00				; 00
-B20_1f29:		.db $00				; 00
-B20_1f2a:		.db $00				; 00
-B20_1f2b:	.db $4e $00 $00
-B20_1f2e:		.db $00				; 00
-B20_1f2f:		.db $00				; 00
-B20_1f30:		.db $00				; 00
-B20_1f31:		.db $00				; 00
-B20_1f32:		.db $00				; 00
-B20_1f33:		.db $00				; 00
-B20_1f34:		pla				; 68 
-B20_1f35:		.db $00				; 00
-B20_1f36:		pla				; 68 
-B20_1f37:		.db $00				; 00
-B20_1f38:		bcc B20_1f3a ; 90 00
-
-B20_1f3a:		.db $00				; 00
-B20_1f3b:		.db $00				; 00
-B20_1f3c:		.db $00				; 00
-B20_1f3d:		.db $00				; 00
-B20_1f3e:	.db $da
-B20_1f3f:		.db $00				; 00
-B20_1f40:	.db $d9 $00 $00
-B20_1f43:		.db $00				; 00
-B20_1f44:	.db $d2
-B20_1f45:		.db $00				; 00
-B20_1f46:		.db $00				; 00
-B20_1f47:		.db $00				; 00
-B20_1f48:		.db $00				; 00
-B20_1f49:		.db $00				; 00
-B20_1f4a:		.db $00				; 00
-B20_1f4b:		.db $00				; 00
-B20_1f4c:		bcc B20_1f4e ; 90 00
-
-B20_1f4e:		.db $00				; 00
-B20_1f4f:		.db $00				; 00
-B20_1f50:		.db $00				; 00
-B20_1f51:		.db $00				; 00
-B20_1f52:		.db $00				; 00
-B20_1f53:		.db $00				; 00
-B20_1f54:		sta $db00, y	; 99 00 db
-B20_1f57:		.db $00				; 00
-B20_1f58:		pla				; 68 
-B20_1f59:		.db $00				; 00
-B20_1f5a:		.db $00				; 00
-B20_1f5b:		.db $00				; 00
-B20_1f5c:		.db $00				; 00
-B20_1f5d:		.db $00				; 00
-B20_1f5e:	.db $9d $00 $00
-B20_1f61:		tax				; aa 
-B20_1f62:		.db $00				; 00
-B20_1f63:		.db $00				; 00
-B20_1f64:	.db $dd $00 $00
-B20_1f67:		.db $00				; 00
-B20_1f68:		.db $00				; 00
-B20_1f69:		.db $00				; 00
-B20_1f6a:	.db $de $5a $00
-B20_1f6d:		dec $c4			; c6 c4
-B20_1f6f:		.db $00				; 00
-B20_1f70:	.db $c3
-B20_1f71:		.db $00				; 00
-B20_1f72:		.db $00				; 00
-B20_1f73:		.db $00				; 00
-B20_1f74:		.db $00				; 00
-B20_1f75:		.db $00				; 00
-B20_1f76:		.db $00				; 00
-B20_1f77:	.db $0b
-B20_1f78:		.db $00				; 00
-B20_1f79:	.db $d3
-B20_1f7a:		.db $00				; 00
-B20_1f7b:	.db $34
-B20_1f7c:		sta $00, x		; 95 00
-B20_1f7e:		.db $00				; 00
-B20_1f7f:		.db $00				; 00
-B20_1f80:		.db $00				; 00
-B20_1f81:	.db $80
-B20_1f82:	.db $df
-B20_1f83:	.db $80
-B20_1f84:		cpx #$ac		; e0 ac
-B20_1f86:		.db $00				; 00
-B20_1f87:		tay				; a8 
-B20_1f88:		sta $a9, x		; 95 a9
-B20_1f8a:		bvc B20_1f8c ; 50 00
-
-B20_1f8c:	.db $4b
-B20_1f8d:	.db $ab
-B20_1f8e:	.db $6b
-B20_1f8f:		rol $ac4c, x	; 3e 4c ac
-B20_1f92:		.db $00				; 00
-B20_1f93:	.db $9b
-B20_1f94:		cmp $00, x		; d5 00
-B20_1f96:		.db $00				; 00
-B20_1f97:		tay				; a8 
-B20_1f98:	.db $3f
-B20_1f99:		.db $00				; 00
-B20_1f9a:		.db $00				; 00
-B20_1f9b:		.db $00				; 00
-B20_1f9c:		.db $00				; 00
-B20_1f9d:		.db $00				; 00
-B20_1f9e:		.db $00				; 00
-B20_1f9f:	.db $2c $00 $00
-B20_1fa2:		.db $00				; 00
-B20_1fa3:		.db $00				; 00
-B20_1fa4:		.db $00				; 00
-B20_1fa5:		.db $00				; 00
-B20_1fa6:		.db $00				; 00
-B20_1fa7:		.db $00				; 00
-B20_1fa8:	.db $92
-B20_1fa9:		.db $00				; 00
-B20_1faa:		sty $00, x		; 94 00
-B20_1fac:		.db $00				; 00
-B20_1fad:	.db $9d $e1 $00
-B20_1fb0:		sty $00, x		; 94 00
-B20_1fb2:		.db $00				; 00
-B20_1fb3:		.db $00				; 00
-B20_1fb4:		.db $00				; 00
-B20_1fb5:		.db $00				; 00
-B20_1fb6:		.db $00				; 00
-B20_1fb7:		.db $00				; 00
-B20_1fb8:		.db $00				; 00
-B20_1fb9:	.db $b3
-B20_1fba:	.db $c3
-B20_1fbb:		.db $00				; 00
-B20_1fbc:		.db $00				; 00
-B20_1fbd:	.db $0b
-B20_1fbe:	.db $42
-B20_1fbf:		.db $00				; 00
-B20_1fc0:		sed				; f8 
-B20_1fc1:		.db $00				; 00
-B20_1fc2:		.db $00				; 00
-B20_1fc3:	.db $b2
-B20_1fc4:	.db $3a
-B20_1fc5:	.db $0b
-B20_1fc6:	.db $c3
-B20_1fc7:		.db $00				; 00
-B20_1fc8:	.db $9b
-B20_1fc9:		.db $00				; 00
-B20_1fca:		.db $00				; 00
-B20_1fcb:		.db $00				; 00
-B20_1fcc:		.db $00				; 00
-B20_1fcd:		.db $00				; 00
-B20_1fce:		rol $bcad, x	; 3e ad bc
-B20_1fd1:	.db $80
-B20_1fd2:	.db $42
-B20_1fd3:		.db $00				; 00
-B20_1fd4:		ldx $9680		; ae 80 96
-B20_1fd7:		.db $00				; 00
-B20_1fd8:		.db $00				; 00
-B20_1fd9:	.db $22
-B20_1fda:	.db $e2
-B20_1fdb:		.db $00				; 00
-B20_1fdc:		stx $00, y		; 96 00
-B20_1fde:		.db $00				; 00
-B20_1fdf:		.db $00				; 00
-B20_1fe0:		.db $00				; 00
-B20_1fe1:		.db $00				; 00
-B20_1fe2:		sta $5015, x	; 9d 15 50
-B20_1fe5:	.db $64
-B20_1fe6:		sta $2500, x	; 9d 00 25
-B20_1fe9:		.db $00				; 00
-B20_1fea:		pla				; 68 
-B20_1feb:	.db $67
-B20_1fec:		adc $c330		; 6d 30 c3
-B20_1fef:		.db $00				; 00
-B20_1ff0:		bne B20_1ff2 ; d0 00
-
-B20_1ff2:		.db $00				; 00
-B20_1ff3:		.db $00				; 00
-B20_1ff4:		.db $00				; 00
-B20_1ff5:		.db $00				; 00
-B20_1ff6:		.db $00				; 00
-B20_1ff7:		.db $00				; 00
-B20_1ff8:		.db $00				; 00
-B20_1ff9:		.db $00				; 00
-B20_1ffa:		.db $00				; 00
-B20_1ffb:	.db $0b
-B20_1ffc:		.db $00				; 00
-B20_1ffd:		.db $00				; 00
-		.db $00
-		.db $00

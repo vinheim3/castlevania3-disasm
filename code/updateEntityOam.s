@@ -21,7 +21,7 @@ B26_001b:		ldx $05			; a6 05
 B26_001d:		cpx #$1c		; e0 1c
 B26_001f:		bcs B26_0041 ; @clearRestOfOam
 
-B26_0021:		lda $0400, x	; bd 00 04
+B26_0021:		lda wOamSpecIdx.w, x	; bd 00 04
 B26_0024:		beq B26_003d ; @toNextEntity
 
 B26_0026:		lda $0470, x	; bd 70 04
@@ -88,7 +88,7 @@ B26_0077:		bcs B26_00b6 ; b0 3d
 
 updateEntityOam:
 ; 48c - entity idx * 2??
-B26_0079:		ldy $048c, x	; bc 8c 04
+B26_0079:		ldy wEntityOamSpecGroupDoubled.w, x	; bc 8c 04
 B26_007c:		sty $0f			; 84 0f
 
 B26_007e:		lda oamSpecData.w, y	; b9 3e 82
@@ -97,7 +97,7 @@ B26_0083:		lda oamSpecData.w+1, y	; b9 3f 82
 B26_0086:		sta $09			; 85 09
 
 ; 400 - entity sub idx??
-B26_0088:		ldy $0400, x	; bc 00 04
+B26_0088:		ldy wOamSpecIdx.w, x	; bc 00 04
 B26_008b:		lda ($08), y	; b1 08
 B26_008d:		sta $0a			; 85 0a
 B26_008f:		iny				; c8 
@@ -109,7 +109,7 @@ B26_0094:		ldy #$00		; a0 00
 B26_0096:		lda ($0a), y	; b1 0a
 B26_0098:		sta $03			; 85 03
 
-B26_009a:		lda $04a8, x	; bd a8 04
+B26_009a:		lda wEntityXFlipped.w, x	; bd a8 04
 B26_009d:		beq nonMirroredOam ; f0 5a
 
 ; $04 is next fillable wOam offset
@@ -311,7 +311,7 @@ B26_0192:		lda #$1c		; a9 1c
 B26_0194:		sta $07			; 85 07
 
 B26_0196:		ldx $06			; a6 06
-B26_0198:		lda $0400, x	; bd 00 04
+B26_0198:		lda wOamSpecIdx.w, x	; bd 00 04
 B26_019b:		beq B26_01b4 ; f0 17
 
 B26_019d:		lda $0470, x	; bd 70 04
@@ -355,13 +355,13 @@ B26_01d9:		jmp B26_0222		; 4c 22 82
 
 
 updateEntityOam_stateC:
-B26_01dc:		ldy $048c, x	; bc 8c 04
+B26_01dc:		ldy wEntityOamSpecGroupDoubled.w, x	; bc 8c 04
 B26_01df:		lda oamSpecData.w, y	; b9 3e 82
 B26_01e2:		sta $08			; 85 08
 B26_01e4:		lda oamSpecData.w+1, y	; b9 3f 82
 B26_01e7:		sta $09			; 85 09
 
-B26_01e9:		ldy $0400, x	; bc 00 04
+B26_01e9:		ldy wOamSpecIdx.w, x	; bc 00 04
 B26_01ec:		lda ($08), y	; b1 08
 B26_01ee:		sta $0a			; 85 0a
 B26_01f0:		iny				; c8 

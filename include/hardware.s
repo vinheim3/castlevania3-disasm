@@ -1,5 +1,22 @@
 .define PPUCTRL $2000
+.define PPUCTRL_NMI_ON $80
+.define PPUCTRL_COLOR_ON_EXT_PINS $40
+.define PPUCTRL_SPR_16 $20
+.define PPUCTRL_BG_1000 $10
+.define PPUCTRL_SPR_1000 $08
+.define PPUCTRL_PPUDATA_INC_DOWN $04
+.define PPUCTRL_NT_BASE $03
+
 .define PPUMASK $2001
+.define PPUMASK_EMP_BLUE $80
+.define PPUMASK_EMP_GREEN $40
+.define PPUMASK_EMP_RED $20
+.define PPUMASK_SHOW_SPR $10
+.define PPUMASK_SHOW_BG $08
+.define PPUMASK_SPR_LEFT_8PX $04
+.define PPUMASK_BG_LEFT_8PX $02
+.define PPUMASK_GREYSCALE $01
+
 .define PPUSTATUS $2002
 .define OAMADDR $2003
 .define PPUSCROLL $2005
@@ -55,18 +72,30 @@
 
 ; MMC5
 .define PCM_MODE $5010
+
 .define PRG_MODE $5100
 .define PRG_MODE_16_8_8 $02
+
 .define CHR_MODE $5101
 .define EXTENDED_RAM_MODE $5104
+
+; nametable bits - DDCCBBAA
+; 00 - vram page 0
+; 01 - vram page 1
+; 10 - internal expansion ram (unused due to 5104 unset)
+; 11 - fill mode data (unused due to 5106/5107 unset)
 .define NAMETABLE_MAPPING $5105
-.define NT_VERTICAL_MIRROR $44
-.define NT_SINGLE_SCREEN_CIRAM_1 $55
+.define NT_VERTICAL_MIRROR $44 ; %01000100
+.define NT_SINGLE_SCREEN_CIRAM_1 $55 ; $01010101
+.define NT_ALL_MODES $e4 ; %11100100
+
 .define FILL_MODE_TILE $5106
 .define FILL_MODE_COLOUR $5107
 .define PRG_BANK_8000 $5115
+
 .define PRG_BANK_c000 $5116
 .define PRG_ROM_SWITCH $80
+
 .define CHR_BANK_0000 $5120
 .define CHR_BANK_0400 $5121
 .define CHR_BANK_0800 $5122

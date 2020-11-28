@@ -11,6 +11,9 @@ if isExtended:
     header[4] = 0x40
     header[5] = 0x80
 
+if 'EXTENDED_RAM' in sys.argv[1:]:
+    header[6] = 0x52
+
 with open('castlevania3.bin', 'rb') as f:
     prgData = f.read()
 

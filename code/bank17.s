@@ -206,7 +206,7 @@ B23_11fb:		lda $0470, x	; bd 70 04
 B23_11fe:		and #$11		; 29 11
 B23_1200:		bne B23_11fa ; d0 f8
 
-B23_1202:		lda $0400, x	; bd 00 04
+B23_1202:		lda wOamSpecIdx.w, x	; bd 00 04
 B23_1205:		beq B23_11fa ; f0 f3
 
 B23_1207:		lda $054e, x	; bd 4e 05
@@ -403,7 +403,7 @@ B23_1354:		sta $061d, y	; 99 1d 06
 B23_1357:		rts				; 60 
 
 
-B23_1358:		lda $04a8, x	; bd a8 04
+B23_1358:		lda wEntityXFlipped.w, x	; bd a8 04
 B23_135b:		bne B23_1367 ; d0 0a
 
 B23_135d:		lda wEntityBaseX.w, x	; bd 38 04
@@ -427,11 +427,11 @@ B23_137c:		sta $00			; 85 00
 B23_137e:		lda $bb4c, y	; b9 4c bb
 B23_1381:		sta $01			; 85 01
 B23_1383:		ldy $054e, x	; bc 4e 05
-B23_1386:		lda $048c, x	; bd 8c 04
+B23_1386:		lda wEntityOamSpecGroupDoubled.w, x	; bd 8c 04
 B23_1389:		cmp #$08		; c9 08
 B23_138b:		bne B23_1394 ; d0 07
 
-B23_138d:		lda $0400, x	; bd 00 04
+B23_138d:		lda wOamSpecIdx.w, x	; bd 00 04
 B23_1390:		cmp #$ee		; c9 ee
 B23_1392:		;removed
 	.db $b0 $40
@@ -478,7 +478,7 @@ B23_13d3:		ora $38			; 05 38
 B23_13d5:		sbc #$ee		; e9 ee
 B23_13d7:		pha				; 48 
 B23_13d8:		clc				; 18 
-B23_13d9:		adc $04a8, x	; 7d a8 04
+B23_13d9:		adc wEntityXFlipped.w, x	; 7d a8 04
 B23_13dc:		sta $07			; 85 07
 B23_13de:		pla				; 68 
 B23_13df:		lsr a			; 4a
@@ -534,7 +534,7 @@ B23_143c:		sta $01			; 85 01
 B23_143e:		clc				; 18 
 B23_143f:		tya				; 98 
 B23_1440:		asl a			; 0a
-B23_1441:		adc $04a8		; 6d a8 04
+B23_1441:		adc wEntityXFlipped.w		; 6d a8 04
 B23_1444:		tay				; a8 
 B23_1445:		clc				; 18 
 B23_1446:		lda $bb5f, y	; b9 5f bb
@@ -655,9 +655,9 @@ B23_150f:		cmp #$64		; c9 64
 B23_1511:		bne B23_1514 ; d0 01
 
 B23_1513:		iny				; c8 
-B23_1514:		lda $0565, x	; bd 65 05
+B23_1514:		lda wPlayerStateDoubled.w, x	; bd 65 05
 B23_1517:		ora $b527, y	; 19 27 b5
-B23_151a:		sta $0565, x	; 9d 65 05
+B23_151a:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B23_151d:		rts				; 60 
 
 
@@ -674,8 +674,8 @@ B23_152c:		jmp $ff7a		; 4c 7a ff
 
 B23_152f:		lda #$00		; a9 00
 B23_1531:		sta wEntityPhase.w, x	; 9d c1 05
-B23_1534:		sta $0400, x	; 9d 00 04
-B23_1537:		sta $048c, x	; 9d 8c 04
+B23_1534:		sta wOamSpecIdx.w, x	; 9d 00 04
+B23_1537:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B23_153a:		sta $0657, x	; 9d 57 06
 B23_153d:		rts				; 60 
 
@@ -728,11 +728,11 @@ B23_1584:		lda #$00		; a9 00
 B23_1586:		sta $0657, x	; 9d 57 06
 B23_1589:		sta $0470, x	; 9d 70 04
 B23_158c:		sta wEntityPhase.w, x	; 9d c1 05
-B23_158f:		sta $0400, x	; 9d 00 04
+B23_158f:		sta wOamSpecIdx.w, x	; 9d 00 04
 B23_1592:		rts				; 60 
 
 
-B23_1593:		jmp $a0fc		; 4c fc a0
+B23_1593:		jmp func_17_00fc		; 4c fc a0
 
 
 B23_1596:		lda #$05		; a9 05
@@ -783,7 +783,7 @@ B23_15e0:		bne B23_1634 ; d0 52
 B23_15e2:		lda #$04		; a9 04
 B23_15e4:		sta $00			; 85 00
 B23_15e6:		ldy $9e			; a4 9e
-B23_15e8:		lda $04f2, y	; b9 f2 04
+B23_15e8:		lda wEntityHorizSpeed.w, y	; b9 f2 04
 B23_15eb:		bpl B23_15f1 ; 10 04
 
 B23_15ed:		lda #$fc		; a9 fc
@@ -810,9 +810,9 @@ B23_1613:		ldx #$17		; a2 17
 B23_1615:		lda #$20		; a9 20
 B23_1617:		sta $0470, x	; 9d 70 04
 B23_161a:		lda #$12		; a9 12
-B23_161c:		sta $0400, x	; 9d 00 04
+B23_161c:		sta wOamSpecIdx.w, x	; 9d 00 04
 B23_161f:		lda #$0e		; a9 0e
-B23_1621:		sta $048c, x	; 9d 8c 04
+B23_1621:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B23_1624:		lda $00			; a5 00
 B23_1626:		sta wEntityBaseX.w, x	; 9d 38 04
 B23_1629:		lda $01			; a5 01
@@ -835,7 +835,7 @@ B23_163e:		cmp #$1c		; c9 1c
 B23_1640:		beq B23_1649 ; f0 07
 
 B23_1642:		ldy #$17		; a0 17
-B23_1644:		lda $0400, y	; b9 00 04
+B23_1644:		lda wOamSpecIdx.w, y	; b9 00 04
 B23_1647:		beq B23_164b ; f0 02
 
 B23_1649:		lda #$01		; a9 01
@@ -886,7 +886,7 @@ B23_1690:		bpl B23_169e ; 10 0c
 B23_1692:		bpl B23_1698 ; 10 04
 
 B23_1694:		sec				; 38 
-B23_1695:		lda $0400, x	; bd 00 04
+B23_1695:		lda wOamSpecIdx.w, x	; bd 00 04
 B23_1698:		sbc #$08		; e9 08
 B23_169a:		lsr a			; 4a
 B23_169b:		tay				; a8 
@@ -964,9 +964,9 @@ B23_16fe:		bne B23_1710 ; d0 10
 B23_1700:		lda $0470, x	; bd 70 04
 B23_1703:		ora #$02		; 09 02
 B23_1705:		sta $0470, x	; 9d 70 04
-B23_1708:		lda $0565, x	; bd 65 05
+B23_1708:		lda wPlayerStateDoubled.w, x	; bd 65 05
 B23_170b:		and #$3f		; 29 3f
-B23_170d:		sta $0565, x	; 9d 65 05
+B23_170d:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B23_1710:		rts				; 60 
 
 
@@ -1020,7 +1020,7 @@ B23_1755:		bcs B23_1744 ; b0 ed
 
 B23_1757:		bcc B23_1740 ; 90 e7
 
-B23_1759:		lda $054e		; ad 4e 05
+B23_1759:		lda wCurrPlayer.w		; ad 4e 05
 B23_175c:		and #$01		; 29 01
 B23_175e:		bne B23_1762 ; d0 02
 
@@ -1070,7 +1070,7 @@ B23_17a5:		rts				; 60
 func_17_17a6:
 B23_17a6:		tya				; 98 
 B23_17a7:		asl a			; 0a
-B23_17a8:		ldy $04a8, x	; bc a8 04
+B23_17a8:		ldy wEntityXFlipped.w, x	; bc a8 04
 B23_17ab:		beq B23_17b0 ; f0 03
 
 B23_17ad:		clc				; 18 
@@ -1163,7 +1163,7 @@ B23_1809:		ldy #$00		; a0 00
 B23_180b:		lda $b81c, y	; b9 1c b8
 B23_180e:		bmi B23_1818 ; 30 08
 
-B23_1810:		cmp $0565		; cd 65 05
+B23_1810:		cmp wPlayerStateDoubled.w		; cd 65 05
 B23_1813:		beq B23_181a ; f0 05
 
 B23_1815:		iny				; c8 
@@ -1272,7 +1272,7 @@ B23_18bc:		bcs B23_18dd ; b0 1f
 
 B23_18be:		sty $02			; 84 02
 B23_18c0:		stx $94			; 86 94
-B23_18c2:		lda $0565, x	; bd 65 05
+B23_18c2:		lda wPlayerStateDoubled.w, x	; bd 65 05
 B23_18c5:		bmi B23_18de ; 30 17
 
 B23_18c7:		cmp #$20		; c9 20
@@ -1455,7 +1455,7 @@ B23_19c2:	.db $02
 B23_19c3:	.db $04
 B23_19c4:		iny				; c8 
 B23_19c5:		sty $0f			; 84 0f
-B23_19c7:		lda $0565, x	; bd 65 05
+B23_19c7:		lda wPlayerStateDoubled.w, x	; bd 65 05
 B23_19ca:		sec				; 38 
 B23_19cb:		sbc #$40		; e9 40
 B23_19cd:		jmp $b9e7		; 4c e7 b9
@@ -1468,14 +1468,14 @@ B23_19d5:		rts				; 60
 
 
 B23_19d6:		ldy #$00		; a0 00
-B23_19d8:		lda $0565, x	; bd 65 05
+B23_19d8:		lda wPlayerStateDoubled.w, x	; bd 65 05
 B23_19db:		cmp #$40		; c9 40
 B23_19dd:		bcs B23_19c4 ; b0 e5
 
 B23_19df:		sty $0f			; 84 0f
 B23_19e1:		lda #$40		; a9 40
 B23_19e3:		sec				; 38 
-B23_19e4:		sbc $0565, x	; fd 65 05
+B23_19e4:		sbc wPlayerStateDoubled.w, x	; fd 65 05
 B23_19e7:		sta $07			; 85 07
 B23_19e9:		tay				; a8 
 B23_19ea:		lda wEntityBaseX.w, x	; bd 38 04
@@ -1552,7 +1552,7 @@ B23_1a5d:		bcs B23_1a7d ; b0 1e
 
 B23_1a5f:		sta $91			; 85 91
 B23_1a61:		lda $07			; a5 07
-B23_1a63:		ldy $0565, x	; bc 65 05
+B23_1a63:		ldy wPlayerStateDoubled.w, x	; bc 65 05
 B23_1a66:		cpy #$40		; c0 40
 B23_1a68:		bcc B23_1a6c ; 90 02
 
