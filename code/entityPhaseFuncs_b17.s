@@ -35,14 +35,14 @@ entityPhaseFunc_37:
 B23_003b:		lda #$18		; a9 18
 B23_003d:		jsr $807f		; 20 7f 80
 B23_0040:		jsr $8e20		; 20 20 8e
-B23_0043:		lda $0520, x	; bd 20 05
+B23_0043:		lda wEntityVertSpeed.w, x	; bd 20 05
 B23_0046:		cmp #$02		; c9 02
 B23_0048:		bcc B23_0054 ; 90 0a
 
 B23_004a:		lda #$03		; a9 03
-B23_004c:		sta $0520, x	; 9d 20 05
+B23_004c:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B23_004f:		lda #$00		; a9 00
-B23_0051:		sta $0537, x	; 9d 37 05
+B23_0051:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B23_0054:		jsr $a0ef		; 20 ef a0
 B23_0057:		bcs B23_0068 ; b0 0f
 
@@ -124,10 +124,10 @@ B23_00d8:		jsr func_1f_1ec8		; 20 c8 fe
 B23_00db:		jsr func_16_01aa		; 20 aa 81
 B23_00de:		ldy #$01		; a0 01
 B23_00e0:		lda ($02), y	; b1 02
-B23_00e2:		sta $0520, x	; 9d 20 05
+B23_00e2:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B23_00e5:		iny				; c8 
 B23_00e6:		lda ($02), y	; b1 02
-B23_00e8:		sta $0537, x	; 9d 37 05
+B23_00e8:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B23_00eb:		inc wEntityPhase.w, x	; fe c1 05
 B23_00ee:		rts				; 60 
 

@@ -12,11 +12,11 @@ B22_005c:		rts				; 60
 
 B22_005d:		sec				; 38 
 B22_005e:		lda #$00		; a9 00
-B22_0060:		sbc $0537, x	; fd 37 05
-B22_0063:		sta $0537, x	; 9d 37 05
+B22_0060:		sbc wEntityVertSubSpeed.w, x	; fd 37 05
+B22_0063:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B22_0066:		lda #$00		; a9 00
-B22_0068:		sbc $0520, x	; fd 20 05
-B22_006b:		sta $0520, x	; 9d 20 05
+B22_0068:		sbc wEntityVertSpeed.w, x	; fd 20 05
+B22_006b:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_006e:		rts				; 60 
 
 
@@ -31,11 +31,11 @@ B22_007e:		rts				; 60
 
 func_16_007f:
 B22_007f:		clc				; 18 
-B22_0080:		adc $0537, x	; 7d 37 05
-B22_0083:		sta $0537, x	; 9d 37 05
+B22_0080:		adc wEntityVertSubSpeed.w, x	; 7d 37 05
+B22_0083:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B22_0086:		lda #$00		; a9 00
-B22_0088:		adc $0520, x	; 7d 20 05
-B22_008b:		sta $0520, x	; 9d 20 05
+B22_0088:		adc wEntityVertSpeed.w, x	; 7d 20 05
+B22_008b:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_008e:		rts				; 60 
 
 
@@ -51,11 +51,11 @@ B22_00a0:		rts				; 60
 
 B22_00a1:		eor #$ff		; 49 ff
 B22_00a3:		sec				; 38 
-B22_00a4:		adc $0537, x	; 7d 37 05
-B22_00a7:		sta $0537, x	; 9d 37 05
+B22_00a4:		adc wEntityVertSubSpeed.w, x	; 7d 37 05
+B22_00a7:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B22_00aa:		lda #$ff		; a9 ff
-B22_00ac:		adc $0520, x	; 7d 20 05
-B22_00af:		sta $0520, x	; 9d 20 05
+B22_00ac:		adc wEntityVertSpeed.w, x	; 7d 20 05
+B22_00af:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_00b2:		rts				; 60 
 
 
@@ -341,7 +341,7 @@ B22_0238:		bcc B22_023c ; 90 02
 
 B22_023a:		lda #$01		; a9 01
 
-B22_023c:		sta wEntityXFlipped.w, x	; 9d a8 04
+B22_023c:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B22_023f:		rts				; 60 
 
 
@@ -352,9 +352,9 @@ B22_0246:		lda $0470, x	; bd 70 04
 B22_0249:		and #$01		; 29 01
 B22_024b:		beq B22_0255 ; f0 08
 
-B22_024d:		lda wEntityXFlipped.w, x	; bd a8 04
+B22_024d:		lda wEntityFacingLeft.w, x	; bd a8 04
 B22_0250:		eor #$01		; 49 01
-B22_0252:		sta wEntityXFlipped.w, x	; 9d a8 04
+B22_0252:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B22_0255:		rts				; 60 
 
 
@@ -488,7 +488,7 @@ B22_0310:		jmp $82bd		; 4c bd 82
 
 entityPhaseFunc_4f:
 B22_0313:		lda #$01		; a9 01
-B22_0315:		sta wEntityXFlipped.w, x	; 9d a8 04
+B22_0315:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B22_0318:		lda #$00		; a9 00
 B22_031a:		sta wEntityPaletteOverride.w, x	; 9d 54 04
 B22_031d:		lda $054e, x	; bd 4e 05
@@ -635,7 +635,7 @@ B22_03d7:		lda ($02), y	; b1 02
 B22_03d9:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
 
 func_16_03dc:
-B22_03dc:		ldy wEntityXFlipped.w, x	; bc a8 04
+B22_03dc:		ldy wEntityFacingLeft.w, x	; bc a8 04
 B22_03df:		beq B22_03e4 ; f0 03
 
 B22_03e1:		jmp reverseEnemyDirection_todo		; 4c 4b 80
@@ -809,16 +809,16 @@ B22_04cb:		lda $061d, x	; bd 1d 06
 B22_04ce:		cmp #$05		; c9 05
 B22_04d0:		bcc B22_04da ; 90 08
 
-B22_04d2:		lda wEntityXFlipped.w, x	; bd a8 04
+B22_04d2:		lda wEntityFacingLeft.w, x	; bd a8 04
 B22_04d5:		eor #$01		; 49 01
-B22_04d7:		sta wEntityXFlipped.w, x	; 9d a8 04
+B22_04d7:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B22_04da:		jsr func_16_01aa		; 20 aa 81
 B22_04dd:		jsr $80b3		; 20 b3 80
 B22_04e0:		cmp #$50		; c9 50
 B22_04e2:		bcs B22_0505 ; b0 21
 
-B22_04e4:		lda wEntityXFlipped.w		; ad a8 04
-B22_04e7:		cmp wEntityXFlipped.w, x	; dd a8 04
+B22_04e4:		lda wEntityFacingLeft.w		; ad a8 04
+B22_04e7:		cmp wEntityFacingLeft.w, x	; dd a8 04
 B22_04ea:		beq B22_0505 ; f0 19
 
 B22_04ec:		inc $061d, x	; fe 1d 06
@@ -845,9 +845,9 @@ B22_0513:		ldy #$00		; a0 00
 B22_0515:		jmp func_16_04ff		; 4c ff 84
 
 
-B22_0518:		sta $0520, x	; 9d 20 05
+B22_0518:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_051b:		tya				; 98 
-B22_051c:		sta $0537, x	; 9d 37 05
+B22_051c:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B22_051f:		rts				; 60 
 
 
@@ -865,8 +865,8 @@ B22_0531:		jsr $80b3		; 20 b3 80
 B22_0534:		cmp #$40		; c9 40
 B22_0536:		bcs B22_0505 ; b0 cd
 
-B22_0538:		lda wEntityXFlipped.w		; ad a8 04
-B22_053b:		cmp wEntityXFlipped.w, x	; dd a8 04
+B22_0538:		lda wEntityFacingLeft.w		; ad a8 04
+B22_053b:		cmp wEntityFacingLeft.w, x	; dd a8 04
 B22_053e:		beq B22_0505 ; f0 c5
 
 B22_0540:		inc $0633, x	; fe 33 06
@@ -905,7 +905,7 @@ B22_057b:		ldx $6c			; a6 6c
 B22_057d:		jsr func_17_17a6		; 20 a6 b7
 B22_0580:		bne B22_05ad ; d0 2b
 
-B22_0582:		lda $0520, x	; bd 20 05
+B22_0582:		lda wEntityVertSpeed.w, x	; bd 20 05
 B22_0585:		bmi B22_05ac ; 30 25
 
 B22_0587:		ldy #$03		; a0 03
@@ -933,7 +933,7 @@ B22_05af:		jmp func_16_095e		; 4c 5e 89
 
 
 B22_05b2:		ldx $6c			; a6 6c
-B22_05b4:		lda $0520, x	; bd 20 05
+B22_05b4:		lda wEntityVertSpeed.w, x	; bd 20 05
 B22_05b7:		bpl B22_05ac ; 10 f3
 
 B22_05b9:		jmp $805d		; 4c 5d 80
@@ -942,7 +942,7 @@ B22_05b9:		jmp $805d		; 4c 5d 80
 entityPhaseFunc_8a:
 B22_05bc:		lda $0606, x	; bd 06 06
 B22_05bf:		jsr func_16_007f		; 20 7f 80
-B22_05c2:		lda $0520, x	; bd 20 05
+B22_05c2:		lda wEntityVertSpeed.w, x	; bd 20 05
 B22_05c5:		bmi B22_05e7 ; 30 20
 
 B22_05c7:		lda #$16		; a9 16
@@ -968,7 +968,7 @@ B22_05e7:		rts				; 60
 entityPhaseFunc_5c:
 B22_05e8:		lda $0606, x	; bd 06 06
 B22_05eb:		jsr func_16_007f		; 20 7f 80
-B22_05ee:		lda $0520, x	; bd 20 05
+B22_05ee:		lda wEntityVertSpeed.w, x	; bd 20 05
 B22_05f1:		bmi B22_05ac ; 30 b9
 
 B22_05f3:		ldy #$08		; a0 08
@@ -1000,16 +1000,16 @@ B22_0625:		jmp $860c		; 4c 0c 86
 
 
 B22_0628:		ldx $6c			; a6 6c
-B22_062a:		lda $0520, x	; bd 20 05
+B22_062a:		lda wEntityVertSpeed.w, x	; bd 20 05
 B22_062d:		bmi B22_063d ; 30 0e
 
 B22_062f:		cmp #$02		; c9 02
 B22_0631:		bcc B22_063d ; 90 0a
 
 B22_0633:		lda #$02		; a9 02
-B22_0635:		sta $0520, x	; 9d 20 05
+B22_0635:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_0638:		lda #$00		; a9 00
-B22_063a:		sta $0537, x	; 9d 37 05
+B22_063a:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B22_063d:		rts				; 60 
 
 
@@ -1042,9 +1042,9 @@ B22_0665:		ldy #$01		; a0 01
 B22_0667:		lda ($02), y	; b1 02
 B22_0669:		tay				; a8 
 B22_066a:		lda $8682, y	; b9 82 86
-B22_066d:		sta $0520, x	; 9d 20 05
+B22_066d:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_0670:		lda $868a, y	; b9 8a 86
-B22_0673:		sta $0537, x	; 9d 37 05
+B22_0673:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B22_0676:		ldy #$02		; a0 02
 B22_0678:		clc				; 18 
 B22_0679:		lda wEntityBaseY.w, x	; bd 1c 04
@@ -1088,9 +1088,9 @@ B22_06a7:		bne B22_06cb ; d0 22
 B22_06a9:		inc $0633, x	; fe 33 06
 B22_06ac:		ldy $0633, x	; bc 33 06
 B22_06af:		lda $8692, y	; b9 92 86
-B22_06b2:		sta $0520, x	; 9d 20 05
+B22_06b2:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_06b5:		lda $8698, y	; b9 98 86
-B22_06b8:		sta $0537, x	; 9d 37 05
+B22_06b8:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B22_06bb:		lda $869e, y	; b9 9e 86
 B22_06be:		sta $061d, x	; 9d 1d 06
 B22_06c1:		rts				; 60 
@@ -1104,7 +1104,7 @@ B22_06c7:		inc wEntityPhase.w, x	; fe c1 05
 B22_06ca:		rts				; 60 
 
 entityPhaseFunc_12:
-B22_06cb:		lda $68			; a5 68
+B22_06cb:		lda wCurrRoomMetadataByte			; a5 68
 B22_06cd:		bpl B22_06d8 ; 10 09
 
 B22_06cf:		clc				; 18 
@@ -1120,13 +1120,13 @@ B22_06e1:		bcs B22_06e4 ; b0 01
 B22_06e3:		dey				; 88 
 B22_06e4:		sty $01			; 84 01
 B22_06e6:		sta $00			; 85 00
-B22_06e8:		lda $0537, x	; bd 37 05
+B22_06e8:		lda wEntityVertSubSpeed.w, x	; bd 37 05
 B22_06eb:		sec				; 38 
 B22_06ec:		sbc $00			; e5 00
-B22_06ee:		sta $0537, x	; 9d 37 05
-B22_06f1:		lda $0520, x	; bd 20 05
+B22_06ee:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
+B22_06f1:		lda wEntityVertSpeed.w, x	; bd 20 05
 B22_06f4:		sbc $01			; e5 01
-B22_06f6:		sta $0520, x	; 9d 20 05
+B22_06f6:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_06f9:		rts				; 60 
 
 
@@ -1136,7 +1136,7 @@ B22_06fc:		sta $061d, x	; 9d 1d 06
 B22_06ff:		jsr $8662		; 20 62 86
 
 entityPhaseFunc_9d:
-B22_0702:		lda $68			; a5 68
+B22_0702:		lda wCurrRoomMetadataByte			; a5 68
 B22_0704:		bpl B22_06d8 ; 10 d2
 
 B22_0706:		sec				; 38 
@@ -1176,9 +1176,9 @@ B22_0743:		clc				; 18
 B22_0744:		adc $0645, x	; 7d 45 06
 B22_0747:		tay				; a8 
 B22_0748:		lda $875b, y	; b9 5b 87
-B22_074b:		sta $0520, x	; 9d 20 05
+B22_074b:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_074e:		lda $8763, y	; b9 63 87
-B22_0751:		sta $0537, x	; 9d 37 05
+B22_0751:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B22_0754:		lda $876b, y	; b9 6b 87
 B22_0757:		sta $0633, x	; 9d 33 06
 B22_075a:		rts				; 60 
@@ -1208,9 +1208,9 @@ B22_0773:		ldy #$01		; a0 01
 B22_0775:		lda ($02), y	; b1 02
 B22_0777:		tay				; a8 
 B22_0778:		lda $878f, y	; b9 8f 87
-B22_077b:		sta $0520, x	; 9d 20 05
+B22_077b:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_077e:		lda $8791, y	; b9 91 87
-B22_0781:		sta $0537, x	; 9d 37 05
+B22_0781:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B22_0784:		ldy #$02		; a0 02
 B22_0786:		lda ($02), y	; b1 02
 B22_0788:		sta $0606, x	; 9d 06 06
@@ -1268,7 +1268,7 @@ B22_07cb:		bne B22_07dc ; d0 0f
 B22_07cd:		ldx $6c			; a6 6c
 B22_07cf:		jsr func_1f_1ec8		; 20 c8 fe
 B22_07d2:		lda #$01		; a9 01
-B22_07d4:		sta $0520, x	; 9d 20 05
+B22_07d4:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_07d7:		lda #$16		; a9 16
 B22_07d9:		sta wEntityPhase.w, x	; 9d c1 05
 B22_07dc:		ldx $6c			; a6 6c
@@ -1298,7 +1298,7 @@ B22_07fd:		inc wEntityPhase.w, x	; fe c1 05
 B22_0800:		jsr func_1f_1ec8		; 20 c8 fe
 B22_0803:		ldy #$01		; a0 01
 B22_0805:		lda ($02), y	; b1 02
-B22_0807:		sta $0520, x	; 9d 20 05
+B22_0807:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_080a:		iny				; c8 
 B22_080b:		lda ($02), y	; b1 02
 B22_080d:		sta $0606, x	; 9d 06 06
@@ -1337,9 +1337,9 @@ B22_083c:		bcc B22_083f ; 90 01
 
 B22_083e:		iny				; c8 
 B22_083f:		lda $8884, y	; b9 84 88
-B22_0842:		sta $0537, x	; 9d 37 05
+B22_0842:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B22_0845:		lda $887f, y	; b9 7f 88
-B22_0848:		sta $0520, x	; 9d 20 05
+B22_0848:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_084b:		lda wEntityBaseX.w, x	; bd 38 04
 B22_084e:		ldy wEntityBaseY.w, x	; bc 1c 04
 B22_0851:		jsr func_1f_1c1e		; 20 1e fc
@@ -1358,7 +1358,7 @@ B22_086d:		jmp $81ef		; 4c ef 81
 
 
 B22_0870:		lda #$ff		; a9 ff
-B22_0872:		sta $0520, x	; 9d 20 05
+B22_0872:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_0875:		rts				; 60 
 
 
@@ -1402,7 +1402,7 @@ B22_08a4:		ldx $6c			; a6 6c
 B22_08a6:		rts				; 60 
 
 
-B22_08a7:		lda $0520, x	; bd 20 05
+B22_08a7:		lda wEntityVertSpeed.w, x	; bd 20 05
 B22_08aa:		bmi B22_08a6 ; 30 fa
 
 B22_08ac:		ldy #$06		; a0 06
@@ -1435,7 +1435,7 @@ B22_08d8:		beq B22_0909 ; f0 2f
 B22_08da:		cmp #$02		; c9 02
 B22_08dc:		beq B22_0914 ; f0 36
 
-B22_08de:		ldy $0520, x	; bc 20 05
+B22_08de:		ldy wEntityVertSpeed.w, x	; bc 20 05
 B22_08e1:		bmi B22_0913 ; 30 30
 
 B22_08e3:		cmp #$03		; c9 03
@@ -1515,15 +1515,15 @@ B22_094a:		ldx $6c			; a6 6c
 B22_094c:		inc wEntityPhase.w, x	; fe c1 05
 B22_094f:		jsr func_1f_1ec8		; 20 c8 fe
 B22_0952:		lda #$01		; a9 01
-B22_0954:		sta $0520, x	; 9d 20 05
+B22_0954:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_0957:		ldy #$00		; a0 00
 B22_0959:		jsr func_17_17a6		; 20 a6 b7
 B22_095c:		beq B22_0969 ; f0 0b
 
 func_16_095e:
-B22_095e:		lda wEntityXFlipped.w, x	; bd a8 04
+B22_095e:		lda wEntityFacingLeft.w, x	; bd a8 04
 B22_0961:		eor #$01		; 49 01
-B22_0963:		sta wEntityXFlipped.w, x	; 9d a8 04
+B22_0963:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B22_0966:		jmp reverseEnemyDirection_todo		; 4c 4b 80
 
 
@@ -1720,7 +1720,7 @@ B22_0a7e:		lda $0470, x	; bd 70 04
 B22_0a81:		and #$81		; 29 81
 B22_0a83:		bne B22_0a64 ; d0 df
 
-B22_0a85:		lda wEntityXFlipped.w, x	; bd a8 04
+B22_0a85:		lda wEntityFacingLeft.w, x	; bd a8 04
 B22_0a88:		asl a			; 0a
 B22_0a89:		tay				; a8 
 B22_0a8a:		lda wEntityBaseX.w		; ad 38 04
@@ -1745,7 +1745,7 @@ B22_0ab0:		sta $00			; 85 00
 B22_0ab2:		tya				; 98 
 B22_0ab3:		and #$01		; 29 01
 B22_0ab5:		eor #$01		; 49 01
-B22_0ab7:		ldy $32			; a4 32
+B22_0ab7:		ldy wCurrRoomGroup			; a4 32
 B22_0ab9:		cpy #$09		; c0 09
 B22_0abb:		bcc B22_0ac0 ; 90 03
 
@@ -1775,7 +1775,7 @@ B22_0ad6:		jmp $844c		; 4c 4c 84
 entityPhaseFunc_6e:
 B22_0ad9:		jsr func_16_01ec		; 20 ec 81
 B22_0adc:		lda $0633, x	; bd 33 06
-B22_0adf:		sta wEntityXFlipped.w, x	; 9d a8 04
+B22_0adf:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B22_0ae2:		rts				; 60 
 
 
@@ -1799,7 +1799,7 @@ B22_0af7:		adc #$10		; 69 10
 B22_0af9:		sta $00			; 85 00
 B22_0afb:		lda wEntityBaseX.w, x	; bd 38 04
 B22_0afe:		sta $01			; 85 01
-B22_0b00:		lda wEntityXFlipped.w, x	; bd a8 04
+B22_0b00:		lda wEntityFacingLeft.w, x	; bd a8 04
 B22_0b03:		sta $02			; 85 02
 B22_0b05:		lda $0470, x	; bd 70 04
 B22_0b08:		ora #$60		; 09 60
@@ -1816,7 +1816,7 @@ B22_0b1d:		ldx $09			; a6 09
 B22_0b1f:		jsr func_1f_1ed7		; 20 d7 fe
 B22_0b22:		jsr $8b4f		; 20 4f 8b
 B22_0b25:		lda $02			; a5 02
-B22_0b27:		sta wEntityXFlipped.w, x	; 9d a8 04
+B22_0b27:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B22_0b2a:		lda $03			; a5 03
 B22_0b2c:		sta $0470, x	; 9d 70 04
 B22_0b2f:		jsr $9fc9		; 20 c9 9f
@@ -1880,7 +1880,7 @@ B22_0b90:		rts				; 60
 
 
 func_16_0b91:
-B22_0b91:		lda $68			; a5 68
+B22_0b91:		lda wCurrRoomMetadataByte			; a5 68
 B22_0b93:		bmi B22_0b9e ; 30 09
 
 B22_0b95:		lda wEntityBaseY.w, x	; bd 1c 04
@@ -1891,7 +1891,7 @@ B22_0b9d:		rts				; 60
 
 B22_0b9e:		clc				; 18 
 B22_0b9f:		lda wEntityBaseY.w, x	; bd 1c 04
-B22_0ba2:		adc $56			; 65 56
+B22_0ba2:		adc wCurrScrollXWithinRoom			; 65 56
 B22_0ba4:		and #$f0		; 29 f0
 B22_0ba6:		sec				; 38 
 B22_0ba7:		sbc $56			; e5 56
@@ -1931,7 +1931,7 @@ B22_0bd4:		jsr $83ad		; 20 ad 83
 B22_0bd7:		clc				; 18 
 B22_0bd8:		ldy #$03		; a0 03
 B22_0bda:		lda ($02), y	; b1 02
-B22_0bdc:		adc wEntityXFlipped.w, x	; 7d a8 04
+B22_0bdc:		adc wEntityFacingLeft.w, x	; 7d a8 04
 B22_0bdf:		tay				; a8 
 B22_0be0:		lda $8bef, y	; b9 ef 8b
 B22_0be3:		sta wEntityHorizSpeed.w, x	; 9d f2 04
@@ -1978,14 +1978,14 @@ entityPhaseFunc_50:
 B22_0c22:		jsr func_1f_1ec8		; 20 c8 fe
 B22_0c25:		jsr $81a7		; 20 a7 81
 B22_0c28:		lda #$01		; a9 01
-B22_0c2a:		sta wEntityXFlipped.w, x	; 9d a8 04
+B22_0c2a:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B22_0c2d:		ldy #$01		; a0 01
 B22_0c2f:		lda ($02), y	; b1 02
 B22_0c31:		tay				; a8 
 B22_0c32:		lda $8c60, y	; b9 60 8c
-B22_0c35:		sta $0520, x	; 9d 20 05
+B22_0c35:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_0c38:		lda $8c62, y	; b9 62 8c
-B22_0c3b:		sta $0537, x	; 9d 37 05
+B22_0c3b:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B22_0c3e:		lda #$50		; a9 50
 B22_0c40:		sta $0606, x	; 9d 06 06
 B22_0c43:		stx $08			; 86 08
@@ -2059,7 +2059,7 @@ B22_0cbd:		sta wOamSpecIdx.w, x	; 9d 00 04
 B22_0cc0:		lda #$08		; a9 08
 B22_0cc2:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B22_0cc5:		lda #$01		; a9 01
-B22_0cc7:		sta wEntityXFlipped.w, x	; 9d a8 04
+B22_0cc7:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B22_0cca:		lda $8ce5, y	; b9 e5 8c
 B22_0ccd:		sta wEntityBaseY.w, x	; 9d 1c 04
 B22_0cd0:		lda $08			; a5 08
@@ -2249,15 +2249,15 @@ B22_0dde:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B22_0de1:		lda $04			; a5 04
 B22_0de3:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
 B22_0de6:		lda $05			; a5 05
-B22_0de8:		sta $0520, x	; 9d 20 05
+B22_0de8:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_0deb:		lda $06			; a5 06
-B22_0ded:		sta $0537, x	; 9d 37 05
+B22_0ded:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B22_0df0:		lda #$60		; a9 60
 B22_0df2:		sta $0470, x	; 9d 70 04
 B22_0df5:		lda $00			; a5 00
 B22_0df7:		sta $054e, x	; 9d 4e 05
 B22_0dfa:		lda $0a			; a5 0a
-B22_0dfc:		sta wEntityXFlipped.w, x	; 9d a8 04
+B22_0dfc:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B22_0dff:		jsr $9fc9		; 20 c9 9f
 B22_0e02:		lda $07			; a5 07
 B22_0e04:		sta wEntityAI_idx.w, x	; 9d ef 05
@@ -2345,13 +2345,13 @@ B22_0e80:		sta $00			; 85 00
 B22_0e82:		lda $8ebc, y	; b9 bc 8e
 B22_0e85:		beq B22_0e8d ; f0 06
 
-B22_0e87:		lda wEntityXFlipped.w, x	; bd a8 04
+B22_0e87:		lda wEntityFacingLeft.w, x	; bd a8 04
 B22_0e8a:		eor $8eb4, y	; 59 b4 8e
 B22_0e8d:		sta $0a			; 85 0a
 B22_0e8f:		clc				; 18 
 B22_0e90:		tya				; 98 
 B22_0e91:		asl a			; 0a
-B22_0e92:		adc wEntityXFlipped.w, x	; 7d a8 04
+B22_0e92:		adc wEntityFacingLeft.w, x	; 7d a8 04
 B22_0e95:		tay				; a8 
 B22_0e96:		clc				; 18 
 B22_0e97:		lda $8edc, y	; b9 dc 8e
@@ -2512,9 +2512,9 @@ B22_0f74:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B22_0f77:		lda $8f97, y	; b9 97 8f
 B22_0f7a:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
 B22_0f7d:		lda #$ff		; a9 ff
-B22_0f7f:		sta $0520, x	; 9d 20 05
+B22_0f7f:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_0f82:		lda $8f9c, y	; b9 9c 8f
-B22_0f85:		sta $0537, x	; 9d 37 05
+B22_0f85:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B22_0f88:		jsr $9fc9		; 20 c9 9f
 B22_0f8b:		dec $08			; c6 08
 B22_0f8d:		bne B22_0f4e ; d0 bf
@@ -2800,11 +2800,11 @@ B22_1164:		lda wCurrRoomGroup		; a5 32
 B22_1166:		cmp #$09		; c9 09
 B22_1168:		bne B22_1178 ; d0 0e
 
-B22_116a:		lda $57			; a5 57
+B22_116a:		lda wCurrScrollXRoom			; a5 57
 B22_116c:		bne B22_1178 ; d0 0a
 
 B22_116e:		clc				; 18 
-B22_116f:		lda $56			; a5 56
+B22_116f:		lda wCurrScrollXWithinRoom			; a5 56
 B22_1171:		adc wEntityBaseX.w, x	; 7d 38 04
 B22_1174:		cmp #$70		; c9 70
 B22_1176:		bcc B22_117f ; 90 07
@@ -2826,7 +2826,7 @@ B22_1191:		rts				; 60
 
 B22_1192:		jsr func_1f_1ec8		; 20 c8 fe
 B22_1195:		lda #$01		; a9 01
-B22_1197:		sta $0520, x	; 9d 20 05
+B22_1197:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_119a:		lda wEntityAI_idx.w, x	; bd ef 05
 B22_119d:		cmp #$14		; c9 14
 B22_119f:		beq B22_11a5 ; f0 04
@@ -2856,7 +2856,7 @@ B22_11c0:		bne B22_11e2 ; d0 20
 B22_11c2:		lda #$40		; a9 40
 B22_11c4:		sta $0606, x	; 9d 06 06
 B22_11c7:		jsr func_16_0230		; 20 30 82
-B22_11ca:		lda wEntityXFlipped.w, x	; bd a8 04
+B22_11ca:		lda wEntityFacingLeft.w, x	; bd a8 04
 B22_11cd:		bne B22_11da ; d0 0b
 
 B22_11cf:		lda wEntityHorizSpeed.w, x	; bd f2 04
@@ -2883,7 +2883,7 @@ B22_11f2:		jsr func_17_17a6		; 20 a6 b7
 B22_11f5:		beq B22_124d ; f0 56
 
 B22_11f7:		ldx $6c			; a6 6c
-B22_11f9:		ldy wEntityXFlipped.w, x	; bc a8 04
+B22_11f9:		ldy wEntityFacingLeft.w, x	; bc a8 04
 B22_11fc:		clc				; 18 
 B22_11fd:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_1200:		adc #$07		; 69 07
@@ -2928,7 +2928,7 @@ B22_1251:		asl $ff			; 06 ff
 B22_1253:		.db $00				; 00
 B22_1254:		jsr func_1f_1ec8		; 20 c8 fe
 B22_1257:		lda #$01		; a9 01
-B22_1259:		sta $0520, x	; 9d 20 05
+B22_1259:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_125c:		inc wEntityPhase.w, x	; fe c1 05
 B22_125f:		rts				; 60 
 
@@ -3016,10 +3016,10 @@ B22_12e5:		bpl B22_12e9 ; 10 02
 B22_12e7:		lda #$ff		; a9 ff
 B22_12e9:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B22_12ec:		lda #$fe		; a9 fe
-B22_12ee:		sta $0520, x	; 9d 20 05
+B22_12ee:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_12f1:		lda #$00		; a9 00
 B22_12f3:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
-B22_12f6:		sta $0537, x	; 9d 37 05
+B22_12f6:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B22_12f9:		jmp $81ef		; 4c ef 81
 
 
@@ -3029,16 +3029,16 @@ B22_12fe:		lda ($02), y	; b1 02
 B22_1300:		sta $0606, x	; 9d 06 06
 B22_1303:		lda #$14		; a9 14
 B22_1305:		jsr func_16_007f		; 20 7f 80
-B22_1308:		lda $0520, x	; bd 20 05
+B22_1308:		lda wEntityVertSpeed.w, x	; bd 20 05
 B22_130b:		bmi B22_131b ; 30 0e
 
 B22_130d:		cmp #$02		; c9 02
 B22_130f:		bcc B22_131b ; 90 0a
 
 B22_1311:		lda #$02		; a9 02
-B22_1313:		sta $0520, x	; 9d 20 05
+B22_1313:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_1316:		lda #$00		; a9 00
-B22_1318:		sta $0537, x	; 9d 37 05
+B22_1318:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B22_131b:		jsr $93b0		; 20 b0 93
 B22_131e:		ldy #$10		; a0 10
 B22_1320:		jsr func_1f_1c1e		; 20 1e fc
@@ -3062,9 +3062,9 @@ B22_1341:		rts				; 60
 B22_1342:		ldx $6c			; a6 6c
 B22_1344:		jsr func_1f_1ec8		; 20 c8 fe
 B22_1347:		lda #$01		; a9 01
-B22_1349:		sta $0520, x	; 9d 20 05
+B22_1349:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_134c:		lda #$80		; a9 80
-B22_134e:		sta $0537, x	; 9d 37 05
+B22_134e:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B22_1351:		lda $0606, x	; bd 06 06
 B22_1354:		sta wEntityPhase.w, x	; 9d c1 05
 B22_1357:		rts				; 60 
@@ -3087,9 +3087,9 @@ B22_1375:		bcc B22_13a0 ; 90 29
 
 B22_1377:		bcs B22_1388 ; b0 0f
 
-B22_1379:		lda wEntityXFlipped.w, x	; bd a8 04
+B22_1379:		lda wEntityFacingLeft.w, x	; bd a8 04
 B22_137c:		eor #$01		; 49 01
-B22_137e:		sta wEntityXFlipped.w, x	; 9d a8 04
+B22_137e:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B22_1381:		jsr $80b3		; 20 b3 80
 B22_1384:		cmp #$40		; c9 40
 B22_1386:		bcs B22_13a0 ; b0 18
@@ -3113,7 +3113,7 @@ B22_13a3:		jmp $938b		; 4c 8b 93
 
 
 B22_13a6:		lda #$fb		; a9 fb
-B22_13a8:		ldy wEntityXFlipped.w, x	; bc a8 04
+B22_13a8:		ldy wEntityFacingLeft.w, x	; bc a8 04
 B22_13ab:		beq B22_13b9 ; f0 0c
 
 B22_13ad:		lda #$05		; a9 05
@@ -3226,7 +3226,7 @@ B22_1448:		lda $9473, y	; b9 73 94
 B22_144b:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B22_144e:		lda $947d, y	; b9 7d 94
 B22_1451:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
-B22_1454:		lda wEntityXFlipped.w, x	; bd a8 04
+B22_1454:		lda wEntityFacingLeft.w, x	; bd a8 04
 B22_1457:		beq B22_145c ; f0 03
 
 B22_1459:		jsr reverseEnemyDirection_todo		; 20 4b 80
@@ -3238,9 +3238,9 @@ B22_1463:		lsr a			; 4a
 B22_1464:		lsr a			; 4a
 B22_1465:		tay				; a8 
 B22_1466:		lda $9487, y	; b9 87 94
-B22_1469:		sta $0520, x	; 9d 20 05
+B22_1469:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_146c:		lda $9491, y	; b9 91 94
-B22_146f:		sta $0537, x	; 9d 37 05
+B22_146f:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B22_1472:		rts				; 60 
 
 
@@ -3278,7 +3278,7 @@ B22_149a:	.db $80
 
 
 entityPhaseFunc_80:
-B22_149b:		lda $0520, x	; bd 20 05
+B22_149b:		lda wEntityVertSpeed.w, x	; bd 20 05
 B22_149e:		bpl B22_14b8 ; 10 18
 
 B22_14a0:		lda #$26		; a9 26
@@ -3326,7 +3326,7 @@ entityPhaseFunc_83:
 B22_14e2:		inc wEntityPhase.w, x	; fe c1 05
 B22_14e5:		jsr func_1f_1ec8		; 20 c8 fe
 B22_14e8:		lda #$ff		; a9 ff
-B22_14ea:		sta $0520, x	; 9d 20 05
+B22_14ea:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_14ed:		rts				; 60 
 
 
@@ -3347,7 +3347,7 @@ B22_1502:		rts				; 60
 entityPhaseFunc_3e:
 B22_1503:		jsr func_1f_1ec8		; 20 c8 fe
 B22_1506:		lda #$ff		; a9 ff
-B22_1508:		sta $0520, x	; 9d 20 05
+B22_1508:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_150b:		inc wEntityPhase.w, x	; fe c1 05
 B22_150e:		rts				; 60 
 
@@ -3402,7 +3402,7 @@ B22_155a:		jmp $95ae		; 4c ae 95
 B22_155d:		ldx $6c			; a6 6c
 B22_155f:		lda #$14		; a9 14
 B22_1561:		jsr $80a1		; 20 a1 80
-B22_1564:		lda $0520, x	; bd 20 05
+B22_1564:		lda wEntityVertSpeed.w, x	; bd 20 05
 B22_1567:		bpl B22_154d ; 10 e4
 
 B22_1569:		cmp #$fd		; c9 fd
@@ -3413,9 +3413,9 @@ B22_1570:		cmp #$30		; c9 30
 B22_1572:		bcc B22_157f ; 90 0b
 
 B22_1574:		lda #$fd		; a9 fd
-B22_1576:		sta $0520, x	; 9d 20 05
+B22_1576:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_1579:		lda #$00		; a9 00
-B22_157b:		sta $0537, x	; 9d 37 05
+B22_157b:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B22_157e:		rts				; 60 
 
 
@@ -3435,10 +3435,10 @@ B22_1593:		sta wEntityBaseX.w, x	; 9d 38 04
 entityPhaseFunc_43:
 B22_1596:		ldy #$01		; a0 01
 B22_1598:		lda ($02), y	; b1 02
-B22_159a:		sta $0520, x	; 9d 20 05
+B22_159a:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_159d:		iny				; c8 
 B22_159e:		lda ($02), y	; b1 02
-B22_15a0:		sta $0537, x	; 9d 37 05
+B22_15a0:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B22_15a3:		inc wEntityPhase.w, x	; fe c1 05
 B22_15a6:		rts				; 60 
 
@@ -3455,14 +3455,14 @@ B22_15b4:		rts				; 60
 
 B22_15b5:		lda #$10		; a9 10
 B22_15b7:		jsr func_16_007f		; 20 7f 80
-B22_15ba:		lda $0520, x	; bd 20 05
+B22_15ba:		lda wEntityVertSpeed.w, x	; bd 20 05
 B22_15bd:		cmp #$02		; c9 02
 B22_15bf:		bcc B22_15b4 ; 90 f3
 
 B22_15c1:		lda #$02		; a9 02
-B22_15c3:		sta $0520, x	; 9d 20 05
+B22_15c3:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_15c6:		lda #$00		; a9 00
-B22_15c8:		sta $0537, x	; 9d 37 05
+B22_15c8:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B22_15cb:		rts				; 60 
 
 
@@ -3477,11 +3477,11 @@ B22_15d8:		tay				; a8
 B22_15d9:		lda $95fb, y	; b9 fb 95
 B22_15dc:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B22_15df:		lda $9603, y	; b9 03 96
-B22_15e2:		sta $0537, x	; 9d 37 05
+B22_15e2:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B22_15e5:		lda $960b, y	; b9 0b 96
-B22_15e8:		sta $0520, x	; 9d 20 05
+B22_15e8:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_15eb:		lda $9613, y	; b9 13 96
-B22_15ee:		sta $0537, x	; 9d 37 05
+B22_15ee:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B22_15f1:		lda $961b, y	; b9 1b 96
 B22_15f4:		sta $0606, x	; 9d 06 06
 B22_15f7:		inc wEntityPhase.w, x	; fe c1 05
@@ -3613,7 +3613,7 @@ B22_16ab:		bcc B22_16c7 ; 90 1a
 B22_16ad:		jsr func_16_0230		; 20 30 82
 B22_16b0:		lda #$00		; a9 00
 B22_16b2:		sta wEntityAI_idx.w, x	; 9d ef 05
-B22_16b5:		lda wEntityXFlipped.w, x	; bd a8 04
+B22_16b5:		lda wEntityFacingLeft.w, x	; bd a8 04
 B22_16b8:		asl a			; 0a
 B22_16b9:		tay				; a8 
 B22_16ba:		lda $9750, y	; b9 50 97
@@ -3634,15 +3634,15 @@ B22_16d6:		and #$03		; 29 03
 B22_16d8:		asl a			; 0a
 B22_16d9:		tay				; a8 
 B22_16da:		lda $9738, y	; b9 38 97
-B22_16dd:		sta $0520, x	; 9d 20 05
+B22_16dd:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_16e0:		lda $9739, y	; b9 39 97
-B22_16e3:		sta $0537, x	; 9d 37 05
+B22_16e3:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B22_16e6:		tya				; 98 
 B22_16e7:		lsr a			; 4a
 B22_16e8:		tay				; a8 
 B22_16e9:		lda $9748, y	; b9 48 97
 B22_16ec:		sta $0606, x	; 9d 06 06
-B22_16ef:		lda wEntityXFlipped.w, x	; bd a8 04
+B22_16ef:		lda wEntityFacingLeft.w, x	; bd a8 04
 B22_16f2:		asl a			; 0a
 B22_16f3:		tay				; a8 
 B22_16f4:		lda $9754, y	; b9 54 97
@@ -3663,15 +3663,15 @@ B22_170b:		and #$03		; 29 03
 B22_170d:		asl a			; 0a
 B22_170e:		tay				; a8 
 B22_170f:		lda $9740, y	; b9 40 97
-B22_1712:		sta $0520, x	; 9d 20 05
+B22_1712:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_1715:		lda $9741, y	; b9 41 97
-B22_1718:		sta $0537, x	; 9d 37 05
+B22_1718:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B22_171b:		tya				; 98 
 B22_171c:		lsr a			; 4a
 B22_171d:		tay				; a8 
 B22_171e:		lda $974c, y	; b9 4c 97
 B22_1721:		sta $0606, x	; 9d 06 06
-B22_1724:		lda wEntityXFlipped.w, x	; bd a8 04
+B22_1724:		lda wEntityFacingLeft.w, x	; bd a8 04
 B22_1727:		asl a			; 0a
 B22_1728:		tay				; a8 
 B22_1729:		lda $9758, y	; b9 58 97
@@ -3716,7 +3716,7 @@ B22_175d:		jmp ($a997)		; 6c 97 a9
 
 
 B22_1760:		php				; 08 
-B22_1761:		ldy wEntityXFlipped.w, x	; bc a8 04
+B22_1761:		ldy wEntityFacingLeft.w, x	; bc a8 04
 B22_1764:		bne B22_1769 ; d0 03
 
 B22_1766:		jmp $806f		; 4c 6f 80
@@ -3765,12 +3765,12 @@ B22_17aa:		adc $9800, y	; 79 00 98
 B22_17ad:		asl a			; 0a
 B22_17ae:		tay				; a8 
 B22_17af:		lda $9803, y	; b9 03 98
-B22_17b2:		sta $0520, x	; 9d 20 05
+B22_17b2:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_17b5:		lda $9839, y	; b9 39 98
 B22_17b8:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B22_17bb:		iny				; c8 
 B22_17bc:		lda $9803, y	; b9 03 98
-B22_17bf:		sta $0537, x	; 9d 37 05
+B22_17bf:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B22_17c2:		lda $9839, y	; b9 39 98
 B22_17c5:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
 B22_17c8:		lda $00			; a5 00
@@ -3895,7 +3895,7 @@ B22_186f:		jsr $8240		; 20 40 82
 B22_1872:		clc				; 18 
 B22_1873:		lda $07f6		; ad f6 07
 B22_1876:		asl a			; 0a
-B22_1877:		adc wEntityXFlipped.w, x	; 7d a8 04
+B22_1877:		adc wEntityFacingLeft.w, x	; 7d a8 04
 B22_187a:		tay				; a8 
 B22_187b:		lda $989f, y	; b9 9f 98
 B22_187e:		sta wEntityHorizSpeed.w, x	; 9d f2 04
@@ -3908,9 +3908,9 @@ B22_188f:		bcc B22_1892 ; 90 01
 
 B22_1891:		iny				; c8 
 B22_1892:		lda $98a7, y	; b9 a7 98
-B22_1895:		sta $0520, x	; 9d 20 05
+B22_1895:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_1898:		lda $98a9, y	; b9 a9 98
-B22_189b:		sta $0537, x	; 9d 37 05
+B22_189b:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B22_189e:		rts				; 60 
 
 
@@ -3966,9 +3966,9 @@ B22_18da:		ldy #$01		; a0 01
 B22_18dc:		lda ($02), y	; b1 02
 B22_18de:		tay				; a8 
 B22_18df:		lda $9921, y	; b9 21 99
-B22_18e2:		sta $0520, x	; 9d 20 05
+B22_18e2:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_18e5:		lda $9923, y	; b9 23 99
-B22_18e8:		sta $0537, x	; 9d 37 05
+B22_18e8:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B22_18eb:		lda $9925, y	; b9 25 99
 B22_18ee:		sta $0606, x	; 9d 06 06
 B22_18f1:		lda $9927, y	; b9 27 99
@@ -3988,7 +3988,7 @@ B22_190e:		beq B22_1913 ; f0 03
 B22_1910:		inc wEntityPhase.w, x	; fe c1 05
 B22_1913:		inc wEntityPhase.w, x	; fe c1 05
 B22_1916:		jsr func_16_01aa		; 20 aa 81
-B22_1919:		lda wEntityXFlipped.w, x	; bd a8 04
+B22_1919:		lda wEntityFacingLeft.w, x	; bd a8 04
 B22_191c:		beq B22_18bd ; f0 9f
 
 B22_191e:		jmp reverseEnemyDirection_todo		; 4c 4b 80
@@ -4068,7 +4068,7 @@ B22_19a4:		bne B22_19b4 ; d0 0e
 B22_19a6:		ldx $6c			; a6 6c
 B22_19a8:		jsr func_1f_1ec8		; 20 c8 fe
 B22_19ab:		lda #$01		; a9 01
-B22_19ad:		sta $0520, x	; 9d 20 05
+B22_19ad:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_19b0:		inc wEntityPhase.w, x	; fe c1 05
 B22_19b3:		rts				; 60 
 
@@ -4096,7 +4096,7 @@ B22_19d7:		dec $0606, x	; de 06 06
 B22_19da:		beq B22_19ee ; f0 12
 
 B22_19dc:		ldy wEntityBaseX.w, x	; bc 38 04
-B22_19df:		lda wEntityXFlipped.w, x	; bd a8 04
+B22_19df:		lda wEntityFacingLeft.w, x	; bd a8 04
 B22_19e2:		bne B22_19e9 ; d0 05
 
 B22_19e4:		cpy #$f4		; c0 f4
@@ -4112,9 +4112,9 @@ B22_19ed:		rts				; 60
 
 
 B22_19ee:		ldx $6c			; a6 6c
-B22_19f0:		lda wEntityXFlipped.w, x	; bd a8 04
+B22_19f0:		lda wEntityFacingLeft.w, x	; bd a8 04
 B22_19f3:		eor #$01		; 49 01
-B22_19f5:		sta wEntityXFlipped.w, x	; 9d a8 04
+B22_19f5:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B22_19f8:		jsr reverseEnemyDirection_todo		; 20 4b 80
 B22_19fb:		lda $1a			; a5 1a
 B22_19fd:		adc wEntityBaseX.w		; 6d 38 04
@@ -4142,7 +4142,7 @@ B22_1a21:		cpy wEntityBaseX.w		; cc 38 04
 B22_1a24:		bcc B22_1a28 ; 90 02
 
 B22_1a26:		lda #$01		; a9 01
-B22_1a28:		cmp wEntityXFlipped.w, x	; dd a8 04
+B22_1a28:		cmp wEntityFacingLeft.w, x	; dd a8 04
 B22_1a2b:		bne B22_1a36 ; d0 09
 
 B22_1a2d:		jsr func_1f_1ec8		; 20 c8 fe
@@ -4220,7 +4220,7 @@ B22_1aac:		and #$01		; 29 01
 B22_1aae:		ora $08			; 05 08
 B22_1ab0:		sta $0470, y	; 99 70 04
 B22_1ab3:		lda $00			; a5 00
-B22_1ab5:		sta wEntityXFlipped.w, y	; 99 a8 04
+B22_1ab5:		sta wEntityFacingLeft.w, y	; 99 a8 04
 B22_1ab8:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_1abb:		sta wEntityBaseY.w, y	; 99 1c 04
 B22_1abe:		lda #$12		; a9 12
@@ -4233,8 +4233,8 @@ B22_1acd:		lda #$00		; a9 00
 B22_1acf:		sta wEntityPaletteOverride.w, y	; 99 54 04
 B22_1ad2:		sta wEntityHorizSpeed.w, y	; 99 f2 04
 B22_1ad5:		sta wEntityHorizSubSpeed.w, y	; 99 09 05
-B22_1ad8:		sta $0520, y	; 99 20 05
-B22_1adb:		sta $0537, y	; 99 37 05
+B22_1ad8:		sta wEntityVertSpeed.w, y	; 99 20 05
+B22_1adb:		sta wEntityVertSubSpeed.w, y	; 99 37 05
 B22_1ade:		sta wEntityPhase.w, y	; 99 c1 05
 B22_1ae1:		lda #$20		; a9 20
 B22_1ae3:		sta $067b, y	; 99 7b 06
@@ -4490,7 +4490,7 @@ B22_1c87:	.db $0f
 B22_1c88:		sbc ($bc), y	; f1 bc
 B22_1c8a:		asl $06			; 06 06
 B22_1c8c:		lda $9cc8, y	; b9 c8 9c
-B22_1c8f:		sta wEntityXFlipped.w, x	; 9d a8 04
+B22_1c8f:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B22_1c92:		lda $9ca8, y	; b9 a8 9c
 B22_1c95:		sta $0b			; 85 0b
 B22_1c97:		lda #$00		; a9 00
@@ -4766,7 +4766,7 @@ B22_1e19:		lda #$40		; a9 40
 B22_1e1b:		sta $054e, x	; 9d 4e 05
 B22_1e1e:		lda $04b0		; ad b0 04
 B22_1e21:		eor #$01		; 49 01
-B22_1e23:		sta wEntityXFlipped.w, x	; 9d a8 04
+B22_1e23:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B22_1e26:		jsr $9fc9		; 20 c9 9f
 B22_1e29:		clc				; 18 
 B22_1e2a:		lda $0424		; ad 24 04
@@ -4844,9 +4844,9 @@ B22_1eb3:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B22_1eb6:		lda $9ed9, y	; b9 d9 9e
 B22_1eb9:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
 B22_1ebc:		lda $9ee9, y	; b9 e9 9e
-B22_1ebf:		sta $0520, x	; 9d 20 05
+B22_1ebf:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_1ec2:		lda $9ef9, y	; b9 f9 9e
-B22_1ec5:		sta $0537, x	; 9d 37 05
+B22_1ec5:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B22_1ec8:		rts				; 60 
 
 

@@ -16,7 +16,7 @@ B9_11c9:		beq B9_11e4 ; f0 19
 B9_11cb:		cmp #$2e		; c9 2e
 B9_11cd:		beq B9_11e4 ; f0 15
 
-B9_11cf:		lda $68			; a5 68
+B9_11cf:		lda wCurrRoomMetadataByte			; a5 68
 B9_11d1:		bmi B9_11e0 ; 30 0d
 
 B9_11d3:		jsr $b1e6		; 20 e6 b1
@@ -91,7 +91,7 @@ B9_123a:		bne B9_1268 ; d0 2c
 B9_123c:		lda #$00		; a9 00
 B9_123e:		sta $0413		; 8d 13 04
 B9_1241:		sta $0630		; 8d 30 06
-B9_1244:		lda wEntityXFlipped.w		; ad a8 04
+B9_1244:		lda wEntityFacingLeft.w		; ad a8 04
 B9_1247:		beq B9_1250 ; f0 07
 
 B9_1249:		lda wEntityAI_idx.w		; ad ef 05
@@ -342,14 +342,14 @@ B9_1396:		asl a			; 0a
 B9_1397:		sta wEntityBaseY.w		; 8d 1c 04
 B9_139a:		iny				; c8 
 B9_139b:		lda ($0a), y	; b1 0a
-B9_139d:		sta $57			; 85 57
+B9_139d:		sta wCurrScrollXRoom			; 85 57
 B9_139f:		ldy #$00		; a0 00
 B9_13a1:		sty $56			; 84 56
 B9_13a3:		lda wEntityBaseX.w		; ad 38 04
 B9_13a6:		bpl B9_13a9 ; 10 01
 
 B9_13a8:		iny				; c8 
-B9_13a9:		sty wEntityXFlipped.w		; 8c a8 04
+B9_13a9:		sty wEntityFacingLeft.w		; 8c a8 04
 B9_13ac:		rts				; 60 
 
 
@@ -509,7 +509,7 @@ B9_1482:		lda $63, x		; b5 63
 B9_1484:		lda $65, x		; b5 65
 B9_1486:		lda $67, x		; b5 67
 B9_1488:		lda $6b, x		; b5 6b
-B9_148a:		lda $71, x		; b5 71
+B9_148a:		lda wCurrRoomNumScreens, x		; b5 71
 B9_148c:		lda $75, x		; b5 75
 B9_148e:		lda $7b, x		; b5 7b
 B9_1490:		lda $7f, x		; b5 7f
@@ -1390,7 +1390,7 @@ B9_1911:		bpl B9_1914 ; 10 01
 
 B9_1913:		dey				; 88 
 B9_1914:		sty $00			; 84 00
-B9_1916:		lda $68			; a5 68
+B9_1916:		lda wCurrRoomMetadataByte			; a5 68
 B9_1918:		bmi B9_1932 ; 30 18
 
 B9_191a:		sec				; 38 
@@ -1455,7 +1455,7 @@ B9_198a:		cmp #$4b		; c9 4b
 B9_198c:		bne B9_19ab ; d0 1d
 
 B9_198e:		ldy #$00		; a0 00
-B9_1990:		lda $68			; a5 68
+B9_1990:		lda wCurrRoomMetadataByte			; a5 68
 B9_1992:		and #$01		; 29 01
 B9_1994:		beq B9_1998 ; f0 02
 
@@ -1527,7 +1527,7 @@ B9_19ff:		asl a			; 0a
 B9_1a00:		tay				; a8 
 B9_1a01:		lda $ba4d, y	; b9 4d ba
 B9_1a04:		sta $0c			; 85 0c
-B9_1a06:		lda wEntityXFlipped.w, x	; bd a8 04
+B9_1a06:		lda wEntityFacingLeft.w, x	; bd a8 04
 B9_1a09:		bne B9_1a11 ; d0 06
 
 B9_1a0b:		lda $0c			; a5 0c

@@ -104,6 +104,7 @@
 
     .include "data/roomMetatilesPalettesData_b0f.s"
     .include "code/bank0f.s"
+    .include "data/stairsLocationsData.s"
 
 .bank $10 slot 1
 .org 0
@@ -172,10 +173,10 @@ B22_001e:		ora $00			; 05 00
 B22_0020:		sta $0470, x	; 9d 70 04
 B22_0023:		clc				; 18 
 B22_0024:		lda $04db, x	; bd db 04
-B22_0027:		adc $0537, x	; 7d 37 05
+B22_0027:		adc wEntityVertSubSpeed.w, x	; 7d 37 05
 B22_002a:		sta $04db, x	; 9d db 04
 B22_002d:		lda wEntityBaseY.w, x	; bd 1c 04
-B22_0030:		adc $0520, x	; 7d 20 05
+B22_0030:		adc wEntityVertSpeed.w, x	; 7d 20 05
 B22_0033:		sta wEntityBaseY.w, x	; 9d 1c 04
 B22_0036:		rts				; 60 
 

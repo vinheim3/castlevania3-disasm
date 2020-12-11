@@ -176,9 +176,9 @@ B0_0b18:		bvc B0_0b3c ; 50 22
 func_00_0b1a:
 B0_0b1a:		sta $08			; 85 08
 B0_0b1c:		lda $8b12, y	; b9 12 8b
-B0_0b1f:		sta $61			; 85 61
+B0_0b1f:		sta wVramQueueDest			; 85 61
 B0_0b21:		lda $8b13, y	; b9 13 8b
-B0_0b24:		sta $62			; 85 62
+B0_0b24:		sta wVramQueueDest+1			; 85 62
 B0_0b26:		jsr $e8fc		; 20 fc e8
 
 func_00_0b29:

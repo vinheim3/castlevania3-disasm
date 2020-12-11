@@ -542,11 +542,11 @@ B4_02d1:		lda $061d, x	; bd 1d 06
 B4_02d4:		ora $0606, x	; 1d 06 06
 B4_02d7:		beq B4_0352 ; f0 79
 
-B4_02d9:		lda $56			; a5 56
+B4_02d9:		lda wCurrScrollXWithinRoom			; a5 56
 B4_02db:		clc				; 18 
 B4_02dc:		adc wEntityBaseX.w		; 6d 38 04
 B4_02df:		sta $00			; 85 00
-B4_02e1:		lda $57			; a5 57
+B4_02e1:		lda wCurrScrollXRoom			; a5 57
 B4_02e3:		adc #$00		; 69 00
 B4_02e5:		sta $01			; 85 01
 B4_02e7:		ldy #$00		; a0 00
@@ -842,7 +842,7 @@ B4_04ed:		sta $0470, x	; 9d 70 04
 B4_04f0:		jsr $8627		; 20 27 86
 B4_04f3:		jsr $8661		; 20 61 86
 B4_04f6:		lda #$00		; a9 00
-B4_04f8:		sta wEntityXFlipped.w, x	; 9d a8 04
+B4_04f8:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B4_04fb:		lda wPlayerStateDoubled.w, x	; bd 65 05
 B4_04fe:		cmp #$40		; c9 40
 B4_0500:		bcs B4_0513 ; b0 11
@@ -1149,7 +1149,7 @@ B4_0697:		sta wEntityBaseY.w, x	; 9d 1c 04
 B4_069a:		rts				; 60 
 
 
-B4_069b:		lda $68			; a5 68
+B4_069b:		lda wCurrRoomMetadataByte			; a5 68
 B4_069d:		bpl B4_06a4 ; 10 05
 
 B4_069f:		lda #$30		; a9 30
@@ -1248,13 +1248,13 @@ B4_0737:		lda $87f8, y	; b9 f8 87
 B4_073a:		sta $0b			; 85 0b
 B4_073c:		lda $87f9, y	; b9 f9 87
 B4_073f:		sta $0a			; 85 0a
-B4_0741:		lda $68			; a5 68
+B4_0741:		lda wCurrRoomMetadataByte			; a5 68
 B4_0743:		bpl B4_0753 ; 10 0e
 
-B4_0745:		lda $57			; a5 57
+B4_0745:		lda wCurrScrollXRoom			; a5 57
 B4_0747:		bne B4_0753 ; d0 0a
 
-B4_0749:		lda $56			; a5 56
+B4_0749:		lda wCurrScrollXWithinRoom			; a5 56
 B4_074b:		cmp #$90		; c9 90
 B4_074d:		bcs B4_0753 ; b0 04
 
@@ -1279,7 +1279,7 @@ B4_076a:		lda $03			; a5 03
 B4_076c:		cmp $0b			; c5 0b
 B4_076e:		bcs B4_0783 ; b0 13
 
-B4_0770:		lda $68			; a5 68
+B4_0770:		lda wCurrRoomMetadataByte			; a5 68
 B4_0772:		bmi B4_078d ; 30 19
 
 B4_0774:		lda $03			; a5 03
@@ -1472,7 +1472,7 @@ B4_088c:		inc wEntityPhase.w, x	; fe c1 05
 B4_088f:		jmp $8070		; 4c 70 80
 
 
-B4_0892:		lda $68			; a5 68
+B4_0892:		lda wCurrRoomMetadataByte			; a5 68
 B4_0894:		bmi B4_08a3 ; 30 0d
 
 B4_0896:		lda wEntityBaseY.w, x	; bd 1c 04
@@ -1484,7 +1484,7 @@ B4_08a0:		jmp func_1f_1ec8		; 4c c8 fe
 
 B4_08a3:		clc				; 18 
 B4_08a4:		lda wEntityBaseY.w, x	; bd 1c 04
-B4_08a7:		adc $56			; 65 56
+B4_08a7:		adc wCurrScrollXWithinRoom			; 65 56
 B4_08a9:		and #$f0		; 29 f0
 B4_08ab:		sec				; 38 
 B4_08ac:		sbc $56			; e5 56
@@ -1611,13 +1611,13 @@ B4_096f:		lda $0606, x	; bd 06 06
 B4_0972:		beq B4_097c ; f0 08
 
 B4_0974:		lda $00			; a5 00
-B4_0976:		sta wEntityXFlipped.w, x	; 9d a8 04
+B4_0976:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B4_0979:		jmp $8983		; 4c 83 89
 
 
 B4_097c:		lda $00			; a5 00
 B4_097e:		eor #$01		; 49 01
-B4_0980:		sta wEntityXFlipped.w, x	; 9d a8 04
+B4_0980:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B4_0983:		lda $01			; a5 01
 B4_0985:		cmp #$01		; c9 01
 B4_0987:		bcc B4_09c3 ; 90 3a
@@ -1714,7 +1714,7 @@ B4_0a20:		ldy $0606, x	; bc 06 06
 B4_0a23:		lda $8c07, y	; b9 07 8c
 B4_0a26:		beq B4_0a76 ; f0 4e
 
-B4_0a28:		lda wEntityXFlipped.w		; ad a8 04
+B4_0a28:		lda wEntityFacingLeft.w		; ad a8 04
 B4_0a2b:		eor #$01		; 49 01
 B4_0a2d:		tay				; a8 
 B4_0a2e:	.db $b9 $59 $00
@@ -1757,8 +1757,8 @@ B4_0a76:		lda #$00		; a9 00
 B4_0a78:		sta $0633, x	; 9d 33 06
 B4_0a7b:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B4_0a7e:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
-B4_0a81:		sta $0520, x	; 9d 20 05
-B4_0a84:		sta $0537, x	; 9d 37 05
+B4_0a81:		sta wEntityVertSpeed.w, x	; 9d 20 05
+B4_0a84:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B4_0a87:		lda $0470, x	; bd 70 04
 B4_0a8a:		and #$01		; 29 01
 B4_0a8c:		beq B4_0a98 ; f0 0a
@@ -2036,7 +2036,7 @@ B4_0c4d:		adc #$04		; 69 04
 B4_0c4f:		sta $08			; 85 08
 B4_0c51:		lda #$00		; a9 00
 B4_0c53:		sta $01			; 85 01
-B4_0c55:		ldx $1d			; a6 1d
+B4_0c55:		ldx wVramQueueNextIdxToFill			; a6 1d
 B4_0c57:		lda #$01		; a9 01
 B4_0c59:		jsr $8ca2		; 20 a2 8c
 B4_0c5c:		lda $05			; a5 05
@@ -2073,7 +2073,7 @@ B4_0c97:		inc $01			; e6 01
 B4_0c99:		dec $00			; c6 00
 B4_0c9b:		bne B4_0c57 ; d0 ba
 
-B4_0c9d:		stx $1d			; 86 1d
+B4_0c9d:		stx wVramQueueNextIdxToFill			; 86 1d
 B4_0c9f:		ldx $17			; a6 17
 B4_0ca1:		rts				; 60 
 
@@ -2146,7 +2146,7 @@ B4_0d04:		rol a			; 2a
 B4_0d05:		asl $02			; 06 02
 B4_0d07:		rol a			; 2a
 B4_0d08:		sta $03			; 85 03
-B4_0d0a:		ldx $1d			; a6 1d
+B4_0d0a:		ldx wVramQueueNextIdxToFill			; a6 1d
 B4_0d0c:		lda #$03		; a9 03
 B4_0d0e:		jsr $8ca2		; 20 a2 8c
 B4_0d11:		lda $00			; a5 00
@@ -2185,7 +2185,7 @@ B4_0d5a:		jsr $8d64		; 20 64 8d
 B4_0d5d:		dec $06			; c6 06
 B4_0d5f:		bne B4_0d47 ; d0 e6
 
-B4_0d61:		stx $1d			; 86 1d
+B4_0d61:		stx wVramQueueNextIdxToFill			; 86 1d
 B4_0d63:		rts				; 60 
 
 
@@ -2338,13 +2338,13 @@ B4_0e6d:		beq B4_0e74 ; f0 05
 B4_0e6f:		ora #$01		; 09 01
 B4_0e71:		sta $0470, x	; 9d 70 04
 B4_0e74:		lda #$01		; a9 01
-B4_0e76:		sta wEntityXFlipped.w, x	; 9d a8 04
+B4_0e76:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B4_0e79:		lda wPlayerStateDoubled.w, x	; bd 65 05
 B4_0e7c:		cmp #$80		; c9 80
 B4_0e7e:		bcc B4_0e85 ; 90 05
 
 B4_0e80:		lda #$00		; a9 00
-B4_0e82:		sta wEntityXFlipped.w, x	; 9d a8 04
+B4_0e82:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B4_0e85:		lda $0606, x	; bd 06 06
 B4_0e88:		beq B4_0ead ; f0 23
 
@@ -2378,12 +2378,12 @@ B4_0eb3:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B4_0eb6:		sec				; 38 
 B4_0eb7:		lda wEntityBaseY.w, x	; bd 1c 04
 B4_0eba:		sbc $11			; e5 11
-B4_0ebc:		sta $0520, x	; 9d 20 05
+B4_0ebc:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B4_0ebf:		lda #$00		; a9 00
 B4_0ec1:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
-B4_0ec4:		sta $0537, x	; 9d 37 05
+B4_0ec4:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B4_0ec7:		lda #$01		; a9 01
-B4_0ec9:		sta wEntityXFlipped.w, x	; 9d a8 04
+B4_0ec9:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B4_0ecc:		lda #$0c		; a9 0c
 B4_0ece:		ldy #$27		; a0 27
 B4_0ed0:		jsr func_1f_0f5c		; 20 5c ef
@@ -2912,7 +2912,7 @@ B4_11ff:		lda $92eb, y	; b9 eb 92
 B4_1202:		sta $0d			; 85 0d
 B4_1204:		lda $92ec, y	; b9 ec 92
 B4_1207:		sta $0c			; 85 0c
-B4_1209:		lda $68			; a5 68
+B4_1209:		lda wCurrRoomMetadataByte			; a5 68
 B4_120b:		bpl B4_1220 ; 10 13
 
 B4_120d:		jsr $9296		; 20 96 92
@@ -2944,10 +2944,10 @@ B4_123e:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B4_1241:		lda wEntityBaseY.w, x	; bd 1c 04
 B4_1244:		sec				; 38 
 B4_1245:		sbc $13			; e5 13
-B4_1247:		sta $0520, x	; 9d 20 05
+B4_1247:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B4_124a:		lda #$00		; a9 00
 B4_124c:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
-B4_124f:		sta $0537, x	; 9d 37 05
+B4_124f:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B4_1252:		lda $0606, x	; bd 06 06
 B4_1255:		beq B4_1263 ; f0 0c
 
@@ -2958,13 +2958,13 @@ B4_125c:		bcc B4_1263 ; 90 05
 B4_125e:		lda #$88		; a9 88
 B4_1260:		sta $0470, x	; 9d 70 04
 B4_1263:		lda #$01		; a9 01
-B4_1265:		sta wEntityXFlipped.w, x	; 9d a8 04
+B4_1265:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B4_1268:		lda wPlayerStateDoubled.w, x	; bd 65 05
 B4_126b:		cmp #$80		; c9 80
 B4_126d:		bcc B4_1274 ; 90 05
 
 B4_126f:		lda #$00		; a9 00
-B4_1271:		sta wEntityXFlipped.w, x	; 9d a8 04
+B4_1271:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B4_1274:		lda wPlayerStateDoubled.w, x	; bd 65 05
 B4_1277:		clc				; 18 
 B4_1278:		adc #$04		; 69 04
@@ -2987,7 +2987,7 @@ B4_1292:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B4_1295:		rts				; 60 
 
 
-B4_1296:		lda $57			; a5 57
+B4_1296:		lda wCurrScrollXRoom			; a5 57
 B4_1298:		clc				; 18 
 B4_1299:		adc #$01		; 69 01
 B4_129b:		asl a			; 0a
@@ -2995,11 +2995,11 @@ B4_129c:		asl a			; 0a
 B4_129d:		asl a			; 0a
 B4_129e:		asl a			; 0a
 B4_129f:		sta $10			; 85 10
-B4_12a1:		lda $56			; a5 56
+B4_12a1:		lda wCurrScrollXWithinRoom			; a5 56
 B4_12a3:		sec				; 38 
 B4_12a4:		sbc $10			; e5 10
 B4_12a6:		sta $11			; 85 11
-B4_12a8:		lda $57			; a5 57
+B4_12a8:		lda wCurrScrollXRoom			; a5 57
 B4_12aa:		sbc #$00		; e9 00
 B4_12ac:		sta $10			; 85 10
 B4_12ae:		rts				; 60 
@@ -3470,10 +3470,10 @@ B4_1569:		lda $01			; a5 01
 B4_156b:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
 B4_156e:		ldy #$01		; a0 01
 B4_1570:		lda ($02), y	; b1 02
-B4_1572:		sta $0537, x	; 9d 37 05
+B4_1572:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B4_1575:		iny				; c8 
 B4_1576:		lda ($02), y	; b1 02
-B4_1578:		sta $0520, x	; 9d 20 05
+B4_1578:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B4_157b:		inc wEntityPhase.w, x	; fe c1 05
 B4_157e:		rts				; 60 
 
@@ -3481,14 +3481,14 @@ B4_157e:		rts				; 60
 B4_157f:		ldy #$03		; a0 03
 B4_1581:		lda ($02), y	; b1 02
 B4_1583:		sta $00			; 85 00
-B4_1585:		lda $0537, x	; bd 37 05
+B4_1585:		lda wEntityVertSubSpeed.w, x	; bd 37 05
 B4_1588:		clc				; 18 
 B4_1589:		adc $00			; 65 00
-B4_158b:		sta $0537, x	; 9d 37 05
-B4_158e:		lda $0520, x	; bd 20 05
+B4_158b:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
+B4_158e:		lda wEntityVertSpeed.w, x	; bd 20 05
 B4_1591:		adc #$00		; 69 00
-B4_1593:		sta $0520, x	; 9d 20 05
-B4_1596:		lda $0520, x	; bd 20 05
+B4_1593:		sta wEntityVertSpeed.w, x	; 9d 20 05
+B4_1596:		lda wEntityVertSpeed.w, x	; bd 20 05
 B4_1599:		bmi B4_15c8 ; 30 2d
 
 B4_159b:		ldy #$01		; a0 01
@@ -3500,20 +3500,20 @@ B4_15a4:		sta $01			; 85 01
 B4_15a6:		lda $95ca, y	; b9 ca 95
 B4_15a9:		sta $00			; 85 00
 B4_15ab:		jsr $95cd		; 20 cd 95
-B4_15ae:		lda $0520, x	; bd 20 05
+B4_15ae:		lda wEntityVertSpeed.w, x	; bd 20 05
 B4_15b1:		cmp $00			; c5 00
 B4_15b3:		bcs B4_15be ; b0 09
 
 B4_15b5:		bne B4_15c8 ; d0 11
 
-B4_15b7:		lda $0537, x	; bd 37 05
+B4_15b7:		lda wEntityVertSubSpeed.w, x	; bd 37 05
 B4_15ba:		cmp $01			; c5 01
 B4_15bc:		bcs B4_15c8 ; b0 0a
 
 B4_15be:		lda $00			; a5 00
-B4_15c0:		sta $0520, x	; 9d 20 05
+B4_15c0:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B4_15c3:		lda $01			; a5 01
-B4_15c5:		sta $0537, x	; 9d 37 05
+B4_15c5:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B4_15c8:		rts				; 60 
 
 
@@ -3613,7 +3613,7 @@ B4_1666:		sta $08			; 85 08
 B4_1668:		stx $07			; 86 07
 B4_166a:		lda #$02		; a9 02
 B4_166c:		sta $03			; 85 03
-B4_166e:		ldx $1d			; a6 1d
+B4_166e:		ldx wVramQueueNextIdxToFill			; a6 1d
 B4_1670:		lda #$01		; a9 01
 B4_1672:		jsr $96f3		; 20 f3 96
 B4_1675:		lda $05			; a5 05
@@ -3629,7 +3629,7 @@ B4_168a:		bne B4_1683 ; d0 f7
 
 B4_168c:		lda #$ff		; a9 ff
 B4_168e:		jsr $96f3		; 20 f3 96
-B4_1691:		stx $1d			; 86 1d
+B4_1691:		stx wVramQueueNextIdxToFill			; 86 1d
 B4_1693:		lda $05			; a5 05
 B4_1695:		clc				; 18 
 B4_1696:		adc #$20		; 69 20
@@ -3665,7 +3665,7 @@ B4_16c9:		sta $0b			; 85 0b
 B4_16cb:		lda $08			; a5 08
 B4_16cd:		ora #$03		; 09 03
 B4_16cf:		sta $08			; 85 08
-B4_16d1:		ldx $1d			; a6 1d
+B4_16d1:		ldx wVramQueueNextIdxToFill			; a6 1d
 B4_16d3:		lda #$01		; a9 01
 B4_16d5:		jsr $96f3		; 20 f3 96
 B4_16d8:		lda $0b			; a5 0b
@@ -3676,7 +3676,7 @@ B4_16e2:		lda #$55		; a9 55
 B4_16e4:		jsr $96f3		; 20 f3 96
 B4_16e7:		lda #$ff		; a9 ff
 B4_16e9:		jsr $96f3		; 20 f3 96
-B4_16ec:		stx $1d			; 86 1d
+B4_16ec:		stx wVramQueueNextIdxToFill			; 86 1d
 B4_16ee:		ldx $07			; a6 07
 B4_16f0:		jmp $946a		; 4c 6a 94
 
@@ -3690,10 +3690,10 @@ B4_16f8:		txa				; 8a
 B4_16f9:		pha				; 48 
 B4_16fa:		lda wEntityBaseX.w, x	; bd 38 04
 B4_16fd:		clc				; 18 
-B4_16fe:		adc $56			; 65 56
+B4_16fe:		adc wCurrScrollXWithinRoom			; 65 56
 B4_1700:		sta $02			; 85 02
 B4_1702:		sta $08			; 85 08
-B4_1704:		lda $57			; a5 57
+B4_1704:		lda wCurrScrollXRoom			; a5 57
 B4_1706:		adc #$00		; 69 00
 B4_1708:		asl $02			; 06 02
 B4_170a:		rol a			; 2a
@@ -3723,9 +3723,9 @@ B4_172f:		lda ($02), y	; b1 02
 B4_1731:		sta $05d8, x	; 9d d8 05
 B4_1734:		lda #$00		; a9 00
 B4_1736:		sta wEntityHorizSpeed.w, x	; 9d f2 04
-B4_1739:		sta $0520, x	; 9d 20 05
+B4_1739:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B4_173c:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
-B4_173f:		sta $0537, x	; 9d 37 05
+B4_173f:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B4_1742:		jmp $946a		; 4c 6a 94
 
 
@@ -3738,7 +3738,7 @@ B4_1751:		lda ($02), y	; b1 02
 B4_1753:		sta $00			; 85 00
 B4_1755:		beq B4_1765 ; f0 0e
 
-B4_1757:		lda wEntityXFlipped.w, x	; bd a8 04
+B4_1757:		lda wEntityFacingLeft.w, x	; bd a8 04
 B4_175a:		beq B4_1768 ; f0 0c
 
 B4_175c:		lda wEntityBaseX.w, x	; bd 38 04
@@ -3929,7 +3929,7 @@ B4_1895:		cmp ($8a), y	; d1 8a
 B4_1897:		ldy #$00		; a0 00
 B4_1899:		lda #$02		; a9 02
 B4_189b:		sta $01			; 85 01
-B4_189d:		ldx $1d			; a6 1d
+B4_189d:		ldx wVramQueueNextIdxToFill			; a6 1d
 B4_189f:		lda #$01		; a9 01
 B4_18a1:		jsr $96f3		; 20 f3 96
 B4_18a4:		lda $05			; a5 05
@@ -3956,7 +3956,7 @@ B4_18cd:		sta $04			; 85 04
 B4_18cf:		dec $01			; c6 01
 B4_18d1:		bne B4_189f ; d0 cc
 
-B4_18d3:		stx $1d			; 86 1d
+B4_18d3:		stx wVramQueueNextIdxToFill			; 86 1d
 B4_18d5:		rts				; 60 
 
 
@@ -3984,7 +3984,7 @@ B4_18fc:		jsr $9bea		; 20 ea 9b
 B4_18ff:		rts				; 60 
 
 
-B4_1900:		lda $68			; a5 68
+B4_1900:		lda wCurrRoomMetadataByte			; a5 68
 B4_1902:		bmi B4_1911 ; 30 0d
 
 B4_1904:		jsr $9b69		; 20 69 9b
@@ -4144,7 +4144,7 @@ B4_1a06:		rts				; 60
 B4_1a07:		ldy #$00		; a0 00
 B4_1a09:		lda #$02		; a9 02
 B4_1a0b:		sta $09			; 85 09
-B4_1a0d:		ldx $1d			; a6 1d
+B4_1a0d:		ldx wVramQueueNextIdxToFill			; a6 1d
 B4_1a0f:		lda #$01		; a9 01
 B4_1a11:		jsr $96f3		; 20 f3 96
 B4_1a14:		lda $05			; a5 05
@@ -4171,11 +4171,11 @@ B4_1a3c:		sta $04			; 85 04
 B4_1a3e:		dec $09			; c6 09
 B4_1a40:		bne B4_1a0f ; d0 cd
 
-B4_1a42:		stx $1d			; 86 1d
+B4_1a42:		stx wVramQueueNextIdxToFill			; 86 1d
 B4_1a44:		rts				; 60 
 
 
-B4_1a45:		ldx $1d			; a6 1d
+B4_1a45:		ldx wVramQueueNextIdxToFill			; a6 1d
 B4_1a47:		lda #$01		; a9 01
 B4_1a49:		jsr $96f3		; 20 f3 96
 B4_1a4c:		lda $05			; a5 05
@@ -4202,7 +4202,7 @@ B4_1a72:		bne B4_1a5c ; d0 e8
 
 B4_1a74:		lda #$ff		; a9 ff
 B4_1a76:		jsr $96f3		; 20 f3 96
-B4_1a79:		stx $1d			; 86 1d
+B4_1a79:		stx wVramQueueNextIdxToFill			; 86 1d
 B4_1a7b:		lda $0a			; a5 0a
 B4_1a7d:		beq B4_1aaa ; f0 2b
 
@@ -4227,7 +4227,7 @@ B4_1aa1:		bne B4_1a9a ; d0 f7
 
 B4_1aa3:		lda #$ff		; a9 ff
 B4_1aa5:		jsr $96f3		; 20 f3 96
-B4_1aa8:		stx $1d			; 86 1d
+B4_1aa8:		stx wVramQueueNextIdxToFill			; 86 1d
 B4_1aaa:		rts				; 60 
 
 
@@ -4298,7 +4298,7 @@ B4_1b18:		bne B4_1b2c ; d0 12
 
 B4_1b1a:		lda #$20		; a9 20
 B4_1b1c:		sta $01			; 85 01
-B4_1b1e:		lda $57			; a5 57
+B4_1b1e:		lda wCurrScrollXRoom			; a5 57
 B4_1b20:		and #$01		; 29 01
 B4_1b22:		eor $75			; 45 75
 B4_1b24:		and #$01		; 29 01
@@ -4308,7 +4308,7 @@ B4_1b28:		lda #$24		; a9 24
 B4_1b2a:		sta $01			; 85 01
 B4_1b2c:		lda wEntityBaseX.w, x	; bd 38 04
 B4_1b2f:		clc				; 18 
-B4_1b30:		adc $56			; 65 56
+B4_1b30:		adc wCurrScrollXWithinRoom			; 65 56
 B4_1b32:		sta $00			; 85 00
 B4_1b34:		bcc B4_1b3f ; 90 09
 
@@ -4345,7 +4345,7 @@ B4_1b68:		rts				; 60
 
 B4_1b69:		lda wEntityBaseX.w, x	; bd 38 04
 B4_1b6c:		clc				; 18 
-B4_1b6d:		adc $56			; 65 56
+B4_1b6d:		adc wCurrScrollXWithinRoom			; 65 56
 B4_1b6f:		sta $00			; 85 00
 B4_1b71:		sta $08			; 85 08
 B4_1b73:		lda #$00		; a9 00
@@ -4536,7 +4536,7 @@ B4_1c72:		rts				; 60
 
 
 B4_1c73:		stx $16			; 86 16
-B4_1c75:		ldx $1d			; a6 1d
+B4_1c75:		ldx wVramQueueNextIdxToFill			; a6 1d
 B4_1c77:		lda #$01		; a9 01
 B4_1c79:		jsr $96f3		; 20 f3 96
 B4_1c7c:		lda $0b			; a5 0b
@@ -4547,7 +4547,7 @@ B4_1c86:		lda $11			; a5 11
 B4_1c88:		jsr $96f3		; 20 f3 96
 B4_1c8b:		lda #$ff		; a9 ff
 B4_1c8d:		jsr $96f3		; 20 f3 96
-B4_1c90:		stx $1d			; 86 1d
+B4_1c90:		stx wVramQueueNextIdxToFill			; 86 1d
 B4_1c92:		ldx $16			; a6 16
 B4_1c94:		rts				; 60 
 
@@ -4614,7 +4614,7 @@ B4_1cf8:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B4_1cfb:		lda #$00		; a9 00
 B4_1cfd:		sta wOamSpecIdx.w, x	; 9d 00 04
 B4_1d00:		lda #$01		; a9 01
-B4_1d02:		sta wEntityXFlipped.w, x	; 9d a8 04
+B4_1d02:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B4_1d05:		lda $6c			; a5 6c
 B4_1d07:		sta $078f, x	; 9d 8f 07
 B4_1d0a:		lda #$00		; a9 00
@@ -4690,7 +4690,7 @@ B4_1d7a:		sta $03			; 85 03
 B4_1d7c:		bpl B4_1daf ; 10 31
 
 B4_1d7e:		sec				; 38 
-B4_1d7f:		lda $57			; a5 57
+B4_1d7f:		lda wCurrScrollXRoom			; a5 57
 B4_1d81:		sbc $01			; e5 01
 B4_1d83:		beq B4_1d94 ; f0 0f
 
@@ -4963,7 +4963,7 @@ B4_1f0d:		sta $03			; 85 03
 B4_1f0f:		bpl B4_1f42 ; 10 31
 
 B4_1f11:		sec				; 38 
-B4_1f12:		lda $57			; a5 57
+B4_1f12:		lda wCurrScrollXRoom			; a5 57
 B4_1f14:		sbc $01			; e5 01
 B4_1f16:		beq B4_1f27 ; f0 0f
 

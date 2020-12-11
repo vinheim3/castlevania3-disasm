@@ -2,11 +2,11 @@
 update_wOam:
 B26_0001:		lda wGameState			; a5 18
 B26_0003:		cmp #GS_0c		; c9 0c
-B26_0005:		bne B26_000a ; d0 03
+	bne +
 
 B26_0007:		jmp update_wOam_stateC		; 4c 88 81
 
-B26_000a:		lda #$00		; a9 00
++	lda #$00		; a9 00
 B26_000c:		sta $05			; 85 05
 B26_000e:		lda #$40		; a9 40
 B26_0010:		sta $07			; 85 07
@@ -109,7 +109,7 @@ B26_0094:		ldy #$00		; a0 00
 B26_0096:		lda ($0a), y	; b1 0a
 B26_0098:		sta $03			; 85 03
 
-B26_009a:		lda wEntityXFlipped.w, x	; bd a8 04
+B26_009a:		lda wEntityFacingLeft.w, x	; bd a8 04
 B26_009d:		beq nonMirroredOam ; f0 5a
 
 ; $04 is next fillable wOam offset

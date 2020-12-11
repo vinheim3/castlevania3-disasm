@@ -68,7 +68,7 @@ B3_007b:		sta PPUADDR.w		; 8d 06 20
 B3_007e:		lda PPUSTATUS.w		; ad 02 20
 B3_0081:		lda #$00		; a9 00
 B3_0083:		sta PPUSCROLL.w		; 8d 05 20
-B3_0086:		lda $57			; a5 57
+B3_0086:		lda wCurrScrollXRoom			; a5 57
 B3_0088:		eor $75			; 45 75
 B3_008a:		and #$01		; 29 01
 B3_008c:		ora $ff			; 05 ff
@@ -494,7 +494,7 @@ B3_03af:		tay				; a8
 B3_03b0:		dey				; 88 
 B3_03b1:		dey				; 88 
 B3_03b2:		lda $a3d4, y	; b9 d4 a3
-B3_03b5:		cmp $57			; c5 57
+B3_03b5:		cmp wCurrScrollXRoom			; c5 57
 B3_03b7:		beq B3_03cf ; f0 16
 
 B3_03b9:		lda $1a			; a5 1a

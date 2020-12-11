@@ -19,6 +19,9 @@
 .nextu
     wCurrEntityPhaseFuncAddr: ; $00
         dw
+.nextu
+    wIdxIntoRoomTransitionBytes: ; $00
+        db
 .endu
 
 .union
@@ -59,10 +62,21 @@
 .endu
 
 .union
-    wCurrRoomGroupMetaDataAddress: ; $08
+    wCurrRoomGroupMetatilesAddress: ; $08
         dw
 
-    wCurrRoomSectionMetaDataAddress: ; $0a
+    .union
+        wCurrRoomSectionMetatilesAddress: ; $0a
+            dw
+    .nextu
+        wRoomTransitionDataAddr_dx: ; $0a
+            dw
+    .endu
+.nextu
+    wCurrRoomGroupMetadataAddr: ; $08
+        dw
+
+    wCurrRoomSectionMetadataAddr: ; $0a
         dw
 .nextu
     wCurrRoomGroupChrBanks: ; $08
@@ -80,8 +94,14 @@
         dw
 .endu
 
-w00c:
-    dsb 3
+wDoubleCurrGroup: ; $0c
+    db
+
+wDoubleCurrSection: ; $0d
+    db
+
+wDoubleCurrRoomIdx: ; $0e
+    db
 
 wRoomSectionChrBanksDataOffset: ; $0f
     db
@@ -241,7 +261,14 @@ wVramQueueDest: ; $61
     dw
 
 w063
-    dsb $b-3
+    dsb 5
+
+; if bit 7 set, it's a vertical-scrolling room
+wCurrRoomMetadataByte: ; $68
+    db
+
+wCurrRoomStairsDataAddr: ; $69
+    dw
 
 .union
     wMenuOptionIdxSelected: ; $6b
@@ -264,7 +291,19 @@ wGameplayScrollX: ; $6f
     db
 
 w070:
-    dsb 6
+    db
+
+wCurrRoomNumScreens: ; $71
+    db
+
+w072:
+    db
+
+wPrevRoomMetadataByte: ; $73
+    db
+
+w074:
+    dsb 2
 
 wCurrRoomXQuarter: ; $76
     db
@@ -528,7 +567,7 @@ wEntityOamSpecGroupDoubled: ; $48c
     dsb NUM_ENTITIES
 
 ; 1 is facing left
-wEntityXFlipped: ; $4a8
+wEntityFacingLeft: ; $4a8
     dsb NUM_ENTITIES
 
 w4c4:
@@ -540,8 +579,11 @@ wEntityHorizSpeed: ; $4f2
 wEntityHorizSubSpeed: ; $509
     dsb $17
 
-w520:
-    dsb $4e-$20
+wEntityVertSpeed: ; $520
+    dsb $17
+
+wEntityVertSubSpeed: ; $537
+    dsb $17
 
 ; trevor, sypha, grant, alucard 
 ; todo: also used by other entities
@@ -583,7 +625,13 @@ wEntityAI_idx: ; $5ef
     dsb NUM_ENTITIES
 
 w60b:
-    dsb $a0-$b
+    dsb $1d-$b
+
+wPixelsToWalkToStairs: ; $61d
+    db
+
+w61e:
+    dsb $a0-$1e
 
 wInstrumentEnvelopeLoopToIdx: ; $6a0
     dsb 3

@@ -427,10 +427,10 @@ B21_18c1:		rts				; 60
 
 func_15_18c2:
 B21_18c2:		lda #$a2		; a9 a2
-B21_18c4:		sta $61			; 85 61
+B21_18c4:		sta wVramQueueDest			; 85 61
 B21_18c6:		lda #$26		; a9 26
-B21_18c8:		sta $62			; 85 62
-B21_18ca:		jsr func_1f_08b5		; 20 b5 e8
+B21_18c8:		sta wVramQueueDest+1			; 85 62
+B21_18ca:		jsr vramQueueSet1byteDestToCopy_noData		; 20 b5 e8
 B21_18cd:		ldy #$00		; a0 00
 B21_18cf:		lda $07f8, y	; b9 f8 07
 B21_18d2:		beq B21_18db ; f0 07
@@ -446,7 +446,7 @@ B21_18df:		iny				; c8
 B21_18e0:		cpy #$08		; c0 08
 B21_18e2:		bcc B21_18cf ; 90 eb
 
-B21_18e4:		jmp setVramQueueNextFillIdxAndTerminate		; 4c de e8
+B21_18e4:		jmp setVramQueueFillIdxAndTerminate		; 4c de e8
 
 B21_18e7:		lda #$f9		; a9 f9
 B21_18e9:		bne B21_18db ; d0 f0
@@ -561,11 +561,11 @@ B21_1984:		lsr a			; 4a
 B21_1985:		sta wCurrRoomIdx			; 85 34
 B21_1987:		jsr func_1f_1b95		; 20 95 fb
 B21_198a:		and #$0f		; 29 0f
-B21_198c:		sta $57			; 85 57
+B21_198c:		sta wCurrScrollXRoom			; 85 57
 B21_198e:		and #$01		; 29 01
 B21_1990:		sta $75			; 85 75
 B21_1992:		lda #$00		; a9 00
-B21_1994:		sta $56			; 85 56
+B21_1994:		sta wCurrScrollXWithinRoom			; 85 56
 B21_1996:		iny				; c8 
 B21_1997:		jsr func_1f_1b95		; 20 95 fb
 B21_199a:		sta $07a1		; 8d a1 07
@@ -592,7 +592,7 @@ B21_19c0:		jsr func_1f_1b95		; 20 95 fb
 B21_19c3:		sta wEntityBaseY.w, x	; 9d 1c 04
 B21_19c6:		iny				; c8 
 B21_19c7:		jsr func_1f_1b95		; 20 95 fb
-B21_19ca:		sta wEntityXFlipped.w, x	; 9d a8 04
+B21_19ca:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B21_19cd:		iny				; c8 
 B21_19ce:		lda #$01		; a9 01
 B21_19d0:		sta $054e, x	; 9d 4e 05
@@ -613,19 +613,19 @@ B21_19e1:		lda $ba0b, y	; b9 0b ba
 B21_19e4:		cmp #$ff		; c9 ff
 B21_19e6:		beq B21_1a09 ; f0 21
 
-B21_19e8:		sta $62			; 85 62
+B21_19e8:		sta wVramQueueDest+1			; 85 62
 B21_19ea:		lda $ba0c, y	; b9 0c ba
-B21_19ed:		sta $61			; 85 61
+B21_19ed:		sta wVramQueueDest			; 85 61
 B21_19ef:		lda $ba0d, y	; b9 0d ba
 B21_19f2:		sta $10			; 85 10
-B21_19f4:		jsr func_1f_08b5		; 20 b5 e8
+B21_19f4:		jsr vramQueueSet1byteDestToCopy_noData		; 20 b5 e8
 B21_19f7:		lda #$00		; a9 00
 B21_19f9:		sta wVramQueue.w, x	; 9d 00 03
 B21_19fc:		inx				; e8 
 B21_19fd:		dec $10			; c6 10
 B21_19ff:		bne B21_19f9 ; d0 f8
 
-B21_1a01:		jsr setVramQueueNextFillIdxAndTerminate		; 20 de e8
+B21_1a01:		jsr setVramQueueFillIdxAndTerminate		; 20 de e8
 B21_1a04:		inc $07a6		; ee a6 07
 B21_1a07:		clc				; 18 
 B21_1a08:		rts				; 60 

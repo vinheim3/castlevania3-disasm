@@ -62,7 +62,7 @@ B3_0fcf:		bne B3_0fdf ; d0 0e
 B3_0fd1:		lda #$00		; a9 00
 B3_0fd3:		ldx $15			; a6 15
 B3_0fd5:		sta wVramQueue.w, x	; 9d 00 03
-B3_0fd8:		stx $1d			; 86 1d
+B3_0fd8:		stx wVramQueueNextIdxToFill			; 86 1d
 B3_0fda:		jsr $b675		; 20 75 b6
 B3_0fdd:		inc wGameSubstate			; e6 19
 B3_0fdf:		rts				; 60 
@@ -99,7 +99,7 @@ B3_1009:		jmp $b066		; 4c 66 b0
 
 
 B3_100c:		lda #$02		; a9 02
-B3_100e:		sta $19			; 85 19
+B3_100e:		sta wGameSubstate			; 85 19
 B3_1010:		rts				; 60 
 
 
@@ -116,7 +116,7 @@ B3_1021:		lda $b4			; a5 b4
 B3_1023:		cmp #$ff		; c9 ff
 B3_1025:		beq B3_105c ; f0 35
 
-B3_1027:		lda $30			; a5 30
+B3_1027:		lda wGenericStateTimer			; a5 30
 B3_1029:		cmp #$30		; c9 30
 B3_102b:		bcs B3_105c ; b0 2f
 
@@ -131,7 +131,7 @@ B3_103b:		bne B3_105c ; d0 1f
 B3_103d:		lda #$00		; a9 00
 B3_103f:		ldx $15			; a6 15
 B3_1041:		sta wVramQueue.w, x	; 9d 00 03
-B3_1044:		stx $1d			; 86 1d
+B3_1044:		stx wVramQueueNextIdxToFill			; 86 1d
 B3_1046:		rts				; 60 
 
 
@@ -146,7 +146,7 @@ B3_1054:		lda $6b			; a5 6b
 B3_1056:		beq B3_105d ; f0 05
 
 B3_1058:		lda #$06		; a9 06
-B3_105a:		sta $19			; 85 19
+B3_105a:		sta wGameSubstate			; 85 19
 B3_105c:		rts				; 60 
 
 
@@ -563,7 +563,7 @@ B3_12ec:		bne B3_1338 ; d0 4a
 B3_12ee:		lda #$00		; a9 00
 B3_12f0:		ldx $15			; a6 15
 B3_12f2:		sta wVramQueue.w, x	; 9d 00 03
-B3_12f5:		stx $1d			; 86 1d
+B3_12f5:		stx wVramQueueNextIdxToFill			; 86 1d
 B3_12f7:		rts				; 60 
 
 
@@ -595,7 +595,7 @@ B3_1324:		beq B3_1339 ; f0 13
 B3_1326:		lda #$40		; a9 40
 B3_1328:		jsr playSound		; 20 5f e2
 B3_132b:		lda #$09		; a9 09
-B3_132d:		sta $19			; 85 19
+B3_132d:		sta wGameSubstate			; 85 19
 B3_132f:		lda #$23		; a9 23
 B3_1331:		jsr displayStaticLayoutA		; 20 e9 ec
 B3_1334:		lda #$78		; a9 78
@@ -608,13 +608,13 @@ B3_133b:		sta wGenericStateTimer			; 85 30
 B3_133d:		lda #$07		; a9 07
 B3_133f:		sta $0160		; 8d 60 01
 B3_1342:		lda #$0a		; a9 0a
-B3_1344:		sta $19			; 85 19
+B3_1344:		sta wGameSubstate			; 85 19
 B3_1346:		jmp $b066		; 4c 66 b0
 
 
 B3_1349:		jsr $b066		; 20 66 b0
 B3_134c:		lda #$0b		; a9 0b
-B3_134e:		sta $19			; 85 19
+B3_134e:		sta wGameSubstate			; 85 19
 B3_1350:		rts				; 60 
 
 
@@ -625,7 +625,7 @@ B3_1358:		bne B3_1350 ; d0 f6
 
 B3_135a:		jsr $b066		; 20 66 b0
 B3_135d:		lda #$0c		; a9 0c
-B3_135f:		sta $19			; 85 19
+B3_135f:		sta wGameSubstate			; 85 19
 B3_1361:		lda #$00		; a9 00
 B3_1363:		sta $1d			; 85 1d
 B3_1365:		jmp $b682		; 4c 82 b6
@@ -655,7 +655,7 @@ B3_138d:		cmp #$ff		; c9 ff
 B3_138f:		bne B3_13aa ; d0 19
 
 B3_1391:		lda #$06		; a9 06
-B3_1393:		sta $19			; 85 19
+B3_1393:		sta wGameSubstate			; 85 19
 B3_1395:		rts				; 60 
 
 
@@ -669,13 +669,13 @@ B3_13a2:		cmp #$ff		; c9 ff
 B3_13a4:		bne B3_13aa ; d0 04
 
 B3_13a6:		lda #$01		; a9 01
-B3_13a8:		sta $19			; 85 19
+B3_13a8:		sta wGameSubstate			; 85 19
 B3_13aa:		rts				; 60 
 
 
 func_03_13ab:
 B3_13ab:		sta $00			; 85 00
-B3_13ad:		lda $30			; a5 30
+B3_13ad:		lda wGenericStateTimer			; a5 30
 B3_13af:		and #$10		; 29 10
 B3_13b1:		asl a			; 0a
 B3_13b2:		asl a			; 0a
@@ -1017,7 +1017,7 @@ B3_15f8:		bne B3_160f ; d0 15
 
 B3_15fa:		lda #$00		; a9 00
 B3_15fc:		ldx $15			; a6 15
-B3_15fe:		stx $1d			; 86 1d
+B3_15fe:		stx wVramQueueNextIdxToFill			; 86 1d
 B3_1600:		sta wVramQueue.w, x	; 9d 00 03
 B3_1603:		rts				; 60 
 
@@ -1053,7 +1053,7 @@ B3_162f:		sta wEntityBaseX.w, x	; 9d 38 04
 B3_1632:		sta wEntityPaletteOverride.w, x	; 9d 54 04
 B3_1635:		sta $0470, x	; 9d 70 04
 B3_1638:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
-B3_163b:		sta wEntityXFlipped.w, x	; 9d a8 04
+B3_163b:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B3_163e:		sta $054e, x	; 9d 4e 05
 B3_1641:		inx				; e8 
 B3_1642:		cpx #$17		; e0 17

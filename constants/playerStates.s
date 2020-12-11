@@ -10,5 +10,9 @@
 .define PS_DUCKING $0a
 .define PS_FALLING $0c
 .define PS_WALK_TO_STAIR $0e
+.define PS_START_CLIMB $10
+.define PS_STAIR_IDLE $12
+.define PS_STAIR_CLIMB $14
 .define PS_STANDING_ITEM $20
 .define PS_JUMPING_ITEM $22
+.define PS_STAIR_ITEM $24

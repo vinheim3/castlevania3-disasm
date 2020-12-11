@@ -5,6 +5,7 @@ B3_0782:		beq B3_07a2 ; f0 1e
 B3_0784:		ldy #$02		; a0 02
 B3_0786:		bne B3_07a2 ; d0 1a
 
+func_03_0788:
 B3_0788:		ldy #$04		; a0 04
 B3_078a:		bne B3_07a2 ; d0 16
 
@@ -50,72 +51,63 @@ func_03_07c3:
 	lda $07ec
 B3_07c6:		asl a			; 0a
 B3_07c7:		tay				; a8 
-B3_07c8:		lda $a7e3, y	; b9 e3 a7
+B3_07c8:		lda data_03_07e3.w, y	; b9 e3 a7
 B3_07cb:		sta $00			; 85 00
-B3_07cd:		lda $a7e4, y	; b9 e4 a7
+B3_07cd:		lda data_03_07e3.w+1, y	; b9 e4 a7
 B3_07d0:		sta $01			; 85 01
-B3_07d2:		jsr $a7e0		; 20 e0 a7
+B3_07d2:		jsr func_03_07e0		; 20 e0 a7
 B3_07d5:		lda $07ec		; ad ec 07
 B3_07d8:		cmp #$10		; c9 10
-B3_07da:		bcc B3_07df ; 90 03
+	bcc +
 
-B3_07dc:		jsr $a788		; 20 88 a7
-B3_07df:		rts				; 60 
-
-
-B3_07e0:	.db $6c $00 $00
-B3_07e3:		and $a8			; 25 a8
-B3_07e5:	.db $9f
-B3_07e6:		tay				; a8 
-B3_07e7:		lda $a8, x		; b5 a8
-B3_07e9:		cpy $a8			; c4 a8
-B3_07eb:	.db $d2
-B3_07ec:		tay				; a8 
-B3_07ed:		cmp $eba8, x	; dd a8 eb
-B3_07f0:		tay				; a8 
-B3_07f1:		sbc $1ba8, y	; f9 a8 1b
-B3_07f4:		lda #$45		; a9 45
-B3_07f6:		lda #$62		; a9 62
-B3_07f8:		lda #$79		; a9 79
-B3_07fa:		lda #$84		; a9 84
-B3_07fc:		lda #$8f		; a9 8f
-B3_07fe:		lda #$ce		; a9 ce
-B3_0800:		lda #$d9		; a9 d9
-B3_0802:		lda #$0e		; a9 0e
-B3_0804:		tax				; aa 
-B3_0805:		ora ($aa), y	; 11 aa
-B3_0807:		rti				; 40 
+B3_07dc:		jsr func_03_0788		; 20 88 a7
++	rts				; 60 
 
 
-B3_0808:		tax				; aa 
-B3_0809:		lsr $51aa		; 4e aa 51
-B3_080c:		tax				; aa 
-B3_080d:	.db $6f
-B3_080e:		tax				; aa 
-B3_080f:		sty $aa, x		; 94 aa
-B3_0811:		dec $aa			; c6 aa
-B3_0813:		cmp #$aa		; c9 aa
-B3_0815:		sbc $aa			; e5 aa
-B3_0817:		sbc ($aa), y	; f1 aa
-B3_0819:	.db $fc
-B3_081a:		tax				; aa 
-B3_081b:	.db $13
-B3_081c:	.db $ab
-B3_081d:	.db $22
-B3_081e:	.db $ab
-B3_081f:		rti				; 40 
+func_03_07e0:
+B3_07e0:		jmp ($00)
 
+data_03_07e3:
+	.dw $a825
+	.dw $a89f
+	.dw $a8b5
+	.dw $a8c4
+	.dw $a8d2
+	.dw $a8dd
+	.dw $a8eb
+	.dw $a8f9
+	.dw $a91b
+	.dw $a945
+	.dw $a962
+	.dw $a979
+	.dw $a984
+	.dw $a98f
+	.dw $a9ce
+	.dw $a9d9
+	.dw $aa0e
+	.dw $aa11
+	.dw $aa40
+	.dw $aa4e
+	.dw $aa51
+	.dw $aa6f
+	.dw $aa94
+	.dw $aac6
+	.dw $aac9
+	.dw $aae5
+	.dw $aaf1
+	.dw $aafc
+	.dw $ab13
+	.dw $ab22
+	.dw $ab40
+	.dw $ab52
+	.dw $ab65
 
-B3_0820:	.db $ab
-B3_0821:	.db $52
-B3_0822:	.db $ab
-B3_0823:		adc $ab			; 65 ab
 B3_0825:		jsr setBank_c000_toRom1eh		; 20 da e2
 B3_0828:		ldx #$24		; a2 24
 B3_082a:		lda #$00		; a9 00
-B3_082c:		sta $0780, x	; 9d 80 07
+-	sta $0780, x	; 9d 80 07
 B3_082f:		dex				; ca 
-B3_0830:		bpl B3_082c ; 10 fa
+	bpl -
 
 B3_0832:		lda #$1e		; a9 1e
 B3_0834:		ldx #$08		; a2 08
@@ -134,7 +126,7 @@ B3_084f:		sta wChrBankSpr_0000			; 85 46
 B3_0851:		lda #$01		; a9 01
 B3_0853:		sta wChrBankSpr_0400			; 85 47
 B3_0855:		jsr chrSwitch_0_to_c00_1400		; 20 3c e3
-B3_0858:		jsr $ab73		; 20 73 ab
+B3_0858:		jsr func_03_0b73		; 20 73 ab
 B3_085b:		jsr func_1f_0bfd		; 20 fd eb
 B3_085e:		jsr $ae88		; 20 88 ae
 B3_0861:		ldx #$1e		; a2 1e
@@ -570,7 +562,7 @@ B3_0b62:		jmp $a89b		; 4c 9b a8
 
 
 B3_0b65:		lda #$00		; a9 00
-B3_0b67:		sta $19			; 85 19
+B3_0b67:		sta wGameSubstate			; 85 19
 B3_0b69:		lda $ff			; a5 ff
 B3_0b6b:		and #$f0		; 29 f0
 B3_0b6d:		sta $ff			; 85 ff
@@ -578,7 +570,10 @@ B3_0b6f:		jsr func_1f_0bfd		; 20 fd eb
 B3_0b72:		rts				; 60 
 
 
+func_03_0b73:
 B3_0b73:		ldx #$00		; a2 00
+
+@loop:
 B3_0b75:		lda #$01		; a9 01
 B3_0b77:		sta $054e, x	; 9d 4e 05
 B3_0b7a:		lda #$14		; a9 14
@@ -588,45 +583,48 @@ B3_0b81:		sta wOamSpecIdx.w, x	; 9d 00 04
 B3_0b84:		txa				; 8a 
 B3_0b85:		asl a			; 0a
 B3_0b86:		tay				; a8 
-B3_0b87:		lda $abab, y	; b9 ab ab
+B3_0b87:		lda data_03_0bab.w, y	; b9 ab ab
 B3_0b8a:		sta wEntityBaseY.w, x	; 9d 1c 04
-B3_0b8d:		lda $abac, y	; b9 ac ab
+B3_0b8d:		lda data_03_0bab.w+1, y	; b9 ac ab
 B3_0b90:		ora #$80		; 09 80
 B3_0b92:		sta $0470, x	; 9d 70 04
 B3_0b95:		cpx #$08		; e0 08
-B3_0b97:		bcc B3_0ba0 ; 90 07
+B3_0b97:		bcc B3_0ba0 ; @leftEntity
 
+; 8 to 15 are on the right
 B3_0b99:		lda #$f0		; a9 f0
 B3_0b9b:		sta wEntityBaseX.w, x	; 9d 38 04
-B3_0b9e:		bne B3_0ba5 ; d0 05
+	bne +
 
+@leftEntity:
 B3_0ba0:		lda #$10		; a9 10
 B3_0ba2:		sta wEntityBaseX.w, x	; 9d 38 04
-B3_0ba5:		inx				; e8 
+
++	inx				; e8 
 B3_0ba6:		cpx #$10		; e0 10
-B3_0ba8:		bne B3_0b75 ; d0 cb
+B3_0ba8:		bne B3_0b75 ; @loop
 
 B3_0baa:		rts				; 60 
 
+data_03_0bab:
+	.db $00 $01
+	.db $20 $01
+	.db $40 $01
+	.db $60 $01
+	.db $80 $01
+	.db $a0 $01
+	.db $c0 $01
+	.db $e0 $01
+	.db $00 $01
+	.db $20 $01
+	.db $40 $01
+	.db $60 $01
+	.db $80 $01
+	.db $a0 $01
+	.db $c0 $01
+	.db $e0 $01
 
-B3_0bab:		.db $00				; 00
-B3_0bac:		ora ($20, x)	; 01 20
-B3_0bae:		ora ($40, x)	; 01 40
-B3_0bb0:		ora ($60, x)	; 01 60
-B3_0bb2:		ora ($80, x)	; 01 80
-B3_0bb4:		ora ($a0, x)	; 01 a0
-B3_0bb6:		ora ($c0, x)	; 01 c0
-B3_0bb8:		ora ($e0, x)	; 01 e0
-B3_0bba:		ora ($00, x)	; 01 00
-B3_0bbc:		ora ($20, x)	; 01 20
-B3_0bbe:		ora ($40, x)	; 01 40
-B3_0bc0:		ora ($60, x)	; 01 60
-B3_0bc2:		ora ($80, x)	; 01 80
-B3_0bc4:		ora ($a0, x)	; 01 a0
-B3_0bc6:		ora ($c0, x)	; 01 c0
-B3_0bc8:		ora ($e0, x)	; 01 e0
-B3_0bca:		ora ($a9, x)	; 01 a9
-B3_0bcc:		.db $00				; 00
+B3_0bcb:		lda #$00
 B3_0bcd:		sta $17			; 85 17
 B3_0bcf:		lda #$20		; a9 20
 B3_0bd1:		sta $08			; 85 08
@@ -657,7 +655,7 @@ B3_0bfe:		cmp #$fe		; c9 fe
 B3_0c00:		beq B3_0c4d ; f0 4b
 
 B3_0c02:		sta $0785		; 8d 85 07
-B3_0c05:		ldx $1d			; a6 1d
+B3_0c05:		ldx wVramQueueNextIdxToFill			; a6 1d
 B3_0c07:		lda #$01		; a9 01
 B3_0c09:		jsr $ac4e		; 20 4e ac
 B3_0c0c:		lda #$00		; a9 00
@@ -690,7 +688,7 @@ B3_0c3b:		bne B3_0c36 ; d0 f9
 B3_0c3d:		beq B3_0c24 ; f0 e5
 
 B3_0c3f:		jsr $ac4e		; 20 4e ac
-B3_0c42:		stx $1d			; 86 1d
+B3_0c42:		stx wVramQueueNextIdxToFill			; 86 1d
 B3_0c44:		dec $0785		; ce 85 07
 B3_0c47:		bne B3_0c4d ; d0 04
 
@@ -735,7 +733,7 @@ B3_0c7e:		lda $acd3, x	; bd d3 ac
 B3_0c81:		sta $00			; 85 00
 B3_0c83:		lda $acd4, x	; bd d4 ac
 B3_0c86:		sta $01			; 85 01
-B3_0c88:		ldx $1d			; a6 1d
+B3_0c88:		ldx wVramQueueNextIdxToFill			; a6 1d
 B3_0c8a:		lda #$01		; a9 01
 B3_0c8c:		jsr $acce		; 20 ce ac
 B3_0c8f:		jsr $acc6		; 20 c6 ac
@@ -765,7 +763,7 @@ B3_0cb6:		jmp $ac8a		; 4c 8a ac
 
 B3_0cb9:		lda #$ff		; a9 ff
 B3_0cbb:		jsr $acce		; 20 ce ac
-B3_0cbe:		stx $1d			; 86 1d
+B3_0cbe:		stx wVramQueueNextIdxToFill			; 86 1d
 B3_0cc0:		lda #$04		; a9 04
 B3_0cc2:		jsr displayStaticLayoutA		; 20 e9 ec
 B3_0cc5:		rts				; 60 
@@ -859,7 +857,7 @@ B3_0d3d:		lda $ad50, y	; b9 50 ad
 B3_0d40:		sta $00			; 85 00
 B3_0d42:		lda $ad51, y	; b9 51 ad
 B3_0d45:		sta $01			; 85 01
-B3_0d47:		jsr $a7e0		; 20 e0 a7
+B3_0d47:		jsr func_03_07e0		; 20 e0 a7
 B3_0d4a:		inx				; e8 
 B3_0d4b:		cpx #$12		; e0 12
 B3_0d4d:		bne B3_0d36 ; d0 e7
@@ -1099,7 +1097,7 @@ B3_0eab:		lda $af00, x	; bd 00 af
 B3_0eae:		sta $00			; 85 00
 B3_0eb0:		lda $af01, x	; bd 01 af
 B3_0eb3:		sta $01			; 85 01
-B3_0eb5:		ldx $1d			; a6 1d
+B3_0eb5:		ldx wVramQueueNextIdxToFill			; a6 1d
 B3_0eb7:		ldy #$00		; a0 00
 B3_0eb9:		lda #$01		; a9 01
 B3_0ebb:		jsr $acce		; 20 ce ac
@@ -1135,7 +1133,7 @@ B3_0ef1:		cmp #$ff		; c9 ff
 B3_0ef3:		bne B3_0ec4 ; d0 cf
 
 B3_0ef5:		jsr $acce		; 20 ce ac
-B3_0ef8:		stx $1d			; 86 1d
+B3_0ef8:		stx wVramQueueNextIdxToFill			; 86 1d
 B3_0efa:		lda #$04		; a9 04
 B3_0efc:		jsr displayStaticLayoutA		; 20 e9 ec
 B3_0eff:		rts				; 60 

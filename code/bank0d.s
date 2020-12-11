@@ -48,7 +48,7 @@ B13_1e2f:		clc				; 18
 B13_1e30:		rts				; 60 
 
 B13_1e31:		lda #$01		; a9 01
-B13_1e33:		sta wEntityXFlipped.w, x	; 9d a8 04
+B13_1e33:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B13_1e36:		lda $0470, x	; bd 70 04
 B13_1e39:		ora #$20		; 09 20
 B13_1e3b:		sta $0470, x	; 9d 70 04

@@ -780,7 +780,7 @@ B11_1cf4:		bne B11_1cf8 ; d0 02
 B11_1cf6:		lda #$0a		; a9 0a
 B11_1cf8:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B11_1cfb:		lda $bd3e, y	; b9 3e bd
-B11_1cfe:		sta wEntityXFlipped.w, x	; 9d a8 04
+B11_1cfe:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B11_1d01:		lda wPlayerStateDoubled.w, x	; bd 65 05
 B11_1d04:		lsr a			; 4a
 B11_1d05:		sta $02			; 85 02
@@ -795,9 +795,9 @@ B11_1d18:		ldy $02			; a4 02
 B11_1d1a:		lda $bd5d, y	; b9 5d bd
 B11_1d1d:		tay				; a8 
 B11_1d1e:		lda $bd7d, y	; b9 7d bd
-B11_1d21:		sta $0537, x	; 9d 37 05
+B11_1d21:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B11_1d24:		lda $bd7e, y	; b9 7e bd
-B11_1d27:		sta $0520, x	; 9d 20 05
+B11_1d27:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B11_1d2a:		lda $0606, x	; bd 06 06
 B11_1d2d:		bne B11_1d34 ; d0 05
 
@@ -1046,7 +1046,7 @@ B11_1eb3:	.db $03
 B11_1eb4:		asl $07			; 06 07
 B11_1eb6:		pha				; 48 
 B11_1eb7:		stx $16			; 86 16
-B11_1eb9:		ldx $1d			; a6 1d
+B11_1eb9:		ldx wVramQueueNextIdxToFill			; a6 1d
 B11_1ebb:		ldy #$00		; a0 00
 B11_1ebd:		lda $beed, y	; b9 ed be
 B11_1ec0:		sta wVramQueue.w, x	; 9d 00 03
@@ -1060,7 +1060,7 @@ B11_1ec9:		jmp $bebd		; 4c bd be
 
 B11_1ecc:		pla				; 68 
 B11_1ecd:		tay				; a8 
-B11_1ece:		stx $1d			; 86 1d
+B11_1ece:		stx wVramQueueNextIdxToFill			; 86 1d
 B11_1ed0:		txa				; 8a 
 B11_1ed1:		sec				; 38 
 B11_1ed2:		sbc #$09		; e9 09

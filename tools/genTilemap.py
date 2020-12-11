@@ -67,13 +67,22 @@ print('rows, cols:', len(metatilemap), len(metatilemap[0]))
 # for row in metatilemap:
     # print(' '.join(f'{byte:02x}' for byte in row))
 
-# (extracted) Room tiles - same conditional metatile bank
-roomTileAddress = word(bankConv('1e:15f2')+group*2)-0x8000
-roomTileOffset = address(metaTileBank, roomTileAddress)
+# (extracted) Room tiles
+roomTilesPalettesGroup = group
+if group == 0xd and section == 0 and room in [0, 1]:
+    roomTilesPalettesGroup = 2
+if group == 0xd and section == 2 and room == 2:
+    roomTilesPalettesGroup = 5
+if group == 0xd and section == 3 and room == 0:
+    roomTilesPalettesGroup = 5
+if group == 0xe and section == 0 and room == 1:
+    roomTilesPalettesGroup = 1
+roomTileAddress = word(bankConv('1e:15f2')+roomTilesPalettesGroup*2)-0x8000
+roomTileOffset = address(sMetatileBank, roomTileAddress)
 print('room tile address:', hex(roomTileAddress))
-# (extracted) palettes - same conditional metatile bank
-paletteAddress = word(bankConv('1e:1610')+group*2)-0x8000
-paletteOffset = address(metaTileBank, paletteAddress)
+# (extracted) palettes
+paletteAddress = word(bankConv('1e:1610')+roomTilesPalettesGroup*2)-0x8000
+paletteOffset = address(sMetatileBank, paletteAddress)
 print('palette address:', hex(paletteAddress))
 
 # gen tilemap and palettes

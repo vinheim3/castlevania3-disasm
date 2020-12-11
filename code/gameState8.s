@@ -431,7 +431,7 @@ B1_088a:		sta wOamSpecIdx.w, x	; 9d 00 04
 B1_088d:		lda #$0c		; a9 0c
 B1_088f:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B1_0892:		lda #$01		; a9 01
-B1_0894:		sta wEntityXFlipped.w, x	; 9d a8 04
+B1_0894:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B1_0897:		lda #$80		; a9 80
 B1_0899:		sta $0470, x	; 9d 70 04
 B1_089c:		iny				; c8 
@@ -621,7 +621,7 @@ gameState8_substate9:
 B1_09c0:		dec wGenericStateTimer			; c6 30
 B1_09c2:		beq B1_09cc ; f0 08
 
-B1_09c4:		lda $30			; a5 30
+B1_09c4:		lda wGenericStateTimer			; a5 30
 B1_09c6:		cmp #$30		; c9 30
 B1_09c8:		bcs B1_09ce ; b0 04
 
@@ -685,7 +685,7 @@ B1_0a1f:		bcc B1_0a26 ; 90 05
 B1_0a21:		cmp $aa62, y	; d9 62 aa
 B1_0a24:		bcc B1_0a46 ; 90 20
 
-B1_0a26:		lda wEntityXFlipped.w		; ad a8 04
+B1_0a26:		lda wEntityFacingLeft.w		; ad a8 04
 B1_0a29:		asl a			; 0a
 B1_0a2a:		tay				; a8 
 B1_0a2b:		lda $aa67, y	; b9 67 aa
@@ -747,7 +747,7 @@ B1_0a94:		clc				; 18
 B1_0a95:		adc #$04		; 69 04
 B1_0a97:		sta wEntityBaseY.w		; 8d 1c 04
 B1_0a9a:		lda $aae0, y	; b9 e0 aa
-B1_0a9d:		sta wEntityXFlipped.w		; 8d a8 04
+B1_0a9d:		sta wEntityFacingLeft.w		; 8d a8 04
 B1_0aa0:		lda $aae1, y	; b9 e1 aa
 B1_0aa3:		sta wEntityHorizSpeed.w		; 8d f2 04
 B1_0aa6:		lda $aae2, y	; b9 e2 aa
@@ -758,8 +758,8 @@ B1_0ab2:		lda #$44		; a9 44
 B1_0ab4:		sta $0787		; 8d 87 07
 B1_0ab7:		lda #$00		; a9 00
 B1_0ab9:		sta $68			; 85 68
-B1_0abb:		sta $56			; 85 56
-B1_0abd:		sta $57			; 85 57
+B1_0abb:		sta wCurrScrollXWithinRoom			; 85 56
+B1_0abd:		sta wCurrScrollXRoom			; 85 57
 B1_0abf:		lda $0780		; ad 80 07
 B1_0ac2:		asl a			; 0a
 B1_0ac3:		tay				; a8 
@@ -841,7 +841,7 @@ B1_0b3a:		sta wOamSpecIdx.w		; 8d 00 04
 B1_0b3d:		rts				; 60 
 
 
-B1_0b3e:		jsr func_1f_06d4_clcIfCanDuck		; 20 d4 e6
+B1_0b3e:		jsr secIfcanClimbDownStairs		; 20 d4 e6
 B1_0b41:		bcc B1_0b38 ; 90 f5
 
 B1_0b43:		lda #$00		; a9 00
@@ -849,7 +849,7 @@ B1_0b45:		sta wEntityPhase.w		; 8d c1 05
 B1_0b48:		ldx #$01		; a2 01
 B1_0b4a:		bne B1_0b58 ; d0 0c
 
-B1_0b4c:		jsr func_1f_06df		; 20 df e6
+B1_0b4c:		jsr secIfcanClimbUpStairs		; 20 df e6
 B1_0b4f:		bcc B1_0b38 ; 90 e7
 
 B1_0b51:		lda #$01		; a9 01
@@ -865,9 +865,9 @@ B1_0b60:		eor #$01		; 49 01
 B1_0b62:		tax				; aa 
 B1_0b63:		iny				; c8 
 B1_0b64:		sty wEntityAI_idx.w		; 8c ef 05
-B1_0b67:		stx wEntityXFlipped.w		; 8e a8 04
+B1_0b67:		stx wEntityFacingLeft.w		; 8e a8 04
 B1_0b6a:		lda $0b			; a5 0b
-B1_0b6c:		sta $061d		; 8d 1d 06
+B1_0b6c:		sta wPixelsToWalkToStairs.w		; 8d 1d 06
 B1_0b6f:		ldy #$00		; a0 00
 B1_0b71:		asl a			; 0a
 B1_0b72:		bcc B1_0b75 ; 90 01
@@ -900,7 +900,7 @@ B1_0ba0:		lda #$00		; a9 00
 B1_0ba2:		beq B1_0ba6 ; f0 02
 
 B1_0ba4:		lda #$01		; a9 01
-B1_0ba6:		sta wEntityXFlipped.w		; 8d a8 04
+B1_0ba6:		sta wEntityFacingLeft.w		; 8d a8 04
 B1_0ba9:		lda #$00		; a9 00
 B1_0bab:		sta wEntityHorizSpeed.w		; 8d f2 04
 B1_0bae:		sta wEntityHorizSubSpeed.w		; 8d 09 05
@@ -931,7 +931,7 @@ B1_0bde:		rts				; 60
 
 
 B1_0bdf:		lda #$00		; a9 00
-B1_0be1:		sta wEntityXFlipped.w		; 8d a8 04
+B1_0be1:		sta wEntityFacingLeft.w		; 8d a8 04
 B1_0be4:		jsr $ac28		; 20 28 ac
 B1_0be7:		ldy #$02		; a0 02
 B1_0be9:		lda ($0a), y	; b1 0a
@@ -948,7 +948,7 @@ B1_0bf9:		tay				; a8
 B1_0bfa:		beq B1_0c11 ; f0 15
 
 B1_0bfc:		lda #$01		; a9 01
-B1_0bfe:		sta wEntityXFlipped.w		; 8d a8 04
+B1_0bfe:		sta wEntityFacingLeft.w		; 8d a8 04
 B1_0c01:		jsr $ac28		; 20 28 ac
 B1_0c04:		ldy #$01		; a0 01
 B1_0c06:		lda ($0a), y	; b1 0a
@@ -960,8 +960,8 @@ B1_0c0f:		ldy #$00		; a0 00
 B1_0c11:		sty wEntityHorizSubSpeed.w		; 8c 09 05
 B1_0c14:		sta wEntityHorizSpeed.w		; 8d f2 04
 B1_0c17:		lda #$00		; a9 00
-B1_0c19:		sta $0520		; 8d 20 05
-B1_0c1c:		sta $0537		; 8d 37 05
+B1_0c19:		sta wEntityVertSpeed.w		; 8d 20 05
+B1_0c1c:		sta wEntityVertSubSpeed.w		; 8d 37 05
 B1_0c1f:		jmp $abc8		; 4c c8 ab
 
 
@@ -1033,10 +1033,10 @@ B1_0c87:		sec				; 38
 B1_0c88:		rts				; 60 
 
 
-B1_0c89:		lda $061d		; ad 1d 06
+B1_0c89:		lda wPixelsToWalkToStairs.w		; ad 1d 06
 B1_0c8c:		beq B1_0c97 ; f0 09
 
-B1_0c8e:		dec $061d		; ce 1d 06
+B1_0c8e:		dec wPixelsToWalkToStairs.w		; ce 1d 06
 B1_0c91:		jsr updatePlayerAnimationFrame		; 20 73 ef
 B1_0c94:		jmp $abcb		; 4c cb ab
 
@@ -1072,7 +1072,7 @@ B1_0cb7:		bcs B1_0d33 ; b0 7a
 B1_0cb9:		rts				; 60 
 
 B1_0cba:		lda #$00		; a9 00
-B1_0cbc:		sta wEntityXFlipped.w		; 8d a8 04
+B1_0cbc:		sta wEntityFacingLeft.w		; 8d a8 04
 B1_0cbf:		lda wEntityAI_idx.w		; ad ef 05
 B1_0cc2:		beq B1_0ccb ; f0 07
 
@@ -1085,7 +1085,7 @@ B1_0ccd:		ldy #$08		; a0 08
 B1_0ccf:		jmp func_01_0d42		; 4c 42 ad
 
 B1_0cd2:		lda #$01		; a9 01
-B1_0cd4:		sta wEntityXFlipped.w		; 8d a8 04
+B1_0cd4:		sta wEntityFacingLeft.w		; 8d a8 04
 B1_0cd7:		lda wEntityAI_idx.w		; ad ef 05
 B1_0cda:		beq B1_0ce3 ; f0 07
 
@@ -1102,15 +1102,15 @@ func_01_0cea:
 B1_0cea:		jsr $abcb		; 20 cb ab
 B1_0ced:		lda $04db		; ad db 04
 B1_0cf0:		clc				; 18 
-B1_0cf1:		adc $0537		; 6d 37 05
+B1_0cf1:		adc wEntityVertSubSpeed.w		; 6d 37 05
 B1_0cf4:		sta $04db		; 8d db 04
 B1_0cf7:		lda wEntityBaseY.w		; ad 1c 04
-B1_0cfa:		adc $0520		; 6d 20 05
+B1_0cfa:		adc wEntityVertSpeed.w		; 6d 20 05
 B1_0cfd:		sta wEntityBaseY.w		; 8d 1c 04
-B1_0d00:		lda $061d		; ad 1d 06
+B1_0d00:		lda wPixelsToWalkToStairs.w		; ad 1d 06
 B1_0d03:		beq B1_0d14 ; f0 0f
 
-B1_0d05:		dec $061d		; ce 1d 06
+B1_0d05:		dec wPixelsToWalkToStairs.w		; ce 1d 06
 B1_0d08:		lda wEntityTimeUntilNextAnimation.w		; ad 7c 05
 B1_0d0b:		beq B1_0d11 ; f0 04
 
@@ -1137,14 +1137,14 @@ B1_0d32:		rts				; 60
 
 
 func_01_0d33:
-B1_0d33:		jsr $e6f5		; 20 f5 e6
+B1_0d33:		jsr setPlayerDetailsWalkingStairsDownRight		; 20 f5 e6
 B1_0d36:		lda #$0e		; a9 0e
 B1_0d38:		sta wPlayerStateDoubled.w		; 8d 65 05
 B1_0d3b:		rts				; 60 
 
 
 func_01_0d3c:
-B1_0d3c:		jsr $e700		; 20 00 e7
+B1_0d3c:		jsr setPlayerDetailsWalkingStairsUpRight		; 20 00 e7
 B1_0d3f:		jmp $ad36		; 4c 36 ad
 
 
@@ -1156,12 +1156,12 @@ B1_0d45:		jmp $ad36		; 4c 36 ad
 func_01_0d48:
 B1_0d48:		ldy #$00		; a0 00
 B1_0d4a:		lda ($08), y	; b1 08
-B1_0d4c:		sta $62			; 85 62
+B1_0d4c:		sta wVramQueueDest+1			; 85 62
 B1_0d4e:		iny				; c8 
 B1_0d4f:		lda ($08), y	; b1 08
-B1_0d51:		sta $61			; 85 61
+B1_0d51:		sta wVramQueueDest			; 85 61
 B1_0d53:		iny				; c8 
-B1_0d54:		jsr func_1f_08b5		; 20 b5 e8
+B1_0d54:		jsr vramQueueSet1byteDestToCopy_noData		; 20 b5 e8
 B1_0d57:		lda ($08), y	; b1 08
 B1_0d59:		beq B1_0d76 ; f0 1b
 
@@ -1197,12 +1197,12 @@ B1_0d85:		bne B1_0d7f ; d0 f8
 
 B1_0d87:		beq B1_0d57 ; f0 ce
 
-B1_0d89:		stx $1d			; 86 1d
+B1_0d89:		stx wVramQueueNextIdxToFill			; 86 1d
 B1_0d8b:		jsr terminateVramQueue		; 20 12 ed
 B1_0d8e:		iny				; c8 
 B1_0d8f:		bne B1_0d4a ; d0 b9
 
-B1_0d91:		stx $1d			; 86 1d
+B1_0d91:		stx wVramQueueNextIdxToFill			; 86 1d
 B1_0d93:		jmp terminateVramQueue		; 4c 12 ed
 
 

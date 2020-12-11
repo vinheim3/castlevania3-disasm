@@ -137,7 +137,7 @@ B25_0240:		lda #<$232b		; a9 2b
 B25_0242:		sta wVramQueueDest			; 85 61
 B25_0244:		lda #>$232b		; a9 23
 B25_0246:		sta wVramQueueDest+1			; 85 62
-B25_0248:		jsr func_1f_08b5		; 20 b5 e8
+B25_0248:		jsr vramQueueSet1byteDestToCopy_noData		; 20 b5 e8
 
 ; clear 10 bytes during vblank
 B25_024b:		ldy #$0a		; a0 0a
@@ -148,7 +148,7 @@ B25_0252:		inx				; e8
 B25_0253:		dey				; 88 
 	bne -
 
-B25_0256:		jmp setVramQueueNextFillIdxAndTerminate		; 4c de e8
+B25_0256:		jmp setVramQueueFillIdxAndTerminate		; 4c de e8
 
 
 displaySoundModeSongText:
@@ -164,13 +164,13 @@ B25_0268:		lda #<$232b		; a9 2b
 B25_026a:		sta wVramQueueDest			; 85 61
 B25_026c:		lda #>$232b		; a9 23
 B25_026e:		sta wVramQueueDest+1			; 85 62
-B25_0270:		jsr func_1f_08b5		; 20 b5 e8
+B25_0270:		jsr vramQueueSet1byteDestToCopy_noData		; 20 b5 e8
 B25_0273:		ldy #$00		; a0 00
 B25_0275:		lda (wSoundModeTextAddr), y	; b1 08
 B25_0277:		cmp #$ff		; c9 ff
 B25_0279:		bne B25_027e ; d0 03
 
-B25_027b:		jmp setVramQueueNextFillIdxAndTerminate		; 4c de e8
+B25_027b:		jmp setVramQueueFillIdxAndTerminate		; 4c de e8
 
 B25_027e:		sta wVramQueue.w, x	; 9d 00 03
 B25_0281:		inx				; e8 

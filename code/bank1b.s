@@ -34,7 +34,7 @@ B27_1795:		bcs B27_179a ; b0 03
 B27_1797:		sbc #$0f		; e9 0f
 B27_1799:		dey				; 88 
 B27_179a:		clc				; 18 
-B27_179b:		adc $56			; 65 56
+B27_179b:		adc wCurrScrollXWithinRoom			; 65 56
 B27_179d:		bcs B27_17a3 ; b0 04
 
 B27_179f:		cmp #$f0		; c9 f0
@@ -60,7 +60,7 @@ B27_17be:		rts				; 60
 
 func_1b_17bf:
 B27_17bf:		sty $09			; 84 09
-B27_17c1:		lda $68			; a5 68
+B27_17c1:		lda wCurrRoomMetadataByte			; a5 68
 B27_17c3:		bpl B27_17fb ; 10 36
 
 B27_17c5:		lda $10			; a5 10
@@ -110,7 +110,7 @@ B27_181b:		jsr $bae7		; 20 e7 ba
 B27_181e:		bcs B27_185d ; b0 3d
 
 B27_1820:		jsr $b9b2		; 20 b2 b9
-B27_1823:		ldy $32			; a4 32
+B27_1823:		ldy wCurrRoomGroup			; a4 32
 B27_1825:		lda $c94b, y	; b9 4b c9
 B27_1828:		jsr $e9b3		; 20 b3 e9
 B27_182b:		jsr $b831		; 20 31 b8
@@ -187,7 +187,7 @@ B27_18a0:		lda #$e8		; a9 e8
 B27_18a2:		sta wOamSpecIdx.w, x	; 9d 00 04
 B27_18a5:		lda #$01		; a9 01
 B27_18a7:		sta $0657, x	; 9d 57 06
-B27_18aa:		sta wEntityXFlipped.w, x	; 9d a8 04
+B27_18aa:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B27_18ad:		lda #$60		; a9 60
 B27_18af:		sta $0470, x	; 9d 70 04
 B27_18b2:		lda #$03		; a9 03
@@ -621,7 +621,7 @@ B27_1b3e:		lda wEntityBaseY.w		; ad 1c 04
 B27_1b41:		sec				; 38 
 B27_1b42:		sbc #$20		; e9 20
 B27_1b44:		clc				; 18 
-B27_1b45:		adc $56			; 65 56
+B27_1b45:		adc wCurrScrollXWithinRoom			; 65 56
 B27_1b47:		bcs B27_1b4d ; b0 04
 
 B27_1b49:		cmp #$f0		; c9 f0
@@ -630,7 +630,7 @@ B27_1b4b:		bcc B27_1b50 ; 90 03
 B27_1b4d:		adc #$0f		; 69 0f
 B27_1b4f:		sec				; 38 
 B27_1b50:		sta $0b			; 85 0b
-B27_1b52:		lda $57			; a5 57
+B27_1b52:		lda wCurrScrollXRoom			; a5 57
 B27_1b54:		adc #$00		; 69 00
 B27_1b56:		sta $07			; 85 07
 B27_1b58:		jmp $bb5f		; 4c 5f bb
@@ -675,7 +675,7 @@ B27_1b90:		rts				; 60
 
 
 B27_1b91:		lda $00			; a5 00
-B27_1b93:		ldy $32			; a4 32
+B27_1b93:		ldy wCurrRoomGroup			; a4 32
 B27_1b95:		cpy #$0a		; c0 0a
 B27_1b97:		bne B27_1baa ; d0 11
 

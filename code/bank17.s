@@ -403,7 +403,7 @@ B23_1354:		sta $061d, y	; 99 1d 06
 B23_1357:		rts				; 60 
 
 
-B23_1358:		lda wEntityXFlipped.w, x	; bd a8 04
+B23_1358:		lda wEntityFacingLeft.w, x	; bd a8 04
 B23_135b:		bne B23_1367 ; d0 0a
 
 B23_135d:		lda wEntityBaseX.w, x	; bd 38 04
@@ -478,7 +478,7 @@ B23_13d3:		ora $38			; 05 38
 B23_13d5:		sbc #$ee		; e9 ee
 B23_13d7:		pha				; 48 
 B23_13d8:		clc				; 18 
-B23_13d9:		adc wEntityXFlipped.w, x	; 7d a8 04
+B23_13d9:		adc wEntityFacingLeft.w, x	; 7d a8 04
 B23_13dc:		sta $07			; 85 07
 B23_13de:		pla				; 68 
 B23_13df:		lsr a			; 4a
@@ -534,7 +534,7 @@ B23_143c:		sta $01			; 85 01
 B23_143e:		clc				; 18 
 B23_143f:		tya				; 98 
 B23_1440:		asl a			; 0a
-B23_1441:		adc wEntityXFlipped.w		; 6d a8 04
+B23_1441:		adc wEntityFacingLeft.w		; 6d a8 04
 B23_1444:		tay				; a8 
 B23_1445:		clc				; 18 
 B23_1446:		lda $bb5f, y	; b9 5f bb
@@ -1070,7 +1070,7 @@ B23_17a5:		rts				; 60
 func_17_17a6:
 B23_17a6:		tya				; 98 
 B23_17a7:		asl a			; 0a
-B23_17a8:		ldy wEntityXFlipped.w, x	; bc a8 04
+B23_17a8:		ldy wEntityFacingLeft.w, x	; bc a8 04
 B23_17ab:		beq B23_17b0 ; f0 03
 
 B23_17ad:		clc				; 18 

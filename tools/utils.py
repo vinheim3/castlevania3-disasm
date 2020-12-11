@@ -1,3 +1,5 @@
+import sys
+
 with open('original/OR.bin', 'rb') as f:
     prgData = f.read()
 
@@ -48,7 +50,7 @@ def getOutstandingLines():
     fnames = os.listdir('code')
     total = 0
     for fname in fnames:
-        if 'bank' not in fname:
+        if '1' in sys.argv and 'bank' not in fname:
             continue
         with open(f'code/{fname}') as f:
             data = f.read().split('\n')

@@ -67,7 +67,7 @@ B18_0056:		bne B18_007a ; d0 22
 B18_0058:		jsr $84bf		; 20 bf 84
 B18_005b:		bcs B18_007a ; b0 1d
 
-B18_005d:		lda $56			; a5 56
+B18_005d:		lda wCurrScrollXWithinRoom			; a5 56
 B18_005f:		bne B18_007a ; d0 19
 
 B18_0061:		lda #$01		; a9 01
@@ -109,7 +109,7 @@ B18_00a8:		sta $0470, x	; 9d 70 04
 B18_00ab:		jmp $80d4		; 4c d4 80
 
 
-B18_00ae:		lda $56			; a5 56
+B18_00ae:		lda wCurrScrollXWithinRoom			; a5 56
 B18_00b0:		beq B18_00b3 ; f0 01
 
 B18_00b2:		rts				; 60 
@@ -905,7 +905,7 @@ B18_0553:		clc				; 18
 B18_0554:		rts				; 60 
 
 
-B18_0555:		lda $56			; a5 56
+B18_0555:		lda wCurrScrollXWithinRoom			; a5 56
 B18_0557:		bne B18_0553 ; d0 fa
 
 B18_0559:		cpy #$06		; c0 06
@@ -929,7 +929,7 @@ B18_0571:		lda #$01		; a9 01
 B18_0573:		bne B18_0578 ; d0 03
 
 B18_0575:		lda $858a, y	; b9 8a 85
-B18_0578:		cmp $57			; c5 57
+B18_0578:		cmp wCurrScrollXRoom			; c5 57
 B18_057a:		beq B18_0553 ; f0 d7
 
 B18_057c:		jmp $850c		; 4c 0c 85
@@ -1071,13 +1071,13 @@ B18_0636:		lda $054e, x	; bd 4e 05
 B18_0639:		cmp #$01		; c9 01
 B18_063b:		bne B18_0642 ; d0 05
 
-B18_063d:		lda wEntityXFlipped.w, x	; bd a8 04
+B18_063d:		lda wEntityFacingLeft.w, x	; bd a8 04
 B18_0640:		sta $17			; 85 17
 B18_0642:		rts				; 60 
 
 
 B18_0643:		lda $17			; a5 17
-B18_0645:		sta wEntityXFlipped.w, x	; 9d a8 04
+B18_0645:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B18_0648:		tay				; a8 
 B18_0649:		lda $864d, y	; b9 4d 86
 B18_064c:		rts				; 60 
@@ -3399,7 +3399,7 @@ B18_1469:		and #$08		; 29 08
 B18_146b:		beq B18_146f ; f0 02
 
 B18_146d:		lda #$01		; a9 01
-B18_146f:		sta wEntityXFlipped.w, x	; 9d a8 04
+B18_146f:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B18_1472:		rts				; 60 
 
 
@@ -3413,7 +3413,7 @@ B18_147e:		jmp $9484		; 4c 84 94
 
 B18_1481:		lda wEntityBaseX.w		; ad 38 04
 B18_1484:		sta $00			; 85 00
-B18_1486:		lda wEntityXFlipped.w, x	; bd a8 04
+B18_1486:		lda wEntityFacingLeft.w, x	; bd a8 04
 B18_1489:		beq B18_148f ; f0 04
 
 B18_148b:		lda #$fc		; a9 fc
@@ -3491,7 +3491,7 @@ B18_1504:		lda $01			; a5 01
 B18_1506:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
 B18_1509:		inc wEntityPhase.w, x	; fe c1 05
 B18_150c:		lda #$00		; a9 00
-B18_150e:		sta wEntityXFlipped.w, x	; 9d a8 04
+B18_150e:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B18_1511:		lda #$04		; a9 04
 B18_1513:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B18_1516:		rts				; 60 
@@ -3507,7 +3507,7 @@ B18_1526:		lda ($02), y	; b1 02
 B18_1528:		sta $00			; 85 00
 B18_152a:		beq B18_153a ; f0 0e
 
-B18_152c:		lda wEntityXFlipped.w, x	; bd a8 04
+B18_152c:		lda wEntityFacingLeft.w, x	; bd a8 04
 B18_152f:		beq B18_153d ; f0 0c
 
 B18_1531:		lda wEntityBaseX.w, x	; bd 38 04
@@ -3594,9 +3594,9 @@ B18_15be:		bne B18_15c3 ; d0 03
 
 B18_15c0:		jsr $95ce		; 20 ce 95
 B18_15c3:		lda $00			; a5 00
-B18_15c5:		sta $0520, x	; 9d 20 05
+B18_15c5:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B18_15c8:		lda $01			; a5 01
-B18_15ca:		sta $0537, x	; 9d 37 05
+B18_15ca:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B18_15cd:		rts				; 60 
 
 
@@ -3634,10 +3634,10 @@ B18_1603:		lda $01			; a5 01
 B18_1605:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
 B18_1608:		ldy #$01		; a0 01
 B18_160a:		lda ($02), y	; b1 02
-B18_160c:		sta $0537, x	; 9d 37 05
+B18_160c:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B18_160f:		iny				; c8 
 B18_1610:		lda ($02), y	; b1 02
-B18_1612:		sta $0520, x	; 9d 20 05
+B18_1612:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B18_1615:		inc wEntityPhase.w, x	; fe c1 05
 B18_1618:		rts				; 60 
 
@@ -3664,9 +3664,9 @@ B18_163f:		lda ($02), y	; b1 02
 B18_1641:		asl a			; 0a
 B18_1642:		tay				; a8 
 B18_1643:		lda $96d3, y	; b9 d3 96
-B18_1646:		sta $0537, x	; 9d 37 05
+B18_1646:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B18_1649:		lda $96d4, y	; b9 d4 96
-B18_164c:		sta $0520, x	; 9d 20 05
+B18_164c:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B18_164f:		inc wEntityPhase.w, x	; fe c1 05
 B18_1652:		rts				; 60 
 
@@ -3674,14 +3674,14 @@ B18_1652:		rts				; 60
 B18_1653:		ldy #$03		; a0 03
 B18_1655:		lda ($02), y	; b1 02
 B18_1657:		sta $00			; 85 00
-B18_1659:		lda $0537, x	; bd 37 05
+B18_1659:		lda wEntityVertSubSpeed.w, x	; bd 37 05
 B18_165c:		clc				; 18 
 B18_165d:		adc $00			; 65 00
-B18_165f:		sta $0537, x	; 9d 37 05
-B18_1662:		lda $0520, x	; bd 20 05
+B18_165f:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
+B18_1662:		lda wEntityVertSpeed.w, x	; bd 20 05
 B18_1665:		adc #$00		; 69 00
-B18_1667:		sta $0520, x	; 9d 20 05
-B18_166a:		lda $0520, x	; bd 20 05
+B18_1667:		sta wEntityVertSpeed.w, x	; 9d 20 05
+B18_166a:		lda wEntityVertSpeed.w, x	; bd 20 05
 B18_166d:		bmi B18_16d2 ; 30 63
 
 B18_166f:		ldy #$00		; a0 00
@@ -3698,7 +3698,7 @@ B18_1680:		cmp #$01		; c9 01
 B18_1682:		bne B18_1686 ; d0 02
 
 B18_1684:		ldy #$18		; a0 18
-B18_1686:		lda wEntityXFlipped.w, x	; bd a8 04
+B18_1686:		lda wEntityFacingLeft.w, x	; bd a8 04
 B18_1689:		beq B18_168f ; f0 04
 
 B18_168b:		lda #$fc		; a9 fc
@@ -3713,8 +3713,8 @@ B18_1696:		jmp $96e3		; 4c e3 96
 
 B18_1699:		inc wEntityPhase.w, x	; fe c1 05
 B18_169c:		lda #$00		; a9 00
-B18_169e:		sta $0520, x	; 9d 20 05
-B18_16a1:		sta $0537, x	; 9d 37 05
+B18_169e:		sta wEntityVertSpeed.w, x	; 9d 20 05
+B18_16a1:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B18_16a4:		rts				; 60 
 
 
@@ -3727,20 +3727,20 @@ B18_16ae:		sta $01			; 85 01
 B18_16b0:		lda $96d4, y	; b9 d4 96
 B18_16b3:		sta $00			; 85 00
 B18_16b5:		jsr $95ce		; 20 ce 95
-B18_16b8:		lda $0520, x	; bd 20 05
+B18_16b8:		lda wEntityVertSpeed.w, x	; bd 20 05
 B18_16bb:		cmp $00			; c5 00
 B18_16bd:		bcs B18_16c8 ; b0 09
 
 B18_16bf:		bne B18_16d2 ; d0 11
 
-B18_16c1:		lda $0537, x	; bd 37 05
+B18_16c1:		lda wEntityVertSubSpeed.w, x	; bd 37 05
 B18_16c4:		cmp $01			; c5 01
 B18_16c6:		bcs B18_16d2 ; b0 0a
 
 B18_16c8:		lda $00			; a5 00
-B18_16ca:		sta $0520, x	; 9d 20 05
+B18_16ca:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B18_16cd:		lda $01			; a5 01
-B18_16cf:		sta $0537, x	; 9d 37 05
+B18_16cf:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B18_16d2:		rts				; 60 
 
 
@@ -3761,8 +3761,8 @@ B18_16e0:		cpx #$00		; e0 00
 B18_16e2:		.db $00				; 00
 B18_16e3:		inc wEntityPhase.w, x	; fe c1 05
 B18_16e6:		lda #$00		; a9 00
-B18_16e8:		sta $0520, x	; 9d 20 05
-B18_16eb:		sta $0537, x	; 9d 37 05
+B18_16e8:		sta wEntityVertSpeed.w, x	; 9d 20 05
+B18_16eb:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B18_16ee:		lda $054e, x	; bd 4e 05
 B18_16f1:		cmp #$01		; c9 01
 B18_16f3:		beq B18_16fe ; f0 09
@@ -4210,9 +4210,9 @@ B18_19ba:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B18_19bd:		lda $09			; a5 09
 B18_19bf:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
 B18_19c2:		lda $0a			; a5 0a
-B18_19c4:		sta $0520, x	; 9d 20 05
+B18_19c4:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B18_19c7:		lda $0b			; a5 0b
-B18_19c9:		sta $0537, x	; 9d 37 05
+B18_19c9:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B18_19cc:		rts				; 60 
 
 
@@ -4624,11 +4624,11 @@ B18_1c01:		jmp $9b2a		; 4c 2a 9b
 B18_1c04:		ldy #$01		; a0 01
 B18_1c06:		lda ($02), y	; b1 02
 B18_1c08:		clc				; 18 
-B18_1c09:		adc $0537, x	; 7d 37 05
-B18_1c0c:		sta $0537, x	; 9d 37 05
+B18_1c09:		adc wEntityVertSubSpeed.w, x	; 7d 37 05
+B18_1c0c:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B18_1c0f:		lda #$00		; a9 00
-B18_1c11:		adc $0520, x	; 7d 20 05
-B18_1c14:		sta $0520, x	; 9d 20 05
+B18_1c11:		adc wEntityVertSpeed.w, x	; 7d 20 05
+B18_1c14:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B18_1c17:		rts				; 60 
 
 
@@ -4648,7 +4648,7 @@ B18_1c31:		lda ($02), y	; b1 02
 B18_1c33:		cmp #$ff		; c9 ff
 B18_1c35:		beq B18_1c3a ; f0 03
 
-B18_1c37:		sta wEntityXFlipped.w, x	; 9d a8 04
+B18_1c37:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B18_1c3a:		ldy #$01		; a0 01
 B18_1c3c:		lda ($02), y	; b1 02
 B18_1c3e:		cmp #$ff		; c9 ff
@@ -4765,7 +4765,7 @@ B18_1cff:	.db $0f
 B18_1d00:	.db $02
 B18_1d01:		and ($12), y	; 31 12
 B18_1d03:	.db $ff
-B18_1d04:		ldx $1d			; a6 1d
+B18_1d04:		ldx wVramQueueNextIdxToFill			; a6 1d
 B18_1d06:		lda #$01		; a9 01
 B18_1d08:		jsr $9cec		; 20 ec 9c
 B18_1d0b:		ldy #$00		; a0 00
@@ -4777,7 +4777,7 @@ B18_1d15:		beq B18_1d1a ; f0 03
 B18_1d17:		iny				; c8 
 B18_1d18:		bne B18_1d0d ; d0 f3
 
-B18_1d1a:		stx $1d			; 86 1d
+B18_1d1a:		stx wVramQueueNextIdxToFill			; 86 1d
 B18_1d1c:		lda #$04		; a9 04
 B18_1d1e:		jmp displayStaticLayoutA		; 4c e9 ec
 
@@ -4871,8 +4871,8 @@ B18_1db6:		jmp $9d66		; 4c 66 9d
 B18_1db9:		ldy #$01		; a0 01
 B18_1dbb:		lda ($02), y	; b1 02
 B18_1dbd:		jsr $8766		; 20 66 87
-B18_1dc0:		lda wEntityXFlipped.w, x	; bd a8 04
-B18_1dc3:		sta wEntityXFlipped.w, y	; 99 a8 04
+B18_1dc0:		lda wEntityFacingLeft.w, x	; bd a8 04
+B18_1dc3:		sta wEntityFacingLeft.w, y	; 99 a8 04
 B18_1dc6:		lda wPlayerStateDoubled.w, x	; bd 65 05
 B18_1dc9:		sta wPlayerStateDoubled.w, y	; 99 65 05
 B18_1dcc:		lda #$00		; a9 00
@@ -4904,7 +4904,7 @@ B18_1dfe:		and #$10		; 29 10
 B18_1e00:		beq B18_1e04 ; f0 02
 
 B18_1e02:		lda #$01		; a9 01
-B18_1e04:		cmp wEntityXFlipped.w, x	; dd a8 04
+B18_1e04:		cmp wEntityFacingLeft.w, x	; dd a8 04
 B18_1e07:		beq B18_1e12 ; f0 09
 
 B18_1e09:		lda $00			; a5 00
@@ -4991,8 +4991,8 @@ B18_1e87:		beq B18_1ecc ; f0 43
 B18_1e89:		lda #$00		; a9 00
 B18_1e8b:		sta wEntityHorizSpeed.w, y	; 99 f2 04
 B18_1e8e:		sta wEntityHorizSubSpeed.w, y	; 99 09 05
-B18_1e91:		sta $0520, y	; 99 20 05
-B18_1e94:		sta $0537, y	; 99 37 05
+B18_1e91:		sta wEntityVertSpeed.w, y	; 99 20 05
+B18_1e94:		sta wEntityVertSubSpeed.w, y	; 99 37 05
 B18_1e97:		lda $01			; a5 01
 B18_1e99:		sec				; 38 
 B18_1e9a:		sbc #$01		; e9 01
@@ -5021,7 +5021,7 @@ B18_1ec0:		and #$08		; 29 08
 B18_1ec2:		beq B18_1ec6 ; f0 02
 
 B18_1ec4:		lda #$01		; a9 01
-B18_1ec6:		sta wEntityXFlipped.w, y	; 99 a8 04
+B18_1ec6:		sta wEntityFacingLeft.w, y	; 99 a8 04
 B18_1ec9:		jmp $9ee3		; 4c e3 9e
 
 
@@ -5084,7 +5084,7 @@ B18_1f26:		lda $9f56, y	; b9 56 9f
 B18_1f29:		sta $00			; 85 00
 B18_1f2b:		lda $9f57, y	; b9 57 9f
 B18_1f2e:		sta $01			; 85 01
-B18_1f30:		lda wEntityXFlipped.w, x	; bd a8 04
+B18_1f30:		lda wEntityFacingLeft.w, x	; bd a8 04
 B18_1f33:		beq B18_1f46 ; f0 11
 
 B18_1f35:		lda $00			; a5 00

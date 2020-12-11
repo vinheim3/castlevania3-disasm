@@ -68,7 +68,7 @@ inGameSubstate01:
 B31_13f6:		jsr func_1f_1753		; 20 53 f7
 B31_13f9:		jsr setBank_c000_toRom1eh		; 20 da e2
 B31_13fc:		jsr func_1f_05d3		; 20 d3 e5
-B31_13ff:		jsr func_1e_1067		; 20 67 d0
+B31_13ff:		jsr getCurrRoomMetatileTilesPalettesAndMetadataByte		; 20 67 d0
 
 	jsr_8000Func func_1c_0588
 B31_140a:		jsr func_1c_05b8		; 20 b8 85
@@ -76,13 +76,13 @@ B31_140d:		jsr func_1c_0642		; 20 42 86
 
 B31_1410:		jsr func_1e_10f8		; 20 f8 d0
 
-	jsr_a000Func func_0f_153f
+	jsr_a000Func getAddrOfRoomsStairsData
 	jsr_8000Func func_00_1702
 
 B31_1423:		bcs B31_143e ; b0 19
 
 @loop:
-B31_1425:		lda $68			; a5 68
+B31_1425:		lda wCurrRoomMetadataByte			; a5 68
 B31_1427:		bmi B31_1433 ; 30 0a
 
 B31_1429:		jsr func_1e_0d83		; 20 83 cd
@@ -332,7 +332,7 @@ inGameSubstate06:
 B31_1609:		lda #$02		; a9 02
 B31_160b:		sta $1c			; 85 1c
 B31_160d:		jsr setBank_c000_toRom1eh		; 20 da e2
-B31_1610:		jsr func_1e_13fb		; 20 fb d3
+B31_1610:		jsr stairsSetSectionRoomAndScreen		; 20 fb d3
 B31_1613:		lda #$07		; a9 07
 B31_1615:		sta wInGameSubstate			; 85 2a
 B31_1617:		rts				; 60 
@@ -350,7 +350,7 @@ B31_1629:		rts				; 60
 
 
 inGameSubstate12_stub:
-B31_162a:		rts				; 60 
+	rts
 
 
 inGameSubstate17:
@@ -403,7 +403,7 @@ B31_1680:		jmp func_02_14b8		; 4c b8 94
 
 inGameCommonFunc:
 B31_1683:		lda wNametableMapping			; a5 25
-B31_1685:		cmp #$ff		; @done
+B31_1685:		cmp #NT_SINGLE_SCREEN_FILL_MODE		; @done
 B31_1687:		beq B31_16be ; f0 35
 
 B31_1689:		lda $1e			; a5 1e
@@ -465,9 +465,9 @@ inGameSubstate1d:
 inGameSubstate10_6b_c:
 B31_16e1:		inc $6b			; e6 6b
 B31_16e3:		lda #$03		; a9 03
-B31_16e5:		sta $57			; 85 57
+B31_16e5:		sta wCurrScrollXRoom			; 85 57
 B31_16e7:		lda #$00		; a9 00
-B31_16e9:		sta $56			; 85 56
+B31_16e9:		sta wCurrScrollXWithinRoom			; 85 56
 B31_16eb:		jmp $f6f7		; 4c f7 f6
 
 
@@ -505,11 +505,11 @@ B31_1720:		bcc B31_16fe ; 90 dc
 
 B31_1722:		jsr func_1f_1753		; 20 53 f7
 B31_1725:		jsr func_1f_05d3		; 20 d3 e5
-B31_1728:		jsr func_1e_1067		; 20 67 d0
+B31_1728:		jsr getCurrRoomMetatileTilesPalettesAndMetadataByte		; 20 67 d0
 	jsr_8000Func func_1c_0588
 B31_1733:		jsr func_1c_05b8		; 20 b8 85
 B31_1736:		jsr func_1e_10f8		; 20 f8 d0
-	jsr_a000Func func_0f_153f
+	jsr_a000Func getAddrOfRoomsStairsData
 	jsr_8000Func func_00_1702
 B31_1749:		jsr func_1e_0d83		; 20 83 cd
 B31_174c:		lda #$00		; a9 00
@@ -714,12 +714,12 @@ B31_189d:		rts				; 60
 inGameSubstate10_6b_4:
 B31_189e:		jsr func_1f_1753		; 20 53 f7
 B31_18a1:		jsr func_1f_05d3		; 20 d3 e5
-B31_18a4:		jsr func_1e_1067		; 20 67 d0
+B31_18a4:		jsr getCurrRoomMetatileTilesPalettesAndMetadataByte		; 20 67 d0
 	jsr_8000Func func_1c_0588
 B31_18af:		jsr func_1c_05b8		; 20 b8 85
 B31_18b2:		jsr $8642		; 20 42 86
 B31_18b5:		jsr func_1e_10f8		; 20 f8 d0
-	jsr_a000Func func_0f_153f
+	jsr_a000Func getAddrOfRoomsStairsData
 	jsr_8000Func func_00_1702
 B31_18c8:		jsr func_1e_0d83		; 20 83 cd
 B31_18cb:		lda #$00		; a9 00
@@ -816,9 +816,9 @@ B31_196e:		jsr setAndSaveLowerBank		; 20 e6 e2
 B31_1971:		jsr $8d96		; 20 96 8d
 B31_1974:		lda #$00		; a9 00
 B31_1976:		sta $0470		; 8d 70 04
-B31_1979:		jsr func_1e_1067		; 20 67 d0
+B31_1979:		jsr getCurrRoomMetatileTilesPalettesAndMetadataByte		; 20 67 d0
 B31_197c:		jsr func_1e_10f8		; 20 f8 d0
-	jsr_a000Func func_0f_153f
+	jsr_a000Func getAddrOfRoomsStairsData
 B31_1987:		jsr $cd64		; 20 64 cd
 	jsr_8000Func func_00_1702
 B31_1992:		lda $7d			; a5 7d
@@ -877,7 +877,7 @@ B31_19d9:		clc				; 18
 B31_19da:		adc #$01		; 69 01
 B31_19dc:		sta wEntityBaseX.w		; 8d 38 04
 B31_19df:		jsr func_1f_1b77		; 20 77 fb
-B31_19e2:		lda $56			; a5 56
+B31_19e2:		lda wCurrScrollXWithinRoom			; a5 56
 B31_19e4:		and #$7f		; 29 7f
 B31_19e6:		bne B31_19ea ; d0 02
 
@@ -914,9 +914,9 @@ B31_1a25:		tay				; a8
 B31_1a26:		lda $fa95, y	; b9 95 fa
 B31_1a29:		sta wEntityBaseX.w, x	; 9d 38 04
 B31_1a2c:		lda $fa96, y	; b9 96 fa
-B31_1a2f:		sta wEntityXFlipped.w, x	; 9d a8 04
+B31_1a2f:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B31_1a32:		lda #$00		; a9 00
-B31_1a34:		sta $62			; 85 62
+B31_1a34:		sta wVramQueueDest+1			; 85 62
 B31_1a36:		ldy wCurrPlayer.w		; ac 4e 05
 B31_1a39:		lda wEntityBaseY.w		; ad 1c 04
 B31_1a3c:		sec				; 38 
@@ -926,12 +926,12 @@ B31_1a41:		rol $62			; 26 62
 B31_1a43:		asl a			; 0a
 B31_1a44:		rol $62			; 26 62
 B31_1a46:		and #$e0		; 29 e0
-B31_1a48:		sta $61			; 85 61
+B31_1a48:		sta wVramQueueDest			; 85 61
 B31_1a4a:		ldy $65			; a4 65
 B31_1a4c:		lda $fa8f, y	; b9 8f fa
 B31_1a4f:		clc				; 18 
-B31_1a50:		adc $61			; 65 61
-B31_1a52:		sta $61			; 85 61
+B31_1a50:		adc wVramQueueDest			; 65 61
+B31_1a52:		sta wVramQueueDest			; 85 61
 B31_1a54:		lda $75			; a5 75
 B31_1a56:		and #$01		; 29 01
 B31_1a58:		sta $00			; 85 00
@@ -942,7 +942,7 @@ B31_1a5e:		ldx #$24		; a2 24
 B31_1a60:		bne B31_1a64 ; d0 02
 
 B31_1a62:		ldx #$20		; a2 20
-B31_1a64:		lda $57			; a5 57
+B31_1a64:		lda wCurrScrollXRoom			; a5 57
 B31_1a66:		and #$01		; 29 01
 B31_1a68:		eor $00			; 45 00
 B31_1a6a:		beq B31_1a70 ; f0 04
@@ -953,11 +953,11 @@ B31_1a6f:		tax				; aa
 B31_1a70:		txa				; 8a 
 B31_1a71:		clc				; 18 
 B31_1a72:		adc $62			; 65 62
-B31_1a74:		sta $62			; 85 62
+B31_1a74:		sta wVramQueueDest+1			; 85 62
 B31_1a76:		sta $05eb		; 8d eb 05
 B31_1a79:		lda $61			; a5 61
 B31_1a7b:		sta $05d4		; 8d d4 05
-B31_1a7e:		jsr $e8af		; 20 af e8
+B31_1a7e:		jsr vramQueueSet2bytesDestToCopy_noData		; 20 af e8
 B31_1a81:		ldy #$06		; a0 06
 B31_1a83:		lda #$00		; a9 00
 B31_1a85:		sta wVramQueue.w, x	; 9d 00 03
@@ -965,7 +965,7 @@ B31_1a88:		inx				; e8
 B31_1a89:		dey				; 88 
 B31_1a8a:		bne B31_1a85 ; d0 f9
 
-B31_1a8c:		jmp setVramQueueNextFillIdxAndTerminate		; 4c de e8
+B31_1a8c:		jmp setVramQueueFillIdxAndTerminate		; 4c de e8
 
 
 B31_1a8f:		ora ($1e, x)	; 01 1e
@@ -1044,10 +1044,10 @@ B31_1afa:		lda #$00		; a9 00
 B31_1afc:		sta wOamSpecIdx.w, x	; 9d 00 04
 B31_1aff:		jsr $cd76		; 20 76 cd
 B31_1b02:		lda $05d4		; ad d4 05
-B31_1b05:		sta $61			; 85 61
+B31_1b05:		sta wVramQueueDest			; 85 61
 B31_1b07:		lda $05eb		; ad eb 05
-B31_1b0a:		sta $62			; 85 62
-B31_1b0c:		jsr $e8af		; 20 af e8
+B31_1b0a:		sta wVramQueueDest+1			; 85 62
+B31_1b0c:		jsr vramQueueSet2bytesDestToCopy_noData		; 20 af e8
 B31_1b0f:		ldy #$00		; a0 00
 B31_1b11:		lda $fb20, y	; b9 20 fb
 B31_1b14:		sta wVramQueue.w, x	; 9d 00 03
@@ -1056,7 +1056,7 @@ B31_1b18:		iny				; c8
 B31_1b19:		cpy #$06		; c0 06
 B31_1b1b:		bne B31_1b11 ; d0 f4
 
-B31_1b1d:		jmp setVramQueueNextFillIdxAndTerminate		; 4c de e8
+B31_1b1d:		jmp setVramQueueFillIdxAndTerminate		; 4c de e8
 
 
 B31_1b20:	.db $3c
@@ -1068,17 +1068,17 @@ B31_1b25:	.db $3c
 
 
 inGameSubstate08_6b_9:
-B31_1b26:		lda $57			; a5 57
+B31_1b26:		lda wCurrScrollXRoom			; a5 57
 B31_1b28:		eor $75			; 45 75
 B31_1b2a:		sta $02			; 85 02
 B31_1b2c:		lda #$00		; a9 00
-B31_1b2e:		sta $56			; 85 56
+B31_1b2e:		sta wCurrScrollXWithinRoom			; 85 56
 B31_1b30:		sta $58			; 85 58
-B31_1b32:		ldy wEntityXFlipped.w		; ac a8 04
+B31_1b32:		ldy wEntityFacingLeft.w		; ac a8 04
 B31_1b35:		beq B31_1b39 ; f0 02
 
-B31_1b37:		lda $71			; a5 71
-B31_1b39:		sta $57			; 85 57
+B31_1b37:		lda wCurrRoomNumScreens			; a5 71
+B31_1b39:		sta wCurrScrollXRoom			; 85 57
 B31_1b3b:		eor $02			; 45 02
 B31_1b3d:		and #$01		; 29 01
 B31_1b3f:		beq B31_1b45 ; f0 04
@@ -1106,22 +1106,22 @@ B31_1b68:		rts				; 60
 
 
 func_1f_1b69:
-B31_1b69:		lda $56			; a5 56
+B31_1b69:		lda wCurrScrollXWithinRoom			; a5 56
 B31_1b6b:		clc				; 18 
 B31_1b6c:		adc #$01		; 69 01
-B31_1b6e:		sta $56			; 85 56
-B31_1b70:		lda $57			; a5 57
+B31_1b6e:		sta wCurrScrollXWithinRoom			; 85 56
+B31_1b70:		lda wCurrScrollXRoom			; a5 57
 B31_1b72:		adc #$00		; 69 00
-B31_1b74:		sta $57			; 85 57
+B31_1b74:		sta wCurrScrollXRoom			; 85 57
 B31_1b76:		rts				; 60 
 
 
 func_1f_1b77:
-B31_1b77:		lda $56			; a5 56
+B31_1b77:		lda wCurrScrollXWithinRoom			; a5 56
 B31_1b79:		sec				; 38 
 B31_1b7a:		sbc #$01		; e9 01
-B31_1b7c:		sta $56			; 85 56
-B31_1b7e:		lda $57			; a5 57
+B31_1b7c:		sta wCurrScrollXWithinRoom			; 85 56
+B31_1b7e:		lda wCurrScrollXRoom			; a5 57
 B31_1b80:		sbc #$00		; e9 00
-B31_1b82:		sta $57			; 85 57
+B31_1b82:		sta wCurrScrollXRoom			; 85 57
 B31_1b84:		rts				; 60 

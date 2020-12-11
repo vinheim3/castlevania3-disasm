@@ -260,7 +260,7 @@ B25_05a0:		sta wEntityAI_idx.w, x	; 9d ef 05
 B25_05a3:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B25_05a6:		jsr $a8b8		; 20 b8 a8
 B25_05a9:		lda #$01		; a9 01
-B25_05ab:		sta wEntityXFlipped.w, x	; 9d a8 04
+B25_05ab:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B25_05ae:		lda #$00		; a9 00
 B25_05b0:		sta wOamSpecIdx.w, x	; 9d 00 04
 B25_05b3:		lda #$01		; a9 01
@@ -661,7 +661,7 @@ B25_085c:		lda #$01		; a9 01
 B25_085e:		bne B25_0862 ; d0 02
 
 B25_0860:		lda #$00		; a9 00
-B25_0862:		sta wEntityXFlipped.w, x	; 9d a8 04
+B25_0862:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B25_0865:		pla				; 68 
 B25_0866:		rts				; 60 
 
@@ -711,9 +711,9 @@ B25_08a0:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
 B25_08a3:		rts				; 60 
 
 
-B25_08a4:		sta $0520, x	; 9d 20 05
+B25_08a4:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B25_08a7:		tya				; 98 
-B25_08a8:		sta $0537, x	; 9d 37 05
+B25_08a8:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B25_08ab:		rts				; 60 
 
 
@@ -963,12 +963,12 @@ B25_0a3a:		jsr $a834		; 20 34 a8
 B25_0a3d:		bcc B25_0a4b ; 90 0c
 
 B25_0a3f:		sty $00			; 84 00
-B25_0a41:		eor wEntityXFlipped.w, x	; 5d a8 04
+B25_0a41:		eor wEntityFacingLeft.w, x	; 5d a8 04
 B25_0a44:		beq B25_0a4b ; f0 05
 
 B25_0a46:		lda $00			; a5 00
-B25_0a48:		sta wEntityXFlipped.w, x	; 9d a8 04
-B25_0a4b:		lda wEntityXFlipped.w, x	; bd a8 04
+B25_0a48:		sta wEntityFacingLeft.w, x	; 9d a8 04
+B25_0a4b:		lda wEntityFacingLeft.w, x	; bd a8 04
 B25_0a4e:		beq B25_0a54 ; f0 04
 
 B25_0a50:		lda #$ff		; a9 ff
@@ -1069,7 +1069,7 @@ B25_0ae3:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B25_0ae6:		rts				; 60 
 
 
-B25_0ae7:		lda wEntityXFlipped.w, x	; bd a8 04
+B25_0ae7:		lda wEntityFacingLeft.w, x	; bd a8 04
 B25_0aea:		tay				; a8 
 B25_0aeb:		iny				; c8 
 B25_0aec:		sty $07ed		; 8c ed 07
@@ -1960,9 +1960,9 @@ B25_1004:		jsr $b263		; 20 63 b2
 B25_1007:		lda #$c8		; a9 c8
 B25_1009:		sta wEntityBaseY.w, x	; 9d 1c 04
 B25_100c:		lda #$20		; a9 20
-B25_100e:		sta $0537, x	; 9d 37 05
+B25_100e:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B25_1011:		lda #$ff		; a9 ff
-B25_1013:		sta $0520, x	; 9d 20 05
+B25_1013:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B25_1016:		lda #$00		; a9 00
 B25_1018:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B25_101b:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
@@ -2049,8 +2049,8 @@ B25_1098:		dey				; 88
 B25_1099:		bne B25_10c2 ; d0 27
 
 B25_109b:		lda #$00		; a9 00
-B25_109d:		sta $0520, x	; 9d 20 05
-B25_10a0:		sta $0537, x	; 9d 37 05
+B25_109d:		sta wEntityVertSpeed.w, x	; 9d 20 05
+B25_10a0:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B25_10a3:		ldy $0633, x	; bc 33 06
 B25_10a6:		lda $b2c1, y	; b9 c1 b2
 B25_10a9:		sec				; 38 
@@ -2073,9 +2073,9 @@ B25_10c2:		dey				; 88
 B25_10c3:		bne B25_10d9 ; d0 14
 
 B25_10c5:		lda #$e0		; a9 e0
-B25_10c7:		sta $0537, x	; 9d 37 05
+B25_10c7:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B25_10ca:		lda #$00		; a9 00
-B25_10cc:		sta $0520, x	; 9d 20 05
+B25_10cc:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B25_10cf:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B25_10d2:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
 B25_10d5:		inc $0606, x	; fe 06 06
@@ -2128,8 +2128,8 @@ B25_1125:		rts				; 60
 
 
 B25_1126:		lda #$00		; a9 00
-B25_1128:		sta $0520, x	; 9d 20 05
-B25_112b:		sta $0537, x	; 9d 37 05
+B25_1128:		sta wEntityVertSpeed.w, x	; 9d 20 05
+B25_112b:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B25_112e:		lda $061d, x	; bd 1d 06
 B25_1131:		beq B25_1148 ; f0 15
 
@@ -2139,9 +2139,9 @@ B25_1138:		bcc B25_1147 ; 90 0d
 
 B25_113a:		inc $0606, x	; fe 06 06
 B25_113d:		lda $10			; a5 10
-B25_113f:		sta $0520, x	; 9d 20 05
+B25_113f:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B25_1142:		lda $11			; a5 11
-B25_1144:		sta $0537, x	; 9d 37 05
+B25_1144:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B25_1147:		rts				; 60 
 
 
@@ -2276,7 +2276,7 @@ B25_1218:		sty $16			; 84 16
 B25_121a:		lda #$00		; a9 00
 B25_121c:		sta $14			; 85 14
 B25_121e:		sta $15			; 85 15
-B25_1220:		ldx $1d			; a6 1d
+B25_1220:		ldx wVramQueueNextIdxToFill			; a6 1d
 B25_1222:		lda #$01		; a9 01
 B25_1224:		jsr $b2bc		; 20 bc b2
 B25_1227:		lda $15			; a5 15
@@ -2308,7 +2308,7 @@ B25_1258:		lda $15			; a5 15
 B25_125a:		cmp #$02		; c9 02
 B25_125c:		bne B25_1222 ; d0 c4
 
-B25_125e:		stx $1d			; 86 1d
+B25_125e:		stx wVramQueueNextIdxToFill			; 86 1d
 B25_1260:		ldx $17			; a6 17
 B25_1262:		rts				; 60 
 

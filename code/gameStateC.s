@@ -154,10 +154,10 @@ B21_11f7:		lda #$f0		; a9 f0
 B21_11f9:		sta $078a		; 8d 8a 07
 B21_11fc:		ldx #$03		; a2 03
 B21_11fe:		lda #$00		; a9 00
-B21_1200:		sta $0520, x	; 9d 20 05
+B21_1200:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B21_1203:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B21_1206:		lda #$40		; a9 40
-B21_1208:		sta $0537, x	; 9d 37 05
+B21_1208:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B21_120b:		lda #$01		; a9 01
 B21_120d:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B21_1210:		lda #$01		; a9 01
@@ -179,10 +179,10 @@ B21_1223:		beq B21_1257 ; f0 32
 B21_1225:		ldx #$03		; a2 03
 B21_1227:		clc				; 18 
 B21_1228:		lda $04db, x	; bd db 04
-B21_122b:		adc $0537, x	; 7d 37 05
+B21_122b:		adc wEntityVertSubSpeed.w, x	; 7d 37 05
 B21_122e:		sta $04db, x	; 9d db 04
 B21_1231:		lda wEntityBaseY.w, x	; bd 1c 04
-B21_1234:		adc $0520, x	; 7d 20 05
+B21_1234:		adc wEntityVertSpeed.w, x	; 7d 20 05
 B21_1237:		sta wEntityBaseY.w, x	; 9d 1c 04
 B21_123a:		clc				; 18 
 B21_123b:		lda wEntityBaseX.w, x	; bd 38 04
@@ -584,7 +584,7 @@ B21_14cd:		sta $0781		; 8d 81 07
 B21_14d0:		lda #GS_0d		; a9 0d
 B21_14d2:		sta wGameState			; 85 18
 B21_14d4:		lda #$00		; a9 00
-B21_14d6:		sta $19			; 85 19
+B21_14d6:		sta wGameSubstate			; 85 19
 B21_14d8:		rts				; 60 
 
 
@@ -684,7 +684,7 @@ B21_1569:		sta wEntityBaseX.w, x	; 9d 38 04
 B21_156c:		lda $b58d, y	; b9 8d b5
 B21_156f:		sta wEntityBaseY.w, x	; 9d 1c 04
 B21_1572:		lda #$01		; a9 01
-B21_1574:		sta wEntityXFlipped.w, x	; 9d a8 04
+B21_1574:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B21_1577:		lda #$14		; a9 14
 B21_1579:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B21_157c:		rts				; 60 
@@ -823,7 +823,7 @@ data_15_1616:
 	.row func_00_052c $80
 	.row func_00_0001 $80
 	.row getCurrRoomsChrBanks $80
-	.row func_1e_1067 $00
+	.row getCurrRoomMetatileTilesPalettesAndMetadataByte $00
 	.row func_1e_10f8 $00
 	.row func_1e_0db8 $00
 	.row func_00_10cd $80

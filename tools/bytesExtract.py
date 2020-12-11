@@ -4,10 +4,11 @@ import clipboard
 args = 4
 
 if len(sys.argv) < args:
-    print('Usage: ' + sys.argv[0] + ' startAddress endAddress groups [fname]')
+    print('Usage: ' + sys.argv[0] + ' startAddress endAddress groups')
     sys.exit()
 
 with open('original/OR.bin', 'rb') as f:
+# with open('new.nsf', 'rb') as f:
     data = f.read()
 
 start, end, groups = sys.argv[1:args]
@@ -37,11 +38,6 @@ else:
     bytes = data[start:start+end]
 
 groups = int(groups)
-
-if len(sys.argv) == args+1:
-    with open(f"layouts/{sys.argv[args]}.bin", 'wb') as f:
-        f.write(bytes)
-    exit(0)
 
 comps = []
 if groups != 0:

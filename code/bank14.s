@@ -680,7 +680,7 @@ B20_03d1:		bpl B20_03d4 ; 10 01
 
 B20_03d3:		dey				; 88 
 B20_03d4:		sty $00			; 84 00
-B20_03d6:		lda $68			; a5 68
+B20_03d6:		lda wCurrRoomMetadataByte			; a5 68
 B20_03d8:		bmi B20_03ee ; 30 14
 
 B20_03da:		sec				; 38 
@@ -1204,7 +1204,7 @@ B20_0725:		jsr func_14_0de7		; 20 e7 8d
 B20_0728:		jsr $8d73		; 20 73 8d
 B20_072b:		bne B20_0749 ; d0 1c
 
-B20_072d:		ldy wEntityXFlipped.w		; ac a8 04
+B20_072d:		ldy wEntityFacingLeft.w		; ac a8 04
 B20_0730:		lda $1f			; a5 1f
 B20_0732:		and #$07		; 29 07
 B20_0734:		clc				; 18 
@@ -1282,7 +1282,7 @@ B20_0795:		adc $1a			; 65 1a
 B20_0797:		adc wEntityBaseX.w		; 6d 38 04
 B20_079a:		and #$03		; 29 03
 B20_079c:		clc				; 18 
-B20_079d:		ldy wEntityXFlipped.w		; ac a8 04
+B20_079d:		ldy wEntityFacingLeft.w		; ac a8 04
 B20_07a0:		adc $87ba, y	; 79 ba 87
 B20_07a3:		tay				; a8 
 B20_07a4:		lda $87b2, y	; b9 b2 87
@@ -1322,7 +1322,7 @@ B20_07d4:		adc $1a			; 65 1a
 B20_07d6:		adc wEntityBaseX.w		; 6d 38 04
 B20_07d9:		and #$07		; 29 07
 B20_07db:		clc				; 18 
-B20_07dc:		ldy wEntityXFlipped.w		; ac a8 04
+B20_07dc:		ldy wEntityFacingLeft.w		; ac a8 04
 B20_07df:		adc $880d, y	; 79 0d 88
 B20_07e2:		tay				; a8 
 B20_07e3:		lda $87fd, y	; b9 fd 87
@@ -1391,7 +1391,7 @@ B20_0844:		lda #$00		; a9 00
 B20_0846:		ldy $6e			; a4 6e
 B20_0848:		beq B20_0861 ; f0 17
 
-B20_084a:		ldy $68			; a4 68
+B20_084a:		ldy wCurrRoomMetadataByte			; a4 68
 B20_084c:		bpl B20_0861 ; 10 13
 
 B20_084e:		ldy $6e			; a4 6e
@@ -1462,7 +1462,7 @@ B20_08af:		adc #$04		; 69 04
 B20_08b1:		sta $01			; 85 01
 B20_08b3:		jsr $88c4		; 20 c4 88
 B20_08b6:		lda #$70		; a9 70
-B20_08b8:		ldy $32			; a4 32
+B20_08b8:		ldy wCurrRoomGroup			; a4 32
 B20_08ba:		cpy #$0a		; c0 0a
 B20_08bc:		bcs B20_08c0 ; b0 02
 
@@ -1515,7 +1515,7 @@ B20_090b:		bne B20_0910 ; d0 03
 
 B20_090d:		jsr $8dde		; 20 de 8d
 B20_0910:		lda #$80		; a9 80
-B20_0912:		ldy $32			; a4 32
+B20_0912:		ldy wCurrRoomGroup			; a4 32
 B20_0914:		cpy #$0d		; c0 0d
 B20_0916:		beq B20_091a ; f0 02
 
@@ -1595,7 +1595,7 @@ B20_095c:		jsr func_14_0de7		; 20 e7 8d
 B20_095f:		jsr $8d7b		; 20 7b 8d
 B20_0962:		bne B20_096d ; d0 09
 
-B20_0964:		ldy wEntityXFlipped.w		; ac a8 04
+B20_0964:		ldy wEntityFacingLeft.w		; ac a8 04
 B20_0967:		lda $896e, y	; b9 6e 89
 B20_096a:		jmp $89a9		; 4c a9 89
 
@@ -1704,7 +1704,7 @@ B20_09fd:		dey				; 88
 B20_09fe:		cmp #$c0		; c9 c0
 B20_0a00:		bcs B20_09d9 ; b0 d7
 
-B20_0a02:		lda wEntityXFlipped.w		; ad a8 04
+B20_0a02:		lda wEntityFacingLeft.w		; ad a8 04
 B20_0a05:		eor #$01		; 49 01
 B20_0a07:		tay				; a8 
 B20_0a08:		rts				; 60 
@@ -1740,7 +1740,7 @@ B20_0a32:		lda wEntityBaseY.w		; ad 1c 04
 B20_0a35:		cmp #$20		; c9 20
 B20_0a37:		bcc B20_0aa1 ; 90 68
 
-B20_0a39:		ldy $68			; a4 68
+B20_0a39:		ldy wCurrRoomMetadataByte			; a4 68
 B20_0a3b:		bpl B20_0a3f ; 10 02
 
 B20_0a3d:		sbc #$18		; e9 18
@@ -2186,7 +2186,7 @@ B20_0d03:		jsr func_1f_1ec8		; 20 c8 fe
 B20_0d06:		lda #$60		; a9 60
 B20_0d08:		sta $0470, x	; 9d 70 04
 B20_0d0b:		lda $17			; a5 17
-B20_0d0d:		sta wEntityXFlipped.w, x	; 9d a8 04
+B20_0d0d:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B20_0d10:		jsr $9332		; 20 32 93
 B20_0d13:		jsr $e7ec		; 20 ec e7
 B20_0d16:		ldx #$08		; a2 08
@@ -2209,7 +2209,7 @@ B20_0d3c:		sta $054e, x	; 9d 4e 05
 B20_0d3f:		lda #$2c		; a9 2c
 B20_0d41:		sta wEntityAI_idx.w, x	; 9d ef 05
 B20_0d44:		lda $17			; a5 17
-B20_0d46:		sta wEntityXFlipped.w, x	; 9d a8 04
+B20_0d46:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B20_0d49:		jsr $9332		; 20 32 93
 B20_0d4c:		jsr $e7ec		; 20 ec e7
 B20_0d4f:		lda $6c			; a5 6c
@@ -2977,8 +2977,8 @@ B20_11f0:		sta wEntityBaseY.w, x	; 9d 1c 04
 B20_11f3:		lda #$00		; a9 00
 B20_11f5:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B20_11f8:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
-B20_11fb:		sta $0520, x	; 9d 20 05
-B20_11fe:		sta $0537, x	; 9d 37 05
+B20_11fb:		sta wEntityVertSpeed.w, x	; 9d 20 05
+B20_11fe:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B20_1201:		sta wEntityPhase.w, x	; 9d c1 05
 B20_1204:		lda #$c8		; a9 c8
 B20_1206:		sta $0470, x	; 9d 70 04
@@ -3027,8 +3027,8 @@ B20_124f:		sta $0470, x	; 9d 70 04
 B20_1252:		lda #$00		; a9 00
 B20_1254:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B20_1257:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
-B20_125a:		sta $0520, x	; 9d 20 05
-B20_125d:		sta $0537, x	; 9d 37 05
+B20_125a:		sta wEntityVertSpeed.w, x	; 9d 20 05
+B20_125d:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B20_1260:		dec $10			; c6 10
 B20_1262:		bpl B20_122a ; 10 c6
 

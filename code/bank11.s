@@ -305,6 +305,6 @@ B17_1f86:		lda $054e, x	; bd 4e 05
 B17_1f89:		cmp #$01		; c9 01
 B17_1f8b:		bne B17_1f92 ; d0 05
 
-B17_1f8d:		lda wEntityXFlipped.w, x	; bd a8 04
+B17_1f8d:		lda wEntityFacingLeft.w, x	; bd a8 04
 B17_1f90:		sta $17			; 85 17
 B17_1f92:		rts				; 60 
