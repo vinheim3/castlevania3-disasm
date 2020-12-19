@@ -1,13 +1,15 @@
 
-B31_0001:		dex				; ca 
-B31_0002:		bne B31_0001 ; d0 fd
+func_1f_0001:
+-	dex				; ca 
+	bne -
 
 B31_0004:		rts				; 60 
 
 
+func_1f_0005:
 B31_0005:		ldx #$0f		; a2 0f
-B31_0007:		dex				; ca 
-B31_0008:		bne B31_0007 ; d0 fd
+-	dex				; ca 
+	bne -
 
 B31_000a:		rts				; 60 
 
@@ -113,9 +115,9 @@ B31_0095:		lsr a			; 4a
 B31_0096:		sta $75			; 85 75
 
 B31_0098:		lda wCurrScrollXWithinRoom			; a5 56
-B31_009a:		sta wGameplayScrollX			; 85 6f
+B31_009a:		sta wGameplayScrollXWithinRoom			; 85 6f
 B31_009c:		lda wCurrScrollXRoom			; a5 57
-B31_009e:		sta $70			; 85 70
+B31_009e:		sta wGameplayScrollXRoom			; 85 70
 	jsr updateSound
 	jsr pollInputs
 	jsr processGameState
@@ -135,6 +137,7 @@ vectorEnd:
 B31_00be:		jsr setBaseIRQDetails_todo		; 20 03 e1
 B31_00c1:		jsr resetPPUAddr_updateScrollAndCtrl		; 20 47 e1
 B31_00c4:		jsr func_1f_02ec		; 20 ec e2
+
 B31_00c7:		lda $75			; a5 75
 B31_00c9:		bpl B31_00d1 ; 10 06
 
@@ -145,9 +148,10 @@ B31_00ce:		lsr a			; 4a
 B31_00cf:		sta $75			; 85 75
 
 B31_00d1:		lda wCurrScrollXWithinRoom			; a5 56
-B31_00d3:		sta $6f			; 85 6f
+B31_00d3:		sta wGameplayScrollXWithinRoom			; 85 6f
 B31_00d5:		lda wCurrScrollXRoom			; a5 57
-B31_00d7:		sta $70			; 85 70
+B31_00d7:		sta wGameplayScrollXRoom			; 85 70
+
 B31_00d9:		jsr func_1f_023a		; 20 3a e2
 B31_00dc:		jmp vectorEnd		; 4c b8 e0
 
@@ -233,6 +237,7 @@ irqFunc_end:
 	lda #$00
 	sta SCANLINE_IRQ_STATUS.w
 
+irqFunc_resetLowerBank_vectorEnd:
 	lda wPrgBank_8000
 	jsr setAndSaveLowerBank
 	jmp vectorEnd
@@ -663,7 +668,7 @@ processGameState:
 	.dw gameState4_inGame
 	.dw gameState5
 	.dw gameState6 ; goes to state B
-	.dw gameState7
+	.dw gameState7_debugMode
 	.dw gameState8_betweenLevels
 	.dw gameState9_introCutscene
 	.dw gameStateA_namePwInput
@@ -730,7 +735,7 @@ B31_03f0:		inc wGameSubstate			; e6 19
 B31_03f2:		rts				; 60 
 
 @restartGameState:
-B31_03f3:		lda #$00		; a9 00
+B31_03f3:		lda #GS_INTRO		; a9 00
 	beq +
 
 @toSoundMode:
@@ -934,8 +939,8 @@ gameStateF_soundMode:
 	jmp_a000Func gameStateF_soundMode_body
 
 
-gameState7:
-	jmp_8000Func gameState7_body
+gameState7_debugMode:
+	jmp_8000Func gameState7_debugMode_body
 
 
 gameStateA_namePwInput:
@@ -1049,7 +1054,7 @@ B31_05d3:		lda CURR_LOWER_BANK.w		; ad 00 80
 B31_05d6:		pha				; 48 
 B31_05d7:		lda #$80		; a9 80
 B31_05d9:		jsr setAndSaveLowerBank		; 20 e6 e2
-B31_05dc:		jsr func_00_052c		; 20 2c 85
+B31_05dc:		jsr loadCurrRoomsInternalPalettes		; 20 2c 85
 B31_05df:		jsr $8001		; 20 01 80
 B31_05e2:		jsr getCurrRoomsChrBanks		; 20 13 80
 B31_05e5:		jsr $83ee		; 20 ee 83
@@ -1122,10 +1127,10 @@ B31_0666:		lda #$44		; a9 44
 B31_0668:		sta wNametableMapping			; 85 25
 B31_066a:		lda #$00		; a9 00
 B31_066c:		sta wIRQFuncIdx			; 85 6d
-B31_066e:		sta $40			; 85 40
+B31_066e:		sta wBaseIRQStatus			; 85 40
 B31_0670:		sta $72			; 85 72
 B31_0672:		lda #$80		; a9 80
-B31_0674:		sta $3f			; 85 3f
+B31_0674:		sta wBaseIRQFuncIdx			; 85 3f
 B31_0676:		rts				; 60 
 
 
@@ -1208,7 +1213,7 @@ B31_0713:		jmp setBackup8000PrgBank		; 4c 7f e6
 func_1f_0716:
 B31_0716:		lda wPrgBank_8000			; a5 21
 B31_0718:		pha				; 48 
-	jsr_8000Func func_00_05bb
+	jsr_8000Func loadCurrPlayerInternalPalettes
 B31_0721:		pla				; 68 
 B31_0722:		jmp setAndSaveLowerBank		; 4c e6 e2
 
@@ -1219,9 +1224,8 @@ B31_072a:		jsr $8574		; 20 74 85
 B31_072d:		jmp setBackup8000PrgBank		; 4c 7f e6
 
 
-B31_0730:		lda #$80		; a9 80
-B31_0732:		jsr setAndSaveLowerBank		; 20 e6 e2
-B31_0735:		jsr $859e		; 20 9e 85
+func_1f_0730:
+	jsr_8000Func loadCurrRoomsInternalSprPalettes
 B31_0738:		lda #$94		; a9 94
 B31_073a:		jmp setAndSaveLowerBank		; 4c e6 e2
 
@@ -1329,11 +1333,11 @@ B31_07f4:		jmp setBackup8000PrgBank		; 4c 7f e6
 func_1f_07f7:
 B31_07f7:		ldx #$01		; a2 01
 B31_07f9:		lda #$00		; a9 00
-B31_07fb:		sta wOamSpecIdx.w, x	; 9d 00 04
+B31_07fb:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B31_07fe:		sta wEntityBaseY.w, x	; 9d 1c 04
 B31_0801:		sta wEntityBaseX.w, x	; 9d 38 04
 B31_0804:		sta wEntityPaletteOverride.w, x	; 9d 54 04
-B31_0807:		sta $0470, x	; 9d 70 04
+B31_0807:		sta wEntityState.w, x	; 9d 70 04
 B31_080a:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B31_080d:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B31_0810:		sta $054e, x	; 9d 4e 05
@@ -1350,19 +1354,19 @@ func_1f_0819:
 
 func_1f_0824:
 B31_0824:		ldx #$26		; a2 26
-B31_0826:		bne B31_082a ; d0 02
+	bne +
 
 func_1f_0828:
 B31_0828:		ldx #$50		; a2 50
 
-B31_082a:		lda #$00		; a9 00
++	lda #$00		; a9 00
 B31_082c:		sta $00, x		; 95 00
 B31_082e:		inx				; e8 
 B31_082f:		cpx #$e0		; e0 e0
 B31_0831:		bne B31_082c ; d0 f9
 
 B31_0833:		ldx #$00		; a2 00
-B31_0835:		sta wOamSpecIdx.w, x	; 9d 00 04
+B31_0835:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B31_0838:		sta $0500, x	; 9d 00 05
 B31_083b:		cpx #$f6		; e0 f6
 B31_083d:		bcs B31_0842 ; b0 03
@@ -2180,15 +2184,15 @@ B31_0cfd:		jsr func_00_1873		; 20 73 98
 B31_0d00:		jmp setBackup8000PrgBank		; 4c 7f e6
 
 
-getByteFromBank_b1_addr_00:
-B31_0d03:		lda $b1			; a5 b1
-B31_0d05:		jsr setAndSaveLowerBank		; 20 e6 e2
-B31_0d08:		lda ($00), y	; b1 00
-B31_0d0a:		pha				; 48 
-B31_0d0b:		lda #$80		; a9 80
-B31_0d0d:		jsr setAndSaveLowerBank		; 20 e6 e2
-B31_0d10:		pla				; 68 
-B31_0d11:		rts				; 60 
+getNextStaticLayoutByte:
+	lda wStaticLayoutBank
+	jsr setAndSaveLowerBank
+	lda (wCurrStaticLayoutAddr), y
+	pha
+	lda #PRG_ROM_SWITCH|:displayStaticLayoutA_body
+	jsr setAndSaveLowerBank
+	pla
+	rts
 
 
 terminateVramQueue:
@@ -2398,77 +2402,80 @@ B31_0f47:		jmp B31_0d29		; @nextControlByte
 
 
 func_1f_0f4a:
-B31_0f4a:		sta $05aa		; 8d aa 05
+B31_0f4a:		sta wEntityAnimationDefIdxInSpecGroup.w		; 8d aa 05
 B31_0f4d:		ldy #$02		; a0 02
-B31_0f4f:		sty wEntityAnimationIdxes.w		; 8c 93 05
+B31_0f4f:		sty wEntityOamSpecIdxBaseOffset.w		; 8c 93 05
 B31_0f52:		dey				; 88 
 B31_0f53:		sty wEntityTimeUntilNextAnimation.w		; 8c 7c 05
 B31_0f56:		rts				; 60 
 
 
 B31_0f57:		ldx #$00		; a2 00
-B31_0f59:		jmp $ef60		; 4c 60 ef
+	jmp +
 
 
-func_1f_0f5c:
+setEntitySpecGroupA_animationDefIdxY_startAnimate:
 B31_0f5c:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B31_0f5f:		tya				; 98 
-B31_0f60:		sta $05aa, x	; 9d aa 05
+
++	sta wEntityAnimationDefIdxInSpecGroup.w, x	; 9d aa 05
 B31_0f63:		lda #$00		; a9 00
-B31_0f65:		sta wEntityAnimationIdxes.w, x	; 9d 93 05
+B31_0f65:		sta wEntityOamSpecIdxBaseOffset.w, x	; 9d 93 05
 B31_0f68:		lda #$01		; a9 01
 B31_0f6a:		sta wEntityTimeUntilNextAnimation.w, x	; 9d 7c 05
 B31_0f6d:		rts				; 60 
 
 
-B31_0f6e:		jsr func_1f_0f5c		; 20 5c ef
-B31_0f71:		bne B31_0f75 ; d0 02
+B31_0f6e:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B31_0f71:		bne updateEntityXanimationFrame
 
 updatePlayerAnimationFrame:
-B31_0f73:		ldx #$00		; a2 00
+	ldx #$00
 
 updateEntityXanimationFrame:
-B31_0f75:		dec wEntityTimeUntilNextAnimation.w, x	; de 7c 05
-B31_0f78:		beq B31_0f7b ; f0 01
+	dec wEntityTimeUntilNextAnimation.w, x
+	beq +
 
-B31_0f7a:		rts				; 60 
+	rts
 
-B31_0f7b:		ldy wEntityOamSpecGroupDoubled.w, x	; bc 8c 04
-B31_0f7e:		lda data_1f_0fb4.w, y	; b9 b4 ef
-B31_0f81:		sta $08			; 85 08
-B31_0f83:		lda data_1f_0fb4.w+1, y	; b9 b5 ef
-B31_0f86:		sta $09			; 85 09
++
+; get address of animation data
+	ldy wEntityOamSpecGroupDoubled.w, x
+	lda entitySpecGroupAnimationData.w, y
+	sta wCurrEntitySpecGroupAnimationDataAddr
+	lda entitySpecGroupAnimationData.w+1, y
+	sta wCurrEntitySpecGroupAnimationDataAddr+1
 
-; 5aa * 3
-B31_0f88:		lda $05aa, x	; bd aa 05
-B31_0f8b:		asl a			; 0a
-B31_0f8c:		clc				; 18 
-B31_0f8d:		adc $05aa, x	; 7d aa 05
-B31_0f90:		tay				; a8 
+; animation definition idx * 3
+	lda wEntityAnimationDefIdxInSpecGroup.w, x
+	asl a
+	clc
+	adc wEntityAnimationDefIdxInSpecGroup.w, x
+	tay
 
-;
-B31_0f91:		lda ($08), y	; b1 08
-B31_0f93:		clc				; 18 
-B31_0f94:		adc wEntityAnimationIdxes.w, x	; 7d 93 05
-B31_0f97:		sta wOamSpecIdx.w, x	; 9d 00 04
+; 1st byte is oam spec idx, offset from base
+	lda (wCurrEntitySpecGroupAnimationDataAddr), y
+	clc
+	adc wEntityOamSpecIdxBaseOffset.w, x
+	sta wOamSpecIdxDoubled.w, x
 
-;
-B31_0f9a:		iny				; c8 
-B31_0f9b:		lda ($08), y	; b1 08
-B31_0f9d:		sta wEntityTimeUntilNextAnimation.w, x	; 9d 7c 05
+; 2nd byte is time until next animation
+	iny
+	lda (wCurrEntitySpecGroupAnimationDataAddr), y
+	sta wEntityTimeUntilNextAnimation.w, x
 
-;
-B31_0fa0:		iny				; c8 
-B31_0fa1:		inc wEntityAnimationIdxes.w, x	; fe 93 05
-B31_0fa4:		inc wEntityAnimationIdxes.w, x	; fe 93 05
-B31_0fa7:		lda wEntityAnimationIdxes.w, x	; bd 93 05
-B31_0faa:		cmp ($08), y	; d1 08
-B31_0fac:		bcc B31_0fb3 ; 90 05
+; 3rd byte is final base offset at which to loop around
+	iny
+	inc wEntityOamSpecIdxBaseOffset.w, x
+	inc wEntityOamSpecIdxBaseOffset.w, x
+	lda wEntityOamSpecIdxBaseOffset.w, x
+	cmp (wCurrEntitySpecGroupAnimationDataAddr), y
+	bcc +
 
-B31_0fae:		lda #$00		; a9 00
-B31_0fb0:		sta wEntityAnimationIdxes.w, x	; 9d 93 05
+	lda #$00
+	sta wEntityOamSpecIdxBaseOffset.w, x
 
-B31_0fb3:		rts				; 60 
++	rts
 
 .include "data/entityAnimationData.s"
 .include "code/gameState4_inGame.s"
@@ -2478,7 +2485,7 @@ B31_1b87:		bne B31_1b8b ; d0 02
 
 func_1f_1b89:
 B31_1b89:		lda #$00		; a9 00
-B31_1b8b:		sta $0470		; 8d 70 04
+B31_1b8b:		sta wEntityState.w		; 8d 70 04
 B31_1b8e:		sta $0488		; 8d 88 04
 B31_1b91:		sta $0489		; 8d 89 04
 B31_1b94:		rts				; 60 
@@ -2541,6 +2548,7 @@ B31_1bf0:		lda #$9c		; a9 9c
 B31_1bf2:		jmp setAndSaveLowerBank		; 4c e6 e2
 
 
+; from below - vert rooms
 B31_1bf5:		lda $10			; a5 10
 B31_1bf7:		clc				; 18 
 B31_1bf8:		adc wEntityBaseX.w, x	; 7d 38 04
@@ -2573,16 +2581,18 @@ B31_1c1e:		sta $10			; 85 10
 B31_1c20:		lda wCurrRoomMetadataByte			; a5 68
 B31_1c22:		bmi B31_1bf5 ; 30 d1
 
+; horiz room
 B31_1c24:		lda $10			; a5 10
 B31_1c26:		cmp #$80		; c9 80
 B31_1c28:		bcc B31_1c2e ; 90 04
 
+; 80h+ turns into $ff
 B31_1c2a:		lda #$ff		; a9 ff
 B31_1c2c:		bne B31_1c30 ; d0 02
 
 B31_1c2e:		lda #$00		; a9 00
 B31_1c30:		sta $05			; 85 05
-B31_1c32:		lda $0470, x	; bd 70 04
+B31_1c32:		lda wEntityState.w, x	; bd 70 04
 B31_1c35:		and #$01		; 29 01
 B31_1c37:		beq B31_1c46 ; f0 0d
 
@@ -2629,6 +2639,7 @@ B31_1c7c:		lda #$00		; a9 00
 B31_1c7e:		rts				; 60 
 
 
+; from below
 B31_1c7f:		pla				; 68 
 B31_1c80:		clc				; 18 
 B31_1c81:		adc wEntityBaseX.w		; 6d 38 04
@@ -2668,8 +2679,7 @@ B31_1cb2:		bcc B31_1cc7 ; 90 13
 
 B31_1cb4:		clc				; 18 
 B31_1cb5:		adc #$10		; 69 10
-B31_1cb7:		jmp $fcce		; 4c ce fc
-
+B31_1cb7:		jmp B31_1cce		; 4c ce fc
 
 B31_1cba:		clc				; 18 
 B31_1cbb:		lda wCurrScrollXWithinRoom			; a5 56
@@ -2678,14 +2688,14 @@ B31_1cbf:		bcs B31_1cc7 ; b0 06
 
 B31_1cc1:		sec				; 38 
 B31_1cc2:		sbc #$10		; e9 10
-B31_1cc4:		jmp $fcce		; 4c ce fc
-
+B31_1cc4:		jmp B31_1cce		; 4c ce fc
 
 B31_1cc7:		cmp #$f0		; c9 f0
 B31_1cc9:		bcc B31_1cce ; 90 03
 
 B31_1ccb:		clc				; 18 
 B31_1ccc:		adc #$10		; 69 10
+
 B31_1cce:		and #$f0		; 29 f0
 B31_1cd0:		lsr a			; 4a
 B31_1cd1:		clc				; 18 
@@ -2697,10 +2707,13 @@ B31_1cd9:		bne B31_1d3f ; d0 64
 
 B31_1cdb:		beq B31_1d31 ; f0 54
 
+
+; A - x offset to check
+; X - y offset to check
 func_1f_1cdd:
 B31_1cdd:		pha				; 48 
 B31_1cde:		lda wCurrRoomMetadataByte			; a5 68
-B31_1ce0:		bmi B31_1c7f ; 30 9d
+B31_1ce0:		bmi B31_1c7f ; @verticalRoom
 
 B31_1ce2:		pla				; 68 
 
@@ -2714,7 +2727,7 @@ B31_1ce8:		txa				; 8a
 B31_1ce9:		clc				; 18 
 B31_1cea:		adc wEntityBaseY.w		; 6d 1c 04
 
-; jump if less than $20, or > $c0
+; jump if less than $20, or > $e0
 B31_1ced:		sec				; 38 
 B31_1cee:		sbc #$20		; e9 20
 B31_1cf0:		bcc B31_1d49 ; 90 57
@@ -2722,20 +2735,24 @@ B31_1cf0:		bcc B31_1d49 ; 90 57
 B31_1cf2:		cmp #$c0		; c9 c0
 B31_1cf4:		bcs B31_1d49 ; b0 53
 
-; store x+player Y in $11
+; store x+player Y-$20 in $11
 ; store A+player X in $10
 B31_1cf6:		sta $11			; 85 11
 B31_1cf8:		sty $10			; 84 10
+
+; Y /= 16
 B31_1cfa:		lsr $11			; 46 11
 B31_1cfc:		lsr $11			; 46 11
 B31_1cfe:		lsr $11			; 46 11
 B31_1d00:		lsr $11			; 46 11
 
+; $13 = X + scroll x in room
 B31_1d02:		lda wCurrScrollXWithinRoom			; a5 56
 B31_1d04:		clc				; 18 
 B31_1d05:		adc $10			; 65 10
 B31_1d07:		sta $13			; 85 13
 
+; 13/14 = absolute player X
 B31_1d09:		lda wCurrScrollXRoom			; a5 57
 B31_1d0b:		adc #$00		; 69 00
 
@@ -2743,6 +2760,10 @@ func_1f_1d0d:
 B31_1d0d:		sta $14			; 85 14
 B31_1d0f:		tay				; a8 
 B31_1d10:		lda $13			; a5 13
+
+; low byte upper 3 bits in low 3 bits
+; high byte *= 8
+; ie word /= 32
 B31_1d12:		lsr a			; 4a
 B31_1d13:		lsr a			; 4a
 B31_1d14:		lsr a			; 4a
@@ -2750,17 +2771,21 @@ B31_1d15:		lsr a			; 4a
 B31_1d16:		lsr a			; 4a
 B31_1d17:		ora data_1f_1d61.w, y	; 19 61 fd
 
+; A %= $0c
 B31_1d1a:		cmp #$0c		; c9 0c
 B31_1d1c:		bcc B31_1d23 ; 90 05
 
 B31_1d1e:		sbc #$0c		; e9 0c
 B31_1d20:		jmp B31_1d1a		; 4c 1a fd
 
+; remainder *= $0c, + abs Y/16, into Y
 B31_1d23:		tay				; a8 
 B31_1d24:		lda data_1f_1d4c.w, y	; b9 4c fd
 B31_1d27:		clc				; 18 
 B31_1d28:		adc $11			; 65 11
 B31_1d2a:		tay				; a8 
+
+;
 B31_1d2b:		lda $13			; a5 13
 B31_1d2d:		and #$10		; 29 10
 B31_1d2f:		bne B31_1d3f ; d0 0e
@@ -2786,17 +2811,9 @@ B31_1d4b:		rts				; 60
 
 
 data_1f_1d4c:
-B31_1d4c:		.db $00				; 00
-B31_1d4d:	.db $0c
-B31_1d4e:		clc				; 18 
-B31_1d4f:		bit $30			; 24 30
-B31_1d51:	.db $3c
-B31_1d52:		pha				; 48 
-B31_1d53:	.db $54
-B31_1d54:		rts				; 60 
-
-
-B31_1d55:		jmp ($8478)		; 6c 78 84
+	.db $00 $0c $18 $24
+	.db $30 $3c $48 $54
+	.db $60 $6c $78 $84
 
 
 B31_1d58:		.db $00				; 00
@@ -2811,24 +2828,9 @@ B31_1d60:	.db $04
 
 
 data_1f_1d61:
-B31_1d61:		.db $00				; 00
-B31_1d62:		php				; 08 
-B31_1d63:		;removed
-	.db $10 $18
+	.db $00 $08 $10 $18 $20 $28 $30 $38
+	.db $40 $48 $50 $58 $60 $68 $70 $78
 
-B31_1d65:		jsr $3028		; 20 28 30
-B31_1d68:		sec				; 38 
-B31_1d69:		rti				; 40 
-
-
-B31_1d6a:		pha				; 48 
-B31_1d6b:		bvc B31_1dc5 ; 50 58
-
-B31_1d6d:		rts				; 60 
-
-
-B31_1d6e:		pla				; 68 
-B31_1d6f:		bvs B31_1de9 ; 70 78
 
 B31_1d71:		.db $00				; 00
 B31_1d72:		;removed
@@ -2942,7 +2944,7 @@ B31_1e17:		bcs B31_1e24 ; b0 0b
 	jsr_8000Func func_12_0001
 B31_1e21:		jmp B31_1e44		; 4c 44 fe
 
-B31_1e24:		lda $0470, x	; bd 70 04
+B31_1e24:		lda wEntityState.w, x	; bd 70 04
 B31_1e27:		and #$02		; 29 02
 B31_1e29:		beq B31_1e31 ; f0 06
 
@@ -2972,7 +2974,7 @@ B31_1e4f:		bcc B31_1e55 ; 90 04
 B31_1e51:		lda $ab			; a5 ab
 B31_1e53:		bne B31_1e73 ; d0 1e
 
-B31_1e55:		lda $0470, x	; bd 70 04
+B31_1e55:		lda wEntityState.w, x	; bd 70 04
 B31_1e58:		and #$40		; 29 40
 B31_1e5a:		beq B31_1e64 ; f0 08
 
@@ -2980,7 +2982,7 @@ B31_1e5a:		beq B31_1e64 ; f0 08
 B31_1e64:		lda $054e, x	; bd 4e 05
 B31_1e67:		beq B31_1e7e ; f0 15
 
-B31_1e69:		lda $0470, x	; bd 70 04
+B31_1e69:		lda wEntityState.w, x	; bd 70 04
 B31_1e6c:		and #$20		; 29 20
 B31_1e6e:		bne B31_1e73 ; d0 03
 
@@ -3035,22 +3037,22 @@ B31_1ec5:		lda #$01		; a9 01
 B31_1ec7:		rts				; 60 
 
 
-func_1f_1ec8:
-B31_1ec8:		lda #$00		; a9 00
-B31_1eca:		sta wEntityHorizSpeed.w, x	; 9d f2 04
-B31_1ecd:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
-B31_1ed0:		sta wEntityVertSpeed.w, x	; 9d 20 05
-B31_1ed3:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
-B31_1ed6:		rts				; 60 
+clearEntityHorizVertSpeeds:
+	lda #$00
+	sta wEntityHorizSpeed.w, x
+	sta wEntityHorizSubSpeed.w, x
+	sta wEntityVertSpeed.w, x
+	sta wEntityVertSubSpeed.w, x
+	rts
 
 
 func_1f_1ed7:
-B31_1ed7:		jsr func_1f_1ec8		; 20 c8 fe
+B31_1ed7:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B31_1eda:		lda #$00		; a9 00
 B31_1edc:		sta $067b, x	; 9d 7b 06
 B31_1edf:		sta $068d, x	; 9d 8d 06
 B31_1ee2:		sta wEntityPaletteOverride.w, x	; 9d 54 04
-B31_1ee5:		sta $0470, x	; 9d 70 04
+B31_1ee5:		sta wEntityState.w, x	; 9d 70 04
 B31_1ee8:		sta $0669, x	; 9d 69 06
 B31_1eeb:		lda #$00		; a9 00
 B31_1eed:		sta wPlayerStateDoubled.w, x	; 9d 65 05

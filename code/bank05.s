@@ -15,7 +15,7 @@ B5_0010:		sta $00			; 85 00
 B5_0012:		iny				; c8 
 B5_0013:		lda $00			; a5 00
 B5_0015:		sec				; 38 
-B5_0016:		sbc $56			; e5 56
+B5_0016:		sbc wCurrScrollXWithinRoom			; e5 56
 B5_0018:		sta $02			; 85 02
 B5_001a:		lda $01			; a5 01
 B5_001c:		sbc $57			; e5 57
@@ -323,7 +323,7 @@ B5_01f2:		lda $bd			; a5 bd
 B5_01f4:		lda $cf			; a5 cf
 B5_01f6:		lda $c6			; a5 c6
 B5_01f8:		lda $d8			; a5 d8
-B5_01fa:		lda $4d			; a5 4d
+B5_01fa:		lda wChrBankBG_0c00			; a5 4d
 B5_01fc:		lda $3b			; a5 3b
 B5_01fe:		lda wPrgBank_8000			; a5 21
 B5_0200:		ldx $2a			; a6 2a
@@ -1531,14 +1531,14 @@ B5_07b9:		lda $a829, y	; b9 29 a8
 B5_07bc:		sta $0c			; 85 0c
 B5_07be:		lda $0b			; a5 0b
 B5_07c0:		sec				; 38 
-B5_07c1:		sbc $56			; e5 56
+B5_07c1:		sbc wCurrScrollXWithinRoom			; e5 56
 B5_07c3:		sta wEntityBaseX.w, x	; 9d 38 04
 B5_07c6:		lda $0a			; a5 0a
 B5_07c8:		sbc $57			; e5 57
 B5_07ca:		beq B5_07d1 ; f0 05
 
 B5_07cc:		lda #$01		; a9 01
-B5_07ce:		sta $0470, x	; 9d 70 04
+B5_07ce:		sta wEntityState.w, x	; 9d 70 04
 B5_07d1:		lda $0d			; a5 0d
 B5_07d3:		sta wEntityBaseY.w, x	; 9d 1c 04
 B5_07d6:		inc $09			; e6 09
@@ -1801,7 +1801,7 @@ B5_092b:		bne B5_0938 ; d0 0b
 
 B5_092d:		lda #$00		; a9 00
 B5_092f:		sta $054e, x	; 9d 4e 05
-B5_0932:		sta wOamSpecIdx.w, x	; 9d 00 04
+B5_0932:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B5_0935:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B5_0938:		inx				; e8 
 B5_0939:		cpx #$13		; e0 13
@@ -1924,7 +1924,7 @@ B5_0a05:		sta wEntityBaseX.w, x	; 9d 38 04
 B5_0a08:		bcc B5_0a0f ; 90 05
 
 B5_0a0a:		lda #$01		; a9 01
-B5_0a0c:		sta $0470, x	; 9d 70 04
+B5_0a0c:		sta wEntityState.w, x	; 9d 70 04
 B5_0a0f:		lda #$04		; a9 04
 B5_0a11:		sta $05d8, x	; 9d d8 05
 B5_0a14:		lda $0b			; a5 0b
@@ -2040,7 +2040,7 @@ B5_0aa5:		lda $03			; a5 03
 B5_0aa7:		beq B5_0aae ; f0 05
 
 B5_0aa9:		lda #$01		; a9 01
-B5_0aab:		sta $0470, x	; 9d 70 04
+B5_0aab:		sta wEntityState.w, x	; 9d 70 04
 B5_0aae:		lda $11			; a5 11
 B5_0ab0:		beq B5_0aba ; f0 08
 
@@ -2071,9 +2071,9 @@ B5_0adb:		lda #$01		; a9 01
 B5_0add:		rts				; 60 
 
 
-B5_0ade:		lda $0470, x	; bd 70 04
+B5_0ade:		lda wEntityState.w, x	; bd 70 04
 B5_0ae1:		ora #$88		; 09 88
-B5_0ae3:		sta $0470, x	; 9d 70 04
+B5_0ae3:		sta wEntityState.w, x	; 9d 70 04
 B5_0ae6:		rts				; 60 
 
 
@@ -2092,7 +2092,7 @@ B5_0afe:		rts				; 60
 
 B5_0aff:		jsr func_1f_1ed7		; 20 d7 fe
 B5_0b02:		sta $054e, x	; 9d 4e 05
-B5_0b05:		sta wOamSpecIdx.w, x	; 9d 00 04
+B5_0b05:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B5_0b08:		rts				; 60 
 
 
@@ -2113,7 +2113,7 @@ B5_0b21:		sta $054e, x	; 9d 4e 05
 B5_0b24:		lda #$00		; a9 00
 B5_0b26:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B5_0b29:		lda #$f9		; a9 f9
-B5_0b2b:		sta $0470, x	; 9d 70 04
+B5_0b2b:		sta wEntityState.w, x	; 9d 70 04
 B5_0b2e:		stx $0d			; 86 0d
 B5_0b30:		lda $6c			; a5 6c
 B5_0b32:		asl a			; 0a
@@ -2142,7 +2142,7 @@ B5_0b5c:		ldy $0c			; a4 0c
 B5_0b5e:		lda ($08), y	; b1 08
 B5_0b60:		sta wEntityAI_idx.w, x	; 9d ef 05
 B5_0b63:		sec				; 38 
-B5_0b64:		sbc $56			; e5 56
+B5_0b64:		sbc wCurrScrollXWithinRoom			; e5 56
 B5_0b66:		sta wEntityBaseX.w, x	; 9d 38 04
 B5_0b69:		iny				; c8 
 B5_0b6a:		lda ($08), y	; b1 08
@@ -2163,8 +2163,8 @@ B5_0b89:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B5_0b8c:		jsr $ad55		; 20 55 ad
 B5_0b8f:		lda $0606, x	; bd 06 06
 B5_0b92:		and #$01		; 29 01
-B5_0b94:		ora $0470, x	; 1d 70 04
-B5_0b97:		sta $0470, x	; 9d 70 04
+B5_0b94:		ora wEntityState.w, x	; 1d 70 04
+B5_0b97:		sta wEntityState.w, x	; 9d 70 04
 B5_0b9a:		dec $0a			; c6 0a
 B5_0b9c:		bne B5_0b4f ; d0 b1
 
@@ -2312,9 +2312,9 @@ B5_0c53:		lda $0645, y	; b9 45 06
 B5_0c56:		sta $0645, x	; 9d 45 06
 B5_0c59:		lda wPlayerStateDoubled.w, y	; b9 65 05
 B5_0c5c:		sta wPlayerStateDoubled.w, x	; 9d 65 05
-B5_0c5f:		lda $0470, y	; b9 70 04
+B5_0c5f:		lda wEntityState.w, y	; b9 70 04
 B5_0c62:		ora #$80		; 09 80
-B5_0c64:		sta $0470, x	; 9d 70 04
+B5_0c64:		sta wEntityState.w, x	; 9d 70 04
 B5_0c67:		lda $078f, y	; b9 8f 07
 B5_0c6a:		sta $078f, x	; 9d 8f 07
 B5_0c6d:		lda wEntityBaseX.w, y	; b9 38 04
@@ -2430,7 +2430,7 @@ B5_0d2a:		sta $01			; 85 01
 B5_0d2c:		rts				; 60 
 
 
-B5_0d2d:		lda $0470, x	; bd 70 04
+B5_0d2d:		lda wEntityState.w, x	; bd 70 04
 B5_0d30:		and #$01		; 29 01
 B5_0d32:		beq B5_0d51 ; f0 1d
 
@@ -2505,16 +2505,16 @@ B5_0d9e:		cmp #$7f		; c9 7f
 B5_0da0:		bcc B5_0db0 ; 90 0e
 
 B5_0da2:		lda #$81		; a9 81
-B5_0da4:		ora $0470, x	; 1d 70 04
-B5_0da7:		sta $0470, x	; 9d 70 04
+B5_0da4:		ora wEntityState.w, x	; 1d 70 04
+B5_0da7:		sta wEntityState.w, x	; 9d 70 04
 B5_0daa:		lda #$00		; a9 00
 B5_0dac:		sta $0657, x	; 9d 57 06
 B5_0daf:		rts				; 60 
 
 
 B5_0db0:		lda #$7e		; a9 7e
-B5_0db2:		and $0470, x	; 3d 70 04
-B5_0db5:		sta $0470, x	; 9d 70 04
+B5_0db2:		and wEntityState.w, x	; 3d 70 04
+B5_0db5:		sta wEntityState.w, x	; 9d 70 04
 B5_0db8:		lda #$01		; a9 01
 B5_0dba:		sta $0657, x	; 9d 57 06
 B5_0dbd:		rts				; 60 
@@ -2622,14 +2622,14 @@ B5_0e57:	.db $ff
 B5_0e58:		lda $6c			; a5 6c
 B5_0e5a:		sta $078f, x	; 9d 8f 07
 B5_0e5d:		lda #$60		; a9 60
-B5_0e5f:		sta $0470, x	; 9d 70 04
+B5_0e5f:		sta wEntityState.w, x	; 9d 70 04
 B5_0e62:		lda #$0e		; a9 0e
 B5_0e64:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B5_0e67:		lda #$16		; a9 16
-B5_0e69:		sta wOamSpecIdx.w, x	; 9d 00 04
+B5_0e69:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B5_0e6c:		lda #$00		; a9 00
 B5_0e6e:		sta wEntityPaletteOverride.w, x	; 9d 54 04
-B5_0e71:		sta $05aa, x	; 9d aa 05
+B5_0e71:		sta wEntityAnimationDefIdxInSpecGroup.w, x	; 9d aa 05
 B5_0e74:		rts				; 60 
 
 
@@ -2642,7 +2642,7 @@ B5_0e7d:		tay				; a8
 B5_0e7e:		iny				; c8 
 B5_0e7f:		lda ($9a), y	; b1 9a
 B5_0e81:		sec				; 38 
-B5_0e82:		sbc $56			; e5 56
+B5_0e82:		sbc wCurrScrollXWithinRoom			; e5 56
 B5_0e84:		sta wEntityBaseX.w, x	; 9d 38 04
 B5_0e87:		dey				; 88 
 B5_0e88:		lda ($9a), y	; b1 9a
@@ -2651,8 +2651,8 @@ B5_0e8c:		beq B5_0e98 ; f0 0a
 
 B5_0e8e:		and #$01		; 29 01
 B5_0e90:		ora #$80		; 09 80
-B5_0e92:		ora $0470, x	; 1d 70 04
-B5_0e95:		sta $0470, x	; 9d 70 04
+B5_0e92:		ora wEntityState.w, x	; 1d 70 04
+B5_0e95:		sta wEntityState.w, x	; 9d 70 04
 B5_0e98:		iny				; c8 
 B5_0e99:		iny				; c8 
 B5_0e9a:		iny				; c8 
@@ -2770,7 +2770,7 @@ B5_0f60:		sta $061d, x	; 9d 1d 06
 B5_0f63:		rts				; 60 
 
 
-B5_0f64:		lda $0470, x	; bd 70 04
+B5_0f64:		lda wEntityState.w, x	; bd 70 04
 B5_0f67:		and #$01		; 29 01
 B5_0f69:		bne B5_0f6d ; d0 02
 
@@ -2811,7 +2811,7 @@ B5_0f9c:		rts				; 60
 
 func_05_0f9d:
 B5_0f9d:		ldx #$1a		; a2 1a
-B5_0f9f:		lda $0470, x	; bd 70 04
+B5_0f9f:		lda wEntityState.w, x	; bd 70 04
 B5_0fa2:		beq B5_0fa7 ; f0 03
 
 B5_0fa4:		jsr $afad		; 20 ad af
@@ -2838,7 +2838,7 @@ B5_0fc2:		dey				; 88
 B5_0fc3:		bne B5_0fd8 ; d0 13
 
 B5_0fc5:		lda #$02		; a9 02
-B5_0fc7:		sta $0470, x	; 9d 70 04
+B5_0fc7:		sta wEntityState.w, x	; 9d 70 04
 B5_0fca:		lda #$00		; a9 00
 B5_0fcc:		sta $0793, x	; 9d 93 07
 B5_0fcf:		sta $0795, x	; 9d 95 07
@@ -2898,7 +2898,7 @@ B5_102f:		beq B5_1042 ; f0 11
 B5_1031:		asl a			; 0a
 B5_1032:		tay				; a8 
 B5_1033:		lda $b077, y	; b9 77 b0
-B5_1036:		sta wOamSpecIdx.w, x	; 9d 00 04
+B5_1036:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B5_1039:		lda $b078, y	; b9 78 b0
 B5_103c:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B5_103f:		jmp $afbc		; 4c bc af
@@ -2961,7 +2961,7 @@ B5_1091:		bpl B5_1096 ; 10 03
 B5_1093:		jmp $b132		; 4c 32 b1
 
 
-B5_1096:		lda $0470, x	; bd 70 04
+B5_1096:		lda wEntityState.w, x	; bd 70 04
 B5_1099:		and #$01		; 29 01
 B5_109b:		sta $01			; 85 01
 B5_109d:		lda #$00		; a9 00
@@ -2985,10 +2985,10 @@ B5_10bc:		beq B5_10c2 ; f0 04
 
 B5_10be:		ora #$80		; 09 80
 B5_10c0:		sta $01			; 85 01
-B5_10c2:		lda $0470, x	; bd 70 04
+B5_10c2:		lda wEntityState.w, x	; bd 70 04
 B5_10c5:		and #$7e		; 29 7e
 B5_10c7:		ora $01			; 05 01
-B5_10c9:		sta $0470, x	; 9d 70 04
+B5_10c9:		sta wEntityState.w, x	; 9d 70 04
 B5_10cc:		rts				; 60 
 
 
@@ -3005,7 +3005,7 @@ B5_10dd:		beq B5_10e4 ; f0 05
 B5_10df:		lda #$80		; a9 80
 B5_10e1:		sta $078d, x	; 9d 8d 07
 B5_10e4:		lda #$00		; a9 00
-B5_10e6:		sta wOamSpecIdx.w, x	; 9d 00 04
+B5_10e6:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B5_10e9:		lda wEntityBaseX.w, x	; bd 38 04
 B5_10ec:		cmp #$c0		; c9 c0
 B5_10ee:		bcs B5_10ba ; b0 ca
@@ -3040,8 +3040,8 @@ B5_111d:		tay				; a8
 B5_111e:		lda #$00		; a9 00
 B5_1120:		sta $0782, y	; 99 82 07
 B5_1123:		lda #$00		; a9 00
-B5_1125:		sta $0470, x	; 9d 70 04
-B5_1128:		sta wOamSpecIdx.w, x	; 9d 00 04
+B5_1125:		sta wEntityState.w, x	; 9d 70 04
+B5_1128:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B5_112b:		sta wEntityBaseX.w, x	; 9d 38 04
 B5_112e:		sta wEntityBaseY.w, x	; 9d 1c 04
 B5_1131:		rts				; 60 
@@ -3065,7 +3065,7 @@ B5_1144:		bpl B5_1123 ; 10 dd
 B5_1146:		rts				; 60 
 
 
-B5_1147:		lda wOamSpecIdx.w, x	; bd 00 04
+B5_1147:		lda wOamSpecIdxDoubled.w, x	; bd 00 04
 B5_114a:		beq B5_116d ; f0 21
 
 B5_114c:		lda wEntityBaseX.w		; ad 38 04
@@ -3092,7 +3092,7 @@ B5_116a:		jmp $b2eb		; 4c eb b2
 B5_116d:		rts				; 60 
 
 
-B5_116e:		lda $0470, x	; bd 70 04
+B5_116e:		lda wEntityState.w, x	; bd 70 04
 B5_1171:		and #$81		; 29 81
 B5_1173:		bne B5_116d ; d0 f8
 
@@ -3268,10 +3268,10 @@ B5_1289:		jmp $b1f9		; 4c f9 b1
 B5_128c:		lda $079f, x	; bd 9f 07
 B5_128f:		sta wEntityBaseY.w, x	; 9d 1c 04
 B5_1292:		lda #$00		; a9 00
-B5_1294:		sta wOamSpecIdx.w, x	; 9d 00 04
+B5_1294:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B5_1297:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B5_129a:		lda #$02		; a9 02
-B5_129c:		sta $0470, x	; 9d 70 04
+B5_129c:		sta wEntityState.w, x	; 9d 70 04
 B5_129f:		lda #$80		; a9 80
 B5_12a1:		sta $078d, x	; 9d 8d 07
 B5_12a4:		rts				; 60 
@@ -3453,7 +3453,7 @@ B5_13a8:		adc wVramQueueDest			; 65 61
 B5_13aa:		sta wVramQueueDest			; 85 61
 B5_13ac:		ldx wVramQueueNextIdxToFill			; a6 1d
 B5_13ae:		jsr storeByteInVramQueueIdxedX		; 20 16 ed
-B5_13b1:		lda $62			; a5 62
+B5_13b1:		lda wVramQueueDest+1			; a5 62
 B5_13b3:		clc				; 18 
 B5_13b4:		adc #$28		; 69 28
 B5_13b6:		sta wVramQueueDest+1			; 85 62
@@ -3464,11 +3464,11 @@ B5_13c0:		jsr storeByteInVramQueueIdxedX		; 20 16 ed
 B5_13c3:		jsr setVramQueueFillIdxAndTerminate		; 20 de e8
 B5_13c6:		lda #$01		; a9 01
 B5_13c8:		jsr storeByteInVramQueueIdxedX		; 20 16 ed
-B5_13cb:		lda $61			; a5 61
+B5_13cb:		lda wVramQueueDest			; a5 61
 B5_13cd:		clc				; 18 
 B5_13ce:		adc #$20		; 69 20
 B5_13d0:		jsr storeByteInVramQueueIdxedX		; 20 16 ed
-B5_13d3:		lda $62			; a5 62
+B5_13d3:		lda wVramQueueDest+1			; a5 62
 B5_13d5:		jsr storeByteInVramQueueIdxedX		; 20 16 ed
 B5_13d8:		lda #$00		; a9 00
 B5_13da:		jsr storeByteInVramQueueIdxedX		; 20 16 ed
@@ -3599,7 +3599,7 @@ B5_14bd:		lda wEntityBaseX.w, x	; bd 38 04
 B5_14c0:		sta $04			; 85 04
 B5_14c2:		lda wEntityBaseY.w, x	; bd 1c 04
 B5_14c5:		sta $05			; 85 05
-B5_14c7:		lda $1a			; a5 1a
+B5_14c7:		lda wGameStateLoopCounter			; a5 1a
 B5_14c9:		and #$07		; 29 07
 B5_14cb:		sta $00			; 85 00
 B5_14cd:		asl a			; 0a
@@ -4130,7 +4130,7 @@ B5_17f5:		lda #$01		; a9 01
 B5_17f7:		jsr $b995		; 20 95 b9
 B5_17fa:		lda #$20		; a9 20
 B5_17fc:		sta $03			; 85 03
-B5_17fe:		lda $ff			; a5 ff
+B5_17fe:		lda wPPUCtrl			; a5 ff
 B5_1800:		and #$02		; 29 02
 B5_1802:		bne B5_1808 ; d0 04
 
@@ -4270,7 +4270,7 @@ B5_18f8:		lda #$01		; a9 01
 B5_18fa:		jsr $b995		; 20 95 b9
 B5_18fd:		lda #$20		; a9 20
 B5_18ff:		sta $03			; 85 03
-B5_1901:		lda $ff			; a5 ff
+B5_1901:		lda wPPUCtrl			; a5 ff
 B5_1903:		and #$02		; 29 02
 B5_1905:		bne B5_190b ; d0 04
 
@@ -4426,13 +4426,13 @@ B5_1a06:		sta $0790		; 8d 90 07
 B5_1a09:		jsr $ba22		; 20 22 ba
 B5_1a0c:		sta $078e		; 8d 8e 07
 B5_1a0f:		lda $078c		; ad 8c 07
-B5_1a12:		sta $41			; 85 41
+B5_1a12:		sta wBaseIRQCmpVal			; 85 41
 B5_1a14:		lda $078d		; ad 8d 07
 B5_1a17:		clc				; 18 
 B5_1a18:		adc $41			; 65 41
 B5_1a1a:		sta $42			; 85 42
 B5_1a1c:		lda $0791		; ad 91 07
-B5_1a1f:		sta $40			; 85 40
+B5_1a1f:		sta wBaseIRQStatus			; 85 40
 B5_1a21:		rts				; 60 
 
 
@@ -4542,9 +4542,9 @@ B5_1ac3:		dey				; 88
 B5_1ac4:		bne B5_1ac0 ; d0 fa
 
 B5_1ac6:		lda #$80		; a9 80
-B5_1ac8:		sta $40			; 85 40
+B5_1ac8:		sta wBaseIRQStatus			; 85 40
 B5_1aca:		lda #$08		; a9 08
-B5_1acc:		sta $41			; 85 41
+B5_1acc:		sta wBaseIRQCmpVal			; 85 41
 B5_1ace:		lda #$0e		; a9 0e
 B5_1ad0:		sta $42			; 85 42
 B5_1ad2:		lda #$00		; a9 00

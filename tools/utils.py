@@ -3,6 +3,9 @@ import sys
 with open('original/OR.bin', 'rb') as f:
     prgData = f.read()
 
+with open('original/OR.chr', 'rb') as f:
+    chrData = f.read()
+
 def word(idx):
     return (prgData[idx+1]<<8)|prgData[idx]
 

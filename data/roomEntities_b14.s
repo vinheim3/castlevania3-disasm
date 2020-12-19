@@ -2121,7 +2121,7 @@ B20_1db3:		.db $00				; 00
 B20_1db4:		.db $00				; 00
 B20_1db5:		.db $00				; 00
 B20_1db6:		sta $9034, x	; 9d 34 90
-B20_1db9:		sty $4b, x		; 94 4b
+B20_1db9:		sty wChrBankBG_0400, x		; 94 4b
 B20_1dbb:		.db $00				; 00
 B20_1dbc:		.db $00				; 00
 B20_1dbd:		.db $00				; 00

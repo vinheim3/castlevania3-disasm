@@ -156,7 +156,7 @@ B27_186f:		beq B27_1873 ; f0 02
 
 B27_1871:		ora #$10		; 09 10
 B27_1873:		sec				; 38 
-B27_1874:		sbc $56			; e5 56
+B27_1874:		sbc wCurrScrollXWithinRoom			; e5 56
 B27_1876:		sta wEntityBaseX.w, x	; 9d 38 04
 B27_1879:		lda wEntityBaseY.w		; ad 1c 04
 B27_187c:		clc				; 18 
@@ -182,14 +182,14 @@ B27_1894:		lda #$89		; a9 89
 B27_1896:		sta $054e, x	; 9d 4e 05
 B27_1899:		lda #$0c		; a9 0c
 B27_189b:		ldy #$00		; a0 00
-B27_189d:		jsr func_1f_0f5c		; 20 5c ef
+B27_189d:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
 B27_18a0:		lda #$e8		; a9 e8
-B27_18a2:		sta wOamSpecIdx.w, x	; 9d 00 04
+B27_18a2:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B27_18a5:		lda #$01		; a9 01
 B27_18a7:		sta $0657, x	; 9d 57 06
 B27_18aa:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B27_18ad:		lda #$60		; a9 60
-B27_18af:		sta $0470, x	; 9d 70 04
+B27_18af:		sta wEntityState.w, x	; 9d 70 04
 B27_18b2:		lda #$03		; a9 03
 B27_18b4:		sta wEntityPaletteOverride.w, x	; 9d 54 04
 B27_18b7:		rts				; 60 
@@ -829,7 +829,7 @@ B27_1c36:	.db $12
 B27_1c37:	.db $12
 B27_1c38:	.db $12
 B27_1c39:	.db $12
-B27_1c3a:		ora $ff			; 05 ff
+B27_1c3a:		ora wPPUCtrl			; 05 ff
 B27_1c3c:	.db $ff
 B27_1c3d:	.db $12
 B27_1c3e:	.db $ff

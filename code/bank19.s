@@ -174,7 +174,7 @@ B25_0511:		lda #$00		; a9 00
 B25_0513:		sta $bb			; 85 bb
 B25_0515:		ldx $6c			; a6 6c
 B25_0517:		lda #$00		; a9 00
-B25_0519:		sta wEntityAnimationIdxes.w, x	; 9d 93 05
+B25_0519:		sta wEntityOamSpecIdxBaseOffset.w, x	; 9d 93 05
 B25_051c:		lda #$01		; a9 01
 B25_051e:		sta wEntityTimeUntilNextAnimation.w, x	; 9d 7c 05
 B25_0521:		sec				; 38 
@@ -262,7 +262,7 @@ B25_05a6:		jsr $a8b8		; 20 b8 a8
 B25_05a9:		lda #$01		; a9 01
 B25_05ab:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B25_05ae:		lda #$00		; a9 00
-B25_05b0:		sta wOamSpecIdx.w, x	; 9d 00 04
+B25_05b0:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B25_05b3:		lda #$01		; a9 01
 B25_05b5:		sta $b0			; 85 b0
 B25_05b7:		lda $78			; a5 78
@@ -297,7 +297,7 @@ B25_05de:		lda wPlayerStateDoubled.w, x	; bd 65 05
 B25_05e1:		and #$7f		; 29 7f
 B25_05e3:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B25_05e6:		lda $07ee		; ad ee 07
-B25_05e9:		sta $0470, x	; 9d 70 04
+B25_05e9:		sta wEntityState.w, x	; 9d 70 04
 B25_05ec:		lda #$01		; a9 01
 B25_05ee:		sta $07ef		; 8d ef 07
 B25_05f1:		rts				; 60 
@@ -310,7 +310,7 @@ B25_05fa:		ora #$80		; 09 80
 B25_05fc:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B25_05ff:		lda #$0c		; a9 0c
 B25_0601:		sta $0606, x	; 9d 06 06
-B25_0604:		lda $0470, x	; bd 70 04
+B25_0604:		lda wEntityState.w, x	; bd 70 04
 B25_0607:		sta $07ee		; 8d ee 07
 B25_060a:		jsr $a8ac		; 20 ac a8
 B25_060d:		jmp $a620		; 4c 20 a6
@@ -386,11 +386,11 @@ B25_0686:		rts				; 60
 
 B25_0687:		ldx #$02		; a2 02
 B25_0689:		lda #$00		; a9 00
-B25_068b:		sta wOamSpecIdx.w, x	; 9d 00 04
+B25_068b:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B25_068e:		sta $054e, x	; 9d 4e 05
 B25_0691:		sta wEntityBaseX.w, x	; 9d 38 04
 B25_0694:		sta wEntityBaseY.w, x	; 9d 1c 04
-B25_0697:		sta $0470, x	; 9d 70 04
+B25_0697:		sta wEntityState.w, x	; 9d 70 04
 B25_069a:		inx				; e8 
 B25_069b:		cpx #$06		; e0 06
 B25_069d:		bcc B25_068b ; 90 ec
@@ -418,7 +418,7 @@ B25_06c3:		sta wEntityBaseY.w, x	; 9d 1c 04
 B25_06c6:		jsr $a8b4		; 20 b4 a8
 B25_06c9:		lda #$0e		; a9 0e
 B25_06cb:		ldy #$08		; a0 08
-B25_06cd:		jsr func_1f_0f5c		; 20 5c ef
+B25_06cd:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
 B25_06d0:		lda #$00		; a9 00
 B25_06d2:		sta wEntityPaletteOverride.w, x	; 9d 54 04
 B25_06d5:		inc $02			; e6 02
@@ -472,7 +472,7 @@ B25_0727:		cpx #$07		; e0 07
 B25_0729:		bcc B25_0723 ; 90 f8
 
 B25_072b:		ldx $6c			; a6 6c
-B25_072d:		lda $1a			; a5 1a
+B25_072d:		lda wGameStateLoopCounter			; a5 1a
 B25_072f:		lsr a			; 4a
 B25_0730:		lsr a			; 4a
 B25_0731:		and #$03		; 29 03
@@ -496,7 +496,7 @@ B25_0759:		lda #$92		; a9 92
 B25_075b:		jsr $e62f		; 20 2f e6
 B25_075e:		ldx $6c			; a6 6c
 B25_0760:		lda #$00		; a9 00
-B25_0762:		sta wOamSpecIdx.w, x	; 9d 00 04
+B25_0762:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B25_0765:		sta $054e, x	; 9d 4e 05
 B25_0768:		rts				; 60 
 
@@ -528,7 +528,7 @@ B25_0790:		sta $0606, x	; 9d 06 06
 B25_0793:		inc wPlayerStateDoubled.w, x	; fe 65 05
 B25_0796:		lda #$00		; a9 00
 B25_0798:		ldy #$0e		; a0 0e
-B25_079a:		jmp func_1f_0f5c		; 4c 5c ef
+B25_079a:		jmp setEntitySpecGroupA_animationDefIdxY_startAnimate		; 4c 5c ef
 
 
 B25_079d:		dec $0606, x	; de 06 06
@@ -550,7 +550,7 @@ B25_07b3:		sta $0606, x	; 9d 06 06
 B25_07b6:		inc wPlayerStateDoubled.w, x	; fe 65 05
 B25_07b9:		lda #$00		; a9 00
 B25_07bb:		ldy #$0f		; a0 0f
-B25_07bd:		jmp func_1f_0f5c		; 4c 5c ef
+B25_07bd:		jmp setEntitySpecGroupA_animationDefIdxY_startAnimate		; 4c 5c ef
 
 
 B25_07c0:		lda wCurrPlayer.w		; ad 4e 05
@@ -598,7 +598,7 @@ B25_0815:		tay				; a8
 B25_0816:		iny				; c8 
 B25_0817:		sty $49			; 84 49
 B25_0819:		lda #$02		; a9 02
-B25_081b:		sta wOamSpecIdx.w, x	; 9d 00 04
+B25_081b:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B25_081e:		lda #$02		; a9 02
 B25_0820:		sta wEntityPaletteOverride.w, x	; 9d 54 04
 B25_0823:		rts				; 60 
@@ -733,7 +733,7 @@ B25_08bc:		lda #$40		; a9 40
 B25_08be:		bne B25_08c2 ; d0 02
 
 B25_08c0:		lda #$20		; a9 20
-B25_08c2:		sta $0470, x	; 9d 70 04
+B25_08c2:		sta wEntityState.w, x	; 9d 70 04
 B25_08c5:		rts				; 60 
 
 
@@ -759,7 +759,7 @@ B25_08e3:		asl a			; 0a
 B25_08e4:		asl a			; 0a
 B25_08e5:		asl a			; 0a
 B25_08e6:		sta $00			; 85 00
-B25_08e8:		lda $1a			; a5 1a
+B25_08e8:		lda wGameStateLoopCounter			; a5 1a
 B25_08ea:		and #$07		; 29 07
 B25_08ec:		clc				; 18 
 B25_08ed:		adc $00			; 65 00
@@ -937,7 +937,7 @@ B25_0a0c:		rts				; 60
 
 
 B25_0a0d:		lda #$02		; a9 02
-B25_0a0f:		sta wOamSpecIdx.w, x	; 9d 00 04
+B25_0a0f:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B25_0a12:		lda $0606, x	; bd 06 06
 B25_0a15:		beq B25_0a1c ; f0 05
 
@@ -951,7 +951,7 @@ B25_0a22:		bcs B25_0a2f ; b0 0b
 B25_0a24:		lda $07ef		; ad ef 07
 B25_0a27:		bne B25_0a61 ; d0 38
 
-B25_0a29:		lda $1a			; a5 1a
+B25_0a29:		lda wGameStateLoopCounter			; a5 1a
 B25_0a2b:		and #$01		; 29 01
 B25_0a2d:		bne B25_0a61 ; d0 32
 
@@ -1044,7 +1044,7 @@ B25_0aba:		bne B25_0ae6 ; d0 2a
 B25_0abc:		jsr $a9e0		; 20 e0 a9
 B25_0abf:		bcs B25_0ae1 ; b0 20
 
-B25_0ac1:		lda $1a			; a5 1a
+B25_0ac1:		lda wGameStateLoopCounter			; a5 1a
 B25_0ac3:		and #$07		; 29 07
 B25_0ac5:		tay				; a8 
 B25_0ac6:		lda $aafc, y	; b9 fc aa
@@ -1175,7 +1175,7 @@ B25_0b87:		rts				; 60
 B25_0b88:		lda #$0c		; a9 0c
 B25_0b8a:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B25_0b8d:		lda #$02		; a9 02
-B25_0b8f:		sta wOamSpecIdx.w, x	; 9d 00 04
+B25_0b8f:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B25_0b92:		rts				; 60 
 
 
@@ -1192,7 +1192,7 @@ B25_0b9c:		rts				; 60
 B25_0b9d:		lda #$0b		; a9 0b
 B25_0b9f:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B25_0ba2:		lda #$02		; a9 02
-B25_0ba4:		sta wOamSpecIdx.w, x	; 9d 00 04
+B25_0ba4:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B25_0ba7:		rts				; 60 
 
 
@@ -1506,7 +1506,7 @@ B25_0d75:	.db $47
 B25_0d76:		.db $00				; 00
 B25_0d77:		sec				; 38 
 B25_0d78:		eor $08, x		; 55 08
-B25_0d7a:		ora $ff			; 05 ff
+B25_0d7a:		ora wPPUCtrl			; 05 ff
 B25_0d7c:		.db $00				; 00
 B25_0d7d:	.db $20 $44 $00
 B25_0d80:	.db $14
@@ -1861,7 +1861,7 @@ B25_0f75:		.db $00				; 00
 B25_0f76:		sta ($6d, x)	; 81 6d
 B25_0f78:	.db $07
 B25_0f79:		.db $00				; 00
-B25_0f7a:		sta $6d			; 85 6d
+B25_0f7a:		sta wIRQFuncIdx			; 85 6d
 B25_0f7c:		.db $00				; 00
 B25_0f7d:		.db $00				; 00
 B25_0f7e:		lsr $56			; 46 56
@@ -1968,7 +1968,7 @@ B25_1018:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B25_101b:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
 B25_101e:		inc $0606, x	; fe 06 06
 B25_1021:		lda #$6e		; a9 6e
-B25_1023:		sta wOamSpecIdx.w, x	; 9d 00 04
+B25_1023:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B25_1026:		lda #$0e		; a9 0e
 B25_1028:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B25_102b:		rts				; 60 
@@ -2406,9 +2406,9 @@ B25_12ef:		sta $054e, x	; 9d 4e 05
 B25_12f2:		lda #$0e		; a9 0e
 B25_12f4:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B25_12f7:		lda #$50		; a9 50
-B25_12f9:		sta wOamSpecIdx.w, x	; 9d 00 04
+B25_12f9:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B25_12fc:		lda #$70		; a9 70
-B25_12fe:		sta $0470, x	; 9d 70 04
+B25_12fe:		sta wEntityState.w, x	; 9d 70 04
 B25_1301:		lda #$02		; a9 02
 B25_1303:		sta wEntityPaletteOverride.w, x	; 9d 54 04
 B25_1306:		lda #$80		; a9 80

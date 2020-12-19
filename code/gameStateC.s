@@ -287,7 +287,7 @@ B21_12e0:		jmp gameStateC_inc783_setTimerA		; 4c a7 b2
 
 gameStateC_783_0b:
 B21_12e3:		lda #$00		; a9 00
-B21_12e5:		sta wOamSpecIdx.w		; 8d 00 04
+B21_12e5:		sta wOamSpecIdxDoubled.w		; 8d 00 04
 B21_12e8:		ldx #$01		; a2 01
 B21_12ea:		lda #$3e		; a9 3e
 B21_12ec:		jsr func_15_1518		; 20 18 b5
@@ -396,9 +396,9 @@ B21_13a9:		bne B21_13b5 ; d0 0a
 
 B21_13ab:		lda #$00		; a9 00
 B21_13ad:		sta wScrollY			; 85 fc
-B21_13af:		lda $ff			; a5 ff
+B21_13af:		lda wPPUCtrl			; a5 ff
 B21_13b1:		eor #$02		; 49 02
-B21_13b3:		sta $ff			; 85 ff
+B21_13b3:		sta wPPUCtrl			; 85 ff
 B21_13b5:		rts				; 60 
 
 B21_13b6:		ldy $0782		; ac 82 07
@@ -468,7 +468,7 @@ B21_1414:		jmp func_1f_1baf		; 4c af fb
 
 B21_1417:		ldx #$00		; a2 00
 B21_1419:		lda #$00		; a9 00
-B21_141b:		sta wOamSpecIdx.w, x	; 9d 00 04
+B21_141b:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B21_141e:		inx				; e8 
 B21_141f:		cpx #$04		; e0 04
 B21_1421:		bcc B21_1419 ; 90 f6
@@ -489,13 +489,13 @@ B21_1433:		jsr func_15_119b		; 20 9b b1
 B21_1436:		lda #$41		; a9 41
 B21_1438:		sta wChrBankBG_0000			; 85 4a
 B21_143a:		ldy #$70		; a0 70
-B21_143c:		sty $4b			; 84 4b
+B21_143c:		sty wChrBankBG_0400			; 84 4b
 B21_143e:		iny				; c8 
-B21_143f:		sty $4c			; 84 4c
+B21_143f:		sty wChrBankBG_0800			; 84 4c
 B21_1441:		iny				; c8 
 B21_1442:		sty $4d			; 84 4d
 B21_1444:		lda #$b2		; a9 b2
-B21_1446:		sta $ff			; 85 ff
+B21_1446:		sta wPPUCtrl			; 85 ff
 B21_1448:		ldx #$22		; a2 22
 B21_144a:		lda #$84		; a9 84
 B21_144c:		jsr func_1f_0bd5		; 20 d5 eb
@@ -504,7 +504,7 @@ B21_144f:		jmp gameStateC_incSubstate		; 4c 1a b2
 
 func_15_1452:
 B21_1452:		lda #$b0		; a9 b0
-B21_1454:		sta $ff			; 85 ff
+B21_1454:		sta wPPUCtrl			; 85 ff
 B21_1456:		rts				; 60 
 
 
@@ -626,7 +626,7 @@ B21_1515:		jmp B21_14e0		; 4c e0 b4
 
 
 func_15_1518:
-B21_1518:		sta wOamSpecIdx.w, x	; 9d 00 04
+B21_1518:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B21_151b:		lda #$14		; a9 14
 B21_151d:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B21_1520:		rts				; 60 
@@ -634,26 +634,26 @@ B21_1520:		rts				; 60
 
 func_15_1521:
 B21_1521:		lda #$14		; a9 14
-B21_1523:		jsr func_1f_0f5c		; 20 5c ef
+B21_1523:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
 B21_1526:		jmp updateEntityXanimationFrame		; 4c 75 ef
 
 
-B21_1529:		lda $0470, x	; bd 70 04
+B21_1529:		lda wEntityState.w, x	; bd 70 04
 B21_152c:		ora #$20		; 09 20
-B21_152e:		sta $0470, x	; 9d 70 04
+B21_152e:		sta wEntityState.w, x	; 9d 70 04
 B21_1531:		rts				; 60 
 
 
-B21_1532:		lda $0470, x	; bd 70 04
+B21_1532:		lda wEntityState.w, x	; bd 70 04
 B21_1535:		and #$df		; 29 df
-B21_1537:		sta $0470, x	; 9d 70 04
+B21_1537:		sta wEntityState.w, x	; 9d 70 04
 B21_153a:		rts				; 60 
 
 
-B21_153b:		lda wOamSpecIdx.w, x	; bd 00 04
+B21_153b:		lda wOamSpecIdxDoubled.w, x	; bd 00 04
 B21_153e:		beq B21_153a ; f0 fa
 
-B21_1540:		lda $0470, x	; bd 70 04
+B21_1540:		lda wEntityState.w, x	; bd 70 04
 B21_1543:		and #$20		; 29 20
 B21_1545:		bne B21_1531 ; d0 ea
 
@@ -678,7 +678,7 @@ B21_155e:		pla				; 68
 func_15_155f:
 B21_155f:		tay				; a8 
 B21_1560:		lda $b57d, y	; b9 7d b5
-B21_1563:		sta wOamSpecIdx.w, x	; 9d 00 04
+B21_1563:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B21_1566:		lda $b585, y	; b9 85 b5
 B21_1569:		sta wEntityBaseX.w, x	; 9d 38 04
 B21_156c:		lda $b58d, y	; b9 8d b5
@@ -820,8 +820,8 @@ B21_1613:		jmp func_1f_1bba		; 4c ba fb
 
 data_15_1616:
 	.table word byte
-	.row func_00_052c $80
-	.row func_00_0001 $80
+	.row loadCurrRoomsInternalPalettes $80
+	.row loadCurrPlayerSprChrBanks $80
 	.row getCurrRoomsChrBanks $80
 	.row getCurrRoomMetatileTilesPalettesAndMetadataByte $00
 	.row func_1e_10f8 $00

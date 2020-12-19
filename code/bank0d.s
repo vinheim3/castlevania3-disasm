@@ -37,7 +37,7 @@ B13_1e20:	.db $0b
 
 
 func_0d_1e21:
-B13_1e21:		jsr func_1f_1ec8		; 20 c8 fe
+B13_1e21:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B13_1e24:		ldy $9e			; a4 9e
 B13_1e26:		lda $054e, y	; b9 4e 05
 B13_1e29:		tay				; a8 
@@ -49,9 +49,9 @@ B13_1e30:		rts				; 60
 
 B13_1e31:		lda #$01		; a9 01
 B13_1e33:		sta wEntityFacingLeft.w, x	; 9d a8 04
-B13_1e36:		lda $0470, x	; bd 70 04
+B13_1e36:		lda wEntityState.w, x	; bd 70 04
 B13_1e39:		ora #$20		; 09 20
-B13_1e3b:		sta $0470, x	; 9d 70 04
+B13_1e3b:		sta wEntityState.w, x	; 9d 70 04
 B13_1e3e:		ldy $9e			; a4 9e
 B13_1e40:		lda $0606, y	; b9 06 06
 B13_1e43:		and #$f0		; 29 f0

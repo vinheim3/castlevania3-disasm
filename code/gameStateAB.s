@@ -298,7 +298,7 @@ B3_114d:		rts				; 60
 
 B3_114e:		ldy #$01		; a0 01
 B3_1150:		ldx #$01		; a2 01
-B3_1152:		lda $1a			; a5 1a
+B3_1152:		lda wGameStateLoopCounter			; a5 1a
 B3_1154:		and #$10		; 29 10
 B3_1156:		beq B3_1174 ; f0 1c
 
@@ -315,12 +315,12 @@ B3_1167:		adc #$60		; 69 60
 B3_1169:		sta $01			; 85 01
 B3_116b:		jsr $b1ac		; 20 ac b1
 B3_116e:		lda #$f6		; a9 f6
-B3_1170:		sta wOamSpecIdx.w, x	; 9d 00 04
+B3_1170:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B3_1173:		rts				; 60 
 
 
 B3_1174:		lda #$00		; a9 00
-B3_1176:		sta wOamSpecIdx.w, x	; 9d 00 04
+B3_1176:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B3_1179:		rts				; 60 
 
 
@@ -333,7 +333,7 @@ B3_1187:		bne B3_118b ; d0 02
 
 B3_1189:		ldy #$fa		; a0 fa
 B3_118b:		tya				; 98 
-B3_118c:		sta wOamSpecIdx.w, x	; 9d 00 04
+B3_118c:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B3_118f:		rts				; 60 
 
 
@@ -684,7 +684,7 @@ B3_13b4:		ora $00			; 05 00
 B3_13b6:		jmp displayStaticLayoutA		; 4c e9 ec
 
 
-B3_13b9:		lda $1a			; a5 1a
+B3_13b9:		lda wGameStateLoopCounter			; a5 1a
 B3_13bb:		and #$01		; 29 01
 B3_13bd:		bne B3_13cd ; d0 0e
 
@@ -736,7 +736,7 @@ B3_1413:		rts				; 60
 
 
 B3_1414:		lda $b427, y	; b9 27 b4
-B3_1417:		sta wOamSpecIdx.w, x	; 9d 00 04
+B3_1417:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B3_141a:		lda $b42b, y	; b9 2b b4
 B3_141d:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B3_1420:		lda $b42f, y	; b9 2f b4
@@ -1047,11 +1047,11 @@ B3_1622:		jmp setNewGameState		; 4c 74 e5
 
 B3_1625:		ldx #$00		; a2 00
 B3_1627:		lda #$00		; a9 00
-B3_1629:		sta wOamSpecIdx.w, x	; 9d 00 04
+B3_1629:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B3_162c:		sta wEntityBaseY.w, x	; 9d 1c 04
 B3_162f:		sta wEntityBaseX.w, x	; 9d 38 04
 B3_1632:		sta wEntityPaletteOverride.w, x	; 9d 54 04
-B3_1635:		sta $0470, x	; 9d 70 04
+B3_1635:		sta wEntityState.w, x	; 9d 70 04
 B3_1638:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B3_163b:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B3_163e:		sta $054e, x	; 9d 4e 05
@@ -1182,7 +1182,7 @@ B3_16f9:		lda #$11		; a9 11
 B3_16fb:		sta $2e			; 85 2e
 B3_16fd:		lsr a			; 4a
 B3_16fe:		rol $00			; 26 00
-B3_1700:		lda $1a			; a5 1a
+B3_1700:		lda wGameStateLoopCounter			; a5 1a
 B3_1702:		lsr a			; 4a
 B3_1703:		rol $00			; 26 00
 B3_1705:		rol $00			; 26 00
@@ -1193,9 +1193,9 @@ B3_170b:		bpl B3_170f ; 10 02
 B3_170d:		lda #$00		; a9 00
 B3_170f:		ora $00			; 05 00
 B3_1711:		asl a			; 0a
-B3_1712:		ora $07f6		; 0d f6 07
+B3_1712:		ora wHardMode.w		; 0d f6 07
 B3_1715:		sta $0788		; 8d 88 07
-B3_1718:		lda $1a			; a5 1a
+B3_1718:		lda wGameStateLoopCounter			; a5 1a
 B3_171a:		lsr a			; 4a
 B3_171b:		lda #$50		; a9 50
 B3_171d:		bcc B3_1721 ; 90 02
@@ -1238,7 +1238,7 @@ B3_1755:		rts				; 60
 
 B3_1756:		lda $0788		; ad 88 07
 B3_1759:		and #$01		; 29 01
-B3_175b:		sta $07f6		; 8d f6 07
+B3_175b:		sta wHardMode.w		; 8d f6 07
 B3_175e:		lda $0788		; ad 88 07
 B3_1761:		lsr a			; 4a
 B3_1762:		and #$03		; 29 03
@@ -1549,7 +1549,7 @@ B3_1948:		lda $07a0, y	; b9 a0 07
 B3_194b:		and #$03		; 29 03
 B3_194d:		tay				; a8 
 B3_194e:		lda $b982, y	; b9 82 b9
-B3_1951:		sta wOamSpecIdx.w, x	; 9d 00 04
+B3_1951:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B3_1954:		lda $b97e, y	; b9 7e b9
 B3_1957:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B3_195a:		ldy $00			; a4 00

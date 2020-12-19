@@ -198,7 +198,7 @@ B20_0112:		lda data_15_003f.w+1, y	; b9 40 a0
 B20_0115:		sta $01			; 85 01
 B20_0117:		jmp B20_0132		; 4c 32 81
 
-B20_011a:		ldy $07f6		; ac f6 07
+B20_011a:		ldy wHardMode.w		; ac f6 07
 B20_011d:		bne B20_0127 ; d0 08
 
 B20_011f:		cmp #$a0		; c9 a0
@@ -256,9 +256,9 @@ B20_0165:		lsr a			; 4a
 B20_0166:		lsr a			; 4a
 B20_0167:		lsr a			; 4a
 B20_0168:		tax				; aa 
-B20_0169:		lda $0470, x	; bd 70 04
+B20_0169:		lda wEntityState.w, x	; bd 70 04
 B20_016c:		and #$fb		; 29 fb
-B20_016e:		sta $0470, x	; 9d 70 04
+B20_016e:		sta wEntityState.w, x	; 9d 70 04
 
 ; restore X
 B20_0171:		pla				; 68 
@@ -324,7 +324,7 @@ B20_01c1:		sta wEntityBaseX.w, x	; 9d 38 04
 B20_01c4:		lda $0a			; a5 0a
 B20_01c6:		adc #$00		; 69 00
 B20_01c8:		and #$01		; 29 01
-B20_01ca:		sta $0470, x	; 9d 70 04
+B20_01ca:		sta wEntityState.w, x	; 9d 70 04
 
 ; 4th byte
 B20_01cd:		iny				; c8 
@@ -345,8 +345,8 @@ B20_01e5:		rts				; 60
 B20_01e6:		jsr func_1f_1ed7		; 20 d7 fe
 B20_01e9:		lda #$00		; a9 00
 B20_01eb:		sta $054e, x	; 9d 4e 05
-B20_01ee:		sta $0470, x	; 9d 70 04
-B20_01f1:		sta wOamSpecIdx.w, x	; 9d 00 04
+B20_01ee:		sta wEntityState.w, x	; 9d 70 04
+B20_01f1:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B20_01f4:		sta wEntityAI_idx.w, x	; 9d ef 05
 B20_01f7:		rts				; 60 
 
@@ -464,7 +464,7 @@ B20_02a8:		jsr $834d		; 20 4d 83
 B20_02ab:		bne B20_02d6 ; d0 29
 
 B20_02ad:		jsr func_1f_1ed7		; 20 d7 fe
-B20_02b0:		sta $0470, x	; 9d 70 04
+B20_02b0:		sta wEntityState.w, x	; 9d 70 04
 B20_02b3:		lda (wCurrRoomEntityDataAddr), y	; b1 98
 B20_02b5:		sta $054e, x	; 9d 4e 05
 B20_02b8:		iny				; c8 
@@ -857,8 +857,8 @@ B20_04d6:		beq B20_04c0 ; f0 e8
 
 B20_04d8:		lda #$00		; a9 00
 B20_04da:		sta $054e, x	; 9d 4e 05
-B20_04dd:		sta wOamSpecIdx.w, x	; 9d 00 04
-B20_04e0:		sta $0470, x	; 9d 70 04
+B20_04dd:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
+B20_04e0:		sta wEntityState.w, x	; 9d 70 04
 B20_04e3:		sta wEntityBaseX.w, x	; 9d 38 04
 B20_04e6:		sta wEntityBaseY.w, x	; 9d 1c 04
 B20_04e9:		rts				; 60 
@@ -1062,9 +1062,9 @@ B20_0633:		jsr $8d73		; 20 73 8d
 B20_0636:		bne B20_0643 ; d0 0b
 
 B20_0638:		jsr $8dde		; 20 de 8d
-B20_063b:		lda $0470, x	; bd 70 04
+B20_063b:		lda wEntityState.w, x	; bd 70 04
 B20_063e:		ora #$20		; 09 20
-B20_0640:		sta $0470, x	; 9d 70 04
+B20_0640:		sta wEntityState.w, x	; 9d 70 04
 B20_0643:		ldx $6c			; a6 6c
 B20_0645:		lda #$81		; a9 81
 B20_0647:		sta $07ce, x	; 9d ce 07
@@ -1115,7 +1115,7 @@ B20_0691:		bne B20_06ab ; d0 18
 B20_0693:		jsr $89b3		; 20 b3 89
 B20_0696:		lda $85e4, y	; b9 e4 85
 B20_0699:		sta $00			; 85 00
-B20_069b:		lda $07f6		; ad f6 07
+B20_069b:		lda wHardMode.w		; ad f6 07
 B20_069e:		beq B20_06a8 ; f0 08
 
 B20_06a0:		lda #$70		; a9 70
@@ -1151,7 +1151,7 @@ B20_06d1:		jsr func_14_0e54		; 20 54 8e
 B20_06d4:		bne B20_06ee ; d0 18
 
 B20_06d6:		txa				; 8a 
-B20_06d7:		adc $1a			; 65 1a
+B20_06d7:		adc wGameStateLoopCounter			; 65 1a
 B20_06d9:		adc wEntityBaseX.w		; 6d 38 04
 B20_06dc:		and #$01		; 29 01
 B20_06de:		tay				; a8 
@@ -1278,7 +1278,7 @@ B20_0792:		;removed
 	.db $d0 $de
 
 B20_0794:		txa				; 8a 
-B20_0795:		adc $1a			; 65 1a
+B20_0795:		adc wGameStateLoopCounter			; 65 1a
 B20_0797:		adc wEntityBaseX.w		; 6d 38 04
 B20_079a:		and #$03		; 29 03
 B20_079c:		clc				; 18 
@@ -1318,7 +1318,7 @@ B20_07ce:		jsr $8d73		; 20 73 8d
 B20_07d1:		bne B20_07ee ; d0 1b
 
 B20_07d3:		txa				; 8a 
-B20_07d4:		adc $1a			; 65 1a
+B20_07d4:		adc wGameStateLoopCounter			; 65 1a
 B20_07d6:		adc wEntityBaseX.w		; 6d 38 04
 B20_07d9:		and #$07		; 29 07
 B20_07db:		clc				; 18 
@@ -1331,7 +1331,7 @@ B20_07e9:		sta $00			; 85 00
 B20_07eb:		jsr $8dde		; 20 de 8d
 B20_07ee:		ldx $6c			; a6 6c
 B20_07f0:		lda #$47		; a9 47
-B20_07f2:		ldy $07f6		; ac f6 07
+B20_07f2:		ldy wHardMode.w		; ac f6 07
 B20_07f5:		beq B20_07f9 ; f0 02
 
 B20_07f7:		lda #$30		; a9 30
@@ -1400,7 +1400,7 @@ B20_0850:		bpl B20_0854 ; 10 02
 B20_0852:		lda #$04		; a9 04
 B20_0854:		clc				; 18 
 B20_0855:		sta $0a			; 85 0a
-B20_0857:		lda $1a			; a5 1a
+B20_0857:		lda wGameStateLoopCounter			; a5 1a
 B20_0859:		and #$03		; 29 03
 B20_085b:		adc $0a			; 65 0a
 B20_085d:		tay				; a8 
@@ -1473,7 +1473,7 @@ B20_08c0:		jmp $8623		; 4c 23 86
 B20_08c3:		rts				; 60 
 
 
-B20_08c4:		lda $07f6		; ad f6 07
+B20_08c4:		lda wHardMode.w		; ad f6 07
 B20_08c7:		beq B20_08cd ; f0 04
 
 B20_08c9:		lda #$6d		; a9 6d
@@ -1678,7 +1678,7 @@ B20_09d9:		rts				; 60
 
 
 B20_09da:		ldy #$01		; a0 01
-B20_09dc:		lda $1a			; a5 1a
+B20_09dc:		lda wGameStateLoopCounter			; a5 1a
 B20_09de:		and #$1f		; 29 1f
 B20_09e0:		bne B20_09d9 ; d0 f7
 
@@ -1945,7 +1945,7 @@ B20_0b6c:		jsr func_14_0de7		; 20 e7 8d
 B20_0b6f:		jsr func_14_0e54		; 20 54 8e
 B20_0b72:		bne B20_0baa ; d0 36
 
-B20_0b74:		lda $07f6		; ad f6 07
+B20_0b74:		lda wHardMode.w		; ad f6 07
 B20_0b77:		beq B20_0bbe ; f0 45
 
 B20_0b79:		lda $03			; a5 03
@@ -2004,9 +2004,9 @@ B20_0bd1:		sta $07c8, x	; 9d c8 07
 B20_0bd4:		rts				; 60 
 
 
-B20_0bd5:		lda $0470, x	; bd 70 04
+B20_0bd5:		lda wEntityState.w, x	; bd 70 04
 B20_0bd8:		ora #$04		; 09 04
-B20_0bda:		sta $0470, x	; 9d 70 04
+B20_0bda:		sta wEntityState.w, x	; 9d 70 04
 B20_0bdd:		lda $6c			; a5 6c
 B20_0bdf:		sta $0645, x	; 9d 45 06
 B20_0be2:		txa				; 8a 
@@ -2172,7 +2172,7 @@ B20_0ce1:		sta $17			; 85 17
 B20_0ce3:		jsr func_14_0de7		; 20 e7 8d
 B20_0ce6:		ldx #$01		; a2 01
 B20_0ce8:		jsr func_1f_1ed7		; 20 d7 fe
-B20_0ceb:		sta wOamSpecIdx.w, x	; 9d 00 04
+B20_0ceb:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B20_0cee:		lda $01			; a5 01
 B20_0cf0:		sta wEntityBaseY.w, x	; 9d 1c 04
 B20_0cf3:		sec				; 38 
@@ -2182,16 +2182,16 @@ B20_0cf9:		lda $03			; a5 03
 B20_0cfb:		sta $054e, x	; 9d 4e 05
 B20_0cfe:		lda #$2e		; a9 2e
 B20_0d00:		sta wEntityAI_idx.w, x	; 9d ef 05
-B20_0d03:		jsr func_1f_1ec8		; 20 c8 fe
+B20_0d03:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B20_0d06:		lda #$60		; a9 60
-B20_0d08:		sta $0470, x	; 9d 70 04
+B20_0d08:		sta wEntityState.w, x	; 9d 70 04
 B20_0d0b:		lda $17			; a5 17
 B20_0d0d:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B20_0d10:		jsr $9332		; 20 32 93
 B20_0d13:		jsr $e7ec		; 20 ec e7
 B20_0d16:		ldx #$08		; a2 08
 B20_0d18:		jsr func_1f_1ed7		; 20 d7 fe
-B20_0d1b:		sta wOamSpecIdx.w, x	; 9d 00 04
+B20_0d1b:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B20_0d1e:		lda $01			; a5 01
 B20_0d20:		sta wEntityBaseY.w, x	; 9d 1c 04
 B20_0d23:		clc				; 18 
@@ -2203,7 +2203,7 @@ B20_0d2e:		lda #$00		; a9 00
 B20_0d30:		adc $8d64, y	; 79 64 8d
 B20_0d33:		ora #$60		; 09 60
 B20_0d35:		and #$61		; 29 61
-B20_0d37:		sta $0470, x	; 9d 70 04
+B20_0d37:		sta wEntityState.w, x	; 9d 70 04
 B20_0d3a:		lda $03			; a5 03
 B20_0d3c:		sta $054e, x	; 9d 4e 05
 B20_0d3f:		lda #$2c		; a9 2c
@@ -2276,12 +2276,12 @@ B20_0da4:		lda #$08		; a9 08
 B20_0da6:		sta $0657, x	; 9d 57 06
 B20_0da9:		jsr func_14_0dff		; 20 ff 8d
 B20_0dac:		lda #$08		; a9 08
-B20_0dae:		sta wOamSpecIdx.w, x	; 9d 00 04
+B20_0dae:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B20_0db1:		lda #$00		; a9 00
 B20_0db3:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
-B20_0db6:		lda $0470, x	; bd 70 04
+B20_0db6:		lda wEntityState.w, x	; bd 70 04
 B20_0db9:		ora #$a8		; 09 a8
-B20_0dbb:		sta $0470, x	; 9d 70 04
+B20_0dbb:		sta wEntityState.w, x	; 9d 70 04
 B20_0dbe:		jsr $8bd5		; 20 d5 8b
 B20_0dc1:		jmp $85de		; 4c de 85
 
@@ -2324,7 +2324,7 @@ B20_0dfe:		rts				; 60
 
 func_14_0dff:
 B20_0dff:		jsr func_1f_1ed7		; 20 d7 fe
-B20_0e02:		sta wOamSpecIdx.w, x	; 9d 00 04
+B20_0e02:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B20_0e05:		lda $00			; a5 00
 B20_0e07:		sta wEntityBaseX.w, x	; 9d 38 04
 B20_0e0a:		lda $01			; a5 01
@@ -2346,7 +2346,7 @@ B20_0e25:		adc #$01		; 69 01
 B20_0e27:		rts				; 60 
 
 
-B20_0e28:		ldy $07f6		; ac f6 07
+B20_0e28:		ldy wHardMode.w		; ac f6 07
 B20_0e2b:		beq B20_0e46 ; f0 19
 
 B20_0e2d:		lda wCurrRoomGroup		; a5 32
@@ -2366,7 +2366,7 @@ B20_0e3f:		lda $07c2, x	; bd c2 07
 B20_0e42:		cmp #$0c		; c9 0c
 B20_0e44:		bne B20_0e4c ; d0 06
 
-B20_0e46:		lda $1a			; a5 1a
+B20_0e46:		lda wGameStateLoopCounter			; a5 1a
 B20_0e48:		and #$01		; 29 01
 B20_0e4a:		bne B20_0e4f ; d0 03
 
@@ -2578,7 +2578,7 @@ B20_0f76:		bcc B20_0fa7 ; 90 2f
 B20_0f78:		lda $054e, x	; bd 4e 05
 B20_0f7b:		sta $c1			; 85 c1
 B20_0f7d:		stx $0f			; 86 0f
-B20_0f7f:		jsr $e730		; 20 30 e7
+B20_0f7f:		jsr func_1f_0730		; 20 30 e7
 B20_0f82:		ldx $0f			; a6 0f
 B20_0f84:		lda $c1			; a5 c1
 B20_0f86:		beq B20_0fa0 ; f0 18
@@ -2861,7 +2861,7 @@ B20_1123:		ora #$88		; 09 88
 B20_1125:		bne B20_1129 ; d0 02
 
 B20_1127:		ora #$40		; 09 40
-B20_1129:		sta $0470, x	; 9d 70 04
+B20_1129:		sta wEntityState.w, x	; 9d 70 04
 B20_112c:		inx				; e8 
 B20_112d:		inc $16			; e6 16
 B20_112f:		lda $16			; a5 16
@@ -2981,7 +2981,7 @@ B20_11fb:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B20_11fe:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B20_1201:		sta wEntityPhase.w, x	; 9d c1 05
 B20_1204:		lda #$c8		; a9 c8
-B20_1206:		sta $0470, x	; 9d 70 04
+B20_1206:		sta wEntityState.w, x	; 9d 70 04
 B20_1209:		lda $10			; a5 10
 B20_120b:		beq B20_1211 ; f0 04
 
@@ -3023,7 +3023,7 @@ B20_1244:		sta wEntityBaseX.w, x	; 9d 38 04
 B20_1247:		lda $926f, y	; b9 6f 92
 B20_124a:		sta wEntityBaseY.w, x	; 9d 1c 04
 B20_124d:		lda #$88		; a9 88
-B20_124f:		sta $0470, x	; 9d 70 04
+B20_124f:		sta wEntityState.w, x	; 9d 70 04
 B20_1252:		lda #$00		; a9 00
 B20_1254:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B20_1257:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05

@@ -18,7 +18,7 @@ B25_01a7:		jsr displayStaticLayoutA		; 20 e9 ec
 B25_01aa:		lda #$82		; a9 82
 B25_01ac:		jsr displayStaticLayoutA		; 20 e9 ec
 B25_01af:		lda #$00		; a9 00
-B25_01b1:		sta wOamSpecIdx.w		; 8d 00 04
+B25_01b1:		sta wOamSpecIdxDoubled.w		; 8d 00 04
 B25_01b4:		sta wSoundModeCtrlState			; 85 6b
 B25_01b6:		sta wSoundModeSongSelected.w		; 8d 80 07
 B25_01b9:		inc wGameSubstate			; e6 19

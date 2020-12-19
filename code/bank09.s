@@ -35,7 +35,7 @@ B9_11e4:		clc				; 18
 B9_11e5:		rts				; 60 
 
 
-B9_11e6:		lda $3f			; a5 3f
+B9_11e6:		lda wBaseIRQFuncIdx			; a5 3f
 B9_11e8:		sta $a6			; 85 a6
 B9_11ea:		lda $41			; a5 41
 B9_11ec:		sta $a7			; 85 a7
@@ -105,17 +105,17 @@ B9_1253:		bne B9_1257 ; d0 02
 B9_1255:		beq B9_125d ; f0 06
 
 B9_1257:		lda #$0a		; a9 0a
-B9_1259:		sta wOamSpecIdx.w		; 8d 00 04
+B9_1259:		sta wOamSpecIdxDoubled.w		; 8d 00 04
 B9_125c:		rts				; 60 
 
 
 B9_125d:		lda #$0c		; a9 0c
-B9_125f:		sta wOamSpecIdx.w		; 8d 00 04
+B9_125f:		sta wOamSpecIdxDoubled.w		; 8d 00 04
 B9_1262:		rts				; 60 
 
 
 B9_1263:		lda #$02		; a9 02
-B9_1265:		sta wOamSpecIdx.w		; 8d 00 04
+B9_1265:		sta wOamSpecIdxDoubled.w		; 8d 00 04
 B9_1268:		rts				; 60 
 
 
@@ -499,7 +499,7 @@ B9_146e:		lda $41, x		; b5 41
 B9_1470:		lda $45, x		; b5 45
 B9_1472:		lda $47, x		; b5 47
 B9_1474:		lda $4b, x		; b5 4b
-B9_1476:		lda $4d, x		; b5 4d
+B9_1476:		lda wChrBankBG_0c00, x		; b5 4d
 B9_1478:		lda $51, x		; b5 51
 B9_147a:		lda $53, x		; b5 53
 B9_147c:		lda $55, x		; b5 55
@@ -1028,24 +1028,24 @@ B9_172f:		rts				; 60
 
 
 func_09_1730:
-B9_1730:		lda $0470, x	; bd 70 04
+B9_1730:		lda wEntityState.w, x	; bd 70 04
 B9_1733:		and #$01		; 29 01
 B9_1735:		bne B9_173e ; d0 07
 
-B9_1737:		lda $0470, x	; bd 70 04
+B9_1737:		lda wEntityState.w, x	; bd 70 04
 B9_173a:		and #$08		; 29 08
 B9_173c:		beq B9_1782 ; f0 44
 
-B9_173e:		lda $0470, x	; bd 70 04
+B9_173e:		lda wEntityState.w, x	; bd 70 04
 B9_1741:		ora #$80		; 09 80
-B9_1743:		sta $0470, x	; 9d 70 04
+B9_1743:		sta wEntityState.w, x	; 9d 70 04
 B9_1746:		jsr $b8da		; 20 da b8
 B9_1749:		beq B9_174f ; f0 04
 
 B9_174b:		cpx #$0d		; e0 0d
 B9_174d:		bcs B9_178a ; b0 3b
 
-B9_174f:		lda $0470, x	; bd 70 04
+B9_174f:		lda wEntityState.w, x	; bd 70 04
 B9_1752:		and #$01		; 29 01
 B9_1754:		beq B9_178a ; f0 34
 
@@ -1056,7 +1056,7 @@ B9_175b:		bcs B9_176c ; b0 0f
 B9_175d:		jsr $b7ad		; 20 ad b7
 B9_1760:		bcc B9_178a ; 90 28
 
-B9_1762:		lda $0470, x	; bd 70 04
+B9_1762:		lda wEntityState.w, x	; bd 70 04
 B9_1765:		and #$04		; 29 04
 B9_1767:		beq B9_176c ; f0 03
 
@@ -1067,21 +1067,21 @@ B9_1771:		beq B9_178b ; f0 18
 
 B9_1773:		lda #$00		; a9 00
 B9_1775:		sta $054e, x	; 9d 4e 05
-B9_1778:		sta $0470, x	; 9d 70 04
-B9_177b:		sta wOamSpecIdx.w, x	; 9d 00 04
+B9_1778:		sta wEntityState.w, x	; 9d 70 04
+B9_177b:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B9_177e:		sta wEntityAI_idx.w, x	; 9d ef 05
 B9_1781:		rts				; 60 
 
 
-B9_1782:		lda $0470, x	; bd 70 04
+B9_1782:		lda wEntityState.w, x	; bd 70 04
 B9_1785:		and #$7f		; 29 7f
-B9_1787:		sta $0470, x	; 9d 70 04
+B9_1787:		sta wEntityState.w, x	; 9d 70 04
 B9_178a:		rts				; 60 
 
 
 B9_178b:		lda $061d, x	; bd 1d 06
 B9_178e:		tax				; aa 
-B9_178f:		lda $0470, x	; bd 70 04
+B9_178f:		lda wEntityState.w, x	; bd 70 04
 B9_1792:		and #$81		; 29 81
 B9_1794:		beq B9_1799 ; f0 03
 
@@ -1089,9 +1089,9 @@ B9_1796:		jsr $b79b		; 20 9b b7
 B9_1799:		ldx $6c			; a6 6c
 B9_179b:		lda #$00		; a9 00
 B9_179d:		sta $0657, x	; 9d 57 06
-B9_17a0:		sta $0470, x	; 9d 70 04
+B9_17a0:		sta wEntityState.w, x	; 9d 70 04
 B9_17a3:		sta wEntityPhase.w, x	; 9d c1 05
-B9_17a6:		sta wOamSpecIdx.w, x	; 9d 00 04
+B9_17a6:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B9_17a9:		sta $054e, x	; 9d 4e 05
 B9_17ac:		rts				; 60 
 
@@ -1118,19 +1118,19 @@ B9_17c7:		bcs B9_17cd ; b0 04
 B9_17c9:		cmp #$20		; c9 20
 B9_17cb:		bcs B9_17df ; b0 12
 
-B9_17cd:		lda $0470, x	; bd 70 04
+B9_17cd:		lda wEntityState.w, x	; bd 70 04
 B9_17d0:		and #$02		; 29 02
 B9_17d2:		bne B9_17e7 ; d0 13
 
-B9_17d4:		lda $0470, x	; bd 70 04
+B9_17d4:		lda wEntityState.w, x	; bd 70 04
 B9_17d7:		ora #$40		; 09 40
-B9_17d9:		sta $0470, x	; 9d 70 04
+B9_17d9:		sta wEntityState.w, x	; 9d 70 04
 B9_17dc:		jmp $b7e7		; 4c e7 b7
 
 
-B9_17df:		lda $0470, x	; bd 70 04
+B9_17df:		lda wEntityState.w, x	; bd 70 04
 B9_17e2:		and #$bf		; 29 bf
-B9_17e4:		sta $0470, x	; 9d 70 04
+B9_17e4:		sta wEntityState.w, x	; 9d 70 04
 B9_17e7:		lda $054e, x	; bd 4e 05
 B9_17ea:		cmp #$59		; c9 59
 B9_17ec:		beq B9_17fa ; f0 0c
@@ -1364,7 +1364,7 @@ B9_18f0:		beq B9_18fd ; f0 0b
 B9_18f2:		cmp #$6c		; c9 6c
 B9_18f4:		beq B9_1904 ; f0 0e
 
-B9_18f6:		lda $0470, x	; bd 70 04
+B9_18f6:		lda wEntityState.w, x	; bd 70 04
 B9_18f9:		and #$02		; 29 02
 B9_18fb:		bne B9_1904 ; d0 07
 
@@ -1381,7 +1381,7 @@ B9_1905:		rts				; 60
 
 
 func_09_1906:
-B9_1906:		lda $0470, x	; bd 70 04
+B9_1906:		lda wEntityState.w, x	; bd 70 04
 B9_1909:		and #$fe		; 29 fe
 B9_190b:		sta $01			; 85 01
 B9_190d:		ldy #$00		; a0 00
@@ -1397,12 +1397,12 @@ B9_191a:		sec				; 38
 B9_191b:		lda wEntityBaseX.w, x	; bd 38 04
 B9_191e:		sbc $6e			; e5 6e
 B9_1920:		sta wEntityBaseX.w, x	; 9d 38 04
-B9_1923:		lda $0470, x	; bd 70 04
+B9_1923:		lda wEntityState.w, x	; bd 70 04
 B9_1926:		and #$01		; 29 01
 B9_1928:		sbc $00			; e5 00
 B9_192a:		and #$01		; 29 01
 B9_192c:		ora $01			; 05 01
-B9_192e:		sta $0470, x	; 9d 70 04
+B9_192e:		sta wEntityState.w, x	; 9d 70 04
 B9_1931:		rts				; 60 
 
 B9_1932:		and #$01		; 29 01
@@ -1412,12 +1412,12 @@ B9_1936:		clc				; 18
 B9_1937:		lda wEntityBaseY.w, x	; bd 1c 04
 B9_193a:		adc $6e			; 65 6e
 B9_193c:		sta wEntityBaseY.w, x	; 9d 1c 04
-B9_193f:		lda $0470, x	; bd 70 04
+B9_193f:		lda wEntityState.w, x	; bd 70 04
 B9_1942:		and #$01		; 29 01
 B9_1944:		adc $00			; 65 00
 B9_1946:		and #$01		; 29 01
 B9_1948:		ora $01			; 05 01
-B9_194a:		sta $0470, x	; 9d 70 04
+B9_194a:		sta wEntityState.w, x	; 9d 70 04
 B9_194d:		and #$01		; 29 01
 B9_194f:		beq B9_1983 ; f0 32
 
@@ -1430,19 +1430,19 @@ B9_195a:		bcs B9_1964 ; b0 08
 
 B9_195c:		lda #$00		; a9 00
 B9_195e:		sta $054e, x	; 9d 4e 05
-B9_1961:		sta wOamSpecIdx.w, x	; 9d 00 04
+B9_1961:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B9_1964:		rts				; 60 
 
 B9_1965:		clc				; 18 
 B9_1966:		lda wEntityBaseY.w, x	; bd 1c 04
 B9_1969:		adc $6e			; 65 6e
 B9_196b:		sta wEntityBaseY.w, x	; 9d 1c 04
-B9_196e:		lda $0470, x	; bd 70 04
+B9_196e:		lda wEntityState.w, x	; bd 70 04
 B9_1971:		and #$01		; 29 01
 B9_1973:		adc $00			; 65 00
 B9_1975:		and #$01		; 29 01
 B9_1977:		ora $01			; 05 01
-B9_1979:		sta $0470, x	; 9d 70 04
+B9_1979:		sta wEntityState.w, x	; 9d 70 04
 B9_197c:		lda wEntityBaseY.w, x	; bd 1c 04
 B9_197f:		cmp #$30		; c9 30
 B9_1981:		bcc B9_1951 ; 90 ce
@@ -1664,11 +1664,11 @@ B9_1abb:		sta wEntityAI_idx.w, x	; 9d ef 05
 B9_1abe:		lda #$68		; a9 68
 B9_1ac0:		sta $054e, x	; 9d 4e 05
 B9_1ac3:		lda #$00		; a9 00
-B9_1ac5:		sta wOamSpecIdx.w, x	; 9d 00 04
+B9_1ac5:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B9_1ac8:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B9_1acb:		sta wEntityPhase.w, x	; 9d c1 05
 B9_1ace:		lda #$30		; a9 30
-B9_1ad0:		sta $0470, x	; 9d 70 04
+B9_1ad0:		sta wEntityState.w, x	; 9d 70 04
 B9_1ad3:		rts				; 60 
 
 
@@ -1761,7 +1761,7 @@ B9_1b4e:	.db $6b
 B9_1b4f:		pla				; 68 
 B9_1b50:	.db $6d $06 $00
 B9_1b53:	.db $82
-B9_1b54:		and $0470, x	; 3d 70 04
+B9_1b54:		and wEntityState.w, x	; 3d 70 04
 B9_1b57:		.db $00				; 00
 B9_1b58:		dey				; 88 
 B9_1b59:	.db $42

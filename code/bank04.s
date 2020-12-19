@@ -521,9 +521,9 @@ B4_02a8:	.db $57
 B4_02a9:		asl $a9			; 06 a9
 B4_02ab:		.db $00				; 00
 B4_02ac:		sta $0669, x	; 9d 69 06
-B4_02af:		lda $0470, x	; bd 70 04
+B4_02af:		lda wEntityState.w, x	; bd 70 04
 B4_02b2:		ora #$88		; 09 88
-B4_02b4:		sta $0470, x	; 9d 70 04
+B4_02b4:		sta wEntityState.w, x	; 9d 70 04
 B4_02b7:		lda #$02		; a9 02
 B4_02b9:		sta wEntityPaletteOverride.w, x	; 9d 54 04
 B4_02bc:		lda #$14		; a9 14
@@ -608,7 +608,7 @@ B4_034a:		rts				; 60
 
 B4_034b:		lda #$0e		; a9 0e
 B4_034d:		ldy #$09		; a0 09
-B4_034f:		jmp func_1f_0f5c		; 4c 5c ef
+B4_034f:		jmp setEntitySpecGroupA_animationDefIdxY_startAnimate		; 4c 5c ef
 
 
 B4_0352:		lda wEntityAI_idx.w, x	; bd ef 05
@@ -629,7 +629,7 @@ B4_036b:		bcc B4_03c4 ; 90 57
 
 B4_036d:		dec $07ed		; ce ed 07
 B4_0370:		jsr $841b		; 20 1b 84
-B4_0373:		sta $0470, y	; 99 70 04
+B4_0373:		sta wEntityState.w, y	; 99 70 04
 B4_0376:		lda #$00		; a9 00
 B4_0378:		sta $0606, y	; 99 06 06
 B4_037b:		sta $061d, y	; 99 1d 06
@@ -638,7 +638,7 @@ B4_0380:		tya				; 98
 B4_0381:		tax				; aa 
 B4_0382:		lda #$0e		; a9 0e
 B4_0384:		ldy #$09		; a0 09
-B4_0386:		jsr func_1f_0f5c		; 20 5c ef
+B4_0386:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
 B4_0389:		jsr updateEntityXanimationFrame		; 20 75 ef
 B4_038c:		lda #$01		; a9 01
 B4_038e:		jsr $9427		; 20 27 94
@@ -649,11 +649,11 @@ B4_0397:		adc #$10		; 69 10
 B4_0399:		sta wEntityBaseX.w, x	; 9d 38 04
 B4_039c:		bcc B4_03aa ; 90 0c
 
-B4_039e:		lda $0470, x	; bd 70 04
+B4_039e:		lda wEntityState.w, x	; bd 70 04
 B4_03a1:		and #$01		; 29 01
 B4_03a3:		eor #$01		; 49 01
 B4_03a5:		ora #$88		; 09 88
-B4_03a7:		sta $0470, x	; 9d 70 04
+B4_03a7:		sta wEntityState.w, x	; 9d 70 04
 B4_03aa:		lda wCurrRoomGroup		; a5 32
 B4_03ac:		cmp #$05		; c9 05
 B4_03ae:		beq B4_03b4 ; f0 04
@@ -673,7 +673,7 @@ B4_03c1:		jmp $9427		; 4c 27 94
 
 
 B4_03c4:		jsr $9439		; 20 39 94
-B4_03c7:		sta $0470, x	; 9d 70 04
+B4_03c7:		sta wEntityState.w, x	; 9d 70 04
 B4_03ca:		lda wEntityAI_idx.w, x	; bd ef 05
 B4_03cd:		cmp #$03		; c9 03
 B4_03cf:		bne B4_03d4 ; d0 03
@@ -728,7 +728,7 @@ B4_0417:		sta wEntityBaseX.w, x	; 9d 38 04
 B4_041a:		rts				; 60 
 
 
-B4_041b:		lda $0470, x	; bd 70 04
+B4_041b:		lda wEntityState.w, x	; bd 70 04
 B4_041e:		and #$77		; 29 77
 B4_0420:		ora #$40		; 09 40
 B4_0422:		rts				; 60 
@@ -831,14 +831,14 @@ B4_04d6:		lda $8546, y	; b9 46 85
 B4_04d9:		sta $0c			; 85 0c
 B4_04db:		lda $0d			; a5 0d
 B4_04dd:		sec				; 38 
-B4_04de:		sbc $56			; e5 56
+B4_04de:		sbc wCurrScrollXWithinRoom			; e5 56
 B4_04e0:		sta $0d			; 85 0d
 B4_04e2:		lda $0c			; a5 0c
 B4_04e4:		sbc $57			; e5 57
 B4_04e6:		sta $0c			; 85 0c
-B4_04e8:		lda $0470, x	; bd 70 04
+B4_04e8:		lda wEntityState.w, x	; bd 70 04
 B4_04eb:		and #$77		; 29 77
-B4_04ed:		sta $0470, x	; 9d 70 04
+B4_04ed:		sta wEntityState.w, x	; 9d 70 04
 B4_04f0:		jsr $8627		; 20 27 86
 B4_04f3:		jsr $8661		; 20 61 86
 B4_04f6:		lda #$00		; a9 00
@@ -857,7 +857,7 @@ B4_0509:		tay				; a8
 B4_050a:		lda $8527, y	; b9 27 85
 B4_050d:		tay				; a8 
 B4_050e:		lda #$0c		; a9 0c
-B4_0510:		jmp func_1f_0f5c		; 4c 5c ef
+B4_0510:		jmp setEntitySpecGroupA_animationDefIdxY_startAnimate		; 4c 5c ef
 
 
 B4_0513:		lda #$84		; a9 84
@@ -871,7 +871,7 @@ B4_051d:		tay				; a8
 B4_051e:		lda $8530, y	; b9 30 85
 B4_0521:		tay				; a8 
 B4_0522:		lda #$0c		; a9 0c
-B4_0524:		jmp func_1f_0f5c		; 4c 5c ef
+B4_0524:		jmp setEntitySpecGroupA_animationDefIdxY_startAnimate		; 4c 5c ef
 
 
 B4_0527:		asl $06			; 06 06
@@ -1093,9 +1093,9 @@ B4_0634:		sbc #$00		; e9 00
 B4_0636:		sta $0c			; 85 0c
 B4_0638:		beq B4_065b ; f0 21
 
-B4_063a:		lda $0470, x	; bd 70 04
+B4_063a:		lda wEntityState.w, x	; bd 70 04
 B4_063d:		ora #$88		; 09 88
-B4_063f:		sta $0470, x	; 9d 70 04
+B4_063f:		sta wEntityState.w, x	; 9d 70 04
 B4_0642:		bne B4_065b ; d0 17
 
 B4_0644:		lda $0d			; a5 0d
@@ -1107,9 +1107,9 @@ B4_064d:		adc #$00		; 69 00
 B4_064f:		sta $0c			; 85 0c
 B4_0651:		beq B4_065b ; f0 08
 
-B4_0653:		lda $0470, x	; bd 70 04
+B4_0653:		lda wEntityState.w, x	; bd 70 04
 B4_0656:		ora #$88		; 09 88
-B4_0658:		sta $0470, x	; 9d 70 04
+B4_0658:		sta wEntityState.w, x	; 9d 70 04
 B4_065b:		lda $0d			; a5 0d
 B4_065d:		sta wEntityBaseX.w, x	; 9d 38 04
 B4_0660:		rts				; 60 
@@ -1127,9 +1127,9 @@ B4_066e:		sbc #$00		; e9 00
 B4_0670:		sta $0e			; 85 0e
 B4_0672:		beq B4_0695 ; f0 21
 
-B4_0674:		lda $0470, x	; bd 70 04
+B4_0674:		lda wEntityState.w, x	; bd 70 04
 B4_0677:		ora #$88		; 09 88
-B4_0679:		sta $0470, x	; 9d 70 04
+B4_0679:		sta wEntityState.w, x	; 9d 70 04
 B4_067c:		bne B4_0695 ; d0 17
 
 B4_067e:		lda $0f			; a5 0f
@@ -1141,9 +1141,9 @@ B4_0687:		adc #$00		; 69 00
 B4_0689:		sta $0e			; 85 0e
 B4_068b:		beq B4_0695 ; f0 08
 
-B4_068d:		lda $0470, x	; bd 70 04
+B4_068d:		lda wEntityState.w, x	; bd 70 04
 B4_0690:		ora #$88		; 09 88
-B4_0692:		sta $0470, x	; 9d 70 04
+B4_0692:		sta wEntityState.w, x	; 9d 70 04
 B4_0695:		lda $0f			; a5 0f
 B4_0697:		sta wEntityBaseY.w, x	; 9d 1c 04
 B4_069a:		rts				; 60 
@@ -1196,9 +1196,9 @@ B4_06e4:		tay				; a8
 B4_06e5:		lda $86f7, y	; b9 f7 86
 B4_06e8:		sta $05d8, x	; 9d d8 05
 B4_06eb:		dec $05d8, x	; de d8 05
-B4_06ee:		lda $0470, x	; bd 70 04
+B4_06ee:		lda wEntityState.w, x	; bd 70 04
 B4_06f1:		ora #$88		; 09 88
-B4_06f3:		sta $0470, x	; 9d 70 04
+B4_06f3:		sta wEntityState.w, x	; 9d 70 04
 B4_06f6:		rts				; 60 
 
 
@@ -1284,7 +1284,7 @@ B4_0772:		bmi B4_078d ; 30 19
 
 B4_0774:		lda $03			; a5 03
 B4_0776:		sec				; 38 
-B4_0777:		sbc $56			; e5 56
+B4_0777:		sbc wCurrScrollXWithinRoom			; e5 56
 B4_0779:		sta $03			; 85 03
 B4_077b:		lda $02			; a5 02
 B4_077d:		sbc $57			; e5 57
@@ -1300,7 +1300,7 @@ B4_078c:		rts				; 60
 
 
 B4_078d:		lda #$40		; a9 40
-B4_078f:		sta $0470, y	; 99 70 04
+B4_078f:		sta wEntityState.w, y	; 99 70 04
 B4_0792:		lda $03			; a5 03
 B4_0794:		sta wEntityBaseX.w, y	; 99 38 04
 B4_0797:		lda #$30		; a9 30
@@ -1314,7 +1314,7 @@ B4_07a8:		tya				; 98
 B4_07a9:		tax				; aa 
 B4_07aa:		lda $0c			; a5 0c
 B4_07ac:		ldy $0d			; a4 0d
-B4_07ae:		jsr func_1f_0f5c		; 20 5c ef
+B4_07ae:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
 B4_07b1:		lda $08			; a5 08
 B4_07b3:		cmp #$08		; c9 08
 B4_07b5:		bne B4_07c3 ; d0 0c
@@ -1406,9 +1406,9 @@ B4_0818:		jmp $94e2		; 4c e2 94
 
 B4_081b:		lda #$00		; a9 00
 B4_081d:		sta $0657, x	; 9d 57 06
-B4_0820:		lda $0470, x	; bd 70 04
+B4_0820:		lda wEntityState.w, x	; bd 70 04
 B4_0823:		ora #$40		; 09 40
-B4_0825:		sta $0470, x	; 9d 70 04
+B4_0825:		sta wEntityState.w, x	; 9d 70 04
 B4_0828:		lda wEntityAI_idx.w, x	; bd ef 05
 B4_082b:		cmp #$08		; c9 08
 B4_082d:		beq B4_0850 ; f0 21
@@ -1479,7 +1479,7 @@ B4_0896:		lda wEntityBaseY.w, x	; bd 1c 04
 B4_0899:		and #$f0		; 29 f0
 B4_089b:		ora #$08		; 09 08
 B4_089d:		sta wEntityBaseY.w, x	; 9d 1c 04
-B4_08a0:		jmp func_1f_1ec8		; 4c c8 fe
+B4_08a0:		jmp clearEntityHorizVertSpeeds		; 4c c8 fe
 
 
 B4_08a3:		clc				; 18 
@@ -1487,11 +1487,11 @@ B4_08a4:		lda wEntityBaseY.w, x	; bd 1c 04
 B4_08a7:		adc wCurrScrollXWithinRoom			; 65 56
 B4_08a9:		and #$f0		; 29 f0
 B4_08ab:		sec				; 38 
-B4_08ac:		sbc $56			; e5 56
+B4_08ac:		sbc wCurrScrollXWithinRoom			; e5 56
 B4_08ae:		clc				; 18 
 B4_08af:		adc #$0b		; 69 0b
 B4_08b1:		sta wEntityBaseY.w, x	; 9d 1c 04
-B4_08b4:		jmp func_1f_1ec8		; 4c c8 fe
+B4_08b4:		jmp clearEntityHorizVertSpeeds		; 4c c8 fe
 
 
 B4_08b7:		lda #$01		; a9 01
@@ -1536,7 +1536,7 @@ B4_08ff:		beq B4_0904 ; f0 03
 B4_0901:		jmp $89ad		; 4c ad 89
 
 
-B4_0904:		lda $0470, x	; bd 70 04
+B4_0904:		lda wEntityState.w, x	; bd 70 04
 B4_0907:		and #$01		; 29 01
 B4_0909:		bne B4_0914 ; d0 09
 
@@ -1624,16 +1624,16 @@ B4_0987:		bcc B4_09c3 ; 90 3a
 
 B4_0989:		lda #$36		; a9 36
 B4_098b:		jsr playSound		; 20 5f e2
-B4_098e:		lda $0470, x	; bd 70 04
+B4_098e:		lda wEntityState.w, x	; bd 70 04
 B4_0991:		and #$01		; 29 01
-B4_0993:		sta $0470, x	; 9d 70 04
+B4_0993:		sta wEntityState.w, x	; 9d 70 04
 B4_0996:		lda $8a01, y	; b9 01 8a
 B4_0999:		sta $00			; 85 00
 B4_099b:		lda $8a04, y	; b9 04 8a
 B4_099e:		sta $01			; 85 01
 B4_09a0:		lda $8a07, y	; b9 07 8a
 B4_09a3:		ldy $01			; a4 01
-B4_09a5:		jsr func_1f_0f5c		; 20 5c ef
+B4_09a5:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
 B4_09a8:		lda $00			; a5 00
 B4_09aa:		jmp $9427		; 4c 27 94
 
@@ -1651,9 +1651,9 @@ B4_09bd:		sta $0657, x	; 9d 57 06
 B4_09c0:		jmp $8070		; 4c 70 80
 
 
-B4_09c3:		lda $0470, x	; bd 70 04
+B4_09c3:		lda wEntityState.w, x	; bd 70 04
 B4_09c6:		ora #$88		; 09 88
-B4_09c8:		sta $0470, x	; 9d 70 04
+B4_09c8:		sta wEntityState.w, x	; 9d 70 04
 B4_09cb:		lda wEntityBaseX.w, x	; bd 38 04
 B4_09ce:		and #$f0		; 29 f0
 B4_09d0:		beq B4_09d6 ; f0 04
@@ -1681,7 +1681,7 @@ B4_09f3:		lda $8a04, y	; b9 04 8a
 B4_09f6:		sta $01			; 85 01
 B4_09f8:		lda $8a07, y	; b9 07 8a
 B4_09fb:		ldy $01			; a4 01
-B4_09fd:		jsr func_1f_0f5c		; 20 5c ef
+B4_09fd:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
 B4_0a00:		rts				; 60 
 
 
@@ -1706,7 +1706,7 @@ B4_0a16:		bcs B4_0a19 ; b0 01
 B4_0a18:		rts				; 60 
 
 
-B4_0a19:		lda $0470, x	; bd 70 04
+B4_0a19:		lda wEntityState.w, x	; bd 70 04
 B4_0a1c:		and #$01		; 29 01
 B4_0a1e:		beq B4_0a76 ; f0 56
 
@@ -1759,18 +1759,18 @@ B4_0a7b:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B4_0a7e:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
 B4_0a81:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B4_0a84:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
-B4_0a87:		lda $0470, x	; bd 70 04
+B4_0a87:		lda wEntityState.w, x	; bd 70 04
 B4_0a8a:		and #$01		; 29 01
 B4_0a8c:		beq B4_0a98 ; f0 0a
 
-B4_0a8e:		lda $0470, x	; bd 70 04
+B4_0a8e:		lda wEntityState.w, x	; bd 70 04
 B4_0a91:		ora #$88		; 09 88
-B4_0a93:		sta $0470, x	; 9d 70 04
+B4_0a93:		sta wEntityState.w, x	; 9d 70 04
 B4_0a96:		bne B4_0aa0 ; d0 08
 
-B4_0a98:		lda $0470, x	; bd 70 04
+B4_0a98:		lda wEntityState.w, x	; bd 70 04
 B4_0a9b:		and #$77		; 29 77
-B4_0a9d:		sta $0470, x	; 9d 70 04
+B4_0a9d:		sta wEntityState.w, x	; 9d 70 04
 B4_0aa0:		lda $0606, x	; bd 06 06
 B4_0aa3:		tay				; a8 
 B4_0aa4:		lda $8c07, y	; b9 07 8c
@@ -1873,9 +1873,9 @@ B4_0b62:		jmp $8bdd		; 4c dd 8b
 
 
 B4_0b65:		jsr $8bdd		; 20 dd 8b
-B4_0b68:		lda $0470, x	; bd 70 04
+B4_0b68:		lda wEntityState.w, x	; bd 70 04
 B4_0b6b:		ora #$88		; 09 88
-B4_0b6d:		sta $0470, x	; 9d 70 04
+B4_0b6d:		sta wEntityState.w, x	; 9d 70 04
 B4_0b70:		jsr $9b00		; 20 00 9b
 B4_0b73:		lda #$be		; a9 be
 B4_0b75:		sta $01			; 85 01
@@ -1947,7 +1947,7 @@ B4_0be3:		bne B4_0be7 ; d0 02
 
 B4_0be5:		ldy #$3c		; a0 3c
 B4_0be7:		lda #$0c		; a9 0c
-B4_0be9:		jmp func_1f_0f5c		; 4c 5c ef
+B4_0be9:		jmp setEntitySpecGroupA_animationDefIdxY_startAnimate		; 4c 5c ef
 
 
 B4_0bec:	.db $02
@@ -2329,14 +2329,14 @@ B4_0e58:		eor #$01		; 49 01
 B4_0e5a:		sta $06			; 85 06
 B4_0e5c:		jsr $8ed6		; 20 d6 8e
 B4_0e5f:		lda #$00		; a9 00
-B4_0e61:		sta $0470, x	; 9d 70 04
+B4_0e61:		sta wEntityState.w, x	; 9d 70 04
 B4_0e64:		jsr $8627		; 20 27 86
 B4_0e67:		jsr $8661		; 20 61 86
-B4_0e6a:		lda $0470, x	; bd 70 04
+B4_0e6a:		lda wEntityState.w, x	; bd 70 04
 B4_0e6d:		beq B4_0e74 ; f0 05
 
 B4_0e6f:		ora #$01		; 09 01
-B4_0e71:		sta $0470, x	; 9d 70 04
+B4_0e71:		sta wEntityState.w, x	; 9d 70 04
 B4_0e74:		lda #$01		; a9 01
 B4_0e76:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B4_0e79:		lda wPlayerStateDoubled.w, x	; bd 65 05
@@ -2367,7 +2367,7 @@ B4_0ea1:		clc				; 18
 B4_0ea2:		adc #$22		; 69 22
 B4_0ea4:		tay				; a8 
 B4_0ea5:		lda #$0c		; a9 0c
-B4_0ea7:		jsr func_1f_0f5c		; 20 5c ef
+B4_0ea7:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
 B4_0eaa:		jmp updateEntityXanimationFrame		; 4c 75 ef
 
 
@@ -2386,7 +2386,7 @@ B4_0ec7:		lda #$01		; a9 01
 B4_0ec9:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B4_0ecc:		lda #$0c		; a9 0c
 B4_0ece:		ldy #$27		; a0 27
-B4_0ed0:		jsr func_1f_0f5c		; 20 5c ef
+B4_0ed0:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
 B4_0ed3:		jmp updateEntityXanimationFrame		; 4c 75 ef
 
 
@@ -2403,7 +2403,7 @@ B4_0eea:		lda $8f08, y	; b9 08 8f
 B4_0eed:		sta $0c			; 85 0c
 B4_0eef:		lda $0d			; a5 0d
 B4_0ef1:		sec				; 38 
-B4_0ef2:		sbc $56			; e5 56
+B4_0ef2:		sbc wCurrScrollXWithinRoom			; e5 56
 B4_0ef4:		sta $0d			; 85 0d
 B4_0ef6:		lda $0c			; a5 0c
 B4_0ef8:		sbc $57			; e5 57
@@ -2792,11 +2792,11 @@ B4_1118:		jsr playSound		; 20 5f e2
 B4_111b:		lda #$00		; a9 00
 B4_111d:		sta $0645, x	; 9d 45 06
 B4_1120:		inc $0645, x	; fe 45 06
-B4_1123:		lda $0470, x	; bd 70 04
+B4_1123:		lda wEntityState.w, x	; bd 70 04
 B4_1126:		ora #$88		; 09 88
-B4_1128:		sta $0470, x	; 9d 70 04
+B4_1128:		sta wEntityState.w, x	; 9d 70 04
 B4_112b:		lda #$88		; a9 88
-B4_112d:		sta wOamSpecIdx.w, x	; 9d 00 04
+B4_112d:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B4_1130:		lda $061d, x	; bd 1d 06
 B4_1133:		beq B4_113b ; f0 06
 
@@ -2928,13 +2928,13 @@ B4_121d:		jmp $922d		; 4c 2d 92
 
 B4_1220:		lda $0d			; a5 0d
 B4_1222:		sec				; 38 
-B4_1223:		sbc $56			; e5 56
+B4_1223:		sbc wCurrScrollXWithinRoom			; e5 56
 B4_1225:		sta $0d			; 85 0d
 B4_1227:		lda $0c			; a5 0c
 B4_1229:		sbc $57			; e5 57
 B4_122b:		sta $0c			; 85 0c
 B4_122d:		lda #$00		; a9 00
-B4_122f:		sta $0470, x	; 9d 70 04
+B4_122f:		sta wEntityState.w, x	; 9d 70 04
 B4_1232:		jsr $8627		; 20 27 86
 B4_1235:		jsr $8661		; 20 61 86
 B4_1238:		lda wEntityBaseX.w, x	; bd 38 04
@@ -2956,7 +2956,7 @@ B4_125a:		cmp #$e1		; c9 e1
 B4_125c:		bcc B4_1263 ; 90 05
 
 B4_125e:		lda #$88		; a9 88
-B4_1260:		sta $0470, x	; 9d 70 04
+B4_1260:		sta wEntityState.w, x	; 9d 70 04
 B4_1263:		lda #$01		; a9 01
 B4_1265:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B4_1268:		lda wPlayerStateDoubled.w, x	; bd 65 05
@@ -2981,7 +2981,7 @@ B4_1286:		sbc $00			; e5 00
 B4_1288:		and #$fe		; 29 fe
 B4_128a:		clc				; 18 
 B4_128b:		adc #$36		; 69 36
-B4_128d:		sta wOamSpecIdx.w, x	; 9d 00 04
+B4_128d:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B4_1290:		lda #$0c		; a9 0c
 B4_1292:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B4_1295:		rts				; 60 
@@ -3178,7 +3178,7 @@ B4_1385:		rti				; 40
 B4_1386:		rti				; 40 
 
 
-B4_1387:		lda $0470, x	; bd 70 04
+B4_1387:		lda wEntityState.w, x	; bd 70 04
 B4_138a:		and #$01		; 29 01
 B4_138c:		beq B4_13f5 ; f0 67
 
@@ -3188,7 +3188,7 @@ B4_1392:		lda wEntityBaseY.w, x	; bd 1c 04
 B4_1395:		jmp $93b6		; 4c b6 93
 
 
-B4_1398:		lda $0470, x	; bd 70 04
+B4_1398:		lda wEntityState.w, x	; bd 70 04
 B4_139b:		and #$01		; 29 01
 B4_139d:		beq B4_13f5 ; f0 56
 
@@ -3198,7 +3198,7 @@ B4_13a3:		lda $01			; a5 01
 B4_13a5:		jmp $93b6		; 4c b6 93
 
 
-B4_13a8:		lda $0470, x	; bd 70 04
+B4_13a8:		lda wEntityState.w, x	; bd 70 04
 B4_13ab:		and #$01		; 29 01
 B4_13ad:		beq B4_13f5 ; f0 46
 
@@ -3288,18 +3288,18 @@ B4_1435:		sta wEntityPhase.w, x	; 9d c1 05
 B4_1438:		rts				; 60 
 
 
-B4_1439:		lda $0470, x	; bd 70 04
+B4_1439:		lda wEntityState.w, x	; bd 70 04
 B4_143c:		and #$01		; 29 01
 B4_143e:		beq B4_1449 ; f0 09
 
-B4_1440:		lda $0470, x	; bd 70 04
+B4_1440:		lda wEntityState.w, x	; bd 70 04
 B4_1443:		ora #$88		; 09 88
-B4_1445:		sta $0470, x	; 9d 70 04
+B4_1445:		sta wEntityState.w, x	; 9d 70 04
 B4_1448:		rts				; 60 
 
 
 B4_1449:		lda #$40		; a9 40
-B4_144b:		sta $0470, x	; 9d 70 04
+B4_144b:		sta wEntityState.w, x	; 9d 70 04
 B4_144e:		rts				; 60 
 
 
@@ -3343,8 +3343,8 @@ B4_1488:		lda $00			; a5 00
 B4_148a:		jsr $94a1		; 20 a1 94
 B4_148d:		bcc B4_149e ; 90 0f
 
-B4_148f:		lda $0470, x	; bd 70 04
-B4_1492:		sta $0470, y	; 99 70 04
+B4_148f:		lda wEntityState.w, x	; bd 70 04
+B4_1492:		sta wEntityState.w, y	; 99 70 04
 B4_1495:		lda $02			; a5 02
 B4_1497:		sta wEntityAI_idx.w, y	; 99 ef 05
 B4_149a:		dec $01			; c6 01
@@ -3396,9 +3396,9 @@ B4_14e4:		sta $054e, x	; 9d 4e 05
 B4_14e7:		lda #$00		; a9 00
 B4_14e9:		sta wEntityAI_idx.w, x	; 9d ef 05
 B4_14ec:		jsr func_1f_1ed7		; 20 d7 fe
-B4_14ef:		sta wOamSpecIdx.w, x	; 9d 00 04
+B4_14ef:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B4_14f2:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
-B4_14f5:		sta $05aa, x	; 9d aa 05
+B4_14f5:		sta wEntityAnimationDefIdxInSpecGroup.w, x	; 9d aa 05
 B4_14f8:		sta $0657, x	; 9d 57 06
 B4_14fb:		sta $0669, x	; 9d 69 06
 B4_14fe:		sta $067b, x	; 9d 7b 06
@@ -3436,7 +3436,7 @@ B4_152d:		iny				; c8
 B4_152e:		lda ($02), y	; b1 02
 B4_1530:		tay				; a8 
 B4_1531:		lda $00			; a5 00
-B4_1533:		jsr func_1f_0f5c		; 20 5c ef
+B4_1533:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
 B4_1536:		jmp $946a		; 4c 6a 94
 
 
@@ -3554,29 +3554,29 @@ B4_15fe:		sta wEntityBaseX.w, x	; 9d 38 04
 B4_1601:		jmp $946a		; 4c 6a 94
 
 
-B4_1604:		lda $0470, x	; bd 70 04
+B4_1604:		lda wEntityState.w, x	; bd 70 04
 B4_1607:		and #$01		; 29 01
 B4_1609:		beq B4_1616 ; f0 0b
 
-B4_160b:		lda $0470, x	; bd 70 04
+B4_160b:		lda wEntityState.w, x	; bd 70 04
 B4_160e:		ora #$08		; 09 08
-B4_1610:		sta $0470, x	; 9d 70 04
+B4_1610:		sta wEntityState.w, x	; 9d 70 04
 B4_1613:		jmp $946a		; 4c 6a 94
 
 
-B4_1616:		lda $0470, x	; bd 70 04
+B4_1616:		lda wEntityState.w, x	; bd 70 04
 B4_1619:		and #$77		; 29 77
-B4_161b:		sta $0470, x	; 9d 70 04
+B4_161b:		sta wEntityState.w, x	; 9d 70 04
 B4_161e:		jmp $946a		; 4c 6a 94
 
 
-B4_1621:		lda $0470, x	; bd 70 04
+B4_1621:		lda wEntityState.w, x	; bd 70 04
 B4_1624:		ora #$08		; 09 08
-B4_1626:		sta $0470, x	; 9d 70 04
+B4_1626:		sta wEntityState.w, x	; 9d 70 04
 B4_1629:		jmp $946a		; 4c 6a 94
 
 
-B4_162c:		lda $0470, x	; bd 70 04
+B4_162c:		lda wEntityState.w, x	; bd 70 04
 B4_162f:		and #$01		; 29 01
 B4_1631:		beq B4_1636 ; f0 03
 
@@ -3730,9 +3730,9 @@ B4_1742:		jmp $946a		; 4c 6a 94
 
 
 B4_1745:		lda wEntityOamSpecGroupDoubled.w, x	; bd 8c 04
-B4_1748:		ldy $05aa, x	; bc aa 05
+B4_1748:		ldy wEntityAnimationDefIdxInSpecGroup.w, x	; bc aa 05
 B4_174b:		iny				; c8 
-B4_174c:		jsr func_1f_0f5c		; 20 5c ef
+B4_174c:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
 B4_174f:		ldy #$01		; a0 01
 B4_1751:		lda ($02), y	; b1 02
 B4_1753:		sta $00			; 85 00
@@ -4283,7 +4283,7 @@ B4_1aff:		rts				; 60
 
 B4_1b00:		lda #$20		; a9 20
 B4_1b02:		sta $01			; 85 01
-B4_1b04:		lda $0470, x	; bd 70 04
+B4_1b04:		lda wEntityState.w, x	; bd 70 04
 B4_1b07:		and #$01		; 29 01
 B4_1b09:		clc				; 18 
 B4_1b0a:		adc $57			; 65 57
@@ -4553,7 +4553,7 @@ B4_1c94:		rts				; 60
 
 
 B4_1c95:		ldx #$1a		; a2 1a
-B4_1c97:		lda $0470, x	; bd 70 04
+B4_1c97:		lda wEntityState.w, x	; bd 70 04
 B4_1c9a:		beq B4_1ca2 ; f0 06
 
 B4_1c9c:		inx				; e8 
@@ -4573,7 +4573,7 @@ B4_1ca7:		jsr $9c95		; 20 95 9c
 B4_1caa:		bcs B4_1d12 ; b0 66
 
 B4_1cac:		lda #$02		; a9 02
-B4_1cae:		sta $0470, x	; 9d 70 04
+B4_1cae:		sta wEntityState.w, x	; 9d 70 04
 B4_1cb1:		lda $02			; a5 02
 B4_1cb3:		sta wEntityBaseY.w, x	; 9d 1c 04
 B4_1cb6:		ldy $07			; a4 07
@@ -4588,7 +4588,7 @@ B4_1cc3:		jsr $9c95		; 20 95 9c
 B4_1cc6:		bcs B4_1d12 ; b0 4a
 
 B4_1cc8:		lda #$02		; a9 02
-B4_1cca:		sta $0470, x	; 9d 70 04
+B4_1cca:		sta wEntityState.w, x	; 9d 70 04
 B4_1ccd:		lda $02			; a5 02
 B4_1ccf:		sta wEntityBaseX.w, x	; 9d 38 04
 B4_1cd2:		ldy $07			; a4 07
@@ -4612,7 +4612,7 @@ B4_1cf3:		sta $078d, x	; 9d 8d 07
 B4_1cf6:		lda #$00		; a9 00
 B4_1cf8:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B4_1cfb:		lda #$00		; a9 00
-B4_1cfd:		sta wOamSpecIdx.w, x	; 9d 00 04
+B4_1cfd:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B4_1d00:		lda #$01		; a9 01
 B4_1d02:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B4_1d05:		lda $6c			; a5 6c
@@ -4682,7 +4682,7 @@ B4_1d6c:		iny				; c8
 B4_1d6d:		sty $07			; 84 07
 B4_1d6f:		lda $00			; a5 00
 B4_1d71:		sec				; 38 
-B4_1d72:		sbc $56			; e5 56
+B4_1d72:		sbc wCurrScrollXWithinRoom			; e5 56
 B4_1d74:		sta $02			; 85 02
 B4_1d76:		lda $01			; a5 01
 B4_1d78:		sbc $57			; e5 57
@@ -4823,7 +4823,7 @@ B4_1e3e:		sta $00			; 85 00
 B4_1e40:		iny				; c8 
 B4_1e41:		lda $00			; a5 00
 B4_1e43:		sec				; 38 
-B4_1e44:		sbc $56			; e5 56
+B4_1e44:		sbc wCurrScrollXWithinRoom			; e5 56
 B4_1e46:		sta $02			; 85 02
 B4_1e48:		lda $01			; a5 01
 B4_1e4a:		sbc $57			; e5 57
@@ -4955,7 +4955,7 @@ B4_1eff:		iny				; c8
 B4_1f00:		sty $07			; 84 07
 B4_1f02:		lda $00			; a5 00
 B4_1f04:		sec				; 38 
-B4_1f05:		sbc $56			; e5 56
+B4_1f05:		sbc wCurrScrollXWithinRoom			; e5 56
 B4_1f07:		sta $02			; 85 02
 B4_1f09:		lda $01			; a5 01
 B4_1f0b:		sbc $57			; e5 57
@@ -5094,7 +5094,7 @@ B4_1fcc:		sta $00			; 85 00
 B4_1fce:		iny				; c8 
 B4_1fcf:		lda $00			; a5 00
 B4_1fd1:		sec				; 38 
-B4_1fd2:		sbc $56			; e5 56
+B4_1fd2:		sbc wCurrScrollXWithinRoom			; e5 56
 B4_1fd4:		sta $02			; 85 02
 B4_1fd6:		lda $01			; a5 01
 B4_1fd8:		sbc $57			; e5 57

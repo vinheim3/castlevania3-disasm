@@ -377,18 +377,19 @@ B31_1657:		dex				; ca
 B31_1658:		bne B31_1660 ; d0 06
 
 B31_165a:		jsr func_02_028e		; 20 8e 82
-B31_165d:		jmp $f66f		; 4c 6f f6
+B31_165d:		jmp B31_166f		; 4c 6f f6
 
 B31_1660:		dex				; ca 
 B31_1661:		bne B31_1669 ; d0 06
 
 B31_1663:		jsr func_02_03cf		; 20 cf 83
-B31_1666:		jmp $f66f		; 4c 6f f6
+B31_1666:		jmp B31_166f		; 4c 6f f6
 
 B31_1669:		dex				; ca 
 B31_166a:		bne B31_166f ; d0 03
 
 B31_166c:		jsr func_02_045e		; 20 5e 84
+
 B31_166f:		lda $07ee		; ad ee 07
 B31_1672:		beq B31_1680 ; f0 0c
 
@@ -431,7 +432,7 @@ B31_16a6:		lda wInGameSubstate			; a5 2a
 B31_16a8:		cmp #$0a		; c9 0a
 B31_16aa:		bne B31_16b4 ; d0 08
 
-	jsr_8000Func func_00_052c
+	jsr_8000Func loadCurrRoomsInternalPalettes
 
 B31_16b4:		lda wJoy1NewButtonsPressed2			; a5 f8
 B31_16b6:		and #PADF_START		; 29 10
@@ -780,7 +781,7 @@ B31_1935:		cmp #$02		; c9 02
 B31_1937:		bne B31_193f ; d0 06
 
 B31_1939:		lda #$12		; a9 12
-B31_193b:		sta $3f			; 85 3f
+B31_193b:		sta wBaseIRQFuncIdx			; 85 3f
 B31_193d:		inc $6b			; e6 6b
 B31_193f:		rts				; 60 
 
@@ -815,7 +816,7 @@ B31_196c:		lda #$80		; a9 80
 B31_196e:		jsr setAndSaveLowerBank		; 20 e6 e2
 B31_1971:		jsr $8d96		; 20 96 8d
 B31_1974:		lda #$00		; a9 00
-B31_1976:		sta $0470		; 8d 70 04
+B31_1976:		sta wEntityState.w		; 8d 70 04
 B31_1979:		jsr getCurrRoomMetatileTilesPalettesAndMetadataByte		; 20 67 d0
 B31_197c:		jsr func_1e_10f8		; 20 f8 d0
 	jsr_a000Func getAddrOfRoomsStairsData
@@ -899,11 +900,11 @@ B31_1a02:		sta wGenericStateTimer			; 85 30
 B31_1a04:		lda #$0c		; a9 0c
 B31_1a06:		ldy #$00		; a0 00
 B31_1a08:		ldx #$13		; a2 13
-B31_1a0a:		jsr func_1f_0f5c		; 20 5c ef
+B31_1a0a:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
 B31_1a0d:		lda #$00		; a9 00
-B31_1a0f:		sta wOamSpecIdx.w, x	; 9d 00 04
+B31_1a0f:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B31_1a12:		sta wEntityPaletteOverride.w, x	; 9d 54 04
-B31_1a15:		sta $0470, x	; 9d 70 04
+B31_1a15:		sta wEntityState.w, x	; 9d 70 04
 B31_1a18:		lda wEntityBaseY.w		; ad 1c 04
 B31_1a1b:		adc #$08		; 69 08
 B31_1a1d:		and #$f0		; 29 f0
@@ -955,7 +956,7 @@ B31_1a71:		clc				; 18
 B31_1a72:		adc $62			; 65 62
 B31_1a74:		sta wVramQueueDest+1			; 85 62
 B31_1a76:		sta $05eb		; 8d eb 05
-B31_1a79:		lda $61			; a5 61
+B31_1a79:		lda wVramQueueDest			; a5 61
 B31_1a7b:		sta $05d4		; 8d d4 05
 B31_1a7e:		jsr vramQueueSet2bytesDestToCopy_noData		; 20 af e8
 B31_1a81:		ldy #$06		; a0 06
@@ -989,7 +990,7 @@ B31_1aa8:		rts				; 60
 
 B31_1aa9:		ldx #$13		; a2 13
 B31_1aab:		jsr updateEntityXanimationFrame		; 20 75 ef
-B31_1aae:		lda wEntityAnimationIdxes.w, x	; bd 93 05
+B31_1aae:		lda wEntityOamSpecIdxBaseOffset.w, x	; bd 93 05
 B31_1ab1:		bne B31_1aa8 ; d0 f5
 
 B31_1ab3:		lda #$80		; a9 80
@@ -1004,7 +1005,7 @@ B31_1abb:		bne B31_1ac9 ; d0 0c
 B31_1abd:		lda #$0c		; a9 0c
 B31_1abf:		ldy #$01		; a0 01
 B31_1ac1:		ldx #$13		; a2 13
-B31_1ac3:		jsr func_1f_0f5c		; 20 5c ef
+B31_1ac3:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
 B31_1ac6:		inc $6b			; e6 6b
 B31_1ac8:		rts				; 60 
 
@@ -1027,7 +1028,7 @@ B31_1ade:		jmp updatePlayerAnimationFrame		; 4c 73 ef
 inGameSubstate08_6b_6:
 B31_1ae1:		ldx #$13		; a2 13
 B31_1ae3:		jsr updateEntityXanimationFrame		; 20 75 ef
-B31_1ae6:		lda wEntityAnimationIdxes.w, x	; bd 93 05
+B31_1ae6:		lda wEntityOamSpecIdxBaseOffset.w, x	; bd 93 05
 B31_1ae9:		bne B31_1af2 ; d0 07
 
 B31_1aeb:		lda wEntityTimeUntilNextAnimation.w, x	; bd 7c 05
@@ -1041,7 +1042,7 @@ B31_1af3:		inc $6b			; e6 6b
 B31_1af5:		lda #$0c		; a9 0c
 B31_1af7:		jsr playSound		; 20 5f e2
 B31_1afa:		lda #$00		; a9 00
-B31_1afc:		sta wOamSpecIdx.w, x	; 9d 00 04
+B31_1afc:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B31_1aff:		jsr $cd76		; 20 76 cd
 B31_1b02:		lda $05d4		; ad d4 05
 B31_1b05:		sta wVramQueueDest			; 85 61

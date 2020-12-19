@@ -99,7 +99,7 @@ B15_1515:		lda wPlayerStateDoubled.w		; ad 65 05
 B15_1518:		ora #$80		; 09 80
 B15_151a:		sta wPlayerStateDoubled.w		; 8d 65 05
 B15_151d:		lda #$02		; a9 02
-B15_151f:		sta wOamSpecIdx.w		; 8d 00 04
+B15_151f:		sta wOamSpecIdxDoubled.w		; 8d 00 04
 B15_1522:		lda #$08		; a9 08
 B15_1524:		sta wInGameSubstate			; 85 2a
 B15_1526:		lda #$00		; a9 00

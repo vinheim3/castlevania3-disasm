@@ -15,6 +15,7 @@
 
 .define LAST_SOUND_MODE_SONG_IDX $19
 
+.define SND_RUMBLE $3a
 .define SND_PAUSE $4d
 .define MUS_BEGINNING $4f
 .define MUS_MAD_FOREST $50

@@ -351,8 +351,7 @@ roomGroupInternalPalettes:
 @groupEsection2_bg:
 	.db $21 $22
 
-; todo:
-@miscData:
+@staticLayout_baseRoomInternalPalettes:
 	.dw INTERNAL_PALETTES
 	.db $0f $16 $26 $20
 	.db $0f $16 $26 $20
@@ -389,6 +388,8 @@ roomGroupInternalPalettes:
 	.db $08 $18 $0c $0b $1b $0c $2c $27 $0c
 	.db $08 $18 $0c $0c $00 $10 $01 $11 $21
 	.db $08 $18 $0c $0c $00 $10 $05 $00 $10
+
+@bgSpecs2:
 	.db $0c $17 $1c $0c $00 $10 $15 $27 $20
 	.db $00 $22 $1a $18 $28 $20 $22 $20 $02
 	.db $20 $0c $2c $11 $00 $20 $00 $08 $18

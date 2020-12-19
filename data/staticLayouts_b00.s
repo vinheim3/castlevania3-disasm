@@ -1,19 +1,19 @@
 
-data_00_18e4:
+staticLayoutsAddresses:
 	.dw $9b43
 	.dw $9b33
 	.dw $9b33
 	.dw $9b58
-	.dw $9baa
+	.dw staticLayout_internalPaletteDummyWrite ; 04
 	.dw $9b87
 	.dw $9b25
 	.dw $9b2c
 	.dw $9b7a
-	.dw $8766
-	.dw $8982
-	.dw $89a8
-	.dw $8995
-	.dw $89bb
+	.dw roomGroupInternalPalettes@staticLayout_baseRoomInternalPalettes ; 09
+	.dw staticLayout_trevorInternalPalettes ; 0a
+	.dw staticLayout_syphaInternalPalettes ; 0b
+	.dw staticLayout_grantInternalPalettes ; 0c
+	.dw staticLayout_alucardInternalPalettes ; 0d
 	.dw $99b4
 	.dw $99fe
 	.dw $9a1c
@@ -443,6 +443,8 @@ B0_1ba5:	.db $0f
 B0_1ba6:		asl $30			; 06 30
 B0_1ba8:		bmi B0_1ba8 ; 30 fe
 
+
+staticLayout_internalPaletteDummyWrite:
 B0_1baa:		.db $00				; 00
 B0_1bab:	.db $3f
 B0_1bac:	.db $fe $00 $00

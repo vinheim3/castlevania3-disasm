@@ -7,7 +7,9 @@ ifdef ROMHACK
 		-D SEPARATED_LAMP_GFX \
 		-D EXTENDED_RAM \
 		-D WEAPON_SWAPPING \
-		-D FASTER_STAIR_CLIMB
+		-D FASTER_STAIR_CLIMB \
+		-D MID_STAGE_PALETTE_SWAP \
+		-D SCREEN_SHAKE
 endif
 
 castlevania3.bin: code/* include/* data/*

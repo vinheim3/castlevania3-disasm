@@ -642,7 +642,7 @@ B11_1bf5:		sta $054e, x	; 9d 4e 05
 B11_1bf8:		lda #$1b		; a9 1b
 B11_1bfa:		sta wEntityAI_idx.w, x	; 9d ef 05
 B11_1bfd:		lda #$60		; a9 60
-B11_1bff:		sta $0470, x	; 9d 70 04
+B11_1bff:		sta wEntityState.w, x	; 9d 70 04
 B11_1c02:		jsr $bc0b		; 20 0b bc
 B11_1c05:		jmp $bbe4		; 4c e4 bb
 
@@ -653,7 +653,7 @@ B11_1c0a:		rts				; 60
 
 B11_1c0b:		lda #$00		; a9 00
 B11_1c0d:		sta wEntityPhase.w, x	; 9d c1 05
-B11_1c10:		sta wOamSpecIdx.w, x	; 9d 00 04
+B11_1c10:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B11_1c13:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B11_1c16:		sta $0657, x	; 9d 57 06
 B11_1c19:		rts				; 60 
@@ -672,11 +672,11 @@ B11_1c2c:		ldx #$01		; a2 01
 B11_1c2e:		ldy #$00		; a0 00
 B11_1c30:		lda $bc5e, y	; b9 5e bc
 B11_1c33:		sta $0606, x	; 9d 06 06
-B11_1c36:		lda $0470, x	; bd 70 04
+B11_1c36:		lda wEntityState.w, x	; bd 70 04
 B11_1c39:		and #$fd		; 29 fd
 B11_1c3b:		ora #$40		; 09 40
-B11_1c3d:		sta $0470, x	; 9d 70 04
-B11_1c40:		jsr func_1f_1ec8		; 20 c8 fe
+B11_1c3d:		sta wEntityState.w, x	; 9d 70 04
+B11_1c40:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B11_1c43:		lda #$6c		; a9 6c
 B11_1c45:		sta $054e, x	; 9d 4e 05
 B11_1c48:		lda #$6b		; a9 6b
@@ -726,7 +726,7 @@ B11_1c8a:		txa				; 8a
 B11_1c8b:		tay				; a8 
 B11_1c8c:		lda #$00		; a9 00
 B11_1c8e:		sta $00			; 85 00
-B11_1c90:		lda $1a			; a5 1a
+B11_1c90:		lda wGameStateLoopCounter			; a5 1a
 B11_1c92:		and #$03		; 29 03
 B11_1c94:		clc				; 18 
 B11_1c95:		adc #$05		; 69 05
@@ -734,7 +734,7 @@ B11_1c97:		sta $01			; 85 01
 B11_1c99:		lda #$80		; a9 80
 B11_1c9b:		sta wEntityAI_idx.w, y	; 99 ef 05
 B11_1c9e:		lda #$00		; a9 00
-B11_1ca0:		sta wOamSpecIdx.w, y	; 99 00 04
+B11_1ca0:		sta wOamSpecIdxDoubled.w, y	; 99 00 04
 B11_1ca3:		lda #$2c		; a9 2c
 B11_1ca5:		sta $054e, y	; 99 4e 05
 B11_1ca8:		lda #$01		; a9 01
@@ -751,7 +751,7 @@ B11_1cc1:		sta wEntityBaseX.w, y	; 99 38 04
 B11_1cc4:		lda wEntityBaseY.w, x	; bd 1c 04
 B11_1cc7:		sta wEntityBaseY.w, y	; 99 1c 04
 B11_1cca:		lda #$20		; a9 20
-B11_1ccc:		sta $0470, y	; 99 70 04
+B11_1ccc:		sta wEntityState.w, y	; 99 70 04
 B11_1ccf:		iny				; c8 
 B11_1cd0:		inc $00			; e6 00
 B11_1cd2:		lda $00			; a5 00
@@ -767,7 +767,7 @@ B11_1cde:		lda wPlayerStateDoubled.w, x	; bd 65 05
 B11_1ce1:		and #$fe		; 29 fe
 B11_1ce3:		tay				; a8 
 B11_1ce4:		lda $bd3d, y	; b9 3d bd
-B11_1ce7:		sta wOamSpecIdx.w, x	; 9d 00 04
+B11_1ce7:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B11_1cea:		cmp #$de		; c9 de
 B11_1cec:		beq B11_1cf6 ; f0 08
 
@@ -802,7 +802,7 @@ B11_1d2a:		lda $0606, x	; bd 06 06
 B11_1d2d:		bne B11_1d34 ; d0 05
 
 B11_1d2f:		lda #$60		; a9 60
-B11_1d31:		sta $0470, x	; 9d 70 04
+B11_1d31:		sta wEntityState.w, x	; 9d 70 04
 B11_1d34:		lda #$30		; a9 30
 B11_1d36:		sta $0657, x	; 9d 57 06
 B11_1d39:		inc wEntityPhase.w, x	; fe c1 05
@@ -860,7 +860,7 @@ B11_1d87:		rol $96ff, x	; 3e ff 96
 B11_1d8a:		inc $fe28, x	; fe 28 fe
 B11_1d8d:		.db $00				; 00
 B11_1d8e:	.db $fe $a0 $00
-B11_1d91:		lda $1a			; a5 1a
+B11_1d91:		lda wGameStateLoopCounter			; a5 1a
 B11_1d93:		and #$01		; 29 01
 B11_1d95:		beq B11_1d99 ; f0 02
 
@@ -897,7 +897,7 @@ B11_1dc3:		rts				; 60
 
 B11_1dc4:		lda #$00		; a9 00
 B11_1dc6:		sta $054e, x	; 9d 4e 05
-B11_1dc9:		sta wOamSpecIdx.w, x	; 9d 00 04
+B11_1dc9:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B11_1dcc:		inx				; e8 
 B11_1dcd:		lda $054e, x	; bd 4e 05
 B11_1dd0:		cmp #$2c		; c9 2c
@@ -911,7 +911,7 @@ B11_1dd7:		dec $0606, x	; de 06 06
 B11_1dda:		bne B11_1de3 ; d0 07
 
 B11_1ddc:		lda #$60		; a9 60
-B11_1dde:		sta $0470, x	; 9d 70 04
+B11_1dde:		sta wEntityState.w, x	; 9d 70 04
 B11_1de1:		bne B11_1de6 ; d0 03
 
 B11_1de3:		inc $061d, x	; fe 1d 06

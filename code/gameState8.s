@@ -233,10 +233,10 @@ B1_0743:		sbc $01			; e5 01
 B1_0745:		sta $0789		; 8d 89 07
 B1_0748:		and #$01		; 29 01
 B1_074a:		sta $00			; 85 00
-B1_074c:		lda $ff			; a5 ff
+B1_074c:		lda wPPUCtrl			; a5 ff
 B1_074e:		and #$fe		; 29 fe
 B1_0750:		ora $00			; 05 00
-B1_0752:		sta $ff			; 85 ff
+B1_0752:		sta wPPUCtrl			; 85 ff
 B1_0754:		lda $0789		; ad 89 07
 B1_0757:		clc				; 18 
 B1_0758:		adc $0785		; 6d 85 07
@@ -266,7 +266,7 @@ B1_0790:		lda $a7ae, y	; b9 ae a7
 B1_0793:		sta $078c		; 8d 8c 07
 B1_0796:		lda #$00		; a9 00
 B1_0798:		sta $078a		; 8d 8a 07
-B1_079b:		lda $ff			; a5 ff
+B1_079b:		lda wPPUCtrl			; a5 ff
 B1_079d:		ora #$01		; 09 01
 B1_079f:		sta $078b		; 8d 8b 07
 B1_07a2:		lda #$00		; a9 00
@@ -293,7 +293,7 @@ B1_07c2:		clc				; 18
 B1_07c3:		adc #$01		; 69 01
 B1_07c5:		tax				; aa 
 B1_07c6:		lda $07			; a5 07
-B1_07c8:		sta $0470, x	; 9d 70 04
+B1_07c8:		sta wEntityState.w, x	; 9d 70 04
 B1_07cb:		iny				; c8 
 B1_07cc:		cpy #$04		; c0 04
 B1_07ce:		bne B1_07bf ; d0 ef
@@ -319,7 +319,7 @@ B1_07eb:		lda ($08), y	; b1 08
 B1_07ed:		cmp #$ff		; c9 ff
 B1_07ef:		beq B1_07f8 ; f0 07
 
-B1_07f1:		sta $0470, x	; 9d 70 04
+B1_07f1:		sta wEntityState.w, x	; 9d 70 04
 B1_07f4:		inx				; e8 
 B1_07f5:		iny				; c8 
 B1_07f6:		bne B1_07eb ; d0 f3
@@ -427,13 +427,13 @@ B1_0884:		lda ($08), y	; b1 08
 B1_0886:		cmp #$ff		; c9 ff
 B1_0888:		beq B1_08ac ; f0 22
 
-B1_088a:		sta wOamSpecIdx.w, x	; 9d 00 04
+B1_088a:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B1_088d:		lda #$0c		; a9 0c
 B1_088f:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B1_0892:		lda #$01		; a9 01
 B1_0894:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B1_0897:		lda #$80		; a9 80
-B1_0899:		sta $0470, x	; 9d 70 04
+B1_0899:		sta wEntityState.w, x	; 9d 70 04
 B1_089c:		iny				; c8 
 B1_089d:		lda ($08), y	; b1 08
 B1_089f:		sta wEntityBaseX.w, x	; 9d 38 04
@@ -728,7 +728,7 @@ B1_0a6b:		ldy wCurrPlayer.w		; ac 4e 05
 B1_0a6e:		lda $aada, y	; b9 da aa
 B1_0a71:		sta wEntityOamSpecGroupDoubled.w		; 8d 8c 04
 B1_0a74:		lda #$02		; a9 02
-B1_0a76:		sta wOamSpecIdx.w		; 8d 00 04
+B1_0a76:		sta wOamSpecIdxDoubled.w		; 8d 00 04
 B1_0a79:		lda $0780		; ad 80 07
 B1_0a7c:		asl a			; 0a
 B1_0a7d:		sta $00			; 85 00
@@ -793,7 +793,7 @@ B1_0aee:		rti				; 40
 
 
 B1_0aef:		.db $00				; 00
-B1_0af0:		lda $1a			; a5 1a
+B1_0af0:		lda wGameStateLoopCounter			; a5 1a
 B1_0af2:		and #$0f		; 29 0f
 B1_0af4:		bne B1_0afb ; d0 05
 
@@ -817,7 +817,7 @@ B1_0b19:		dec $0787		; ce 87 07
 B1_0b1c:		bne B1_0b29 ; d0 0b
 
 B1_0b1e:		lda #$00		; a9 00
-B1_0b20:		sta wOamSpecIdx.w		; 8d 00 04
+B1_0b20:		sta wOamSpecIdxDoubled.w		; 8d 00 04
 B1_0b23:		inc wPlayerStateDoubled.w		; ee 65 05
 B1_0b26:		inc wPlayerStateDoubled.w		; ee 65 05
 B1_0b29:		rts				; 60 
@@ -837,7 +837,7 @@ B1_0b35:		lsr a			; 4a
 B1_0b36:		bcs B1_0b4c ; b0 14
 
 B1_0b38:		lda #$02		; a9 02
-B1_0b3a:		sta wOamSpecIdx.w		; 8d 00 04
+B1_0b3a:		sta wOamSpecIdxDoubled.w		; 8d 00 04
 B1_0b3d:		rts				; 60 
 
 
@@ -888,9 +888,9 @@ B1_0b89:		sta wEntityHorizSpeed.w		; 8d f2 04
 B1_0b8c:		lda #$08		; a9 08
 B1_0b8e:		sta wPlayerStateDoubled.w		; 8d 65 05
 B1_0b91:		lda #$00		; a9 00
-B1_0b93:		sta $05aa		; 8d aa 05
+B1_0b93:		sta wEntityAnimationDefIdxInSpecGroup.w		; 8d aa 05
 B1_0b96:		ldy #$02		; a0 02
-B1_0b98:		sty wEntityAnimationIdxes.w		; 8c 93 05
+B1_0b98:		sty wEntityOamSpecIdxBaseOffset.w		; 8c 93 05
 B1_0b9b:		dey				; 88 
 B1_0b9c:		sty wEntityTimeUntilNextAnimation.w		; 8c 7c 05
 B1_0b9f:		rts				; 60 

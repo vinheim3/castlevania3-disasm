@@ -128,8 +128,14 @@ internalPaletteIdxGroupAddress = word(0x5cd+group*2)-0x8000
 internalPaletteIdxSectionAddress = word(internalPaletteIdxGroupAddress+section*4)-0x8000
 internalPaletteIdx = prgData[internalPaletteIdxSectionAddress+room]
 internalPalettes = prgData[0x779+internalPaletteIdx*9:0x779+(internalPaletteIdx+1)*9]
-joinedPalettes = ' '.join(str(col) for col in internalPalettes)
-print('internal palettes:', ' '.join(f'{byte:02x}' for byte in internalPalettes))
+fullInternalPalettes = [
+    0x0f, 0x16, 0x26, 0x20,
+    0x0f, *internalPalettes[:3],
+    0x0f, *internalPalettes[3:6],
+    0x0f, *internalPalettes[6:],
+]
+joinedPalettes = ' '.join(str(col) for col in fullInternalPalettes)
+print('internal palettes:', ' '.join(f'{byte:02x}' for byte in fullInternalPalettes))
 
 # Gen gfx_layout.chr and gfx_palette.bin
 with open('gfx_layout.chr', 'wb') as f:

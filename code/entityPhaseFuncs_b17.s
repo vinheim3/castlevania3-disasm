@@ -17,13 +17,13 @@ B23_001e:		lda $061d, x	; bd 1d 06
 B23_0021:		beq B23_002e ; f0 0b
 
 B23_0023:		lda #$08		; a9 08
-B23_0025:		jsr $806f		; 20 6f 80
+B23_0025:		jsr addAtoEntityHorizSpeed		; 20 6f 80
 B23_0028:		jsr $8e20		; 20 20 8e
 B23_002b:		jmp $a054		; 4c 54 a0
 
 
 B23_002e:		lda #$08		; a9 08
-B23_0030:		jsr $808f		; 20 8f 80
+B23_0030:		jsr subAfromEntityHorizSpeed		; 20 8f 80
 B23_0033:		jsr $8e20		; 20 20 8e
 B23_0036:		jmp $a054		; 4c 54 a0
 
@@ -48,7 +48,7 @@ B23_0057:		bcs B23_0068 ; b0 0f
 
 B23_0059:		inc wEntityPhase.w, x	; fe c1 05
 B23_005c:		inc wEntityPhase.w, x	; fe c1 05
-B23_005f:		jsr func_1f_1ec8		; 20 c8 fe
+B23_005f:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B23_0062:		jsr func_17_00fc		; 20 fc a0
 B23_0065:		jmp $e76c		; 4c 6c e7
 
@@ -65,14 +65,14 @@ B23_0077:		jsr func_1f_1c1e		; 20 1e fc
 B23_007a:		beq B23_008a ; f0 0e
 
 B23_007c:		ldx $6c			; a6 6c
-B23_007e:		jsr func_1f_1ec8		; 20 c8 fe
+B23_007e:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B23_0081:		lda #$a0		; a9 a0
 B23_0083:		sta $0606, x	; 9d 06 06
 B23_0086:		inc wEntityPhase.w, x	; fe c1 05
 B23_0089:		rts				; 60 
 
 
-B23_008a:		jsr $8113		; 20 13 81
+B23_008a:		jsr scfIfInSunkenCityRisingWaterRooms		; 20 13 81
 B23_008d:		bcc B23_0089 ; 90 fa
 
 B23_008f:		lda wEntityBaseY.w, x	; bd 1c 04
@@ -100,7 +100,7 @@ B23_00b0:		jsr func_17_00fc		; 20 fc a0
 B23_00b3:		jmp $e76c		; 4c 6c e7
 
 B23_00b6:		lda #$00		; a9 00
-B23_00b8:		sta wOamSpecIdx.w, x	; 9d 00 04
+B23_00b8:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B23_00bb:		sta $054e, x	; 9d 4e 05
 B23_00be:		sta wEntityAI_idx.w, x	; 9d ef 05
 B23_00c1:		rts				; 60 
@@ -120,8 +120,8 @@ B23_00d5:		jmp $8120		; 4c 20 81
 
 
 entityPhaseFunc_39:
-B23_00d8:		jsr func_1f_1ec8		; 20 c8 fe
-B23_00db:		jsr func_16_01aa		; 20 aa 81
+B23_00d8:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
+B23_00db:		jsr setEntityStateMoving		; 20 aa 81
 B23_00de:		ldy #$01		; a0 01
 B23_00e0:		lda ($02), y	; b1 02
 B23_00e2:		sta wEntityVertSpeed.w, x	; 9d 20 05
@@ -132,7 +132,7 @@ B23_00eb:		inc wEntityPhase.w, x	; fe c1 05
 B23_00ee:		rts				; 60 
 
 
-B23_00ef:		jsr $80b3		; 20 b3 80
+B23_00ef:		jsr getDistanceBetweenPlayerAndEntityX		; 20 b3 80
 B23_00f2:		cmp #$0c		; c9 0c
 B23_00f4:		bcs B23_00fb ; b0 05
 
@@ -252,7 +252,7 @@ B23_0195:		lda $054e, x	; bd 4e 05
 B23_0198:		sbc #$9c		; e9 9c
 B23_019a:	.db $99 $8e $00
 B23_019d:		lda #$00		; a9 00
-B23_019f:		sta wOamSpecIdx.w, x	; 9d 00 04
+B23_019f:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B23_01a2:		sta $054e, x	; 9d 4e 05
 B23_01a5:		sta wEntityAI_idx.w, x	; 9d ef 05
 B23_01a8:		rts				; 60 
@@ -291,7 +291,7 @@ B23_01d3:		lda #$18		; a9 18
 B23_01d5:		sta wEntityAI_idx.w, x	; 9d ef 05
 B23_01d8:		lda #$00		; a9 00
 B23_01da:		sta wEntityPhase.w, x	; 9d c1 05
-B23_01dd:		sta $0470, x	; 9d 70 04
+B23_01dd:		sta wEntityState.w, x	; 9d 70 04
 B23_01e0:		jsr $b52f		; 20 2f b5
 B23_01e3:		inx				; e8 
 B23_01e4:		cpx #$0d		; e0 0d
@@ -759,7 +759,7 @@ B23_0466:		.db $00				; 00
 
 entityPhaseFunc_97:
 B23_0467:		inc wEntityPhase.w, x	; fe c1 05
-B23_046a:		jmp func_1f_1ec8		; 4c c8 fe
+B23_046a:		jmp clearEntityHorizVertSpeeds		; 4c c8 fe
 
 
 entityPhaseFunc_14:
@@ -845,12 +845,12 @@ B23_04e2:		rts				; 60
 
 entityPhaseFunc_16:
 B23_04e3:		lda #$50		; a9 50
-B23_04e5:		sta $0470, x	; 9d 70 04
+B23_04e5:		sta wEntityState.w, x	; 9d 70 04
 B23_04e8:		bne B23_050f ; d0 25
 
 entityPhaseFunc_17:
 B23_04ea:		lda #$58		; a9 58
-B23_04ec:		sta $0470, x	; 9d 70 04
+B23_04ec:		sta wEntityState.w, x	; 9d 70 04
 B23_04ef:		bne B23_050f ; d0 1e
 
 entityPhaseFunc_18:

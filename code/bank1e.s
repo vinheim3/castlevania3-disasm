@@ -227,7 +227,7 @@ B30_0a4a:		beq B30_0a55 ; f0 09
 
 B30_0a4c:		sec				; 38 
 B30_0a4d:		lda $08			; a5 08
-B30_0a4f:		sbc $56			; e5 56
+B30_0a4f:		sbc wCurrScrollXWithinRoom			; e5 56
 B30_0a51:		sta $6e			; 85 6e
 B30_0a53:		clc				; 18 
 B30_0a54:		rts				; 60 
@@ -326,7 +326,7 @@ B30_0ae9:	.db $99 $59 $00
 B30_0aec:		jsr $cfcb		; 20 cb cf
 B30_0aef:		lda $08			; a5 08
 B30_0af1:		sec				; 38 
-B30_0af2:		sbc $56			; e5 56
+B30_0af2:		sbc wCurrScrollXWithinRoom			; e5 56
 B30_0af4:		sta $6e			; 85 6e
 B30_0af6:		sec				; 38 
 B30_0af7:		rts				; 60 
@@ -830,11 +830,11 @@ B30_0e29:		sta wVramQueueDest			; 85 61
 B30_0e2b:		lda $5c			; a5 5c
 B30_0e2d:		beq B30_0e3c ; f0 0d
 
-B30_0e2f:		lda $61			; a5 61
+B30_0e2f:		lda wVramQueueDest			; a5 61
 B30_0e31:		clc				; 18 
 B30_0e32:		adc #$40		; 69 40
 B30_0e34:		sta wVramQueueDest			; 85 61
-B30_0e36:		lda $62			; a5 62
+B30_0e36:		lda wVramQueueDest+1			; a5 62
 B30_0e38:		adc #$01		; 69 01
 B30_0e3a:		sta wVramQueueDest+1			; 85 62
 
@@ -1060,7 +1060,7 @@ B30_0f9e:		ldx #$29		; a2 29
 B30_0fa0:		ldy #$2a		; a0 2a
 B30_0fa2:		jsr func_1f_05bf		; 20 bf e5
 B30_0fa5:		lda #$b0		; a9 b0
-B30_0fa7:		sta $ff			; 85 ff
+B30_0fa7:		sta wPPUCtrl			; 85 ff
 B30_0fa9:		lda #$04		; a9 04
 B30_0fab:		sta wScrollY			; 85 fc
 B30_0fad:		lda wCurrScrollXWithinRoom			; a5 56
@@ -1379,44 +1379,45 @@ B30_1172:		jmp B30_1154		; 4c 54 d1
 func_1e_1175:
 B30_1175:		lda $65			; a5 65
 B30_1177:		cmp #$02		; c9 02
-B30_1179:		bne B30_117d ; d0 02
+	bne +
 
 B30_117b:		lda $a1			; a5 a1
-B30_117d:		sta $a0			; 85 a0
++	sta $a0			; 85 a0
 B30_117f:		lda $65			; a5 65
 B30_1181:		sta $a1			; 85 a1
 B30_1183:		jsr $d325		; 20 25 d3
 B30_1186:		lda $a0			; a5 a0
 B30_1188:		cmp #$02		; c9 02
-B30_118a:		beq B30_1199 ; f0 0d
+B30_118a:		beq B30_1199 ; @done
 
 B30_118c:		lda $67			; a5 67
-B30_118e:		beq B30_1193 ; f0 03
+	beq +
 
 B30_1190:		dec $67			; c6 67
 B30_1192:		rts				; 60 
 
-B30_1193:		lda $1a			; a5 1a
++	lda wGameStateLoopCounter			; a5 1a
 B30_1195:		and #$01		; 29 01
-B30_1197:		bne B30_119a ; d0 01
+	bne +
 
+@done:
 B30_1199:		rts				; 60 
 
-B30_119a:		jsr setBankOfRoomGroupLayoutPalettesData		; 20 05 c9
++	jsr setBankOfRoomGroupLayoutPalettesData		; 20 05 c9
 B30_119d:		ldy $a0			; a4 a0
 B30_119f:		lda $59.w, y
-B30_11a2:		bmi B30_1199 ; 30 f5
+B30_11a2:		bmi B30_1199 ; @done
 
 B30_11a4:		cmp $7b			; c5 7b
-B30_11a6:		bcs B30_1199 ; b0 f1
+B30_11a6:		bcs B30_1199 ; @done
 
 B30_11a8:		lda $5b.w, y
 B30_11ab:		cmp #$06		; c9 06
-B30_11ad:		bcc B30_11b0 ; 90 01
+	bcc +
 
 B30_11af:		rts				; 60 
 
-B30_11b0:		tya				; 98 
++	tya				; 98 
 B30_11b1:		asl a			; 0a
 B30_11b2:		tax				; aa 
 B30_11b3:		lda $52, x		; b5 52
@@ -1427,19 +1428,19 @@ B30_11bb:		jsr $cf31		; 20 31 cf
 B30_11be:		ldx #$00		; a2 00
 B30_11c0:		lda $75			; a5 75
 B30_11c2:		and #$01		; 29 01
-B30_11c4:		beq B30_11c8 ; f0 02
+	beq +
 
 B30_11c6:		ldx #$08		; a2 08
-B30_11c8:		stx $00			; 86 00
++	stx $00			; 86 00
 B30_11ca:		ldy $a0			; a4 a0
 B30_11cc:		ldx #$20		; a2 20
 B30_11ce:		lda $59.w, y
 B30_11d1:		and #$08		; 29 08
 B30_11d3:		eor $00			; 45 00
-B30_11d5:		beq B30_11d9 ; f0 02
+	beq +
 
 B30_11d7:		ldx #$24		; a2 24
-B30_11d9:		stx $00			; 86 00
++	stx $00			; 86 00
 B30_11db:		lda #$00		; a9 00
 B30_11dd:		sta wVramQueueDest			; 85 61
 B30_11df:		ldy $a0			; a4 a0
@@ -1457,18 +1458,18 @@ B30_11f3:		clc				; 18
 B30_11f4:		adc #$80		; 69 80
 B30_11f6:		adc wVramQueueDest			; 65 61
 B30_11f8:		sta wVramQueueDest			; 85 61
-B30_11fa:		bcc B30_11fe ; 90 02
+	bcc +
 
 B30_11fc:		inc $62			; e6 62
-B30_11fe:		lda $5b.w, y
++	lda $5b.w, y
 B30_1201:		asl a			; 0a
 B30_1202:		sta $00			; 85 00
 B30_1204:		lda $59.w, y
-B30_1207:		cmp #$0c		; c9 0c
+-	cmp #$0c		; c9 0c
 B30_1209:		bcc B30_1210 ; 90 05
 
 B30_120b:		sbc #$0c		; e9 0c
-B30_120d:		jmp B30_1207		; 4c 07 d2
+	jmp -
 
 B30_1210:		tay				; a8 
 B30_1211:		lda data_1f_1d4c.w, y	; b9 4c fd
@@ -1483,7 +1484,7 @@ B30_1220:		ldy $10			; a4 10
 B30_1222:		lda #$00		; a9 00
 B30_1224:		sta $06e0, y	; 99 e0 06
 B30_1227:		inc $10			; e6 10
-B30_1229:		lda $61			; a5 61
+B30_1229:		lda wVramQueueDest			; a5 61
 B30_122b:		clc				; 18 
 B30_122c:		adc #$40		; 69 40
 B30_122e:		sta wVramQueueDest			; 85 61
@@ -1506,10 +1507,10 @@ B30_124d:		inx				; e8
 B30_124e:		stx wVramQueueNextIdxToFill			; 86 1d
 B30_1250:		ldy #$00		; a0 00
 B30_1252:		ldx wVramQueueNextIdxToFill			; a6 1d
-B30_1254:		lda $61			; a5 61
+B30_1254:		lda wVramQueueDest			; a5 61
 B30_1256:		sta wVramQueue.w, x	; 9d 00 03
 B30_1259:		inx				; e8 
-B30_125a:		lda $62			; a5 62
+B30_125a:		lda wVramQueueDest+1			; a5 62
 B30_125c:		sta wVramQueue.w, x	; 9d 00 03
 B30_125f:		inx				; e8 
 
@@ -1542,7 +1543,7 @@ B30_129c:		ldy $10			; a4 10
 B30_129e:		sta $06e0, y	; 99 e0 06
 B30_12a1:		inc $10			; e6 10
 B30_12a3:		ldy $07			; a4 07
-B30_12a5:		lda $61			; a5 61
+B30_12a5:		lda wVramQueueDest			; a5 61
 B30_12a7:		clc				; 18 
 B30_12a8:		adc #$20		; 69 20
 B30_12aa:		sta wVramQueueDest			; 85 61
@@ -1578,10 +1579,10 @@ B30_12dc:		bne B30_12e0 ; d0 02
 B30_12de:		lda #$23		; a9 23
 B30_12e0:		sta wVramQueueDest+1			; 85 62
 B30_12e2:		ldx wVramQueueNextIdxToFill			; a6 1d
-B30_12e4:		lda $61			; a5 61
+B30_12e4:		lda wVramQueueDest			; a5 61
 B30_12e6:		sta wVramQueue.w, x	; 9d 00 03
 B30_12e9:		inx				; e8 
-B30_12ea:		lda $62			; a5 62
+B30_12ea:		lda wVramQueueDest+1			; a5 62
 B30_12ec:		sta wVramQueue.w, x	; 9d 00 03
 B30_12ef:		inx				; e8 
 B30_12f0:		ldy $63			; a4 63
@@ -1608,7 +1609,6 @@ B30_1313:		bcc B30_1317 ; 90 02
 
 B30_1315:		inc $53, x		; f6 53
 B30_1317:		rts				; 60 
-
 
 B30_1318:		lda $00			; a5 00
 B30_131a:		and #$f0		; 29 f0
@@ -3032,14 +3032,14 @@ A29_1f71:		sta wPlayerStateDoubled.w		; 8d 65 05
 A29_1f74:		lda $49			; a5 49
 A29_1f76:		beq A29_1f8b ; f0 13
 
-A29_1f78:		lda $48			; a5 48
+A29_1f78:		lda wChrBankSpr_0800			; a5 48
 A29_1f7a:		cmp #$02		; c9 02
 A29_1f7c:		bne A29_1f8b ; d0 0d
 
 A29_1f7e:		lda #$38		; a9 38
 A29_1f80:		sta $05d8		; 8d d8 05
 A29_1f83:		lda #$16		; a9 16
-A29_1f85:		sta wOamSpecIdx.w		; 8d 00 04
+A29_1f85:		sta wOamSpecIdxDoubled.w		; 8d 00 04
 A29_1f88:		jmp A29_1f93		; 4c 93 bf
 
 
@@ -3055,7 +3055,7 @@ A29_1f99:		lda wPlayerStateDoubled.w		; ad 65 05
 A29_1f9c:		cmp #$08		; c9 08
 A29_1f9e:		bne A29_1faa ; d0 0a
 
-A29_1fa0:		lda wOamSpecIdx.w		; ad 00 04
+A29_1fa0:		lda wOamSpecIdxDoubled.w		; ad 00 04
 A29_1fa3:		cmp #$10		; c9 10
 A29_1fa5:		beq A29_1faa ; f0 03
 
@@ -3085,16 +3085,17 @@ A29_1fc9:		jmp B28_179c		; 4c a3 97
 
 
 playerState12_14_body:
+	jsr shuffleSubweapon
+
 A29_1fcc:		lda wJoy1NewButtonsPressed			; a5 28
-A29_1fce:		and #$80		; 29 80
+A29_1fce:		and #PADF_A		; 29 80
 A29_1fd0:		beq A29_1fda ; f0 08
 
-A29_1fd2:		lda #$06		; a9 06
+A29_1fd2:		lda #PS_JUMP_START		; a9 06
 A29_1fd4:		sta wPlayerStateDoubled.w		; 8d 65 05
 A29_1fd7:		pla				; 68 
 A29_1fd8:		pla				; 68 
 A29_1fd9:		rts				; 60 
-
 
 A29_1fda:		lda wPlayerStateDoubled.w		; ad 65 05
 A29_1fdd:		cmp #$14		; c9 14
@@ -3108,10 +3109,13 @@ A29_1fe5:		rts				; 60
 A29_1fe6:		jmp B28_1a2d		; 4c 43 9a
 
 playerState0a_exceptGrant_body:
+	jsr screenShake
+
 A29_1fe9:		lda wJoy1ButtonsPressed			; a5 2a
 A29_1feb:		lsr a			; 4a
 A29_1fec:		bcc A29_1ff3 ; 90 05
 
+; pressing right
 A29_1fee:		ldx #$00		; a2 00
 A29_1ff0:		stx wEntityFacingLeft.w		; 8e a8 04
 A29_1ff3:		lsr a			; 4a
@@ -3134,8 +3138,36 @@ checkSubweaponIntegrity:
 	rts
 
 shuffleSubweapon:
-	lda wJoy1NewButtonsPressed
+; todo - separate shuffle and palette swap funcs
+; MID_STAGE_PALETTE_SWAP req start
+	lda wJoy1ButtonsPressed
 	and #PADF_SELECT
+	beq @afterPaletteSwap
+	lda wJoy1NewButtonsPressed
+	and #PADF_RIGHT
+	beq +
+	ldx #$02
+	jsr setAlteredBGPalettes
+	jmp @afterPaletteSwap
++	lda wJoy1NewButtonsPressed
+	and #PADF_LEFT
+	beq +
+	ldx #$01
+	jsr setAlteredBGPalettes
+	jmp @afterPaletteSwap
++	lda wJoy1NewButtonsPressed
+	and #PADF_UP
+	beq @afterPaletteSwap
+	ldx #$00
+	jsr setAlteredBGPalettes
+@afterPaletteSwap:
+; MID_STAGE_PALETTE_SWAP req end
+
+	lda wJoy1ButtonsPressed
+	and #PADF_B
+	beq @done
+	lda wJoy1NewButtonsPressed
+	and #PADF_RIGHT
 	bne @selectPressed
 @done:
 	lda wJoy1NewButtonsPressed
@@ -3177,4 +3209,156 @@ shuffleSubweapon:
 	ldy $3b
 	sta wCurrSubweapon.w, y
 	jmp @done
+
+shuffleSubweapon_1c_041d:
+	jsr shuffleSubweapon
+	jmp func_1c_041d
+
+shuffleSubweapon_1c_0421:
+	jsr shuffleSubweapon
+	jmp func_1c_0421
+
+shuffleSubweapon_1d_1c89:
+	jsr shuffleSubweapon
+	jmp $bc89
+.endif
+
+.ifdef MID_STAGE_PALETTE_SWAP
+populate2ndInternalBGPalettes:
+	tya
+	pha
+
+	ldx #$00
+-	lda $07
+	beq +
+	lda roomGroupInternalPalettes@bgSpecs2.w, y
+	jmp ++
++	lda roomGroupInternalPalettes@bgSpecs.w, y
+++	sta wBackupInternalBGPalettes.w, x
+
+	sec
+	sbc #$10
+	bcs +
+	clc
+	adc #$10
++	sta wDimmerInternalBGPalettes.w, x
+
+	lda $07
+	beq +
+	lda roomGroupInternalPalettes@bgSpecs2.w, y
+	jmp ++
++	lda roomGroupInternalPalettes@bgSpecs.w, y
+++	clc
+	adc #$10
+	cmp #$40
+	bcc +
+	sec
+	sbc #$10
++	sta wBrighterInternalBGPalettes.w, x
+
+	inx
+	iny
+	cpx #$09
+	bne -
+
+	pla
+	tay
+	
+	ldx wVramQueueNextIdxToFill
+	lda #$03
+	rts
+
+setAlteredBGPalettes:
+	bne +
+	ldy #$00
+	beq @afterY
++	dex
+	bne +
+	ldy #(wDimmerInternalBGPalettes-wBackupInternalBGPalettes)
+	bne @afterY
++	ldy #(wBrighterInternalBGPalettes-wBackupInternalBGPalettes)
+
+@afterY:
+	ldx wVramQueueNextIdxToFill
+	lda #$01
+	sta wVramQueue.w, x
+	inx
+
+	lda #$05
+	sta wVramQueue.w, x
+	inx
+
+	lda #$3f
+	sta wVramQueue.w, x
+	inx
+
+	lda #$03
+	sta $0d
+
+--	lda #03
+	sta $0c
+
+-	lda wBackupInternalBGPalettes.w, y
+	sta wVramQueue.w, x
+	inx
+	iny
+	dec $0c
+	bne -
+
+	lda #$0f
+	sta wVramQueue.w, x
+	inx
+
+	dec $0d
+	bne --
+
+	jmp setVramQueueFillIdxAndTerminate
+.endif
+
+.ifdef SCREEN_SHAKE
+screenShake:
+	lda wJoy1ButtonsPressed
+	and #PADF_SELECT
+	beq @noShake
+	lda wJoy1ButtonsPressed
+	and #PADF_DOWN
+	beq @noShake
+
+	lda wIsShaking.w
+	bne +
+	lda wGameplayScrollXWithinRoom
+	sta wOrigScreenShakeX.w
+	lda #$01
+	sta wIsShaking.w
+
++
+	lda wOrigScreenShakeX.w
+	sec
+	sbc #$03
+	bcs +
+	lda wRandomVal
+	and #$03
+	jmp ++
++	lda wRandomVal
+	and #$07
+++	tay
+	lda randomOffsets.w, y
+	clc
+	adc wOrigScreenShakeX.w
+	bcs +
+	sta wGameplayScrollXWithinRoom
+	lda #SND_RUMBLE
+	jsr playSound
++	rts
+
+@noShake:
+	lda wOrigScreenShakeX.w
+	sta wGameplayScrollXWithinRoom
+	lda #$00
+	sta wIsShaking.w
+	rts
+
+randomOffsets:
+	.db $00 $01 $02 $03 $fd $fe $ff
+
 .endif

@@ -105,7 +105,7 @@ B21_16c6:		lda $12			; a5 12
 B21_16c8:		bpl B21_16a7 ; 10 dd
 
 B21_16ca:		lda #$00		; a9 00
-B21_16cc:		sta wOamSpecIdx.w, x	; 9d 00 04
+B21_16cc:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B21_16cf:		sta $054e, x	; 9d 4e 05
 B21_16d2:		jmp $b6a7		; 4c a7 b6
 
@@ -161,7 +161,7 @@ B21_171d:		lda #$00		; a9 00
 B21_171f:		sta wScrollY			; 85 fc
 B21_1721:		sta wScrollX			; 85 fd
 B21_1723:		lda #$b1		; a9 b1
-B21_1725:		sta $ff			; 85 ff
+B21_1725:		sta wPPUCtrl			; 85 ff
 B21_1727:		ldx #$90		; a2 90
 B21_1729:		lda #$5b		; a9 5b
 B21_172b:		jsr displayStaticLayoutAbankX		; 20 dc ec
@@ -279,7 +279,7 @@ B21_17cb:		bne B21_17ce ; d0 01
 B21_17cd:		rts				; 60 
 
 B21_17ce:		lda #$01		; a9 01
-B21_17d0:		sta $07f6		; 8d f6 07
+B21_17d0:		sta wHardMode.w		; 8d f6 07
 B21_17d3:		lda #$00		; a9 00
 B21_17d5:		sta wCurrRoomGroup			; 85 32
 B21_17d7:		sta wCurrRoomSection			; 85 33
@@ -321,7 +321,7 @@ B21_1812:		rts				; 60
 B21_1813:		jsr func_1f_07f7		; 20 f7 e7
 B21_1816:		jsr func_15_195c		; 20 5c b9
 B21_1819:		lda #$b0		; a9 b0
-B21_181b:		sta $ff			; 85 ff
+B21_181b:		sta wPPUCtrl			; 85 ff
 B21_181d:		lda #$00		; a9 00
 B21_181f:		sta wScrollX			; 85 fd
 B21_1821:		lda #$10		; a9 10
@@ -466,10 +466,10 @@ B21_18fe:		sta wScrollX			; 85 fd
 B21_1900:		lda $07a4		; ad a4 07
 B21_1903:		and #$01		; 29 01
 B21_1905:		sta $00			; 85 00
-B21_1907:		lda $ff			; a5 ff
+B21_1907:		lda wPPUCtrl			; a5 ff
 B21_1909:		and #$fe		; 29 fe
 B21_190b:		ora $00			; 05 00
-B21_190d:		sta $ff			; 85 ff
+B21_190d:		sta wPPUCtrl			; 85 ff
 B21_190f:		rts				; 60 
 
 
@@ -583,7 +583,7 @@ B21_19ac:		beq B21_19d7 ; f0 29
 B21_19ae:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B21_19b1:		iny				; c8 
 B21_19b2:		jsr func_1f_1b95		; 20 95 fb
-B21_19b5:		sta wOamSpecIdx.w, x	; 9d 00 04
+B21_19b5:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B21_19b8:		iny				; c8 
 B21_19b9:		jsr func_1f_1b95		; 20 95 fb
 B21_19bc:		sta wEntityBaseX.w, x	; 9d 38 04
@@ -680,7 +680,7 @@ B21_1a30:	.db $bf
 
 
 func_15_1a31:
-B21_1a31:		lda $07f6		; ad f6 07
+B21_1a31:		lda wHardMode.w		; ad f6 07
 B21_1a34:		bne B21_1a3f ; d0 09
 
 B21_1a36:		lda $0781		; ad 81 07

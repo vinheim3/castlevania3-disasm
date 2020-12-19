@@ -144,7 +144,7 @@ B3_06fc:		bne cutsceneRts
 B3_06fe:		ldy #$39		; a0 39
 B3_0700:		lda #$0c		; a9 0c
 B3_0702:		ldx #$00		; a2 00
-B3_0704:		jsr func_1f_0f5c		; 20 5c ef
+B3_0704:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
 B3_0707:		ldy #>$0020		; a0 00
 B3_0709:		lda #<$0020		; a9 20
 B3_070b:		jsr setGenericTimerToYA		; 20 8e e5
@@ -236,7 +236,7 @@ B3_076c:		.db $01
 
 func_03_076d:
 	lda $a77e, y		; b9 7e a7
-B3_0770:	sta wOamSpecIdx.w	; 8d 00 04
+B3_0770:	sta wOamSpecIdxDoubled.w	; 8d 00 04
 B3_0773:		lda #$0c		; a9 0c
 B3_0775:		sta wEntityOamSpecGroupDoubled.w		; 8d 8c 04
 B3_0778:		lda #$00		; a9 00

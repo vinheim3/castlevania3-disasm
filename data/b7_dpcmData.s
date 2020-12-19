@@ -4182,7 +4182,7 @@ B7_1d40:		ldy $d22b		; ac 2b d2
 B7_1d43:		lda $96			; a5 96
 B7_1d45:		ora $9f			; 05 9f
 B7_1d47:	.db $27
-B7_1d48:		ora $ff			; 05 ff
+B7_1d48:		ora wPPUCtrl			; 05 ff
 B7_1d4a:		ora ($f8, x)	; 01 f8
 B7_1d4c:	.db $27
 B7_1d4d:		cpy #$ff		; c0 ff

@@ -1,87 +1,94 @@
 
-reverseEnemyDirection_todo:
-B22_004b:		sec				; 38 
-B22_004c:		lda #$00		; a9 00
-B22_004e:		sbc wEntityHorizSubSpeed.w, x	; fd 09 05
-B22_0051:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
-B22_0054:		lda #$00		; a9 00
-B22_0056:		sbc wEntityHorizSpeed.w, x	; fd f2 04
-B22_0059:		sta wEntityHorizSpeed.w, x	; 9d f2 04
-B22_005c:		rts				; 60 
+reverseEntityHorizSpeed:
+	sec
+	lda #$00
+	sbc wEntityHorizSubSpeed.w, x
+	sta wEntityHorizSubSpeed.w, x
+	lda #$00
+	sbc wEntityHorizSpeed.w, x
+	sta wEntityHorizSpeed.w, x
+	rts
 
 
-B22_005d:		sec				; 38 
-B22_005e:		lda #$00		; a9 00
-B22_0060:		sbc wEntityVertSubSpeed.w, x	; fd 37 05
-B22_0063:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
-B22_0066:		lda #$00		; a9 00
-B22_0068:		sbc wEntityVertSpeed.w, x	; fd 20 05
-B22_006b:		sta wEntityVertSpeed.w, x	; 9d 20 05
-B22_006e:		rts				; 60 
+reverseEntityVertSpeed:
+	sec
+	lda #$00
+	sbc wEntityVertSubSpeed.w, x
+	sta wEntityVertSubSpeed.w, x
+	lda #$00
+	sbc wEntityVertSpeed.w, x
+	sta wEntityVertSpeed.w, x
+	rts
 
 
-B22_006f:		clc				; 18 
-B22_0070:		adc wEntityHorizSubSpeed.w, x	; 7d 09 05
-B22_0073:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
-B22_0076:		lda #$00		; a9 00
-B22_0078:		adc wEntityHorizSpeed.w, x	; 7d f2 04
-B22_007b:		sta wEntityHorizSpeed.w, x	; 9d f2 04
-B22_007e:		rts				; 60 
+addAtoEntityHorizSpeed:
+	clc
+	adc wEntityHorizSubSpeed.w, x
+	sta wEntityHorizSubSpeed.w, x
+	lda #$00
+	adc wEntityHorizSpeed.w, x
+	sta wEntityHorizSpeed.w, x
+	rts
 
 
-func_16_007f:
-B22_007f:		clc				; 18 
-B22_0080:		adc wEntityVertSubSpeed.w, x	; 7d 37 05
-B22_0083:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
-B22_0086:		lda #$00		; a9 00
-B22_0088:		adc wEntityVertSpeed.w, x	; 7d 20 05
-B22_008b:		sta wEntityVertSpeed.w, x	; 9d 20 05
-B22_008e:		rts				; 60 
+addAtoEntityVertSpeed:
+	clc
+	adc wEntityVertSubSpeed.w, x
+	sta wEntityVertSubSpeed.w, x
+	lda #$00
+	adc wEntityVertSpeed.w, x
+	sta wEntityVertSpeed.w, x
+	rts
 
 
-B22_008f:		eor #$ff		; 49 ff
-B22_0091:		sec				; 38 
-B22_0092:		adc wEntityHorizSubSpeed.w, x	; 7d 09 05
-B22_0095:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
-B22_0098:		lda #$ff		; a9 ff
-B22_009a:		adc wEntityHorizSpeed.w, x	; 7d f2 04
-B22_009d:		sta wEntityHorizSpeed.w, x	; 9d f2 04
-B22_00a0:		rts				; 60 
+subAfromEntityHorizSpeed:
+	eor #$ff
+	sec
+	adc wEntityHorizSubSpeed.w, x
+	sta wEntityHorizSubSpeed.w, x
+	lda #$ff
+	adc wEntityHorizSpeed.w, x
+	sta wEntityHorizSpeed.w, x
+	rts
 
 
-B22_00a1:		eor #$ff		; 49 ff
-B22_00a3:		sec				; 38 
-B22_00a4:		adc wEntityVertSubSpeed.w, x	; 7d 37 05
-B22_00a7:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
-B22_00aa:		lda #$ff		; a9 ff
-B22_00ac:		adc wEntityVertSpeed.w, x	; 7d 20 05
-B22_00af:		sta wEntityVertSpeed.w, x	; 9d 20 05
-B22_00b2:		rts				; 60 
+subAfromEntityVertSpeed:
+	eor #$ff
+	sec
+	adc wEntityVertSubSpeed.w, x
+	sta wEntityVertSubSpeed.w, x
+	lda #$ff
+	adc wEntityVertSpeed.w, x
+	sta wEntityVertSpeed.w, x
+	rts
 
 
-B22_00b3:		lda wEntityBaseX.w, x	; bd 38 04
-B22_00b6:		sec				; 38 
-B22_00b7:		sbc wEntityBaseX.w		; ed38 04
-B22_00ba:		bcs B22_00c0 ; b0 04
+getDistanceBetweenPlayerAndEntityX:
+	lda wEntityBaseX.w, x
+	sec
+	sbc wEntityBaseX.w
+	bcs negA_16_00bc@done
 
-B22_00bc:		eor #$ff		; 49 ff
-B22_00be:		adc #$01		; 69 01
-B22_00c0:		rts				; 60 
+negA_16_00bc:
+	eor #$ff
+	adc #$01
+@done:
+	rts
 
 
 B22_00c1:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_00c4:		sec				; 38 
 B22_00c5:		sbc $11			; e5 11
-B22_00c7:		bcs B22_00c0 ; b0 f7
+	bcs negA_16_00bc@done
 
-B22_00c9:		bcc B22_00bc ; 90 f1
+B22_00c9:		bcc negA_16_00bc ; 90 f1
 
 B22_00cb:		lda wEntityBaseX.w, x	; bd 38 04
 B22_00ce:		sec				; 38 
 B22_00cf:		sbc $10			; e5 10
-B22_00d1:		bcs B22_00c0 ; b0 ed
+	bcs negA_16_00bc@done
 
-B22_00d3:		bcc B22_00bc ; 90 e7
+B22_00d3:		bcc negA_16_00bc ; 90 e7
 
 B22_00d5:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_00d8:		sec				; 38 
@@ -134,26 +141,26 @@ entityPhaseFunc_75_stub:
 	rts
 
 
-B22_0113:		lda wCurrRoomGroup		; a5 32
-B22_0115:		cmp #$08		; c9 08
-B22_0117:		bne B22_011e ; d0 05
+scfIfInSunkenCityRisingWaterRooms:
+	lda wCurrRoomGroup
+	cmp #RG_SUNKEN_CITY
+	bne +
 
-B22_0119:		lda wCurrRoomSection			; a5 33
-B22_011b:		cmp #$03		; c9 03
-B22_011d:		rts				; 60 
+	lda wCurrRoomSection
+	cmp #$03
+	rts
 
-
-B22_011e:		clc				; 18 
-B22_011f:		rts				; 60 
++	clc
+-	rts
 
 
 entityPhaseFunc_a0:
-B22_0120:		jsr $8113		; 20 13 81
-B22_0123:		bcc B22_011f ; 90 fa
+B22_0120:		jsr scfIfInSunkenCityRisingWaterRooms		; 20 13 81
+	bcc -
 
 B22_0125:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_0128:		cmp $ca			; c5 ca
-B22_012a:		bcc B22_011f ; 90 f3
+	bcc -
 
 B22_012c:		jsr $84b2		; 20 b2 84
 B22_012f:		sec				; 38 
@@ -165,7 +172,7 @@ B22_0131:		lda wInGameSubstate			; a5 2a
 B22_0133:		cmp #$1b		; c9 1b
 B22_0135:		bne B22_014f ; d0 18
 
-B22_0137:		lda $0470, x	; bd 70 04
+B22_0137:		lda wEntityState.w, x	; bd 70 04
 B22_013a:		and #$02		; 29 02
 B22_013c:		bne B22_014f ; d0 11
 
@@ -184,20 +191,21 @@ B22_0152:		rts				; 60
 
 entityPhaseFunc_6d:
 B22_0153:		lda #$10		; a9 10
-B22_0155:		jsr func_16_007f		; 20 7f 80
+B22_0155:		jsr addAtoEntityVertSpeed		; 20 7f 80
 B22_0158:		ldy #$06		; a0 06
 B22_015a:		jsr func_17_17a6		; 20 a6 b7
 B22_015d:		beq entityPhaseFunc_75_stub ; f0 b3
 
 B22_015f:		ldx $6c			; a6 6c
 B22_0161:		jsr func_16_0b91		; 20 91 8b
+
 B22_0164:		inc wEntityPhase.w, x	; fe c1 05
-B22_0167:		jmp func_1f_1ec8		; 4c c8 fe
+B22_0167:		jmp clearEntityHorizVertSpeeds		; 4c c8 fe
 
 
 entityPhaseFunc_a1:
 B22_016a:		lda #$10		; a9 10
-B22_016c:		jsr func_16_007f		; 20 7f 80
+B22_016c:		jsr addAtoEntityVertSpeed		; 20 7f 80
 B22_016f:		ldy #$0e		; a0 0e
 B22_0171:		jsr func_17_17a6		; 20 a6 b7
 B22_0174:		beq B22_019a ; f0 24
@@ -206,13 +214,13 @@ B22_0176:		ldx $6c			; a6 6c
 B22_0178:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_017b:		and #$f8		; 29 f8
 B22_017d:		sta wEntityBaseY.w, x	; 9d 1c 04
-B22_0180:		jmp $8164		; 4c 64 81
+B22_0180:		jmp B22_0164		; 4c 64 81
 
 
 entityPhaseFunc_9e:
 B22_0183:		jsr $81ef		; 20 ef 81
 B22_0186:		lda #$10		; a9 10
-B22_0188:		jsr func_16_007f		; 20 7f 80
+B22_0188:		jsr addAtoEntityVertSpeed		; 20 7f 80
 B22_018b:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_018e:		cmp #$f8		; c9 f8
 B22_0190:		bcc B22_019a ; 90 08
@@ -223,85 +231,85 @@ B22_0197:		inc wEntityPhase.w, x	; fe c1 05
 B22_019a:		rts				; 60 
 
 
-entityPhaseFunc_01:
-B22_019b:		inc wEntityPhase.w, x	; fe c1 05
+entityPhaseFunc_01_setStateNotMoving:
+	inc wEntityPhase.w, x
 
-func_16_019e:
-B22_019e:		lda $0470, x	; bd 70 04
-B22_01a1:		and #$bf		; 29 bf
-B22_01a3:		sta $0470, x	; 9d 70 04
-B22_01a6:		rts				; 60 
-
-
-entityPhaseFunc_2a:
-B22_01a7:		inc wEntityPhase.w, x	; fe c1 05
-
-func_16_01aa:
-B22_01aa:		lda $0470, x	; bd 70 04
-B22_01ad:		ora #$40		; 09 40
-B22_01af:		sta $0470, x	; 9d 70 04
-B22_01b2:		rts				; 60 
+setEntityStateNotMoving:
+	lda wEntityState.w, x
+	and #$ff-ES_MOVING
+	sta wEntityState.w, x
+	rts
 
 
-entityPhaseFunc_2b:
-B22_01b3:		inc wEntityPhase.w, x	; fe c1 05
-B22_01b6:		jmp reverseEnemyDirection_todo		; 4c 4b 80
+entityPhaseFunc_2a_setStateMoving:
+	inc wEntityPhase.w, x
+
+setEntityStateMoving:
+	lda wEntityState.w, x
+	ora #ES_MOVING
+	sta wEntityState.w, x
+	rts
+
+
+entityPhaseFunc_2b_reverseHorizontally:
+	inc wEntityPhase.w, x
+	jmp reverseEntityHorizSpeed
 
 
 entityPhaseFunc_03:
 B22_01b9:		inc wEntityPhase.w, x	; fe c1 05
-B22_01bc:		lda $0470, x	; bd 70 04
+B22_01bc:		lda wEntityState.w, x	; bd 70 04
 B22_01bf:		and #$f7		; 29 f7
-B22_01c1:		sta $0470, x	; 9d 70 04
+B22_01c1:		sta wEntityState.w, x	; 9d 70 04
 B22_01c4:		rts				; 60 
 
 
 entityPhaseFunc_0a:
 B22_01c5:		inc wEntityPhase.w, x	; fe c1 05
-B22_01c8:		lda $0470, x	; bd 70 04
+B22_01c8:		lda wEntityState.w, x	; bd 70 04
 B22_01cb:		ora #$88		; 09 88
-B22_01cd:		sta $0470, x	; 9d 70 04
+B22_01cd:		sta wEntityState.w, x	; 9d 70 04
 B22_01d0:		rts				; 60 
 
 
-entityPhaseFunc_54:
-B22_01d1:		inc wEntityPhase.w, x	; fe c1 05
-B22_01d4:		lda $0470, x	; bd 70 04
-B22_01d7:		ora #$10		; 09 10
-B22_01d9:		sta $0470, x	; 9d 70 04
-B22_01dc:		rts				; 60 
+entityPhaseFunc_54_setStateIllusion:
+	inc wEntityPhase.w, x
+	lda wEntityState.w, x
+	ora #ES_ILLUSION
+	sta wEntityState.w, x
+	rts
 
 
-entityPhaseFunc_53:
-B22_01dd:		inc wEntityPhase.w, x	; fe c1 05
-B22_01e0:		lda $0470, x	; bd 70 04
-B22_01e3:		and #$ef		; 29 ef
-B22_01e5:		sta $0470, x	; 9d 70 04
-B22_01e8:		rts				; 60 
+entityPhaseFunc_53_setStateNotIllusion:
+	inc wEntityPhase.w, x
+	lda wEntityState.w, x
+	and #$ff-ES_ILLUSION
+	sta wEntityState.w, x
+	rts
 
 
 entityPhaseFunc_2d:
-B22_01e9:		jsr func_16_019e		; 20 9e 81
+B22_01e9:		jsr setEntityStateNotMoving		; 20 9e 81
 
-func_16_01ec:
-B22_01ec:		inc wEntityPhase.w, x	; fe c1 05
-B22_01ef:		lda $0470, x	; bd 70 04
-B22_01f2:		ora #$20		; 09 20
-B22_01f4:		sta $0470, x	; 9d 70 04
-B22_01f7:		rts				; 60 
+incEntityPhase_setUnanimated:
+	inc wEntityPhase.w, x
+	lda wEntityState.w, x
+	ora #ES_UNANIMATED
+	sta wEntityState.w, x
+	rts
 
 
-func_16_01f8:
-B22_01f8:		lda $0470, x	; bd 70 04
-B22_01fb:		and #$df		; 29 df
-B22_01fd:		sta $0470, x	; 9d 70 04
-B22_0200:		rts				; 60 
+setEntityStateAnimated:
+	lda wEntityState.w, x
+	and #$ff-ES_UNANIMATED
+	sta wEntityState.w, x
+	rts
 
 
 entityPhaseFunc_55:
 B22_0201:		inc wEntityPhase.w, x	; fe c1 05
 B22_0204:		ldy #$01		; a0 01
-B22_0206:		lda ($02), y	; b1 02
+B22_0206:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_0208:		sta $0657, x	; 9d 57 06
 B22_020b:		rts				; 60 
 
@@ -313,42 +321,42 @@ entityPhaseFunc_04_setPhase:
 	rts
 
 
-entityPhaseFunc_62:
-B22_0214:		ldy #$01		; a0 01
-B22_0216:		clc				; 18 
-B22_0217:		lda ($02), y	; b1 02
-B22_0219:		adc wEntityBaseX.w, x	; 7d 38 04
-B22_021c:		sta wEntityBaseX.w, x	; 9d 38 04
-B22_021f:		iny				; c8 
-B22_0220:		clc				; 18 
-B22_0221:		lda ($02), y	; b1 02
-B22_0223:		adc wEntityBaseY.w, x	; 7d 1c 04
-B22_0226:		sta wEntityBaseY.w, x	; 9d 1c 04
-B22_0229:		inc wEntityPhase.w, x	; fe c1 05
+entityPhaseFunc_62_addOffsetsToXY:
+	ldy #$01
+	clc
+	lda (wPhaseFuncDataAddr), y
+	adc wEntityBaseX.w, x
+	sta wEntityBaseX.w, x
+	iny
+	clc
+	lda (wPhaseFuncDataAddr), y
+	adc wEntityBaseY.w, x
+	sta wEntityBaseY.w, x
+	inc wEntityPhase.w, x
 
 entityPhaseFunc_72_stub:
-B22_022c:		rts				; 60 
+	rts
 
 
-entityPhaseFunc_05:
-B22_022d:		inc wEntityPhase.w, x	; fe c1 05
+entityPhaseFunc_05_facePlayer:
+	inc wEntityPhase.w, x
 
-func_16_0230:
-B22_0230:		lda #$00		; a9 00
-B22_0232:		ldy wEntityBaseX.w, x	; bc 38 04
-B22_0235:		cpy wEntityBaseX.w		; cc 38 04
-B22_0238:		bcc B22_023c ; 90 02
+entityFacePlayer:
+	lda #$00
+	ldy wEntityBaseX.w, x
+	cpy wEntityBaseX.w
+	bcc +
 
-B22_023a:		lda #$01		; a9 01
+	lda #$01
 
-B22_023c:		sta wEntityFacingLeft.w, x	; 9d a8 04
-B22_023f:		rts				; 60 
++	sta wEntityFacingLeft.w, x
+	rts
 
 
 entityPhaseFunc_91:
 B22_0240:		inc wEntityPhase.w, x	; fe c1 05
-B22_0243:		jsr func_16_0230		; 20 30 82
-B22_0246:		lda $0470, x	; bd 70 04
+B22_0243:		jsr entityFacePlayer		; 20 30 82
+B22_0246:		lda wEntityState.w, x	; bd 70 04
 B22_0249:		and #$01		; 29 01
 B22_024b:		beq B22_0255 ; f0 08
 
@@ -360,6 +368,8 @@ B22_0255:		rts				; 60
 
 entityPhaseFunc_06:
 B22_0256:		inc wEntityPhase.w, x	; fe c1 05
+
+func_16_0259:
 B22_0259:		sec				; 38 
 B22_025a:		lda $054e, x	; bd 4e 05
 B22_025d:		sbc #$48		; e9 48
@@ -367,7 +377,7 @@ B22_025f:		tay				; a8
 B22_0260:		lda $826c, y	; b9 6c 82
 B22_0263:		tay				; a8 
 B22_0264:		lda #$08		; a9 08
-B22_0266:		jsr func_1f_0f5c		; 20 5c ef
+B22_0266:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
 B22_0269:		jmp updateEntityXanimationFrame		; 4c 75 ef
 
 
@@ -391,30 +401,33 @@ B22_0282:		.db $00				; 00
 B22_0283:		.db $00				; 00
 
 
-entityPhaseFunc_13:
+entityPhaseFunc_13_animateGroupAndDefIdx:
 B22_0284:		inc wEntityPhase.w, x	; fe c1 05
 B22_0287:		ldy #$01		; a0 01
-B22_0289:		lda ($02), y	; b1 02
+B22_0289:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_028b:		sta $00			; 85 00
 B22_028d:		iny				; c8 
-B22_028e:		lda ($02), y	; b1 02
+B22_028e:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_0290:		tay				; a8 
 B22_0291:		lda $00			; a5 00
-B22_0293:		jsr func_1f_0f5c		; 20 5c ef
-B22_0296:		jsr updateEntityXanimationFrame		; 20 75 ef
-B22_0299:		jmp func_16_01f8		; 4c f8 81
+
+entityInitAnimation_specGroupA_animationDefIdxY:
+	jsr setEntitySpecGroupA_animationDefIdxY_startAnimate
+	jsr updateEntityXanimationFrame
+	jmp setEntityStateAnimated
 
 
 entityPhaseFunc_8b:
 B22_029c:		ldy #$07		; a0 07
-B22_029e:		lda $48			; a5 48
+B22_029e:		lda wChrBankSpr_0800			; a5 48
 B22_02a0:		cmp #$08		; c9 08
 B22_02a2:		bne B22_02a6 ; d0 02
 
 B22_02a4:		ldy #$0a		; a0 0a
 B22_02a6:		lda #$12		; a9 12
+
 B22_02a8:		inc wEntityPhase.w, x	; fe c1 05
-B22_02ab:		jmp $8293		; 4c 93 82
+B22_02ab:		jmp entityInitAnimation_specGroupA_animationDefIdxY		; 4c 93 82
 
 
 entityPhaseFunc_a5:
@@ -424,7 +437,7 @@ B22_02b2:		bne B22_02a8 ; d0 f4
 
 entityPhaseFunc_8c:
 B22_02b4:		ldy #$00		; a0 00
-B22_02b6:		lda $48			; a5 48
+B22_02b6:		lda wChrBankSpr_0800			; a5 48
 B22_02b8:		cmp #$08		; c9 08
 B22_02ba:		beq B22_02bd ; f0 01
 
@@ -446,10 +459,10 @@ B22_02d3:	.db $04
 B22_02d4:	.db $0c
 
 entityPhaseFunc_8d:
-B22_02d5:		jsr func_16_0230		; 20 30 82
-B22_02d8:		jsr func_16_01ec		; 20 ec 81
+B22_02d5:		jsr entityFacePlayer		; 20 30 82
+B22_02d8:		jsr incEntityPhase_setUnanimated		; 20 ec 81
 B22_02db:		ldy #$00		; a0 00
-B22_02dd:		lda $48			; a5 48
+B22_02dd:		lda wChrBankSpr_0800			; a5 48
 B22_02df:		cmp #$08		; c9 08
 B22_02e1:		beq B22_02e4 ; f0 01
 
@@ -457,7 +470,7 @@ B22_02e3:		iny				; c8
 B22_02e4:		lda $82cd, y	; b9 cd 82
 B22_02e7:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B22_02ea:		lda $8305, y	; b9 05 83
-B22_02ed:		sta wOamSpecIdx.w, x	; 9d 00 04
+B22_02ed:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B22_02f0:		lda wCurrRoomGroup		; a5 32
 B22_02f2:		cmp #$05		; c9 05
 B22_02f4:		bne B22_0304 ; d0 0e
@@ -483,7 +496,7 @@ B22_030b:		cmp #$0f		; c9 0f
 B22_030d:		beq B22_02bd ; f0 ae
 
 B22_030f:		iny				; c8 
-B22_0310:		jmp $82bd		; 4c bd 82
+B22_0310:		jmp B22_02bd		; 4c bd 82
 
 
 entityPhaseFunc_4f:
@@ -498,8 +511,8 @@ B22_0323:		tay				; a8
 B22_0324:		lda data_16_0333.w, y	; b9 33 83
 B22_0327:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B22_032a:		lda data_16_0353.w, y	; b9 53 83
-B22_032d:		sta wOamSpecIdx.w, x	; 9d 00 04
-B22_0330:		jmp func_16_01ec		; 4c ec 81
+B22_032d:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
+B22_0330:		jmp incEntityPhase_setUnanimated		; 4c ec 81
 
 data_16_0333:
 	.db $00
@@ -579,7 +592,7 @@ B22_037c:		lda $054e, x	; bd 4e 05
 B22_037f:		sbc #$a3		; e9 a3
 B22_0381:		tay				; a8 
 B22_0382:		lda $8389, y	; b9 89 83
-B22_0385:		sta wOamSpecIdx.w, x	; 9d 00 04
+B22_0385:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B22_0388:		rts				; 60 
 
 
@@ -593,7 +606,7 @@ B22_0391:		.db $70
 
 entityPhaseFunc_88:
 	ldy #$00
-B22_0394:		lda $48			; a5 48
+B22_0394:		lda wChrBankSpr_0800			; a5 48
 B22_0396:		cmp #$14		; c9 14
 B22_0398:		bne B22_039c ; d0 02
 
@@ -603,70 +616,76 @@ B22_039e:		lda #$12		; a9 12
 B22_03a0:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B22_03a3:		ldy #$01		; a0 01
 B22_03a5:		clc				; 18 
-B22_03a6:		lda ($02), y	; b1 02
+B22_03a6:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_03a8:		adc $00			; 65 00
 B22_03aa:		jmp $83b7		; 4c b7 83
 
 
 entityPhaseFunc_0b:
 B22_03ad:		ldy #$01		; a0 01
-B22_03af:		lda ($02), y	; b1 02
+
+B22_03af:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_03b1:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B22_03b4:		iny				; c8 
-B22_03b5:		lda ($02), y	; b1 02
-B22_03b7:		sta wOamSpecIdx.w, x	; 9d 00 04
-B22_03ba:		jmp func_16_01ec		; 4c ec 81
+B22_03b5:		lda (wPhaseFuncDataAddr), y	; b1 02
+B22_03b7:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
+B22_03ba:		jmp incEntityPhase_setUnanimated		; 4c ec 81
 
 
 entityPhaseFunc_07:
-B22_03bd:		jsr func_16_01f8		; 20 f8 81
-B22_03c0:		jsr $8259		; 20 59 82
+B22_03bd:		jsr setEntityStateAnimated		; 20 f8 81
+B22_03c0:		jsr func_16_0259		; 20 59 82
 
-entityPhaseFunc_1e:
-B22_03c3:		inc wEntityPhase.w, x	; fe c1 05
-B22_03c6:		jsr func_16_01aa		; 20 aa 81
-B22_03c9:		jsr func_16_0230		; 20 30 82
-B22_03cc:		jsr func_1f_1ec8		; 20 c8 fe
-B22_03cf:		ldy #$01		; a0 01
-B22_03d1:		lda ($02), y	; b1 02
-B22_03d3:		sta wEntityHorizSpeed.w, x	; 9d f2 04
-B22_03d6:		iny				; c8 
-B22_03d7:		lda ($02), y	; b1 02
-B22_03d9:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
+entityPhaseFunc_1e_moveToPlayerSetHorizSpeeds:
+	inc wEntityPhase.w, x
 
-func_16_03dc:
-B22_03dc:		ldy wEntityFacingLeft.w, x	; bc a8 04
-B22_03df:		beq B22_03e4 ; f0 03
+; start moving to player
+	jsr setEntityStateMoving
+	jsr entityFacePlayer
+	jsr clearEntityHorizVertSpeeds
 
-B22_03e1:		jmp reverseEnemyDirection_todo		; 4c 4b 80
+; override horiz speeds from params
+	ldy #$01
+	lda (wPhaseFuncDataAddr), y
+	sta wEntityHorizSpeed.w, x
+	iny
+	lda (wPhaseFuncDataAddr), y
+	sta wEntityHorizSubSpeed.w, x
 
-B22_03e4:		rts				; 60 
+reverseEntityHorizSpeedIfFacingLeft:
+	ldy wEntityFacingLeft.w, x
+	beq +
+
+	jmp reverseEntityHorizSpeed
+
++	rts
 
 
 entityPhaseFunc_a6:
-B22_03e5:		jsr func_16_01f8		; 20 f8 81
+B22_03e5:		jsr setEntityStateAnimated		; 20 f8 81
 B22_03e8:		ldy #$08		; a0 08
 B22_03ea:		lda #$14		; a9 14
-B22_03ec:		jsr func_1f_0f5c		; 20 5c ef
+B22_03ec:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
 B22_03ef:		jsr updateEntityXanimationFrame		; 20 75 ef
 B22_03f2:		jmp $83c3		; 4c c3 83
 
 
 entityPhaseFunc_08:
 B22_03f5:		ldy #$01		; a0 01
-B22_03f7:		lda ($02), y	; b1 02
+B22_03f7:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_03f9:		jsr jumpTablePreserveY		; 20 6d e8
-B22_03fc:	.db $04
-B22_03fd:		sty $53			; 84 53
-B22_03ff:		sty $10			; 84 10
-B22_0401:		sty $28			; 84 28
-B22_0403:		sty $20			; 84 20
-B22_0405:	.db $1c
-B22_0406:		sty $b9			; 84 b9
-B22_0408:	.db $0c
-B22_0409:		sty $d0			; 84 d0
-B22_040b:		and $b0f8, y	; 39 f8 b0
-B22_040e:		ldy #$c8		; a0 c8
+	.dw $8404
+	.dw $8453
+	.dw $8410
+	.dw $8428
+B22_0404:		jsr $841c
+B22_0407:		lda data_16_040c.w, y			; b9
+B22_040a:		bne B22_0445			; d0
+
+data_16_040c:
+	.db $f8 $b0 $a0 $c8
+
+
 B22_0410:		jsr $841c		; 20 1c 84
 B22_0413:		lda $8418, y	; b9 18 84
 B22_0416:		bne B22_0445 ; d0 2d
@@ -681,14 +700,14 @@ B22_041a:		;removed
 B22_041c:		txa				; 8a 
 B22_041d:		adc wEntityBaseX.w		; 6d 38 04
 B22_0420:		and $1f			; 25 1f
-B22_0422:		adc $1a			; 65 1a
+B22_0422:		adc wGameStateLoopCounter			; 65 1a
 B22_0424:		and #$03		; 29 03
 B22_0426:		tay				; a8 
 B22_0427:		rts				; 60 
 
 
 B22_0428:		jsr $841c		; 20 1c 84
-B22_042b:		ldy $07f6		; ac f6 07
+B22_042b:		ldy wHardMode.w		; ac f6 07
 B22_042e:		beq B22_0433 ; f0 03
 
 B22_0430:		clc				; 18 
@@ -709,7 +728,8 @@ B22_0440:		rti				; 40
 
 entityPhaseFunc_1f:
 B22_0441:		ldy #$01		; a0 01
-B22_0443:		lda ($02), y	; b1 02
+B22_0443:		lda (wPhaseFuncDataAddr), y	; b1 02
+
 B22_0445:		sta $0606, x	; 9d 06 06
 B22_0448:		inc wEntityPhase.w, x	; fe c1 05
 B22_044b:		rts				; 60 
@@ -721,7 +741,7 @@ B22_044f:		bne B22_044b ; d0 fa
 
 B22_0451:		beq B22_0448 ; f0 f5
 
-B22_0453:		ldy $07f6		; ac f6 07
+B22_0453:		ldy wHardMode.w		; ac f6 07
 B22_0456:		txa				; 8a 
 B22_0457:		adc $1f			; 65 1f
 B22_0459:		and #$07		; 29 07
@@ -757,9 +777,9 @@ B22_0481:		rts				; 60
 
 entityPhaseFunc_0c:
 B22_0482:		ldy #$01		; a0 01
-B22_0484:		lda ($02), y	; b1 02
+B22_0484:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_0486:		sta $0606, x	; 9d 06 06
-B22_0489:		jsr $80b3		; 20 b3 80
+B22_0489:		jsr getDistanceBetweenPlayerAndEntityX		; 20 b3 80
 B22_048c:		cmp $0606, x	; dd 06 06
 B22_048f:		bcs B22_0494 ; b0 03
 
@@ -769,12 +789,12 @@ B22_0494:		rts				; 60
 
 entityPhaseFunc_4d:
 B22_0495:		ldy #$01		; a0 01
-B22_0497:		lda ($02), y	; b1 02
+B22_0497:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_0499:		sta $09			; 85 09
 B22_049b:		iny				; c8 
-B22_049c:		lda ($02), y	; b1 02
+B22_049c:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_049e:		sta $08			; 85 08
-B22_04a0:		jsr $80b3		; 20 b3 80
+B22_04a0:		jsr getDistanceBetweenPlayerAndEntityX		; 20 b3 80
 B22_04a3:		cmp $09			; c5 09
 B22_04a5:		bcs B22_0494 ; b0 ed
 
@@ -812,8 +832,8 @@ B22_04d0:		bcc B22_04da ; 90 08
 B22_04d2:		lda wEntityFacingLeft.w, x	; bd a8 04
 B22_04d5:		eor #$01		; 49 01
 B22_04d7:		sta wEntityFacingLeft.w, x	; 9d a8 04
-B22_04da:		jsr func_16_01aa		; 20 aa 81
-B22_04dd:		jsr $80b3		; 20 b3 80
+B22_04da:		jsr setEntityStateMoving		; 20 aa 81
+B22_04dd:		jsr getDistanceBetweenPlayerAndEntityX		; 20 b3 80
 B22_04e0:		cmp #$50		; c9 50
 B22_04e2:		bcs B22_0505 ; b0 21
 
@@ -826,42 +846,44 @@ B22_04ef:		lda #$1c		; a9 1c
 B22_04f1:		sta $0606, x	; 9d 06 06
 B22_04f4:		lda #$fc		; a9 fc
 B22_04f6:		ldy #$c0		; a0 c0
-B22_04f8:		jsr $8518		; 20 18 85
+B22_04f8:		jsr setEntityVertSpeedToAY		; 20 18 85
 B22_04fb:		lda #$01		; a9 01
 B22_04fd:		ldy #$00		; a0 00
 
-func_16_04ff:
-B22_04ff:		jsr $8520		; 20 20 85
-B22_0502:		jmp func_16_03dc		; 4c dc 83
+setEntityHorizSpeedToAY_reversedIfFacingLeft:
+	jsr setEntityHorizSpeedToAY
+	jmp reverseEntityHorizSpeedIfFacingLeft
 
 
 B22_0505:		lda #$24		; a9 24
 B22_0507:		sta $0606, x	; 9d 06 06
 B22_050a:		lda #$ff		; a9 ff
 B22_050c:		ldy #$00		; a0 00
-B22_050e:		jsr $8518		; 20 18 85
+B22_050e:		jsr setEntityVertSpeedToAY		; 20 18 85
 B22_0511:		lda #$02		; a9 02
 B22_0513:		ldy #$00		; a0 00
-B22_0515:		jmp func_16_04ff		; 4c ff 84
+B22_0515:		jmp setEntityHorizSpeedToAY_reversedIfFacingLeft		; 4c ff 84
 
 
-B22_0518:		sta wEntityVertSpeed.w, x	; 9d 20 05
-B22_051b:		tya				; 98 
-B22_051c:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
-B22_051f:		rts				; 60 
+setEntityVertSpeedToAY:
+	sta wEntityVertSpeed.w, x
+	tya
+	sta wEntityVertSubSpeed.w, x
+	rts
 
 
-B22_0520:		sta wEntityHorizSpeed.w, x	; 9d f2 04
-B22_0523:		tya				; 98 
-B22_0524:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
-B22_0527:		rts				; 60 
+setEntityHorizSpeedToAY:
+	sta wEntityHorizSpeed.w, x
+	tya
+	sta wEntityHorizSubSpeed.w, x
+	rts
 
 
 entityPhaseFunc_0f:
 B22_0528:		inc wEntityPhase.w, x	; fe c1 05
-B22_052b:		jsr func_16_0230		; 20 30 82
-B22_052e:		jsr func_16_01aa		; 20 aa 81
-B22_0531:		jsr $80b3		; 20 b3 80
+B22_052b:		jsr entityFacePlayer		; 20 30 82
+B22_052e:		jsr setEntityStateMoving		; 20 aa 81
+B22_0531:		jsr getDistanceBetweenPlayerAndEntityX		; 20 b3 80
 B22_0534:		cmp #$40		; c9 40
 B22_0536:		bcs B22_0505 ; b0 cd
 
@@ -874,10 +896,10 @@ B22_0543:		lda #$12		; a9 12
 B22_0545:		sta $0606, x	; 9d 06 06
 B22_0548:		lda #$fe		; a9 fe
 B22_054a:		ldy #$00		; a0 00
-B22_054c:		jsr $8518		; 20 18 85
+B22_054c:		jsr setEntityVertSpeedToAY		; 20 18 85
 B22_054f:		lda #$01		; a9 01
 B22_0551:		ldy #$20		; a0 20
-B22_0553:		jmp func_16_04ff		; 4c ff 84
+B22_0553:		jmp setEntityHorizSpeedToAY_reversedIfFacingLeft		; 4c ff 84
 
 
 entityPhaseFunc_44:
@@ -886,16 +908,16 @@ B22_0559:		cmp #$f8		; c9 f8
 B22_055b:		bcc B22_056c ; 90 0f
 
 B22_055d:		lda #$00		; a9 00
-B22_055f:		sta wOamSpecIdx.w, x	; 9d 00 04
+B22_055f:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B22_0562:		ldy #$01		; a0 01
-B22_0564:		lda ($02), y	; b1 02
+B22_0564:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_0566:		sta wEntityPhase.w, x	; 9d c1 05
-B22_0569:		jmp func_1f_1ec8		; 4c c8 fe
+B22_0569:		jmp clearEntityHorizVertSpeeds		; 4c c8 fe
 
 
 entityPhaseFunc_10:
 B22_056c:		lda $0606, x	; bd 06 06
-B22_056f:		jsr func_16_007f		; 20 7f 80
+B22_056f:		jsr addAtoEntityVertSpeed		; 20 7f 80
 B22_0572:		ldy #$04		; a0 04
 B22_0574:		jsr func_17_17a6		; 20 a6 b7
 B22_0577:		bne B22_05b2 ; d0 39
@@ -919,7 +941,7 @@ B22_0593:		bne B22_059a ; d0 05
 B22_0595:		lda #$0d		; a9 0d
 B22_0597:		jsr playSound		; 20 5f e2
 B22_059a:		ldx $6c			; a6 6c
-B22_059c:		jsr func_1f_1ec8		; 20 c8 fe
+B22_059c:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B22_059f:		inc wEntityPhase.w, x	; fe c1 05
 B22_05a2:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_05a5:		and #$f0		; 29 f0
@@ -936,17 +958,17 @@ B22_05b2:		ldx $6c			; a6 6c
 B22_05b4:		lda wEntityVertSpeed.w, x	; bd 20 05
 B22_05b7:		bpl B22_05ac ; 10 f3
 
-B22_05b9:		jmp $805d		; 4c 5d 80
+B22_05b9:		jmp reverseEntityVertSpeed		; 4c 5d 80
 
 
 entityPhaseFunc_8a:
 B22_05bc:		lda $0606, x	; bd 06 06
-B22_05bf:		jsr func_16_007f		; 20 7f 80
+B22_05bf:		jsr addAtoEntityVertSpeed		; 20 7f 80
 B22_05c2:		lda wEntityVertSpeed.w, x	; bd 20 05
 B22_05c5:		bmi B22_05e7 ; 30 20
 
 B22_05c7:		lda #$16		; a9 16
-B22_05c9:		sta wOamSpecIdx.w, x	; 9d 00 04
+B22_05c9:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B22_05cc:		ldy #$08		; a0 08
 B22_05ce:		jsr func_17_17a6		; 20 a6 b7
 B22_05d1:		beq B22_05e7 ; f0 14
@@ -967,7 +989,7 @@ B22_05e7:		rts				; 60
 
 entityPhaseFunc_5c:
 B22_05e8:		lda $0606, x	; bd 06 06
-B22_05eb:		jsr func_16_007f		; 20 7f 80
+B22_05eb:		jsr addAtoEntityVertSpeed		; 20 7f 80
 B22_05ee:		lda wEntityVertSpeed.w, x	; bd 20 05
 B22_05f1:		bmi B22_05ac ; 30 b9
 
@@ -986,9 +1008,9 @@ B22_0606:		sta wEntityBaseY.w, x	; 9d 1c 04
 B22_0609:		inc wEntityPhase.w, x	; fe c1 05
 B22_060c:		inc wEntityPhase.w, x	; fe c1 05
 B22_060f:		lda #$14		; a9 14
-B22_0611:		sta wOamSpecIdx.w, x	; 9d 00 04
-B22_0614:		jsr func_16_019e		; 20 9e 81
-B22_0617:		jmp func_1f_1ec8		; 4c c8 fe
+B22_0611:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
+B22_0614:		jsr setEntityStateNotMoving		; 20 9e 81
+B22_0617:		jmp clearEntityHorizVertSpeeds		; 4c c8 fe
 
 
 B22_061a:		clc				; 18 
@@ -1015,7 +1037,7 @@ B22_063d:		rts				; 60
 
 entityPhaseFunc_a8:
 B22_063e:		ldy #$01		; a0 01
-B22_0640:		lda ($02), y	; b1 02
+B22_0640:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_0642:		cmp wEntityBaseY.w, x	; dd 1c 04
 B22_0645:		bcs B22_063d ; b0 f6
 
@@ -1033,13 +1055,13 @@ B22_0658:		jmp $86ac		; 4c ac 86
 
 entityPhaseFunc_58:
 B22_065b:		ldy #$03		; a0 03
-B22_065d:		lda ($02), y	; b1 02
+B22_065d:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_065f:		sta $061d, x	; 9d 1d 06
 
 entityPhaseFunc_11:
 B22_0662:		inc wEntityPhase.w, x	; fe c1 05
 B22_0665:		ldy #$01		; a0 01
-B22_0667:		lda ($02), y	; b1 02
+B22_0667:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_0669:		tay				; a8 
 B22_066a:		lda $8682, y	; b9 82 86
 B22_066d:		sta wEntityVertSpeed.w, x	; 9d 20 05
@@ -1048,7 +1070,7 @@ B22_0673:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B22_0676:		ldy #$02		; a0 02
 B22_0678:		clc				; 18 
 B22_0679:		lda wEntityBaseY.w, x	; bd 1c 04
-B22_067c:		adc ($02), y	; 71 02
+B22_067c:		adc (wPhaseFuncDataAddr), y	; 71 02
 B22_067e:		sta $0606, x	; 9d 06 06
 B22_0681:		rts				; 60 
 
@@ -1111,6 +1133,7 @@ B22_06cf:		clc				; 18
 B22_06d0:		lda $0606, x	; bd 06 06
 B22_06d3:		adc $6e			; 65 6e
 B22_06d5:		sta $0606, x	; 9d 06 06
+
 B22_06d8:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_06db:		sec				; 38 
 B22_06dc:		sbc $0606, x	; fd 06 06
@@ -1205,14 +1228,14 @@ B22_0770:		jmp $281b		; 4c 1b 28
 
 entityPhaseFunc_6f:
 B22_0773:		ldy #$01		; a0 01
-B22_0775:		lda ($02), y	; b1 02
+B22_0775:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_0777:		tay				; a8 
 B22_0778:		lda $878f, y	; b9 8f 87
 B22_077b:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_077e:		lda $8791, y	; b9 91 87
 B22_0781:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B22_0784:		ldy #$02		; a0 02
-B22_0786:		lda ($02), y	; b1 02
+B22_0786:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_0788:		sta $0606, x	; 9d 06 06
 B22_078b:		inc wEntityPhase.w, x	; fe c1 05
 B22_078e:		rts				; 60 
@@ -1228,19 +1251,19 @@ B22_0793:		dec $0606, x	; de 06 06
 B22_0796:		beq B22_078b ; f0 f3
 
 B22_0798:		ldy #$01		; a0 01
-B22_079a:		lda ($02), y	; b1 02
-B22_079c:		jmp $80a1		; 4c a1 80
+B22_079a:		lda (wPhaseFuncDataAddr), y	; b1 02
+B22_079c:		jmp subAfromEntityVertSpeed		; 4c a1 80
 
 
 entityPhaseFunc_67:
-B22_079f:		lda $1a			; a5 1a
+B22_079f:		lda wGameStateLoopCounter			; a5 1a
 B22_07a1:		and #$01		; 29 01
 B22_07a3:		bne B22_07ad ; d0 08
 
-B22_07a5:		lda $0470, x	; bd 70 04
+B22_07a5:		lda wEntityState.w, x	; bd 70 04
 B22_07a8:		eor #$08		; 49 08
-B22_07aa:		sta $0470, x	; 9d 70 04
-B22_07ad:		jsr $80b3		; 20 b3 80
+B22_07aa:		sta wEntityState.w, x	; 9d 70 04
+B22_07ad:		jsr getDistanceBetweenPlayerAndEntityX		; 20 b3 80
 B22_07b0:		cmp #$40		; c9 40
 B22_07b2:		ldy $0606, x	; bc 06 06
 B22_07b5:		bne B22_07ba ; d0 03
@@ -1266,7 +1289,7 @@ B22_07c8:		jsr func_17_17a6		; 20 a6 b7
 B22_07cb:		bne B22_07dc ; d0 0f
 
 B22_07cd:		ldx $6c			; a6 6c
-B22_07cf:		jsr func_1f_1ec8		; 20 c8 fe
+B22_07cf:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B22_07d2:		lda #$01		; a9 01
 B22_07d4:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_07d7:		lda #$16		; a9 16
@@ -1277,12 +1300,12 @@ B22_07de:		rts				; 60
 
 entityPhaseFunc_61:
 B22_07df:		lda #$14		; a9 14
-B22_07e1:		jsr func_16_007f		; 20 7f 80
+B22_07e1:		jsr addAtoEntityVertSpeed		; 20 7f 80
 B22_07e4:		ldy #$01		; a0 01
-B22_07e6:		lda ($02), y	; b1 02
+B22_07e6:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_07e8:		sta $0606, x	; 9d 06 06
 B22_07eb:		iny				; c8 
-B22_07ec:		lda ($02), y	; b1 02
+B22_07ec:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_07ee:		tay				; a8 
 B22_07ef:		jsr func_17_17a6		; 20 a6 b7
 B22_07f2:		beq B22_07dc ; f0 e8
@@ -1295,21 +1318,21 @@ B22_07fc:		rts				; 60
 
 entityPhaseFunc_63:
 B22_07fd:		inc wEntityPhase.w, x	; fe c1 05
-B22_0800:		jsr func_1f_1ec8		; 20 c8 fe
+B22_0800:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B22_0803:		ldy #$01		; a0 01
-B22_0805:		lda ($02), y	; b1 02
+B22_0805:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_0807:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_080a:		iny				; c8 
-B22_080b:		lda ($02), y	; b1 02
+B22_080b:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_080d:		sta $0606, x	; 9d 06 06
 B22_0810:		rts				; 60 
 
 
 entityPhaseFunc_98:
 B22_0811:		inc wEntityPhase.w, x	; fe c1 05
-B22_0814:		jsr func_1f_1ec8		; 20 c8 fe
+B22_0814:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B22_0817:		ldy #$01		; a0 01
-B22_0819:		lda ($02), y	; b1 02
+B22_0819:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_081b:		bne B22_0870 ; d0 53
 
 B22_081d:		ldy #$00		; a0 00
@@ -1348,12 +1371,12 @@ B22_0854:		bne B22_0876 ; d0 20
 B22_0856:		ldx $6c			; a6 6c
 B22_0858:		lda #$22		; a9 22
 B22_085a:		jsr playSound		; 20 5f e2
-B22_085d:		jsr func_16_01aa		; 20 aa 81
-B22_0860:		jsr func_16_0230		; 20 30 82
+B22_085d:		jsr setEntityStateMoving		; 20 aa 81
+B22_0860:		jsr entityFacePlayer		; 20 30 82
 B22_0863:		lda #$08		; a9 08
 B22_0865:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B22_0868:		lda #$46		; a9 46
-B22_086a:		sta wOamSpecIdx.w, x	; 9d 00 04
+B22_086a:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B22_086d:		jmp $81ef		; 4c ef 81
 
 
@@ -1385,9 +1408,9 @@ B22_0888:	.db $80
 
 entityPhaseFunc_99:
 B22_0889:		lda #$20		; a9 20
-B22_088b:		jsr func_16_007f		; 20 7f 80
+B22_088b:		jsr addAtoEntityVertSpeed		; 20 7f 80
 B22_088e:		ldy #$01		; a0 01
-B22_0890:		lda ($02), y	; b1 02
+B22_0890:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_0892:		beq B22_08a7 ; f0 13
 
 B22_0894:		sec				; 38 
@@ -1411,7 +1434,7 @@ B22_08b1:		beq B22_08bc ; f0 09
 
 B22_08b3:		inc wEntityPhase.w, x	; fe c1 05
 B22_08b6:		jsr $8b95		; 20 95 8b
-B22_08b9:		jmp func_1f_1ec8		; 4c c8 fe
+B22_08b9:		jmp clearEntityHorizVertSpeeds		; 4c c8 fe
 
 
 B22_08bc:		sec				; 38 
@@ -1426,9 +1449,9 @@ B22_08c9:		jmp $84b2		; 4c b2 84
 
 entityPhaseFunc_64:
 B22_08cc:		lda $0606, x	; bd 06 06
-B22_08cf:		jsr func_16_007f		; 20 7f 80
+B22_08cf:		jsr addAtoEntityVertSpeed		; 20 7f 80
 B22_08d2:		ldy #$01		; a0 01
-B22_08d4:		lda ($02), y	; b1 02
+B22_08d4:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_08d6:		cmp #$01		; c9 01
 B22_08d8:		beq B22_0909 ; f0 2f
 
@@ -1462,7 +1485,6 @@ B22_0902:		beq B22_0913 ; f0 0f
 B22_0904:		ldx $6c			; a6 6c
 B22_0906:		jmp $88b3		; 4c b3 88
 
-
 B22_0909:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_090c:		cmp #$f8		; c9 f8
 B22_090e:		bcc B22_0913 ; 90 03
@@ -1473,7 +1495,7 @@ B22_0913:		rts				; 60
 
 B22_0914:		ldy #$00		; a0 00
 B22_0916:		lda wCurrRoomGroup		; a5 32
-B22_0918:		cmp #$08		; c9 08
+B22_0918:		cmp #RG_SUNKEN_CITY		; c9 08
 B22_091a:		beq B22_091d ; f0 01
 
 B22_091c:		iny				; c8 
@@ -1486,7 +1508,7 @@ B22_0928:		jmp $992b		; 4c 2b 99
 
 
 B22_092b:		ldy #$02		; a0 02
-B22_092d:		lda ($02), y	; b1 02
+B22_092d:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_092f:		sta wEntityPhase.w, x	; 9d c1 05
 B22_0932:		jmp $992b		; 4c 2b 99
 
@@ -1513,7 +1535,7 @@ B22_0948:		bne B22_0957 ; d0 0d
 
 B22_094a:		ldx $6c			; a6 6c
 B22_094c:		inc wEntityPhase.w, x	; fe c1 05
-B22_094f:		jsr func_1f_1ec8		; 20 c8 fe
+B22_094f:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B22_0952:		lda #$01		; a9 01
 B22_0954:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_0957:		ldy #$00		; a0 00
@@ -1524,7 +1546,7 @@ func_16_095e:
 B22_095e:		lda wEntityFacingLeft.w, x	; bd a8 04
 B22_0961:		eor #$01		; 49 01
 B22_0963:		sta wEntityFacingLeft.w, x	; 9d a8 04
-B22_0966:		jmp reverseEnemyDirection_todo		; 4c 4b 80
+B22_0966:		jmp reverseEntityHorizSpeed		; 4c 4b 80
 
 
 B22_0969:		lda wEntityAI_idx.w, x	; bd ef 05
@@ -1542,17 +1564,17 @@ B22_097d:		rts				; 60
 
 entityPhaseFunc_1d:
 B22_097e:		ldy #$01		; a0 01
-B22_0980:		lda ($02), y	; b1 02
+B22_0980:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_0982:		sta $0606, x	; 9d 06 06
 B22_0985:		iny				; c8 
-B22_0986:		lda ($02), y	; b1 02
+B22_0986:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_0988:		tay				; a8 
 B22_0989:		jsr func_17_17a6		; 20 a6 b7
 B22_098c:		beq B22_09a5 ; f0 17
 
 B22_098e:		ldx $6c			; a6 6c
-B22_0990:		jsr func_1f_1ec8		; 20 c8 fe
-B22_0993:		jsr func_16_01f8		; 20 f8 81
+B22_0990:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
+B22_0993:		jsr setEntityStateAnimated		; 20 f8 81
 B22_0996:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_0999:		and #$f0		; 29 f0
 B22_099b:		sta wEntityBaseY.w, x	; 9d 1c 04
@@ -1563,12 +1585,12 @@ B22_09a4:		rts				; 60
 
 B22_09a5:		ldx $6c			; a6 6c
 B22_09a7:		lda #$14		; a9 14
-B22_09a9:		jmp func_16_007f		; 4c 7f 80
+B22_09a9:		jmp addAtoEntityVertSpeed		; 4c 7f 80
 
 
 entityPhaseFunc_09:
-B22_09ac:		jsr func_16_01ec		; 20 ec 81
-B22_09af:		lda $1a			; a5 1a
+B22_09ac:		jsr incEntityPhase_setUnanimated		; 20 ec 81
+B22_09af:		lda wGameStateLoopCounter			; a5 1a
 B22_09b1:		adc wEntityBaseX.w, x	; 7d 38 04
 B22_09b4:		and #$07		; 29 07
 B22_09b6:		sta $00			; 85 00
@@ -1577,7 +1599,7 @@ B22_09ba:		beq B22_09be ; f0 02
 
 B22_09bc:		lda #$01		; a9 01
 B22_09be:		clc				; 18 
-B22_09bf:		adc $07f6		; 6d f6 07
+B22_09bf:		adc wHardMode.w		; 6d f6 07
 B22_09c2:		tay				; a8 
 B22_09c3:		lda $89f5, y	; b9 f5 89
 B22_09c6:		adc $00			; 65 00
@@ -1629,12 +1651,12 @@ B22_09f7:		.db $10
 
 entityPhaseFunc_22:
 	inc $05c1, x
-B22_09fb:		lda $1a			; a5 1a
+B22_09fb:		lda wGameStateLoopCounter			; a5 1a
 B22_09fd:		adc wEntityBaseX.w		; 6d 38 04
 B22_0a00:		and #$07		; 29 07
 B22_0a02:		sta $10			; 85 10
 B22_0a04:		ldy #$01		; a0 01
-B22_0a06:		lda ($02), y	; b1 02
+B22_0a06:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_0a08:		clc				; 18 
 B22_0a09:		adc $10			; 65 10
 B22_0a0b:		tay				; a8 
@@ -1667,10 +1689,10 @@ B22_0a26:		jsr $81ef		; 20 ef 81
 entityPhaseFunc_26:
 B22_0a29:		inc wEntityPhase.w, x	; fe c1 05
 B22_0a2c:		ldy #$01		; a0 01
-B22_0a2e:		lda ($02), y	; b1 02
+B22_0a2e:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_0a30:		sta $061d, x	; 9d 1d 06
 B22_0a33:		iny				; c8 
-B22_0a34:		lda ($02), y	; b1 02
+B22_0a34:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_0a36:		sta $0606, x	; 9d 06 06
 B22_0a39:		rts				; 60 
 
@@ -1678,7 +1700,7 @@ B22_0a39:		rts				; 60
 entityPhaseFunc_30:
 B22_0a3a:		inc wEntityPhase.w, x	; fe c1 05
 B22_0a3d:		ldy #$01		; a0 01
-B22_0a3f:		lda ($02), y	; b1 02
+B22_0a3f:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_0a41:		sta wEntityPaletteOverride.w, x	; 9d 54 04
 B22_0a44:		rts				; 60 
 
@@ -1689,7 +1711,7 @@ B22_0a48:		bne B22_0a64 ; d0 1a
 
 B22_0a4a:		ldy #$01		; a0 01
 B22_0a4c:		lda wEntityPaletteOverride.w, x	; bd 54 04
-B22_0a4f:		eor ($02), y	; 51 02
+B22_0a4f:		eor (wPhaseFuncDataAddr), y	; 51 02
 B22_0a51:		sta wEntityPaletteOverride.w, x	; 9d 54 04
 B22_0a54:		jsr $8a33		; 20 33 8a
 B22_0a57:		dec $061d, x	; de 1d 06
@@ -1714,9 +1736,9 @@ B22_0a73:		cmp #$09		; c9 09
 B22_0a75:		bcc B22_0a79 ; 90 02
 
 B22_0a77:		ldy #$02		; a0 02
-B22_0a79:		lda ($02), y	; b1 02
+B22_0a79:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_0a7b:		sta $0606, x	; 9d 06 06
-B22_0a7e:		lda $0470, x	; bd 70 04
+B22_0a7e:		lda wEntityState.w, x	; bd 70 04
 B22_0a81:		and #$81		; 29 81
 B22_0a83:		bne B22_0a64 ; d0 df
 
@@ -1773,7 +1795,7 @@ B22_0ad6:		jmp $844c		; 4c 4c 84
 
 
 entityPhaseFunc_6e:
-B22_0ad9:		jsr func_16_01ec		; 20 ec 81
+B22_0ad9:		jsr incEntityPhase_setUnanimated		; 20 ec 81
 B22_0adc:		lda $0633, x	; bd 33 06
 B22_0adf:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B22_0ae2:		rts				; 60 
@@ -1787,8 +1809,8 @@ B22_0ae6:		jmp $8a7e		; 4c 7e 8a
 entityPhaseFunc_31:
 entityPhaseFunc_32:
 B22_0ae9:		ldy #$01		; a0 01
-B22_0aeb:		lda ($02), y	; b1 02
-B22_0aed:		jsr func_16_007f		; 20 7f 80
+B22_0aeb:		lda (wPhaseFuncDataAddr), y	; b1 02
+B22_0aed:		jsr addAtoEntityVertSpeed		; 20 7f 80
 B22_0af0:		jmp $8e20		; 4c 20 8e
 
 
@@ -1801,7 +1823,7 @@ B22_0afb:		lda wEntityBaseX.w, x	; bd 38 04
 B22_0afe:		sta $01			; 85 01
 B22_0b00:		lda wEntityFacingLeft.w, x	; bd a8 04
 B22_0b03:		sta $02			; 85 02
-B22_0b05:		lda $0470, x	; bd 70 04
+B22_0b05:		lda wEntityState.w, x	; bd 70 04
 B22_0b08:		ora #$60		; 09 60
 B22_0b0a:		sta $03			; 85 03
 B22_0b0c:		stx $08			; 86 08
@@ -1810,7 +1832,7 @@ B22_0b11:		bne B22_0b4c ; d0 39
 
 B22_0b13:		stx $09			; 86 09
 B22_0b15:		ldx $08			; a6 08
-B22_0b17:		jsr func_16_019e		; 20 9e 81
+B22_0b17:		jsr setEntityStateNotMoving		; 20 9e 81
 B22_0b1a:		jsr $81ef		; 20 ef 81
 B22_0b1d:		ldx $09			; a6 09
 B22_0b1f:		jsr func_1f_1ed7		; 20 d7 fe
@@ -1818,7 +1840,7 @@ B22_0b22:		jsr $8b4f		; 20 4f 8b
 B22_0b25:		lda $02			; a5 02
 B22_0b27:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B22_0b2a:		lda $03			; a5 03
-B22_0b2c:		sta $0470, x	; 9d 70 04
+B22_0b2c:		sta wEntityState.w, x	; 9d 70 04
 B22_0b2f:		jsr $9fc9		; 20 c9 9f
 B22_0b32:		lda #$52		; a9 52
 B22_0b34:		sta $054e, x	; 9d 4e 05
@@ -1826,7 +1848,7 @@ B22_0b37:		lda #$69		; a9 69
 B22_0b39:		sta wEntityAI_idx.w, x	; 9d ef 05
 B22_0b3c:		ldx $6c			; a6 6c
 B22_0b3e:		lda #$72		; a9 72
-B22_0b40:		sta wOamSpecIdx.w, x	; 9d 00 04
+B22_0b40:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B22_0b43:		lda #$10		; a9 10
 B22_0b45:		sta $0606, x	; 9d 06 06
 B22_0b48:		inc wEntityPhase.w, x	; fe c1 05
@@ -1858,7 +1880,7 @@ B22_0b68:		rts				; 60
 
 entityPhaseFunc_93:
 B22_0b69:		jsr $81a7		; 20 a7 81
-B22_0b6c:		jsr func_1f_1ec8		; 20 c8 fe
+B22_0b6c:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B22_0b6f:		lda #$14		; a9 14
 B22_0b71:		sta $061d, x	; 9d 1d 06
 B22_0b74:		rts				; 60 
@@ -1866,13 +1888,13 @@ B22_0b74:		rts				; 60
 
 entityPhaseFunc_94:
 B22_0b75:		lda $061d, x	; bd 1d 06
-B22_0b78:		jsr func_16_007f		; 20 7f 80
+B22_0b78:		jsr addAtoEntityVertSpeed		; 20 7f 80
 B22_0b7b:		ldy #$0e		; a0 0e
 B22_0b7d:		jsr func_17_17a6		; 20 a6 b7
 B22_0b80:		beq B22_0b8e ; f0 0c
 
 B22_0b82:		jsr func_16_0b91		; 20 91 8b
-B22_0b85:		jsr func_1f_1ec8		; 20 c8 fe
+B22_0b85:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B22_0b88:		sta $061d, x	; 9d 1d 06
 B22_0b8b:		inc wEntityPhase.w, x	; fe c1 05
 B22_0b8e:		ldx $6c			; a6 6c
@@ -1894,7 +1916,7 @@ B22_0b9f:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_0ba2:		adc wCurrScrollXWithinRoom			; 65 56
 B22_0ba4:		and #$f0		; 29 f0
 B22_0ba6:		sec				; 38 
-B22_0ba7:		sbc $56			; e5 56
+B22_0ba7:		sbc wCurrScrollXWithinRoom			; e5 56
 B22_0ba9:		clc				; 18 
 B22_0baa:		adc #$03		; 69 03
 B22_0bac:		sta wEntityBaseY.w, x	; 9d 1c 04
@@ -1904,7 +1926,7 @@ B22_0baf:		rts				; 60
 entityPhaseFunc_90:
 B22_0bb0:		inc wEntityPhase.w, x	; fe c1 05
 B22_0bb3:		ldy #$00		; a0 00
-B22_0bb5:		jsr $80b3		; 20 b3 80
+B22_0bb5:		jsr getDistanceBetweenPlayerAndEntityX		; 20 b3 80
 B22_0bb8:		cmp #$40		; c9 40
 B22_0bba:		bcs B22_0bbd ; b0 01
 
@@ -1917,12 +1939,12 @@ B22_0bc1:		rts				; 60
 entityPhaseFunc_8f:
 B22_0bc2:		inc wEntityPhase.w, x	; fe c1 05
 B22_0bc5:		lda #$32		; a9 32
-B22_0bc7:		ldy wOamSpecIdx.w, x	; bc 00 04
+B22_0bc7:		ldy wOamSpecIdxDoubled.w, x	; bc 00 04
 B22_0bca:		cpy #$30		; c0 30
 B22_0bcc:		beq B22_0bd0 ; f0 02
 
 B22_0bce:		lda #$54		; a9 54
-B22_0bd0:		sta wOamSpecIdx.w, x	; 9d 00 04
+B22_0bd0:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B22_0bd3:		rts				; 60 
 
 
@@ -1930,14 +1952,14 @@ entityPhaseFunc_3a:
 B22_0bd4:		jsr $83ad		; 20 ad 83
 B22_0bd7:		clc				; 18 
 B22_0bd8:		ldy #$03		; a0 03
-B22_0bda:		lda ($02), y	; b1 02
+B22_0bda:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_0bdc:		adc wEntityFacingLeft.w, x	; 7d a8 04
 B22_0bdf:		tay				; a8 
 B22_0be0:		lda $8bef, y	; b9 ef 8b
 B22_0be3:		sta wEntityHorizSpeed.w, x	; 9d f2 04
-B22_0be6:		jsr func_16_019e		; 20 9e 81
+B22_0be6:		jsr setEntityStateNotMoving		; 20 9e 81
 B22_0be9:		jsr $8001		; 20 01 80
-B22_0bec:		jmp func_1f_1ec8		; 4c c8 fe
+B22_0bec:		jmp clearEntityHorizVertSpeeds		; 4c c8 fe
 
 
 B22_0bef:		php				; 08 
@@ -1966,7 +1988,7 @@ B22_0c10:		ldx $6c			; a6 6c
 B22_0c12:		sta $061d, x	; 9d 1d 06
 B22_0c15:		lda #$08		; a9 08
 B22_0c17:		ldy #$0c		; a0 0c
-B22_0c19:		jsr $8293		; 20 93 82
+B22_0c19:		jsr entityInitAnimation_specGroupA_animationDefIdxY		; 20 93 82
 B22_0c1c:		jmp $81b9		; 4c b9 81
 
 
@@ -1975,12 +1997,12 @@ B22_0c21:		rts				; 60
 
 
 entityPhaseFunc_50:
-B22_0c22:		jsr func_1f_1ec8		; 20 c8 fe
+B22_0c22:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B22_0c25:		jsr $81a7		; 20 a7 81
 B22_0c28:		lda #$01		; a9 01
 B22_0c2a:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B22_0c2d:		ldy #$01		; a0 01
-B22_0c2f:		lda ($02), y	; b1 02
+B22_0c2f:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_0c31:		tay				; a8 
 B22_0c32:		lda $8c60, y	; b9 60 8c
 B22_0c35:		sta wEntityVertSpeed.w, x	; 9d 20 05
@@ -2015,7 +2037,7 @@ B22_0c69:		bcc B22_0c77 ; 90 0c
 B22_0c6b:		dec $0606, x	; de 06 06
 B22_0c6e:		bne B22_0c5f ; d0 ef
 
-B22_0c70:		jsr func_1f_1ec8		; 20 c8 fe
+B22_0c70:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B22_0c73:		inc wEntityPhase.w, x	; fe c1 05
 B22_0c76:		rts				; 60 
 
@@ -2024,14 +2046,14 @@ B22_0c77:		jsr $81d4		; 20 d4 81
 B22_0c7a:		jsr $81c5		; 20 c5 81
 B22_0c7d:		lda #$30		; a9 30
 B22_0c7f:		sta wEntityBaseY.w, x	; 9d 1c 04
-B22_0c82:		jsr func_1f_1ec8		; 20 c8 fe
+B22_0c82:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B22_0c85:		sta $04db, x	; 9d db 04
 B22_0c88:		lda $061d, x	; bd 1d 06
 B22_0c8b:		tax				; aa 
 B22_0c8c:		lda #$00		; a9 00
 B22_0c8e:		sta $054e, x	; 9d 4e 05
 B22_0c91:		sta wEntityAI_idx.w, x	; 9d ef 05
-B22_0c94:		sta wOamSpecIdx.w, x	; 9d 00 04
+B22_0c94:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B22_0c97:		ldx $6c			; a6 6c
 B22_0c99:		rts				; 60 
 
@@ -2041,7 +2063,7 @@ B22_0c9a:		lda $0606, x	; bd 06 06
 B22_0c9d:		tax				; aa 
 B22_0c9e:		lda wEntityBaseX.w, x	; bd 38 04
 B22_0ca1:		sta $08			; 85 08
-B22_0ca3:		lda $0470, x	; bd 70 04
+B22_0ca3:		lda wEntityState.w, x	; bd 70 04
 B22_0ca6:		ora #$30		; 09 30
 B22_0ca8:		and #$bb		; 29 bb
 B22_0caa:		sta $09			; 85 09
@@ -2055,7 +2077,7 @@ B22_0cb6:		lsr a			; 4a
 B22_0cb7:		tay				; a8 
 B22_0cb8:		ldx $6c			; a6 6c
 B22_0cba:		lda $8cdb, y	; b9 db 8c
-B22_0cbd:		sta wOamSpecIdx.w, x	; 9d 00 04
+B22_0cbd:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B22_0cc0:		lda #$08		; a9 08
 B22_0cc2:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B22_0cc5:		lda #$01		; a9 01
@@ -2065,7 +2087,7 @@ B22_0ccd:		sta wEntityBaseY.w, x	; 9d 1c 04
 B22_0cd0:		lda $08			; a5 08
 B22_0cd2:		sta wEntityBaseX.w, x	; 9d 38 04
 B22_0cd5:		lda $09			; a5 09
-B22_0cd7:		sta $0470, x	; 9d 70 04
+B22_0cd7:		sta wEntityState.w, x	; 9d 70 04
 B22_0cda:		rts				; 60 
 
 
@@ -2126,7 +2148,7 @@ B22_0d20:		ldy #$90		; a0 90
 
 entityPhaseFunc_89:
 B22_0d22:		ldy #$01		; a0 01
-B22_0d24:		lda ($02), y	; b1 02
+B22_0d24:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_0d26:		sta wEntityBaseY.w, x	; 9d 1c 04
 B22_0d29:		clc				; 18 
 B22_0d2a:		adc #$10		; 69 10
@@ -2165,7 +2187,7 @@ B22_0d5f:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_0d62:		sbc #$08		; e9 08
 B22_0d64:		sta wEntityBaseY.w, x	; 9d 1c 04
 B22_0d67:		lda #$00		; a9 00
-B22_0d69:		sta wOamSpecIdx.w, x	; 9d 00 04
+B22_0d69:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B22_0d6c:		jsr $81ef		; 20 ef 81
 B22_0d6f:		jsr $81d4		; 20 d4 81
 B22_0d72:		inc wEntityPhase.w, x	; fe c1 05
@@ -2191,10 +2213,10 @@ B22_0d85:		;removed
 	
 entityPhaseFunc_65:
 	ldy #$01
-B22_0d88:		lda ($02), y
+B22_0d88:		lda (wPhaseFuncDataAddr), y
 B22_0d8a:		sta $00			; 85 00
 B22_0d8c:		iny				; c8 
-B22_0d8d:		lda ($02), y	; b1 02
+B22_0d8d:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_0d8f:		ldy $00			; a4 00
 B22_0d91:		jsr func_1f_1c1e		; 20 1e fc
 B22_0d94:		bne B22_0d57 ; d0 c1
@@ -2207,7 +2229,7 @@ B22_0d9b:		rts				; 60
 entityPhaseFunc_4e:
 B22_0d9c:		lda #$0e		; a9 0e
 B22_0d9e:		ldy #$01		; a0 01
-B22_0da0:		jsr $8293		; 20 93 82
+B22_0da0:		jsr entityInitAnimation_specGroupA_animationDefIdxY		; 20 93 82
 B22_0da3:		inc wEntityPhase.w, x	; fe c1 05
 B22_0da6:		lda wCurrRoomSection			; a5 33
 B22_0da8:		beq B22_0dbe ; f0 14
@@ -2253,7 +2275,7 @@ B22_0de8:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_0deb:		lda $06			; a5 06
 B22_0ded:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B22_0df0:		lda #$60		; a9 60
-B22_0df2:		sta $0470, x	; 9d 70 04
+B22_0df2:		sta wEntityState.w, x	; 9d 70 04
 B22_0df5:		lda $00			; a5 00
 B22_0df7:		sta $054e, x	; 9d 4e 05
 B22_0dfa:		lda $0a			; a5 0a
@@ -2298,12 +2320,12 @@ B22_0e34:		bcc B22_0e3e ; 90 08
 func_16_0e36:
 B22_0e36:		lda #$00		; a9 00
 B22_0e38:		sta $054e, x	; 9d 4e 05
-B22_0e3b:		sta wOamSpecIdx.w, x	; 9d 00 04
+B22_0e3b:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B22_0e3e:		rts				; 60 
 
 
 entityPhaseFunc_9a:
-B22_0e3f:		lda $0470, x	; bd 70 04
+B22_0e3f:		lda wEntityState.w, x	; bd 70 04
 B22_0e42:		and #$81		; 29 81
 B22_0e44:		bne B22_0e51 ; d0 0b
 
@@ -2323,12 +2345,12 @@ B22_0e57:		jsr playSound		; 20 5f e2
 
 entityPhaseFunc_0d:
 B22_0e5a:		inc wEntityPhase.w, x	; fe c1 05
-B22_0e5d:		lda $0470, x	; bd 70 04
+B22_0e5d:		lda wEntityState.w, x	; bd 70 04
 B22_0e60:		and #$81		; 29 81
 B22_0e62:		bne B22_0e3e ; d0 da
 
 B22_0e64:		ldy #$01		; a0 01
-B22_0e66:		lda ($02), y	; b1 02
+B22_0e66:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_0e68:		tay				; a8 
 B22_0e69:		jsr $8e6f		; 20 6f 8e
 B22_0e6c:		jmp $8dca		; 4c ca 8d
@@ -2488,7 +2510,7 @@ B22_0f3b:		lda wEntityBaseX.w, x	; bd 38 04
 B22_0f3e:		sta $00			; 85 00
 B22_0f40:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_0f43:		sta $01			; 85 01
-B22_0f45:		lda $0470, x	; bd 70 04
+B22_0f45:		lda wEntityState.w, x	; bd 70 04
 B22_0f48:		ora #$40		; 09 40
 B22_0f4a:		and #$fb		; 29 fb
 B22_0f4c:		sta $09			; 85 09
@@ -2501,7 +2523,7 @@ B22_0f58:		sta $054e, x	; 9d 4e 05
 B22_0f5b:		lda #$5e		; a9 5e
 B22_0f5d:		sta wEntityAI_idx.w, x	; 9d ef 05
 B22_0f60:		lda $09			; a5 09
-B22_0f62:		sta $0470, x	; 9d 70 04
+B22_0f62:		sta wEntityState.w, x	; 9d 70 04
 B22_0f65:		lda $00			; a5 00
 B22_0f67:		sta wEntityBaseX.w, x	; 9d 38 04
 B22_0f6a:		lda $01			; a5 01
@@ -2541,7 +2563,7 @@ B22_0fa0:		.db $c0
 entityPhaseFunc_a2:
 	lda #$38
 B22_0fa3:		jsr playSound		; 20 5f e2
-B22_0fa6:		lda $0470, x	; bd 70 04
+B22_0fa6:		lda wEntityState.w, x	; bd 70 04
 B22_0fa9:		and #$f1		; 29 f1
 B22_0fab:		ora #$60		; 09 60
 B22_0fad:		sta $04			; 85 04
@@ -2565,7 +2587,7 @@ B22_0fd1:		sta $054e, x	; 9d 4e 05
 B22_0fd4:		lda #$6c		; a9 6c
 B22_0fd6:		sta wEntityAI_idx.w, x	; 9d ef 05
 B22_0fd9:		lda $04			; a5 04
-B22_0fdb:		sta $0470, x	; 9d 70 04
+B22_0fdb:		sta wEntityState.w, x	; 9d 70 04
 B22_0fde:		jsr $b52f		; 20 2f b5
 B22_0fe1:		jmp $8fc3		; 4c c3 8f
 
@@ -2577,7 +2599,7 @@ B22_0fe6:		rts				; 60
 entityPhaseFunc_6c_playSound:
 B22_0fe7:		inc wEntityPhase.w, x	; fe c1 05
 B22_0fea:		ldy #$01		; a0 01
-B22_0fec:		lda ($02), y	; b1 02
+B22_0fec:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_0fee:		jmp playSound		; 4c 5f e2
 
 
@@ -2611,18 +2633,18 @@ B22_1021:		rts				; 60
 
 
 B22_1022:		ldx $6c			; a6 6c
-B22_1024:		jmp reverseEnemyDirection_todo		; 4c 4b 80
+B22_1024:		jmp reverseEntityHorizSpeed		; 4c 4b 80
 
 
 entityPhaseFunc_28:
 B22_1027:		jsr $8240		; 20 40 82
-B22_102a:		jsr func_16_01aa		; 20 aa 81
+B22_102a:		jsr setEntityStateMoving		; 20 aa 81
 B22_102d:		lda $0657, x	; bd 57 06
 B22_1030:		ora #$03		; 09 03
 B22_1032:		sta $0657, x	; 9d 57 06
 B22_1035:		lda #$08		; a9 08
 B22_1037:		ldy #$0d		; a0 0d
-B22_1039:		jsr $8293		; 20 93 82
+B22_1039:		jsr entityInitAnimation_specGroupA_animationDefIdxY		; 20 93 82
 B22_103c:		lda $0633, x	; bd 33 06
 B22_103f:		and #$80		; 29 80
 B22_1041:		bne B22_1061 ; d0 1e
@@ -2650,7 +2672,7 @@ B22_105e:		sta $0633, x	; 9d 33 06
 B22_1061:		lda #$21		; a9 21
 B22_1063:		sta $061d, x	; 9d 1d 06
 B22_1066:		jsr $8243		; 20 43 82
-B22_1069:		jsr $80b3		; 20 b3 80
+B22_1069:		jsr getDistanceBetweenPlayerAndEntityX		; 20 b3 80
 B22_106c:		cmp #$60		; c9 60
 B22_106e:		bcc B22_10ac ; 90 3c
 
@@ -2662,7 +2684,7 @@ B22_1076:		jsr $907c		; 20 7c 90
 B22_1079:		jmp $9061		; 4c 61 90
 
 
-B22_107c:		lda $0470, x	; bd 70 04
+B22_107c:		lda wEntityState.w, x	; bd 70 04
 B22_107f:		and #$81		; 29 81
 B22_1081:		bne B22_10a9 ; d0 26
 
@@ -2671,13 +2693,13 @@ B22_1086:		bne B22_10a9 ; d0 21
 
 B22_1088:		ldx $6c			; a6 6c
 B22_108a:		jsr $81ef		; 20 ef 81
-B22_108d:		jsr func_16_019e		; 20 9e 81
-B22_1090:		lda $1a			; a5 1a
+B22_108d:		jsr setEntityStateNotMoving		; 20 9e 81
+B22_1090:		lda wGameStateLoopCounter			; a5 1a
 B22_1092:		adc wEntityBaseX.w, x	; 7d 38 04
 B22_1095:		and #$01		; 29 01
 B22_1097:		tay				; a8 
 B22_1098:		lda $90aa, y	; b9 aa 90
-B22_109b:		sta wOamSpecIdx.w, x	; 9d 00 04
+B22_109b:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B22_109e:		inc wEntityPhase.w, x	; fe c1 05
 B22_10a1:		lda $0633, x	; bd 33 06
 B22_10a4:		ora #$10		; 09 10
@@ -2688,7 +2710,7 @@ B22_10a9:		rts				; 60
 B22_10aa:		bmi B22_10fe ; 30 52
 
 B22_10ac:		jsr $9127		; 20 27 91
-B22_10af:		lda $0470, x	; bd 70 04
+B22_10af:		lda wEntityState.w, x	; bd 70 04
 B22_10b2:		and #$01		; 29 01
 B22_10b4:		beq B22_10ba ; f0 04
 
@@ -2724,7 +2746,7 @@ B22_10e4:		bcs B22_10f5 ; b0 0f
 B22_10e6:		jsr $90f6		; 20 f6 90
 B22_10e9:		lda #$00		; a9 00
 B22_10eb:		ldy $00			; a4 00
-B22_10ed:		sta wOamSpecIdx.w, y	; 99 00 04
+B22_10ed:		sta wOamSpecIdxDoubled.w, y	; 99 00 04
 B22_10f0:		sta $054e, y	; 99 4e 05
 B22_10f3:		ldx $6c			; a6 6c
 B22_10f5:		rts				; 60 
@@ -2738,7 +2760,7 @@ B22_10fe:		rts				; 60
 
 entityPhaseFunc_2c:
 B22_10ff:		ldy #$01		; a0 01
-B22_1101:		lda wOamSpecIdx.w, x	; bd 00 04
+B22_1101:		lda wOamSpecIdxDoubled.w, x	; bd 00 04
 B22_1104:		cmp #$32		; c9 32
 B22_1106:		beq B22_110a ; f0 02
 
@@ -2754,7 +2776,7 @@ B22_111a:		ora $09			; 05 09
 B22_111c:		sta $0633, x	; 9d 33 06
 B22_111f:		lda #$00		; a9 00
 B22_1121:		sta wEntityPhase.w, x	; 9d c1 05
-B22_1124:		jmp func_16_01f8		; 4c f8 81
+B22_1124:		jmp setEntityStateAnimated		; 4c f8 81
 
 
 B22_1127:		ldy #$01		; a0 01
@@ -2783,6 +2805,7 @@ B22_1146:		beq B22_114c ; f0 04
 B22_1148:		cmp #$13		; c9 13
 B22_114a:		bne B22_1153 ; d0 07
 
+; 1st skeletons
 B22_114c:		ldy #$0d		; a0 0d
 B22_114e:		jsr func_17_17a6		; 20 a6 b7
 B22_1151:		beq B22_1192 ; f0 3f
@@ -2820,11 +2843,11 @@ B22_1184:		ldx $6c			; a6 6c
 B22_1186:		dec $0606, x	; de 06 06
 B22_1189:		bne B22_1191 ; d0 06
 
-B22_118b:		jsr func_16_019e		; 20 9e 81
+B22_118b:		jsr setEntityStateNotMoving		; 20 9e 81
 B22_118e:		inc wEntityPhase.w, x	; fe c1 05
 B22_1191:		rts				; 60 
 
-B22_1192:		jsr func_1f_1ec8		; 20 c8 fe
+B22_1192:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B22_1195:		lda #$01		; a9 01
 B22_1197:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_119a:		lda wEntityAI_idx.w, x	; bd ef 05
@@ -2855,22 +2878,22 @@ B22_11c0:		bne B22_11e2 ; d0 20
 
 B22_11c2:		lda #$40		; a9 40
 B22_11c4:		sta $0606, x	; 9d 06 06
-B22_11c7:		jsr func_16_0230		; 20 30 82
+B22_11c7:		jsr entityFacePlayer		; 20 30 82
 B22_11ca:		lda wEntityFacingLeft.w, x	; bd a8 04
 B22_11cd:		bne B22_11da ; d0 0b
 
 B22_11cf:		lda wEntityHorizSpeed.w, x	; bd f2 04
 B22_11d2:		bpl B22_11e2 ; 10 0e
 
-B22_11d4:		jsr reverseEnemyDirection_todo		; 20 4b 80
+B22_11d4:		jsr reverseEntityHorizSpeed		; 20 4b 80
 B22_11d7:		jmp $91e2		; 4c e2 91
 
 
 B22_11da:		lda wEntityHorizSpeed.w, x	; bd f2 04
 B22_11dd:		bmi B22_11e2 ; 30 03
 
-B22_11df:		jsr reverseEnemyDirection_todo		; 20 4b 80
-B22_11e2:		lda wOamSpecIdx.w, x	; bd 00 04
+B22_11df:		jsr reverseEntityHorizSpeed		; 20 4b 80
+B22_11e2:		lda wOamSpecIdxDoubled.w, x	; bd 00 04
 B22_11e5:		cmp #$2c		; c9 2c
 B22_11e7:		bne B22_124d ; d0 64
 
@@ -2888,7 +2911,7 @@ B22_11fc:		clc				; 18
 B22_11fd:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_1200:		adc #$07		; 69 07
 B22_1202:		sta $01			; 85 01
-B22_1204:		lda $0470, x	; bd 70 04
+B22_1204:		lda wEntityState.w, x	; bd 70 04
 B22_1207:		and #$ba		; 29 ba
 B22_1209:		ora #$20		; 09 20
 B22_120b:		sta $09			; 85 09
@@ -2896,7 +2919,7 @@ B22_120d:		clc				; 18
 B22_120e:		lda $9250, y	; b9 50 92
 B22_1211:		adc wEntityBaseX.w, x	; 7d 38 04
 B22_1214:		sta $00			; 85 00
-B22_1216:		lda $0470, x	; bd 70 04
+B22_1216:		lda wEntityState.w, x	; bd 70 04
 B22_1219:		and #$01		; 29 01
 B22_121b:		adc $9252, y	; 79 52 92
 B22_121e:		and #$01		; 29 01
@@ -2910,7 +2933,7 @@ B22_122b:		sta wEntityBaseX.w, x	; 9d 38 04
 B22_122e:		lda $01			; a5 01
 B22_1230:		sta wEntityBaseY.w, x	; 9d 1c 04
 B22_1233:		lda $0a			; a5 0a
-B22_1235:		sta $0470, x	; 9d 70 04
+B22_1235:		sta wEntityState.w, x	; 9d 70 04
 B22_1238:		lda #$00		; a9 00
 B22_123a:		sta wEntityPhase.w, x	; 9d c1 05
 B22_123d:		lda #$47		; a9 47
@@ -2918,7 +2941,7 @@ B22_123f:		sta $054e, x	; 9d 4e 05
 B22_1242:		lda #$5f		; a9 5f
 B22_1244:		sta wEntityAI_idx.w, x	; 9d ef 05
 B22_1247:		jsr $9fc9		; 20 c9 9f
-B22_124a:		jsr func_1f_1ec8		; 20 c8 fe
+B22_124a:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B22_124d:		ldx $6c			; a6 6c
 B22_124f:		rts				; 60 
 
@@ -2926,7 +2949,7 @@ B22_124f:		rts				; 60
 B22_1250:	.db $fa
 B22_1251:		asl $ff			; 06 ff
 B22_1253:		.db $00				; 00
-B22_1254:		jsr func_1f_1ec8		; 20 c8 fe
+B22_1254:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B22_1257:		lda #$01		; a9 01
 B22_1259:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_125c:		inc wEntityPhase.w, x	; fe c1 05
@@ -2957,7 +2980,7 @@ B22_1284:		bne B22_12d6 ; d0 50
 B22_1286:		dec $061d, x	; de 1d 06
 B22_1289:		bne B22_12c3 ; d0 38
 
-B22_128b:		jsr func_1f_1ec8		; 20 c8 fe
+B22_128b:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B22_128e:		inc wEntityPhase.w, x	; fe c1 05
 B22_1291:		inc wEntityPhase.w, x	; fe c1 05
 B22_1294:		inc wEntityPhase.w, x	; fe c1 05
@@ -2992,10 +3015,10 @@ B22_12c3:		lda #$04		; a9 04
 B22_12c5:		ldy wEntityHorizSpeed.w, x	; bc f2 04
 B22_12c8:		bpl B22_12cd ; 10 03
 
-B22_12ca:		jmp $806f		; 4c 6f 80
+B22_12ca:		jmp addAtoEntityHorizSpeed		; 4c 6f 80
 
 
-B22_12cd:		jmp $808f		; 4c 8f 80
+B22_12cd:		jmp subAfromEntityHorizSpeed		; 4c 8f 80
 
 
 B22_12d0:		lda #$04		; a9 04
@@ -3004,7 +3027,7 @@ B22_12d5:		rts				; 60
 
 
 B22_12d6:		ldx $6c			; a6 6c
-B22_12d8:		jmp reverseEnemyDirection_todo		; 4c 4b 80
+B22_12d8:		jmp reverseEntityHorizSpeed		; 4c 4b 80
 
 
 B22_12db:		ldx $6c			; a6 6c
@@ -3025,10 +3048,10 @@ B22_12f9:		jmp $81ef		; 4c ef 81
 
 entityPhaseFunc_33:
 B22_12fc:		ldy #$01		; a0 01
-B22_12fe:		lda ($02), y	; b1 02
+B22_12fe:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_1300:		sta $0606, x	; 9d 06 06
 B22_1303:		lda #$14		; a9 14
-B22_1305:		jsr func_16_007f		; 20 7f 80
+B22_1305:		jsr addAtoEntityVertSpeed		; 20 7f 80
 B22_1308:		lda wEntityVertSpeed.w, x	; bd 20 05
 B22_130b:		bmi B22_131b ; 30 0e
 
@@ -3050,9 +3073,9 @@ B22_1329:		jsr func_17_17a6		; 20 a6 b7
 B22_132c:		beq B22_1342 ; f0 14
 
 B22_132e:		ldx $6c			; a6 6c
-B22_1330:		jsr func_1f_1ec8		; 20 c8 fe
+B22_1330:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B22_1333:		inc wEntityPhase.w, x	; fe c1 05
-B22_1336:		jsr func_16_01f8		; 20 f8 81
+B22_1336:		jsr setEntityStateAnimated		; 20 f8 81
 B22_1339:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_133c:		and #$f0		; 29 f0
 B22_133e:		sta wEntityBaseY.w, x	; 9d 1c 04
@@ -3060,7 +3083,7 @@ B22_1341:		rts				; 60
 
 
 B22_1342:		ldx $6c			; a6 6c
-B22_1344:		jsr func_1f_1ec8		; 20 c8 fe
+B22_1344:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B22_1347:		lda #$01		; a9 01
 B22_1349:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_134c:		lda #$80		; a9 80
@@ -3072,16 +3095,16 @@ B22_1357:		rts				; 60
 
 entityPhaseFunc_35:
 B22_1358:		inc wEntityPhase.w, x	; fe c1 05
-B22_135b:		jsr func_16_01aa		; 20 aa 81
-B22_135e:		jsr func_1f_1ec8		; 20 c8 fe
+B22_135b:		jsr setEntityStateMoving		; 20 aa 81
+B22_135e:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B22_1361:		lda #$28		; a9 28
 B22_1363:		sta $061d, x	; 9d 1d 06
-B22_1366:		jsr func_16_0230		; 20 30 82
-B22_1369:		lda $0470, x	; bd 70 04
+B22_1366:		jsr entityFacePlayer		; 20 30 82
+B22_1369:		lda wEntityState.w, x	; bd 70 04
 B22_136c:		and #$01		; 29 01
 B22_136e:		bne B22_1379 ; d0 09
 
-B22_1370:		jsr $80b3		; 20 b3 80
+B22_1370:		jsr getDistanceBetweenPlayerAndEntityX		; 20 b3 80
 B22_1373:		cmp #$40		; c9 40
 B22_1375:		bcc B22_13a0 ; 90 29
 
@@ -3090,7 +3113,7 @@ B22_1377:		bcs B22_1388 ; b0 0f
 B22_1379:		lda wEntityFacingLeft.w, x	; bd a8 04
 B22_137c:		eor #$01		; 49 01
 B22_137e:		sta wEntityFacingLeft.w, x	; 9d a8 04
-B22_1381:		jsr $80b3		; 20 b3 80
+B22_1381:		jsr getDistanceBetweenPlayerAndEntityX		; 20 b3 80
 B22_1384:		cmp #$40		; c9 40
 B22_1386:		bcs B22_13a0 ; b0 18
 
@@ -3137,9 +3160,9 @@ B22_13c3:		rts				; 60
 
 
 entityPhaseFunc_36:
-B22_13c4:		jsr $80b3		; 20 b3 80
+B22_13c4:		jsr getDistanceBetweenPlayerAndEntityX		; 20 b3 80
 B22_13c7:		ldy #$01		; a0 01
-B22_13c9:		cmp ($02), y	; d1 02
+B22_13c9:		cmp (wPhaseFuncDataAddr), y	; d1 02
 B22_13cb:		bcs B22_13d1 ; b0 04
 
 B22_13cd:		inc wEntityPhase.w, x	; fe c1 05
@@ -3147,7 +3170,7 @@ B22_13d0:		rts				; 60
 
 
 B22_13d1:		ldy #$02		; a0 02
-B22_13d3:		lda ($02), y	; b1 02
+B22_13d3:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_13d5:		sta wEntityPhase.w, x	; 9d c1 05
 B22_13d8:		rts				; 60 
 
@@ -3181,7 +3204,7 @@ B22_1402:	.db $54
 
 
 entityPhaseFunc_7d:
-B22_1403:		lda $0470, x	; bd 70 04
+B22_1403:		lda wEntityState.w, x	; bd 70 04
 B22_1406:		and #$01		; 29 01
 B22_1408:		bne B22_13fa ; d0 f0
 
@@ -3194,9 +3217,9 @@ B22_1414:		sta $061d, x	; 9d 1d 06
 B22_1417:		tay				; a8 
 B22_1418:		lda $9439, y	; b9 39 94
 B22_141b:		sta $0606, x	; 9d 06 06
-B22_141e:		lda $0470, x	; bd 70 04
+B22_141e:		lda wEntityState.w, x	; bd 70 04
 B22_1421:		eor #$08		; 49 08
-B22_1423:		sta $0470, x	; 9d 70 04
+B22_1423:		sta wEntityState.w, x	; 9d 70 04
 B22_1426:		lda $0633, x	; bd 33 06
 B22_1429:		beq B22_1430 ; f0 05
 
@@ -3215,7 +3238,7 @@ B22_143a:	.db $07
 
 entityPhaseFunc_7f:
 B22_143b:		jsr $8240		; 20 40 82
-B22_143e:		jsr $80b3		; 20 b3 80
+B22_143e:		jsr getDistanceBetweenPlayerAndEntityX		; 20 b3 80
 B22_1441:		and #$f0		; 29 f0
 B22_1443:		lsr a			; 4a
 B22_1444:		lsr a			; 4a
@@ -3229,7 +3252,7 @@ B22_1451:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
 B22_1454:		lda wEntityFacingLeft.w, x	; bd a8 04
 B22_1457:		beq B22_145c ; f0 03
 
-B22_1459:		jsr reverseEnemyDirection_todo		; 20 4b 80
+B22_1459:		jsr reverseEntityHorizSpeed		; 20 4b 80
 B22_145c:		jsr $80d5		; 20 d5 80
 B22_145f:		and #$f0		; 29 f0
 B22_1461:		lsr a			; 4a
@@ -3283,10 +3306,10 @@ B22_149e:		bpl B22_14b8 ; 10 18
 
 B22_14a0:		lda #$26		; a9 26
 B22_14a2:		jsr playSound		; 20 5f e2
-B22_14a5:		jsr func_16_01f8		; 20 f8 81
+B22_14a5:		jsr setEntityStateAnimated		; 20 f8 81
 B22_14a8:		ldy #$06		; a0 06
 B22_14aa:		lda #$12		; a9 12
-B22_14ac:		jsr func_1f_0f5c		; 20 5c ef
+B22_14ac:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
 B22_14af:		lda #$30		; a9 30
 B22_14b1:		sta $0606, x	; 9d 06 06
 B22_14b4:		inc wEntityPhase.w, x	; fe c1 05
@@ -3294,7 +3317,7 @@ B22_14b7:		rts				; 60
 
 
 B22_14b8:		lda #$10		; a9 10
-B22_14ba:		jmp $80a1		; 4c a1 80
+B22_14ba:		jmp subAfromEntityVertSpeed		; 4c a1 80
 
 
 entityPhaseFunc_81:
@@ -3306,7 +3329,7 @@ B22_14c2:		bne B22_14b8 ; d0 f4
 
 entityPhaseFunc_82:
 B22_14c4:		lda #$10		; a9 10
-B22_14c6:		jsr $80a1		; 20 a1 80
+B22_14c6:		jsr subAfromEntityVertSpeed		; 20 a1 80
 B22_14c9:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_14cc:		cmp #$28		; c9 28
 B22_14ce:		bcc B22_14d4 ; 90 04
@@ -3324,7 +3347,7 @@ B22_14df:		jmp $84b2		; 4c b2 84
 
 entityPhaseFunc_83:
 B22_14e2:		inc wEntityPhase.w, x	; fe c1 05
-B22_14e5:		jsr func_1f_1ec8		; 20 c8 fe
+B22_14e5:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B22_14e8:		lda #$ff		; a9 ff
 B22_14ea:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_14ed:		rts				; 60 
@@ -3339,13 +3362,13 @@ B22_14f5:		bcc B22_14fd ; 90 06
 B22_14f7:		lda #$00		; a9 00
 B22_14f9:		sta $0633, x	; 9d 33 06
 B22_14fc:		iny				; c8 
-B22_14fd:		lda ($02), y	; b1 02
+B22_14fd:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_14ff:		sta wEntityPhase.w, x	; 9d c1 05
 B22_1502:		rts				; 60 
 
 
 entityPhaseFunc_3e:
-B22_1503:		jsr func_1f_1ec8		; 20 c8 fe
+B22_1503:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B22_1506:		lda #$ff		; a9 ff
 B22_1508:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_150b:		inc wEntityPhase.w, x	; fe c1 05
@@ -3354,12 +3377,12 @@ B22_150e:		rts				; 60
 
 entityPhaseFunc_3d:
 B22_150f:		lda #$10		; a9 10
-B22_1511:		jsr $80a1		; 20 a1 80
+B22_1511:		jsr subAfromEntityVertSpeed		; 20 a1 80
 B22_1514:		ldy #$04		; a0 04
 B22_1516:		jsr func_17_17a6		; 20 a6 b7
 B22_1519:		beq B22_1522 ; f0 07
 
-B22_151b:		jsr func_1f_1ec8		; 20 c8 fe
+B22_151b:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B22_151e:		inc wEntityPhase.w, x	; fe c1 05
 B22_1521:		rts				; 60 
 
@@ -3369,22 +3392,22 @@ B22_1525:		cmp #$30		; c9 30
 B22_1527:		bcs B22_150e ; b0 e5
 
 B22_1529:		lda #$00		; a9 00
-B22_152b:		sta wOamSpecIdx.w, x	; 9d 00 04
-B22_152e:		jsr func_1f_1ec8		; 20 c8 fe
+B22_152b:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
+B22_152e:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B22_1531:		ldy #$01		; a0 01
-B22_1533:		lda ($02), y	; b1 02
+B22_1533:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_1535:		sta wEntityPhase.w, x	; 9d c1 05
 B22_1538:		rts				; 60 
 
 
 entityPhaseFunc_40:
-B22_1539:		jsr func_16_0230		; 20 30 82
+B22_1539:		jsr entityFacePlayer		; 20 30 82
 B22_153c:		lda #$00		; a9 00
 B22_153e:		ldy #$c0		; a0 c0
-B22_1540:		jsr func_16_04ff		; 20 ff 84
+B22_1540:		jsr setEntityHorizSpeedToAY_reversedIfFacingLeft		; 20 ff 84
 B22_1543:		lda #$01		; a9 01
 B22_1545:		ldy #$80		; a0 80
-B22_1547:		jsr $8518		; 20 18 85
+B22_1547:		jsr setEntityVertSpeedToAY		; 20 18 85
 B22_154a:		inc wEntityPhase.w, x	; fe c1 05
 B22_154d:		rts				; 60 
 
@@ -3401,7 +3424,7 @@ B22_155a:		jmp $95ae		; 4c ae 95
 
 B22_155d:		ldx $6c			; a6 6c
 B22_155f:		lda #$14		; a9 14
-B22_1561:		jsr $80a1		; 20 a1 80
+B22_1561:		jsr subAfromEntityVertSpeed		; 20 a1 80
 B22_1564:		lda wEntityVertSpeed.w, x	; bd 20 05
 B22_1567:		bpl B22_154d ; 10 e4
 
@@ -3419,8 +3442,8 @@ B22_157b:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B22_157e:		rts				; 60 
 
 
-B22_157f:		jsr func_1f_1ec8		; 20 c8 fe
-B22_1582:		sta wOamSpecIdx.w, x	; 9d 00 04
+B22_157f:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
+B22_1582:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B22_1585:		lda #$17		; a9 17
 B22_1587:		sta wEntityPhase.w, x	; 9d c1 05
 B22_158a:		rts				; 60 
@@ -3434,10 +3457,10 @@ B22_1593:		sta wEntityBaseX.w, x	; 9d 38 04
 
 entityPhaseFunc_43:
 B22_1596:		ldy #$01		; a0 01
-B22_1598:		lda ($02), y	; b1 02
+B22_1598:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_159a:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_159d:		iny				; c8 
-B22_159e:		lda ($02), y	; b1 02
+B22_159e:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_15a0:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B22_15a3:		inc wEntityPhase.w, x	; fe c1 05
 B22_15a6:		rts				; 60 
@@ -3448,13 +3471,13 @@ B22_15a7:		ldy #$03		; a0 03
 B22_15a9:		jsr func_17_17a6		; 20 a6 b7
 B22_15ac:		beq B22_15b5 ; f0 07
 
-B22_15ae:		jsr func_1f_1ec8		; 20 c8 fe
+B22_15ae:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B22_15b1:		inc wEntityPhase.w, x	; fe c1 05
 B22_15b4:		rts				; 60 
 
 
 B22_15b5:		lda #$10		; a9 10
-B22_15b7:		jsr func_16_007f		; 20 7f 80
+B22_15b7:		jsr addAtoEntityVertSpeed		; 20 7f 80
 B22_15ba:		lda wEntityVertSpeed.w, x	; bd 20 05
 B22_15bd:		cmp #$02		; c9 02
 B22_15bf:		bcc B22_15b4 ; 90 f3
@@ -3468,10 +3491,10 @@ B22_15cb:		rts				; 60
 
 entityPhaseFunc_45:
 B22_15cc:		ldy #$01		; a0 01
-B22_15ce:		lda ($02), y	; b1 02
+B22_15ce:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_15d0:		sta $061d, x	; 9d 1d 06
 B22_15d3:		txa				; 8a 
-B22_15d4:		adc $1a			; 65 1a
+B22_15d4:		adc wGameStateLoopCounter			; 65 1a
 B22_15d6:		and #$07		; 29 07
 B22_15d8:		tay				; a8 
 B22_15d9:		lda $95fb, y	; b9 fb 95
@@ -3525,7 +3548,7 @@ B22_1623:		dec $061d, x	; de 1d 06
 B22_1626:		beq B22_1631 ; f0 09
 
 B22_1628:		lda $0606, x	; bd 06 06
-B22_162b:		jsr func_16_007f		; 20 7f 80
+B22_162b:		jsr addAtoEntityVertSpeed		; 20 7f 80
 B22_162e:		jmp $84b8		; 4c b8 84
 
 
@@ -3533,12 +3556,12 @@ B22_1631:		jmp $84b2		; 4c b2 84
 
 
 entityPhaseFunc_5a:
-B22_1634:		lda $1a			; a5 1a
+B22_1634:		lda wGameStateLoopCounter			; a5 1a
 B22_1636:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
 B22_1639:		txa				; 8a 
-B22_163a:		adc $1a			; 65 1a
+B22_163a:		adc wGameStateLoopCounter			; 65 1a
 B22_163c:		and #$07		; 29 07
-B22_163e:		jsr func_16_007f		; 20 7f 80
+B22_163e:		jsr addAtoEntityVertSpeed		; 20 7f 80
 B22_1641:		jmp $84b8		; 4c b8 84
 
 
@@ -3551,7 +3574,7 @@ B22_1646:		sta $0633, x	; 9d 33 06
 B22_1649:		jsr $81a7		; 20 a7 81
 B22_164c:		lda #$00		; a9 00
 B22_164e:		sta $061d, x	; 9d 1d 06
-B22_1651:		jsr func_1f_1ec8		; 20 c8 fe
+B22_1651:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B22_1654:		jsr $80d5		; 20 d5 80
 B22_1657:		cmp #$40		; c9 40
 B22_1659:		bcs B22_1667 ; b0 0c
@@ -3588,7 +3611,7 @@ B22_1680:		jsr $8243		; 20 43 82
 B22_1683:		jmp $975c		; 4c 5c 97
 
 
-B22_1686:		lda $1a			; a5 1a
+B22_1686:		lda wGameStateLoopCounter			; a5 1a
 B22_1688:		and #$03		; 29 03
 B22_168a:		tay				; a8 
 B22_168b:		lda $9694, y	; b9 94 96
@@ -3603,14 +3626,14 @@ entityPhaseFunc_49:
 B22_1698:		dec $0606, x	; de 06 06
 B22_169b:		bne B22_1672 ; d0 d5
 
-B22_169d:		jsr func_16_01aa		; 20 aa 81
-B22_16a0:		jsr func_1f_1ec8		; 20 c8 fe
+B22_169d:		jsr setEntityStateMoving		; 20 aa 81
+B22_16a0:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B22_16a3:		inc $0633, x	; fe 33 06
 B22_16a6:		lda $0633, x	; bd 33 06
 B22_16a9:		cmp #$08		; c9 08
 B22_16ab:		bcc B22_16c7 ; 90 1a
 
-B22_16ad:		jsr func_16_0230		; 20 30 82
+B22_16ad:		jsr entityFacePlayer		; 20 30 82
 B22_16b0:		lda #$00		; a9 00
 B22_16b2:		sta wEntityAI_idx.w, x	; 9d ef 05
 B22_16b5:		lda wEntityFacingLeft.w, x	; bd a8 04
@@ -3652,7 +3675,7 @@ B22_16fd:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
 B22_1700:		lda $061d, x	; bd 1d 06
 B22_1703:		beq B22_1708 ; f0 03
 
-B22_1705:		jmp $805d		; 4c 5d 80
+B22_1705:		jmp reverseEntityVertSpeed		; 4c 5d 80
 
 
 B22_1708:		rts				; 60 
@@ -3719,20 +3742,20 @@ B22_1760:		php				; 08
 B22_1761:		ldy wEntityFacingLeft.w, x	; bc a8 04
 B22_1764:		bne B22_1769 ; d0 03
 
-B22_1766:		jmp $806f		; 4c 6f 80
+B22_1766:		jmp addAtoEntityHorizSpeed		; 4c 6f 80
 
 
-B22_1769:		jmp $808f		; 4c 8f 80
+B22_1769:		jmp subAfromEntityHorizSpeed		; 4c 8f 80
 
 
 B22_176c:		lda #$08		; a9 08
 B22_176e:		ldy $061d, x	; bc 1d 06
 B22_1771:		beq B22_1776 ; f0 03
 
-B22_1773:		jmp func_16_007f		; 4c 7f 80
+B22_1773:		jmp addAtoEntityVertSpeed		; 4c 7f 80
 
 
-B22_1776:		jmp $80a1		; 4c a1 80
+B22_1776:		jmp subAfromEntityVertSpeed		; 4c a1 80
 
 
 B22_1779:		lda #$00		; a9 00
@@ -3748,7 +3771,7 @@ B22_1788:		rts				; 60
 entityPhaseFunc_56:
 B22_1789:		inc wEntityPhase.w, x	; fe c1 05
 B22_178c:		ldy #$01		; a0 01
-B22_178e:		lda ($02), y	; b1 02
+B22_178e:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_1790:		sta $10			; 85 10
 B22_1792:		lda wEntityBaseX.w		; ad 38 04
 B22_1795:		sta $04			; 85 04
@@ -3777,14 +3800,14 @@ B22_17c8:		lda $00			; a5 00
 B22_17ca:		and #$10		; 29 10
 B22_17cc:		beq B22_17d1 ; f0 03
 
-B22_17ce:		jsr reverseEnemyDirection_todo		; 20 4b 80
+B22_17ce:		jsr reverseEntityHorizSpeed		; 20 4b 80
 B22_17d1:		clc				; 18 
 B22_17d2:		lda $00			; a5 00
 B22_17d4:		adc #$08		; 69 08
 B22_17d6:		and #$10		; 29 10
 B22_17d8:		beq B22_17dd ; f0 03
 
-B22_17da:		jsr $805d		; 20 5d 80
+B22_17da:		jsr reverseEntityVertSpeed		; 20 5d 80
 B22_17dd:		ldx $6c			; a6 6c
 B22_17df:		rts				; 60 
 
@@ -3893,7 +3916,7 @@ B22_186e:		.db $00				; 00
 entityPhaseFunc_57:
 B22_186f:		jsr $8240		; 20 40 82
 B22_1872:		clc				; 18 
-B22_1873:		lda $07f6		; ad f6 07
+B22_1873:		lda wHardMode.w		; ad f6 07
 B22_1876:		asl a			; 0a
 B22_1877:		adc wEntityFacingLeft.w, x	; 7d a8 04
 B22_187a:		tay				; a8 
@@ -3937,7 +3960,7 @@ B22_18b0:		ldy #$03		; a0 03
 B22_18b2:		jsr func_17_17a6		; 20 a6 b7
 B22_18b5:		beq B22_18bd ; f0 06
 
-B22_18b7:		jsr func_16_019e		; 20 9e 81
+B22_18b7:		jsr setEntityStateNotMoving		; 20 9e 81
 B22_18ba:		inc wEntityPhase.w, x	; fe c1 05
 B22_18bd:		rts				; 60 
 
@@ -3952,7 +3975,7 @@ B22_18c4:		jsr $80d5		; 20 d5 80
 B22_18c7:		cmp #$18		; c9 18
 B22_18c9:		bcs B22_18d2 ; b0 07
 
-B22_18cb:		jsr $80b3		; 20 b3 80
+B22_18cb:		jsr getDistanceBetweenPlayerAndEntityX		; 20 b3 80
 B22_18ce:		cmp #$30		; c9 30
 B22_18d0:		bcc B22_18be ; 90 ec
 
@@ -3963,7 +3986,7 @@ B22_18d6:		ldy #$00		; a0 00
 B22_18d8:		beq B22_18df ; f0 05
 
 B22_18da:		ldy #$01		; a0 01
-B22_18dc:		lda ($02), y	; b1 02
+B22_18dc:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_18de:		tay				; a8 
 B22_18df:		lda $9921, y	; b9 21 99
 B22_18e2:		sta wEntityVertSpeed.w, x	; 9d 20 05
@@ -3987,11 +4010,11 @@ B22_190e:		beq B22_1913 ; f0 03
 
 B22_1910:		inc wEntityPhase.w, x	; fe c1 05
 B22_1913:		inc wEntityPhase.w, x	; fe c1 05
-B22_1916:		jsr func_16_01aa		; 20 aa 81
+B22_1916:		jsr setEntityStateMoving		; 20 aa 81
 B22_1919:		lda wEntityFacingLeft.w, x	; bd a8 04
 B22_191c:		beq B22_18bd ; f0 9f
 
-B22_191e:		jmp reverseEnemyDirection_todo		; 4c 4b 80
+B22_191e:		jmp reverseEntityHorizSpeed		; 4c 4b 80
 
 
 B22_1921:	.db $fd $fc $00
@@ -4018,14 +4041,14 @@ B22_1949:		jsr $998e		; 20 8e 99
 B22_194c:		ldy #$01		; a0 01
 B22_194e:		sec				; 38 
 B22_194f:		lda wEntityBaseY.w, x	; bd 1c 04
-B22_1952:		sbc ($02), y	; f1 02
+B22_1952:		sbc (wPhaseFuncDataAddr), y	; f1 02
 B22_1954:		sta $01			; 85 01
 B22_1956:		jsr $80e3		; 20 e3 80
 B22_1959:		bne B22_1968 ; d0 0d
 
 B22_195b:		jsr $996b		; 20 6b 99
 B22_195e:		ldy #$02		; a0 02
-B22_1960:		lda ($02), y	; b1 02
+B22_1960:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_1962:		sta wEntityAI_idx.w, x	; 9d ef 05
 B22_1965:		jmp $9956		; 4c 56 99
 
@@ -4041,10 +4064,10 @@ B22_1972:		sta wEntityBaseY.w, x	; 9d 1c 04
 B22_1975:		lda #$68		; a9 68
 B22_1977:		sta $054e, x	; 9d 4e 05
 B22_197a:		lda $0e			; a5 0e
-B22_197c:		sta $0470, x	; 9d 70 04
+B22_197c:		sta wEntityState.w, x	; 9d 70 04
 B22_197f:		lda #$00		; a9 00
 B22_1981:		sta wEntityPhase.w, x	; 9d c1 05
-B22_1984:		sta wOamSpecIdx.w, x	; 9d 00 04
+B22_1984:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B22_1987:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B22_198a:		sta $0657, x	; 9d 57 06
 B22_198d:		rts				; 60 
@@ -4052,7 +4075,7 @@ B22_198d:		rts				; 60
 
 B22_198e:		lda wEntityBaseX.w, x	; bd 38 04
 B22_1991:		sta $00			; 85 00
-B22_1993:		lda $0470, x	; bd 70 04
+B22_1993:		lda wEntityState.w, x	; bd 70 04
 B22_1996:		and #$fb		; 29 fb
 B22_1998:		ora #$60		; 09 60
 B22_199a:		sta $0e			; 85 0e
@@ -4066,7 +4089,7 @@ B22_19a1:		jsr func_17_17a6		; 20 a6 b7
 B22_19a4:		bne B22_19b4 ; d0 0e
 
 B22_19a6:		ldx $6c			; a6 6c
-B22_19a8:		jsr func_1f_1ec8		; 20 c8 fe
+B22_19a8:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B22_19ab:		lda #$01		; a9 01
 B22_19ad:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B22_19b0:		inc wEntityPhase.w, x	; fe c1 05
@@ -4115,8 +4138,8 @@ B22_19ee:		ldx $6c			; a6 6c
 B22_19f0:		lda wEntityFacingLeft.w, x	; bd a8 04
 B22_19f3:		eor #$01		; 49 01
 B22_19f5:		sta wEntityFacingLeft.w, x	; 9d a8 04
-B22_19f8:		jsr reverseEnemyDirection_todo		; 20 4b 80
-B22_19fb:		lda $1a			; a5 1a
+B22_19f8:		jsr reverseEntityHorizSpeed		; 20 4b 80
+B22_19fb:		lda wGameStateLoopCounter			; a5 1a
 B22_19fd:		adc wEntityBaseX.w		; 6d 38 04
 B22_1a00:		and #$03		; 29 03
 B22_1a02:		tay				; a8 
@@ -4132,7 +4155,7 @@ B22_1a0e:		jsr $80d5		; 20 d5 80
 B22_1a11:		cmp #$08		; c9 08
 B22_1a13:		bcs B22_1a36 ; b0 21
 
-B22_1a15:		jsr $80b3		; 20 b3 80
+B22_1a15:		jsr getDistanceBetweenPlayerAndEntityX		; 20 b3 80
 B22_1a18:		cmp #$20		; c9 20
 B22_1a1a:		bcs B22_1a36 ; b0 1a
 
@@ -4145,7 +4168,7 @@ B22_1a26:		lda #$01		; a9 01
 B22_1a28:		cmp wEntityFacingLeft.w, x	; dd a8 04
 B22_1a2b:		bne B22_1a36 ; d0 09
 
-B22_1a2d:		jsr func_1f_1ec8		; 20 c8 fe
+B22_1a2d:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B22_1a30:		lda #$05		; a9 05
 B22_1a32:		sta wEntityPhase.w, x	; 9d c1 05
 B22_1a35:		rts				; 60 
@@ -4162,7 +4185,7 @@ B22_1a3e:		rts				; 60
 
 
 entityPhaseFunc_77:
-B22_1a3f:		lda $0470, x	; bd 70 04
+B22_1a3f:		lda wEntityState.w, x	; bd 70 04
 B22_1a42:		and #$01		; 29 01
 B22_1a44:		bne B22_1a6f ; d0 29
 
@@ -4171,7 +4194,7 @@ B22_1a49:		sta $07ed		; 8d ed 07
 B22_1a4c:		lda #$02		; a9 02
 B22_1a4e:		sta $061d, x	; 9d 1d 06
 B22_1a51:		jsr $81a7		; 20 a7 81
-B22_1a54:		jsr func_1f_1ec8		; 20 c8 fe
+B22_1a54:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B22_1a57:		lda #$30		; a9 30
 B22_1a59:		sta $07ee		; 8d ee 07
 B22_1a5c:		lda #$00		; a9 00
@@ -4210,15 +4233,15 @@ B22_1a92:		lda wEntityBaseX.w, x	; bd 38 04
 B22_1a95:		adc $9a72, y	; 79 72 9a
 B22_1a98:		ldy $061d, x	; bc 1d 06
 B22_1a9b:		sta wEntityBaseX.w, y	; 99 38 04
-B22_1a9e:		lda $0470, x	; bd 70 04
+B22_1a9e:		lda wEntityState.w, x	; bd 70 04
 B22_1aa1:		and #$be		; 29 be
 B22_1aa3:		sta $08			; 85 08
-B22_1aa5:		lda $0470, x	; bd 70 04
+B22_1aa5:		lda wEntityState.w, x	; bd 70 04
 B22_1aa8:		and #$01		; 29 01
 B22_1aaa:		adc $09			; 65 09
 B22_1aac:		and #$01		; 29 01
 B22_1aae:		ora $08			; 05 08
-B22_1ab0:		sta $0470, y	; 99 70 04
+B22_1ab0:		sta wEntityState.w, y	; 99 70 04
 B22_1ab3:		lda $00			; a5 00
 B22_1ab5:		sta wEntityFacingLeft.w, y	; 99 a8 04
 B22_1ab8:		lda wEntityBaseY.w, x	; bd 1c 04
@@ -4248,16 +4271,16 @@ B22_1af3:		bne B22_1af7 ; d0 02
 
 B22_1af5:		lda #$50		; a9 50
 B22_1af7:		ldy $11			; a4 11
-B22_1af9:		sta wOamSpecIdx.w, y	; 99 00 04
+B22_1af9:		sta wOamSpecIdxDoubled.w, y	; 99 00 04
 B22_1afc:		inc $061d, x	; fe 1d 06
 B22_1aff:		jmp $9a6a		; 4c 6a 9a
 
 
 B22_1b02:		inc wEntityPhase.w, x	; fe c1 05
-B22_1b05:		jsr func_1f_1ec8		; 20 c8 fe
+B22_1b05:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B22_1b08:		lda #$00		; a9 00
 B22_1b0a:		sta $07ec		; 8d ec 07
-B22_1b0d:		jsr func_16_019e		; 20 9e 81
+B22_1b0d:		jsr setEntityStateNotMoving		; 20 9e 81
 B22_1b10:		ldy $07ed		; ac ed 07
 B22_1b13:		lda $9a76, y	; b9 76 9a
 B22_1b16:		sta $07			; 85 07
@@ -4432,7 +4455,7 @@ B22_1c23:		lda wEntityBaseX.w, x	; bd 38 04
 B22_1c26:		sta $04			; 85 04
 B22_1c28:		lda wEntityBaseY.w, x	; bd 1c 04
 B22_1c2b:		sta $05			; 85 05
-B22_1c2d:		lda $0470, x	; bd 70 04
+B22_1c2d:		lda wEntityState.w, x	; bd 70 04
 B22_1c30:		and #$fe		; 29 fe
 B22_1c32:		sta $00			; 85 00
 B22_1c34:		inx				; e8 
@@ -4501,7 +4524,7 @@ B22_1c9d:		bne B22_1ca1 ; d0 02
 B22_1c9f:		lda #$0e		; a9 0e
 B22_1ca1:		clc				; 18 
 B22_1ca2:		adc $0b			; 65 0b
-B22_1ca4:		sta wOamSpecIdx.w, x	; 9d 00 04
+B22_1ca4:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B22_1ca7:		rts				; 60 
 
 
@@ -4567,7 +4590,7 @@ B22_1ce7:		.db $01
 
 entityPhaseFunc_7a:
 	ldx #$01
-B22_1cea:		lda $1a
+B22_1cea:		lda wGameStateLoopCounter
 B22_1cec:		and #$01		; 29 01
 B22_1cee:		tay				; a8 
 B22_1cef:		lda $9d0c, y	; b9 0c 9d
@@ -4576,7 +4599,7 @@ B22_1cf5:		lda $9d0e, y	; b9 0e 9d
 B22_1cf8:		sta wEntityAI_idx.w, x	; 9d ef 05
 B22_1cfb:		lda #$00		; a9 00
 B22_1cfd:		sta wEntityPhase.w, x	; 9d c1 05
-B22_1d00:		sta wOamSpecIdx.w, x	; 9d 00 04
+B22_1d00:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B22_1d03:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B22_1d06:		inx				; e8 
 B22_1d07:		cpx #$09		; e0 09
@@ -4669,7 +4692,7 @@ B22_1d7b:	.db $14
 B22_1d7c:	.db $ff
 B22_1d7d:		.db $00				; 00
 B22_1d7e:	.db $1f
-B22_1d7f:		lda $0470, x	; bd 70 04
+B22_1d7f:		lda wEntityState.w, x	; bd 70 04
 B22_1d82:		and #$3e		; 29 3e
 B22_1d84:		sta $00			; 85 00
 B22_1d86:		inx				; e8 
@@ -4687,25 +4710,25 @@ B22_1d98:		sta wEntityBaseX.w, x	; 9d 38 04
 B22_1d9b:		lda #$00		; a9 00
 B22_1d9d:		sta $01			; 85 01
 B22_1d9f:		dex				; ca 
-B22_1da0:		lda $0470, x	; bd 70 04
+B22_1da0:		lda wEntityState.w, x	; bd 70 04
 B22_1da3:		and #$01		; 29 01
 B22_1da5:		adc $01			; 65 01
 B22_1da7:		and #$01		; 29 01
 B22_1da9:		ora $00			; 05 00
 B22_1dab:		inx				; e8 
-B22_1dac:		sta $0470, x	; 9d 70 04
+B22_1dac:		sta wEntityState.w, x	; 9d 70 04
 B22_1daf:		and #$01		; 29 01
 B22_1db1:		bne B22_1dbc ; d0 09
 
-B22_1db3:		lda $0470, x	; bd 70 04
+B22_1db3:		lda wEntityState.w, x	; bd 70 04
 B22_1db6:		and #$7f		; 29 7f
-B22_1db8:		sta $0470, x	; 9d 70 04
+B22_1db8:		sta wEntityState.w, x	; 9d 70 04
 B22_1dbb:		rts				; 60 
 
 
-B22_1dbc:		lda $0470, x	; bd 70 04
+B22_1dbc:		lda wEntityState.w, x	; bd 70 04
 B22_1dbf:		ora #$80		; 09 80
-B22_1dc1:		sta $0470, x	; 9d 70 04
+B22_1dc1:		sta wEntityState.w, x	; 9d 70 04
 B22_1dc4:		rts				; 60 
 
 
@@ -4722,7 +4745,7 @@ B22_1dd1:		rts				; 60
 
 B22_1dd2:		ldx #$01		; a2 01
 B22_1dd4:		jsr $84b2		; 20 b2 84
-B22_1dd7:		sta $0470, x	; 9d 70 04
+B22_1dd7:		sta wEntityState.w, x	; 9d 70 04
 B22_1dda:		inx				; e8 
 B22_1ddb:		cpx #$09		; e0 09
 B22_1ddd:		bcc B22_1dd4 ; 90 f5
@@ -4786,7 +4809,7 @@ B22_1e4b:		and #$01		; 29 01
 B22_1e4d:		adc $9e79, y	; 79 79 9e
 B22_1e50:		and #$01		; 29 01
 B22_1e52:		ora $09			; 05 09
-B22_1e54:		sta $0470, x	; 9d 70 04
+B22_1e54:		sta wEntityState.w, x	; 9d 70 04
 B22_1e57:		lda #$01		; a9 01
 B22_1e59:		sta $10			; 85 10
 B22_1e5b:		lda $9e75, y	; b9 75 9e
@@ -4815,7 +4838,7 @@ B22_1e7f:		beq B22_1e82 ; f0 01
 
 B22_1e81:		iny				; c8 
 B22_1e82:		lda $9e89, y	; b9 89 9e
-B22_1e85:		sta wOamSpecIdx.w, x	; 9d 00 04
+B22_1e85:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B22_1e88:		rts				; 60 
 
 
@@ -5054,7 +5077,7 @@ B22_1fc5:		.db $00				; 00
 B22_1fc6:	.db $07
 B22_1fc7:		.db $00				; 00
 B22_1fc8:		sed				; f8 
-B22_1fc9:		lda $07f6		; ad f6 07
+B22_1fc9:		lda wHardMode.w		; ad f6 07
 B22_1fcc:		bne B22_1fe3 ; d0 15
 
 B22_1fce:		lda wCurrRoomGroup		; a5 32
@@ -5084,10 +5107,10 @@ B22_1fe9:		.db $30
 entityPhaseFunc_69:
 	inc $05c1, x
 B22_1fed:		ldy #$01		; a0 01
-B22_1fef:		lda ($02), y	; b1 02
+B22_1fef:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_1ff1:		sta $061d, x	; 9d 1d 06
 B22_1ff4:		iny				; c8 
-B22_1ff5:		lda ($02), y	; b1 02
+B22_1ff5:		lda (wPhaseFuncDataAddr), y	; b1 02
 B22_1ff7:		sta $0606, x	; 9d 06 06
 -	rts				; 60 
 

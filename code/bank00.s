@@ -1,14 +1,14 @@
 
-func_00_0001:
-B0_0001:		ldy wCurrPlayer.w		; ac 4e 05
-B0_0004:		lda data_0_000f.w, y	; b9 0f 80
-B0_0007:		sta wChrBankSpr_0000			; 85 46
-B0_0009:		clc				; 18 
-B0_000a:		adc #$01		; 69 01
-B0_000c:		sta wChrBankSpr_0400			; 85 47
-B0_000e:		rts				; 60 
+loadCurrPlayerSprChrBanks:
+	ldy wCurrPlayer.w
+	lda @playerBaseChrBank.w, y
+	sta wChrBankSpr_0000
+	clc
+	adc #$01
+	sta wChrBankSpr_0400
+	rts
 
-data_0_000f:
+@playerBaseChrBank:
 	.db $00 $04 $02 $06
 
 
@@ -258,128 +258,159 @@ B0_04ff:	.db $02
 B0_0500:		.db $c0
 
 
-func_00_0501:
+getRoomSectionInternalPalettesSpecIdx:
 	lda wCurrRoomGroup
-B0_0503:		cmp #$0c		; c9 0c
-B0_0505:		bne B0_050e ; d0 07
+	cmp #RG_MAIN_HALL
+	bne +
 
-; if group c and y == 7f6, a = 0f
-B0_0507:		ldy $07f6		; ac f6 07
-B0_050a:		beq B0_050e ; f0 02
+; if The Main Hall and hard mode,
+; group is 0x0f for harder enemies
+	ldy wHardMode.w
+	beq +
 
-B0_050c:		lda #$0f		; a9 0f
+	lda #$0f
 
-B0_050e:		asl a			; 0a
-B0_050f:		tay				; a8 
-B0_0510:		lda roomGroupInternalPalettes.w, y	; b9 cd 85
-B0_0513:		sta $08			; 85 08
-B0_0515:		lda roomGroupInternalPalettes.w+1, y	; b9 ce 85
-B0_0518:		sta $09			; 85 09
++
+; get room group address
+	asl a
+	tay
+	lda roomGroupInternalPalettes.w, y
+	sta wRoomGroupInternalPalettesAddr
+	lda roomGroupInternalPalettes.w+1, y
+	sta wRoomGroupInternalPalettesAddr+1
 
-B0_051a:		lda wCurrRoomSection			; a5 33
-B0_051c:		asl a			; 0a
-B0_051d:		asl a			; 0a
-B0_051e:		tay				; a8 
-B0_051f:		lda ($08), y	; b1 08
-B0_0521:		sta $0a			; 85 0a
-B0_0523:		iny				; c8 
-B0_0524:		lda ($08), y	; b1 08
-B0_0526:		sta $0b			; 85 0b
-B0_0528:		iny				; c8 
-B0_0529:		sty $0e			; 84 0e
-B0_052b:		rts				; 60 
+; get room section address
+	lda wCurrRoomSection
+	asl a
+	asl a
+	tay
+	lda (wRoomGroupInternalPalettesAddr), y
+	sta wRoomSectionInternalBGPalettesAddr
+	iny
+	lda (wRoomGroupInternalPalettesAddr), y
+	sta wRoomSectionInternalBGPalettesAddr+1
 
-
-func_00_052c:
-B0_052c:		lda #$09		; a9 09
-B0_052e:		jsr displayStaticLayoutA		; 20 e9 ec
-B0_0531:		jsr func_00_0501		; 20 01 85
-B0_0534:		lda #$00		; a9 00
-B0_0536:		sta $07			; 85 07
-
-B0_0538:		ldy wCurrRoomIdx			; a4 34
-B0_053a:		lda ($0a), y	; b1 0a
-B0_053c:		cmp #$1c		; c9 1c
-B0_053e:		bcc B0_0544 ; 90 04
-
-B0_0540:		sbc #$1c		; e9 1c
-B0_0542:		inc $07			; e6 07
-
-; y = a * 9
-B0_0544:		sta $00			; 85 00
-B0_0546:		asl a			; 0a
-B0_0547:		asl a			; 0a
-B0_0548:		asl a			; 0a
-B0_0549:		clc				; 18 
-B0_054a:		adc $00			; 65 00
-B0_054c:		tay				; a8 
-
-B0_054d:		ldx wVramQueueNextIdxToFill			; a6 1d
-B0_054f:		lda #$03		; a9 03
-B0_0551:		sta $0d			; 85 0d
-
-B0_0553:		lda #$03		; a9 03
-B0_0555:		sta $0c			; 85 0c
-
-B0_0557:		lda $07			; a5 07
-B0_0559:		bne B0_056e ; d0 13
-
-B0_055b:		lda roomGroupInternalPalettes@bgSpecs.w, y	; b9 79 87
-
-B0_055e:		sta $02f4, x	; 9d f4 02
-B0_0561:		iny				; c8 
-B0_0562:		inx				; e8 
-B0_0563:		dec $0c			; c6 0c
-B0_0565:		bne B0_0557 ; d0 f0
-
-B0_0567:		inx				; e8 
-B0_0568:		dec $0d			; c6 0d
-B0_056a:		bne B0_0553 ; d0 e7
-
-B0_056c:		beq B0_0574 ; f0 06
-
-B0_056e:		lda $8875, y	; b9 75 88
-B0_0571:		jmp B0_055e		; 4c 5e 85
-
-B0_0574:		jsr $85bb		; 20 bb 85
-B0_0577:		ldy $0e			; a4 0e
-B0_0579:		lda ($08), y	; b1 08
-B0_057b:		sta $0a			; 85 0a
-B0_057d:		iny				; c8 
-B0_057e:		lda ($08), y	; b1 08
-B0_0580:		sta $0b			; 85 0b
-B0_0582:		ldy wCurrRoomIdx			; a4 34
-B0_0584:		lda ($0a), y	; b1 0a
-B0_0586:		asl a			; 0a
-B0_0587:		clc				; 18 
-B0_0588:		adc ($0a), y	; 71 0a
-B0_058a:		tay				; a8 
-B0_058b:		ldx wVramQueueNextIdxToFill			; a6 1d
-B0_058d:		lda #$03		; a9 03
-B0_058f:		sta $0c			; 85 0c
-B0_0591:		lda $89ce, y	; b9 ce 89
-B0_0594:		sta $02f0, x	; 9d f0 02
-B0_0597:		iny				; c8 
-B0_0598:		inx				; e8 
-B0_0599:		dec $0c			; c6 0c
-B0_059b:		bne B0_0591 ; d0 f4
-
-B0_059d:		rts				; 60 
+; store offset for sprites
+	iny
+	sty wRoomSectionSprPalettesAddrOffset
+	rts
 
 
-B0_059e:		jsr func_00_0501		; 20 01 85
-B0_05a1:		jmp $8574		; 4c 74 85
+loadCurrRoomsInternalPalettes:
+	lda #SL_BASE_ROOM_INTERNAL_PALETTES
+	jsr displayStaticLayoutA
+
+; get bg spec idx, checking if it uses the 2nd group
+	jsr getRoomSectionInternalPalettesSpecIdx
+	lda #$00
+	sta wCurrRoomUses2ndBGInternalPalettesSpecsGroup
+
+	ldy wCurrRoomIdx
+	lda (wRoomSectionInternalBGPalettesAddr), y
+	cmp #$1c
+	bcc +
+
+	sbc #$1c
+	inc wCurrRoomUses2ndBGInternalPalettesSpecsGroup
+
+; get offset for spec idx (*9)
++	sta wCurrRoomBGInternalPalettesSpecOffset
+	asl a
+	asl a
+	asl a
+	clc
+	adc wCurrRoomBGInternalPalettesSpecOffset
+	tay
+
+.ifdef MID_STAGE_PALETTE_SWAP
+	jsr populate2ndInternalBGPalettes
+	nop
+.else
+; set up 3 palette loops of 3 colours
+; palette 0, and transparent colour, is always the same
+	ldx wVramQueueNextIdxToFill
+	lda #$03
+.endif
+	sta wNumInternalPalettesLeft
+
+@nextPalette:
+	lda #$03
+	sta wNumColoursLeftForCurrPalette
+
+@nextColour:
+	lda wCurrRoomUses2ndBGInternalPalettesSpecsGroup
+	bne @getFrom2ndBGSpecGroup
+
+	lda roomGroupInternalPalettes@bgSpecs.w, y
+
+@afterGettingPaletteColour:
+; -$0c to populate from palette 1 colour 1
+	sta wVramQueue.w-$0c, x
+	iny
+	inx
+	dec wNumColoursLeftForCurrPalette
+	bne @nextColour
+
+	inx
+	dec wNumInternalPalettesLeft
+	bne @nextPalette
+
+	beq @afterBGdoSpr
+
+@getFrom2ndBGSpecGroup:
+	lda roomGroupInternalPalettes@bgSpecs2.w, y
+	jmp @afterGettingPaletteColour
+
+@afterBGdoSpr:
+; y = offset for sprite address
+	jsr loadCurrPlayerInternalPalettes
+	ldy wRoomSectionSprPalettesAddrOffset
+
+; get room section address for sprite palettes
+	lda (wRoomGroupInternalPalettesAddr), y
+	sta wRoomSectionInternalSprPalettesAddr
+	iny
+	lda (wRoomGroupInternalPalettesAddr), y
+	sta wRoomSectionInternalSprPalettesAddr+1
+
+; get value for room, then *3
+	ldy wCurrRoomIdx
+	lda (wRoomSectionInternalSprPalettesAddr), y
+	asl a
+	clc
+	adc (wRoomSectionInternalSprPalettesAddr), y
+	tay
+
+; copy 3 colours into extra palette area (palette 2)
+	ldx wVramQueueNextIdxToFill
+	lda #$03
+	sta wNumColoursLeftForCurrPalette
+-	lda roomSpecificSprPaletteGroup2.w, y
+; -$10 to populate from palette 2 colour 1
+	sta wVramQueue.w-$10, x
+	iny
+	inx
+	dec wNumColoursLeftForCurrPalette
+	bne -
+
+	rts
 
 
-B0_05a4:		jsr $859e		; 20 9e 85
+loadCurrRoomsInternalSprPalettes:
+	jsr getRoomSectionInternalPalettesSpecIdx
+	jmp loadCurrRoomsInternalPalettes@afterBGdoSpr
+
+
+func_00_05a4:
+B0_05a4:		jsr loadCurrRoomsInternalSprPalettes		; 20 9e 85
 B0_05a7:		ldx wVramQueueNextIdxToFill			; a6 1d
 B0_05a9:		ldy #$00		; a0 00
-B0_05ab:		lda $85b8, y	; b9 b8 85
+-	lda $85b8, y	; b9 b8 85
 B0_05ae:		sta $02e8, x	; 9d e8 02
 B0_05b1:		inx				; e8 
 B0_05b2:		iny				; c8 
 B0_05b3:		cpy #$03		; c0 03
-B0_05b5:		bcc B0_05ab ; 90 f4
+	bcc -
 
 B0_05b7:		rts				; 60 
 
@@ -387,57 +418,71 @@ B0_05b7:		rts				; 60
 B0_05b8:		jsr $3726		; 20 26 37
 
 
-func_00_05bb:
-B0_05bb:		ldy wCurrPlayer.w		; ac 4e 05
-B0_05be:		lda $85c9, y	; b9 c9 85
-B0_05c1:		jsr displayStaticLayoutA		; 20 e9 ec
-B0_05c4:		lda #$04		; a9 04
-B0_05c6:		jmp displayStaticLayoutA		; 4c e9 ec
+loadCurrPlayerInternalPalettes:
+	ldy wCurrPlayer.w
+	lda @staticLayoutIdxes, y
+	jsr displayStaticLayoutA
+	lda #SL_INTERNAL_PALETTE_DUMMY_WRITE
+	jmp displayStaticLayoutA
 
-
-B0_05c9:		asl a			; 0a
-B0_05ca:	.db $0b
-B0_05cb:	.db $0c
-B0_05cc:		.db $0d
+@staticLayoutIdxes:
+	.db SL_TREVOR_INTERNAL_PALETTES
+	.db SL_SYPHA_INTERNAL_PALETTES
+	.db SL_GRANT_INTERNAL_PALETTES
+	.db SL_ALUCARD_INTERNAL_PALETTES
 
 
 .include "data/internalPalettes.s"
 
+staticLayout_trevorInternalPalettes:
+	.db $10 $3f $0f $08 $26 $37 $0f $0f
+	.db $22 $34 $0f $0f $0f $0f $0f $0f
+	.db $16 $25 $ff
 
-; todo: 8982
-	.db $10
-	.db $3f $0f $08 $26 $37 $0f $0f $22 $34
-	.db $0f $0f $0f $0f $0f $0f $16 $25 $ff
-	.db $10 $3f $0f $08 $15 $38 $0f $0f $22
-	.db $34 $0f $0f $0f $0f $0f $0f $16 $25
-	.db $ff $10 $3f $0f $21 $11 $20 $0f $0f
-	.db $22 $34 $0f $0f $0f $0f $0f $0f $16
-	.db $25 $ff $10 $3f $0f $0f $15 $36 $0f
-	.db $0f $22 $34 $0f $0f $0f $0f $0f $0f
-	.db $16 $25 $ff $0f $32 $26 $0f $20 $14
-	.db $26 $0f $1b $28 $0f $1b $0f $13 $25
-	.db $0f $17 $36 $0f $15 $35 $0f $00 $39
-	.db $0f $13 $17 $0b $2a $39 $0b $2a $3b
-	.db $0f $14 $32 $0f $18 $28 $10 $00 $23
-	.db $0f $08 $38 $02 $08 $38 $34 $00 $22
-	.db $16 $26 $20 $0f $14 $35 $0f $13 $25
-	.db $0f $08 $38 $0f $04 $37 $0f $00 $10
-	.db $07 $00 $10 $00 $10 $32 $0f $17 $23
+staticLayout_grantInternalPalettes:
+	.db $10 $3f $0f $08 $15 $38 $0f $0f
+	.db $22 $34 $0f $0f $0f $0f $0f $0f
+	.db $16 $25 $ff
 
-.include "code/gameState7.s"
+staticLayout_syphaInternalPalettes:
+	.db $10 $3f $0f $21 $11 $20 $0f $0f
+	.db $22 $34 $0f $0f $0f $0f $0f $0f
+	.db $16 $25 $ff
 
-func_00_0b55:
-B0_0b55:		lda #$cb		; a9 cb
-B0_0b57:		sta wEntityBaseY.w		; 8d 1c 04
-B0_0b5a:		ldy #$00		; a0 00
-B0_0b5c:		lda $8b04, y	; b9 04 8b
-B0_0b5f:		sta $08			; 85 08
-B0_0b61:		lda $8b05, y	; b9 05 8b
-B0_0b64:		sta $09			; 85 09
-B0_0b66:		ldy $6b			; a4 6b
-B0_0b68:		lda ($08), y	; b1 08
-B0_0b6a:		sta wEntityBaseX.w		; 8d 38 04
-B0_0b6d:		jmp $8b4a		; 4c 4a 8b
+staticLayout_alucardInternalPalettes:
+	.db $10 $3f $0f $0f $15 $36 $0f $0f
+	.db $22 $34 $0f $0f $0f $0f $0f $0f
+	.db $16 $25 $ff
+
+roomSpecificSprPaletteGroup2:
+	.db $0f $32 $26
+	.db $0f $20 $14
+	.db $26 $0f $1b
+	.db $28 $0f $1b
+	.db $0f $13 $25
+	.db $0f $17 $36
+	.db $0f $15 $35
+	.db $0f $00 $39
+	.db $0f $13 $17
+	.db $0b $2a $39
+	.db $0b $2a $3b
+	.db $0f $14 $32
+	.db $0f $18 $28
+	.db $10 $00 $23
+	.db $0f $08 $38
+	.db $02 $08 $38
+	.db $34 $00 $22
+	.db $16 $26 $20
+	.db $0f $14 $35
+	.db $0f $13 $25
+	.db $0f $08 $38
+	.db $0f $04 $37
+	.db $0f $00 $10
+	.db $07 $00 $10
+	.db $00 $10 $32
+	.db $0f $17 $23
+
+.include "code/gameState7_debugMode.s"
 
 
 func_00_0b70:
@@ -1029,11 +1074,11 @@ B0_0f13:		lda $b2			; a5 b2
 B0_0f15:		and #$03		; 29 03
 B0_0f17:		beq B0_0f1f ; f0 06
 
-B0_0f19:		jsr $859e		; 20 9e 85
+B0_0f19:		jsr loadCurrRoomsInternalSprPalettes		; 20 9e 85
 B0_0f1c:		jmp $8f4e		; 4c 4e 8f
 
 
-B0_0f1f:		jsr $859e		; 20 9e 85
+B0_0f1f:		jsr loadCurrRoomsInternalSprPalettes		; 20 9e 85
 B0_0f22:		ldx wVramQueueNextIdxToFill			; a6 1d
 B0_0f24:		lda #$20		; a9 20
 B0_0f26:		sta $02e7, x	; 9d e7 02
@@ -1046,7 +1091,7 @@ B0_0f32:		jmp $8f4e		; 4c 4e 8f
 B0_0f35:		lda $ad			; a5 ad
 B0_0f37:		beq B0_0f4e ; f0 15
 
-B0_0f39:		lda $1a			; a5 1a
+B0_0f39:		lda wGameStateLoopCounter			; a5 1a
 B0_0f3b:		and #$01		; 29 01
 B0_0f3d:		beq B0_0f43 ; f0 04
 
@@ -1059,8 +1104,8 @@ B0_0f47:		beq B0_0f4b ; f0 02
 
 B0_0f49:		bne B0_0f19 ; d0 ce
 
-B0_0f4b:		jsr $85a4		; 20 a4 85
-B0_0f4e:		lda $1a			; a5 1a
+B0_0f4b:		jsr func_00_05a4		; 20 a4 85
+B0_0f4e:		lda wGameStateLoopCounter			; a5 1a
 B0_0f50:		and #$03		; 29 03
 B0_0f52:		tay				; a8 
 B0_0f53:		beq B0_0f61 ; f0 0c
@@ -1319,7 +1364,7 @@ B0_107c:		lsr $5e63, x	; 5e 63 5e
 
 func_00_107f:
 B0_107f:		lda #$b0		; a9 b0
-B0_1081:		sta $ff			; 85 ff
+B0_1081:		sta wPPUCtrl			; 85 ff
 B0_1083:		jsr $90cd		; 20 cd 90
 B0_1086:		jsr $90c0		; 20 c0 90
 B0_1089:		lda #$02		; a9 02
@@ -1354,7 +1399,7 @@ B0_10ae:		sta $3a			; 85 3a
 B0_10b0:		bne B0_10b7 ; d0 05
 
 B0_10b2:		lda #$01		; a9 01
-B0_10b4:		sta $07f6		; 8d f6 07
+B0_10b4:		sta wHardMode.w		; 8d f6 07
 B0_10b7:		lda #$02		; a9 02
 B0_10b9:		sta $35			; 85 35
 B0_10bb:		rts				; 60 
@@ -1389,11 +1434,11 @@ B0_10e1:		rts				; 60
 
 
 B0_10e2:		lda #$b0		; a9 b0
-B0_10e4:		sta $ff			; 85 ff
+B0_10e4:		sta wPPUCtrl			; 85 ff
 B0_10e6:		jsr func_1f_0666		; 20 66 e6
 B0_10e9:		jsr $90c8		; 20 c8 90
 B0_10ec:		lda #$00		; a9 00
-B0_10ee:		sta wOamSpecIdx.w		; 8d 00 04
+B0_10ee:		sta wOamSpecIdxDoubled.w		; 8d 00 04
 B0_10f1:		sta $0418		; 8d 18 04
 B0_10f4:		sta $0419		; 8d 19 04
 B0_10f7:		sta $74			; 85 74
@@ -1418,14 +1463,14 @@ B0_111c:		bne B0_1122 ; d0 04
 B0_111e:		lda #$00		; a9 00
 B0_1120:		sta $74			; 85 74
 B0_1122:		lda #$b0		; a9 b0
-B0_1124:		sta $ff			; 85 ff
+B0_1124:		sta wPPUCtrl			; 85 ff
 B0_1126:		jsr func_1f_0666		; 20 66 e6
 B0_1129:		lda #$00		; a9 00
 B0_112b:		sta $75			; 85 75
 B0_112d:		jsr $917f		; 20 7f 91
 B0_1130:		jsr $90cd		; 20 cd 90
 B0_1133:		lda #$b0		; a9 b0
-B0_1135:		sta $ff			; 85 ff
+B0_1135:		sta wPPUCtrl			; 85 ff
 B0_1137:		lda wPlayerStateDoubled.w		; ad 65 05
 B0_113a:		and #$7f		; 29 7f
 B0_113c:		sta wPlayerStateDoubled.w		; 8d 65 05
@@ -1474,7 +1519,7 @@ B0_118a:		rts				; 60
 
 func_00_118b:
 B0_118b:		lda #$b0		; a9 b0
-B0_118d:		sta $ff			; 85 ff
+B0_118d:		sta wPPUCtrl			; 85 ff
 B0_118f:		jsr func_1f_0666		; 20 66 e6
 B0_1192:		jsr $90cd		; 20 cd 90
 B0_1195:		jsr $e5ca		; 20 ca e5
@@ -1497,7 +1542,7 @@ B0_11af:		jmp $90c0		; 4c c0 90
 func_00_11b2:
 B0_11b2:		lda #$00		; a9 00
 B0_11b4:		sta $80			; 85 80
-B0_11b6:		sta $0470		; 8d 70 04
+B0_11b6:		sta wEntityState.w		; 8d 70 04
 B0_11b9:		dec wGenericStateTimer			; c6 30
 B0_11bb:		bne B0_11cd ; d0 10
 
@@ -1509,7 +1554,7 @@ B0_11c6:		sta wPlayerStateDoubled.w		; 8d 65 05
 B0_11c9:		lda #$00		; a9 00
 B0_11cb:		beq B0_11d1 ; f0 04
 
-B0_11cd:		lda $1a			; a5 1a
+B0_11cd:		lda wGameStateLoopCounter			; a5 1a
 B0_11cf:		and #$03		; 29 03
 B0_11d1:		sta wEntityPaletteOverride.w		; 8d 54 04
 B0_11d4:		rts				; 60 
@@ -1682,7 +1727,7 @@ B0_12c0:		sta wEntityFacingLeft.w		; 8d a8 04
 B0_12c3:		sty $c6			; 84 c6
 B0_12c5:		jsr set_2c_to_01h		; 20 ce e5
 B0_12c8:		lda #$00		; a9 00
-B0_12ca:		sta $0470		; 8d 70 04
+B0_12ca:		sta wEntityState.w		; 8d 70 04
 B0_12cd:		lda #$00		; a9 00
 B0_12cf:		jsr $ef57		; 20 57 ef
 B0_12d2:		inc $6b			; e6 6b
@@ -1743,7 +1788,7 @@ B0_132c:		lda #$63		; a9 63
 B0_132e:		jmp playSound		; 4c 5f e2
 
 
-B0_1331:		lda $1a			; a5 1a
+B0_1331:		lda wGameStateLoopCounter			; a5 1a
 B0_1333:		and #$0f		; 29 0f
 B0_1335:		bne B0_133c ; d0 05
 
@@ -1780,9 +1825,9 @@ B0_136e:		sta wGenericStateTimer			; 85 30
 B0_1370:		lda #$0c		; a9 0c
 B0_1372:		ldy #$00		; a0 00
 B0_1374:		ldx #$13		; a2 13
-B0_1376:		jsr func_1f_0f5c		; 20 5c ef
+B0_1376:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
 B0_1379:		lda #$00		; a9 00
-B0_137b:		sta wOamSpecIdx.w, x	; 9d 00 04
+B0_137b:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B0_137e:		sta wEntityPaletteOverride.w, x	; 9d 54 04
 B0_1381:		lda wEntityBaseY.w		; ad 1c 04
 B0_1384:		adc #$08		; 69 08
@@ -1875,7 +1920,7 @@ B0_141b:		rts				; 60
 
 B0_141c:		ldx #$13		; a2 13
 B0_141e:		jsr updateEntityXanimationFrame		; 20 75 ef
-B0_1421:		lda wEntityAnimationIdxes.w, x	; bd 93 05
+B0_1421:		lda wEntityOamSpecIdxBaseOffset.w, x	; bd 93 05
 B0_1424:		bne B0_141b ; d0 f5
 
 B0_1426:		lda #$80		; a9 80
@@ -1891,7 +1936,7 @@ B0_1433:		jmp updatePlayerAnimationFrame		; 4c 73 ef
 
 
 B0_1436:		lda #$00		; a9 00
-B0_1438:		sta wOamSpecIdx.w		; 8d 00 04
+B0_1438:		sta wOamSpecIdxDoubled.w		; 8d 00 04
 B0_143b:		lda #$10		; a9 10
 B0_143d:		sta wGenericStateTimer			; 85 30
 B0_143f:		inc $6b			; e6 6b
@@ -1903,7 +1948,7 @@ B0_1442:		dec wGenericStateTimer			; c6 30
 B0_1444:		bne B0_1441 ; d0 fb
 
 B0_1446:		lda #$00		; a9 00
-B0_1448:		sta wOamSpecIdx.w		; 8d 00 04
+B0_1448:		sta wOamSpecIdxDoubled.w		; 8d 00 04
 B0_144b:		sta $0418		; 8d 18 04
 B0_144e:		sta $0419		; 8d 19 04
 B0_1451:		ldy $c6			; a4 c6
@@ -1977,7 +2022,7 @@ func_00_14bb:
 B0_14bb:		dec wGenericStateTimer			; c6 30
 B0_14bd:		beq B0_14c7 ; f0 08
 
-B0_14bf:		lda $1a			; a5 1a
+B0_14bf:		lda wGameStateLoopCounter			; a5 1a
 B0_14c1:		and #$03		; 29 03
 B0_14c3:		sta wEntityPaletteOverride.w		; 8d 54 04
 B0_14c6:		rts				; 60 
@@ -2071,7 +2116,7 @@ B0_1539:		jsr func_1c_150b_clcIfCanJump		; 20 0b 95
 B0_153c:		bcs B0_1550 ; b0 12
 
 B0_153e:		lda #$0b		; a9 0b
-B0_1540:		sta $3f			; 85 3f
+B0_1540:		sta wBaseIRQFuncIdx			; 85 3f
 B0_1542:		lda wEntityBaseY.w		; ad 1c 04
 B0_1545:		sec				; 38 
 B0_1546:		sbc #$0c		; e9 0c
@@ -2087,7 +2132,7 @@ B0_1554:		rts				; 60
 
 
 B0_1555:		lda #$00		; a9 00
-B0_1557:		sta $0470		; 8d 70 04
+B0_1557:		sta wEntityState.w		; 8d 70 04
 B0_155a:		lda $0505		; ad 05 05
 B0_155d:		bmi B0_1589 ; 30 2a
 
@@ -2105,7 +2150,7 @@ B0_156f:		bcc B0_1573 ; 90 02
 B0_1571:		bcs B0_158c ; b0 19
 
 B0_1573:		lda #$80		; a9 80
-B0_1575:		sta $0470		; 8d 70 04
+B0_1575:		sta wEntityState.w		; 8d 70 04
 B0_1578:		bne B0_158f ; d0 15
 
 B0_157a:		lda $05d4		; ad d4 05
@@ -2166,7 +2211,7 @@ B0_15d7:		rts				; 60
 
 
 B0_15d8:		lda #$80		; a9 80
-B0_15da:		sta $0470		; 8d 70 04
+B0_15da:		sta wEntityState.w		; 8d 70 04
 B0_15dd:		lda #$00		; a9 00
 B0_15df:		sta $0413		; 8d 13 04
 B0_15e2:		inc $6b			; e6 6b
@@ -2177,12 +2222,12 @@ B0_15e5:		jsr $9555		; 20 55 95
 
 func_00_15e8:
 B0_15e8:		jsr $e677		; 20 77 e6
-B0_15eb:		lda wOamSpecIdx.w		; ad 00 04
+B0_15eb:		lda wOamSpecIdxDoubled.w		; ad 00 04
 B0_15ee:		cmp #$48		; c9 48
 B0_15f0:		bne B0_15f7 ; d0 05
 
 B0_15f2:		lda #$04		; a9 04
-B0_15f4:		sta wOamSpecIdx.w		; 8d 00 04
+B0_15f4:		sta wOamSpecIdxDoubled.w		; 8d 00 04
 B0_15f7:		lda $3b			; a5 3b
 B0_15f9:		eor #$01		; 49 01
 B0_15fb:		sta $3b			; 85 3b
@@ -2198,7 +2243,7 @@ B0_1613:		lda wCurrPlayer.w		; ad 4e 05
 B0_1616:		asl a			; 0a
 B0_1617:		sta wEntityOamSpecGroupDoubled.w		; 8d 8c 04
 B0_161a:		lda #$00		; a9 00
-B0_161c:		sta $0470		; 8d 70 04
+B0_161c:		sta wEntityState.w		; 8d 70 04
 B0_161f:		inc $6b			; e6 6b
 B0_1621:		rts				; 60 
 
@@ -2243,7 +2288,7 @@ B0_165f:		rts				; 60
 B0_1660:		lda $05d4		; ad d4 05
 B0_1663:		sta wEntityBaseX.w		; 8d 38 04
 B0_1666:		lda #$05		; a9 05
-B0_1668:		sta $3f			; 85 3f
+B0_1668:		sta wBaseIRQFuncIdx			; 85 3f
 B0_166a:		lda #$3c		; a9 3c
 B0_166c:		sta wGenericStateTimer			; 85 30
 B0_166e:		inc $6b			; e6 6b
@@ -2253,7 +2298,7 @@ B0_1670:		rts				; 60
 B0_1671:		dec wGenericStateTimer			; c6 30
 B0_1673:		beq B0_167d ; f0 08
 
-B0_1675:		lda $1a			; a5 1a
+B0_1675:		lda wGameStateLoopCounter			; a5 1a
 B0_1677:		and #$03		; 29 03
 B0_1679:		sta wEntityPaletteOverride.w		; 8d 54 04
 B0_167c:		rts				; 60 
@@ -2265,13 +2310,13 @@ B0_167f:		jmp $96ad		; 4c ad 96
 
 func_00_1682:
 B0_1682:		lda $a6			; a5 a6
-B0_1684:		sta $3f			; 85 3f
+B0_1684:		sta wBaseIRQFuncIdx			; 85 3f
 B0_1686:		lda $a7			; a5 a7
-B0_1688:		sta $41			; 85 41
+B0_1688:		sta wBaseIRQCmpVal			; 85 41
 B0_168a:		lda $a8			; a5 a8
 B0_168c:		sta $42			; 85 42
 B0_168e:		lda $a9			; a5 a9
-B0_1690:		sta $40			; 85 40
+B0_1690:		sta wBaseIRQStatus			; 85 40
 B0_1692:		lda $05d4		; ad d4 05
 B0_1695:		sta wEntityBaseX.w		; 8d 38 04
 .ifdef INSTANT_CHAR_SWAP
@@ -2288,7 +2333,7 @@ func_00_169f:
 B0_169f:		dec wGenericStateTimer			; c6 30
 B0_16a1:		beq B0_16ab ; f0 08
 
-B0_16a3:		lda $1a			; a5 1a
+B0_16a3:		lda wGameStateLoopCounter			; a5 1a
 B0_16a5:		and #$03		; 29 03
 B0_16a7:		sta wEntityPaletteOverride.w		; 8d 54 04
 B0_16aa:		rts				; 60 
@@ -2316,219 +2361,127 @@ B0_16cf:		rts				; 60
 
 func_00_16d0:
 B0_16d0:		lda wPlayerStateDoubled.w		; ad 65 05
-B0_16d3:		cmp #$0e		; c9 0e
+B0_16d3:		cmp #PS_WALK_TO_STAIR		; c9 0e
 B0_16d5:		bcc B0_16f8 ; 90 21
 
 B0_16d7:		cmp #$16		; c9 16
 B0_16d9:		bcs B0_16f8 ; b0 1d
 
+; in a stair-climbing state
 B0_16db:		lda wEntityBaseY.w		; ad 1c 04
 B0_16de:		cmp #$70		; c9 70
 B0_16e0:		bcs B0_16f8 ; b0 16
 
+; and Y < $70
 B0_16e2:		lda $7d			; a5 7d
 B0_16e4:		and #$0f		; 29 0f
 B0_16e6:		asl a			; 0a
 B0_16e7:		tay				; a8 
-B0_16e8:		lda $96fa, y	; b9 fa 96
+B0_16e8:		lda data_00_16fa.w, y	; b9 fa 96
 B0_16eb:		cmp wCurrScrollXRoom			; c5 57
 B0_16ed:		bne B0_16f8 ; d0 09
 
-B0_16ef:		lda $96fb, y	; b9 fb 96
-B0_16f2:		cmp $56			; c5 56
+B0_16ef:		lda data_00_16fa.w+1, y	; b9 fb 96
+B0_16f2:		cmp wCurrScrollXWithinRoom			; c5 56
 B0_16f4:		bne B0_16f8 ; d0 02
 
 B0_16f6:		sec				; 38 
 B0_16f7:		rts				; 60 
 
-
 B0_16f8:		clc				; 18 
 B0_16f9:		rts				; 60 
 
-
-B0_16fa:		.db $00				; 00
-B0_16fb:		.db $00				; 00
-B0_16fc:	.db $02
-B0_16fd:		iny				; c8 
-B0_16fe:		.db $00				; 00
-B0_16ff:		.db $00				; 00
-B0_1700:		.db $00				; 00
-B0_1701:		.db $00				; 00
+data_00_16fa:
+	.db $00 $00
+	.db $02 $c8
+	.db $00 $00
+	.db $00 $00
 
 
 func_00_1702:
 B0_1702:		ldy #$00		; a0 00
-B0_1704:		lda $9730, y	; b9 30 97
+
+@nextRowCheck:
+B0_1704:		lda data_00_1730.w, y	; b9 30 97
 B0_1707:		cmp #$ff		; c9 ff
-B0_1709:		beq B0_172a ; f0 1f
+B0_1709:		beq B0_172a ; @noMatchFound
 
 B0_170b:		cmp wCurrRoomGroup			; c5 32
-B0_170d:		bne B0_1724 ; d0 15
+B0_170d:		bne B0_1724 ; @toNextRowCheck
 
-B0_170f:		lda $9731, y	; b9 31 97
+B0_170f:		lda data_00_1730.w+1, y	; b9 31 97
 B0_1712:		cmp wCurrRoomSection			; c5 33
-B0_1714:		bne B0_1724 ; d0 0e
+B0_1714:		bne B0_1724 ; @toNextRowCheck
 
-B0_1716:		lda $9732, y	; b9 32 97
+B0_1716:		lda data_00_1730.w+2, y	; b9 32 97
 B0_1719:		cmp wCurrRoomIdx			; c5 34
-B0_171b:		bne B0_1724 ; d0 07
+B0_171b:		bne B0_1724 ; @toNextRowCheck
 
-B0_171d:		lda $9733, y	; b9 33 97
+B0_171d:		lda data_00_1730.w+3, y	; b9 33 97
 B0_1720:		sta $7d			; 85 7d
 B0_1722:		sec				; 38 
 B0_1723:		rts				; 60 
 
-
+@toNextRowCheck:
 B0_1724:		iny				; c8 
 B0_1725:		iny				; c8 
 B0_1726:		iny				; c8 
 B0_1727:		iny				; c8 
-B0_1728:		bne B0_1704 ; d0 da
+B0_1728:		bne B0_1704 ; @nextRowCheck
 
+@noMatchFound:
 B0_172a:		lda #$00		; a9 00
 B0_172c:		sta $7d			; 85 7d
 B0_172e:		clc				; 18 
 B0_172f:		rts				; 60 
 
-
-B0_1730:	.db $02
-B0_1731:	.db $02
-B0_1732:		ora ($10, x)	; 01 10
-B0_1734:	.db $02
-B0_1735:	.db $03
-B0_1736:		ora ($11, x)	; 01 11
-B0_1738:		asl $0200		; 0e 00 02
-B0_173b:	.db $12
-B0_173c:	.db $0e $02 $00
-B0_173f:	.db $13
-B0_1740:	.db $02
-B0_1741:		.db $00				; 00
-B0_1742:		ora ($20, x)	; 01 20
-B0_1744:	.db $0c
-B0_1745:		ora ($01, x)	; 01 01
-B0_1747:	.db $23
-B0_1748:		ora $01			; 05 01
-B0_174a:		.db $00				; 00
-B0_174b:		bmi B0_175a ; 30 0d
-
-B0_174d:	.db $03
-B0_174e:		.db $00				; 00
-B0_174f:		and ($01), y	; 31 01
-B0_1751:		.db $00				; 00
-B0_1752:		.db $00				; 00
-B0_1753:		rti				; 40 
-
-
-B0_1754:		ora ($01, x)	; 01 01
-B0_1756:		.db $00				; 00
-B0_1757:		rti				; 40 
-
-
-B0_1758:		ora ($01, x)	; 01 01
-B0_175a:		ora ($40, x)	; 01 40
-B0_175c:		ora ($01, x)	; 01 01
-B0_175e:	.db $02
-B0_175f:		rti				; 40 
-
-
-B0_1760:		ora ($02, x)	; 01 02
-B0_1762:		.db $00				; 00
-B0_1763:		rti				; 40 
-
-
-B0_1764:		ora ($02, x)	; 01 02
-B0_1766:		ora ($40, x)	; 01 40
-B0_1768:		ora ($03, x)	; 01 03
-B0_176a:		.db $00				; 00
-B0_176b:		rti				; 40 
-
-
-B0_176c:		ora ($03, x)	; 01 03
-B0_176e:		ora ($40, x)	; 01 40
-B0_1770:		ora ($04, x)	; 01 04
-B0_1772:		.db $00				; 00
-B0_1773:		rti				; 40 
-
-
-B0_1774:		ora ($04, x)	; 01 04
-B0_1776:		ora ($40, x)	; 01 40
-B0_1778:		ora ($04, x)	; 01 04
-B0_177a:	.db $02
-B0_177b:		rti				; 40 
-
-
-B0_177c:		ora ($05, x)	; 01 05
-B0_177e:		.db $00				; 00
-B0_177f:		rti				; 40 
-
-
-B0_1780:		asl $0100		; 0e 00 01
-B0_1783:		rti				; 40 
-
-
-B0_1784:	.db $0d $01 $00
-B0_1787:		eor ($0d, x)	; 41 0d
-B0_1789:		ora ($01, x)	; 01 01
-B0_178b:		eor ($0d, x)	; 41 0d
-B0_178d:		ora ($02, x)	; 01 02
-B0_178f:		eor ($06, x)	; 41 06
-B0_1791:		.db $00				; 00
-B0_1792:		ora ($32, x)	; 01 32
-B0_1794:		asl $00			; 06 00
-B0_1796:		.db $00				; 00
-B0_1797:	.db $33
-B0_1798:		asl $01			; 06 01
-B0_179a:		.db $00				; 00
-B0_179b:	.db $34
-B0_179c:		asl $02			; 06 02
-B0_179e:		ora ($35, x)	; 01 35
-B0_17a0:		asl $02			; 06 02
-B0_17a2:		.db $00				; 00
-B0_17a3:		rol $06, x		; 36 06
-B0_17a5:	.db $02
-B0_17a6:	.db $02
-B0_17a7:	.db $37
-B0_17a8:		php				; 08 
-B0_17a9:		.db $00				; 00
-B0_17aa:		.db $00				; 00
-B0_17ab:		bvc B0_17b5 ; 50 08
-
-B0_17ad:		ora ($00, x)	; 01 00
-B0_17af:		eor ($08), y	; 51 08
-B0_17b1:	.db $02
-B0_17b2:		.db $00				; 00
-B0_17b3:		eor ($05), y	; 51 05
-B0_17b5:	.db $03
-B0_17b6:		.db $00				; 00
-B0_17b7:		eor ($09), y	; 51 09
-B0_17b9:		.db $00				; 00
-B0_17ba:		.db $00				; 00
-B0_17bb:		eor ($0a), y	; 51 0a
-B0_17bd:		ora ($00, x)	; 01 00
-B0_17bf:		eor ($0a), y	; 51 0a
-B0_17c1:	.db $02
-B0_17c2:		.db $00				; 00
-B0_17c3:		eor ($0a), y	; 51 0a
-B0_17c5:	.db $03
-B0_17c6:		.db $00				; 00
-B0_17c7:		eor ($02), y	; 51 02
-B0_17c9:		ora ($00, x)	; 01 00
-B0_17cb:		eor ($08), y	; 51 08
-B0_17cd:		.db $00				; 00
-B0_17ce:		ora ($60, x)	; 01 60
-B0_17d0:		php				; 08 
-B0_17d1:	.db $03
-B0_17d2:		.db $00				; 00
-B0_17d3:		adc ($08), y	; 71 08
-B0_17d5:	.db $04
-B0_17d6:		.db $00				; 00
-B0_17d7:		adc ($05), y	; 71 05
-B0_17d9:	.db $03
-B0_17da:		ora ($80, x)	; 01 80
-B0_17dc:	.db $0c
-B0_17dd:	.db $02
-B0_17de:		.db $00				; 00
-B0_17df:		sta ($ff, x)	; 81 ff
+; group - section - room - new $7d val
+data_00_1730:
+	.db $02 $02 $01 $10
+	.db $02 $03 $01 $11
+	.db $0e $00 $02 $12
+	.db $0e $02 $00 $13
+	.db $02 $00 $01 $20
+	.db $0c $01 $01 $23
+	.db $05 $01 $00 $30
+	.db $0d $03 $00 $31
+	.db $01 $00 $00 $40
+	.db $01 $01 $00 $40
+	.db $01 $01 $01 $40
+	.db $01 $01 $02 $40
+	.db $01 $02 $00 $40
+	.db $01 $02 $01 $40
+	.db $01 $03 $00 $40
+	.db $01 $03 $01 $40
+	.db $01 $04 $00 $40
+	.db $01 $04 $01 $40
+	.db $01 $04 $02 $40
+	.db $01 $05 $00 $40
+	.db $0e $00 $01 $40
+	.db $0d $01 $00 $41
+	.db $0d $01 $01 $41
+	.db $0d $01 $02 $41
+	.db $06 $00 $01 $32
+	.db $06 $00 $00 $33
+	.db $06 $01 $00 $34
+	.db $06 $02 $01 $35
+	.db $06 $02 $00 $36
+	.db $06 $02 $02 $37
+	.db $08 $00 $00 $50
+	.db $08 $01 $00 $51
+	.db $08 $02 $00 $51
+	.db $05 $03 $00 $51
+	.db $09 $00 $00 $51
+	.db $0a $01 $00 $51
+	.db $0a $02 $00 $51
+	.db $0a $03 $00 $51
+	.db $02 $01 $00 $51
+	.db $08 $00 $01 $60
+	.db $08 $03 $00 $71
+	.db $08 $04 $00 $71
+	.db $05 $03 $01 $80
+	.db $0c $02 $00 $81
+	.db $ff
 
 
 func_00_17e1:
@@ -2577,78 +2530,85 @@ B0_181e:		;removed
 
 
 displayStaticLayoutAbankX_body:
-B0_1820:		stx $b1			; 86 b1
-B0_1822:		jmp $982b		; 4c 2b 98
+	stx wStaticLayoutBank
+	jmp +
 
 
 displayStaticLayoutA_body:
-B0_1825:		pha				; 48 
-; a bank
-B0_1826:		lda #$80		; a9 80
-B0_1828:		sta $b1			; 85 b1
-B0_182a:		pla				; 68 
-; uses A to get an addr in 0/1/2
-B0_182b:		jsr func_00_185e		; 20 5e 98
+	pha
 
-; copy an addr from 00 to vram queue
-B0_182e:		lda #$01		; a9 01
-B0_1830:		jsr storeByteInVramQueue		; 20 14 ed
-B0_1833:		jsr getByteFromBank_b1_addr_00		; 20 03 ed
-B0_1836:		jsr storeByteInVramQueueIdxedX		; 20 16 ed
+; default bank is 0
+	lda #PRG_ROM_SWITCH|$00
+	sta wStaticLayoutBank
+	pla
 
-B0_1839:		iny				; c8 
-B0_183a:		jsr getByteFromBank_b1_addr_00		; 20 03 ed
-B0_183d:		jsr storeByteInVramQueueIdxedX		; 20 16 ed
++	jsr initCurrStaticLayoutDetails
 
-; get byte to copy
-B0_1840:		iny				; c8 
-B0_1841:		jsr getByteFromBank_b1_addr_00		; 20 03 ed
+@nextVramQueueAddress:
+	lda #$01
+	jsr storeByteInVramQueue
+	jsr getNextStaticLayoutByte
+	jsr storeByteInVramQueueIdxedX
 
-B0_1844:		iny				; c8 
-B0_1845:		cmp #$ff		; c9 ff
-B0_1847:		bne B0_184c ; d0 03
+	iny
+	jsr getNextStaticLayoutByte
+	jsr storeByteInVramQueueIdxedX
+
+; get static layout byte
+	iny
+
+@nextByte:
+	jsr getNextStaticLayoutByte
+
+	iny
+	cmp #$ff
+	bne +
 
 ; if ff, terminate
-B0_1849:		jmp terminateVramQueue		; 4c 12 ed
+	jmp terminateVramQueue
 
-B0_184c:		cmp #$fe		; c9 fe
-B0_184e:		beq B0_1858 ; f0 08
++	cmp #$fe
+	beq +
 
 ; if not fe, store in vram queue
-B0_1850:		and $02			; 25 02
-B0_1852:		jsr storeByteInVramQueueIdxedX		; 20 16 ed
-B0_1855:		jmp B0_1841		; 4c 41 98
+	and wCurrStaticLayoutTileMask
+	jsr storeByteInVramQueueIdxedX
+	jmp @nextByte
 
 ; if fe, terminate, and copy to a new address
-B0_1858:		jsr terminateVramQueue		; 20 12 ed
-B0_185b:		jmp B0_182e		; 4c 2e 98
++	jsr terminateVramQueue
+	jmp @nextVramQueueAddress
 
 
-func_00_185e:
-; a byte to store in vram queue
-B0_185e:		asl a			; 0a
-B0_185f:		tay				; a8 
-B0_1860:		lda data_00_18e4.w, y	; b9 e4 98
-B0_1863:		sta $00			; 85 00
-B0_1865:		lda data_00_18e4.w+1, y	; b9 e5 98
-B0_1868:		sta $01			; 85 01
-B0_186a:		lda #$ff		; a9 ff
-B0_186c:		adc #$00		; 69 00
-B0_186e:		sta $02			; 85 02
-B0_1870:		ldy #$00		; a0 00
-B0_1872:		rts				; 60 
+initCurrStaticLayoutDetails:
+; data address, display mask, and y = 0
+	asl a
+	tay
+	lda staticLayoutsAddresses.w, y
+	sta wCurrStaticLayoutAddr
+	lda staticLayoutsAddresses.w+1, y
+	sta wCurrStaticLayoutAddr+1
+
+; if bit 7 set, mask is 0, so vram queue tiles are 0
+	lda #$ff
+	adc #$00
+	sta wCurrStaticLayoutTileMask
+	ldy #$00
+	rts
 
 
 func_00_1873:
-B0_1873:		stx $b1			; 86 b1
-B0_1875:		jsr func_00_185e		; 20 5e 98
+B0_1873:		stx wStaticLayoutBank			; 86 b1
+B0_1875:		jsr initCurrStaticLayoutDetails		; 20 5e 98
+
 B0_1878:		lda #$01		; a9 01
 B0_187a:		jsr storeByteInVramQueue		; 20 14 ed
 B0_187d:		lda $0790		; ad 90 07
 B0_1880:		jsr storeByteInVramQueueIdxedX		; 20 16 ed
 B0_1883:		lda $0791		; ad 91 07
 B0_1886:		jsr storeByteInVramQueueIdxedX		; 20 16 ed
-B0_1889:		jsr getByteFromBank_b1_addr_00		; 20 03 ed
+
+B0_1889:		jsr getNextStaticLayoutByte		; 20 03 ed
 B0_188c:		iny				; c8 
 B0_188d:		cmp #$ff		; c9 ff
 B0_188f:		beq B0_18a6 ; f0 15
@@ -2658,13 +2618,15 @@ B0_1893:		beq B0_189d ; f0 08
 
 B0_1895:		and $02			; 25 02
 B0_1897:		jsr storeByteInVramQueueIdxedX		; 20 16 ed
-B0_189a:		jmp $9889		; 4c 89 98
+B0_189a:		jmp B0_1889		; 4c 89 98
 
 B0_189d:		jsr terminateVramQueue		; 20 12 ed
-B0_18a0:		jsr $98a9		; 20 a9 98
-B0_18a3:		jmp $9878		; 4c 78 98
+B0_18a0:		jsr func_00_18a9		; 20 a9 98
+B0_18a3:		jmp B0_1878		; 4c 78 98
 
 B0_18a6:		jsr terminateVramQueue		; 20 12 ed
+
+func_00_18a9:
 B0_18a9:		clc				; 18 
 B0_18aa:		lda $0790		; ad 90 07
 B0_18ad:		adc #$40		; 69 40
@@ -2777,9 +2739,9 @@ B0_1e78:		sta wGenericStateTimer			; 85 30
 B0_1e7a:		rts				; 60 
 
 
-B0_1e7b:		lda $ff			; a5 ff
+B0_1e7b:		lda wPPUCtrl			; a5 ff
 B0_1e7d:		and #$fc		; 29 fc
-B0_1e7f:		sta $ff			; 85 ff
+B0_1e7f:		sta wPPUCtrl			; 85 ff
 B0_1e81:		lda #$00		; a9 00
 B0_1e83:		sta wScrollX			; 85 fd
 B0_1e85:		jmp $9e49		; 4c 49 9e

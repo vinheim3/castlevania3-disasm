@@ -1,5 +1,5 @@
 
-gameState7_body:
+gameState7_debugMode_body:
 B0_0a1c:		ldy wGameSubstate			; a4 19
 B0_0a1e:		bne B0_0a35 ; d0 15
 
@@ -200,5 +200,19 @@ B0_0b47:		sta wEntityBaseY.w		; 8d 1c 04
 B0_0b4a:		lda #$00		; a9 00
 B0_0b4c:		sta wEntityOamSpecGroupDoubled.w		; 8d 8c 04
 B0_0b4f:		lda #$40		; a9 40
-B0_0b51:		sta wOamSpecIdx.w		; 8d 00 04
+B0_0b51:		sta wOamSpecIdxDoubled.w		; 8d 00 04
 B0_0b54:		rts				; 60 
+
+
+func_00_0b55:
+B0_0b55:		lda #$cb		; a9 cb
+B0_0b57:		sta wEntityBaseY.w		; 8d 1c 04
+B0_0b5a:		ldy #$00		; a0 00
+B0_0b5c:		lda $8b04, y	; b9 04 8b
+B0_0b5f:		sta $08			; 85 08
+B0_0b61:		lda $8b05, y	; b9 05 8b
+B0_0b64:		sta $09			; 85 09
+B0_0b66:		ldy $6b			; a4 6b
+B0_0b68:		lda ($08), y	; b1 08
+B0_0b6a:		sta wEntityBaseX.w		; 8d 38 04
+B0_0b6d:		jmp $8b4a		; 4c 4a 8b

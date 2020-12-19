@@ -203,7 +203,7 @@ B15_18d3:		.db $00				; 00
 B15_18d4:		asl a			; 0a
 B15_18d5:		beq B15_18d7 ; f0 00
 
-B15_18d7:		sta $40			; 85 40
+B15_18d7:		sta wBaseIRQStatus			; 85 40
 B15_18d9:		ora ($ff, x)	; 01 ff
 B15_18db:	.db $cb
 B15_18dc:		jsr $4b00		; 20 00 4b
@@ -1272,7 +1272,7 @@ B15_1ddb:	.db $80
 B15_1ddc:		ora ($08, x)	; 01 08
 B15_1dde:		bpl B15_1de2 ; 10 02
 
-B15_1de0:		sta $40			; 85 40
+B15_1de0:		sta wBaseIRQStatus			; 85 40
 B15_1de2:	.db $02
 B15_1de3:	.db $ff
 B15_1de4:		.db $00				; 00

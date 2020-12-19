@@ -155,7 +155,7 @@
     .db $96
 
 func_16_0001:
-	lda $0470, x
+	lda wEntityState.w, x
 B22_0004:		and #$fe		; 29 fe
 B22_0006:		sta $00			; 85 00
 B22_0008:		ldy #$00		; a0 00
@@ -165,12 +165,12 @@ B22_000d:		bpl B22_0010 ; 10 01
 B22_000f:		dey				; 88 
 B22_0010:		sty $01			; 84 01
 B22_0012:		jsr func_16_0037		; 20 37 80
-B22_0015:		lda $0470, x	; bd 70 04
+B22_0015:		lda wEntityState.w, x	; bd 70 04
 B22_0018:		and #$01		; 29 01
 B22_001a:		adc $01			; 65 01
 B22_001c:		and #$01		; 29 01
 B22_001e:		ora $00			; 05 00
-B22_0020:		sta $0470, x	; 9d 70 04
+B22_0020:		sta wEntityState.w, x	; 9d 70 04
 B22_0023:		clc				; 18 
 B22_0024:		lda $04db, x	; bd db 04
 B22_0027:		adc wEntityVertSubSpeed.w, x	; 7d 37 05

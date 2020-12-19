@@ -202,11 +202,11 @@ B23_11fa:		rts				; 60
 
 
 func_17_11fb:
-B23_11fb:		lda $0470, x	; bd 70 04
+B23_11fb:		lda wEntityState.w, x	; bd 70 04
 B23_11fe:		and #$11		; 29 11
 B23_1200:		bne B23_11fa ; d0 f8
 
-B23_1202:		lda wOamSpecIdx.w, x	; bd 00 04
+B23_1202:		lda wOamSpecIdxDoubled.w, x	; bd 00 04
 B23_1205:		beq B23_11fa ; f0 f3
 
 B23_1207:		lda $054e, x	; bd 4e 05
@@ -235,7 +235,7 @@ B23_1229:		bcc B23_122e ; 90 03
 
 B23_122b:		jmp func_17_115c		; 4c 5c b1
 
-B23_122e:		lda $0470, x	; bd 70 04
+B23_122e:		lda wEntityState.w, x	; bd 70 04
 B23_1231:		and #$02		; 29 02
 B23_1233:		bne B23_11d6 ; d0 a1
 
@@ -251,7 +251,7 @@ B23_1243:		lda $054e, x	; bd 4e 05
 B23_1246:		cmp #$49		; c9 49
 B23_1248:		bne B23_1250 ; d0 06
 
-B23_124a:		jsr func_1f_1ec8		; 20 c8 fe
+B23_124a:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B23_124d:		jsr $b581		; 20 81 b5
 B23_1250:		stx $91			; 86 91
 B23_1252:		ldy #$00		; a0 00
@@ -431,7 +431,7 @@ B23_1386:		lda wEntityOamSpecGroupDoubled.w, x	; bd 8c 04
 B23_1389:		cmp #$08		; c9 08
 B23_138b:		bne B23_1394 ; d0 07
 
-B23_138d:		lda wOamSpecIdx.w, x	; bd 00 04
+B23_138d:		lda wOamSpecIdxDoubled.w, x	; bd 00 04
 B23_1390:		cmp #$ee		; c9 ee
 B23_1392:		;removed
 	.db $b0 $40
@@ -450,7 +450,7 @@ B23_13a1:		ldy $054e, x	; bc 4e 05
 B23_13a4:		lda $bbc8, y	; b9 c8 bb
 B23_13a7:		adc $00			; 65 00
 B23_13a9:		sta $02			; 85 02
-B23_13ab:		jsr $80b3		; 20 b3 80
+B23_13ab:		jsr getDistanceBetweenPlayerAndEntityX		; 20 b3 80
 B23_13ae:		cmp $02			; c5 02
 B23_13b0:		bcs B23_13d1 ; b0 1f
 
@@ -522,7 +522,7 @@ B23_1427:		cmp $03			; c5 03
 B23_1429:		rts				; 60 
 
 
-B23_142a:		jsr $80b3		; 20 b3 80
+B23_142a:		jsr getDistanceBetweenPlayerAndEntityX		; 20 b3 80
 B23_142d:		cmp #$80		; c9 80
 B23_142f:		bcs B23_1484 ; b0 53
 
@@ -591,7 +591,7 @@ B23_14a5:		ldx $6c			; a6 6c
 B23_14a7:		jmp $b459		; 4c 59 b4
 
 
-B23_14aa:		ldy wEntityAnimationIdxes.w, x	; bc 93 05
+B23_14aa:		ldy wEntityOamSpecIdxBaseOffset.w, x	; bc 93 05
 B23_14ad:		lda $bbbe, y	; b9 be bb
 B23_14b0:		sta $00			; 85 00
 B23_14b2:		lda #$08		; a9 08
@@ -615,7 +615,7 @@ B23_14c9:		bcc B23_151d ; 90 52
 B23_14cb:		cmp #$68		; c9 68
 B23_14cd:		bcs B23_14b9 ; b0 ea
 
-B23_14cf:		lda $0470, x	; bd 70 04
+B23_14cf:		lda wEntityState.w, x	; bd 70 04
 B23_14d2:		and #$02		; 29 02
 B23_14d4:		bne B23_1529 ; d0 53
 
@@ -674,7 +674,7 @@ B23_152c:		jmp $ff7a		; 4c 7a ff
 
 B23_152f:		lda #$00		; a9 00
 B23_1531:		sta wEntityPhase.w, x	; 9d c1 05
-B23_1534:		sta wOamSpecIdx.w, x	; 9d 00 04
+B23_1534:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B23_1537:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B23_153a:		sta $0657, x	; 9d 57 06
 B23_153d:		rts				; 60 
@@ -719,16 +719,16 @@ B23_1574:		beq B23_157b ; f0 05
 B23_1576:		jsr $e7dc		; 20 dc e7
 B23_1579:		bcs B23_1593 ; b0 18
 
-B23_157b:		lda $1a			; a5 1a
+B23_157b:		lda wGameStateLoopCounter			; a5 1a
 B23_157d:		and #$07		; 29 07
 B23_157f:		beq B23_159c ; f0 1b
 
 B23_1581:		jsr $e7c1		; 20 c1 e7
 B23_1584:		lda #$00		; a9 00
 B23_1586:		sta $0657, x	; 9d 57 06
-B23_1589:		sta $0470, x	; 9d 70 04
+B23_1589:		sta wEntityState.w, x	; 9d 70 04
 B23_158c:		sta wEntityPhase.w, x	; 9d c1 05
-B23_158f:		sta wOamSpecIdx.w, x	; 9d 00 04
+B23_158f:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B23_1592:		rts				; 60 
 
 
@@ -808,9 +808,9 @@ B23_160e:		lda wEntityBaseX.w, x	; bd 38 04
 B23_1611:		sta $00			; 85 00
 B23_1613:		ldx #$17		; a2 17
 B23_1615:		lda #$20		; a9 20
-B23_1617:		sta $0470, x	; 9d 70 04
+B23_1617:		sta wEntityState.w, x	; 9d 70 04
 B23_161a:		lda #$12		; a9 12
-B23_161c:		sta wOamSpecIdx.w, x	; 9d 00 04
+B23_161c:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B23_161f:		lda #$0e		; a9 0e
 B23_1621:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B23_1624:		lda $00			; a5 00
@@ -835,7 +835,7 @@ B23_163e:		cmp #$1c		; c9 1c
 B23_1640:		beq B23_1649 ; f0 07
 
 B23_1642:		ldy #$17		; a0 17
-B23_1644:		lda wOamSpecIdx.w, y	; b9 00 04
+B23_1644:		lda wOamSpecIdxDoubled.w, y	; b9 00 04
 B23_1647:		beq B23_164b ; f0 02
 
 B23_1649:		lda #$01		; a9 01
@@ -843,7 +843,7 @@ B23_164b:		rts				; 60
 
 
 B23_164c:		ldy $054e, x	; bc 4e 05
-B23_164f:		jsr $80b3		; 20 b3 80
+B23_164f:		jsr getDistanceBetweenPlayerAndEntityX		; 20 b3 80
 B23_1652:		sta $0e			; 85 0e
 B23_1654:		lda $bbc8, y	; b9 c8 bb
 B23_1657:		ldy $82			; a4 82
@@ -855,7 +855,7 @@ B23_165f:		bcc B23_1635 ; 90 d4
 B23_1661:		bcs B23_166e ; b0 0b
 
 B23_1663:		ldy $054e, x	; bc 4e 05
-B23_1666:		jsr $80b3		; 20 b3 80
+B23_1666:		jsr getDistanceBetweenPlayerAndEntityX		; 20 b3 80
 B23_1669:		cmp $bbc8, y	; d9 c8 bb
 B23_166c:		bcs B23_168a ; b0 1c
 
@@ -886,12 +886,12 @@ B23_1690:		bpl B23_169e ; 10 0c
 B23_1692:		bpl B23_1698 ; 10 04
 
 B23_1694:		sec				; 38 
-B23_1695:		lda wOamSpecIdx.w, x	; bd 00 04
+B23_1695:		lda wOamSpecIdxDoubled.w, x	; bd 00 04
 B23_1698:		sbc #$08		; e9 08
 B23_169a:		lsr a			; 4a
 B23_169b:		tay				; a8 
 B23_169c:		sta $16			; 85 16
-B23_169e:		jsr $80b3		; 20 b3 80
+B23_169e:		jsr getDistanceBetweenPlayerAndEntityX		; 20 b3 80
 B23_16a1:		cmp $b6c8, y	; d9 c8 b6
 B23_16a4:		bcs B23_16c7 ; b0 21
 
@@ -957,13 +957,13 @@ B23_16f3:		beq B23_1711 ; f0 1c
 B23_16f5:		cmp #$5d		; c9 5d
 B23_16f7:		beq B23_1725 ; f0 2c
 
-B23_16f9:		lda $0470, x	; bd 70 04
+B23_16f9:		lda wEntityState.w, x	; bd 70 04
 B23_16fc:		and #$02		; 29 02
 B23_16fe:		bne B23_1710 ; d0 10
 
-B23_1700:		lda $0470, x	; bd 70 04
+B23_1700:		lda wEntityState.w, x	; bd 70 04
 B23_1703:		ora #$02		; 09 02
-B23_1705:		sta $0470, x	; 9d 70 04
+B23_1705:		sta wEntityState.w, x	; 9d 70 04
 B23_1708:		lda wPlayerStateDoubled.w, x	; bd 65 05
 B23_170b:		and #$3f		; 29 3f
 B23_170d:		sta wPlayerStateDoubled.w, x	; 9d 65 05
@@ -971,7 +971,7 @@ B23_1710:		rts				; 60
 
 
 B23_1711:		ldx #$01		; a2 01
-B23_1713:		lda $0470, x	; bd 70 04
+B23_1713:		lda wEntityState.w, x	; bd 70 04
 B23_1716:		and #$02		; 29 02
 B23_1718:		bne B23_171d ; d0 03
 
@@ -984,7 +984,7 @@ B23_1722:		ldx $6c			; a6 6c
 B23_1724:		rts				; 60 
 
 
-B23_1725:		lda $0470, x	; bd 70 04
+B23_1725:		lda wEntityState.w, x	; bd 70 04
 B23_1728:		and #$02		; 29 02
 B23_172a:		bne B23_1710 ; d0 e4
 
@@ -1071,94 +1071,63 @@ func_17_17a6:
 B23_17a6:		tya				; 98 
 B23_17a7:		asl a			; 0a
 B23_17a8:		ldy wEntityFacingLeft.w, x	; bc a8 04
-B23_17ab:		beq B23_17b0 ; f0 03
+	beq +
 
 B23_17ad:		clc				; 18 
 B23_17ae:		adc #$01		; 69 01
-B23_17b0:		tay				; a8 
-B23_17b1:		lda $b7bd, y	; b9 bd b7
++	tay				; a8 
+B23_17b1:		lda data_17_17bd.w, y	; b9 bd b7
 B23_17b4:		pha				; 48 
-B23_17b5:		lda $b7e3, y	; b9 e3 b7
+B23_17b5:		lda data_17_17e3.w, y	; b9 e3 b7
 B23_17b8:		tay				; a8 
 B23_17b9:		pla				; 68 
 B23_17ba:		jmp func_1f_1c1e		; 4c 1e fc
 
+; into A
+data_17_17bd:
+	.db $08 $f8
+	.db $f8 $08
+	.db $08 $f8
+	.db $08 $f8
+	.db $04 $fc
+	.db $08 $f8
+	.db $04 $fc
+	.db $10 $f0
+	.db $08 $f8
+	.db $0c $f4
+	.db $fc $04
+	.db $ec $14
+	.db $08 $f7
+	.db $00 $00
+	.db $00 $00
+	.db $10 $f0
+	.db $18 $e8
+	.db $04 $fc
+	.db $08 $f8
 
-B23_17bd:		php				; 08 
-B23_17be:		sed				; f8 
-B23_17bf:		sed				; f8 
-B23_17c0:		php				; 08 
-B23_17c1:		php				; 08 
-B23_17c2:		sed				; f8 
-B23_17c3:		php				; 08 
-B23_17c4:		sed				; f8 
-B23_17c5:	.db $04
-B23_17c6:	.db $fc
-B23_17c7:		php				; 08 
-B23_17c8:		sed				; f8 
-B23_17c9:	.db $04
-B23_17ca:	.db $fc
-B23_17cb:		bpl B23_17bd ; 10 f0
-
-B23_17cd:		php				; 08 
-B23_17ce:		sed				; f8 
-B23_17cf:	.db $0c
-B23_17d0:	.db $f4
-B23_17d1:	.db $fc
-B23_17d2:	.db $04
-B23_17d3:		cpx $0814		; ec 14 08
-B23_17d6:	.db $f7
-B23_17d7:		.db $00				; 00
-B23_17d8:		.db $00				; 00
-B23_17d9:		.db $00				; 00
-B23_17da:		.db $00				; 00
-B23_17db:		bpl B23_17cd ; 10 f0
-
-B23_17dd:		clc				; 18 
-B23_17de:		inx				; e8 
-B23_17df:	.db $04
-B23_17e0:	.db $fc
-B23_17e1:		php				; 08 
-B23_17e2:		sed				; f8 
-B23_17e3:		php				; 08 
-B23_17e4:		php				; 08 
-B23_17e5:		bpl B23_17f7 ; 10 10
-
-B23_17e7:	.db $fc
-B23_17e8:	.db $fc
-B23_17e9:		php				; 08 
-B23_17ea:		php				; 08 
-B23_17eb:		sed				; f8 
-B23_17ec:		sed				; f8 
-B23_17ed:		bpl B23_17ff ; 10 10
-
-B23_17ef:		bpl B23_1801 ; 10 10
-
-B23_17f1:		.db $00				; 00
-B23_17f2:		.db $00				; 00
-B23_17f3:		bpl B23_1805 ; 10 10
-
-B23_17f5:		sed				; f8 
-B23_17f6:		sed				; f8 
-B23_17f7:		bpl B23_1809 ; 10 10
-
-B23_17f9:		bpl B23_180b ; 10 10
-
-B23_17fb:	.db $f4
-B23_17fc:	.db $f4
-B23_17fd:		;removed
+; into Y
+data_17_17e3:
+	.db $08 $08
 	.db $10 $10
+	.db $fc $fc
+	.db $08 $08
+	.db $f8 $f8
+	.db $10 $10
+	.db $10 $10
+	.db $00 $00
+	.db $10 $10
+	.db $f8 $f8
+	.db $10 $10
+	.db $10 $10
+	.db $f4 $f4
+	.db $10 $10
+	.db $08 $08
+	.db $fc $fc
+	.db $00 $00
+	.db $08 $08
+	.db $00 $00
 
-B23_17ff:		php				; 08 
-B23_1800:		php				; 08 
-B23_1801:	.db $fc
-B23_1802:	.db $fc
-B23_1803:		.db $00				; 00
-B23_1804:		.db $00				; 00
-B23_1805:		php				; 08 
-B23_1806:		php				; 08 
-B23_1807:		.db $00				; 00
-B23_1808:		.db $00				; 00
+
 B23_1809:		ldy #$00		; a0 00
 B23_180b:		lda $b81c, y	; b9 1c b8
 B23_180e:		bmi B23_1818 ; 30 08
@@ -1214,7 +1183,7 @@ B23_1856:		clc				; 18
 B23_1857:		lda $bbc8, y	; b9 c8 bb
 B23_185a:		adc $00			; 65 00
 B23_185c:		sta $02			; 85 02
-B23_185e:		jsr $80b3		; 20 b3 80
+B23_185e:		jsr getDistanceBetweenPlayerAndEntityX		; 20 b3 80
 B23_1861:		cmp $02			; c5 02
 B23_1863:		bcs B23_1887 ; b0 22
 

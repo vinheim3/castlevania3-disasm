@@ -2,7 +2,7 @@ B19_0000:		iny				; c8
 B19_0001:		lda ($02), y	; b1 02
 B19_0003:		tay				; a8 
 B19_0004:		lda $00			; a5 00
-B19_0006:		jmp func_1f_0f5c		; 4c 5c ef
+B19_0006:		jmp setEntitySpecGroupA_animationDefIdxY_startAnimate		; 4c 5c ef
 
 
 B19_0009:		jmp $873a		; 4c 3a 87
@@ -12,13 +12,13 @@ B19_000c:		dec $05d8, x	; de d8 05
 B19_000f:		beq B19_0023 ; f0 12
 
 B19_0011:		lda #$50		; a9 50
-B19_0013:		sta $0470, x	; 9d 70 04
+B19_0013:		sta wEntityState.w, x	; 9d 70 04
 B19_0016:		lda $05d8, x	; bd d8 05
 B19_0019:		and #$03		; 29 03
 B19_001b:		beq B19_0026 ; f0 09
 
 B19_001d:		lda #$98		; a9 98
-B19_001f:		sta $0470, x	; 9d 70 04
+B19_001f:		sta wEntityState.w, x	; 9d 70 04
 B19_0022:		rts				; 60 
 
 
@@ -189,7 +189,7 @@ B19_0117:		dey				; 88
 B19_0118:		bne B19_0123 ; d0 09
 
 B19_011a:		lda #$88		; a9 88
-B19_011c:		sta $0470, x	; 9d 70 04
+B19_011c:		sta wEntityState.w, x	; 9d 70 04
 B19_011f:		inc wEntityPhase.w, x	; fe c1 05
 B19_0122:		rts				; 60 
 
@@ -232,7 +232,7 @@ B19_0154:		jsr $a4c3		; 20 c3 a4
 B19_0157:		bne B19_0178 ; d0 1f
 
 B19_0159:		lda #$40		; a9 40
-B19_015b:		sta $0470, x	; 9d 70 04
+B19_015b:		sta wEntityState.w, x	; 9d 70 04
 B19_015e:		lda #$01		; a9 01
 B19_0160:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B19_0163:		lda #$0c		; a9 0c
@@ -265,7 +265,7 @@ B19_0193:		lda #$00		; a9 00
 B19_0195:		sta $0669, x	; 9d 69 06
 B19_0198:		sta $0657, x	; 9d 57 06
 B19_019b:		lda #$c8		; a9 c8
-B19_019d:		sta $0470, x	; 9d 70 04
+B19_019d:		sta wEntityState.w, x	; 9d 70 04
 B19_01a0:		ldy $061d, x	; bc 1d 06
 B19_01a3:		lda wEntityAI_idx.w, y	; b9 ef 05
 B19_01a6:		and #$7f		; 29 7f
@@ -301,7 +301,7 @@ B19_01da:		rts				; 60
 B19_01db:		jmp $873a		; 4c 3a 87
 
 
-B19_01de:		lda $07f6		; ad f6 07
+B19_01de:		lda wHardMode.w		; ad f6 07
 B19_01e1:		bne B19_01f1 ; d0 0e
 
 B19_01e3:		lda wCurrRoomGroup		; a5 32
@@ -329,7 +329,7 @@ B19_0203:		beq B19_0219 ; f0 14
 
 B19_0205:		lda #$10		; a9 10
 B19_0207:		jsr $8661		; 20 61 86
-B19_020a:		jsr func_1f_1ec8		; 20 c8 fe
+B19_020a:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B19_020d:		lda #$10		; a9 10
 B19_020f:		ldy #$03		; a0 03
 B19_0211:		jsr $ef6e		; 20 6e ef
@@ -360,7 +360,7 @@ B19_0239:		sta $068d, y	; 99 8d 06
 B19_023c:		lda #$80		; a9 80
 B19_023e:		sta wEntityAI_idx.w, y	; 99 ef 05
 B19_0241:		lda #$88		; a9 88
-B19_0243:		sta $0470, y	; 99 70 04
+B19_0243:		sta wEntityState.w, y	; 99 70 04
 B19_0246:		lda wCurrRoomGroup		; a5 32
 B19_0248:		beq B19_024c ; f0 02
 
@@ -547,7 +547,7 @@ B19_0366:		bcc B19_0371 ; 90 09
 B19_0368:		txa				; 8a 
 B19_0369:		sta $061d, y	; 99 1d 06
 B19_036c:		lda #$c8		; a9 c8
-B19_036e:		sta $0470, y	; 99 70 04
+B19_036e:		sta wEntityState.w, y	; 99 70 04
 B19_0371:		lda $061d, x	; bd 1d 06
 B19_0374:		and #$7f		; 29 7f
 B19_0376:		sta $061d, x	; 9d 1d 06
@@ -682,7 +682,7 @@ B19_0462:		lda #$0a		; a9 0a
 B19_0464:		ldy #$05		; a0 05
 B19_0466:		jsr $ef6e		; 20 6e ef
 B19_0469:		lda #$40		; a9 40
-B19_046b:		sta $0470, x	; 9d 70 04
+B19_046b:		sta wEntityState.w, x	; 9d 70 04
 B19_046e:		lda wEntityBaseX.w, x	; bd 38 04
 B19_0471:		cmp #$fc		; c9 fc
 B19_0473:		bcc B19_0477 ; 90 02
@@ -727,7 +727,7 @@ B19_04b3:		jmp $864f		; 4c 4f 86
 
 
 B19_04b6:		lda #$20		; a9 20
-B19_04b8:		ldy $07f6		; ac f6 07
+B19_04b8:		ldy wHardMode.w		; ac f6 07
 B19_04bb:		beq B19_04bf ; f0 02
 
 B19_04bd:		lda #$30		; a9 30
@@ -783,7 +783,7 @@ B19_050d:		bcc B19_04f1 ; 90 e2
 B19_050f:		lda $12			; a5 12
 B19_0511:		sta $061d, y	; 99 1d 06
 B19_0514:		lda #$c8		; a9 c8
-B19_0516:		sta $0470, y	; 99 70 04
+B19_0516:		sta wEntityState.w, y	; 99 70 04
 B19_0519:		txa				; 8a 
 B19_051a:		sta $0633, y	; 99 33 06
 B19_051d:		lda #$40		; a9 40
@@ -881,7 +881,7 @@ B19_05cf:		bne B19_05d6 ; d0 05
 B19_05d1:		lda #$00		; a9 00
 B19_05d3:		sta $0669, x	; 9d 69 06
 B19_05d6:		lda #$c8		; a9 c8
-B19_05d8:		sta $0470, x	; 9d 70 04
+B19_05d8:		sta wEntityState.w, x	; 9d 70 04
 B19_05db:		rts				; 60 
 
 
@@ -898,7 +898,7 @@ B19_05eb:		lda $0606, x	; bd 06 06
 B19_05ee:		beq B19_0636 ; f0 46
 
 B19_05f0:		lda #$20		; a9 20
-B19_05f2:		sta $0470, x	; 9d 70 04
+B19_05f2:		sta wEntityState.w, x	; 9d 70 04
 B19_05f5:		lda $0606, x	; bd 06 06
 B19_05f8:		and #$04		; 29 04
 B19_05fa:		beq B19_0600 ; f0 04
@@ -940,7 +940,7 @@ B19_0635:		rts				; 60
 
 
 B19_0636:		lda #$40		; a9 40
-B19_0638:		sta $0470, x	; 9d 70 04
+B19_0638:		sta wEntityState.w, x	; 9d 70 04
 B19_063b:		lda $07ec		; ad ec 07
 B19_063e:		beq B19_0665 ; f0 25
 
@@ -990,7 +990,7 @@ B19_0687:		beq B19_06a3 ; f0 1a
 B19_0689:		lda #$00		; a9 00
 B19_068b:		sta $054e, y	; 99 4e 05
 B19_068e:		sta wEntityAI_idx.w, y	; 99 ef 05
-B19_0691:		sta wOamSpecIdx.w, y	; 99 00 04
+B19_0691:		sta wOamSpecIdxDoubled.w, y	; 99 00 04
 B19_0694:		sta wEntityOamSpecGroupDoubled.w, y	; 99 8c 04
 B19_0697:		sta $0606, y	; 99 06 06
 B19_069a:		sta $061d, y	; 99 1d 06
@@ -1009,7 +1009,7 @@ B19_06af:		pla				; 68
 B19_06b0:		tax				; aa 
 B19_06b1:		lda #$30		; a9 30
 B19_06b3:		jsr $8661		; 20 61 86
-B19_06b6:		jsr func_1f_1ec8		; 20 c8 fe
+B19_06b6:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B19_06b9:		lda #$10		; a9 10
 B19_06bb:		ldy #$06		; a0 06
 B19_06bd:		jsr $ef6e		; 20 6e ef
@@ -1051,11 +1051,11 @@ B19_0705:		and #$40		; 29 40
 B19_0707:		beq B19_0710 ; f0 07
 
 B19_0709:		lda #$20		; a9 20
-B19_070b:		sta $0470, x	; 9d 70 04
+B19_070b:		sta wEntityState.w, x	; 9d 70 04
 B19_070e:		bne B19_0715 ; d0 05
 
 B19_0710:		lda #$40		; a9 40
-B19_0712:		sta $0470, x	; 9d 70 04
+B19_0712:		sta wEntityState.w, x	; 9d 70 04
 B19_0715:		lda $0669, x	; bd 69 06
 B19_0718:		and #$0f		; 29 0f
 B19_071a:		cmp #$02		; c9 02
@@ -1210,7 +1210,7 @@ B19_0806:		bpl B19_080b ; 10 03
 B19_0808:		jmp $873a		; 4c 3a 87
 
 
-B19_080b:		jsr func_1f_1ec8		; 20 c8 fe
+B19_080b:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B19_080e:		lda #$80		; a9 80
 B19_0810:		sta wEntityAI_idx.w, x	; 9d ef 05
 B19_0813:		lda $07ec		; ad ec 07
@@ -1220,12 +1220,12 @@ B19_0818:		cmp #$02		; c9 02
 B19_081a:		bcc B19_0822 ; 90 06
 
 B19_081c:		lda #$58		; a9 58
-B19_081e:		sta $0470, x	; 9d 70 04
+B19_081e:		sta wEntityState.w, x	; 9d 70 04
 B19_0821:		rts				; 60 
 
 
 B19_0822:		lda #$50		; a9 50
-B19_0824:		sta $0470, x	; 9d 70 04
+B19_0824:		sta wEntityState.w, x	; 9d 70 04
 B19_0827:		rts				; 60 
 
 
@@ -1239,7 +1239,7 @@ B19_0832:		bne B19_0847 ; d0 13
 B19_0834:		lda #$08		; a9 08
 B19_0836:		sta $0633, x	; 9d 33 06
 B19_0839:		lda #$50		; a9 50
-B19_083b:		sta $0470, x	; 9d 70 04
+B19_083b:		sta wEntityState.w, x	; 9d 70 04
 B19_083e:		lda $0645, x	; bd 45 06
 B19_0841:		ora #$80		; 09 80
 B19_0843:		sta $0645, x	; 9d 45 06
@@ -1254,7 +1254,7 @@ B19_084b:		lda $0633, x	; bd 33 06
 B19_084e:		bne B19_0847 ; d0 f7
 
 B19_0850:		lda #$58		; a9 58
-B19_0852:		sta $0470, x	; 9d 70 04
+B19_0852:		sta wEntityState.w, x	; 9d 70 04
 B19_0855:		inc $0645, x	; fe 45 06
 B19_0858:		lda $0645, x	; bd 45 06
 B19_085b:		and #$7f		; 29 7f
@@ -1311,9 +1311,9 @@ B19_0895:		bne B19_08d1 ; d0 3a
 B19_0897:		jsr $a91d		; 20 1d a9
 B19_089a:		bne B19_08bd ; d0 21
 
-B19_089c:		lda $0470, x	; bd 70 04
+B19_089c:		lda wEntityState.w, x	; bd 70 04
 B19_089f:		ora #$98		; 09 98
-B19_08a1:		sta $0470, x	; 9d 70 04
+B19_08a1:		sta wEntityState.w, x	; 9d 70 04
 B19_08a4:		lda #$00		; a9 00
 B19_08a6:		sta $05d8, x	; 9d d8 05
 B19_08a9:		lda #$80		; a9 80
@@ -1321,7 +1321,7 @@ B19_08ab:		sta $0645, x	; 9d 45 06
 B19_08ae:		lda #$01		; a9 01
 B19_08b0:		sta $07ec		; 8d ec 07
 B19_08b3:		lda #$d8		; a9 d8
-B19_08b5:		sta $0470, x	; 9d 70 04
+B19_08b5:		sta wEntityState.w, x	; 9d 70 04
 B19_08b8:		lda #$0f		; a9 0f
 B19_08ba:		jmp $864f		; 4c 4f 86
 
@@ -1351,7 +1351,7 @@ B19_08e1:		sta $0645, x	; 9d 45 06
 B19_08e4:		lda #$01		; a9 01
 B19_08e6:		sta $05d8, x	; 9d d8 05
 B19_08e9:		lda #$d8		; a9 d8
-B19_08eb:		sta $0470, x	; 9d 70 04
+B19_08eb:		sta wEntityState.w, x	; 9d 70 04
 B19_08ee:		lda #$48		; a9 48
 B19_08f0:		sta wEntityBaseX.w, x	; 9d 38 04
 B19_08f3:		sta wEntityBaseY.w, x	; 9d 1c 04
@@ -1367,15 +1367,15 @@ B19_0905:		bcc B19_0914 ; 90 0d
 B19_0907:		cmp #$08		; c9 08
 B19_0909:		bcs B19_0914 ; b0 09
 
-B19_090b:		lda $0470, x	; bd 70 04
+B19_090b:		lda wEntityState.w, x	; bd 70 04
 B19_090e:		and #$ef		; 29 ef
-B19_0910:		sta $0470, x	; 9d 70 04
+B19_0910:		sta wEntityState.w, x	; 9d 70 04
 B19_0913:		rts				; 60 
 
 
-B19_0914:		lda $0470, x	; bd 70 04
+B19_0914:		lda wEntityState.w, x	; bd 70 04
 B19_0917:		ora #$10		; 09 10
-B19_0919:		sta $0470, x	; 9d 70 04
+B19_0919:		sta wEntityState.w, x	; 9d 70 04
 B19_091c:		rts				; 60 
 
 
@@ -1404,7 +1404,7 @@ B19_093d:		bne B19_095b ; d0 1c
 
 B19_093f:		lda #$0a		; a9 0a
 B19_0941:		ldy #$20		; a0 20
-B19_0943:		jsr func_1f_0f5c		; 20 5c ef
+B19_0943:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
 B19_0946:		lda #$46		; a9 46
 B19_0948:		jmp $864f		; 4c 4f 86
 
@@ -1425,11 +1425,11 @@ B19_0960:		lda #$04		; a9 04
 B19_0962:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B19_0965:		lda #$0a		; a9 0a
 B19_0967:		ldy #$1f		; a0 1f
-B19_0969:		jmp func_1f_0f5c		; 4c 5c ef
+B19_0969:		jmp setEntitySpecGroupA_animationDefIdxY_startAnimate		; 4c 5c ef
 
 
 B19_096c:		lda #$40		; a9 40
-B19_096e:		sta $0470, x	; 9d 70 04
+B19_096e:		sta wEntityState.w, x	; 9d 70 04
 B19_0971:		jsr $a18a		; 20 8a a1
 B19_0974:		lda #$00		; a9 00
 B19_0976:		sta $05d8, x	; 9d d8 05
@@ -1440,7 +1440,7 @@ B19_097f:		rts				; 60
 
 B19_0980:		lda #$00		; a9 00
 B19_0982:		sta $054e, x	; 9d 4e 05
-B19_0985:		sta wOamSpecIdx.w, x	; 9d 00 04
+B19_0985:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B19_0988:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B19_098b:		beq B19_0979 ; f0 ec
 
@@ -1532,7 +1532,7 @@ B19_0a14:		jsr playSound		; 20 5f e2
 B19_0a17:		lda #$00		; a9 00
 B19_0a19:		sta $07ee		; 8d ee 07
 B19_0a1c:		sta $0669, x	; 9d 69 06
-B19_0a1f:		jsr func_1f_1ec8		; 20 c8 fe
+B19_0a1f:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B19_0a22:		lda wEntityAI_idx.w, x	; bd ef 05
 B19_0a25:		and #$80		; 29 80
 B19_0a27:		sta wEntityAI_idx.w, x	; 9d ef 05
@@ -1560,7 +1560,7 @@ B19_0a4c:		lda #$00		; a9 00
 B19_0a4e:		sta $07ec		; 8d ec 07
 B19_0a51:		ldy #$04		; a0 04
 B19_0a53:		lda #$0e		; a9 0e
-B19_0a55:		jsr func_1f_0f5c		; 20 5c ef
+B19_0a55:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
 B19_0a58:		lda #$c8		; a9 c8
 B19_0a5a:		jmp $864f		; 4c 4f 86
 
@@ -1578,7 +1578,7 @@ B19_0a6d:		inc $0606, x	; fe 06 06
 B19_0a70:		lda $0606, x	; bd 06 06
 B19_0a73:		sta $0606, y	; 99 06 06
 B19_0a76:		lda #$40		; a9 40
-B19_0a78:		sta $0470, y	; 99 70 04
+B19_0a78:		sta wEntityState.w, y	; 99 70 04
 B19_0a7b:		lda #$00		; a9 00
 B19_0a7d:		sta $061d, x	; 9d 1d 06
 B19_0a80:		sta $061d, y	; 99 1d 06
@@ -1621,7 +1621,7 @@ B19_0ac9:		beq B19_0ad7 ; f0 0c
 
 B19_0acb:		lda #$0a		; a9 0a
 B19_0acd:		ldy #$1f		; a0 1f
-B19_0acf:		jsr func_1f_0f5c		; 20 5c ef
+B19_0acf:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
 B19_0ad2:		lda #$09		; a9 09
 B19_0ad4:		jmp $864f		; 4c 4f 86
 
@@ -1690,7 +1690,7 @@ B19_0b33:		clc				; 18
 B19_0b34:		adc $0606, x	; 7d 06 06
 B19_0b37:		tay				; a8 
 B19_0b38:		lda #$0a		; a9 0a
-B19_0b3a:		jmp func_1f_0f5c		; 4c 5c ef
+B19_0b3a:		jmp setEntitySpecGroupA_animationDefIdxY_startAnimate		; 4c 5c ef
 
 
 B19_0b3d:		ldy #$01		; a0 01
@@ -1776,13 +1776,13 @@ B19_0bba:		rts				; 60
 
 
 B19_0bbb:		lda #$cc		; a9 cc
-B19_0bbd:		sta $0470, x	; 9d 70 04
+B19_0bbd:		sta wEntityState.w, x	; 9d 70 04
 B19_0bc0:		lda #$00		; a9 00
 B19_0bc2:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B19_0bc5:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B19_0bc8:		lda #$0a		; a9 0a
 B19_0bca:		ldy #$24		; a0 24
-B19_0bcc:		jsr func_1f_0f5c		; 20 5c ef
+B19_0bcc:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
 B19_0bcf:		lda #$45		; a9 45
 B19_0bd1:		jmp $864f		; 4c 4f 86
 
@@ -1805,7 +1805,7 @@ B19_0bf0:		sta $05d8, x	; 9d d8 05
 B19_0bf3:		sta wEntityAI_idx.w, x	; 9d ef 05
 B19_0bf6:		sta wEntityPhase.w, x	; 9d c1 05
 B19_0bf9:		lda #$40		; a9 40
-B19_0bfb:		sta $0470, x	; 9d 70 04
+B19_0bfb:		sta wEntityState.w, x	; 9d 70 04
 B19_0bfe:		jmp $adaf		; 4c af ad
 
 
@@ -1843,7 +1843,7 @@ B19_0c3a:		jmp $873a		; 4c 3a 87
 
 B19_0c3d:		jsr $a1de		; 20 de a1
 B19_0c40:		lda #$50		; a9 50
-B19_0c42:		sta $0470, x	; 9d 70 04
+B19_0c42:		sta wEntityState.w, x	; 9d 70 04
 B19_0c45:		jsr $a4c3		; 20 c3 a4
 B19_0c48:		cmp #$1e		; c9 1e
 B19_0c4a:		beq B19_0c70 ; f0 24
@@ -1879,7 +1879,7 @@ B19_0c7f:		bne B19_0c89 ; d0 08
 
 B19_0c81:		jsr $8231		; 20 31 82
 B19_0c84:		lda #$40		; a9 40
-B19_0c86:		sta $0470, x	; 9d 70 04
+B19_0c86:		sta wEntityState.w, x	; 9d 70 04
 B19_0c89:		lda #$00		; a9 00
 B19_0c8b:		sta $0669, x	; 9d 69 06
 B19_0c8e:		ldy $07ef		; ac ef 07
@@ -1915,7 +1915,7 @@ B19_0cbd:		jsr $8766		; 20 66 87
 B19_0cc0:		lda $3d			; a5 3d
 B19_0cc2:		sta $067b, y	; 99 7b 06
 B19_0cc5:		lda #$c8		; a9 c8
-B19_0cc7:		sta $0470, y	; 99 70 04
+B19_0cc7:		sta wEntityState.w, y	; 99 70 04
 B19_0cca:		txa				; 8a 
 B19_0ccb:		sta $0606, y	; 99 06 06
 B19_0cce:		sta $07ec		; 8d ec 07
@@ -1937,7 +1937,7 @@ B19_0ceb:		lda #$01		; a9 01
 B19_0ced:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B19_0cf0:		lda #$0a		; a9 0a
 B19_0cf2:		ldy #$21		; a0 21
-B19_0cf4:		jsr func_1f_0f5c		; 20 5c ef
+B19_0cf4:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
 B19_0cf7:		lda #$1c		; a9 1c
 B19_0cf9:		jmp $864f		; 4c 4f 86
 
@@ -1964,7 +1964,7 @@ B19_0d19:		sta $0669, y	; 99 69 06
 B19_0d1c:		lda #$02		; a9 02
 B19_0d1e:		sta $0606, y	; 99 06 06
 B19_0d21:		lda #$40		; a9 40
-B19_0d23:		sta $0470, y	; 99 70 04
+B19_0d23:		sta wEntityState.w, y	; 99 70 04
 B19_0d26:		lda #$80		; a9 80
 B19_0d28:		sta wEntityAI_idx.w, x	; 9d ef 05
 B19_0d2b:		stx $00			; 86 00
@@ -1972,14 +1972,14 @@ B19_0d2d:		tya				; 98
 B19_0d2e:		tax				; aa 
 B19_0d2f:		lda #$0a		; a9 0a
 B19_0d31:		ldy #$24		; a0 24
-B19_0d33:		jsr func_1f_0f5c		; 20 5c ef
+B19_0d33:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
 B19_0d36:		ldx $00			; a6 00
 B19_0d38:		dec $07f0		; ce f0 07
 B19_0d3b:		bne B19_0d10 ; d0 d3
 
 B19_0d3d:		lda #$0a		; a9 0a
 B19_0d3f:		ldy #$24		; a0 24
-B19_0d41:		jsr func_1f_0f5c		; 20 5c ef
+B19_0d41:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
 B19_0d44:		lda #$02		; a9 02
 B19_0d46:		sta $07ef		; 8d ef 07
 B19_0d49:		lda #$00		; a9 00
@@ -1997,7 +1997,7 @@ B19_0d5e:		lda #$06		; a9 06
 B19_0d60:		sta $07f0		; 8d f0 07
 B19_0d63:		lda #$0a		; a9 0a
 B19_0d65:		ldy #$28		; a0 28
-B19_0d67:		jsr func_1f_0f5c		; 20 5c ef
+B19_0d67:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
 B19_0d6a:		lda #$20		; a9 20
 B19_0d6c:		jmp $864f		; 4c 4f 86
 
@@ -2037,7 +2037,7 @@ B19_0da6:		beq B19_0dc0 ; f0 18
 
 B19_0da8:		lda #$0a		; a9 0a
 B19_0daa:		ldy #$24		; a0 24
-B19_0dac:		jmp func_1f_0f5c		; 4c 5c ef
+B19_0dac:		jmp setEntitySpecGroupA_animationDefIdxY_startAnimate		; 4c 5c ef
 
 
 B19_0daf:		jsr $a4c3		; 20 c3 a4
@@ -2045,7 +2045,7 @@ B19_0db2:		bne B19_0dc0 ; d0 0c
 
 B19_0db4:		lda #$0a		; a9 0a
 B19_0db6:		ldy #$24		; a0 24
-B19_0db8:		jsr func_1f_0f5c		; 20 5c ef
+B19_0db8:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
 B19_0dbb:		lda #$19		; a9 19
 B19_0dbd:		jmp $864f		; 4c 4f 86
 
@@ -2095,7 +2095,7 @@ B19_0e03:		beq B19_0e17 ; f0 12
 
 B19_0e05:		lda #$00		; a9 00
 B19_0e07:		sta $054e, x	; 9d 4e 05
-B19_0e0a:		sta wOamSpecIdx.w, x	; 9d 00 04
+B19_0e0a:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B19_0e0d:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B19_0e10:		sta $0606, x	; 9d 06 06
 B19_0e13:		sta wEntityAI_idx.w, x	; 9d ef 05
@@ -2124,7 +2124,7 @@ B19_0e3a:		lda #$06		; a9 06
 B19_0e3c:		sta $07f0		; 8d f0 07
 B19_0e3f:		lda #$0a		; a9 0a
 B19_0e41:		ldy #$2c		; a0 2c
-B19_0e43:		jsr func_1f_0f5c		; 20 5c ef
+B19_0e43:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
 B19_0e46:		lda #$20		; a9 20
 B19_0e48:		jmp $864f		; 4c 4f 86
 
@@ -2156,7 +2156,7 @@ B19_0e6f:		lda #$50		; a9 50
 B19_0e71:		jsr $8661		; 20 61 86
 B19_0e74:		lda #$0a		; a9 0a
 B19_0e76:		ldy #$30		; a0 30
-B19_0e78:		jsr func_1f_0f5c		; 20 5c ef
+B19_0e78:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
 B19_0e7b:		lda #$23		; a9 23
 B19_0e7d:		jmp $864f		; 4c 4f 86
 
@@ -2182,7 +2182,7 @@ B19_0e9f:		beq B19_0eb5 ; f0 14
 B19_0ea1:		lda #$00		; a9 00
 B19_0ea3:		sta $054e, y	; 99 4e 05
 B19_0ea6:		sta wEntityAI_idx.w, y	; 99 ef 05
-B19_0ea9:		sta wOamSpecIdx.w, y	; 99 00 04
+B19_0ea9:		sta wOamSpecIdxDoubled.w, y	; 99 00 04
 B19_0eac:		sta wEntityOamSpecGroupDoubled.w, y	; 99 8c 04
 B19_0eaf:		sta wEntityBaseX.w, y	; 99 38 04
 B19_0eb2:		sta wEntityBaseY.w, y	; 99 1c 04
@@ -2264,7 +2264,7 @@ B19_0f1f:		rts				; 60
 
 
 B19_0f20:		lda #$e9		; a9 e9
-B19_0f22:		sta $0470, x	; 9d 70 04
+B19_0f22:		sta wEntityState.w, x	; 9d 70 04
 B19_0f25:		lda #$00		; a9 00
 B19_0f27:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B19_0f2a:		lda #$08		; a9 08
@@ -2276,13 +2276,13 @@ B19_0f34:		jmp $b03f		; 4c 3f b0
 
 
 B19_0f37:		lda #$9e		; a9 9e
-B19_0f39:		sta wOamSpecIdx.w, x	; 9d 00 04
+B19_0f39:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B19_0f3c:		lda #$0a		; a9 0a
 B19_0f3e:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B19_0f41:		rts				; 60 
 
 
-B19_0f42:		lda $0470, x	; bd 70 04
+B19_0f42:		lda wEntityState.w, x	; bd 70 04
 B19_0f45:		and #$01		; 29 01
 B19_0f47:		bne B19_0f61 ; d0 18
 
@@ -2291,7 +2291,7 @@ B19_0f4b:		sta $05d8, x	; 9d d8 05
 B19_0f4e:		sta wEntityAI_idx.w, x	; 9d ef 05
 B19_0f51:		sta wEntityPhase.w, x	; 9d c1 05
 B19_0f54:		lda #$60		; a9 60
-B19_0f56:		sta $0470, x	; 9d 70 04
+B19_0f56:		sta wEntityState.w, x	; 9d 70 04
 B19_0f59:		lda $07f3		; ad f3 07
 B19_0f5c:		and #$7f		; 29 7f
 B19_0f5e:		sta $07f3		; 8d f3 07
@@ -2313,9 +2313,9 @@ B19_0f73:		lda wEntityBaseX.w, x	; bd 38 04
 B19_0f76:		and #$f0		; 29 f0
 B19_0f78:		bne B19_0f84 ; d0 0a
 
-B19_0f7a:		lda $0470, x	; bd 70 04
+B19_0f7a:		lda wEntityState.w, x	; bd 70 04
 B19_0f7d:		and #$76		; 29 76
-B19_0f7f:		sta $0470, x	; 9d 70 04
+B19_0f7f:		sta wEntityState.w, x	; 9d 70 04
 B19_0f82:		clc				; 18 
 B19_0f83:		rts				; 60 
 
@@ -2325,7 +2325,7 @@ B19_0f85:		rts				; 60
 
 
 B19_0f86:		lda #$60		; a9 60
-B19_0f88:		sta $0470, x	; 9d 70 04
+B19_0f88:		sta wEntityState.w, x	; 9d 70 04
 B19_0f8b:		jsr $a1de		; 20 de a1
 B19_0f8e:		lda wCurrRoomSection			; a5 33
 B19_0f90:		cmp #$02		; c9 02
@@ -2428,7 +2428,7 @@ B19_1035:		lsr a			; 4a
 B19_1036:		and #$fe		; 29 fe
 B19_1038:		clc				; 18 
 B19_1039:		adc #$9a		; 69 9a
-B19_103b:		sta wOamSpecIdx.w, x	; 9d 00 04
+B19_103b:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B19_103e:		rts				; 60 
 
 
@@ -2437,7 +2437,7 @@ B19_1041:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B19_1044:		bne B19_104e ; d0 08
 
 B19_1046:		lda #$60		; a9 60
-B19_1048:		sta $0470, x	; 9d 70 04
+B19_1048:		sta wEntityState.w, x	; 9d 70 04
 B19_104b:		jsr $a1de		; 20 de a1
 B19_104e:		lda wCurrRoomSection			; a5 33
 B19_1050:		cmp #$02		; c9 02
@@ -2524,7 +2524,7 @@ B19_10c9:		lda #$fe		; a9 fe
 B19_10cb:		sta $0606, x	; 9d 06 06
 B19_10ce:		lda #$0a		; a9 0a
 B19_10d0:		ldy #$43		; a0 43
-B19_10d2:		jsr func_1f_0f5c		; 20 5c ef
+B19_10d2:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
 B19_10d5:		lda #$25		; a9 25
 B19_10d7:		jsr $864f		; 20 4f 86
 B19_10da:		clc				; 18 
@@ -2539,7 +2539,7 @@ B19_10e6:		bne B19_10f3 ; d0 0b
 
 B19_10e8:		lda #$00		; a9 00
 B19_10ea:		sta $054e, x	; 9d 4e 05
-B19_10ed:		sta wOamSpecIdx.w, x	; 9d 00 04
+B19_10ed:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B19_10f0:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B19_10f3:		rts				; 60 
 
@@ -2616,8 +2616,8 @@ B19_118b:		cmp #$0b		; c9 0b
 B19_118d:		bne B19_11a5 ; d0 16
 
 B19_118f:		lda #$40		; a9 40
-B19_1191:		ora $0470, x	; 1d 70 04
-B19_1194:		sta $0470, x	; 9d 70 04
+B19_1191:		ora wEntityState.w, x	; 1d 70 04
+B19_1194:		sta wEntityState.w, x	; 9d 70 04
 B19_1197:		jsr $b2b7		; 20 b7 b2
 B19_119a:		jsr $b158		; 20 58 b1
 B19_119d:		lda $054e, y	; b9 4e 05
@@ -2680,7 +2680,7 @@ B19_1219:		lsr a			; 4a
 B19_121a:		and #$fe		; 29 fe
 B19_121c:		clc				; 18 
 B19_121d:		adc $02			; 65 02
-B19_121f:		sta wOamSpecIdx.w, x	; 9d 00 04
+B19_121f:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B19_1222:		rts				; 60 
 
 
@@ -2867,8 +2867,8 @@ B19_133a:		lsr a			; 4a
 B19_133b:		sta $d1			; 85 d1
 B19_133d:		lda #$00		; a9 00
 B19_133f:		sta $054e, x	; 9d 4e 05
-B19_1342:		sta wOamSpecIdx.w, x	; 9d 00 04
-B19_1345:		sta $05aa, x	; 9d aa 05
+B19_1342:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
+B19_1345:		sta wEntityAnimationDefIdxInSpecGroup.w, x	; 9d aa 05
 B19_1348:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B19_134b:		sta wEntityAI_idx.w, x	; 9d ef 05
 B19_134e:		sta wEntityPhase.w, x	; 9d c1 05
@@ -3041,7 +3041,7 @@ B19_1453:		rts				; 60
 B19_1454:		lda #$26		; a9 26
 B19_1456:		jsr $87c5		; 20 c5 87
 B19_1459:		lda #$88		; a9 88
-B19_145b:		sta $0470, y	; 99 70 04
+B19_145b:		sta wEntityState.w, y	; 99 70 04
 B19_145e:		lda #$48		; a9 48
 B19_1460:		sta wEntityBaseY.w, y	; 99 1c 04
 B19_1463:		lda #$20		; a9 20
@@ -3074,7 +3074,7 @@ B19_149e:		rts				; 60
 
 
 B19_149f:		ldy $0606, x	; bc 06 06
-B19_14a2:		lda $0470, y	; b9 70 04
+B19_14a2:		lda wEntityState.w, y	; b9 70 04
 B19_14a5:		and #$88		; 29 88
 B19_14a7:		bne B19_149e ; d0 f5
 
@@ -3087,9 +3087,9 @@ B19_14b2:		jsr playSound		; 20 5f e2
 B19_14b5:		lda #$0e		; a9 0e
 B19_14b7:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B19_14ba:		lda #$18		; a9 18
-B19_14bc:		sta wOamSpecIdx.w, x	; 9d 00 04
+B19_14bc:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B19_14bf:		lda #$60		; a9 60
-B19_14c1:		sta $0470, x	; 9d 70 04
+B19_14c1:		sta wEntityState.w, x	; 9d 70 04
 B19_14c4:		lda #$55		; a9 55
 B19_14c6:		jmp $864f		; 4c 4f 86
 
@@ -3146,7 +3146,7 @@ B19_1505:		lda #$a8		; a9 a8
 B19_1507:		sta wEntityBaseY.w, x	; 9d 1c 04
 B19_150a:		lda #$10		; a9 10
 B19_150c:		ldy #$44		; a0 44
-B19_150e:		jmp func_1f_0f5c		; 4c 5c ef
+B19_150e:		jmp setEntitySpecGroupA_animationDefIdxY_startAnimate		; 4c 5c ef
 
 
 B19_1511:		dec $0606, x	; de 06 06
@@ -3157,7 +3157,7 @@ B19_1515:		lda $0606, x	; bd 06 06
 B19_1518:		bne B19_1511 ; d0 f7
 
 B19_151a:		lda #$60		; a9 60
-B19_151c:		sta $0470, x	; 9d 70 04
+B19_151c:		sta wEntityState.w, x	; 9d 70 04
 B19_151f:		lda wEntityAI_idx.w, x	; bd ef 05
 B19_1522:		and #$7f		; 29 7f
 B19_1524:		bne B19_154b ; d0 25
@@ -3167,11 +3167,11 @@ B19_1528:		jsr $8766		; 20 66 87
 B19_152b:		lda #$80		; a9 80
 B19_152d:		sta wEntityAI_idx.w, y	; 99 ef 05
 B19_1530:		lda #$e8		; a9 e8
-B19_1532:		sta $0470, y	; 99 70 04
+B19_1532:		sta wEntityState.w, y	; 99 70 04
 B19_1535:		txa				; 8a 
 B19_1536:		sta $0606, y	; 99 06 06
 B19_1539:		lda #$02		; a9 02
-B19_153b:		sta wOamSpecIdx.w, y	; 99 00 04
+B19_153b:		sta wOamSpecIdxDoubled.w, y	; 99 00 04
 B19_153e:		lda #$40		; a9 40
 B19_1540:		sta $067b, y	; 99 7b 06
 B19_1543:		sta $067b, x	; 9d 7b 06
@@ -3202,9 +3202,9 @@ B19_156d:		rts				; 60
 
 
 B19_156e:		lda #$e8		; a9 e8
-B19_1570:		sta $0470, x	; 9d 70 04
+B19_1570:		sta wEntityState.w, x	; 9d 70 04
 B19_1573:		lda #$02		; a9 02
-B19_1575:		sta wOamSpecIdx.w, x	; 9d 00 04
+B19_1575:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B19_1578:		ldy $0606, x	; bc 06 06
 B19_157b:		lda $0606, y	; b9 06 06
 B19_157e:		cmp #$03		; c9 03
@@ -3274,7 +3274,7 @@ B19_15ec:		sta $0606, y	; 99 06 06
 B19_15ef:		lda #$de		; a9 de
 B19_15f1:		sta wEntityAI_idx.w, y	; 99 ef 05
 B19_15f4:		lda #$60		; a9 60
-B19_15f6:		sta $0470, y	; 99 70 04
+B19_15f6:		sta wEntityState.w, y	; 99 70 04
 B19_15f9:		lda #$10		; a9 10
 B19_15fb:		sta wEntityOamSpecGroupDoubled.w, y	; 99 8c 04
 B19_15fe:		lda #$00		; a9 00
@@ -3288,7 +3288,7 @@ B19_160d:		lda $b89b, y	; b9 9b b8
 B19_1610:		ldy $16			; a4 16
 B19_1612:		sta wPlayerStateDoubled.w, y	; 99 65 05
 B19_1615:		lda $15			; a5 15
-B19_1617:		sta wOamSpecIdx.w, y	; 99 00 04
+B19_1617:		sta wOamSpecIdxDoubled.w, y	; 99 00 04
 B19_161a:		inc $07ee		; ee ee 07
 B19_161d:		dec $17			; c6 17
 B19_161f:		bne B19_15e5 ; d0 c4
@@ -3302,11 +3302,11 @@ B19_162c:		sta wEntityBaseY.w, x	; 9d 1c 04
 B19_162f:		lda #$80		; a9 80
 B19_1631:		sta wEntityAI_idx.w, x	; 9d ef 05
 B19_1634:		lda #$f0		; a9 f0
-B19_1636:		sta wOamSpecIdx.w, x	; 9d 00 04
+B19_1636:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B19_1639:		lda #$10		; a9 10
 B19_163b:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B19_163e:		lda #$20		; a9 20
-B19_1640:		sta $0470, x	; 9d 70 04
+B19_1640:		sta wEntityState.w, x	; 9d 70 04
 B19_1643:		inc $07ed		; ee ed 07
 B19_1646:		lda #$7b		; a9 7b
 B19_1648:		jsr playSound		; 20 5f e2
@@ -3365,7 +3365,7 @@ B19_169e:		jmp $873a		; 4c 3a 87
 
 
 B19_16a1:		lda #$60		; a9 60
-B19_16a3:		sta $0470, x	; 9d 70 04
+B19_16a3:		sta wEntityState.w, x	; 9d 70 04
 B19_16a6:		lda #$30		; a9 30
 B19_16a8:		sta $0657, x	; 9d 57 06
 B19_16ab:		ldy $0606, x	; bc 06 06
@@ -3399,7 +3399,7 @@ B19_16d6:		sta $0606, y	; 99 06 06
 B19_16d9:		lda $17			; a5 17
 B19_16db:		sta $061d, y	; 99 1d 06
 B19_16de:		lda #$60		; a9 60
-B19_16e0:		sta $0470, y	; 99 70 04
+B19_16e0:		sta wEntityState.w, y	; 99 70 04
 B19_16e3:		lda #$80		; a9 80
 B19_16e5:		sta wEntityAI_idx.w, y	; 99 ef 05
 B19_16e8:		lda #$c0		; a9 c0
@@ -3450,7 +3450,7 @@ B19_172a:		sta $0606, y	; 99 06 06
 B19_172d:		lda #$00		; a9 00
 B19_172f:		sta $061d, y	; 99 1d 06
 B19_1732:		lda #$60		; a9 60
-B19_1734:		sta $0470, y	; 99 70 04
+B19_1734:		sta wEntityState.w, y	; 99 70 04
 B19_1737:		lda #$80		; a9 80
 B19_1739:		sta wEntityAI_idx.w, y	; 99 ef 05
 B19_173c:		lda #$c0		; a9 c0
@@ -3677,7 +3677,7 @@ B19_18ad:		jmp $873a		; 4c 3a 87
 
 B19_18b0:		lda #$00		; a9 00
 B19_18b2:		sta $0657, x	; 9d 57 06
-B19_18b5:		jsr func_1f_1ec8		; 20 c8 fe
+B19_18b5:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B19_18b8:		lda wEntityAI_idx.w, x	; bd ef 05
 B19_18bb:		and #$7f		; 29 7f
 B19_18bd:		bne B19_1908 ; d0 49
@@ -3754,7 +3754,7 @@ B19_1930:		lda $00			; a5 00
 B19_1932:		cmp #$08		; c9 08
 B19_1934:		bcs B19_1959 ; b0 23
 
-B19_1936:		lda wOamSpecIdx.w, x	; bd 00 04
+B19_1936:		lda wOamSpecIdxDoubled.w, x	; bd 00 04
 B19_1939:		sec				; 38 
 B19_193a:		sbc #$98		; e9 98
 B19_193c:		lsr a			; 4a
@@ -3804,9 +3804,9 @@ B19_1978:		bne B19_19ea ; d0 70
 B19_197a:		sta $0669, x	; 9d 69 06
 B19_197d:		sta $0657, x	; 9d 57 06
 B19_1980:		ldy #$32		; a0 32
-B19_1982:		sty $4b			; 84 4b
+B19_1982:		sty wChrBankBG_0400			; 84 4b
 B19_1984:		iny				; c8 
-B19_1985:		sty $4c			; 84 4c
+B19_1985:		sty wChrBankBG_0800			; 84 4c
 B19_1987:		iny				; c8 
 B19_1988:		sty $48			; 84 48
 B19_198a:		iny				; c8 
@@ -3832,7 +3832,7 @@ B19_19b6:		sta $0633, y	; 99 33 06
 B19_19b9:		lda #$01		; a9 01
 B19_19bb:		sta $061d, y	; 99 1d 06
 B19_19be:		lda #$20		; a9 20
-B19_19c0:		sta $0470, y	; 99 70 04
+B19_19c0:		sta wEntityState.w, y	; 99 70 04
 B19_19c3:		lda #$0d		; a9 0d
 B19_19c5:		sta $067b, y	; 99 7b 06
 B19_19c8:		dec $17			; c6 17
@@ -3844,7 +3844,7 @@ B19_19d1:		lda #$01		; a9 01
 B19_19d3:		sta $061d, x	; 9d 1d 06
 B19_19d6:		inc $0645, x	; fe 45 06
 B19_19d9:		lda #$60		; a9 60
-B19_19db:		sta $0470, x	; 9d 70 04
+B19_19db:		sta wEntityState.w, x	; 9d 70 04
 B19_19de:		lda #$40		; a9 40
 B19_19e0:		sta $3d			; 85 3d
 B19_19e2:		sta $067b, x	; 9d 7b 06
@@ -3872,7 +3872,7 @@ B19_1a12:		rts				; 60
 
 
 B19_1a13:		lda #$60		; a9 60
-B19_1a15:		sta $0470, x	; 9d 70 04
+B19_1a15:		sta wEntityState.w, x	; 9d 70 04
 B19_1a18:		ldy $3d			; a4 3d
 B19_1a1a:		bne B19_1a39 ; d0 1d
 
@@ -3974,13 +3974,13 @@ B19_1ad4:		jmp $bbdd		; 4c dd bb
 
 
 B19_1ad7:		lda #$20		; a9 20
-B19_1ad9:		sta $0470, x	; 9d 70 04
+B19_1ad9:		sta wEntityState.w, x	; 9d 70 04
 B19_1adc:		ldy $07f3		; ac f3 07
 B19_1adf:		dey				; 88 
 B19_1ae0:		bne B19_1b0e ; d0 2c
 
 B19_1ae2:		lda #$60		; a9 60
-B19_1ae4:		sta $0470, x	; 9d 70 04
+B19_1ae4:		sta wEntityState.w, x	; 9d 70 04
 B19_1ae7:		lda wEntityAI_idx.w, x	; bd ef 05
 B19_1aea:		and #$7f		; 29 7f
 B19_1aec:		cmp #$5d		; c9 5d
@@ -4025,7 +4025,7 @@ B19_1b2b:		bne B19_1b37 ; d0 0a
 B19_1b2d:		jsr $bcab		; 20 ab bc
 B19_1b30:		clc				; 18 
 B19_1b31:		adc #$04		; 69 04
-B19_1b33:		sta wOamSpecIdx.w, x	; 9d 00 04
+B19_1b33:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B19_1b36:		rts				; 60 
 
 
@@ -4033,7 +4033,7 @@ B19_1b37:		ldy $0645, x	; bc 45 06
 B19_1b3a:		bne B19_1b48 ; d0 0c
 
 B19_1b3c:		jsr $bcab		; 20 ab bc
-B19_1b3f:		sta wOamSpecIdx.w, x	; 9d 00 04
+B19_1b3f:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B19_1b42:		inc $0645, x	; fe 45 06
 B19_1b45:		jmp $bb98		; 4c 98 bb
 
@@ -4049,7 +4049,7 @@ B19_1b52:		sta $0633, x	; 9d 33 06
 B19_1b55:		jsr $bcab		; 20 ab bc
 B19_1b58:		clc				; 18 
 B19_1b59:		adc #$02		; 69 02
-B19_1b5b:		sta wOamSpecIdx.w, x	; 9d 00 04
+B19_1b5b:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B19_1b5e:		inc $0645, x	; fe 45 06
 B19_1b61:		rts				; 60 
 
@@ -4069,7 +4069,7 @@ B19_1b76:		sta wEntityAI_idx.w, y	; 99 ef 05
 B19_1b79:		lda #$00		; a9 00
 B19_1b7b:		sta wEntityPhase.w, y	; 99 c1 05
 B19_1b7e:		lda #$60		; a9 60
-B19_1b80:		sta $0470, y	; 99 70 04
+B19_1b80:		sta wEntityState.w, y	; 99 70 04
 B19_1b83:		inc $0645, x	; fe 45 06
 B19_1b86:		rts				; 60 
 
@@ -4080,7 +4080,7 @@ B19_1b8a:		bne B19_1b61 ; d0 d5
 B19_1b8c:		lda #$00		; a9 00
 B19_1b8e:		sta $0645, x	; 9d 45 06
 B19_1b91:		jsr $bcab		; 20 ab bc
-B19_1b94:		sta wOamSpecIdx.w, x	; 9d 00 04
+B19_1b94:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B19_1b97:		rts				; 60 
 
 
@@ -4114,13 +4114,13 @@ B19_1bc8:		bne B19_1bb3 ; d0 e9
 B19_1bca:		rts				; 60 
 
 
-B19_1bcb:		sta wOamSpecIdx.w, x	; 9d 00 04
+B19_1bcb:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B19_1bce:		lda #$10		; a9 10
 B19_1bd0:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B19_1bd3:		rts				; 60 
 
 
-B19_1bd4:		sta wOamSpecIdx.w, y	; 99 00 04
+B19_1bd4:		sta wOamSpecIdxDoubled.w, y	; 99 00 04
 B19_1bd7:		lda #$10		; a9 10
 B19_1bd9:		sta wEntityOamSpecGroupDoubled.w, y	; 99 8c 04
 B19_1bdc:		rts				; 60 
@@ -4134,7 +4134,7 @@ B19_1be4:		tya				; 98
 B19_1be5:		bne B19_1be9 ; d0 02
 
 B19_1be7:		lda #$f0		; a9 f0
-B19_1be9:		sta wOamSpecIdx.w, x	; 9d 00 04
+B19_1be9:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B19_1bec:		rts				; 60 
 
 
@@ -4158,7 +4158,7 @@ B19_1c09:		lda #$00		; a9 00
 B19_1c0b:		sta $0669, x	; 9d 69 06
 B19_1c0e:		sta $0657, x	; 9d 57 06
 B19_1c11:		lda #$60		; a9 60
-B19_1c13:		sta $0470, x	; 9d 70 04
+B19_1c13:		sta wEntityState.w, x	; 9d 70 04
 B19_1c16:		lda $0606, x	; bd 06 06
 B19_1c19:		asl a			; 0a
 B19_1c1a:		tay				; a8 
@@ -4185,9 +4185,9 @@ B19_1c42:		beq B19_1c53 ; f0 0f
 B19_1c44:		inc wEntityPhase.w, x	; fe c1 05
 B19_1c47:		lda #$0e		; a9 0e
 B19_1c49:		ldy #$08		; a0 08
-B19_1c4b:		jsr func_1f_0f5c		; 20 5c ef
+B19_1c4b:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
 B19_1c4e:		lda #$40		; a9 40
-B19_1c50:		sta $0470, x	; 9d 70 04
+B19_1c50:		sta wEntityState.w, x	; 9d 70 04
 B19_1c53:		lda wEntityPhase.w, x	; bd c1 05
 B19_1c56:		cmp #$06		; c9 06
 B19_1c58:		bne B19_1c84 ; d0 2a
@@ -4378,7 +4378,7 @@ B19_1d66:		jmp $be67		; 4c 67 be
 
 
 B19_1d69:		lda #$88		; a9 88
-B19_1d6b:		sta $0470, x	; 9d 70 04
+B19_1d6b:		sta wEntityState.w, x	; 9d 70 04
 B19_1d6e:		lda $07ed		; ad ed 07
 B19_1d71:		cmp #$0e		; c9 0e
 B19_1d73:		bcs B19_1dde ; b0 69
@@ -4399,7 +4399,7 @@ B19_1d8a:		bne B19_1d86 ; d0 fa
 B19_1d8c:		clc				; 18 
 B19_1d8d:		adc #$4a		; 69 4a
 B19_1d8f:		sta wVramQueueDest			; 85 61
-B19_1d91:		lda $62			; a5 62
+B19_1d91:		lda wVramQueueDest+1			; a5 62
 B19_1d93:		adc #$21		; 69 21
 B19_1d95:		sta wVramQueueDest+1			; 85 62
 B19_1d97:		jsr vramQueueSet1byteDestToCopy_noData		; 20 b5 e8
@@ -4469,7 +4469,7 @@ B19_1e0e:		sta $07ee		; 8d ee 07
 B19_1e11:		sta $07ed		; 8d ed 07
 B19_1e14:		sta $0606, x	; 9d 06 06
 B19_1e17:		lda #$88		; a9 88
-B19_1e19:		sta $0470, x	; 9d 70 04
+B19_1e19:		sta wEntityState.w, x	; 9d 70 04
 B19_1e1c:		lda #$80		; a9 80
 B19_1e1e:		sta wEntityBaseX.w, x	; 9d 38 04
 B19_1e21:		lda #$60		; a9 60
@@ -4483,7 +4483,7 @@ B19_1e32:		lda #$01		; a9 01
 B19_1e34:		sta $0606, y	; 99 06 06
 B19_1e37:		sta $17			; 85 17
 B19_1e39:		lda #$88		; a9 88
-B19_1e3b:		sta $0470, y	; 99 70 04
+B19_1e3b:		sta wEntityState.w, y	; 99 70 04
 B19_1e3e:		lda #$8a		; a9 8a
 B19_1e40:		jsr $8766		; 20 66 87
 B19_1e43:		lda #$80		; a9 80
@@ -4497,7 +4497,7 @@ B19_1e52:		beq B19_1e56 ; f0 02
 B19_1e54:		lda #$04		; a9 04
 B19_1e56:		sta $0633, y	; 99 33 06
 B19_1e59:		lda #$60		; a9 60
-B19_1e5b:		sta $0470, y	; 99 70 04
+B19_1e5b:		sta wEntityState.w, y	; 99 70 04
 B19_1e5e:		dec $17			; c6 17
 B19_1e60:		bpl B19_1e3e ; 10 dc
 
@@ -4551,7 +4551,7 @@ B19_1ebf:		sta $0633, x	; 9d 33 06
 B19_1ec2:		lda #$00		; a9 00
 B19_1ec4:		sta $061d, x	; 9d 1d 06
 B19_1ec7:		lda #$20		; a9 20
-B19_1ec9:		sta $0470, x	; 9d 70 04
+B19_1ec9:		sta wEntityState.w, x	; 9d 70 04
 B19_1ecc:		ldy $07f3		; ac f3 07
 B19_1ecf:		dey				; 88 
 B19_1ed0:		bne B19_1ef6 ; d0 24

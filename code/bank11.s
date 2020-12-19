@@ -6,12 +6,12 @@ B17_1e26:		tay				; a8
 B17_1e27:		lda $be4c, y	; b9 4c be
 B17_1e2a:		sta wEntityPaletteOverride.w, x	; 9d 54 04
 B17_1e2d:		lda $be49, y	; b9 49 be
-B17_1e30:		sta $0470, x	; 9d 70 04
+B17_1e30:		sta wEntityState.w, x	; 9d 70 04
 B17_1e33:		lda $be4a, y	; b9 4a be
 B17_1e36:		sta $01			; 85 01
 B17_1e38:		lda $be4b, y	; b9 4b be
 B17_1e3b:		ldy $01			; a4 01
-B17_1e3d:		jsr func_1f_0f5c		; 20 5c ef
+B17_1e3d:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
 B17_1e40:		lda #$80		; a9 80
 B17_1e42:		ora wEntityAI_idx.w, x	; 1d ef 05
 B17_1e45:		sta wEntityAI_idx.w, x	; 9d ef 05
@@ -215,7 +215,7 @@ B17_1eed:		ldy #$08		; a0 08
 B17_1eef:		jsr func_1f_1c1e		; 20 1e fc
 B17_1ef2:		beq B17_1efa ; f0 06
 
-B17_1ef4:		jsr func_1f_1ec8		; 20 c8 fe
+B17_1ef4:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B17_1ef7:		inc wEntityPhase.w, x	; fe c1 05
 B17_1efa:		lda wEntityAI_idx.w, x	; bd ef 05
 B17_1efd:		and #$7f		; 29 7f
@@ -258,8 +258,8 @@ B17_1f35:		jsr playSound		; 20 5f e2
 B17_1f38:		lda #$00		; a9 00
 B17_1f3a:		sta $c1			; 85 c1
 B17_1f3c:		sta $054e, x	; 9d 4e 05
-B17_1f3f:		sta $0470, x	; 9d 70 04
-B17_1f42:		sta wOamSpecIdx.w, x	; 9d 00 04
+B17_1f3f:		sta wEntityState.w, x	; 9d 70 04
+B17_1f42:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B17_1f45:		ldy #$07		; a0 07
 B17_1f47:		lda #$00		; a9 00
 B17_1f49:		sta $07ec, y	; 99 ec 07

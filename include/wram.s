@@ -22,6 +22,18 @@
 .nextu
     wIdxIntoRoomTransitionBytes: ; $00
         db
+.nextu
+    wCurrDrawnEntityPaletteOverride: ; $00
+        db
+
+    wCurrDrawnEntityBaseY: ; $01
+        db
+.nextu
+    wCurrRoomBGInternalPalettesSpecOffset: ; $00
+        db
+.nextu
+    wCurrStaticLayoutAddr: ; $00
+        dw
 .endu
 
 .union
@@ -45,6 +57,15 @@
 .nextu
     wCurrEntityScriptAddr: ; $02
         dw
+.nextu
+    wCurrDrawnEntityBaseX: ; $02
+        db
+        
+    wCurrDrawnEntityNumSprites: ; $03
+        db
+.nextu
+    wCurrStaticLayoutTileMask: ; $02
+        db
 .endu
 
 .union
@@ -59,6 +80,24 @@
 
     wCurrRoomGroupEntityDataAddr: ; $06
         dw
+.nextu
+    wCurrOamOffsetToFill: ; $04
+        db
+
+    wCurrDrawnEntityIdx: ; $05
+        db
+
+    wCurrDrawnEntityIdx_stateC: ; $06
+        db
+
+    wNumOamSpotsLeftThisFrame: ; $07
+        db
+.nextu
+    w004_3:
+        dsb 3
+
+    wCurrRoomUses2ndBGInternalPalettesSpecsGroup: ; $07
+        db
 .endu
 
 .union
@@ -92,22 +131,61 @@
 .nextu
     wSoundModeTextAddr: ; $08
         dw
+.nextu
+    wCurrEntitySpecGroupAnimationDataAddr: ; $08
+        dw
+.nextu
+    wCurrEntityOamSpecGroupAddr: ; $08
+        dw
+
+    wCurrEntityOamSpecIdxAddr: ; $0a
+        dw
+.nextu
+    wRoomGroupInternalPalettesAddr: ; $08
+        dw
+
+    .union
+        wRoomSectionInternalBGPalettesAddr: ; $0a
+            dw
+    .nextu
+        wRoomSectionInternalSprPalettesAddr: ; $0a
+            dw
+    .endu
 .endu
 
-wDoubleCurrGroup: ; $0c
+.union
+    wDoubleCurrGroup: ; $0c
+        db
+
+    wDoubleCurrSection: ; $0d
+        db
+
+    wDoubleCurrRoomIdx: ; $0e
+        db
+.nextu
+    wNumColoursLeftForCurrPalette: ; $0c
+        db
+
+    wNumInternalPalettesLeft: ; $0d
+        db
+
+    wRoomSectionSprPalettesAddrOffset: ; $0e
+        db
+.endu
+
+.union
+    wRoomSectionChrBanksDataOffset: ; $0f
+        db
+.nextu
+    wCurrEntitySpecGroupDoubled: ; $0f
+        db
+.endu
+
+wCurrDrawnEntityCachedAttr: ; $10
     db
 
-wDoubleCurrSection: ; $0d
-    db
-
-wDoubleCurrRoomIdx: ; $0e
-    db
-
-wRoomSectionChrBanksDataOffset: ; $0f
-    db
-
-w010:
-    dsb 8
+w011:
+    dsb 7
 
 wGameState: ; $18
     db
@@ -130,7 +208,7 @@ w01e:
 wRandomVal: ; $1f
     db
 
-w020:
+wCurrFrameStartingOamOffset: ; $20
     db
 
 wPrgBank_8000: ; $21
@@ -198,7 +276,10 @@ wBaseIRQCmpVal: ; $41
     db
 
 w042:
-    dsb 2
+    db
+
+wBaseIRQScanlineCmpVal: ; $43
+    db
 
 wIRQFuncAddr: ; $44
     dw
@@ -287,10 +368,10 @@ wIRQFuncIdx: ; $6d
 w06e:
     db
 
-wGameplayScrollX: ; $6f
+wGameplayScrollXWithinRoom: ; $6f
     db
 
-w070:
+wGameplayScrollXRoom: ; $70
     db
 
 wCurrRoomNumScreens: ; $71
@@ -321,8 +402,16 @@ w086:
 wCurrRoomEntityDataAddr: ; $98
     dw
 
+; b0 - related to stopwatch?
+
 w09a:
-    dsb $e0-$9a
+    dsb $b1-$9a
+
+wStaticLayoutBank: ; $b1
+    db
+
+w0b2:
+    dsb $e0-$b2
 
 wCurrInstrumentDataAddr: ; $e0
     dw
@@ -548,7 +637,7 @@ wInstrumentEnvelopeMultiplier: ; $3e1
 w3e4:
     dsb $400-$3e4
 
-wOamSpecIdx: ; $400
+wOamSpecIdxDoubled: ; $400
     dsb NUM_ENTITIES
 
 wEntityBaseY: ; $41c
@@ -560,7 +649,8 @@ wEntityBaseX: ; $438
 wEntityPaletteOverride: ; $454
     dsb NUM_ENTITIES
 
-w470:
+; bit 7 - invisible
+wEntityState: ; $470
     dsb NUM_ENTITIES
 
 wEntityOamSpecGroupDoubled: ; $48c
@@ -607,11 +697,14 @@ w57d:
     dsb $93-$7d
 
 ; todo: unknown size
-wEntityAnimationIdxes: ; $593
+wEntityOamSpecIdxBaseOffset: ; $593
     db
 
 w594:
-    dsb $c1-$94
+    dsb $aa-$94
+
+wEntityAnimationDefIdxInSpecGroup: ; $5aa
+    dsb $17
 
 ; which step in their AI to perform
 ; todo: trevor fall switch
@@ -652,11 +745,19 @@ wTimeSpecialDMCSoundPlayed: ; $6c8
 w6c9:
     dsb $780-$6c9
 
+; 6e0-76f
+
 wSoundModeSongSelected: ; $780
     db
 
 w781:
-    dsb $800-$781
+    dsb $f6-$81
+
+wHardMode: ; $7f6
+    db
+
+w7f7:
+    dsb $800-$7f7
 
 wramEnd:
     .db
@@ -686,6 +787,25 @@ wramEnd:
         db
 
     wCurrSubweaponOffset: ; $6021
+        db
+.endif
+
+.ifdef MID_STAGE_PALETTE_SWAP
+    wBackupInternalBGPalettes: ; $6022
+        dsb 9
+
+    wDimmerInternalBGPalettes: ; $602b
+        dsb 9
+
+    wBrighterInternalBGPalettes: ; $6034
+        dsb 9
+.endif
+
+.ifdef SCREEN_SHAKE
+    wOrigScreenShakeX: ; $603d
+        db
+
+    wIsShaking: ; $603e
         db
 .endif
 .ends

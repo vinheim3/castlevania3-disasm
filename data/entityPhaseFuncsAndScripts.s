@@ -1,10 +1,10 @@
 entityPhaseFuncsAddresses:
 	.dw entityPhaseFunc_00_setEntityAIIdxTo0
-	.dw entityPhaseFunc_01
+	.dw entityPhaseFunc_01_setStateNotMoving
 	.dw entityPhaseFunc_02
 	.dw entityPhaseFunc_03
 	.dw entityPhaseFunc_04_setPhase
-	.dw entityPhaseFunc_05
+	.dw entityPhaseFunc_05_facePlayer
 	.dw entityPhaseFunc_06
 	.dw entityPhaseFunc_07
 	.dw entityPhaseFunc_08
@@ -18,7 +18,7 @@ entityPhaseFuncsAddresses:
 	.dw entityPhaseFunc_10
 	.dw entityPhaseFunc_11
 	.dw entityPhaseFunc_12
-	.dw entityPhaseFunc_13
+	.dw entityPhaseFunc_13_animateGroupAndDefIdx
 	.dw entityPhaseFunc_14
 	.dw entityPhaseFunc_15
 	.dw entityPhaseFunc_16
@@ -29,7 +29,7 @@ entityPhaseFuncsAddresses:
 	.dw entityPhaseFunc_1b
 	.dw entityPhaseFunc_1c
 	.dw entityPhaseFunc_1d
-	.dw entityPhaseFunc_1e
+	.dw entityPhaseFunc_1e_moveToPlayerSetHorizSpeeds
 	.dw entityPhaseFunc_1f
 	.dw entityPhaseFunc_20
 	.dw entityPhaseFunc_21
@@ -41,8 +41,8 @@ entityPhaseFuncsAddresses:
 	.dw entityPhaseFunc_27_end
 	.dw entityPhaseFunc_28
 	.dw entityPhaseFunc_29
-	.dw entityPhaseFunc_2a
-	.dw entityPhaseFunc_2b
+	.dw entityPhaseFunc_2a_setStateMoving
+	.dw entityPhaseFunc_2b_reverseHorizontally
 	.dw entityPhaseFunc_2c
 	.dw entityPhaseFunc_2d
 	.dw entityPhaseFunc_2e
@@ -82,8 +82,8 @@ entityPhaseFuncsAddresses:
 	.dw entityPhaseFunc_50
 	.dw entityPhaseFunc_51
 	.dw entityPhaseFunc_52
-	.dw entityPhaseFunc_53
-	.dw entityPhaseFunc_54
+	.dw entityPhaseFunc_53_setStateNotIllusion
+	.dw entityPhaseFunc_54_setStateIllusion
 	.dw entityPhaseFunc_55
 	.dw entityPhaseFunc_56
 	.dw entityPhaseFunc_57
@@ -97,7 +97,7 @@ entityPhaseFuncsAddresses:
 	.dw entityPhaseFunc_5f
 	.dw entityPhaseFunc_60
 	.dw entityPhaseFunc_61
-	.dw entityPhaseFunc_62
+	.dw entityPhaseFunc_62_addOffsetsToXY
 	.dw entityPhaseFunc_63
 	.dw entityPhaseFunc_64
 	.dw entityPhaseFunc_65
@@ -180,27 +180,27 @@ entityScriptsAddresses:
 	.dw entityScripts_04
 	.dw entityScripts_05
 	.dw entityScripts_06
-	.dw $a618
-	.dw $a8d4
-	.dw data_17_0910
-	.dw $aa10
-	.dw $aa48
-	.dw $aa84
-	.dw $aad0
-	.dw $a6ec
-	.dw $aaf4
-	.dw $ab68
-	.dw $a82c
-	.dw $a670
+	.dw entityScripts_07
+	.dw entityScripts_08
+	.dw entityScripts_09
+	.dw entityScripts_0a
+	.dw entityScripts_0b
+	.dw entityScripts_0c
+	.dw entityScripts_0d
+	.dw entityScripts_0e
+	.dw entityScripts_0f
+	.dw entityScripts_10
+	.dw entityScripts_11
+	.dw entityScripts_12
 	.dw entityScripts_13
-	.dw $ac50
+	.dw entityScripts_14
 	.dw entityScripts_stub
-	.dw $af50
-	.dw $a940
-	.dw data_17_0ff8
-	.dw data_17_100c
-	.dw $b01c
-	.dw $b030
+	.dw entityScripts_16
+	.dw entityScripts_17
+	.dw entityScripts_18
+	.dw entityScripts_19
+	.dw entityScripts_1a
+	.dw entityScripts_1b
 	.dw $abb0
 	.dw $af0c
 	.dw $a640
@@ -287,7 +287,7 @@ entityScriptsAddresses:
 	.dw $a58c
 	.dw $a5b8
 	.dw $a860
-	.dw data_17_0ff8
+	.dw entityScripts_72
 
 
 ; Scripts_00, Scripts_15, Scripts_1f
