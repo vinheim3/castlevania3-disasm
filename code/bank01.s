@@ -147,7 +147,7 @@ B1_00eb:		jsr $a41d		; 20 1d a4
 B1_00ee:		jmp updateEntityXanimationFrame		; 4c 75 ef
 
 
-B1_00f1:		jsr func_1f_0666		; 20 66 e6
+B1_00f1:		jsr setVerticalMirroringAndNoIRQsetup		; 20 66 e6
 B1_00f4:		lda #$44		; a9 44
 B1_00f6:		sta wNametableMapping			; 85 25
 B1_00f8:		lda wPPUCtrl			; a5 ff
@@ -209,14 +209,21 @@ B1_0145:		.db $00				; 00
 B1_0146:		.db $00				; 00
 B1_0147:	.db $0d $00 $00
 B1_014a:		asl $0200		; 0e 00 02
-B1_014d:		ror a			; 6a
-B1_014e:		tsx				; ba 
-B1_014f:		ldx $fcbb, y	; be bb fc
-B1_0152:		lda $ba5e, y	; b9 5e ba
-B1_0155:	.db $80
-B1_0156:		bit $2fc8		; 2c c8 2f
-B1_0159:		.db $00				; 00
-B1_015a:		rol $2fe0		; 2e e0 2f
+
+
+customAddrLargeLayouts:
+	.dw largeLayout0e+2
+	.dw largeLayout14+2
+	.dw largeLayout10+2
+	.dw largeLayout12+2
+
+customAddrLargeLayoutPPUDests:
+	.dw $2c80
+	.dw $2fc8
+	.dw $2e00
+	.dw $2fe0
+
+data_01_015d:
 B1_015d:	.db $0c
 B1_015e:		inc $1c0c, x	; fe 0c 1c
 B1_0161:		;removed
@@ -227,10 +234,14 @@ B1_0164:	.db $1c
 B1_0165:		asl $1014		; 0e 14 10
 B1_0168:	.db $12
 B1_0169:	.db $ff
+
+data_01_016a:
 B1_016a:		.db $00				; 00
 B1_016b:	.db $02
 B1_016c:		.db $00				; 00
 B1_016d:	.db $07
+
+data_01_016e:
 B1_016e:	.db $44
 B1_016f:	.db $44
 B1_0170:	.db $44
@@ -238,25 +249,27 @@ B1_0171:		bvc B1_0120 ; 50 ad
 
 B1_0173:		inc $2907		; ee 07 29
 B1_0176:	.db $03
+
+
 B1_0177:		tay				; a8 
-B1_0178:		lda $a16a, y	; b9 6a a1
+B1_0178:		lda data_01_016a.w, y	; b9 6a a1
 B1_017b:		sta $10			; 85 10
-B1_017d:		lda $a16e, y	; b9 6e a1
+B1_017d:		lda data_01_016e.w, y	; b9 6e a1
 B1_0180:		sta wNametableMapping			; 85 25
 B1_0182:		sta NAMETABLE_MAPPING.w		; 8d 05 51
+
 B1_0185:		ldy $10			; a4 10
 B1_0187:		lda #$8a		; a9 8a
-B1_0189:		ldx $a15d, y	; be 5d a1
+B1_0189:		ldx data_01_015d.w, y	; be 5d a1
 B1_018c:		bmi B1_019c ; 30 0e
 
 B1_018e:		cpx #$0c		; e0 0c
 B1_0190:		bne B1_0194 ; d0 02
 
 B1_0192:		lda #$98		; a9 98
-B1_0194:		jsr func_1f_0bd5		; 20 d5 eb
+B1_0194:		jsr loadLargeLayoutDoubledXbankA		; 20 d5 eb
 B1_0197:		inc $10			; e6 10
-B1_0199:		jmp $a185		; 4c 85 a1
-
+B1_0199:		jmp B1_0185		; 4c 85 a1
 
 B1_019c:		cpx #$ff		; e0 ff
 B1_019e:		bcs B1_01c6 ; b0 26
@@ -264,15 +277,22 @@ B1_019e:		bcs B1_01c6 ; b0 26
 B1_01a0:		lda #$00		; a9 00
 B1_01a2:		sta $10			; 85 10
 B1_01a4:		ldy $10			; a4 10
-B1_01a6:		lda $a14d, y	; b9 4d a1
-B1_01a9:		sta $00			; 85 00
-B1_01ab:		lda $a14e, y	; b9 4e a1
-B1_01ae:		sta $01			; 85 01
-B1_01b0:		ldx $a155, y	; be 55 a1
-B1_01b3:		lda $a156, y	; b9 56 a1
+
+; get large layout address,
+B1_01a6:		lda customAddrLargeLayouts.w, y	; b9 4d a1
+B1_01a9:		sta wCurrLargeLayoutAddr			; 85 00
+B1_01ab:		lda customAddrLargeLayouts.w+1, y	; b9 4e a1
+B1_01ae:		sta wCurrLargeLayoutAddr+1			; 85 01
+
+; dest,
+B1_01b0:		ldx customAddrLargeLayoutPPUDests.w, y	; be 55 a1
+B1_01b3:		lda customAddrLargeLayoutPPUDests.w+1, y	; b9 56 a1
 B1_01b6:		tay				; a8 
+
+; and bank
 B1_01b7:		lda #$8a		; a9 8a
-B1_01b9:		jsr $ebe0		; 20 e0 eb
+B1_01b9:		jsr loadLargeLayoutPPUAddrYXBankAfromCustomAddr		; 20 e0 eb
+
 B1_01bc:		inc $10			; e6 10
 B1_01be:		inc $10			; e6 10
 B1_01c0:		lda $10			; a5 10
@@ -287,8 +307,10 @@ B1_01cd:		lda #$17		; a9 17
 B1_01cf:		jmp displayStaticLayoutA		; 4c e9 ec
 
 
+;
 B1_01d2:		jsr $a1e0		; 20 e0 a1
-B1_01d5:		lda #$7f		; a9 7f
+
+B1_01d5:		lda #CB_EMPTY		; a9 7f
 B1_01d7:		sta wChrBankBG_0000			; 85 4a
 B1_01d9:		sta wChrBankBG_0400			; 85 4b
 B1_01db:		sta wChrBankBG_0800			; 85 4c
@@ -588,7 +610,7 @@ B1_03a8:		sta $10			; 85 10
 B1_03aa:		jmp $a272		; 4c 72 a2
 
 
-B1_03ad:		ldy $3b			; a4 3b
+B1_03ad:		ldy wCurrCharacterIdx			; a4 3b
 B1_03af:	.db $b9 $39 $00
 B1_03b2:		tay				; a8 
 B1_03b3:		ldx #$01		; a2 01
@@ -632,7 +654,7 @@ B1_03fe:		bne B1_0433 ; d0 33
 B1_0400:		ldy $3a			; a4 3a
 B1_0402:		bmi B1_0433 ; 30 2f
 
-B1_0404:		lda $3b			; a5 3b
+B1_0404:		lda wCurrCharacterIdx			; a5 3b
 B1_0406:		beq B1_040a ; f0 02
 
 B1_0408:		ldy #$00		; a0 00
@@ -727,7 +749,7 @@ B1_0494:		adc ($f2), y	; 71 f2
 B1_0496:	.db $52
 B1_0497:	.db $14
 B1_0498:	.db $14
-B1_0499:		ora wCurrScrollXWithinRoom, x		; 15 56
+B1_0499:		ora wCurrScrollOffsetIntoRoomScreen, x		; 15 56
 B1_049b:		asl $00, x		; 16 00
 B1_049d:		.db $00				; 00
 B1_049e:		.db $00				; 00
@@ -760,12 +782,12 @@ B1_04c4:		lda wJoy1ButtonsPressed			; a5 28
 B1_04c6:		lda wCurrRoomGroup		; a5 32
 B1_04c8:		lda wBaseIRQScanlineCmpVal			; a5 43
 B1_04ca:		lda wCurrRoomGroup		; a5 32
-B1_04cc:		lda $39			; a5 39
+B1_04cc:		lda wUsableChars			; a5 39
 B1_04ce:		lda wCurrRoomGroup		; a5 32
-B1_04d0:		lda $39			; a5 39
+B1_04d0:		lda wUsableChars			; a5 39
 B1_04d2:		lda wBaseIRQScanlineCmpVal			; a5 43
 B1_04d4:		lda $4a			; a5 4a
-B1_04d6:		lda $51			; a5 51
+B1_04d6:		lda wRoomMetaTilesAddr+1			; a5 51
 B1_04d8:		lda $58			; a5 58
 B1_04da:		lda $03			; a5 03
 B1_04dc:		ldy #$31		; a0 31
@@ -909,7 +931,7 @@ B1_05b4:		sei				; 78
 B1_05b5:	.db $22
 B1_05b6:	.db $d3
 
-.include "code/gameState8.s"
+.include "code/gameState8_betweenLevels.s"
 
 B1_13d3:	.db $ff
 B1_13d4:	.db $ff
@@ -973,9 +995,9 @@ B1_142c:		rts				; 60
 
 
 B1_142d:		lda #$00		; a9 00
-B1_142f:		sta wCurrScrollXWithinRoom			; 85 56
+B1_142f:		sta wCurrScrollOffsetIntoRoomScreen			; 85 56
 B1_1431:		lda #$02		; a9 02
-B1_1433:		sta wCurrScrollXRoom			; 85 57
+B1_1433:		sta wCurrScrollRoomScreen			; 85 57
 B1_1435:		rts				; 60 
 
 
@@ -1001,22 +1023,22 @@ B1_1455:		ldx #$10		; a2 10
 B1_1457:		stx $08			; 86 08
 B1_1459:		ldx #$f0		; a2 f0
 B1_145b:		lda #$fb		; a9 fb
-B1_145d:		jsr func_1f_1cdd		; 20 dd fc
+B1_145d:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B1_1460:		bne B1_1449 ; d0 e7
 
 B1_1462:		ldx #$f0		; a2 f0
 B1_1464:		lda #$05		; a9 05
-B1_1466:		jsr func_1f_1cdd		; 20 dd fc
+B1_1466:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B1_1469:		bne B1_1449 ; d0 de
 
 B1_146b:		ldx $08			; a6 08
 B1_146d:		lda #$fb		; a9 fb
-B1_146f:		jsr func_1f_1cdd		; 20 dd fc
+B1_146f:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B1_1472:		bne B1_147e ; d0 0a
 
 B1_1474:		lda #$05		; a9 05
 B1_1476:		ldx $08			; a6 08
-B1_1478:		jsr func_1f_1cdd		; 20 dd fc
+B1_1478:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B1_147b:		bne B1_147e ; d0 01
 
 B1_147d:		rts				; 60 
@@ -1144,20 +1166,20 @@ B1_1554:		jmp $b82c		; 4c 2c b8
 
 B1_1557:		jsr $b82c		; 20 2c b8
 B1_155a:		lda #$02		; a9 02
-B1_155c:		sta $1c			; 85 1c
+B1_155c:		sta wCounterUntilCanShowSprBg			; 85 1c
 B1_155e:		inc $6b			; e6 6b
 B1_1560:		rts				; 60 
 
 
 B1_1561:		lda #$02		; a9 02
-B1_1563:		sta $1c			; 85 1c
-B1_1565:		jsr $e5ca		; 20 ca e5
+B1_1563:		sta wCounterUntilCanShowSprBg			; 85 1c
+B1_1565:		jsr set_2c_to_00h		; 20 ca e5
 B1_1568:		jsr $b3e3		; 20 e3 b3
 B1_156b:		lda #$00		; a9 00
 B1_156d:		sta wBaseIRQFuncIdx			; 85 3f
 B1_156f:		sta wIRQFuncIdx			; 85 6d
 B1_1571:		lda #$40		; a9 40
-B1_1573:		sta $3d			; 85 3d
+B1_1573:		sta wBossHealth			; 85 3d
 B1_1575:		jsr $fb85		; 20 85 fb
 B1_1578:		inc wCurrRoomSection			; e6 33
 B1_157a:		lda #$00		; a9 00
@@ -1334,11 +1356,11 @@ B1_168c:		beq B1_1699 ; f0 0b
 
 B1_168e:		lda #$04		; a9 04
 B1_1690:		sta $01			; 85 01
-B1_1692:		jsr vramQueueSet4bytesDestToCopy_noData		; 20 c6 e8
+B1_1692:		jsr vramQueueSetControlByte4_destToCopy_noData		; 20 c6 e8
 B1_1695:		ldy #$00		; a0 00
 B1_1697:		beq B1_16a5 ; f0 0c
 
-B1_1699:		jsr vramQueueSet5bytesDestToCopy_noData		; 20 c0 e8
+B1_1699:		jsr vramQueueSetControlByte5_destToCopy_noData		; 20 c0 e8
 B1_169c:		lda #$02		; a9 02
 B1_169e:		sta $01			; 85 01
 B1_16a0:		bne B1_1695 ; d0 f3
@@ -1602,9 +1624,9 @@ B1_1845:		lda wGameStateLoopCounter			; a5 1a
 B1_1847:		and #$02		; 29 02
 B1_1849:		tay				; a8 
 B1_184a:		lda $b855, y	; b9 55 b8
-B1_184d:		sta wCurrScrollXRoom			; 85 57
+B1_184d:		sta wCurrScrollRoomScreen			; 85 57
 B1_184f:		lda $b856, y	; b9 56 b8
-B1_1852:		sta wCurrScrollXWithinRoom			; 85 56
+B1_1852:		sta wCurrScrollOffsetIntoRoomScreen			; 85 56
 B1_1854:		rts				; 60 
 
 
@@ -1632,17 +1654,17 @@ B1_1874:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B1_1877:		bcc B1_187c ; 90 03
 
 B1_1879:		inc wEntityVertSpeed.w, x	; fe 20 05
-B1_187c:		lda $04c4, x	; bd c4 04
+B1_187c:		lda wEntityFractionalX.w, x	; bd c4 04
 B1_187f:		clc				; 18 
 B1_1880:		adc wEntityHorizSubSpeed.w, x	; 7d 09 05
-B1_1883:		sta $04c4, x	; 9d c4 04
+B1_1883:		sta wEntityFractionalX.w, x	; 9d c4 04
 B1_1886:		lda wEntityBaseX.w, x	; bd 38 04
 B1_1889:		adc wEntityHorizSpeed.w, x	; 7d f2 04
 B1_188c:		sta wEntityBaseX.w, x	; 9d 38 04
-B1_188f:		lda $04db, x	; bd db 04
+B1_188f:		lda wEntityFractionalY.w, x	; bd db 04
 B1_1892:		clc				; 18 
 B1_1893:		adc wEntityVertSubSpeed.w, x	; 7d 37 05
-B1_1896:		sta $04db, x	; 9d db 04
+B1_1896:		sta wEntityFractionalY.w, x	; 9d db 04
 B1_1899:		lda wEntityBaseY.w, x	; bd 1c 04
 B1_189c:		adc wEntityVertSpeed.w, x	; 7d 20 05
 B1_189f:		sta wEntityBaseY.w, x	; 9d 1c 04
@@ -1744,7 +1766,7 @@ B1_1933:		lda $ba12, y	; b9 12 ba
 B1_1936:		sta wVramQueueDest+1			; 85 62
 B1_1938:		lda $ba13, y	; b9 13 ba
 B1_193b:		sta wVramQueueDest			; 85 61
-B1_193d:		jsr vramQueueSet1byteDestToCopy_noData		; 20 b5 e8
+B1_193d:		jsr vramQueueSetControlByte1_destToCopy_noData		; 20 b5 e8
 B1_1940:		ldy $0785		; ac 85 07
 B1_1943:		iny				; c8 
 B1_1944:		tya				; 98 
@@ -1797,7 +1819,7 @@ B1_1995:		lda $b9fa, y	; b9 fa b9
 B1_1998:		sta wVramQueueDest+1			; 85 62
 B1_199a:		lda $b9fb, y	; b9 fb b9
 B1_199d:		sta wVramQueueDest			; 85 61
-B1_199f:		jsr vramQueueSet1byteDestToCopy_noData		; 20 b5 e8
+B1_199f:		jsr vramQueueSetControlByte1_destToCopy_noData		; 20 b5 e8
 B1_19a2:		lda $0785		; ad 85 07
 B1_19a5:		bne B1_19ab ; d0 04
 
@@ -1831,7 +1853,7 @@ B1_19d1:		sta wVramQueueDest			; 85 61
 B1_19d3:		bcc B1_19d7 ; 90 02
 
 B1_19d5:		inc $62			; e6 62
-B1_19d7:		jsr vramQueueSet1byteDestToCopy_noData		; 20 b5 e8
+B1_19d7:		jsr vramQueueSetControlByte1_destToCopy_noData		; 20 b5 e8
 B1_19da:		jmp $b9b5		; 4c b5 b9
 
 
@@ -2027,12 +2049,12 @@ B1_1aee:		beq B1_1adc ; f0 ec
 
 B1_1af0:		jsr $bb07		; 20 07 bb
 B1_1af3:		lda #$00		; a9 00
-B1_1af5:		sta $06e0, y	; 99 e0 06
+B1_1af5:		sta wCurrCollisionValues.w, y	; 99 e0 06
 B1_1af8:		beq B1_1adc ; f0 e2
 
 B1_1afa:		jsr $bb07		; 20 07 bb
 B1_1afd:		lda #$00		; a9 00
-B1_1aff:		sta $06e0, y	; 99 e0 06
+B1_1aff:		sta wCurrCollisionValues.w, y	; 99 e0 06
 B1_1b02:		sta $06e1, y	; 99 e1 06
 B1_1b05:		beq B1_1adc ; f0 d5
 
@@ -2045,7 +2067,7 @@ B1_1b0e:		jmp $bb08		; 4c 08 bb
 
 
 B1_1b11:		tay				; a8 
-B1_1b12:		lda data_1f_1d4c.w, y	; b9 4c fd
+B1_1b12:		lda mult0chTable.w, y	; b9 4c fd
 B1_1b15:		clc				; 18 
 B1_1b16:		adc $0c			; 65 0c
 B1_1b18:		tay				; a8 
@@ -2063,7 +2085,7 @@ B1_1b27:		lda #$35		; a9 35
 B1_1b29:		jsr playSound		; 20 5f e2
 B1_1b2c:		lda wEntityBaseX.w		; ad 38 04
 B1_1b2f:		clc				; 18 
-B1_1b30:		adc wCurrScrollXWithinRoom			; 65 56
+B1_1b30:		adc wCurrScrollOffsetIntoRoomScreen			; 65 56
 B1_1b32:		sta $00			; 85 00
 B1_1b34:		lda #$00		; a9 00
 B1_1b36:		adc $57			; 65 57
@@ -2301,7 +2323,7 @@ B1_1c8f:		bne B1_1c93 ; d0 02
 
 B1_1c91:		lda #$27		; a9 27
 B1_1c93:		sta wVramQueueDest+1			; 85 62
-B1_1c95:		jsr vramQueueSet1byteDestToCopy_noData		; 20 b5 e8
+B1_1c95:		jsr vramQueueSetControlByte1_destToCopy_noData		; 20 b5 e8
 B1_1c98:		lda $00			; a5 00
 B1_1c9a:		sta wVramQueue.w, x	; 9d 00 03
 B1_1c9d:		inx				; e8 
@@ -2333,7 +2355,7 @@ B1_1cc7:		tay				; a8
 B1_1cc8:		lda $0784, x	; bd 84 07
 B1_1ccb:		and #$0f		; 29 0f
 B1_1ccd:		lsr a			; 4a
-B1_1cce:		ora data_1f_1d61.w, y	; 19 61 fd
+B1_1cce:		ora collisionPointScrollXRoomTimes8.w, y	; 19 61 fd
 B1_1cd1:		cmp #$0c		; c9 0c
 B1_1cd3:		bcc B1_1cda ; 90 05
 
@@ -2342,12 +2364,12 @@ B1_1cd7:		jmp $bcd1		; 4c d1 bc
 
 
 B1_1cda:		tay				; a8 
-B1_1cdb:		lda data_1f_1d4c.w, y	; b9 4c fd
+B1_1cdb:		lda mult0chTable.w, y	; b9 4c fd
 B1_1cde:		clc				; 18 
 B1_1cdf:		adc $00			; 65 00
 B1_1ce1:		tay				; a8 
 B1_1ce2:		lda #$88		; a9 88
-B1_1ce4:		sta $06e0, y	; 99 e0 06
+B1_1ce4:		sta wCurrCollisionValues.w, y	; 99 e0 06
 B1_1ce7:		rts				; 60 
 
 
@@ -2368,9 +2390,9 @@ B1_1cfe:		asl a			; 0a
 B1_1cff:		clc				; 18 
 B1_1d00:		adc #$c0		; 69 c0
 B1_1d02:		sta wVramQueueDest			; 85 61
-B1_1d04:		lda wCurrScrollXWithinRoom			; a5 56
+B1_1d04:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
 B1_1d06:		sta $0c			; 85 0c
-B1_1d08:		lda wCurrScrollXRoom			; a5 57
+B1_1d08:		lda wCurrScrollRoomScreen			; a5 57
 B1_1d0a:		lsr a			; 4a
 B1_1d0b:		ror $0c			; 66 0c
 B1_1d0d:		lsr a			; 4a
@@ -2465,7 +2487,7 @@ B1_1da0:		beq B1_1dc5 ; f0 23
 B1_1da2:		lda wVramQueueDest			; a5 61
 B1_1da4:		and #$08		; 29 08
 B1_1da6:		sta $01			; 85 01
-B1_1da8:		inc $61			; e6 61
+B1_1da8:		inc wVramQueueDest			; e6 61
 B1_1daa:		lda wVramQueueDest			; a5 61
 B1_1dac:		and #$08		; 29 08
 B1_1dae:		eor $01			; 45 01
@@ -2487,7 +2509,7 @@ B1_1dc2:		jmp $bdb2		; 4c b2 bd
 B1_1dc5:		rts				; 60 
 
 
-B1_1dc6:		jsr vramQueueSet1byteDestToCopy_noData		; 20 b5 e8
+B1_1dc6:		jsr vramQueueSetControlByte1_destToCopy_noData		; 20 b5 e8
 B1_1dc9:		lda ($0a), y	; b1 0a
 B1_1dcb:		sta wVramQueue.w, x	; 9d 00 03
 B1_1dce:		inx				; e8 

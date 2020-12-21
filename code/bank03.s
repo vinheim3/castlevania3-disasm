@@ -47,7 +47,7 @@ B3_07c1:	.db $04
 B3_07c2:		.db $ec
 
 
-func_03_07c3:
+handleGameIntroScrollingStoryScreen:
 	lda $07ec
 B3_07c6:		asl a			; 0a
 B3_07c7:		tay				; a8 
@@ -125,13 +125,13 @@ B3_084d:		lda #$00		; a9 00
 B3_084f:		sta wChrBankSpr_0000			; 85 46
 B3_0851:		lda #$01		; a9 01
 B3_0853:		sta wChrBankSpr_0400			; 85 47
-B3_0855:		jsr chrSwitch_0_to_c00_1400		; 20 3c e3
+B3_0855:		jsr updateSprChrBanks_0_to_c00_1400		; 20 3c e3
 B3_0858:		jsr func_03_0b73		; 20 73 ab
-B3_085b:		jsr func_1f_0bfd		; 20 fd eb
+B3_085b:		jsr fillFirst3NametablesWith0		; 20 fd eb
 B3_085e:		jsr $ae88		; 20 88 ae
 B3_0861:		ldx #$1e		; a2 1e
 B3_0863:		lda #$98		; a9 98
-B3_0865:		jsr func_1f_0bd5		; 20 d5 eb
+B3_0865:		jsr loadLargeLayoutDoubledXbankA		; 20 d5 eb
 B3_0868:		ldx #$00		; a2 00
 B3_086a:		jsr $ac7c		; 20 7c ac
 B3_086d:		lda #$55		; a9 55
@@ -311,7 +311,7 @@ B3_09a6:		sta $07ef		; 8d ef 07
 B3_09a9:		sta $07f0		; 8d f0 07
 B3_09ac:		lda #$7b		; a9 7b
 B3_09ae:		sta wChrBankSpr_0c00			; 85 49
-B3_09b0:		jsr chrSwitch_0_to_c00_1400		; 20 3c e3
+B3_09b0:		jsr updateSprChrBanks_0_to_c00_1400		; 20 3c e3
 B3_09b3:		lda #$0c		; a9 0c
 B3_09b5:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B3_09b8:		lda #$da		; a9 da
@@ -566,7 +566,7 @@ B3_0b67:		sta wGameSubstate			; 85 19
 B3_0b69:		lda wPPUCtrl			; a5 ff
 B3_0b6b:		and #$f0		; 29 f0
 B3_0b6d:		sta wPPUCtrl			; 85 ff
-B3_0b6f:		jsr func_1f_0bfd		; 20 fd eb
+B3_0b6f:		jsr fillFirst3NametablesWith0		; 20 fd eb
 B3_0b72:		rts				; 60 
 
 
@@ -993,7 +993,7 @@ B3_0e06:	.db $db
 B3_0e07:	.db $04
 B3_0e08:		sec				; 38 
 B3_0e09:		sbc #$00		; e9 00
-B3_0e0b:		sta $04db, x	; 9d db 04
+B3_0e0b:		sta wEntityFractionalY.w, x	; 9d db 04
 B3_0e0e:		lda wEntityBaseY.w, x	; bd 1c 04
 B3_0e11:		sbc #$04		; e9 04
 B3_0e13:		sta wEntityBaseY.w, x	; 9d 1c 04
@@ -1197,7 +1197,7 @@ B3_0f5f:		adc #$00		; 69 00
 B3_0f61:		sta $0787		; 8d 87 07
 B3_0f64:		rts				; 60 
 
-.include "code/gameStateAB.s"
+.include "code/gameStateAB_namePwScreens.s"
 
 func_03_1c8d:
 B3_1c8d:		lda wPlayerStateDoubled.w, x	; bd 65 05

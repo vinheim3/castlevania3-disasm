@@ -539,14 +539,14 @@ B4_02cd:		cmp $00			; c5 00
 B4_02cf:		bne B4_0314 ; d0 43
 
 B4_02d1:		lda $061d, x	; bd 1d 06
-B4_02d4:		ora $0606, x	; 1d 06 06
+B4_02d4:		ora wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 1d 06 06
 B4_02d7:		beq B4_0352 ; f0 79
 
-B4_02d9:		lda wCurrScrollXWithinRoom			; a5 56
+B4_02d9:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
 B4_02db:		clc				; 18 
 B4_02dc:		adc wEntityBaseX.w		; 6d 38 04
 B4_02df:		sta $00			; 85 00
-B4_02e1:		lda wCurrScrollXRoom			; a5 57
+B4_02e1:		lda wCurrScrollRoomScreen			; a5 57
 B4_02e3:		adc #$00		; 69 00
 B4_02e5:		sta $01			; 85 01
 B4_02e7:		ldy #$00		; a0 00
@@ -573,9 +573,9 @@ B4_0308:		lda #$01		; a9 01
 B4_030a:		sta $c8			; 85 c8
 B4_030c:		lda #$00		; a9 00
 B4_030e:		sta $061d, x	; 9d 1d 06
-B4_0311:		sta $0606, x	; 9d 06 06
+B4_0311:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B4_0314:		lda $061d, x	; bd 1d 06
-B4_0317:		ora $0606, x	; 1d 06 06
+B4_0317:		ora wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 1d 06 06
 B4_031a:		beq B4_0352 ; f0 36
 
 B4_031c:		dec $061d, x	; de 1d 06
@@ -583,7 +583,7 @@ B4_031f:		ldy $061d, x	; bc 1d 06
 B4_0322:		iny				; c8 
 B4_0323:		bne B4_0328 ; d0 03
 
-B4_0325:		dec $0606, x	; de 06 06
+B4_0325:		dec wEntityAlarmOrStartYforSinusoidalMovement.w, x	; de 06 06
 B4_0328:		jsr $83fe		; 20 fe 83
 B4_032b:		lda wEntityAI_idx.w, x	; bd ef 05
 B4_032e:		and #$7f		; 29 7f
@@ -608,7 +608,7 @@ B4_034a:		rts				; 60
 
 B4_034b:		lda #$0e		; a9 0e
 B4_034d:		ldy #$09		; a0 09
-B4_034f:		jmp setEntitySpecGroupA_animationDefIdxY_startAnimate		; 4c 5c ef
+B4_034f:		jmp setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 4c 5c ef
 
 
 B4_0352:		lda wEntityAI_idx.w, x	; bd ef 05
@@ -631,14 +631,14 @@ B4_036d:		dec $07ed		; ce ed 07
 B4_0370:		jsr $841b		; 20 1b 84
 B4_0373:		sta wEntityState.w, y	; 99 70 04
 B4_0376:		lda #$00		; a9 00
-B4_0378:		sta $0606, y	; 99 06 06
+B4_0378:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, y	; 99 06 06
 B4_037b:		sta $061d, y	; 99 1d 06
 B4_037e:		stx $17			; 86 17
 B4_0380:		tya				; 98 
 B4_0381:		tax				; aa 
 B4_0382:		lda #$0e		; a9 0e
 B4_0384:		ldy #$09		; a0 09
-B4_0386:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B4_0386:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B4_0389:		jsr updateEntityXanimationFrame		; 20 75 ef
 B4_038c:		lda #$01		; a9 01
 B4_038e:		jsr $9427		; 20 27 94
@@ -664,7 +664,7 @@ B4_03b2:		bne B4_03b6 ; d0 02
 B4_03b4:		lda #$0c		; a9 0c
 B4_03b6:		sta $061d, x	; 9d 1d 06
 B4_03b9:		lda #$00		; a9 00
-B4_03bb:		sta $0606, x	; 9d 06 06
+B4_03bb:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B4_03be:		rts				; 60 
 
 
@@ -734,7 +734,7 @@ B4_0420:		ora #$40		; 09 40
 B4_0422:		rts				; 60 
 
 
-B4_0423:		lda $0606, x	; bd 06 06
+B4_0423:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B4_0426:		bne B4_043a ; d0 12
 
 B4_0428:		lda wEntityBaseX.w, x	; bd 38 04
@@ -756,7 +756,7 @@ B4_0442:		bne B4_0447 ; d0 03
 B4_0444:		jmp $94e2		; 4c e2 94
 
 
-B4_0447:		lda $0606, x	; bd 06 06
+B4_0447:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B4_044a:		beq B4_0455 ; f0 09
 
 B4_044c:		ldy $0633, x	; bc 33 06
@@ -764,7 +764,7 @@ B4_044f:		lda wPlayerStateDoubled.w, y	; b9 65 05
 B4_0452:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B4_0455:		lda #$01		; a9 01
 B4_0457:		sta $0657, x	; 9d 57 06
-B4_045a:		lda $0606, x	; bd 06 06
+B4_045a:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B4_045d:		bne B4_0491 ; d0 32
 
 B4_045f:		lda $0645, x	; bd 45 06
@@ -795,7 +795,7 @@ B4_048a:		bcc B4_048e ; 90 02
 
 B4_048c:		lda #$60		; a9 60
 B4_048e:		sta wPlayerStateDoubled.w, x	; 9d 65 05
-B4_0491:		ldy $0606, x	; bc 06 06
+B4_0491:		ldy wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bc 06 06
 B4_0494:		lda $853f, y	; b9 3f 85
 B4_0497:		sta $00			; 85 00
 B4_0499:		and #$0f		; 29 0f
@@ -831,7 +831,7 @@ B4_04d6:		lda $8546, y	; b9 46 85
 B4_04d9:		sta $0c			; 85 0c
 B4_04db:		lda $0d			; a5 0d
 B4_04dd:		sec				; 38 
-B4_04de:		sbc wCurrScrollXWithinRoom			; e5 56
+B4_04de:		sbc wCurrScrollOffsetIntoRoomScreen			; e5 56
 B4_04e0:		sta $0d			; 85 0d
 B4_04e2:		lda $0c			; a5 0c
 B4_04e4:		sbc $57			; e5 57
@@ -857,7 +857,7 @@ B4_0509:		tay				; a8
 B4_050a:		lda $8527, y	; b9 27 85
 B4_050d:		tay				; a8 
 B4_050e:		lda #$0c		; a9 0c
-B4_0510:		jmp setEntitySpecGroupA_animationDefIdxY_startAnimate		; 4c 5c ef
+B4_0510:		jmp setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 4c 5c ef
 
 
 B4_0513:		lda #$84		; a9 84
@@ -871,7 +871,7 @@ B4_051d:		tay				; a8
 B4_051e:		lda $8530, y	; b9 30 85
 B4_0521:		tay				; a8 
 B4_0522:		lda #$0c		; a9 0c
-B4_0524:		jmp setEntitySpecGroupA_animationDefIdxY_startAnimate		; 4c 5c ef
+B4_0524:		jmp setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 4c 5c ef
 
 
 B4_0527:		asl $06			; 06 06
@@ -1188,10 +1188,10 @@ B4_06d2:		bne B4_06eb ; d0 17
 
 B4_06d4:		lda #$83		; a9 83
 B4_06d6:		jsr $8707		; 20 07 87
-B4_06d9:		inc $0606, x	; fe 06 06
-B4_06dc:		lda $0606, x	; bd 06 06
+B4_06d9:		inc wEntityAlarmOrStartYforSinusoidalMovement.w, x	; fe 06 06
+B4_06dc:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B4_06df:		and #$0f		; 29 0f
-B4_06e1:		sta $0606, x	; 9d 06 06
+B4_06e1:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B4_06e4:		tay				; a8 
 B4_06e5:		lda $86f7, y	; b9 f7 86
 B4_06e8:		sta $05d8, x	; 9d d8 05
@@ -1223,7 +1223,7 @@ B4_070c:		rts				; 60
 
 
 B4_070d:		sty $04			; 84 04
-B4_070f:		ldy $0606, x	; bc 06 06
+B4_070f:		ldy wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bc 06 06
 B4_0712:		lda wCurrRoomGroup		; a5 32
 B4_0714:		cmp #$0a		; c9 0a
 B4_0716:		bne B4_0723 ; d0 0b
@@ -1251,10 +1251,10 @@ B4_073f:		sta $0a			; 85 0a
 B4_0741:		lda wCurrRoomMetadataByte			; a5 68
 B4_0743:		bpl B4_0753 ; 10 0e
 
-B4_0745:		lda wCurrScrollXRoom			; a5 57
+B4_0745:		lda wCurrScrollRoomScreen			; a5 57
 B4_0747:		bne B4_0753 ; d0 0a
 
-B4_0749:		lda wCurrScrollXWithinRoom			; a5 56
+B4_0749:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
 B4_074b:		cmp #$90		; c9 90
 B4_074d:		bcs B4_0753 ; b0 04
 
@@ -1284,7 +1284,7 @@ B4_0772:		bmi B4_078d ; 30 19
 
 B4_0774:		lda $03			; a5 03
 B4_0776:		sec				; 38 
-B4_0777:		sbc wCurrScrollXWithinRoom			; e5 56
+B4_0777:		sbc wCurrScrollOffsetIntoRoomScreen			; e5 56
 B4_0779:		sta $03			; 85 03
 B4_077b:		lda $02			; a5 02
 B4_077d:		sbc $57			; e5 57
@@ -1314,7 +1314,7 @@ B4_07a8:		tya				; 98
 B4_07a9:		tax				; aa 
 B4_07aa:		lda $0c			; a5 0c
 B4_07ac:		ldy $0d			; a4 0d
-B4_07ae:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B4_07ae:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B4_07b1:		lda $08			; a5 08
 B4_07b3:		cmp #$08		; c9 08
 B4_07b5:		bne B4_07c3 ; d0 0c
@@ -1484,10 +1484,10 @@ B4_08a0:		jmp clearEntityHorizVertSpeeds		; 4c c8 fe
 
 B4_08a3:		clc				; 18 
 B4_08a4:		lda wEntityBaseY.w, x	; bd 1c 04
-B4_08a7:		adc wCurrScrollXWithinRoom			; 65 56
+B4_08a7:		adc wCurrScrollOffsetIntoRoomScreen			; 65 56
 B4_08a9:		and #$f0		; 29 f0
 B4_08ab:		sec				; 38 
-B4_08ac:		sbc wCurrScrollXWithinRoom			; e5 56
+B4_08ac:		sbc wCurrScrollOffsetIntoRoomScreen			; e5 56
 B4_08ae:		clc				; 18 
 B4_08af:		adc #$0b		; 69 0b
 B4_08b1:		sta wEntityBaseY.w, x	; 9d 1c 04
@@ -1508,7 +1508,7 @@ B4_08cc:		cmp wEntityBaseY.w, x	; dd 1c 04
 B4_08cf:		bcc B4_08d3 ; 90 02
 
 B4_08d1:		inc $00			; e6 00
-B4_08d3:		lda $0606, x	; bd 06 06
+B4_08d3:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B4_08d6:		cmp $00			; c5 00
 B4_08d8:		beq B4_08df ; f0 05
 
@@ -1516,7 +1516,7 @@ B4_08da:		lda #$11		; a9 11
 B4_08dc:		sta $0657, x	; 9d 57 06
 B4_08df:		lda #$01		; a9 01
 B4_08e1:		clc				; 18 
-B4_08e2:		adc $0606, x	; 7d 06 06
+B4_08e2:		adc wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 7d 06 06
 B4_08e5:		tay				; a8 
 B4_08e6:		jsr $93a8		; 20 a8 93
 B4_08e9:		bcs B4_08ec ; b0 01
@@ -1607,7 +1607,7 @@ B4_0968:		cmp #$22		; c9 22
 B4_096a:		beq B4_09c3 ; f0 57
 
 B4_096c:		jsr $944f		; 20 4f 94
-B4_096f:		lda $0606, x	; bd 06 06
+B4_096f:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B4_0972:		beq B4_097c ; f0 08
 
 B4_0974:		lda $00			; a5 00
@@ -1633,7 +1633,7 @@ B4_099b:		lda $8a04, y	; b9 04 8a
 B4_099e:		sta $01			; 85 01
 B4_09a0:		lda $8a07, y	; b9 07 8a
 B4_09a3:		ldy $01			; a4 01
-B4_09a5:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B4_09a5:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B4_09a8:		lda $00			; a5 00
 B4_09aa:		jmp $9427		; 4c 27 94
 
@@ -1681,7 +1681,7 @@ B4_09f3:		lda $8a04, y	; b9 04 8a
 B4_09f6:		sta $01			; 85 01
 B4_09f8:		lda $8a07, y	; b9 07 8a
 B4_09fb:		ldy $01			; a4 01
-B4_09fd:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B4_09fd:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B4_0a00:		rts				; 60 
 
 
@@ -1710,7 +1710,7 @@ B4_0a19:		lda wEntityState.w, x	; bd 70 04
 B4_0a1c:		and #$01		; 29 01
 B4_0a1e:		beq B4_0a76 ; f0 56
 
-B4_0a20:		ldy $0606, x	; bc 06 06
+B4_0a20:		ldy wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bc 06 06
 B4_0a23:		lda $8c07, y	; b9 07 8c
 B4_0a26:		beq B4_0a76 ; f0 4e
 
@@ -1721,7 +1721,7 @@ B4_0a2e:	.db $b9 $59 $00
 B4_0a31:		sta $00			; 85 00
 B4_0a33:	.db $b9 $5b $00
 B4_0a36:		sta $01			; 85 01
-B4_0a38:		ldy $0606, x	; bc 06 06
+B4_0a38:		ldy wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bc 06 06
 B4_0a3b:		lda $8c13, y	; b9 13 8c
 B4_0a3e:		cmp $00			; c5 00
 B4_0a40:		bne B4_0a76 ; d0 34
@@ -1741,7 +1741,7 @@ B4_0a53:		sta $0633, x	; 9d 33 06
 B4_0a56:		stx $16			; 86 16
 B4_0a58:		jsr $8ccf		; 20 cf 8c
 B4_0a5b:		ldx $16			; a6 16
-B4_0a5d:		ldy $0606, x	; bc 06 06
+B4_0a5d:		ldy wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bc 06 06
 B4_0a60:		lda $8c07, y	; b9 07 8c
 B4_0a63:		sta $12			; 85 12
 B4_0a65:		lda $8bef, y	; b9 ef 8b
@@ -1771,7 +1771,7 @@ B4_0a96:		bne B4_0aa0 ; d0 08
 B4_0a98:		lda wEntityState.w, x	; bd 70 04
 B4_0a9b:		and #$77		; 29 77
 B4_0a9d:		sta wEntityState.w, x	; 9d 70 04
-B4_0aa0:		lda $0606, x	; bd 06 06
+B4_0aa0:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B4_0aa3:		tay				; a8 
 B4_0aa4:		lda $8c07, y	; b9 07 8c
 B4_0aa7:		sta $12			; 85 12
@@ -1805,10 +1805,10 @@ B4_0adb:		jmp $8af1		; 4c f1 8a
 B4_0ade:		lda $05d8, x	; bd d8 05
 B4_0ae1:		bne B4_0ad5 ; d0 f2
 
-B4_0ae3:		lda $04db, x	; bd db 04
+B4_0ae3:		lda wEntityFractionalY.w, x	; bd db 04
 B4_0ae6:		sec				; 38 
 B4_0ae7:		sbc #$80		; e9 80
-B4_0ae9:		sta $04db, x	; 9d db 04
+B4_0ae9:		sta wEntityFractionalY.w, x	; 9d db 04
 B4_0aec:		lda wEntityBaseY.w, x	; bd 1c 04
 B4_0aef:		sbc #$00		; e9 00
 B4_0af1:		cmp $00			; c5 00
@@ -1845,10 +1845,10 @@ B4_0b2a:		jmp $8b40		; 4c 40 8b
 B4_0b2d:		lda $05d8, x	; bd d8 05
 B4_0b30:		bne B4_0b24 ; d0 f2
 
-B4_0b32:		lda $04db, x	; bd db 04
+B4_0b32:		lda wEntityFractionalY.w, x	; bd db 04
 B4_0b35:		clc				; 18 
 B4_0b36:		adc #$00		; 69 00
-B4_0b38:		sta $04db, x	; 9d db 04
+B4_0b38:		sta wEntityFractionalY.w, x	; 9d db 04
 B4_0b3b:		lda wEntityBaseY.w, x	; bd 1c 04
 B4_0b3e:		adc #$02		; 69 02
 B4_0b40:		cmp $01			; c5 01
@@ -1947,7 +1947,7 @@ B4_0be3:		bne B4_0be7 ; d0 02
 
 B4_0be5:		ldy #$3c		; a0 3c
 B4_0be7:		lda #$0c		; a9 0c
-B4_0be9:		jmp setEntitySpecGroupA_animationDefIdxY_startAnimate		; 4c 5c ef
+B4_0be9:		jmp setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 4c 5c ef
 
 
 B4_0bec:	.db $02
@@ -2013,7 +2013,7 @@ B4_0c28:		.db $00				; 00
 B4_0c29:		ora ($02, x)	; 01 02
 B4_0c2b:		lda $a3			; a5 a3
 B4_0c2d:		and #$03		; 29 03
-B4_0c2f:		ldy $0606, x	; bc 06 06
+B4_0c2f:		ldy wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bc 06 06
 B4_0c32:		cmp $8c1f, y	; d9 1f 8c
 B4_0c35:		beq B4_0c38 ; f0 01
 
@@ -2116,7 +2116,7 @@ B4_0ccb:		.db $00				; 00
 B4_0ccc:		.db $00				; 00
 B4_0ccd:		.db $00				; 00
 B4_0cce:		.db $00				; 00
-B4_0ccf:		lda $0606, x	; bd 06 06
+B4_0ccf:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B4_0cd2:		tay				; a8 
 B4_0cd3:		lda $8d79, y	; b9 79 8d
 B4_0cd6:		sta $07			; 85 07
@@ -2226,7 +2226,7 @@ B4_0d92:		and ($ac, x)	; 21 ac
 B4_0d94:		and $a9			; 25 a9
 B4_0d96:		.db $00				; 00
 B4_0d97:		sta $0657, x	; 9d 57 06
-B4_0d9a:		lda $0606, x	; bd 06 06
+B4_0d9a:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B4_0d9d:		bne B4_0dcd ; d0 2e
 
 B4_0d9f:		lda wEntityBaseX.w, x	; bd 38 04
@@ -2307,7 +2307,7 @@ B4_0e2c:		lda $8f26, y	; b9 26 8f
 B4_0e2f:		sta $00			; 85 00
 B4_0e31:		lda $8f27, y	; b9 27 8f
 B4_0e34:		sta $01			; 85 01
-B4_0e36:		lda $0606, x	; bd 06 06
+B4_0e36:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B4_0e39:		asl a			; 0a
 B4_0e3a:		tay				; a8 
 B4_0e3b:		lda ($00), y	; b1 00
@@ -2345,7 +2345,7 @@ B4_0e7e:		bcc B4_0e85 ; 90 05
 
 B4_0e80:		lda #$00		; a9 00
 B4_0e82:		sta wEntityFacingLeft.w, x	; 9d a8 04
-B4_0e85:		lda $0606, x	; bd 06 06
+B4_0e85:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B4_0e88:		beq B4_0ead ; f0 23
 
 B4_0e8a:		lda wPlayerStateDoubled.w, x	; bd 65 05
@@ -2367,7 +2367,7 @@ B4_0ea1:		clc				; 18
 B4_0ea2:		adc #$22		; 69 22
 B4_0ea4:		tay				; a8 
 B4_0ea5:		lda #$0c		; a9 0c
-B4_0ea7:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B4_0ea7:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B4_0eaa:		jmp updateEntityXanimationFrame		; 4c 75 ef
 
 
@@ -2386,7 +2386,7 @@ B4_0ec7:		lda #$01		; a9 01
 B4_0ec9:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B4_0ecc:		lda #$0c		; a9 0c
 B4_0ece:		ldy #$27		; a0 27
-B4_0ed0:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B4_0ed0:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B4_0ed3:		jmp updateEntityXanimationFrame		; 4c 75 ef
 
 
@@ -2403,7 +2403,7 @@ B4_0eea:		lda $8f08, y	; b9 08 8f
 B4_0eed:		sta $0c			; 85 0c
 B4_0eef:		lda $0d			; a5 0d
 B4_0ef1:		sec				; 38 
-B4_0ef2:		sbc wCurrScrollXWithinRoom			; e5 56
+B4_0ef2:		sbc wCurrScrollOffsetIntoRoomScreen			; e5 56
 B4_0ef4:		sta $0d			; 85 0d
 B4_0ef6:		lda $0c			; a5 0c
 B4_0ef8:		sbc $57			; e5 57
@@ -2830,7 +2830,7 @@ B4_1157:		sta $13			; 85 13
 B4_1159:		sta $11			; 85 11
 B4_115b:		lda #$00		; a9 00
 B4_115d:		sta $0657, x	; 9d 57 06
-B4_1160:		ldy $0606, x	; bc 06 06
+B4_1160:		ldy wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bc 06 06
 B4_1163:		lda $92bb, y	; b9 bb 92
 B4_1166:		beq B4_118a ; f0 22
 
@@ -2853,7 +2853,7 @@ B4_1184:		dec wPlayerStateDoubled.w, x	; de 65 05
 B4_1187:		jmp $91ac		; 4c ac 91
 
 
-B4_118a:		ldy $0606, x	; bc 06 06
+B4_118a:		ldy wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bc 06 06
 B4_118d:		lda $92af, y	; b9 af 92
 B4_1190:		beq B4_119e ; f0 0c
 
@@ -2875,14 +2875,14 @@ B4_11af:		beq B4_11c7 ; f0 16
 
 B4_11b1:		lda #$00		; a9 00
 B4_11b3:		sta $0669, x	; 9d 69 06
-B4_11b6:		ldy $0606, x	; bc 06 06
+B4_11b6:		ldy wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bc 06 06
 B4_11b9:		lda $92c7, y	; b9 c7 92
 B4_11bc:		tay				; a8 
 B4_11bd:		lda #$00		; a9 00
 B4_11bf:		sta $07ec, y	; 99 ec 07
 B4_11c2:		lda #$80		; a9 80
 B4_11c4:		sta $07ed, y	; 99 ed 07
-B4_11c7:		ldy $0606, x	; bc 06 06
+B4_11c7:		ldy wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bc 06 06
 B4_11ca:		lda $92af, y	; b9 af 92
 B4_11cd:		tay				; a8 
 B4_11ce:		lda $9303, y	; b9 03 93
@@ -2901,7 +2901,7 @@ B4_11e8:		sta $05			; 85 05
 B4_11ea:		lda $06			; a5 06
 B4_11ec:		eor #$01		; 49 01
 B4_11ee:		sta $06			; 85 06
-B4_11f0:		lda $0606, x	; bd 06 06
+B4_11f0:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B4_11f3:		asl a			; 0a
 B4_11f4:		tay				; a8 
 B4_11f5:		lda $92d3, y	; b9 d3 92
@@ -2928,7 +2928,7 @@ B4_121d:		jmp $922d		; 4c 2d 92
 
 B4_1220:		lda $0d			; a5 0d
 B4_1222:		sec				; 38 
-B4_1223:		sbc wCurrScrollXWithinRoom			; e5 56
+B4_1223:		sbc wCurrScrollOffsetIntoRoomScreen			; e5 56
 B4_1225:		sta $0d			; 85 0d
 B4_1227:		lda $0c			; a5 0c
 B4_1229:		sbc $57			; e5 57
@@ -2948,7 +2948,7 @@ B4_1247:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B4_124a:		lda #$00		; a9 00
 B4_124c:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
 B4_124f:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
-B4_1252:		lda $0606, x	; bd 06 06
+B4_1252:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B4_1255:		beq B4_1263 ; f0 0c
 
 B4_1257:		lda wEntityBaseY.w, x	; bd 1c 04
@@ -2987,7 +2987,7 @@ B4_1292:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B4_1295:		rts				; 60 
 
 
-B4_1296:		lda wCurrScrollXRoom			; a5 57
+B4_1296:		lda wCurrScrollRoomScreen			; a5 57
 B4_1298:		clc				; 18 
 B4_1299:		adc #$01		; 69 01
 B4_129b:		asl a			; 0a
@@ -2995,11 +2995,11 @@ B4_129c:		asl a			; 0a
 B4_129d:		asl a			; 0a
 B4_129e:		asl a			; 0a
 B4_129f:		sta $10			; 85 10
-B4_12a1:		lda wCurrScrollXWithinRoom			; a5 56
+B4_12a1:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
 B4_12a3:		sec				; 38 
 B4_12a4:		sbc $10			; e5 10
 B4_12a6:		sta $11			; 85 11
-B4_12a8:		lda wCurrScrollXRoom			; a5 57
+B4_12a8:		lda wCurrScrollRoomScreen			; a5 57
 B4_12aa:		sbc #$00		; e9 00
 B4_12ac:		sta $10			; 85 10
 B4_12ae:		rts				; 60 
@@ -3436,7 +3436,7 @@ B4_152d:		iny				; c8
 B4_152e:		lda ($02), y	; b1 02
 B4_1530:		tay				; a8 
 B4_1531:		lda $00			; a5 00
-B4_1533:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B4_1533:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B4_1536:		jmp $946a		; 4c 6a 94
 
 
@@ -3588,15 +3588,15 @@ B4_1639:		lda $08			; a5 08
 B4_163b:		and #$10		; 29 10
 B4_163d:		beq B4_164a ; f0 0b
 
-B4_163f:		lda $06e0, y	; b9 e0 06
+B4_163f:		lda wCurrCollisionValues.w, y	; b9 e0 06
 B4_1642:		and #$f0		; 29 f0
-B4_1644:		sta $06e0, y	; 99 e0 06
+B4_1644:		sta wCurrCollisionValues.w, y	; 99 e0 06
 B4_1647:		jmp $9652		; 4c 52 96
 
 
-B4_164a:		lda $06e0, y	; b9 e0 06
+B4_164a:		lda wCurrCollisionValues.w, y	; b9 e0 06
 B4_164d:		and #$0f		; 29 0f
-B4_164f:		sta $06e0, y	; 99 e0 06
+B4_164f:		sta wCurrCollisionValues.w, y	; 99 e0 06
 B4_1652:		sta $0e			; 85 0e
 B4_1654:		jsr $9b00		; 20 00 9b
 B4_1657:		lda wCurrRoomGroup		; a5 32
@@ -3690,10 +3690,10 @@ B4_16f8:		txa				; 8a
 B4_16f9:		pha				; 48 
 B4_16fa:		lda wEntityBaseX.w, x	; bd 38 04
 B4_16fd:		clc				; 18 
-B4_16fe:		adc wCurrScrollXWithinRoom			; 65 56
+B4_16fe:		adc wCurrScrollOffsetIntoRoomScreen			; 65 56
 B4_1700:		sta $02			; 85 02
 B4_1702:		sta $08			; 85 08
-B4_1704:		lda wCurrScrollXRoom			; a5 57
+B4_1704:		lda wCurrScrollRoomScreen			; a5 57
 B4_1706:		adc #$00		; 69 00
 B4_1708:		asl $02			; 06 02
 B4_170a:		rol a			; 2a
@@ -3732,7 +3732,7 @@ B4_1742:		jmp $946a		; 4c 6a 94
 B4_1745:		lda wEntityOamSpecGroupDoubled.w, x	; bd 8c 04
 B4_1748:		ldy wEntityAnimationDefIdxInSpecGroup.w, x	; bc aa 05
 B4_174b:		iny				; c8 
-B4_174c:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B4_174c:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B4_174f:		ldy #$01		; a0 01
 B4_1751:		lda ($02), y	; b1 02
 B4_1753:		sta $00			; 85 00
@@ -3965,15 +3965,15 @@ B4_18d9:		lda $08			; a5 08
 B4_18db:		and #$10		; 29 10
 B4_18dd:		beq B4_18ea ; f0 0b
 
-B4_18df:		lda $06e0, y	; b9 e0 06
+B4_18df:		lda wCurrCollisionValues.w, y	; b9 e0 06
 B4_18e2:		and #$f0		; 29 f0
-B4_18e4:		sta $06e0, y	; 99 e0 06
+B4_18e4:		sta wCurrCollisionValues.w, y	; 99 e0 06
 B4_18e7:		jmp $98f2		; 4c f2 98
 
 
-B4_18ea:		lda $06e0, y	; b9 e0 06
+B4_18ea:		lda wCurrCollisionValues.w, y	; b9 e0 06
 B4_18ed:		and #$0f		; 29 0f
-B4_18ef:		sta $06e0, y	; 99 e0 06
+B4_18ef:		sta wCurrCollisionValues.w, y	; 99 e0 06
 B4_18f2:		jsr $99c4		; 20 c4 99
 B4_18f5:		lda $17			; a5 17
 B4_18f7:		sec				; 38 
@@ -4039,17 +4039,17 @@ B4_1963:		lda $08			; a5 08
 B4_1965:		and #$10		; 29 10
 B4_1967:		beq B4_1976 ; f0 0d
 
-B4_1969:		lda $06e0, y	; b9 e0 06
+B4_1969:		lda wCurrCollisionValues.w, y	; b9 e0 06
 B4_196c:		and #$f0		; 29 f0
 B4_196e:		ora #$08		; 09 08
-B4_1970:		sta $06e0, y	; 99 e0 06
+B4_1970:		sta wCurrCollisionValues.w, y	; 99 e0 06
 B4_1973:		jmp $9980		; 4c 80 99
 
 
-B4_1976:		lda $06e0, y	; b9 e0 06
+B4_1976:		lda wCurrCollisionValues.w, y	; b9 e0 06
 B4_1979:		and #$0f		; 29 0f
 B4_197b:		ora #$80		; 09 80
-B4_197d:		sta $06e0, y	; 99 e0 06
+B4_197d:		sta wCurrCollisionValues.w, y	; 99 e0 06
 B4_1980:		rts				; 60 
 
 
@@ -4243,11 +4243,11 @@ B4_1abb:		sta wEntityPhase.w, x	; 9d c1 05
 B4_1abe:		rts				; 60 
 
 
-B4_1abf:		lda $0606, x	; bd 06 06
+B4_1abf:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B4_1ac2:		clc				; 18 
 B4_1ac3:		adc #$01		; 69 01
 B4_1ac5:		and #$01		; 29 01
-B4_1ac7:		sta $0606, x	; 9d 06 06
+B4_1ac7:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B4_1aca:		jmp $946a		; 4c 6a 94
 
 
@@ -4298,7 +4298,7 @@ B4_1b18:		bne B4_1b2c ; d0 12
 
 B4_1b1a:		lda #$20		; a9 20
 B4_1b1c:		sta $01			; 85 01
-B4_1b1e:		lda wCurrScrollXRoom			; a5 57
+B4_1b1e:		lda wCurrScrollRoomScreen			; a5 57
 B4_1b20:		and #$01		; 29 01
 B4_1b22:		eor $75			; 45 75
 B4_1b24:		and #$01		; 29 01
@@ -4308,7 +4308,7 @@ B4_1b28:		lda #$24		; a9 24
 B4_1b2a:		sta $01			; 85 01
 B4_1b2c:		lda wEntityBaseX.w, x	; bd 38 04
 B4_1b2f:		clc				; 18 
-B4_1b30:		adc wCurrScrollXWithinRoom			; 65 56
+B4_1b30:		adc wCurrScrollOffsetIntoRoomScreen			; 65 56
 B4_1b32:		sta $00			; 85 00
 B4_1b34:		bcc B4_1b3f ; 90 09
 
@@ -4345,7 +4345,7 @@ B4_1b68:		rts				; 60
 
 B4_1b69:		lda wEntityBaseX.w, x	; bd 38 04
 B4_1b6c:		clc				; 18 
-B4_1b6d:		adc wCurrScrollXWithinRoom			; 65 56
+B4_1b6d:		adc wCurrScrollOffsetIntoRoomScreen			; 65 56
 B4_1b6f:		sta $00			; 85 00
 B4_1b71:		sta $08			; 85 08
 B4_1b73:		lda #$00		; a9 00
@@ -4682,7 +4682,7 @@ B4_1d6c:		iny				; c8
 B4_1d6d:		sty $07			; 84 07
 B4_1d6f:		lda $00			; a5 00
 B4_1d71:		sec				; 38 
-B4_1d72:		sbc wCurrScrollXWithinRoom			; e5 56
+B4_1d72:		sbc wCurrScrollOffsetIntoRoomScreen			; e5 56
 B4_1d74:		sta $02			; 85 02
 B4_1d76:		lda $01			; a5 01
 B4_1d78:		sbc $57			; e5 57
@@ -4690,7 +4690,7 @@ B4_1d7a:		sta $03			; 85 03
 B4_1d7c:		bpl B4_1daf ; 10 31
 
 B4_1d7e:		sec				; 38 
-B4_1d7f:		lda wCurrScrollXRoom			; a5 57
+B4_1d7f:		lda wCurrScrollRoomScreen			; a5 57
 B4_1d81:		sbc $01			; e5 01
 B4_1d83:		beq B4_1d94 ; f0 0f
 
@@ -4823,7 +4823,7 @@ B4_1e3e:		sta $00			; 85 00
 B4_1e40:		iny				; c8 
 B4_1e41:		lda $00			; a5 00
 B4_1e43:		sec				; 38 
-B4_1e44:		sbc wCurrScrollXWithinRoom			; e5 56
+B4_1e44:		sbc wCurrScrollOffsetIntoRoomScreen			; e5 56
 B4_1e46:		sta $02			; 85 02
 B4_1e48:		lda $01			; a5 01
 B4_1e4a:		sbc $57			; e5 57
@@ -4863,7 +4863,7 @@ B4_1e7e:		tay				; a8
 B4_1e7f:		jmp $9e33		; 4c 33 9e
 
 B4_1e82:		iny				; c8 
-B4_1e83:		ldx $6c			; a6 6c
+B4_1e83:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B4_1e85:		lda #$01		; a9 01
 B4_1e87:		sta $0782, x	; 9d 82 07
 B4_1e8a:		lda $9ea4		; ad a4 9e
@@ -4955,7 +4955,7 @@ B4_1eff:		iny				; c8
 B4_1f00:		sty $07			; 84 07
 B4_1f02:		lda $00			; a5 00
 B4_1f04:		sec				; 38 
-B4_1f05:		sbc wCurrScrollXWithinRoom			; e5 56
+B4_1f05:		sbc wCurrScrollOffsetIntoRoomScreen			; e5 56
 B4_1f07:		sta $02			; 85 02
 B4_1f09:		lda $01			; a5 01
 B4_1f0b:		sbc $57			; e5 57
@@ -4963,7 +4963,7 @@ B4_1f0d:		sta $03			; 85 03
 B4_1f0f:		bpl B4_1f42 ; 10 31
 
 B4_1f11:		sec				; 38 
-B4_1f12:		lda wCurrScrollXRoom			; a5 57
+B4_1f12:		lda wCurrScrollRoomScreen			; a5 57
 B4_1f14:		sbc $01			; e5 01
 B4_1f16:		beq B4_1f27 ; f0 0f
 
@@ -5094,7 +5094,7 @@ B4_1fcc:		sta $00			; 85 00
 B4_1fce:		iny				; c8 
 B4_1fcf:		lda $00			; a5 00
 B4_1fd1:		sec				; 38 
-B4_1fd2:		sbc wCurrScrollXWithinRoom			; e5 56
+B4_1fd2:		sbc wCurrScrollOffsetIntoRoomScreen			; e5 56
 B4_1fd4:		sta $02			; 85 02
 B4_1fd6:		lda $01			; a5 01
 B4_1fd8:		sbc $57			; e5 57

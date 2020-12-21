@@ -775,10 +775,10 @@ B23_08f7:		.db $00				; 00
 
 entityScripts_13:
 	sc_animateGroupAndDefIdx $08 $26
-	sc_moveToPlayerSetHorizSpeeds $00 $60
-	.db $1f $c0 $00 $00
-	.db $2f $00 $00 $00;
-	.db $6d $00 $00 $00;
+	sc_moveToPlayerSetHorizSpeeds $0060
+	sc_setAlarmOrStartYforSinusoidalMovement $c0
+	.db $2f $00 $00 $00 ; main logic
+	sc_tryToFall
 	sc_setPhase $01
 
 

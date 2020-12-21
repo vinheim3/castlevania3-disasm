@@ -13,6 +13,10 @@
 .define PS_START_CLIMB $10
 .define PS_STAIR_IDLE $12
 .define PS_STAIR_CLIMB $14
+.define PS_STANDING_ATTACK $18
+.define PS_JUMP_ATTACK $1a
+.define PS_DUCK_ATTACK $1c
+.define PS_STAIR_ATTACK $1e
 .define PS_STANDING_ITEM $20
 .define PS_JUMPING_ITEM $22
 .define PS_STAIR_ITEM $24

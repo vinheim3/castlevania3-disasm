@@ -1,10 +1,10 @@
 
 getCurrRoomXplus2_roomQuarterIdx:
 	clc
-	lda wCurrScrollXWithinRoom
+	lda wCurrScrollOffsetIntoRoomScreen
 	adc #$02
 	pha
-	lda wCurrScrollXRoom
+	lda wCurrScrollRoomScreen
 	adc #$00
 	sta wCurrRoomXQuarter
 	pla
@@ -12,9 +12,9 @@ getCurrRoomXplus2_roomQuarterIdx:
 
 
 getCurrRoomX_roomQuarterIdx:
-	lda wCurrScrollXRoom
+	lda wCurrScrollRoomScreen
 	sta wCurrRoomXQuarter
-	lda wCurrScrollXWithinRoom
+	lda wCurrScrollOffsetIntoRoomScreen
 
 +
 	asl a
@@ -71,7 +71,7 @@ B20_0058:		lda #$06		; a9 06
 B20_005a:		sta $0c			; 85 0c
 
 ; 08 is offset within room quarter
-B20_005c:		lda wCurrScrollXWithinRoom			; a5 56
+B20_005c:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
 B20_005e:		and #$3f		; 29 3f
 B20_0060:		sta $08			; 85 08
 
@@ -119,30 +119,30 @@ B20_0094:		ldy $6e			; a4 6e
 B20_0096:		cpy #$ff		; c0 ff
 B20_0098:		beq B20_00b9 ; f0 1f
 
-B20_009a:		lda wCurrScrollXWithinRoom			; a5 56
+B20_009a:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
 B20_009c:		and #$3f		; 29 3f
 B20_009e:		cmp #$3f		; c9 3f
 B20_00a0:		bne B20_00b9 ; d0 17
 
-B20_00a2:		lda wCurrScrollXWithinRoom			; a5 56
+B20_00a2:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
 B20_00a4:		clc				; 18 
 B20_00a5:		adc #$01		; 69 01
 B20_00a7:		jmp B20_00c1		; 4c c1 80
 
-B20_00aa:		lda wCurrScrollXWithinRoom			; a5 56
+B20_00aa:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
 B20_00ac:		and #$3f		; 29 3f
 B20_00ae:		cmp #$01		; c9 01
 B20_00b0:		bne B20_00b9 ; d0 07
 
-B20_00b2:		lda wCurrScrollXWithinRoom			; a5 56
+B20_00b2:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
 B20_00b4:		and #$fe		; 29 fe
 B20_00b6:		jmp B20_00c1		; 4c c1 80
 
-B20_00b9:		lda wCurrScrollXWithinRoom			; a5 56
+B20_00b9:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
 B20_00bb:		and #$3f		; 29 3f
 B20_00bd:		bne B20_0089 ; d0 ca
 
-B20_00bf:		lda wCurrScrollXWithinRoom			; a5 56
+B20_00bf:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
 
 B20_00c1:		cmp $77			; c5 77
 B20_00c3:		beq B20_0089 ; f0 c4
@@ -158,7 +158,7 @@ B20_00d2:		lda #$05		; a9 05
 B20_00d4:		ldy #$00		; a0 00
 B20_00d6:		sty $09			; 84 09
 B20_00d8:		sta $08			; 85 08
-B20_00da:		lda wCurrScrollXWithinRoom			; a5 56
+B20_00da:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
 B20_00dc:		and #$3f		; 29 3f
 B20_00de:		sta $0e			; 85 0e
 B20_00e0:		and #$20		; 29 20
@@ -365,16 +365,16 @@ B20_020a:		beq B20_025d ; f0 51
 B20_020c:		jsr $831d		; 20 1d 83
 B20_020f:		lda $0a			; a5 0a
 B20_0211:		sec				; 38 
-B20_0212:		sbc wCurrScrollXWithinRoom			; e5 56
+B20_0212:		sbc wCurrScrollOffsetIntoRoomScreen			; e5 56
 B20_0214:		sta $02			; 85 02
 B20_0216:		lda $09			; a5 09
-B20_0218:		sbc wCurrScrollXRoom			; e5 57
+B20_0218:		sbc wCurrScrollRoomScreen			; e5 57
 B20_021a:		sta $03			; 85 03
 B20_021c:		bmi B20_0253 ; 30 35
 
 B20_021e:		sec				; 38 
 B20_021f:		lda $09			; a5 09
-B20_0221:		sbc wCurrScrollXRoom			; e5 57
+B20_0221:		sbc wCurrScrollRoomScreen			; e5 57
 B20_0223:		beq B20_0235 ; f0 10
 
 B20_0225:		sec				; 38 
@@ -420,7 +420,7 @@ B20_0261:		rts				; 60
 
 
 func_14_0262:
-B20_0262:		lda wCurrScrollXWithinRoom			; a5 56
+B20_0262:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
 B20_0264:		and #$f0		; 29 f0
 B20_0266:		cmp $77			; c5 77
 B20_0268:		beq B20_0261 ; f0 f7
@@ -492,10 +492,10 @@ B20_02dd:		beq B20_02f1 ; f0 12
 B20_02df:		jsr $831d		; 20 1d 83
 B20_02e2:		lda $0a			; a5 0a
 B20_02e4:		sec				; 38 
-B20_02e5:		sbc wCurrScrollXWithinRoom			; e5 56
+B20_02e5:		sbc wCurrScrollOffsetIntoRoomScreen			; e5 56
 B20_02e7:		sta $02			; 85 02
 B20_02e9:		lda $09			; a5 09
-B20_02eb:		sbc wCurrScrollXRoom			; e5 57
+B20_02eb:		sbc wCurrScrollRoomScreen			; e5 57
 B20_02ed:		sta $03			; 85 03
 B20_02ef:		bpl B20_02f3 ; 10 02
 
@@ -505,7 +505,7 @@ B20_02f2:		rts				; 60
 
 B20_02f3:		sec				; 38 
 B20_02f4:		lda $09			; a5 09
-B20_02f6:		sbc wCurrScrollXRoom			; e5 57
+B20_02f6:		sbc wCurrScrollRoomScreen			; e5 57
 B20_02f8:		beq B20_030a ; f0 10
 
 B20_02fa:		sec				; 38 
@@ -874,7 +874,7 @@ B20_04f3:		lda $b2			; a5 b2
 B20_04f5:		bne B20_04fc ; d0 05
 
 B20_04f7:		jsr func_14_0505		; 20 05 85
-B20_04fa:		ldx $6c			; a6 6c
+B20_04fa:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B20_04fc:		jsr $83cd		; 20 cd 83
 B20_04ff:		inx				; e8 
 B20_0500:		cpx #$06		; e0 06
@@ -1035,20 +1035,20 @@ B20_05ff:		jsr $8dde		; 20 de 8d
 B20_0602:		lda wEntityBaseX.w, x	; bd 38 04
 B20_0605:		sta $08			; 85 08
 B20_0607:		txa				; 8a 
-B20_0608:		ldx $6c			; a6 6c
+B20_0608:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B20_060a:		sta $07e6, x	; 9d e6 07
 B20_060d:		ldy #$a4		; a0 a4
 B20_060f:		lda $08			; a5 08
 B20_0611:		jsr $fc16		; 20 16 fc
 B20_0614:		beq B20_0621 ; f0 0b
 
-B20_0616:		ldx $6c			; a6 6c
+B20_0616:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B20_0618:		lda $07e6, x	; bd e6 07
 B20_061b:		tax				; aa 
 B20_061c:		lda #$90		; a9 90
 B20_061e:		sta wEntityBaseY.w, x	; 9d 1c 04
 B20_0621:		lda #$81		; a9 81
-B20_0623:		ldx $6c			; a6 6c
+B20_0623:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B20_0625:		sta $07ce, x	; 9d ce 07
 B20_0628:		rts				; 60 
 
@@ -1065,7 +1065,7 @@ B20_0638:		jsr $8dde		; 20 de 8d
 B20_063b:		lda wEntityState.w, x	; bd 70 04
 B20_063e:		ora #$20		; 09 20
 B20_0640:		sta wEntityState.w, x	; 9d 70 04
-B20_0643:		ldx $6c			; a6 6c
+B20_0643:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B20_0645:		lda #$81		; a9 81
 B20_0647:		sta $07ce, x	; 9d ce 07
 B20_064a:		rts				; 60 
@@ -1094,7 +1094,7 @@ B20_0669:		jsr $89b7		; 20 b7 89
 B20_066c:		lda $85e4, y	; b9 e4 85
 B20_066f:		sta $00			; 85 00
 B20_0671:		jsr $8dde		; 20 de 8d
-B20_0674:		ldx $6c			; a6 6c
+B20_0674:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B20_0676:		lda #$47		; a9 47
 B20_0678:		sta $07ce, x	; 9d ce 07
 B20_067b:		rts				; 60 
@@ -1123,7 +1123,7 @@ B20_06a2:		sta $02			; 85 02
 B20_06a4:		lda #$66		; a9 66
 B20_06a6:		sta $03			; 85 03
 B20_06a8:		jsr $8dde		; 20 de 8d
-B20_06ab:		ldx $6c			; a6 6c
+B20_06ab:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B20_06ad:		lda #$41		; a9 41
 B20_06af:		sta $07ce, x	; 9d ce 07
 B20_06b2:		rts				; 60 
@@ -1329,7 +1329,7 @@ B20_07e3:		lda $87fd, y	; b9 fd 87
 B20_07e6:		adc wEntityBaseX.w		; 6d 38 04
 B20_07e9:		sta $00			; 85 00
 B20_07eb:		jsr $8dde		; 20 de 8d
-B20_07ee:		ldx $6c			; a6 6c
+B20_07ee:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B20_07f0:		lda #$47		; a9 47
 B20_07f2:		ldy wHardMode.w		; ac f6 07
 B20_07f5:		beq B20_07f9 ; f0 02
@@ -1671,7 +1671,7 @@ B20_09d0:		lsr a			; 4a
 B20_09d1:		lsr a			; 4a
 B20_09d2:		lsr a			; 4a
 B20_09d3:		lsr a			; 4a
-B20_09d4:		adc $1f			; 65 1f
+B20_09d4:		adc wRandomVal			; 65 1f
 B20_09d6:		and #$01		; 29 01
 B20_09d8:		tay				; a8 
 B20_09d9:		rts				; 60 
@@ -1787,14 +1787,14 @@ B20_0a7d:		bne B20_0a95 ; d0 16
 
 B20_0a7f:		jsr $8dde		; 20 de 8d
 B20_0a82:		stx $09			; 86 09
-B20_0a84:		ldx $6c			; a6 6c
+B20_0a84:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B20_0a86:		clc				; 18 
 B20_0a87:		ldy $07e6, x	; bc e6 07
 B20_0a8a:		lda $8aa2, y	; b9 a2 8a
 B20_0a8d:		adc $07da, x	; 7d da 07
 B20_0a90:		ldx $09			; a6 09
 B20_0a92:		sta wEntityBaseX.w, x	; 9d 38 04
-B20_0a95:		ldx $6c			; a6 6c
+B20_0a95:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B20_0a97:		dec $07e6, x	; de e6 07
 B20_0a9a:		bne B20_0a77 ; d0 db
 
@@ -1998,7 +1998,7 @@ B20_0bc7:		jsr $8bd5		; 20 d5 8b
 B20_0bca:		jmp $85de		; 4c de 85
 
 
-B20_0bcd:		ldx $6c			; a6 6c
+B20_0bcd:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B20_0bcf:		lda #$02		; a9 02
 B20_0bd1:		sta $07c8, x	; 9d c8 07
 B20_0bd4:		rts				; 60 
@@ -2011,7 +2011,7 @@ B20_0bdd:		lda $6c			; a5 6c
 B20_0bdf:		sta $0645, x	; 9d 45 06
 B20_0be2:		txa				; 8a 
 B20_0be3:		pha				; 48 
-B20_0be4:		ldx $6c			; a6 6c
+B20_0be4:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B20_0be6:		asl a			; 0a
 B20_0be7:		asl a			; 0a
 B20_0be8:		asl a			; 0a
@@ -2059,7 +2059,7 @@ B20_0c22:		jsr func_14_0dff		; 20 ff 8d
 B20_0c25:		jsr $9332		; 20 32 93
 B20_0c28:		jsr $e7ec		; 20 ec e7
 B20_0c2b:		txa				; 8a 
-B20_0c2c:		ldx $6c			; a6 6c
+B20_0c2c:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B20_0c2e:		sta $07e6, x	; 9d e6 07
 B20_0c31:		inc $07c8, x	; fe c8 07
 B20_0c34:		rts				; 60 
@@ -2070,14 +2070,14 @@ B20_0c38:		tax				; aa
 B20_0c39:		lda $054e, x	; bd 4e 05
 B20_0c3c:		bne B20_0c49 ; d0 0b
 
-B20_0c3e:		ldx $6c			; a6 6c
+B20_0c3e:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B20_0c40:		inc $07c8, x	; fe c8 07
 B20_0c43:		lda #$80		; a9 80
 B20_0c45:		sta $07ce, x	; 9d ce 07
 B20_0c48:		rts				; 60 
 
 
-B20_0c49:		ldx $6c			; a6 6c
+B20_0c49:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B20_0c4b:		rts				; 60 
 
 
@@ -2156,7 +2156,7 @@ B20_0cc5:		jsr $8dde		; 20 de 8d
 B20_0cc8:		jmp $85de		; 4c de 85
 
 
-B20_0ccb:		ldx $6c			; a6 6c
+B20_0ccb:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B20_0ccd:		lda #$02		; a9 02
 B20_0ccf:		sta $07c8, x	; 9d c8 07
 B20_0cd2:		rts				; 60 
@@ -2216,7 +2216,7 @@ B20_0d4f:		lda $6c			; a5 6c
 B20_0d51:		sta $0645, x	; 9d 45 06
 B20_0d54:		txa				; 8a 
 B20_0d55:		tay				; a8 
-B20_0d56:		ldx $6c			; a6 6c
+B20_0d56:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B20_0d58:		lda $07e6, x	; bd e6 07
 B20_0d5b:		sta $0633, y	; 99 33 06
 B20_0d5e:		jmp $85de		; 4c de 85
@@ -2229,7 +2229,7 @@ B20_0d62:		php				; 08
 B20_0d63:		sed				; f8 
 B20_0d64:		.db $00				; 00
 B20_0d65:	.db $ff
-B20_0d66:		lda wCurrScrollXWithinRoom			; a5 56
+B20_0d66:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
 B20_0d68:		bne B20_0d72 ; d0 08
 
 B20_0d6a:		lda $07e0, x	; bd e0 07
@@ -2441,12 +2441,12 @@ B20_0eb4:		inx				; e8
 B20_0eb5:		cpx #$0d		; e0 0d
 B20_0eb7:		bcc B20_0ea6 ; 90 ed
 
-B20_0eb9:		ldx $6c			; a6 6c
+B20_0eb9:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B20_0ebb:		lda #$00		; a9 00
 B20_0ebd:		rts				; 60 
 
 
-B20_0ebe:		ldx $6c			; a6 6c
+B20_0ebe:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B20_0ec0:		lda #$01		; a9 01
 B20_0ec2:		rts				; 60 
 
@@ -2493,10 +2493,10 @@ B20_0efb:		sta $07f3		; 8d f3 07
 B20_0efe:		ldx #$01		; a2 01
 B20_0f00:		jsr func_14_0dff		; 20 ff 8d
 B20_0f03:		jsr $9332		; 20 32 93
-B20_0f06:		sta $3d			; 85 3d
+B20_0f06:		sta wBossHealth			; 85 3d
 B20_0f08:		jsr $8f16		; 20 16 8f
 B20_0f0b:		jsr func_14_0f73		; 20 73 8f
-B20_0f0e:		ldx $6c			; a6 6c
+B20_0f0e:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B20_0f10:		inc $07c8, x	; fe c8 07
 B20_0f13:		stx $c3			; 86 c3
 B20_0f15:		rts				; 60 
@@ -2511,7 +2511,7 @@ B20_0f1c:		lda data_14_0f55.w, y	; b9 55 8f
 B20_0f1f:		sta wChrBankSpr_0800			; 85 48
 B20_0f21:		lda $8f64, y	; b9 64 8f
 B20_0f24:		sta wChrBankSpr_0c00			; 85 49
-B20_0f26:		jmp chrSwitch_0_to_c00_1400		; 4c 3c e3
+B20_0f26:		jmp updateSprChrBanks_0_to_c00_1400		; 4c 3c e3
 
 
 B20_0f29:		ldy $054e, x	; bc 4e 05
@@ -2578,7 +2578,7 @@ B20_0f76:		bcc B20_0fa7 ; 90 2f
 B20_0f78:		lda $054e, x	; bd 4e 05
 B20_0f7b:		sta $c1			; 85 c1
 B20_0f7d:		stx $0f			; 86 0f
-B20_0f7f:		jsr func_1f_0730		; 20 30 e7
+B20_0f7f:		jsr loadCurrRoomsInternalSprPalettes		; 20 30 e7
 B20_0f82:		ldx $0f			; a6 0f
 B20_0f84:		lda $c1			; a5 c1
 B20_0f86:		beq B20_0fa0 ; f0 18
@@ -2728,7 +2728,7 @@ B20_103c:		lda #$00		; a9 00
 B20_103e:		sta $17			; 85 17
 B20_1040:		jsr func_14_0dff		; 20 ff 8d
 B20_1043:		jsr $9332		; 20 32 93
-B20_1046:		sta $3d			; 85 3d
+B20_1046:		sta wBossHealth			; 85 3d
 B20_1048:		lda #$2d		; a9 2d
 B20_104a:		sta $03			; 85 03
 B20_104c:		lda #$80		; a9 80
@@ -2739,13 +2739,13 @@ B20_1054:		beq B20_105d ; f0 07
 
 B20_1056:		lda $16			; a5 16
 B20_1058:		sta $067b, x	; 9d 7b 06
-B20_105b:		sta $3d			; 85 3d
+B20_105b:		sta wBossHealth			; 85 3d
 B20_105d:		stx $10			; 86 10
 B20_105f:		lda $17			; a5 17
 B20_1061:		lsr a			; 4a
 B20_1062:		tay				; a8 
 B20_1063:		lda $17			; a5 17
-B20_1065:		sta $0606, x	; 9d 06 06
+B20_1065:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B20_1068:		and #$01		; 29 01
 B20_106a:		beq B20_1077 ; f0 0b
 
@@ -2775,7 +2775,7 @@ B20_1090:		ldx #$01		; a2 01
 B20_1092:		lda $15			; a5 15
 B20_1094:		sta $061d, x	; 9d 1d 06
 B20_1097:		jsr func_14_0f73		; 20 73 8f
-B20_109a:		ldx $6c			; a6 6c
+B20_109a:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B20_109c:		inc $07c8, x	; fe c8 07
 B20_109f:		rts				; 60 
 
@@ -2803,7 +2803,7 @@ B20_10b7:		sta $16			; 85 16
 B20_10b9:		jsr func_14_0dff		; 20 ff 8d
 B20_10bc:		jsr $9332		; 20 32 93
 B20_10bf:		lda #$40		; a9 40
-B20_10c1:		sta $3d			; 85 3d
+B20_10c1:		sta wBossHealth			; 85 3d
 B20_10c3:		lda $16			; a5 16
 B20_10c5:		sta $0645, x	; 9d 45 06
 B20_10c8:		dec $0645, x	; de 45 06
@@ -2814,7 +2814,7 @@ B20_10ce:		bne B20_10b9 ; d0 e9
 B20_10d0:		dex				; ca 
 B20_10d1:		jsr $8f16		; 20 16 8f
 B20_10d4:		jsr func_14_0f73		; 20 73 8f
-B20_10d7:		ldx $6c			; a6 6c
+B20_10d7:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B20_10d9:		inc $07c8, x	; fe c8 07
 B20_10dc:		rts				; 60 
 
@@ -2837,9 +2837,9 @@ B20_10f2:		lda #$00		; a9 00
 B20_10f4:		sta $16			; 85 16
 B20_10f6:		jsr func_14_0dff		; 20 ff 8d
 B20_10f9:		jsr $9332		; 20 32 93
-B20_10fc:		sta $3d			; 85 3d
+B20_10fc:		sta wBossHealth			; 85 3d
 B20_10fe:		lda $16			; a5 16
-B20_1100:		sta $0606, x	; 9d 06 06
+B20_1100:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B20_1103:		tay				; a8 
 B20_1104:		lda #$00		; a9 00
 B20_1106:		sta $17			; 85 17
@@ -2871,7 +2871,7 @@ B20_1133:		bne B20_10f6 ; d0 c1
 B20_1135:		dex				; ca 
 B20_1136:		jsr $8f16		; 20 16 8f
 B20_1139:		jsr func_14_0f73		; 20 73 8f
-B20_113c:		ldx $6c			; a6 6c
+B20_113c:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B20_113e:		inc $07c8, x	; fe c8 07
 B20_1141:		rts				; 60 
 
@@ -2899,12 +2899,12 @@ B20_1161:		sta $16			; 85 16
 B20_1163:		jsr func_14_0dff		; 20 ff 8d
 B20_1166:		jsr $9332		; 20 32 93
 B20_1169:		lda #$40		; a9 40
-B20_116b:		sta $3d			; 85 3d
+B20_116b:		sta wBossHealth			; 85 3d
 B20_116d:		lda $16			; a5 16
 B20_116f:		beq B20_1173 ; f0 02
 
 B20_1171:		lda #$02		; a9 02
-B20_1173:		sta $0606, x	; 9d 06 06
+B20_1173:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B20_1176:		asl a			; 0a
 B20_1177:		asl a			; 0a
 B20_1178:		asl a			; 0a
@@ -2925,7 +2925,7 @@ B20_1194:		bne B20_1163 ; d0 cd
 B20_1196:		dex				; ca 
 B20_1197:		jsr $8f16		; 20 16 8f
 B20_119a:		jsr func_14_0f73		; 20 73 8f
-B20_119d:		ldx $6c			; a6 6c
+B20_119d:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B20_119f:		inc $07c8, x	; fe c8 07
 B20_11a2:		rts				; 60 
 
@@ -2988,7 +2988,7 @@ B20_120b:		beq B20_1211 ; f0 04
 B20_120d:		dec $10			; c6 10
 B20_120f:		bne B20_11d6 ; d0 c5
 
-B20_1211:		ldx $6c			; a6 6c
+B20_1211:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B20_1213:		inc $07c8, x	; fe c8 07
 B20_1216:		rts				; 60 
 
@@ -3032,7 +3032,7 @@ B20_125d:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B20_1260:		dec $10			; c6 10
 B20_1262:		bpl B20_122a ; 10 c6
 
-B20_1264:		ldx $6c			; a6 6c
+B20_1264:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B20_1266:		inc $07c8, x	; fe c8 07
 B20_1269:		rts				; 60 
 

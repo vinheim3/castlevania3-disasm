@@ -26,7 +26,7 @@ B27_178b:		lsr a			; 4a
 B27_178c:		lsr a			; 4a
 B27_178d:		sta $12			; 85 12
 B27_178f:		tya				; 98 
-B27_1790:		ldy $57			; a4 57
+B27_1790:		ldy wCurrScrollRoomScreen			; a4 57
 B27_1792:		sec				; 38 
 B27_1793:		sbc #$30		; e9 30
 B27_1795:		bcs B27_179a ; b0 03
@@ -34,7 +34,7 @@ B27_1795:		bcs B27_179a ; b0 03
 B27_1797:		sbc #$0f		; e9 0f
 B27_1799:		dey				; 88 
 B27_179a:		clc				; 18 
-B27_179b:		adc wCurrScrollXWithinRoom			; 65 56
+B27_179b:		adc wCurrScrollOffsetIntoRoomScreen			; 65 56
 B27_179d:		bcs B27_17a3 ; b0 04
 
 B27_179f:		cmp #$f0		; c9 f0
@@ -130,7 +130,7 @@ B27_1842:		bne B27_1882 ; d0 3e
 B27_1844:		jsr $b891		; 20 91 b8
 B27_1847:		lda $0e			; a5 0e
 B27_1849:		and #$e0		; 29 e0
-B27_184b:		ldy $a5			; a4 a5
+B27_184b:		ldy wCollisionValIsForRightHalfOf32x16block			; a4 a5
 B27_184d:		beq B27_1851 ; f0 02
 
 B27_184f:		ora #$10		; 09 10
@@ -151,12 +151,12 @@ B27_1868:		asl a			; 0a
 B27_1869:		asl a			; 0a
 B27_186a:		asl a			; 0a
 B27_186b:		and #$e0		; 29 e0
-B27_186d:		ldy $a5			; a4 a5
+B27_186d:		ldy wCollisionValIsForRightHalfOf32x16block			; a4 a5
 B27_186f:		beq B27_1873 ; f0 02
 
 B27_1871:		ora #$10		; 09 10
 B27_1873:		sec				; 38 
-B27_1874:		sbc wCurrScrollXWithinRoom			; e5 56
+B27_1874:		sbc wCurrScrollOffsetIntoRoomScreen			; e5 56
 B27_1876:		sta wEntityBaseX.w, x	; 9d 38 04
 B27_1879:		lda wEntityBaseY.w		; ad 1c 04
 B27_187c:		clc				; 18 
@@ -182,7 +182,7 @@ B27_1894:		lda #$89		; a9 89
 B27_1896:		sta $054e, x	; 9d 4e 05
 B27_1899:		lda #$0c		; a9 0c
 B27_189b:		ldy #$00		; a0 00
-B27_189d:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B27_189d:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B27_18a0:		lda #$e8		; a9 e8
 B27_18a2:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B27_18a5:		lda #$01		; a9 01
@@ -237,7 +237,7 @@ B27_18ed:		rol $04			; 26 04
 B27_18ef:		ldx $04			; a6 04
 B27_18f1:		lda $11			; a5 11
 B27_18f3:		jsr $b932		; 20 32 b9
-B27_18f6:		ldx $a5			; a6 a5
+B27_18f6:		ldx wCollisionValIsForRightHalfOf32x16block			; a6 a5
 B27_18f8:		lda $0d			; a5 0d
 B27_18fa:		and $ba50, x	; 3d 50 ba
 B27_18fd:		cmp $ba50, x	; dd 50 ba
@@ -252,7 +252,7 @@ B27_1908:		lsr a			; 4a
 B27_1909:		lsr a			; 4a
 B27_190a:		sta $00			; 85 00
 B27_190c:		ldy $09			; a4 09
-B27_190e:		lda $06e0, y	; b9 e0 06
+B27_190e:		lda wCurrCollisionValues.w, y	; b9 e0 06
 B27_1911:		and $ba50, x	; 3d 50 ba
 B27_1914:		bne B27_1942 ; d0 2c
 
@@ -401,13 +401,13 @@ B27_1a02:		rol $14			; 26 14
 B27_1a04:		rts				; 60 
 
 
-B27_1a05:		lda $a5			; a5 a5
+B27_1a05:		lda wCollisionValIsForRightHalfOf32x16block			; a5 a5
 B27_1a07:		tax				; aa 
 B27_1a08:		ldy $09			; a4 09
-B27_1a0a:		lda $06e0, y	; b9 e0 06
+B27_1a0a:		lda wCurrCollisionValues.w, y	; b9 e0 06
 B27_1a0d:		and $ba50, x	; 3d 50 ba
 B27_1a10:		sta $00			; 85 00
-B27_1a12:		lda $06e0, y	; b9 e0 06
+B27_1a12:		lda wCurrCollisionValues.w, y	; b9 e0 06
 B27_1a15:		and $ba4e, x	; 3d 4e ba
 B27_1a18:		cmp $ba48, x	; dd 48 ba
 B27_1a1b:		bne B27_1a27 ; d0 0a
@@ -424,7 +424,7 @@ B27_1a2b:		jsr $ba52		; 20 52 ba
 B27_1a2e:		and $ba4e, x	; 3d 4e ba
 B27_1a31:		sta $0a			; 85 0a
 B27_1a33:		ora $00			; 05 00
-B27_1a35:		sta $06e0, y	; 99 e0 06
+B27_1a35:		sta wCurrCollisionValues.w, y	; 99 e0 06
 B27_1a38:		lda $0a			; a5 0a
 B27_1a3a:		cmp #$10		; c9 10
 B27_1a3c:		bcc B27_1a42 ; 90 04
@@ -621,7 +621,7 @@ B27_1b3e:		lda wEntityBaseY.w		; ad 1c 04
 B27_1b41:		sec				; 38 
 B27_1b42:		sbc #$20		; e9 20
 B27_1b44:		clc				; 18 
-B27_1b45:		adc wCurrScrollXWithinRoom			; 65 56
+B27_1b45:		adc wCurrScrollOffsetIntoRoomScreen			; 65 56
 B27_1b47:		bcs B27_1b4d ; b0 04
 
 B27_1b49:		cmp #$f0		; c9 f0
@@ -630,7 +630,7 @@ B27_1b4b:		bcc B27_1b50 ; 90 03
 B27_1b4d:		adc #$0f		; 69 0f
 B27_1b4f:		sec				; 38 
 B27_1b50:		sta $0b			; 85 0b
-B27_1b52:		lda wCurrScrollXRoom			; a5 57
+B27_1b52:		lda wCurrScrollRoomScreen			; a5 57
 B27_1b54:		adc #$00		; 69 00
 B27_1b56:		sta $07			; 85 07
 B27_1b58:		jmp $bb5f		; 4c 5f bb

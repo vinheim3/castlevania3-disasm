@@ -2,7 +2,7 @@ B19_0000:		iny				; c8
 B19_0001:		lda ($02), y	; b1 02
 B19_0003:		tay				; a8 
 B19_0004:		lda $00			; a5 00
-B19_0006:		jmp setEntitySpecGroupA_animationDefIdxY_startAnimate		; 4c 5c ef
+B19_0006:		jmp setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 4c 5c ef
 
 
 B19_0009:		jmp $873a		; 4c 3a 87
@@ -99,7 +99,7 @@ B19_0088:		lda $a0b5, y	; b9 b5 a0
 B19_008b:		sta $00			; 85 00
 B19_008d:		lda $a0b6, y	; b9 b6 a0
 B19_0090:		sta $01			; 85 01
-B19_0092:		lda $0606, x	; bd 06 06
+B19_0092:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B19_0095:		asl a			; 0a
 B19_0096:		tay				; a8 
 B19_0097:		lda ($00), y	; b1 00
@@ -239,7 +239,7 @@ B19_0163:		lda #$0c		; a9 0c
 B19_0165:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B19_0168:		lda #$10		; a9 10
 B19_016a:		ldy #$26		; a0 26
-B19_016c:		jsr $ef6e		; 20 6e ef
+B19_016c:		jsr setEntitySpecGroupA_animationDefIdxY_immediatelyAnimate		; 20 6e ef
 B19_016f:		lda $78			; a5 78
 B19_0171:		beq B19_0192 ; f0 1f
 
@@ -332,7 +332,7 @@ B19_0207:		jsr $8661		; 20 61 86
 B19_020a:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B19_020d:		lda #$10		; a9 10
 B19_020f:		ldy #$03		; a0 03
-B19_0211:		jsr $ef6e		; 20 6e ef
+B19_0211:		jsr setEntitySpecGroupA_animationDefIdxY_immediatelyAnimate		; 20 6e ef
 B19_0214:		lda #$31		; a9 31
 B19_0216:		jmp $864f		; 4c 4f 86
 
@@ -354,7 +354,7 @@ B19_022d:		jsr $870b		; 20 0b 87
 B19_0230:		bcc B19_0246 ; 90 14
 
 B19_0232:		txa				; 8a 
-B19_0233:		sta $0606, y	; 99 06 06
+B19_0233:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, y	; 99 06 06
 B19_0236:		lda $068d, x	; bd 8d 06
 B19_0239:		sta $068d, y	; 99 8d 06
 B19_023c:		lda #$80		; a9 80
@@ -555,7 +555,7 @@ B19_0379:		lda #$01		; a9 01
 B19_037b:		sta $0633, x	; 9d 33 06
 B19_037e:		lda #$0a		; a9 0a
 B19_0380:		ldy #$01		; a0 01
-B19_0382:		jsr $ef6e		; 20 6e ef
+B19_0382:		jsr setEntitySpecGroupA_animationDefIdxY_immediatelyAnimate		; 20 6e ef
 B19_0385:		lda #$0a		; a9 0a
 B19_0387:		jmp $864f		; 4c 4f 86
 
@@ -573,7 +573,7 @@ B19_039e:		jsr $8643		; 20 43 86
 B19_03a1:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B19_03a4:		lda #$0a		; a9 0a
 B19_03a6:		ldy #$00		; a0 00
-B19_03a8:		jsr $ef6e		; 20 6e ef
+B19_03a8:		jsr setEntitySpecGroupA_animationDefIdxY_immediatelyAnimate		; 20 6e ef
 B19_03ab:		lda #$0c		; a9 0c
 B19_03ad:		jmp $864f		; 4c 4f 86
 
@@ -585,7 +585,7 @@ B19_03b4:		lda #$13		; a9 13
 B19_03b6:		sta $0657, x	; 9d 57 06
 B19_03b9:		lda #$10		; a9 10
 B19_03bb:		ldy #$4b		; a0 4b
-B19_03bd:		jsr $ef6e		; 20 6e ef
+B19_03bd:		jsr setEntitySpecGroupA_animationDefIdxY_immediatelyAnimate		; 20 6e ef
 B19_03c0:		lda #$09		; a9 09
 B19_03c2:		jmp $864f		; 4c 4f 86
 
@@ -642,13 +642,13 @@ B19_0419:		jsr $8643		; 20 43 86
 B19_041c:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B19_041f:		lda #$0a		; a9 0a
 B19_0421:		ldy #$0d		; a0 0d
-B19_0423:		jsr $ef6e		; 20 6e ef
+B19_0423:		jsr setEntitySpecGroupA_animationDefIdxY_immediatelyAnimate		; 20 6e ef
 B19_0426:		lda #$01		; a9 01
 B19_0428:		bne B19_0441 ; d0 17
 
 B19_042a:		lda #$0a		; a9 0a
 B19_042c:		ldy #$04		; a0 04
-B19_042e:		jsr $ef6e		; 20 6e ef
+B19_042e:		jsr setEntitySpecGroupA_animationDefIdxY_immediatelyAnimate		; 20 6e ef
 B19_0431:		lda #$62		; a9 62
 B19_0433:		bne B19_0441 ; d0 0c
 
@@ -663,7 +663,7 @@ B19_0441:		jmp $864f		; 4c 4f 86
 
 B19_0444:		lda #$0a		; a9 0a
 B19_0446:		ldy #$04		; a0 04
-B19_0448:		jmp $ef6e		; 4c 6e ef
+B19_0448:		jmp setEntitySpecGroupA_animationDefIdxY_immediatelyAnimate		; 4c 6e ef
 
 
 B19_044b:		jsr $a4b6		; 20 b6 a4
@@ -680,7 +680,7 @@ B19_045d:		lda #$87		; a9 87
 B19_045f:		jsr $864f		; 20 4f 86
 B19_0462:		lda #$0a		; a9 0a
 B19_0464:		ldy #$05		; a0 05
-B19_0466:		jsr $ef6e		; 20 6e ef
+B19_0466:		jsr setEntitySpecGroupA_animationDefIdxY_immediatelyAnimate		; 20 6e ef
 B19_0469:		lda #$40		; a9 40
 B19_046b:		sta wEntityState.w, x	; 9d 70 04
 B19_046e:		lda wEntityBaseX.w, x	; bd 38 04
@@ -708,8 +708,8 @@ B19_0492:		rts				; 60
 
 B19_0493:		lda #$00		; a9 00
 B19_0495:		sta $0657, x	; 9d 57 06
-B19_0498:		ldy $0606, x	; bc 06 06
-B19_049b:		lda $0606, y	; b9 06 06
+B19_0498:		ldy wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bc 06 06
+B19_049b:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, y	; b9 06 06
 B19_049e:		beq B19_04aa ; f0 0a
 
 B19_04a0:		sec				; 38 
@@ -717,7 +717,7 @@ B19_04a1:		sbc #$01		; e9 01
 B19_04a3:		bcs B19_04a7 ; b0 02
 
 B19_04a5:		lda #$00		; a9 00
-B19_04a7:		sta $0606, y	; 99 06 06
+B19_04a7:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, y	; 99 06 06
 B19_04aa:		jsr $a4c3		; 20 c3 a4
 B19_04ad:		cmp #$32		; c9 32
 B19_04af:		beq B19_0492 ; f0 e1
@@ -755,7 +755,7 @@ B19_04da:		jsr $85ee		; 20 ee 85
 B19_04dd:		jsr $a4e7		; 20 e7 a4
 B19_04e0:		lda #$10		; a9 10
 B19_04e2:		ldy #$06		; a0 06
-B19_04e4:		jmp $ef6e		; 4c 6e ef
+B19_04e4:		jmp setEntitySpecGroupA_animationDefIdxY_immediatelyAnimate		; 4c 6e ef
 
 
 B19_04e7:		lda #$01		; a9 01
@@ -767,7 +767,7 @@ B19_04f1:		rts				; 60
 
 B19_04f2:		jsr $a500		; 20 00 a5
 B19_04f5:		lda #$00		; a9 00
-B19_04f7:		sta $0606, x	; 9d 06 06
+B19_04f7:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B19_04fa:		sta $05d8, x	; 9d d8 05
 B19_04fd:		jmp $a18a		; 4c 8a a1
 
@@ -859,7 +859,7 @@ B19_059e:		sec				; 38
 B19_059f:		sbc #$18		; e9 18
 B19_05a1:		sta wEntityBaseY.w, x	; 9d 1c 04
 B19_05a4:		jsr $a1de		; 20 de a1
-B19_05a7:		lda $3d			; a5 3d
+B19_05a7:		lda wBossHealth			; a5 3d
 B19_05a9:		sta $067b, x	; 9d 7b 06
 B19_05ac:		lda #$02		; a9 02
 B19_05ae:		jsr $88e0		; 20 e0 88
@@ -894,12 +894,12 @@ B19_05e4:		beq B19_0665 ; f0 7f
 
 B19_05e6:		lda #$00		; a9 00
 B19_05e8:		sta wEntityPaletteOverride.w, x	; 9d 54 04
-B19_05eb:		lda $0606, x	; bd 06 06
+B19_05eb:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B19_05ee:		beq B19_0636 ; f0 46
 
 B19_05f0:		lda #$20		; a9 20
 B19_05f2:		sta wEntityState.w, x	; 9d 70 04
-B19_05f5:		lda $0606, x	; bd 06 06
+B19_05f5:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B19_05f8:		and #$04		; 29 04
 B19_05fa:		beq B19_0600 ; f0 04
 
@@ -908,7 +908,7 @@ B19_05fe:		beq B19_0602 ; f0 02
 
 B19_0600:		lda #$02		; a9 02
 B19_0602:		sta wEntityPaletteOverride.w, x	; 9d 54 04
-B19_0605:		dec $0606, x	; de 06 06
+B19_0605:		dec wEntityAlarmOrStartYforSinusoidalMovement.w, x	; de 06 06
 B19_0608:		bne B19_0635 ; d0 2b
 
 B19_060a:		lda $067b, x	; bd 7b 06
@@ -918,7 +918,7 @@ B19_0610:		bcs B19_0614 ; b0 02
 
 B19_0612:		lda #$00		; a9 00
 B19_0614:		sta $067b, x	; 9d 7b 06
-B19_0617:		sta $3d			; 85 3d
+B19_0617:		sta wBossHealth			; 85 3d
 B19_0619:		ldy #$0d		; a0 0d
 B19_061b:		lda $054e, y	; b9 4e 05
 B19_061e:		cmp #$02		; c9 02
@@ -964,7 +964,7 @@ B19_065c:		cmp #$10		; c9 10
 B19_065e:		bcs B19_0665 ; b0 05
 
 B19_0660:		lda #$40		; a9 40
-B19_0662:		sta $0606, x	; 9d 06 06
+B19_0662:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B19_0665:		lda $07f3		; ad f3 07
 B19_0668:		cmp #$01		; c9 01
 B19_066a:		beq B19_0674 ; f0 08
@@ -992,7 +992,7 @@ B19_068b:		sta $054e, y	; 99 4e 05
 B19_068e:		sta wEntityAI_idx.w, y	; 99 ef 05
 B19_0691:		sta wOamSpecIdxDoubled.w, y	; 99 00 04
 B19_0694:		sta wEntityOamSpecGroupDoubled.w, y	; 99 8c 04
-B19_0697:		sta $0606, y	; 99 06 06
+B19_0697:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, y	; 99 06 06
 B19_069a:		sta $061d, y	; 99 1d 06
 B19_069d:		sta $0633, y	; 99 33 06
 B19_06a0:		sta $0645, y	; 99 45 06
@@ -1012,7 +1012,7 @@ B19_06b3:		jsr $8661		; 20 61 86
 B19_06b6:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B19_06b9:		lda #$10		; a9 10
 B19_06bb:		ldy #$06		; a0 06
-B19_06bd:		jsr $ef6e		; 20 6e ef
+B19_06bd:		jsr setEntitySpecGroupA_animationDefIdxY_immediatelyAnimate		; 20 6e ef
 B19_06c0:		lda #$2f		; a9 2f
 B19_06c2:		jmp $864f		; 4c 4f 86
 
@@ -1030,7 +1030,7 @@ B19_06d5:		lda $07f3		; ad f3 07
 B19_06d8:		ora #$81		; 09 81
 B19_06da:		sta $07f3		; 8d f3 07
 B19_06dd:		lda #$00		; a9 00
-B19_06df:		sta $0606, x	; 9d 06 06
+B19_06df:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B19_06e2:		sta $061d, x	; 9d 1d 06
 B19_06e5:		sta $0633, x	; 9d 33 06
 B19_06e8:		sta wEntityAI_idx.w, x	; 9d ef 05
@@ -1085,7 +1085,7 @@ B19_0741:		beq B19_0746 ; f0 03
 B19_0743:		jsr $a7e0		; 20 e0 a7
 B19_0746:		lda #$0a		; a9 0a
 B19_0748:		ldy #$08		; a0 08
-B19_074a:		jsr $ef6e		; 20 6e ef
+B19_074a:		jsr setEntitySpecGroupA_animationDefIdxY_immediatelyAnimate		; 20 6e ef
 B19_074d:		lda #$0e		; a9 0e
 B19_074f:		jmp $864f		; 4c 4f 86
 
@@ -1111,7 +1111,7 @@ B19_0768:		bcc B19_0779 ; 90 0f
 B19_076a:		jsr $a7e0		; 20 e0 a7
 B19_076d:		lda #$0a		; a9 0a
 B19_076f:		ldy #$06		; a0 06
-B19_0771:		jsr $ef6e		; 20 6e ef
+B19_0771:		jsr setEntitySpecGroupA_animationDefIdxY_immediatelyAnimate		; 20 6e ef
 B19_0774:		lda #$0d		; a9 0d
 B19_0776:		jmp $864f		; 4c 4f 86
 
@@ -1176,7 +1176,7 @@ B19_07ce:		jsr $8643		; 20 43 86
 B19_07d1:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B19_07d4:		lda #$0a		; a9 0a
 B19_07d6:		ldy #$07		; a0 07
-B19_07d8:		jsr $ef6e		; 20 6e ef
+B19_07d8:		jsr setEntitySpecGroupA_animationDefIdxY_immediatelyAnimate		; 20 6e ef
 B19_07db:		lda #$10		; a9 10
 B19_07dd:		jmp $864f		; 4c 4f 86
 
@@ -1404,7 +1404,7 @@ B19_093d:		bne B19_095b ; d0 1c
 
 B19_093f:		lda #$0a		; a9 0a
 B19_0941:		ldy #$20		; a0 20
-B19_0943:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B19_0943:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B19_0946:		lda #$46		; a9 46
 B19_0948:		jmp $864f		; 4c 4f 86
 
@@ -1425,7 +1425,7 @@ B19_0960:		lda #$04		; a9 04
 B19_0962:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B19_0965:		lda #$0a		; a9 0a
 B19_0967:		ldy #$1f		; a0 1f
-B19_0969:		jmp setEntitySpecGroupA_animationDefIdxY_startAnimate		; 4c 5c ef
+B19_0969:		jmp setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 4c 5c ef
 
 
 B19_096c:		lda #$40		; a9 40
@@ -1449,7 +1449,7 @@ B19_0990:		inx				; e8
 B19_0991:		rts				; 60 
 
 
-B19_0992:		lda $3d			; a5 3d
+B19_0992:		lda wBossHealth			; a5 3d
 B19_0994:		bne B19_0999 ; d0 03
 
 B19_0996:		jmp $e6a5		; 4c a5 e6
@@ -1466,7 +1466,7 @@ B19_09a4:		jmp $ab56		; 4c 56 ab
 
 B19_09a7:		lda #$ff		; a9 ff
 B19_09a9:		sta $ba			; 85 ba
-B19_09ab:		lda $0606, x	; bd 06 06
+B19_09ab:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B19_09ae:		bne B19_09b6 ; d0 06
 
 B19_09b0:		sta $07ec		; 8d ec 07
@@ -1537,19 +1537,19 @@ B19_0a22:		lda wEntityAI_idx.w, x	; bd ef 05
 B19_0a25:		and #$80		; 29 80
 B19_0a27:		sta wEntityAI_idx.w, x	; 9d ef 05
 B19_0a2a:		ldy #$04		; a0 04
-B19_0a2c:		lda $0606, x	; bd 06 06
+B19_0a2c:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B19_0a2f:		bne B19_0a33 ; d0 02
 
 B19_0a31:		ldy #$08		; a0 08
 B19_0a33:		sty $00			; 84 00
-B19_0a35:		lda $3d			; a5 3d
+B19_0a35:		lda wBossHealth			; a5 3d
 B19_0a37:		sec				; 38 
 B19_0a38:		sbc $00			; e5 00
 B19_0a3a:		bcs B19_0a3e ; b0 02
 
 B19_0a3c:		lda #$00		; a9 00
-B19_0a3e:		sta $3d			; 85 3d
-B19_0a40:		lda $0606, x	; bd 06 06
+B19_0a3e:		sta wBossHealth			; 85 3d
+B19_0a40:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B19_0a43:		cmp #$03		; c9 03
 B19_0a45:		bne B19_0a5d ; d0 16
 
@@ -1560,7 +1560,7 @@ B19_0a4c:		lda #$00		; a9 00
 B19_0a4e:		sta $07ec		; 8d ec 07
 B19_0a51:		ldy #$04		; a0 04
 B19_0a53:		lda #$0e		; a9 0e
-B19_0a55:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B19_0a55:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B19_0a58:		lda #$c8		; a9 c8
 B19_0a5a:		jmp $864f		; 4c 4f 86
 
@@ -1574,9 +1574,9 @@ B19_0a67:		rts				; 60
 
 B19_0a68:		lda #$04		; a9 04
 B19_0a6a:		jsr $8766		; 20 66 87
-B19_0a6d:		inc $0606, x	; fe 06 06
-B19_0a70:		lda $0606, x	; bd 06 06
-B19_0a73:		sta $0606, y	; 99 06 06
+B19_0a6d:		inc wEntityAlarmOrStartYforSinusoidalMovement.w, x	; fe 06 06
+B19_0a70:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
+B19_0a73:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, y	; 99 06 06
 B19_0a76:		lda #$40		; a9 40
 B19_0a78:		sta wEntityState.w, y	; 99 70 04
 B19_0a7b:		lda #$00		; a9 00
@@ -1597,7 +1597,7 @@ B19_0a9d:		jmp $ab29		; 4c 29 ab
 
 
 B19_0aa0:		jsr $a1de		; 20 de a1
-B19_0aa3:		lda $0606, x	; bd 06 06
+B19_0aa3:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B19_0aa6:		asl a			; 0a
 B19_0aa7:		tay				; a8 
 B19_0aa8:		lda $ab86, y	; b9 86 ab
@@ -1606,7 +1606,7 @@ B19_0aad:		lda $ab87, y	; b9 87 ab
 B19_0ab0:		ldy $00			; a4 00
 B19_0ab2:		jsr func_1f_1c1e		; 20 1e fc
 B19_0ab5:		sta $00			; 85 00
-B19_0ab7:		lda $0606, x	; bd 06 06
+B19_0ab7:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B19_0aba:		bne B19_0ad7 ; d0 1b
 
 B19_0abc:		lda $00			; a5 00
@@ -1621,7 +1621,7 @@ B19_0ac9:		beq B19_0ad7 ; f0 0c
 
 B19_0acb:		lda #$0a		; a9 0a
 B19_0acd:		ldy #$1f		; a0 1f
-B19_0acf:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B19_0acf:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B19_0ad2:		lda #$09		; a9 09
 B19_0ad4:		jmp $864f		; 4c 4f 86
 
@@ -1654,7 +1654,7 @@ B19_0af8:		lda $1f			; a5 1f
 B19_0afa:		cmp #$20		; c9 20
 B19_0afc:		bcs B19_0b16 ; b0 18
 
-B19_0afe:		lda $0606, x	; bd 06 06
+B19_0afe:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B19_0b01:		beq B19_0b16 ; f0 13
 
 B19_0b03:		lda #$01		; a9 01
@@ -1687,10 +1687,10 @@ B19_0b30:		rts				; 60
 
 B19_0b31:		lda #$1b		; a9 1b
 B19_0b33:		clc				; 18 
-B19_0b34:		adc $0606, x	; 7d 06 06
+B19_0b34:		adc wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 7d 06 06
 B19_0b37:		tay				; a8 
 B19_0b38:		lda #$0a		; a9 0a
-B19_0b3a:		jmp setEntitySpecGroupA_animationDefIdxY_startAnimate		; 4c 5c ef
+B19_0b3a:		jmp setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 4c 5c ef
 
 
 B19_0b3d:		ldy #$01		; a0 01
@@ -1782,7 +1782,7 @@ B19_0bc2:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B19_0bc5:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B19_0bc8:		lda #$0a		; a9 0a
 B19_0bca:		ldy #$24		; a0 24
-B19_0bcc:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B19_0bcc:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B19_0bcf:		lda #$45		; a9 45
 B19_0bd1:		jmp $864f		; 4c 4f 86
 
@@ -1815,7 +1815,7 @@ B19_0c05:		beq B19_0c3a ; f0 33
 
 B19_0c07:		lda #$01		; a9 01
 B19_0c09:		jsr $88e0		; 20 e0 88
-B19_0c0c:		ldy $0606, x	; bc 06 06
+B19_0c0c:		ldy wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bc 06 06
 B19_0c0f:		lda #$04		; a9 04
 B19_0c11:		sta $00			; 85 00
 B19_0c13:		lda wEntityFacingLeft.w, y	; b9 a8 04
@@ -1899,7 +1899,7 @@ B19_0ca3:		jsr $87f4		; 20 f4 87
 B19_0ca6:		lda $07f3		; ad f3 07
 B19_0ca9:		bne B19_0cba ; d0 0f
 
-B19_0cab:		lda $0606, x	; bd 06 06
+B19_0cab:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B19_0cae:		beq B19_0cbb ; f0 0b
 
 B19_0cb0:		jsr $a4c3		; 20 c3 a4
@@ -1912,15 +1912,15 @@ B19_0cba:		rts				; 60
 
 B19_0cbb:		lda #$21		; a9 21
 B19_0cbd:		jsr $8766		; 20 66 87
-B19_0cc0:		lda $3d			; a5 3d
+B19_0cc0:		lda wBossHealth			; a5 3d
 B19_0cc2:		sta $067b, y	; 99 7b 06
 B19_0cc5:		lda #$c8		; a9 c8
 B19_0cc7:		sta wEntityState.w, y	; 99 70 04
 B19_0cca:		txa				; 8a 
-B19_0ccb:		sta $0606, y	; 99 06 06
+B19_0ccb:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, y	; 99 06 06
 B19_0cce:		sta $07ec		; 8d ec 07
 B19_0cd1:		lda #$01		; a9 01
-B19_0cd3:		sta $0606, x	; 9d 06 06
+B19_0cd3:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B19_0cd6:		lda wEntityBaseX.w		; ad 38 04
 B19_0cd9:		cmp wEntityBaseX.w, x	; dd 38 04
 B19_0cdc:		bcs B19_0ce2 ; b0 04
@@ -1937,7 +1937,7 @@ B19_0ceb:		lda #$01		; a9 01
 B19_0ced:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B19_0cf0:		lda #$0a		; a9 0a
 B19_0cf2:		ldy #$21		; a0 21
-B19_0cf4:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B19_0cf4:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B19_0cf7:		lda #$1c		; a9 1c
 B19_0cf9:		jmp $864f		; 4c 4f 86
 
@@ -1948,7 +1948,7 @@ B19_0cfd:		bne B19_0d6f ; d0 70
 B19_0cff:		cpx $07ec		; ec ec 07
 B19_0d02:		bne B19_0d58 ; d0 54
 
-B19_0d04:		lda $0606, x	; bd 06 06
+B19_0d04:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B19_0d07:		cmp #$01		; c9 01
 B19_0d09:		beq B19_0d59 ; f0 4e
 
@@ -1962,7 +1962,7 @@ B19_0d15:		bcc B19_0d3d ; 90 26
 B19_0d17:		lda #$00		; a9 00
 B19_0d19:		sta $0669, y	; 99 69 06
 B19_0d1c:		lda #$02		; a9 02
-B19_0d1e:		sta $0606, y	; 99 06 06
+B19_0d1e:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, y	; 99 06 06
 B19_0d21:		lda #$40		; a9 40
 B19_0d23:		sta wEntityState.w, y	; 99 70 04
 B19_0d26:		lda #$80		; a9 80
@@ -1972,14 +1972,14 @@ B19_0d2d:		tya				; 98
 B19_0d2e:		tax				; aa 
 B19_0d2f:		lda #$0a		; a9 0a
 B19_0d31:		ldy #$24		; a0 24
-B19_0d33:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B19_0d33:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B19_0d36:		ldx $00			; a6 00
 B19_0d38:		dec $07f0		; ce f0 07
 B19_0d3b:		bne B19_0d10 ; d0 d3
 
 B19_0d3d:		lda #$0a		; a9 0a
 B19_0d3f:		ldy #$24		; a0 24
-B19_0d41:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B19_0d41:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B19_0d44:		lda #$02		; a9 02
 B19_0d46:		sta $07ef		; 8d ef 07
 B19_0d49:		lda #$00		; a9 00
@@ -1992,12 +1992,12 @@ B19_0d58:		rts				; 60
 
 
 B19_0d59:		lda #$02		; a9 02
-B19_0d5b:		sta $0606, x	; 9d 06 06
+B19_0d5b:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B19_0d5e:		lda #$06		; a9 06
 B19_0d60:		sta $07f0		; 8d f0 07
 B19_0d63:		lda #$0a		; a9 0a
 B19_0d65:		ldy #$28		; a0 28
-B19_0d67:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B19_0d67:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B19_0d6a:		lda #$20		; a9 20
 B19_0d6c:		jmp $864f		; 4c 4f 86
 
@@ -2037,7 +2037,7 @@ B19_0da6:		beq B19_0dc0 ; f0 18
 
 B19_0da8:		lda #$0a		; a9 0a
 B19_0daa:		ldy #$24		; a0 24
-B19_0dac:		jmp setEntitySpecGroupA_animationDefIdxY_startAnimate		; 4c 5c ef
+B19_0dac:		jmp setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 4c 5c ef
 
 
 B19_0daf:		jsr $a4c3		; 20 c3 a4
@@ -2045,13 +2045,13 @@ B19_0db2:		bne B19_0dc0 ; d0 0c
 
 B19_0db4:		lda #$0a		; a9 0a
 B19_0db6:		ldy #$24		; a0 24
-B19_0db8:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B19_0db8:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B19_0dbb:		lda #$19		; a9 19
 B19_0dbd:		jmp $864f		; 4c 4f 86
 
 
 B19_0dc0:		lda #$03		; a9 03
-B19_0dc2:		sta $0606, x	; 9d 06 06
+B19_0dc2:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B19_0dc5:		rts				; 60 
 
 
@@ -2097,12 +2097,12 @@ B19_0e05:		lda #$00		; a9 00
 B19_0e07:		sta $054e, x	; 9d 4e 05
 B19_0e0a:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B19_0e0d:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
-B19_0e10:		sta $0606, x	; 9d 06 06
+B19_0e10:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B19_0e13:		sta wEntityAI_idx.w, x	; 9d ef 05
 B19_0e16:		rts				; 60 
 
 
-B19_0e17:		lda $0606, x	; bd 06 06
+B19_0e17:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B19_0e1a:		cmp #$03		; c9 03
 B19_0e1c:		beq B19_0e35 ; f0 17
 
@@ -2114,17 +2114,17 @@ B19_0e25:		sta $07ec		; 8d ec 07
 B19_0e28:		sta $07ed		; 8d ed 07
 B19_0e2b:		sta $07ee		; 8d ee 07
 B19_0e2e:		sta $07ef		; 8d ef 07
-B19_0e31:		sta $0606, x	; 9d 06 06
+B19_0e31:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B19_0e34:		rts				; 60 
 
 
 B19_0e35:		lda #$04		; a9 04
-B19_0e37:		sta $0606, x	; 9d 06 06
+B19_0e37:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B19_0e3a:		lda #$06		; a9 06
 B19_0e3c:		sta $07f0		; 8d f0 07
 B19_0e3f:		lda #$0a		; a9 0a
 B19_0e41:		ldy #$2c		; a0 2c
-B19_0e43:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B19_0e43:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B19_0e46:		lda #$20		; a9 20
 B19_0e48:		jmp $864f		; 4c 4f 86
 
@@ -2156,7 +2156,7 @@ B19_0e6f:		lda #$50		; a9 50
 B19_0e71:		jsr $8661		; 20 61 86
 B19_0e74:		lda #$0a		; a9 0a
 B19_0e76:		ldy #$30		; a0 30
-B19_0e78:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B19_0e78:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B19_0e7b:		lda #$23		; a9 23
 B19_0e7d:		jmp $864f		; 4c 4f 86
 
@@ -2165,7 +2165,7 @@ B19_0e80:		lda #$06		; a9 06
 B19_0e82:		sta wChrBankSpr_0800			; 85 48
 B19_0e84:		lda #$1f		; a9 1f
 B19_0e86:		sta wChrBankSpr_0c00			; 85 49
-B19_0e88:		jsr chrSwitch_0_to_c00_1400		; 20 3c e3
+B19_0e88:		jsr updateSprChrBanks_0_to_c00_1400		; 20 3c e3
 B19_0e8b:		jsr $ae96		; 20 96 ae
 B19_0e8e:		inc $07f3		; ee f3 07
 B19_0e91:		lda #$01		; a9 01
@@ -2226,7 +2226,7 @@ B19_0ee6:		jmp $873a		; 4c 3a 87
 B19_0ee9:		lda $78			; a5 78
 B19_0eeb:		beq B19_0f20 ; f0 33
 
-B19_0eed:		lda $0606, x	; bd 06 06
+B19_0eed:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B19_0ef0:		beq B19_0ef8 ; f0 06
 
 B19_0ef2:		jsr $af62		; 20 62 af
@@ -2269,7 +2269,7 @@ B19_0f25:		lda #$00		; a9 00
 B19_0f27:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B19_0f2a:		lda #$08		; a9 08
 B19_0f2c:		sta wPlayerStateDoubled.w, x	; 9d 65 05
-B19_0f2f:		lda $0606, x	; bd 06 06
+B19_0f2f:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B19_0f32:		beq B19_0f37 ; f0 03
 
 B19_0f34:		jmp $b03f		; 4c 3f b0
@@ -2331,12 +2331,12 @@ B19_0f8e:		lda wCurrRoomSection			; a5 33
 B19_0f90:		cmp #$02		; c9 02
 B19_0f92:		bne B19_0fb6 ; d0 22
 
-B19_0f94:		lda $3d			; a5 3d
+B19_0f94:		lda wBossHealth			; a5 3d
 B19_0f96:		cmp #$18		; c9 18
 B19_0f98:		bcs B19_0fb6 ; b0 1c
 
 B19_0f9a:		lda #$17		; a9 17
-B19_0f9c:		sta $3d			; 85 3d
+B19_0f9c:		sta wBossHealth			; 85 3d
 B19_0f9e:		sta $067b, x	; 9d 7b 06
 B19_0fa1:		jsr $b01c		; 20 1c b0
 B19_0fa4:		lda wEntityAI_idx.w, x	; bd ef 05
@@ -2385,7 +2385,7 @@ B19_0fe9:		beq B19_0ff3 ; f0 08
 B19_0feb:		lda #$01		; a9 01
 B19_0fed:		jsr $88e0		; 20 e0 88
 B19_0ff0:		jsr $b364		; 20 64 b3
-B19_0ff3:		lda $3d			; a5 3d
+B19_0ff3:		lda wBossHealth			; a5 3d
 B19_0ff5:		bne B19_0fff ; d0 08
 
 B19_0ff7:		lda #$7b		; a9 7b
@@ -2443,11 +2443,11 @@ B19_104e:		lda wCurrRoomSection			; a5 33
 B19_1050:		cmp #$02		; c9 02
 B19_1052:		bne B19_1072 ; d0 1e
 
-B19_1054:		lda $0606, x	; bd 06 06
+B19_1054:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B19_1057:		cmp #$ff		; c9 ff
 B19_1059:		beq B19_107d ; f0 22
 
-B19_105b:		lda $3d			; a5 3d
+B19_105b:		lda wBossHealth			; a5 3d
 B19_105d:		cmp #$18		; c9 18
 B19_105f:		bcs B19_1072 ; b0 11
 
@@ -2463,7 +2463,7 @@ B19_106c:		sta $0669, x	; 9d 69 06
 B19_106f:		jmp $b105		; 4c 05 b1
 
 
-B19_1072:		lda $0606, x	; bd 06 06
+B19_1072:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B19_1075:		cmp #$80		; c9 80
 B19_1077:		bcc B19_10f4 ; 90 7b
 
@@ -2521,10 +2521,10 @@ B19_10c5:		cmp #$01		; c9 01
 B19_10c7:		beq B19_10ce ; f0 05
 
 B19_10c9:		lda #$fe		; a9 fe
-B19_10cb:		sta $0606, x	; 9d 06 06
+B19_10cb:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B19_10ce:		lda #$0a		; a9 0a
 B19_10d0:		ldy #$43		; a0 43
-B19_10d2:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B19_10d2:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B19_10d5:		lda #$25		; a9 25
 B19_10d7:		jsr $864f		; 20 4f 86
 B19_10da:		clc				; 18 
@@ -2611,7 +2611,7 @@ B19_1184:		sta wEntityBaseY.w, x	; 9d 1c 04
 B19_1187:		rts				; 60 
 
 
-B19_1188:		lda $0606, x	; bd 06 06
+B19_1188:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B19_118b:		cmp #$0b		; c9 0b
 B19_118d:		bne B19_11a5 ; d0 16
 
@@ -2657,7 +2657,7 @@ B19_11f2:		rts				; 60
 
 
 B19_11f3:		ldy #$a4		; a0 a4
-B19_11f5:		lda $0606, x	; bd 06 06
+B19_11f5:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B19_11f8:		cmp #$0b		; c9 0b
 B19_11fa:		bne B19_11fe ; d0 02
 
@@ -2899,7 +2899,7 @@ B19_1370:		lda $054e, y	; b9 4e 05
 B19_1373:		cmp #$2d		; c9 2d
 B19_1375:		bne B19_138e ; d0 17
 
-B19_1377:		lda $0606, y	; b9 06 06
+B19_1377:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, y	; b9 06 06
 B19_137a:		cmp #$80		; c9 80
 B19_137c:		bcs B19_138e ; b0 10
 
@@ -2913,12 +2913,12 @@ B19_138c:		bne B19_1370 ; d0 e2
 
 B19_138e:		dey				; 88 
 B19_138f:		lda #$ff		; a9 ff
-B19_1391:		sta $0606, y	; 99 06 06
+B19_1391:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, y	; 99 06 06
 B19_1394:		tya				; 98 
 B19_1395:		tax				; aa 
 B19_1396:		lda #$17		; a9 17
 B19_1398:		jsr $864f		; 20 4f 86
-B19_139b:		ldx $6c			; a6 6c
+B19_139b:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B19_139d:		rts				; 60 
 
 
@@ -2940,7 +2940,7 @@ B19_13b4:		lda $061e		; ad 1e 06
 B19_13b7:		sta $be			; 85 be
 B19_13b9:		lda #$1c		; a9 1c
 B19_13bb:		sta wInGameSubstate			; 85 2a
-B19_13bd:		lda $3d			; a5 3d
+B19_13bd:		lda wBossHealth			; a5 3d
 B19_13bf:		sta $bd			; 85 bd
 B19_13c1:		rts				; 60 
 
@@ -2963,7 +2963,7 @@ B19_13da:		sta $061d, y	; 99 1d 06
 B19_13dd:		bne B19_13e4 ; d0 05
 
 B19_13df:		lda #$ff		; a9 ff
-B19_13e1:		sta $0606, y	; 99 06 06
+B19_13e1:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, y	; 99 06 06
 B19_13e4:		lda $b406, y	; b9 06 b4
 B19_13e7:		sta $05d8, y	; 99 d8 05
 B19_13ea:		lda #$d6		; a9 d6
@@ -3027,12 +3027,12 @@ B19_143c:		tay				; a8
 B19_143d:		dey				; 88 
 B19_143e:		sty $00			; 84 00
 B19_1440:		lda wPlayerStateDoubled.w, y	; b9 65 05
-B19_1443:		ldy $0606, x	; bc 06 06
+B19_1443:		ldy wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bc 06 06
 B19_1446:		sta $0782, y	; 99 82 07
 B19_1449:		rts				; 60 
 
 
-B19_144a:		ldy $0606, x	; bc 06 06
+B19_144a:		ldy wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bc 06 06
 B19_144d:		lda $0782, y	; b9 82 07
 B19_1450:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B19_1453:		rts				; 60 
@@ -3069,11 +3069,11 @@ B19_1492:		sta wEntityVertSubSpeed.w, y	; 99 37 05
 B19_1495:		lda $03			; a5 03
 B19_1497:		sta wEntityVertSpeed.w, y	; 99 20 05
 B19_149a:		txa				; 8a 
-B19_149b:		sta $0606, y	; 99 06 06
+B19_149b:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, y	; 99 06 06
 B19_149e:		rts				; 60 
 
 
-B19_149f:		ldy $0606, x	; bc 06 06
+B19_149f:		ldy wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bc 06 06
 B19_14a2:		lda wEntityState.w, y	; b9 70 04
 B19_14a5:		and #$88		; 29 88
 B19_14a7:		bne B19_149e ; d0 f5
@@ -3139,21 +3139,21 @@ B19_14f7:		lda $78			; a5 78
 B19_14f9:		bne B19_1515 ; d0 1a
 
 B19_14fb:		lda #$3c		; a9 3c
-B19_14fd:		sta $0606, x	; 9d 06 06
+B19_14fd:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B19_1500:		lda #$01		; a9 01
 B19_1502:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B19_1505:		lda #$a8		; a9 a8
 B19_1507:		sta wEntityBaseY.w, x	; 9d 1c 04
 B19_150a:		lda #$10		; a9 10
 B19_150c:		ldy #$44		; a0 44
-B19_150e:		jmp setEntitySpecGroupA_animationDefIdxY_startAnimate		; 4c 5c ef
+B19_150e:		jmp setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 4c 5c ef
 
 
-B19_1511:		dec $0606, x	; de 06 06
+B19_1511:		dec wEntityAlarmOrStartYforSinusoidalMovement.w, x	; de 06 06
 B19_1514:		rts				; 60 
 
 
-B19_1515:		lda $0606, x	; bd 06 06
+B19_1515:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B19_1518:		bne B19_1511 ; d0 f7
 
 B19_151a:		lda #$60		; a9 60
@@ -3169,7 +3169,7 @@ B19_152d:		sta wEntityAI_idx.w, y	; 99 ef 05
 B19_1530:		lda #$e8		; a9 e8
 B19_1532:		sta wEntityState.w, y	; 99 70 04
 B19_1535:		txa				; 8a 
-B19_1536:		sta $0606, y	; 99 06 06
+B19_1536:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, y	; 99 06 06
 B19_1539:		lda #$02		; a9 02
 B19_153b:		sta wOamSpecIdxDoubled.w, y	; 99 00 04
 B19_153e:		lda #$40		; a9 40
@@ -3195,7 +3195,7 @@ B19_1561:		rts				; 60
 
 
 B19_1562:		lda #$00		; a9 00
-B19_1564:		sta $0606, x	; 9d 06 06
+B19_1564:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B19_1567:		sta $061d, x	; 9d 1d 06
 B19_156a:		sta $0633, x	; 9d 33 06
 B19_156d:		rts				; 60 
@@ -3205,19 +3205,19 @@ B19_156e:		lda #$e8		; a9 e8
 B19_1570:		sta wEntityState.w, x	; 9d 70 04
 B19_1573:		lda #$02		; a9 02
 B19_1575:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
-B19_1578:		ldy $0606, x	; bc 06 06
-B19_157b:		lda $0606, y	; b9 06 06
+B19_1578:		ldy wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bc 06 06
+B19_157b:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, y	; b9 06 06
 B19_157e:		cmp #$03		; c9 03
 B19_1580:		bcs B19_158b ; b0 09
 
 B19_1582:		lda #$01		; a9 01
 B19_1584:		jsr $88e0		; 20 e0 88
-B19_1587:		lda $3d			; a5 3d
+B19_1587:		lda wBossHealth			; a5 3d
 B19_1589:		beq B19_15a9 ; f0 1e
 
 B19_158b:		lda #$00		; a9 00
 B19_158d:		sta $0669, x	; 9d 69 06
-B19_1590:		ldy $0606, x	; bc 06 06
+B19_1590:		ldy wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bc 06 06
 B19_1593:		lda wEntityBaseY.w, y	; b9 1c 04
 B19_1596:		sec				; 38 
 B19_1597:		sbc #$10		; e9 10
@@ -3254,7 +3254,7 @@ B19_15ca:		jmp $bd5f		; 4c 5f bd
 
 
 B19_15cd:		jsr $8231		; 20 31 82
-B19_15d0:		lda $3d			; a5 3d
+B19_15d0:		lda wBossHealth			; a5 3d
 B19_15d2:		beq B19_15d7 ; f0 03
 
 B19_15d4:		jmp $b6a1		; 4c a1 b6
@@ -3270,7 +3270,7 @@ B19_15e3:		sta $17			; 85 17
 B19_15e5:		lda #$0d		; a9 0d
 B19_15e7:		jsr $8766		; 20 66 87
 B19_15ea:		lda $17			; a5 17
-B19_15ec:		sta $0606, y	; 99 06 06
+B19_15ec:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, y	; 99 06 06
 B19_15ef:		lda #$de		; a9 de
 B19_15f1:		sta wEntityAI_idx.w, y	; 99 ef 05
 B19_15f4:		lda #$60		; a9 60
@@ -3294,7 +3294,7 @@ B19_161d:		dec $17			; c6 17
 B19_161f:		bne B19_15e5 ; d0 c4
 
 B19_1621:		lda $17			; a5 17
-B19_1623:		sta $0606, x	; 9d 06 06
+B19_1623:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B19_1626:		lda wEntityBaseY.w, x	; bd 1c 04
 B19_1629:		sec				; 38 
 B19_162a:		sbc #$10		; e9 10
@@ -3318,7 +3318,7 @@ B19_1650:		sta wEntityBaseY.w, x	; 9d 1c 04
 B19_1653:		rts				; 60 
 
 
-B19_1654:		lda $0606, x	; bd 06 06
+B19_1654:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B19_1657:		bne B19_1684 ; d0 2b
 
 B19_1659:		lda wEntityBaseY.w, x	; bd 1c 04
@@ -3334,7 +3334,7 @@ B19_1668:		inc $07ec		; ee ec 07
 B19_166b:		lda #$80		; a9 80
 B19_166d:		sta $07f3		; 8d f3 07
 B19_1670:		lda #$40		; a9 40
-B19_1672:		sta $3d			; 85 3d
+B19_1672:		sta wBossHealth			; 85 3d
 B19_1674:		sta $067b, x	; 9d 7b 06
 B19_1677:		lda #$00		; a9 00
 B19_1679:		sta $0645, x	; 9d 45 06
@@ -3368,7 +3368,7 @@ B19_16a1:		lda #$60		; a9 60
 B19_16a3:		sta wEntityState.w, x	; 9d 70 04
 B19_16a6:		lda #$30		; a9 30
 B19_16a8:		sta $0657, x	; 9d 57 06
-B19_16ab:		ldy $0606, x	; bc 06 06
+B19_16ab:		ldy wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bc 06 06
 B19_16ae:		bne B19_1700 ; d0 50
 
 B19_16b0:		lda wEntityAI_idx.w, x	; bd ef 05
@@ -3395,7 +3395,7 @@ B19_16cd:		sta $17			; 85 17
 B19_16cf:		lda #$24		; a9 24
 B19_16d1:		jsr $8766		; 20 66 87
 B19_16d4:		lda #$00		; a9 00
-B19_16d6:		sta $0606, y	; 99 06 06
+B19_16d6:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, y	; 99 06 06
 B19_16d9:		lda $17			; a5 17
 B19_16db:		sta $061d, y	; 99 1d 06
 B19_16de:		lda #$60		; a9 60
@@ -3410,7 +3410,7 @@ B19_16ef:		bpl B19_16cf ; 10 de
 B19_16f1:		rts				; 60 
 
 
-B19_16f2:		inc $0606, x	; fe 06 06
+B19_16f2:		inc wEntityAlarmOrStartYforSinusoidalMovement.w, x	; fe 06 06
 B19_16f5:		lda #$30		; a9 30
 B19_16f7:		sta $061d, x	; 9d 1d 06
 B19_16fa:		lda #$80		; a9 80
@@ -3446,7 +3446,7 @@ B19_1722:		rts				; 60
 B19_1723:		lda #$24		; a9 24
 B19_1725:		jsr $8766		; 20 66 87
 B19_1728:		lda #$01		; a9 01
-B19_172a:		sta $0606, y	; 99 06 06
+B19_172a:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, y	; 99 06 06
 B19_172d:		lda #$00		; a9 00
 B19_172f:		sta $061d, y	; 99 1d 06
 B19_1732:		lda #$60		; a9 60
@@ -3458,7 +3458,7 @@ B19_173e:		sta wEntityBaseY.w, y	; 99 1c 04
 B19_1741:		rts				; 60 
 
 
-B19_1742:		inc $0606, x	; fe 06 06
+B19_1742:		inc wEntityAlarmOrStartYforSinusoidalMovement.w, x	; fe 06 06
 B19_1745:		lda #$20		; a9 20
 B19_1747:		sta $061d, x	; 9d 1d 06
 B19_174a:		lda #$80		; a9 80
@@ -3489,7 +3489,7 @@ B19_1775:		cmp $061d, x	; dd 1d 06
 B19_1778:		bcs B19_177d ; b0 03
 
 B19_177a:		inc wPlayerStateDoubled.w, x	; fe 65 05
-B19_177d:		inc $0606, x	; fe 06 06
+B19_177d:		inc wEntityAlarmOrStartYforSinusoidalMovement.w, x	; fe 06 06
 B19_1780:		rts				; 60 
 
 
@@ -3544,7 +3544,7 @@ B19_17d7:		lda $b8a1, y	; b9 a1 b8
 B19_17da:		cmp $0645, x	; dd 45 06
 B19_17dd:		bne B19_17e3 ; d0 04
 
-B19_17df:		inc $0606, x	; fe 06 06
+B19_17df:		inc wEntityAlarmOrStartYforSinusoidalMovement.w, x	; fe 06 06
 B19_17e2:		rts				; 60 
 
 
@@ -3617,7 +3617,7 @@ B19_1858:		cmp $0645, x	; dd 45 06
 B19_185b:		bne B19_186e ; d0 11
 
 B19_185d:		lda #$00		; a9 00
-B19_185f:		sta $0606, x	; 9d 06 06
+B19_185f:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B19_1862:		inc $0633, x	; fe 33 06
 B19_1865:		lda $0633, x	; bd 33 06
 B19_1868:		and #$07		; 29 07
@@ -3682,7 +3682,7 @@ B19_18b8:		lda wEntityAI_idx.w, x	; bd ef 05
 B19_18bb:		and #$7f		; 29 7f
 B19_18bd:		bne B19_1908 ; d0 49
 
-B19_18bf:		lda $0606, x	; bd 06 06
+B19_18bf:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B19_18c2:		beq B19_18cf ; f0 0b
 
 B19_18c4:		lda wEntityBaseX.w		; ad 38 04
@@ -3741,7 +3741,7 @@ B19_191c:		eor #$ff		; 49 ff
 B19_191e:		clc				; 18 
 B19_191f:		adc #$01		; 69 01
 B19_1921:		sta $00			; 85 00
-B19_1923:		lda $0606, x	; bd 06 06
+B19_1923:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B19_1926:		beq B19_1930 ; f0 08
 
 B19_1928:		lda $00			; a5 00
@@ -3811,8 +3811,8 @@ B19_1987:		iny				; c8
 B19_1988:		sty $48			; 84 48
 B19_198a:		iny				; c8 
 B19_198b:		sty $49			; 84 49
-B19_198d:		jsr chrSwitch_0_to_c00_1400		; 20 3c e3
-B19_1990:		jsr chrSwitchAllMirrored		; 20 5d e3
+B19_198d:		jsr updateSprChrBanks_0_to_c00_1400		; 20 3c e3
+B19_1990:		jsr updateSprChrBank_1000_1800_1c00_bgChrBanks_0_to_c00		; 20 5d e3
 B19_1993:		lda #$f0		; a9 f0
 B19_1995:		jsr $bbcb		; 20 cb bb
 B19_1998:		lda #$05		; a9 05
@@ -3822,7 +3822,7 @@ B19_199e:		jsr $8766		; 20 66 87
 B19_19a1:		txa				; 8a 
 B19_19a2:		sta $05d8, y	; 99 d8 05
 B19_19a5:		lda $17			; a5 17
-B19_19a7:		sta $0606, y	; 99 06 06
+B19_19a7:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, y	; 99 06 06
 B19_19aa:		lda #$f0		; a9 f0
 B19_19ac:		jsr $bbd4		; 20 d4 bb
 B19_19af:		lda #$80		; a9 80
@@ -3846,7 +3846,7 @@ B19_19d6:		inc $0645, x	; fe 45 06
 B19_19d9:		lda #$60		; a9 60
 B19_19db:		sta wEntityState.w, x	; 9d 70 04
 B19_19de:		lda #$40		; a9 40
-B19_19e0:		sta $3d			; 85 3d
+B19_19e0:		sta wBossHealth			; 85 3d
 B19_19e2:		sta $067b, x	; 9d 7b 06
 B19_19e5:		lda #$60		; a9 60
 B19_19e7:		jmp playSound		; 4c 5f e2
@@ -4084,7 +4084,7 @@ B19_1b94:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B19_1b97:		rts				; 60 
 
 
-B19_1b98:		lda $0606, x	; bd 06 06
+B19_1b98:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B19_1b9b:		and #$03		; 29 03
 B19_1b9d:		asl a			; 0a
 B19_1b9e:		tay				; a8 
@@ -4159,7 +4159,7 @@ B19_1c0b:		sta $0669, x	; 9d 69 06
 B19_1c0e:		sta $0657, x	; 9d 57 06
 B19_1c11:		lda #$60		; a9 60
 B19_1c13:		sta wEntityState.w, x	; 9d 70 04
-B19_1c16:		lda $0606, x	; bd 06 06
+B19_1c16:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B19_1c19:		asl a			; 0a
 B19_1c1a:		tay				; a8 
 B19_1c1b:		lda $bd2f, y	; b9 2f bd
@@ -4185,14 +4185,14 @@ B19_1c42:		beq B19_1c53 ; f0 0f
 B19_1c44:		inc wEntityPhase.w, x	; fe c1 05
 B19_1c47:		lda #$0e		; a9 0e
 B19_1c49:		ldy #$08		; a0 08
-B19_1c4b:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B19_1c4b:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B19_1c4e:		lda #$40		; a9 40
 B19_1c50:		sta wEntityState.w, x	; 9d 70 04
 B19_1c53:		lda wEntityPhase.w, x	; bd c1 05
 B19_1c56:		cmp #$06		; c9 06
 B19_1c58:		bne B19_1c84 ; d0 2a
 
-B19_1c5a:		ldy $0606, x	; bc 06 06
+B19_1c5a:		ldy wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bc 06 06
 B19_1c5d:		lda $bd13, y	; b9 13 bd
 B19_1c60:		eor #$ff		; 49 ff
 B19_1c62:		and $07ed		; 2d ed 07
@@ -4216,7 +4216,7 @@ B19_1c84:		clc				; 18
 B19_1c85:		rts				; 60 
 
 
-B19_1c86:		lda $0606, x	; bd 06 06
+B19_1c86:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B19_1c89:		asl a			; 0a
 B19_1c8a:		tay				; a8 
 B19_1c8b:		lda $bd3b, y	; b9 3b bd
@@ -4235,7 +4235,7 @@ B19_1ca7:		sta wEntityBaseY.w, x	; 9d 1c 04
 B19_1caa:		rts				; 60 
 
 
-B19_1cab:		ldy $0606, x	; bc 06 06
+B19_1cab:		ldy wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bc 06 06
 B19_1cae:		lda $bd4d, y	; b9 4d bd
 B19_1cb1:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B19_1cb4:		lda $bd47, y	; b9 47 bd
@@ -4402,7 +4402,7 @@ B19_1d8f:		sta wVramQueueDest			; 85 61
 B19_1d91:		lda wVramQueueDest+1			; a5 62
 B19_1d93:		adc #$21		; 69 21
 B19_1d95:		sta wVramQueueDest+1			; 85 62
-B19_1d97:		jsr vramQueueSet1byteDestToCopy_noData		; 20 b5 e8
+B19_1d97:		jsr vramQueueSetControlByte1_destToCopy_noData		; 20 b5 e8
 B19_1d9a:		ldy $07ee		; ac ee 07
 B19_1d9d:		lda $bf6e, y	; b9 6e bf
 B19_1da0:		cmp #$c0		; c9 c0
@@ -4460,14 +4460,14 @@ B19_1dfb:		rts				; 60
 
 B19_1dfc:		lda #$31		; a9 31
 B19_1dfe:		sta wChrBankSpr_0c00			; 85 49
-B19_1e00:		jsr chrSwitch_0_to_c00_1400		; 20 3c e3
+B19_1e00:		jsr updateSprChrBanks_0_to_c00_1400		; 20 3c e3
 B19_1e03:		lda #$00		; a9 00
 B19_1e05:		sta $07f3		; 8d f3 07
 B19_1e08:		sta $07f1		; 8d f1 07
 B19_1e0b:		sta $07f0		; 8d f0 07
 B19_1e0e:		sta $07ee		; 8d ee 07
 B19_1e11:		sta $07ed		; 8d ed 07
-B19_1e14:		sta $0606, x	; 9d 06 06
+B19_1e14:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B19_1e17:		lda #$88		; a9 88
 B19_1e19:		sta wEntityState.w, x	; 9d 70 04
 B19_1e1c:		lda #$80		; a9 80
@@ -4475,12 +4475,12 @@ B19_1e1e:		sta wEntityBaseX.w, x	; 9d 38 04
 B19_1e21:		lda #$60		; a9 60
 B19_1e23:		sta wEntityBaseY.w, x	; 9d 1c 04
 B19_1e26:		lda #$40		; a9 40
-B19_1e28:		sta $3d			; 85 3d
+B19_1e28:		sta wBossHealth			; 85 3d
 B19_1e2a:		sta $067b, x	; 9d 7b 06
 B19_1e2d:		lda #$0d		; a9 0d
 B19_1e2f:		jsr $8766		; 20 66 87
 B19_1e32:		lda #$01		; a9 01
-B19_1e34:		sta $0606, y	; 99 06 06
+B19_1e34:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, y	; 99 06 06
 B19_1e37:		sta $17			; 85 17
 B19_1e39:		lda #$88		; a9 88
 B19_1e3b:		sta wEntityState.w, y	; 99 70 04
@@ -4508,7 +4508,7 @@ B19_1e63:		dec $07ef		; ce ef 07
 B19_1e66:		rts				; 60 
 
 
-B19_1e67:		lda $0606, x	; bd 06 06
+B19_1e67:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B19_1e6a:		beq B19_1ed5 ; f0 69
 
 B19_1e6c:		lda #$00		; a9 00

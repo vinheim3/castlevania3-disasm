@@ -746,7 +746,7 @@ B20_1731:		sbc ($1d, x)	; e1 1d
 B20_1733:		.db $00				; 00
 B20_1734:		ora $1d00, x	; 1d 00 1d
 B20_1737:		.db $00				; 00
-B20_1738:		sty $57			; 84 57
+B20_1738:		sty wCurrScrollRoomScreen			; 84 57
 B20_173a:		.db $00				; 00
 B20_173b:		.db $00				; 00
 B20_173c:	.db $1f
@@ -830,7 +830,7 @@ B20_1796:		.db $00				; 00
 B20_1797:		.db $00				; 00
 B20_1798:		stx $315e		; 8e 5e 31
 B20_179b:		cmp $8b, x		; d5 8b
-B20_179d:		adc $1f, x		; 75 1f
+B20_179d:		adc wRandomVal, x		; 75 1f
 B20_179f:		.db $00				; 00
 B20_17a0:		.db $00				; 00
 B20_17a1:		cmp $1c, x		; d5 1c

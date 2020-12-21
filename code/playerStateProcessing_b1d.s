@@ -11,12 +11,12 @@ B29_0011:		beq B29_006a ; f0 57
 
 B29_0013:		ldx #$0c		; a2 0c
 B29_0015:		lda #$fb		; a9 fb
-B29_0017:		jsr func_1f_1cdd		; 20 dd fc
+B29_0017:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B29_001a:		bne B29_003e ; d0 22
 
 B29_001c:		ldx #$0c		; a2 0c
 B29_001e:		lda #$05		; a9 05
-B29_0020:		jsr func_1f_1cdd		; 20 dd fc
+B29_0020:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B29_0023:		bne B29_003e ; d0 19
 
 B29_0025:		lda $8b			; a5 8b
@@ -58,12 +58,12 @@ B29_0067:		jmp func_1c_073a		; 4c 3a 87
 
 B29_006a:		ldx #$00		; a2 00
 B29_006c:		lda #$05		; a9 05
-B29_006e:		jsr func_1c_040b		; 20 0b 84
+B29_006e:		jsr retZAndTileAifCollisionAtOffsetAXisEmptyOrMud		; 20 0b 84
 B29_0071:		bne B29_007c ; d0 09
 
 B29_0073:		ldx #$00		; a2 00
 B29_0075:		lda #$fb		; a9 fb
-B29_0077:		jsr func_1c_040b		; 20 0b 84
+B29_0077:		jsr retZAndTileAifCollisionAtOffsetAXisEmptyOrMud		; 20 0b 84
 B29_007a:		beq B29_0064 ; f0 e8
 
 B29_007c:		jsr func_1d_008d		; 20 8d a0
@@ -94,7 +94,7 @@ B29_00a5:		lda #$38		; a9 38
 B29_00a7:		sta $05d8		; 8d d8 05
 B29_00aa:		lda #$00		; a9 00
 B29_00ac:		sta wEntityAI_idx.w		; 8d ef 05
-B29_00af:		sta $0606		; 8d 06 06
+B29_00af:		sta wEntityAlarmOrStartYforSinusoidalMovement.w		; 8d 06 06
 B29_00b2:		sta $9d			; 85 9d
 B29_00b4:		sta $b9			; 85 b9
 B29_00b6:		lda #$01		; a9 01
@@ -139,7 +139,7 @@ B29_00f4:		inc $9d			; e6 9d
 B29_00f6:		lda #$02		; a9 02
 B29_00f8:		sta wPixelsToWalkToStairs.w		; 8d 1d 06
 B29_00fb:		lda #$00		; a9 00
-B29_00fd:		sta $0606		; 8d 06 06
+B29_00fd:		sta wEntityAlarmOrStartYforSinusoidalMovement.w		; 8d 06 06
 B29_0100:		lda wEntityBaseY.w		; ad 1c 04
 B29_0103:		cmp #$08		; c9 08
 B29_0105:		bcs B29_010f ; b0 08
@@ -153,7 +153,7 @@ B29_010f:		jmp $a112		; 4c 12 a1
 
 B29_0112:		lda #$00		; a9 00
 B29_0114:		sta wEntityVertSubSpeed.w		; 8d 37 05
-B29_0117:		sta $04db		; 8d db 04
+B29_0117:		sta wEntityFractionalY.w		; 8d db 04
 B29_011a:		ldy $05d8		; ac d8 05
 B29_011d:		lda wEntityPhase.w		; ad c1 05
 B29_0120:		bne B29_0159 ; d0 37
@@ -165,7 +165,7 @@ B29_0127:		beq B29_0146 ; f0 1d
 B29_0129:		sta wEntityVertSpeed.w		; 8d 20 05
 B29_012c:		clc				; 18 
 B29_012d:		lda wEntityAI_idx.w		; ad ef 05
-B29_0130:		adc $0606		; 6d 06 06
+B29_0130:		adc wEntityAlarmOrStartYforSinusoidalMovement.w		; 6d 06 06
 B29_0133:		sta wEntityAI_idx.w		; 8d ef 05
 B29_0136:		lda $05d8		; ad d8 05
 B29_0139:		adc wPixelsToWalkToStairs.w		; 6d 1d 06
@@ -193,7 +193,7 @@ B29_015e:		beq B29_0183 ; f0 23
 
 B29_0160:		sec				; 38 
 B29_0161:		lda wEntityAI_idx.w		; ad ef 05
-B29_0164:		sbc $0606		; ed06 06
+B29_0164:		sbc wEntityAlarmOrStartYforSinusoidalMovement.w		; ed06 06
 B29_0167:		sta wEntityAI_idx.w		; 8d ef 05
 B29_016a:		lda $05d8		; ad d8 05
 B29_016d:		sbc wPixelsToWalkToStairs.w		; ed1d 06
@@ -218,7 +218,7 @@ B29_018b:		beq B29_01b5 ; f0 28
 
 B29_018d:		ldx #$f8		; a2 f8
 B29_018f:		lda #$00		; a9 00
-B29_0191:		jsr func_1c_040b		; 20 0b 84
+B29_0191:		jsr retZAndTileAifCollisionAtOffsetAXisEmptyOrMud		; 20 0b 84
 B29_0194:		bne B29_01b5 ; d0 1f
 
 B29_0196:		lda wEntityBaseY.w		; ad 1c 04
@@ -231,7 +231,7 @@ B29_01a2:		beq B29_01a6 ; f0 02
 
 B29_01a4:		lda #$f7		; a9 f7
 B29_01a6:		ldx #$00		; a2 00
-B29_01a8:		jsr func_1c_040b		; 20 0b 84
+B29_01a8:		jsr retZAndTileAifCollisionAtOffsetAXisEmptyOrMud		; 20 0b 84
 B29_01ab:		beq B29_01c5 ; f0 18
 
 B29_01ad:		jmp func_1c_0712		; 4c 12 87
@@ -361,12 +361,12 @@ B29_027d:		beq B29_02a0 ; f0 21
 
 B29_027f:		ldx #$00		; a2 00
 B29_0281:		lda #$f7		; a9 f7
-B29_0283:		jsr func_1c_040b		; 20 0b 84
+B29_0283:		jsr retZAndTileAifCollisionAtOffsetAXisEmptyOrMud		; 20 0b 84
 B29_0286:		beq B29_02ba ; f0 32
 
 B29_0288:		ldx #$01		; a2 01
 B29_028a:		lda #$f7		; a9 f7
-B29_028c:		jsr func_1c_040b		; 20 0b 84
+B29_028c:		jsr retZAndTileAifCollisionAtOffsetAXisEmptyOrMud		; 20 0b 84
 B29_028f:		bne B29_0294 ; d0 03
 
 B29_0291:		jmp $a207		; 4c 07 a2
@@ -374,7 +374,7 @@ B29_0291:		jmp $a207		; 4c 07 a2
 
 B29_0294:		ldx #$ff		; a2 ff
 B29_0296:		lda #$f7		; a9 f7
-B29_0298:		jsr func_1c_040b		; 20 0b 84
+B29_0298:		jsr retZAndTileAifCollisionAtOffsetAXisEmptyOrMud		; 20 0b 84
 B29_029b:		bne B29_02e4 ; d0 47
 
 B29_029d:		jmp $a1d9		; 4c d9 a1
@@ -386,7 +386,7 @@ B29_02a4:		beq B29_02ba ; f0 14
 
 B29_02a6:		ldx #$f8		; a2 f8
 B29_02a8:		lda #$00		; a9 00
-B29_02aa:		jsr func_1f_1cdd		; 20 dd fc
+B29_02aa:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B29_02ad:		beq B29_02ba ; f0 0b
 
 B29_02af:		lda wEntityFacingLeft.w		; ad a8 04
@@ -404,12 +404,12 @@ B29_02c1:		beq B29_02a0 ; f0 dd
 
 B29_02c3:		ldx #$00		; a2 00
 B29_02c5:		lda #$08		; a9 08
-B29_02c7:		jsr func_1c_040b		; 20 0b 84
+B29_02c7:		jsr retZAndTileAifCollisionAtOffsetAXisEmptyOrMud		; 20 0b 84
 B29_02ca:		beq B29_02ba ; f0 ee
 
 B29_02cc:		ldx #$01		; a2 01
 B29_02ce:		lda #$08		; a9 08
-B29_02d0:		jsr func_1c_040b		; 20 0b 84
+B29_02d0:		jsr retZAndTileAifCollisionAtOffsetAXisEmptyOrMud		; 20 0b 84
 B29_02d3:		bne B29_02d8 ; d0 03
 
 B29_02d5:		jmp $a1f9		; 4c f9 a1
@@ -417,7 +417,7 @@ B29_02d5:		jmp $a1f9		; 4c f9 a1
 
 B29_02d8:		ldx #$ff		; a2 ff
 B29_02da:		lda #$08		; a9 08
-B29_02dc:		jsr func_1c_040b		; 20 0b 84
+B29_02dc:		jsr retZAndTileAifCollisionAtOffsetAXisEmptyOrMud		; 20 0b 84
 B29_02df:		bne B29_02e4 ; d0 03
 
 B29_02e1:		jmp $a1cb		; 4c cb a1
@@ -438,7 +438,7 @@ B29_02f1:		lda #$0d		; a9 0d
 B29_02f3:		sta wEntityAnimationDefIdxInSpecGroup.w		; 8d aa 05
 B29_02f6:		ldx #$0c		; a2 0c
 B29_02f8:		lda #$00		; a9 00
-B29_02fa:		jsr func_1c_040b		; 20 0b 84
+B29_02fa:		jsr retZAndTileAifCollisionAtOffsetAXisEmptyOrMud		; 20 0b 84
 B29_02fd:		bne B29_030c ; d0 0d
 
 B29_02ff:		lda #$01		; a9 01
@@ -461,7 +461,7 @@ B29_0320:		bne B29_030c ; d0 ea
 
 B29_0322:		ldx #$f8		; a2 f8
 B29_0324:		lda #$00		; a9 00
-B29_0326:		jsr func_1c_040b		; 20 0b 84
+B29_0326:		jsr retZAndTileAifCollisionAtOffsetAXisEmptyOrMud		; 20 0b 84
 B29_0329:		bne B29_030c ; d0 e1
 
 B29_032b:		lda #$ff		; a9 ff
@@ -477,7 +477,7 @@ B29_0338:		rts				; 60
 
 
 B29_0339:		lda #$02		; a9 02
-B29_033b:		jsr $ef57		; 20 57 ef
+B29_033b:		jsr setPlayerAnimationDefIdxA_animateNextFrame		; 20 57 ef
 B29_033e:		lda #$32		; a9 32
 B29_0340:		sta wPlayerStateDoubled.w		; 8d 65 05
 B29_0343:		rts				; 60 
@@ -490,7 +490,7 @@ B29_0348:		rts				; 60
 
 B29_0349:		ldx #$f8		; a2 f8
 B29_034b:		lda #$00		; a9 00
-B29_034d:		jsr func_1c_040b		; 20 0b 84
+B29_034d:		jsr retZAndTileAifCollisionAtOffsetAXisEmptyOrMud		; 20 0b 84
 B29_0350:		beq B29_0344 ; f0 f2
 
 B29_0352:		cmp #$05		; c9 05
@@ -539,7 +539,7 @@ B29_0383:		jmp func_1d_008d		; 4c 8d a0
 
 B29_0386:		ldx #$00		; a2 00
 B29_0388:		lda #$f4		; a9 f4
-B29_038a:		jsr func_1c_040b		; 20 0b 84
+B29_038a:		jsr retZAndTileAifCollisionAtOffsetAXisEmptyOrMud		; 20 0b 84
 B29_038d:		bne B29_0392 ; d0 03
 
 B29_038f:		jmp func_1d_008d		; 4c 8d a0
@@ -554,7 +554,7 @@ B29_039b:		jmp $9e0b		; 4c 0b 9e
 
 B29_039e:		ldx #$00		; a2 00
 B29_03a0:		lda #$0c		; a9 0c
-B29_03a2:		jsr func_1c_040b		; 20 0b 84
+B29_03a2:		jsr retZAndTileAifCollisionAtOffsetAXisEmptyOrMud		; 20 0b 84
 B29_03a5:		bne B29_03aa ; d0 03
 
 B29_03a7:		jmp func_1d_008d		; 4c 8d a0
@@ -572,12 +572,12 @@ B29_03b9:		bcs B29_03f6 ; b0 3b
 
 B29_03bb:		ldx #$f8		; a2 f8
 B29_03bd:		lda #$ff		; a9 ff
-B29_03bf:		jsr func_1c_040b		; 20 0b 84
+B29_03bf:		jsr retZAndTileAifCollisionAtOffsetAXisEmptyOrMud		; 20 0b 84
 B29_03c2:		beq B29_03d0 ; f0 0c
 
 B29_03c4:		ldx #$f8		; a2 f8
 B29_03c6:		lda #$01		; a9 01
-B29_03c8:		jsr func_1c_040b		; 20 0b 84
+B29_03c8:		jsr retZAndTileAifCollisionAtOffsetAXisEmptyOrMud		; 20 0b 84
 B29_03cb:		beq B29_03d4 ; f0 07
 
 B29_03cd:		jmp $a3e9		; 4c e9 a3
@@ -613,7 +613,7 @@ B29_03f7:		lda #$00		; a9 00
 B29_03f9:		sta wEntityFacingLeft.w		; 8d a8 04
 B29_03fc:		ldx #$00		; a2 00
 B29_03fe:		lda #$0c		; a9 0c
-B29_0400:		jsr func_1c_040b		; 20 0b 84
+B29_0400:		jsr retZAndTileAifCollisionAtOffsetAXisEmptyOrMud		; 20 0b 84
 B29_0403:		bne B29_0419 ; d0 14
 
 B29_0405:		lda #$01		; a9 01
@@ -624,7 +624,7 @@ B29_040b:		lda #$01		; a9 01
 B29_040d:		sta wEntityFacingLeft.w		; 8d a8 04
 B29_0410:		ldx #$00		; a2 00
 B29_0412:		lda #$f4		; a9 f4
-B29_0414:		jsr func_1c_040b		; 20 0b 84
+B29_0414:		jsr retZAndTileAifCollisionAtOffsetAXisEmptyOrMud		; 20 0b 84
 B29_0417:		beq B29_041e ; f0 05
 
 B29_0419:		lda #$00		; a9 00
@@ -861,10 +861,10 @@ B29_055e:		ldy wCurrRoomMetadataByte			; a4 68
 B29_0560:		bmi B29_056e ; 30 0c
 
 B29_0562:		clc				; 18 
-B29_0563:		adc wCurrScrollXWithinRoom			; 65 56
+B29_0563:		adc wCurrScrollOffsetIntoRoomScreen			; 65 56
 B29_0565:		and #$f8		; 29 f8
 B29_0567:		sec				; 38 
-B29_0568:		sbc wCurrScrollXWithinRoom			; e5 56
+B29_0568:		sbc wCurrScrollOffsetIntoRoomScreen			; e5 56
 B29_056a:		sta $05d8		; 8d d8 05
 B29_056d:		rts				; 60 
 
@@ -878,7 +878,7 @@ B29_0574:	.db $7c
 B29_0575:		lda $87			; a5 87
 B29_0577:		lda $92			; a5 92
 B29_0579:		lda $9d			; a5 9d
-B29_057b:		lda $3c			; a5 3c
+B29_057b:		lda wPlayerHealth			; a5 3c
 B29_057d:		.db $00				; 00
 B29_057e:		.db $00				; 00
 B29_057f:		php				; 08 
@@ -922,23 +922,23 @@ B29_05ae:		ldy wPlayerStateDoubled.w		; ac 65 05
 B29_05b1:		jsr jumpTableNoPreserveY		; 20 86 e8
 	.dw playerState00_init
 	.dw playerState02_standIdle
-	.dw playerState04_exceptGrant
-	.dw playerState06_exceptGrant
-	.dw playerState08_exceptGrant
+	.dw playerState04_walking_exceptGrant
+	.dw playerState06_jumpStart_exceptGrant
+	.dw playerState08_jumping_exceptGrant
 	.dw playerState0a_ducking_exceptGrant
-	.dw playerState0c_exceptGrant
+	.dw playerState0c_falling_exceptGrant
 	.dw playerState0e_walkToStair
 	.dw playerState10_startClimb
 	.dw playerState12_stairIdle
-	.dw playerState14
+	.dw playerState14_stairClimb
 	.dw playerState16
 	.dw playerStateStub_alucard
 	.dw playerStateStub_alucard
-	.dw playerState1c
+	.dw playerState1c_duckAttack
 	.dw playerStateStub_alucard
-	.dw playerState20
-	.dw playerState22_exceptGrant
-	.dw playerState24
+	.dw playerState20_standingItem
+	.dw playerState22_jumpingItem_exceptGrant
+	.dw playerState24_stairItem
 	.dw playerState26
 	.dw playerState28_2a
 	.dw playerState28_2a
@@ -958,7 +958,7 @@ B29_05b1:		jsr jumpTableNoPreserveY		; 20 86 e8
 playerStateStub_alucard:
 B29_05f8:		rts				; 60 
 
-playerState1c:
+playerState1c_duckAttack:
 B29_05f9:		jsr func_1c_0421		; 20 21 84
 B29_05fc:		bcs B29_0601 ; b0 03
 
@@ -991,22 +991,22 @@ B29_0626:		rts				; 60
 
 B29_0627:		lda #$05		; a9 05
 B29_0629:		ldx #$f0		; a2 f0
-B29_062b:		jsr func_1c_040b		; 20 0b 84
+B29_062b:		jsr retZAndTileAifCollisionAtOffsetAXisEmptyOrMud		; 20 0b 84
 B29_062e:		beq B29_064d ; f0 1d
 
 B29_0630:		lda #$05		; a9 05
 B29_0632:		ldx #$10		; a2 10
-B29_0634:		jsr func_1c_040b		; 20 0b 84
+B29_0634:		jsr retZAndTileAifCollisionAtOffsetAXisEmptyOrMud		; 20 0b 84
 B29_0637:		beq B29_064d ; f0 14
 
 B29_0639:		lda #$fb		; a9 fb
 B29_063b:		ldx #$f0		; a2 f0
-B29_063d:		jsr func_1c_040b		; 20 0b 84
+B29_063d:		jsr retZAndTileAifCollisionAtOffsetAXisEmptyOrMud		; 20 0b 84
 B29_0640:		beq B29_064d ; f0 0b
 
 B29_0642:		lda #$fb		; a9 fb
 B29_0644:		ldx #$10		; a2 10
-B29_0646:		jsr func_1c_040b		; 20 0b 84
+B29_0646:		jsr retZAndTileAifCollisionAtOffsetAXisEmptyOrMud		; 20 0b 84
 B29_0649:		beq B29_064d ; f0 02
 
 B29_064b:		sec				; 38 
@@ -1017,10 +1017,10 @@ B29_064d:		clc				; 18
 B29_064e:		rts				; 60 
 
 
-B29_064f:		lda $3c			; a5 3c
+B29_064f:		lda wPlayerHealth			; a5 3c
 B29_0651:		beq B29_0674 ; f0 21
 
-B29_0653:		lda $84			; a5 84
+B29_0653:		lda wNumHearts			; a5 84
 B29_0655:		beq B29_0674 ; f0 1d
 
 B29_0657:		lda wJoy1NewButtonsPressed			; a5 26
@@ -1098,7 +1098,7 @@ playerState30_alucard:
 B29_06bb:		lda #$2f		; a9 2f
 B29_06bd:		jsr playSound		; 20 5f e2
 B29_06c0:		lda #$05		; a9 05
-B29_06c2:		jsr $ef57		; 20 57 ef
+B29_06c2:		jsr setPlayerAnimationDefIdxA_animateNextFrame		; 20 57 ef
 B29_06c5:		lda #$01		; a9 01
 B29_06c7:		sta wEntityPhase.w		; 8d c1 05
 B29_06ca:		sta $ae			; 85 ae
@@ -1126,7 +1126,7 @@ B29_06ea:		jmp updatePlayerAnimationFrame		; 4c 73 ef
 
 
 B29_06ed:		lda #$03		; a9 03
-B29_06ef:		jsr $ef57		; 20 57 ef
+B29_06ef:		jsr setPlayerAnimationDefIdxA_animateNextFrame		; 20 57 ef
 B29_06f2:		jsr $a70a		; 20 0a a7
 B29_06f5:		lda #$00		; a9 00
 B29_06f7:		sta wEntityVertSubSpeed.w		; 8d 37 05
@@ -1140,7 +1140,7 @@ B29_0709:		rts				; 60
 
 B29_070a:		lda #$00		; a9 00
 B29_070c:		tax				; aa 
-B29_070d:		jsr func_1c_040b		; 20 0b 84
+B29_070d:		jsr retZAndTileAifCollisionAtOffsetAXisEmptyOrMud		; 20 0b 84
 B29_0710:		bne B29_0713 ; d0 01
 
 B29_0712:		rts				; 60 
@@ -1148,7 +1148,7 @@ B29_0712:		rts				; 60
 
 B29_0713:		lda #$00		; a9 00
 B29_0715:		ldx #$08		; a2 08
-B29_0717:		jsr func_1c_040b		; 20 0b 84
+B29_0717:		jsr retZAndTileAifCollisionAtOffsetAXisEmptyOrMud		; 20 0b 84
 B29_071a:		bne B29_0712 ; d0 f6
 
 B29_071c:		lda wEntityBaseY.w		; ad 1c 04
@@ -1160,7 +1160,7 @@ B29_0725:		rts				; 60
 
 playerState3c_alucard:
 B29_0726:		lda #$06		; a9 06
-B29_0728:		jsr $ef57		; 20 57 ef
+B29_0728:		jsr setPlayerAnimationDefIdxA_animateNextFrame		; 20 57 ef
 B29_072b:		lda #$01		; a9 01
 B29_072d:		sta wEntityPhase.w		; 8d c1 05
 B29_0730:		inc wPlayerStateDoubled.w		; ee 65 05
@@ -1188,12 +1188,12 @@ B29_074e:		jmp updatePlayerAnimationFrame		; 4c 73 ef
 
 B29_0751:		lda #$05		; a9 05
 B29_0753:		ldx #$10		; a2 10
-B29_0755:		jsr func_1f_1cdd		; 20 dd fc
+B29_0755:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B29_0758:		bne B29_076c ; d0 12
 
 B29_075a:		lda #$fb		; a9 fb
 B29_075c:		ldx #$10		; a2 10
-B29_075e:		jsr func_1f_1cdd		; 20 dd fc
+B29_075e:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B29_0761:		bne B29_076c ; d0 09
 
 B29_0763:		jsr func_1c_173a		; 20 3a 97
@@ -1231,7 +1231,7 @@ B29_0793:		beq B29_07c8 ; f0 33
 
 B29_0795:		ldx #$06		; a2 06
 B29_0797:		lda #$00		; a9 00
-B29_0799:		jsr func_1f_1cdd		; 20 dd fc
+B29_0799:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B29_079c:		bne B29_07c8 ; d0 2a
 
 B29_079e:		lda #$40		; a9 40
@@ -1246,15 +1246,15 @@ B29_07ad:		sta wEntityVertSubSpeed.w		; 8d 37 05
 B29_07b0:		lda #$ff		; a9 ff
 B29_07b2:		sta wEntityVertSpeed.w		; 8d 20 05
 B29_07b5:		clc				; 18 
-B29_07b6:		lda $04db		; ad db 04
+B29_07b6:		lda wEntityFractionalY.w		; ad db 04
 B29_07b9:		adc wEntityVertSubSpeed.w		; 6d 37 05
-B29_07bc:		sta $04db		; 8d db 04
+B29_07bc:		sta wEntityFractionalY.w		; 8d db 04
 B29_07bf:		lda wEntityBaseY.w		; ad 1c 04
 B29_07c2:		adc wEntityVertSpeed.w		; 6d 20 05
 B29_07c5:		sta wEntityBaseY.w		; 8d 1c 04
 B29_07c8:		ldx #$10		; a2 10
 B29_07ca:		lda #$00		; a9 00
-B29_07cc:		jsr func_1f_1cdd		; 20 dd fc
+B29_07cc:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B29_07cf:		cmp #$02		; c9 02
 B29_07d1:		beq B29_07dd ; f0 0a
 
@@ -1276,7 +1276,7 @@ B29_07ea:		jmp func_1c_073a		; 4c 3a 87
 playerState40_alucard:
 B29_07ed:		ldx #$10		; a2 10
 B29_07ef:		lda #$00		; a9 00
-B29_07f1:		jsr func_1f_1cdd		; 20 dd fc
+B29_07f1:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B29_07f4:		cmp #$02		; c9 02
 B29_07f6:		beq B29_0802 ; f0 0a
 
@@ -1297,7 +1297,7 @@ B29_0810:		adc #$01		; 69 01
 B29_0812:		sta wEntityBaseY.w		; 8d 1c 04
 B29_0815:		ldx #$06		; a2 06
 B29_0817:		lda #$00		; a9 00
-B29_0819:		jsr func_1f_1cdd		; 20 dd fc
+B29_0819:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B29_081c:		bne B29_0821 ; d0 03
 
 B29_081e:		jmp func_1c_073a		; 4c 3a 87
@@ -1318,7 +1318,7 @@ B29_0832:		sta wPlayerStateDoubled.w		; 8d 65 05
 B29_0835:		rts				; 60 
 
 
-B29_0836:		lda $84			; a5 84
+B29_0836:		lda wNumHearts			; a5 84
 B29_0838:		beq B29_0849 ; f0 0f
 
 B29_083a:		dec $ae			; c6 ae
@@ -1350,7 +1350,7 @@ B29_0859:		bcs B29_0850 ; b0 f5
 
 B29_085b:		ldx #$10		; a2 10
 B29_085d:		lda #$00		; a9 00
-B29_085f:		jsr func_1f_1cdd		; 20 dd fc
+B29_085f:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B29_0862:		cmp #$02		; c9 02
 B29_0864:		beq B29_0830 ; f0 ca
 
@@ -1592,12 +1592,12 @@ B29_0a1a:		beq B29_0a84 ; f0 68
 
 B29_0a1c:		ldx #$fa		; a2 fa
 B29_0a1e:		lda #$08		; a9 08
-B29_0a20:		jsr func_1f_1cdd		; 20 dd fc
+B29_0a20:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B29_0a23:		bne B29_0a48 ; d0 23
 
 B29_0a25:		ldx #$06		; a2 06
 B29_0a27:		lda #$08		; a9 08
-B29_0a29:		jsr func_1f_1cdd		; 20 dd fc
+B29_0a29:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B29_0a2c:		bne B29_0a48 ; d0 1a
 
 B29_0a2e:		rts				; 60 
@@ -1609,12 +1609,12 @@ B29_0a33:		beq B29_0a57 ; f0 22
 
 B29_0a35:		ldx #$fa		; a2 fa
 B29_0a37:		lda #$f8		; a9 f8
-B29_0a39:		jsr func_1f_1cdd		; 20 dd fc
+B29_0a39:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B29_0a3c:		bne B29_0a4c ; d0 0e
 
 B29_0a3e:		ldx #$06		; a2 06
 B29_0a40:		lda #$f8		; a9 f8
-B29_0a42:		jsr func_1f_1cdd		; 20 dd fc
+B29_0a42:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B29_0a45:		bne B29_0a4c ; d0 05
 
 B29_0a47:		rts				; 60 
@@ -1726,9 +1726,9 @@ B29_0ada:		jmp $aa1c		; 4c 1c aa
 
 B29_0add:		lda wEntityBaseX.w		; ad 38 04
 B29_0ae0:		clc				; 18 
-B29_0ae1:		adc wCurrScrollXWithinRoom			; 65 56
+B29_0ae1:		adc wCurrScrollOffsetIntoRoomScreen			; 65 56
 B29_0ae3:		sta $0a			; 85 0a
-B29_0ae5:		lda wCurrScrollXRoom			; a5 57
+B29_0ae5:		lda wCurrScrollRoomScreen			; a5 57
 B29_0ae7:		adc #$00		; 69 00
 B29_0ae9:		sta $0b			; 85 0b
 B29_0aeb:		rts				; 60 
@@ -1765,7 +1765,7 @@ B29_0b13:		clc				; 18
 B29_0b14:		rts				; 60 
 
 
-B29_0b15:		jsr func_1f_1cdd		; 20 dd fc
+B29_0b15:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B29_0b18:		beq B29_0b24 ; f0 0a
 
 B29_0b1a:		cmp #$05		; c9 05
@@ -1896,9 +1896,9 @@ B29_0bdb:		jmp $ab46		; 4c 46 ab
 
 B29_0bde:		lda wEntityBaseX.w		; ad 38 04
 B29_0be1:		clc				; 18 
-B29_0be2:		adc wCurrScrollXWithinRoom			; 65 56
+B29_0be2:		adc wCurrScrollOffsetIntoRoomScreen			; 65 56
 B29_0be4:		sta $0a			; 85 0a
-B29_0be6:		lda wCurrScrollXRoom			; a5 57
+B29_0be6:		lda wCurrScrollRoomScreen			; a5 57
 B29_0be8:		adc #$00		; 69 00
 B29_0bea:		sta $0b			; 85 0b
 B29_0bec:		cmp #$01		; c9 01
@@ -1935,12 +1935,12 @@ B29_0c14:		bmi B29_0c29 ; 30 13
 
 B29_0c16:		ldx #$fa		; a2 fa
 B29_0c18:		lda #$08		; a9 08
-B29_0c1a:		jsr func_1f_1cdd		; 20 dd fc
+B29_0c1a:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B29_0c1d:		bne B29_0c3b ; d0 1c
 
 B29_0c1f:		ldx #$06		; a2 06
 B29_0c21:		lda #$08		; a9 08
-B29_0c23:		jsr func_1f_1cdd		; 20 dd fc
+B29_0c23:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B29_0c26:		bne B29_0c3b ; d0 13
 
 B29_0c28:		rts				; 60 
@@ -1948,12 +1948,12 @@ B29_0c28:		rts				; 60
 
 B29_0c29:		ldx #$fa		; a2 fa
 B29_0c2b:		lda #$f8		; a9 f8
-B29_0c2d:		jsr func_1f_1cdd		; 20 dd fc
+B29_0c2d:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B29_0c30:		bne B29_0c3b ; d0 09
 
 B29_0c32:		ldx #$06		; a2 06
 B29_0c34:		lda #$f8		; a9 f8
-B29_0c36:		jsr func_1f_1cdd		; 20 dd fc
+B29_0c36:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B29_0c39:		beq B29_0c43 ; f0 08
 
 B29_0c3b:		lda #$00		; a9 00
@@ -1967,12 +1967,12 @@ B29_0c47:		bmi B29_0c5c ; 30 13
 
 B29_0c49:		ldx #$06		; a2 06
 B29_0c4b:		lda #$fa		; a9 fa
-B29_0c4d:		jsr func_1f_1cdd		; 20 dd fc
+B29_0c4d:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B29_0c50:		bne B29_0c80 ; d0 2e
 
 B29_0c52:		ldx #$06		; a2 06
 B29_0c54:		lda #$06		; a9 06
-B29_0c56:		jsr func_1f_1cdd		; 20 dd fc
+B29_0c56:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B29_0c59:		bne B29_0c80 ; d0 25
 
 B29_0c5b:		rts				; 60 
@@ -1980,12 +1980,12 @@ B29_0c5b:		rts				; 60
 
 B29_0c5c:		ldx #$fa		; a2 fa
 B29_0c5e:		lda #$fa		; a9 fa
-B29_0c60:		jsr func_1f_1cdd		; 20 dd fc
+B29_0c60:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B29_0c63:		bne B29_0c6e ; d0 09
 
 B29_0c65:		ldx #$fa		; a2 fa
 B29_0c67:		lda #$06		; a9 06
-B29_0c69:		jsr func_1f_1cdd		; 20 dd fc
+B29_0c69:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B29_0c6c:		beq B29_0c7f ; f0 11
 
 B29_0c6e:		jsr $8a02		; 20 02 8a
@@ -2425,7 +2425,7 @@ B29_0f57:		inc wPlayerStateDoubled.w, x	; fe 65 05
 B29_0f5a:		inc wPlayerStateDoubled.w, x	; fe 65 05
 B29_0f5d:		ldy $054e, x	; bc 4e 05
 B29_0f60:		lda $af67, y	; b9 67 af
-B29_0f63:		sta $0606, x	; 9d 06 06
+B29_0f63:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B29_0f66:		rts				; 60 
 
 
@@ -2460,7 +2460,7 @@ B29_0f81:		lda #$1f		; a9 1f
 B29_0f83:		jsr playSound		; 20 5f e2
 B29_0f86:		lda #$06		; a9 06
 B29_0f88:		ldy #$0b		; a0 0b
-B29_0f8a:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B29_0f8a:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B29_0f8d:		ldy $10			; a4 10
 B29_0f8f:		lda wEntityFacingLeft.w, y	; b9 a8 04
 B29_0f92:		sta $00			; 85 00
@@ -2726,7 +2726,7 @@ B29_1139:		bne B29_10f9 ; d0 be
 
 B29_113b:		lda #$02		; a9 02
 B29_113d:		ldy #$0a		; a0 0a
-B29_113f:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B29_113f:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B29_1142:		lda $b17a		; ad 7a b1
 B29_1145:		sta wEntityPhase.w, x	; 9d c1 05
 B29_1148:		lda #$01		; a9 01
@@ -2979,9 +2979,9 @@ B29_12dc:		sbc #$08		; e9 08
 B29_12de:		asl a			; 0a
 B29_12df:		tay				; a8 
 B29_12e0:		sec				; 38 
-B29_12e1:		lda $04c4, x	; bd c4 04
+B29_12e1:		lda wEntityFractionalX.w, x	; bd c4 04
 B29_12e4:		sbc $b36d, y	; f9 6d b3
-B29_12e7:		sta $04c4, x	; 9d c4 04
+B29_12e7:		sta wEntityFractionalX.w, x	; 9d c4 04
 B29_12ea:		lda wEntityBaseX.w, x	; bd 38 04
 B29_12ed:		sbc $b36c, y	; f9 6c b3
 B29_12f0:		sta wEntityBaseX.w, x	; 9d 38 04
@@ -2992,8 +2992,8 @@ B29_12f4:		asl a			; 0a
 B29_12f5:		tay				; a8 
 B29_12f6:		clc				; 18 
 B29_12f7:		lda $b35b, y	; b9 5b b3
-B29_12fa:		adc $04c4, x	; 7d c4 04
-B29_12fd:		sta $04c4, x	; 9d c4 04
+B29_12fa:		adc wEntityFractionalX.w, x	; 7d c4 04
+B29_12fd:		sta wEntityFractionalX.w, x	; 9d c4 04
 B29_1300:		lda $b35a, y	; b9 5a b3
 B29_1303:		adc wEntityBaseX.w, x	; 7d 38 04
 B29_1306:		sta wEntityBaseX.w, x	; 9d 38 04
@@ -3022,9 +3022,9 @@ B29_1325:		sbc wEntityAI_idx.w, x	; fd ef 05
 B29_1328:		asl a			; 0a
 B29_1329:		tay				; a8 
 B29_132a:		sec				; 38 
-B29_132b:		lda $04db, x	; bd db 04
+B29_132b:		lda wEntityFractionalY.w, x	; bd db 04
 B29_132e:		sbc $b35b, y	; f9 5b b3
-B29_1331:		sta $04db, x	; 9d db 04
+B29_1331:		sta wEntityFractionalY.w, x	; 9d db 04
 B29_1334:		lda wEntityBaseY.w, x	; bd 1c 04
 B29_1337:		sbc $b35a, y	; f9 5a b3
 B29_133a:		sta wEntityBaseY.w, x	; 9d 1c 04
@@ -3038,8 +3038,8 @@ B29_1344:		asl a			; 0a
 B29_1345:		tay				; a8 
 B29_1346:		clc				; 18 
 B29_1347:		lda $b36d, y	; b9 6d b3
-B29_134a:		adc $04db, x	; 7d db 04
-B29_134d:		sta $04db, x	; 9d db 04
+B29_134a:		adc wEntityFractionalY.w, x	; 7d db 04
+B29_134d:		sta wEntityFractionalY.w, x	; 9d db 04
 B29_1350:		lda $b36c, y	; b9 6c b3
 B29_1353:		adc wEntityBaseY.w, x	; 7d 1c 04
 B29_1356:		sta wEntityBaseY.w, x	; 9d 1c 04
@@ -3261,7 +3261,7 @@ B29_149a:		lda #$13		; a9 13
 B29_149c:		jsr playSound		; 20 5f e2
 B29_149f:		lda #$00		; a9 00
 B29_14a1:		ldy #$08		; a0 08
-B29_14a3:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B29_14a3:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B29_14a6:		lda wEntityFacingLeft.w		; ad a8 04
 B29_14a9:		asl a			; 0a
 B29_14aa:		tay				; a8 
@@ -3303,7 +3303,7 @@ B29_14f9:		rts				; 60
 
 B29_14fa:		lda #$00		; a9 00
 B29_14fc:		ldy #$07		; a0 07
-B29_14fe:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B29_14fe:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B29_1501:		ldy $10			; a4 10
 B29_1503:		lda wEntityFacingLeft.w, y	; b9 a8 04
 B29_1506:		asl a			; 0a
@@ -3461,7 +3461,7 @@ B29_161a:		lda $b713, y	; b9 13 b7
 B29_161d:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B29_1620:		lda #$00		; a9 00
 B29_1622:		ldy #$08		; a0 08
-B29_1624:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B29_1624:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B29_1627:		jmp $af54		; 4c 54 af
 
 
@@ -3691,7 +3691,7 @@ B29_17bd:		lda #$4c		; a9 4c
 B29_17bf:		sta wEntityPhase.w, x	; 9d c1 05
 B29_17c2:		lda #$00		; a9 00
 B29_17c4:		ldy #$0c		; a0 0c
-B29_17c6:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B29_17c6:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B29_17c9:		inc wPlayerStateDoubled.w, x	; fe 65 05
 B29_17cc:		inc wPlayerStateDoubled.w, x	; fe 65 05
 B29_17cf:		rts				; 60 
@@ -3747,7 +3747,7 @@ B29_1829:		lda #$21		; a9 21
 B29_182b:		jsr playSound		; 20 5f e2
 B29_182e:		lda #$02		; a9 02
 B29_1830:		ldy #$09		; a0 09
-B29_1832:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B29_1832:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B29_1835:		txa				; 8a 
 B29_1836:		sec				; 38 
 B29_1837:		sbc #$14		; e9 14
@@ -3767,8 +3767,8 @@ B29_1856:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B29_1859:		lda wEntityBaseX.w		; ad 38 04
 B29_185c:		sta wEntityBaseX.w, x	; 9d 38 04
 B29_185f:		sta wEntityAI_idx.w, x	; 9d ef 05
-B29_1862:		lda $04c4		; ad c4 04
-B29_1865:		sta $04c4, x	; 9d c4 04
+B29_1862:		lda wEntityFractionalX.w		; ad c4 04
+B29_1865:		sta wEntityFractionalX.w, x	; 9d c4 04
 B29_1868:		sta $05d8, x	; 9d d8 05
 B29_186b:		lda wEntityBaseY.w		; ad 1c 04
 B29_186e:		sta wEntityBaseY.w, x	; 9d 1c 04
@@ -3808,12 +3808,12 @@ B29_18a9:		lda #$00		; a9 00
 B29_18ab:		sta wEntityState.w, x	; 9d 70 04
 B29_18ae:		lda wEntityBaseX.w, x	; bd 38 04
 B29_18b1:		sta $09			; 85 09
-B29_18b3:		lda $04c4, x	; bd c4 04
+B29_18b3:		lda wEntityFractionalX.w, x	; bd c4 04
 B29_18b6:		sta $08			; 85 08
 B29_18b8:		lda wEntityAI_idx.w, x	; bd ef 05
 B29_18bb:		sta wEntityBaseX.w, x	; 9d 38 04
 B29_18be:		lda $05d8, x	; bd d8 05
-B29_18c1:		sta $04c4, x	; 9d c4 04
+B29_18c1:		sta wEntityFractionalX.w, x	; 9d c4 04
 B29_18c4:		lda $09			; a5 09
 B29_18c6:		sta wEntityAI_idx.w, x	; 9d ef 05
 B29_18c9:		lda $08			; a5 08
@@ -3857,20 +3857,20 @@ B29_1915:		rts				; 60
 B29_1916:		lda wEntityBaseX.w, x	; bd 38 04
 B29_1919:		beq B29_192e ; f0 13
 
-B29_191b:		lda $04c4, x	; bd c4 04
+B29_191b:		lda wEntityFractionalX.w, x	; bd c4 04
 B29_191e:		clc				; 18 
 B29_191f:		adc wEntityHorizSubSpeed.w, x	; 7d 09 05
-B29_1922:		sta $04c4, x	; 9d c4 04
+B29_1922:		sta wEntityFractionalX.w, x	; 9d c4 04
 B29_1925:		lda wEntityBaseX.w, x	; bd 38 04
 B29_1928:		adc wEntityHorizSpeed.w, x	; 7d f2 04
 B29_192b:		sta wEntityBaseX.w, x	; 9d 38 04
 B29_192e:		rts				; 60 
 
 
-B29_192f:		lda $04db, x	; bd db 04
+B29_192f:		lda wEntityFractionalY.w, x	; bd db 04
 B29_1932:		clc				; 18 
 B29_1933:		adc wEntityVertSubSpeed.w, x	; 7d 37 05
-B29_1936:		sta $04db, x	; 9d db 04
+B29_1936:		sta wEntityFractionalY.w, x	; 9d db 04
 B29_1939:		lda wEntityBaseY.w, x	; bd 1c 04
 B29_193c:		adc wEntityVertSpeed.w, x	; 7d 20 05
 B29_193f:		sta wEntityBaseY.w, x	; 9d 1c 04
@@ -3911,7 +3911,7 @@ B29_196f:		bne B29_1980 ; d0 0f
 
 B29_1971:		lda #$00		; a9 00
 B29_1973:		ldx #$10		; a2 10
-B29_1975:		jsr func_1f_1cdd		; 20 dd fc
+B29_1975:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B29_1978:		cmp #$02		; c9 02
 B29_197a:		beq B29_1982 ; f0 06
 
@@ -3989,7 +3989,7 @@ B29_19f4:		rts				; 60
 
 func_1d_19f5:
 B29_19f5:		ldx #$14		; a2 14
-B29_19f7:		ldy $3b			; a4 3b
+B29_19f7:		ldy wCurrCharacterIdx			; a4 3b
 B29_19f9:		lda wCurrSubweapon.w, y
 B29_19fc:		beq B29_1a2c ; f0 2e
 
@@ -3997,7 +3997,7 @@ B29_19fe:		sta $08			; 85 08
 B29_1a00:		jsr $baa2		; 20 a2 ba
 B29_1a03:		bcc B29_1a2c ; 90 27
 
-B29_1a05:		ldy $3b			; a4 3b
+B29_1a05:		ldy wCurrCharacterIdx			; a4 3b
 B29_1a07:		lda $08			; a5 08
 B29_1a09:		cmp #$06		; c9 06
 B29_1a0b:		beq B29_1a5c ; f0 4f
@@ -4044,7 +4044,7 @@ B29_1a4c:		sta $ac			; 85 ac
 B29_1a4e:		lda #$01		; a9 01
 B29_1a50:		sta $ab			; 85 ab
 B29_1a52:		sta $06c9		; 8d c9 06
-B29_1a55:		jsr $e199		; 20 99 e1
+B29_1a55:		jsr silenceAllSoundChannels		; 20 99 e1
 B29_1a58:		clc				; 18 
 B29_1a59:		rts				; 60 
 
@@ -4058,8 +4058,10 @@ B29_1a65:		beq B29_1a2e ; f0 c7
 
 B29_1a67:		bne B29_1a2c ; d0 c3
 
+
+alucardAttacked:
 B29_1a69:		ldx #$14		; a2 14
-B29_1a6b:		ldy $3b			; a4 3b
+B29_1a6b:		ldy wCurrCharacterIdx			; a4 3b
 B29_1a6d:		lda $8e.w, y
 B29_1a70:		sta $09			; 85 09
 B29_1a72:		lda #$03		; a9 03
@@ -4095,7 +4097,7 @@ B29_1a9d:		sta $061d, x	; 9d 1d 06
 B29_1aa0:		beq B29_1a7d ; f0 db
 
 B29_1aa2:		ldy $08			; a4 08
-B29_1aa4:		lda $84			; a5 84
+B29_1aa4:		lda wNumHearts			; a5 84
 B29_1aa6:		cmp $bab6, y	; d9 b6 ba
 B29_1aa9:		rts				; 60 
 

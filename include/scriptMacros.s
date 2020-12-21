@@ -19,7 +19,15 @@
 .endm
 
 .macro sc_moveToPlayerSetHorizSpeeds
-    .db $1e \1 \2 $00
+    .db $1e \1>>8 \1&$ff $00
+.endm
+
+.macro sc_setAlarmOrStartYforSinusoidalMovement
+    .db $1f \1 $00 $00
+.endm
+
+.macro sc_incPhaseWhenAlarm0
+    .db $20 $00 $00 $00
 .endm
 
 .macro sc_end
@@ -48,6 +56,10 @@
 
 .macro sc_playSound
     .db $6c \1 $00 $00
+.endm
+
+.macro sc_tryToFall
+    .db $6d $00 $00 $00
 .endm
 
 .macro sc_stub2

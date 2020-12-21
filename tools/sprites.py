@@ -4,13 +4,14 @@ from PIL import Image
 
 # 1st skeleton - entityScripts_13
 
+# todo: build whole pattern table
 chrBank = 0x13
 chrBankTiles = chrData[chrBank*0x400:(chrBank+1)*0x400]
 
-group = 0x08
-specIdx = 0x94
+specGroup = 0x08
+specIdx = 0x92
 specData = address(0x1a, 0x23e)
-specGroupData = word(specData+group)-0x8000
+specGroupData = word(specData+specGroup)-0x8000
 specDetails = word(address(0x1a, specGroupData+specIdx))-0x8000
 start = address(0x1a, specDetails)
 
@@ -58,11 +59,32 @@ maxX = max(spr['x'] for spr in sprites)
 width = maxX-minX+0x8
 height = maxY-minY+0x10
 
+roomPalettes = []
+if specGroup == 2:
+    roomPalettes.extend([0x0f, 0x08, 0x15, 0x38])
+elif specGroup == 4:
+    roomPalettes.extend([0x0f, 0x21, 0x11, 0x20])
+elif specGroup == 6:
+    roomPalettes.extend([0x0f, 0x0f, 0x15, 0x36])
+else:
+    roomPalettes.extend([0x0f, 0x08, 0x26, 0x37])
+roomPalettes.extend([
+    0x0f, 0x0f, 0x22, 0x34,
+    0x0f, 0x0f, 0x0f, 0x0f, # todo: replace
+    0x0f, 0x0f, 0x16, 0x25,
+])
+roomPalettes = " ".join(map(str, roomPalettes))
+
 for i, spr in enumerate(sprites):
     tile = spr['tile']
     with open('gfx_layout.chr', 'wb') as f:
         f.write(chrBankTiles[tile*0x10:(tile+2)*0x10])
-    os.system('python tools/gfx.py 0 1')
+
+    attr = spr['attr'] & 3
+    with open('gfx_palette.bin', 'wb') as f:
+        f.write(bytearray([attr, attr]))
+
+    os.system(f'python tools/gfx.py 2 1 {roomPalettes}')
     os.system(f'mv spr_new.png pieces/{i}.png')
 
 mapping = {}

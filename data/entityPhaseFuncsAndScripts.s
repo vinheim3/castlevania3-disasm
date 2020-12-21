@@ -30,8 +30,8 @@ entityPhaseFuncsAddresses:
 	.dw entityPhaseFunc_1c
 	.dw entityPhaseFunc_1d
 	.dw entityPhaseFunc_1e_moveToPlayerSetHorizSpeeds
-	.dw entityPhaseFunc_1f
-	.dw entityPhaseFunc_20
+	.dw entityPhaseFunc_1f_setAlarmOrStartYforSinusoidalMovement
+	.dw entityPhaseFunc_20_incPhaseWhenAlarm0
 	.dw entityPhaseFunc_21
 	.dw entityPhaseFunc_22
 	.dw entityPhaseFunc_23
@@ -108,7 +108,7 @@ entityPhaseFuncsAddresses:
 	.dw entityPhaseFunc_6a
 	.dw entityPhaseFunc_6b
 	.dw entityPhaseFunc_6c_playSound
-	.dw entityPhaseFunc_6d
+	.dw entityPhaseFunc_6d_tryToFall
 	.dw entityPhaseFunc_6e
 	.dw entityPhaseFunc_6f
 	.dw entityPhaseFunc_70
@@ -309,7 +309,7 @@ addNewSubweapon:
 	pha
 	jsr checkSubweaponIntegrity
 
-	lda $3b
+	lda wCurrCharacterIdx
 	asl a
 	asl a
 	asl a
@@ -332,7 +332,7 @@ addNewSubweapon:
 	inc wTrevorNumSubweapons.w, x
 	ldy wTrevorNumSubweapons.w, x
 	sta wTrevorSubweapons.w, y
--	ldy $3b
+-	ldy wCurrCharacterIdx
 	sta wCurrSubweapon.w, y
 	rts
 @toDone:

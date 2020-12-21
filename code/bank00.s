@@ -69,20 +69,22 @@ getCurrRoomsChrBanks:
 	lda (wCurrRoomSectionChrBanks2), y
 	sta wChrBankSpr_0c00
 
-	jsr chrSwitch_0_to_c00_1400
-	jmp chrSwitchAllMirrored
+	jsr updateSprChrBanks_0_to_c00_1400
+	jmp updateSprChrBank_1000_1800_1c00_bgChrBanks_0_to_c00
 
 
 .include "data/roomChrBanks.s"
 
 
-;;
-B0_03ee:		ldx #$00		; a2 00
-B0_03f0:		lda wChrBankBG_0400			; a5 4b
-B0_03f2:		jsr $83f9		; 20 f9 83
-B0_03f5:		ldx #$08		; a2 08
-B0_03f7:		lda wChrBankBG_0800			; a5 4c
+getCurrChrBankTileCollisionTypeOffsets:
+	ldx #$00
+	lda wChrBankBG_0400
+	jsr @get8bytesFromX
 
+	ldx #$08
+	lda wChrBankBG_0800
+
+@get8bytesFromX:
 B0_03f9:		ldy #$00		; a0 00
 B0_03fb:		cmp #$33		; c9 33
 B0_03fd:		beq B0_0432 ; f0 33
@@ -110,10 +112,10 @@ B0_041e:		iny				; c8
 B0_041f:		sta $0a			; 85 0a
 B0_0421:		lda ($08), y	; b1 08
 B0_0423:		iny				; c8 
-B0_0424:		sta $0770, x	; 9d 70 07
+-	sta wCurrChrBanksTileCollisionTypeOffsets.w, x	; 9d 70 07
 B0_0427:		inx				; e8 
 B0_0428:		dec $0a			; c6 0a
-B0_042a:		bne B0_0424 ; d0 f8
+	bne -
 
 B0_042c:		txa				; 8a 
 B0_042d:		and #$07		; 29 07
@@ -127,135 +129,120 @@ B0_0437:		lda data_00_0493.w+1, y	; b9 94 84
 B0_043a:		jmp B0_0418		; 4c 18 84
 
 data_00_043d:
-	.dw $8499
-	.dw $84a3
-	.dw $8499
-	.dw $84a7
-	.dw $8499
-	.dw $84b3
-	.dw $84ab
-	.dw $8499
-	.dw $8499
-	.dw $84af
-	.dw $8499
-	.dw $8499
-	.dw $84b3
-	.dw $8499
-	.dw $8499
-	.dw $84b9
-	.dw $84bd
-	.dw $84bd
-	.dw $84bd
-	.dw $84c1
-	.dw $8499
-	.dw $84c9
-	.dw $84cd
-	.dw $8499
-	.dw $8499
-	.dw $84d3
-	.dw $8499
-	.dw $8499
-	.dw $84d9
-	.dw $8499
-	.dw $84df
-	.dw $8499
-	.dw $84e3
-	.dw $84e7
-	.dw $84eb
-	.dw $8499
-	.dw $84f1
-	.dw $84f1
-	.dw $8499
-	.dw $84f7
-	.dw $8499
-	.dw $84fd
-	.dw $849f
+	.dw data_00_0499
+	.dw data_00_04a3
+	.dw data_00_0499
+	.dw data_00_04a7
+	.dw data_00_0499
+	.dw data_00_04b3
+	.dw data_00_04ab
+	.dw data_00_0499
+	.dw data_00_0499
+	.dw data_00_04af
+	.dw data_00_0499
+	.dw data_00_0499
+	.dw data_00_04b3
+	.dw data_00_0499
+	.dw data_00_0499
+	.dw data_00_04b9
+	.dw data_00_04bd
+	.dw data_00_04bd
+	.dw data_00_04bd
+	.dw data_00_04c1
+	.dw data_00_0499
+	.dw data_00_04c9
+	.dw data_00_04cd
+	.dw data_00_0499
+	.dw data_00_0499
+	.dw data_00_04d3
+	.dw data_00_0499
+	.dw data_00_0499
+	.dw data_00_04d9
+	.dw data_00_0499
+	.dw data_00_04df
+	.dw data_00_0499
+	.dw data_00_04e3
+	.dw data_00_04e7
+	.dw data_00_04eb
+	.dw data_00_0499
+	.dw data_00_04f1
+	.dw data_00_04f1
+	.dw data_00_0499
+	.dw data_00_04f7
+	.dw data_00_0499
+	.dw data_00_04fd
+	.dw data_00_049f
 
 data_00_0493:
-	.dw $849b
-	.dw $849b
-	.dw $849b
+	.dw data_00_049b
+	.dw data_00_049b
+	.dw data_00_049b
 
+data_00_0499:
+	.db $08 $80
 
+data_00_049b:
+	.db $06 $bc $02 $c0
 
-.db $08
-B0_049a:	.db $80
+data_00_049f:
+	.db $06 $7b $02 $80
+	
+data_00_04a3:
+	.db $06 $7e $02 $80
 
+data_00_04a7:
+	.db $06 $b7 $02 $c0
 
-B0_049b:		asl $bc			; 06 bc
-B0_049d:	.db $02
-B0_049e:		cpy #$06		; c0 06
-B0_04a0:	.db $7b
-B0_04a1:	.db $02
-B0_04a2:	.db $80
-B0_04a3:		asl $7e			; 06 7e
-B0_04a5:	.db $02
-B0_04a6:	.db $80
-B0_04a7:		asl $b7			; 06 b7
-B0_04a9:	.db $02
-B0_04aa:		cpy #$06		; c0 06
-B0_04ac:		lda $c002, y	; b9 02 c0
-B0_04af:		asl $b8			; 06 b8
-B0_04b1:	.db $02
-B0_04b2:		cpy #$04		; c0 04
-B0_04b4:		clv				; b8 
-B0_04b5:	.db $02
-B0_04b6:		lda $c002, y	; b9 02 c0
-B0_04b9:		asl $7a			; 06 7a
-B0_04bb:	.db $02
-B0_04bc:	.db $80
-B0_04bd:		asl $7c			; 06 7c
-B0_04bf:	.db $02
-B0_04c0:	.db $80
-B0_04c1:	.db $02
-B0_04c2:		ldx $01, y		; b6 01
-B0_04c4:	.db $b7
-B0_04c5:	.db $03
-B0_04c6:		clv				; b8 
-B0_04c7:	.db $02
-B0_04c8:		cpy #$06		; c0 06
-B0_04ca:		sei				; 78 
-B0_04cb:	.db $02
-B0_04cc:	.db $80
-B0_04cd:		ora ($b8, x)	; 01 b8
-B0_04cf:		ora $ba			; 05 ba
-B0_04d1:	.db $02
-B0_04d2:		cpy #$04		; c0 04
-B0_04d4:	.db $b2
-B0_04d5:	.db $02
-B0_04d6:		ldy $02, x		; b4 02
-B0_04d8:		cpy #$04		; c0 04
-B0_04da:		tsx				; ba 
-B0_04db:	.db $02
-B0_04dc:	.db $bb
-B0_04dd:	.db $02
-B0_04de:		cpy #$06		; c0 06
-B0_04e0:		ldy #$02		; a0 02
-B0_04e2:		cpy #$06		; c0 06
-B0_04e4:		clv				; b8 
-B0_04e5:	.db $02
-B0_04e6:		cpy #$06		; c0 06
-B0_04e8:	.db $7c
-B0_04e9:	.db $02
-B0_04ea:	.db $80
-B0_04eb:	.db $04
-B0_04ec:		clv				; b8 
-B0_04ed:	.db $02
-B0_04ee:		lda $c002, y	; b9 02 c0
-B0_04f1:	.db $04
-B0_04f2:	.db $b2
-B0_04f3:	.db $02
-B0_04f4:	.db $b3
-B0_04f5:	.db $02
-B0_04f6:		cpy #$04		; c0 04
-B0_04f8:	.db $b7
-B0_04f9:	.db $02
-B0_04fa:		clv				; b8 
-B0_04fb:	.db $02
-B0_04fc:		cpy #$06		; c0 06
-B0_04fe:		clv				; b8 
-B0_04ff:	.db $02
-B0_0500:		.db $c0
+data_00_04ab:
+	.db $06 $b9 $02 $c0
+	
+data_00_04af:
+	.db $06 $b8 $02 $c0
+
+data_00_04b3:
+	.db $04 $b8 $02 $b9 $02 $c0
+	
+data_00_04b9:
+	.db $06 $7a $02 $80
+
+data_00_04bd:
+	.db $06 $7c $02 $80
+	
+data_00_04c1:
+	.db $02 $b6 $01 $b7 $03 $b8 $02 $c0
+	
+data_00_04c9:
+	.db $06 $78 $02 $80
+	
+data_00_04cd:
+	.db $01 $b8 $05 $ba $02 $c0
+
+data_00_04d3:
+	.db $04 $b2 $02 $b4 $02 $c0
+
+data_00_04d9:
+	.db $04 $ba $02 $bb $02 $c0
+
+data_00_04df:
+	.db $06 $a0 $02 $c0
+
+data_00_04e3:
+	.db $06 $b8 $02 $c0
+
+data_00_04e7:
+	.db $06 $7c $02 $80
+	
+data_00_04eb:
+	.db $04 $b8 $02 $b9 $02 $c0
+
+data_00_04f1:
+	.db $04 $b2 $02 $b3 $02 $c0
+
+data_00_04f7:
+	.db $04 $b7 $02 $b8 $02 $c0
+
+data_00_04fd:
+	.db $06 $b8 $02 $c0
 
 
 getRoomSectionInternalPalettesSpecIdx:
@@ -363,7 +350,7 @@ loadCurrRoomsInternalPalettes:
 
 @afterBGdoSpr:
 ; y = offset for sprite address
-	jsr loadCurrPlayerInternalPalettes
+	jsr b0_loadCurrPlayerInternalPalettes
 	ldy wRoomSectionSprPalettesAddrOffset
 
 ; get room section address for sprite palettes
@@ -396,13 +383,13 @@ loadCurrRoomsInternalPalettes:
 	rts
 
 
-loadCurrRoomsInternalSprPalettes:
+b0_loadCurrRoomsInternalSprPalettes:
 	jsr getRoomSectionInternalPalettesSpecIdx
 	jmp loadCurrRoomsInternalPalettes@afterBGdoSpr
 
 
 func_00_05a4:
-B0_05a4:		jsr loadCurrRoomsInternalSprPalettes		; 20 9e 85
+B0_05a4:		jsr b0_loadCurrRoomsInternalSprPalettes		; 20 9e 85
 B0_05a7:		ldx wVramQueueNextIdxToFill			; a6 1d
 B0_05a9:		ldy #$00		; a0 00
 -	lda $85b8, y	; b9 b8 85
@@ -418,7 +405,7 @@ B0_05b7:		rts				; 60
 B0_05b8:		jsr $3726		; 20 26 37
 
 
-loadCurrPlayerInternalPalettes:
+b0_loadCurrPlayerInternalPalettes:
 	ldy wCurrPlayer.w
 	lda @staticLayoutIdxes, y
 	jsr displayStaticLayoutA
@@ -528,7 +515,7 @@ B0_0bac:		lda #$04		; a9 04
 B0_0bae:		sta $13			; 85 13
 B0_0bb0:		lda #$03		; a9 03
 B0_0bb2:		sta $14			; 85 14
-B0_0bb4:		lda $0300, x	; bd 00 03
+B0_0bb4:		lda wVramQueue.w, x	; bd 00 03
 B0_0bb7:		clc				; 18 
 B0_0bb8:		adc $12			; 65 12
 B0_0bba:		bpl B0_0bbe ; 10 02
@@ -571,7 +558,7 @@ B0_0be5:		ldy #$00		; a0 00
 B0_0be7:		lda #$03		; a9 03
 B0_0be9:		sta $00			; 85 00
 B0_0beb:		clc				; 18 
-B0_0bec:	.db $b9 $36 $00
+B0_0bec:		lda wCurrScore.w, y
 B0_0bef:		jsr $8c6d		; 20 6d 8c
 B0_0bf2:	.db $99 $36 $00
 B0_0bf5:		iny				; c8 
@@ -588,7 +575,7 @@ B0_0c03:		sta $38			; 85 38
 B0_0c05:		rts				; 60 
 
 
-B0_0c06:		lda $38			; a5 38
+B0_0c06:		lda wCurrScore+2			; a5 38
 B0_0c08:		cmp $3e			; c5 3e
 B0_0c0a:		bcc B0_0c05 ; 90 f9
 
@@ -601,23 +588,23 @@ B0_0c14:		bcc B0_0c18 ; 90 02
 B0_0c16:		lda #$ff		; a9 ff
 B0_0c18:		sta $3e			; 85 3e
 B0_0c1a:		ldx #$01		; a2 01
-B0_0c1c:		lda $35			; a5 35
+B0_0c1c:		lda wCurrLivesLeft			; a5 35
 B0_0c1e:		clc				; 18 
 B0_0c1f:		jsr $8c69		; 20 69 8c
 B0_0c22:		bcs B0_0c2e ; b0 0a
 
-B0_0c24:		sta $35			; 85 35
+B0_0c24:		sta wCurrLivesLeft			; 85 35
 B0_0c26:		lda #$4b		; a9 4b
 B0_0c28:		jsr playSound		; 20 5f e2
-B0_0c2b:		jsr $8e3c		; 20 3c 8e
+B0_0c2b:		jsr vramQueueNumLives		; 20 3c 8e
 B0_0c2e:		rts				; 60 
 
 
 B0_0c2f:		sta $00			; 85 00
-B0_0c31:		lda $84			; a5 84
+B0_0c31:		lda wNumHearts			; a5 84
 B0_0c33:		and #$0f		; 29 0f
 B0_0c35:		sta $01			; 85 01
-B0_0c37:		lda $84			; a5 84
+B0_0c37:		lda wNumHearts			; a5 84
 B0_0c39:		and #$f0		; 29 f0
 B0_0c3b:		sta $02			; 85 02
 B0_0c3d:		lda $01			; a5 01
@@ -635,21 +622,21 @@ B0_0c4e:		sta $02			; 85 02
 B0_0c50:		lda $01			; a5 01
 B0_0c52:		and #$0f		; 29 0f
 B0_0c54:		ora $02			; 05 02
-B0_0c56:		sta $84			; 85 84
+B0_0c56:		sta wNumHearts			; 85 84
 B0_0c58:		rts				; 60 
 
 
-B0_0c59:		lda $84			; a5 84
+B0_0c59:		lda wNumHearts			; a5 84
 B0_0c5b:		clc				; 18 
 B0_0c5c:		jsr $8c69		; 20 69 8c
 B0_0c5f:		bcs B0_0c64 ; b0 03
 
-B0_0c61:		sta $84			; 85 84
+B0_0c61:		sta wNumHearts			; 85 84
 B0_0c63:		rts				; 60 
 
 
 B0_0c64:		lda #$99		; a9 99
-B0_0c66:		sta $84			; 85 84
+B0_0c66:		sta wNumHearts			; 85 84
 B0_0c68:		rts				; 60 
 
 
@@ -682,37 +669,44 @@ B0_0c95:		sec				; 38
 B0_0c96:		rts				; 60 
 
 
-B0_0c97:		lda #$20		; a9 20
-B0_0c99:		sta wVramQueueDest+1			; 85 62
-B0_0c9b:		lda #$77		; a9 77
-B0_0c9d:		sta wVramQueueDest			; 85 61
-B0_0c9f:		lda $84			; a5 84
-B0_0ca1:		sta $08			; 85 08
-B0_0ca3:		jmp $e8fc		; 4c fc e8
+vramQueueNumHearts:
+	lda #>$2077
+	sta wVramQueueDest+1
+	lda #<$2077
+	sta wVramQueueDest
+	lda wNumHearts
+	sta wCurrNumToVramQueue
+	jmp vramQueueControlByte1AndNumsDigitTiles
 
 
-B0_0ca6:		lda #$20		; a9 20
-B0_0ca8:		sta wVramQueueDest+1			; 85 62
-B0_0caa:		lda #$67		; a9 67
-B0_0cac:		sta wVramQueueDest			; 85 61
-B0_0cae:		lda $3c			; a5 3c
+vramQueueLifeBars:
+; player life
+	lda #>$2067
+	sta wVramQueueDest+1
+	lda #<$2067
+	sta wVramQueueDest
+	lda wPlayerHealth
 B0_0cb0:		sta $08			; 85 08
 B0_0cb2:		lda #$83		; a9 83
 B0_0cb4:		sta $0a			; 85 0a
 B0_0cb6:		lda #$84		; a9 84
 B0_0cb8:		sta $0b			; 85 0b
-B0_0cba:		jsr $8cd1		; 20 d1 8c
-B0_0cbd:		lda #$20		; a9 20
+B0_0cba:		jsr func_00_0cd1		; 20 d1 8c
+
+; enemy life
+B0_0cbd:		lda #>$2087		; a9 20
 B0_0cbf:		sta wVramQueueDest+1			; 85 62
-B0_0cc1:		lda #$87		; a9 87
+B0_0cc1:		lda #<$2087		; a9 87
 B0_0cc3:		sta wVramQueueDest			; 85 61
-B0_0cc5:		lda $3d			; a5 3d
+B0_0cc5:		lda wBossHealth			; a5 3d
 B0_0cc7:		sta $08			; 85 08
 B0_0cc9:		lda #$93		; a9 93
 B0_0ccb:		sta $0a			; 85 0a
 B0_0ccd:		lda #$94		; a9 94
 B0_0ccf:		sta $0b			; 85 0b
-B0_0cd1:		jsr vramQueueSet1byteDestToCopy_noData		; 20 b5 e8
+
+func_00_0cd1:
+B0_0cd1:		jsr vramQueueSetControlByte1_destToCopy_noData		; 20 b5 e8
 B0_0cd4:		lda #$08		; a9 08
 B0_0cd6:		sta $09			; 85 09
 B0_0cd8:		lda $08			; a5 08
@@ -764,37 +758,39 @@ B0_0d1e:		stx wVramQueueNextIdxToFill			; 86 1d
 B0_0d20:		rts				; 60 
 
 
-B0_0d21:		lda #$20		; a9 20
+vramQueueTimeLeft:
+B0_0d21:		lda #>$2052		; a9 20
 B0_0d23:		sta wVramQueueDest+1			; 85 62
-B0_0d25:		lda #$52		; a9 52
+B0_0d25:		lda #<$2052		; a9 52
 B0_0d27:		sta wVramQueueDest			; 85 61
-B0_0d29:		lda $7f			; a5 7f
-B0_0d2b:		sta $08			; 85 08
-B0_0d2d:		jsr $e8fc		; 20 fc e8
-B0_0d30:		inc $61			; e6 61
-B0_0d32:		inc $61			; e6 61
-B0_0d34:		lda $7e			; a5 7e
-B0_0d36:		sta $08			; 85 08
-B0_0d38:		jmp $e8fc		; 4c fc e8
+B0_0d29:		lda wCurrTimeLeft+1			; a5 7f
+B0_0d2b:		sta wCurrNumToVramQueue			; 85 08
+B0_0d2d:		jsr vramQueueControlByte1AndNumsDigitTiles		; 20 fc e8
+B0_0d30:		inc wVramQueueDest			; e6 61
+B0_0d32:		inc wVramQueueDest			; e6 61
+B0_0d34:		lda wCurrTimeLeft			; a5 7e
+B0_0d36:		sta wCurrNumToVramQueue			; 85 08
+B0_0d38:		jmp vramQueueControlByte1AndNumsDigitTiles		; 4c fc e8
 
 
-B0_0d3b:		lda #$20		; a9 20
+vramQueueCurrScore:
+B0_0d3b:		lda #>$2046		; a9 20
 B0_0d3d:		sta wVramQueueDest+1			; 85 62
-B0_0d3f:		lda #$46		; a9 46
+B0_0d3f:		lda #<$2046		; a9 46
 B0_0d41:		sta wVramQueueDest			; 85 61
-B0_0d43:		lda $38			; a5 38
-B0_0d45:		sta $08			; 85 08
-B0_0d47:		jsr $e8fc		; 20 fc e8
-B0_0d4a:		inc $61			; e6 61
-B0_0d4c:		inc $61			; e6 61
-B0_0d4e:		lda $37			; a5 37
-B0_0d50:		sta $08			; 85 08
-B0_0d52:		jsr $e8fc		; 20 fc e8
-B0_0d55:		inc $61			; e6 61
-B0_0d57:		inc $61			; e6 61
-B0_0d59:		lda $36			; a5 36
-B0_0d5b:		sta $08			; 85 08
-B0_0d5d:		jmp $e8fc		; 4c fc e8
+B0_0d43:		lda wCurrScore+2			; a5 38
+B0_0d45:		sta wCurrNumToVramQueue			; 85 08
+B0_0d47:		jsr vramQueueControlByte1AndNumsDigitTiles		; 20 fc e8
+B0_0d4a:		inc wVramQueueDest			; e6 61
+B0_0d4c:		inc wVramQueueDest			; e6 61
+B0_0d4e:		lda wCurrScore+1			; a5 37
+B0_0d50:		sta wCurrNumToVramQueue			; 85 08
+B0_0d52:		jsr vramQueueControlByte1AndNumsDigitTiles		; 20 fc e8
+B0_0d55:		inc wVramQueueDest			; e6 61
+B0_0d57:		inc wVramQueueDest			; e6 61
+B0_0d59:		lda wCurrScore			; a5 36
+B0_0d5b:		sta wCurrNumToVramQueue			; 85 08
+B0_0d5d:		jmp vramQueueControlByte1AndNumsDigitTiles		; 4c fc e8
 
 
 B0_0d60:		bit SCANLINE_IRQ_STATUS.w		; 2c 04 52
@@ -808,17 +804,17 @@ B0_0d66:		jsr $8d60		; 20 60 8d
 B0_0d69:		jsr $8f6a		; 20 6a 8f
 B0_0d6c:		lda #$0e		; a9 0e
 B0_0d6e:		jsr displayStaticLayoutA		; 20 e9 ec
-B0_0d71:		jsr $8d3b		; 20 3b 8d
-B0_0d74:		jsr $8ca6		; 20 a6 8c
-B0_0d77:		jsr $8d21		; 20 21 8d
-B0_0d7a:		jsr $8d96		; 20 96 8d
-B0_0d7d:		jsr $8c97		; 20 97 8c
-B0_0d80:		jsr $8e3c		; 20 3c 8e
-B0_0d83:		jsr $8e4b		; 20 4b 8e
+B0_0d71:		jsr vramQueueCurrScore		; 20 3b 8d
+B0_0d74:		jsr vramQueueLifeBars		; 20 a6 8c
+B0_0d77:		jsr vramQueueTimeLeft		; 20 21 8d
+B0_0d7a:		jsr vramQueueCurrRoomGroupAndSection		; 20 96 8d
+B0_0d7d:		jsr vramQueueNumHearts		; 20 97 8c
+B0_0d80:		jsr vramQueueNumLives		; 20 3c 8e
+B0_0d83:		jsr vramQueueOtherCharImage		; 20 4b 8e
 B0_0d86:		lda #$24		; a9 24
-B0_0d88:		ldx $68			; a6 68
+B0_0d88:		ldx wCurrRoomMetadataByte			; a6 68
 B0_0d8a:		bpl B0_0d8f ; 10 03
-
+; vertical room
 B0_0d8c:		sec				; 38 
 B0_0d8d:		sbc #$04		; e9 04
 B0_0d8f:		sta $0434		; 8d 34 04
@@ -826,6 +822,7 @@ B0_0d92:		sta $0435		; 8d 35 04
 B0_0d95:		rts				; 60 
 
 
+vramQueueCurrRoomGroupAndSection:
 B0_0d96:		lda wCurrRoomGroup			; a5 32
 B0_0d98:		asl a			; 0a
 B0_0d99:		tay				; a8 
@@ -837,7 +834,7 @@ B0_0da4:		lda #$20		; a9 20
 B0_0da6:		sta wVramQueueDest+1			; 85 62
 B0_0da8:		lda #$5b		; a9 5b
 B0_0daa:		sta wVramQueueDest			; 85 61
-B0_0dac:		jsr vramQueueSet1byteDestToCopy_noData		; 20 b5 e8
+B0_0dac:		jsr vramQueueSetControlByte1_destToCopy_noData		; 20 b5 e8
 B0_0daf:		ldy #$00		; a0 00
 B0_0db1:		lda ($08), y	; b1 08
 B0_0db3:		sta wVramQueue.w, x	; 9d 00 03
@@ -846,7 +843,7 @@ B0_0db9:		lda #$20		; a9 20
 B0_0dbb:		sta wVramQueueDest+1			; 85 62
 B0_0dbd:		lda #$5e		; a9 5e
 B0_0dbf:		sta wVramQueueDest			; 85 61
-B0_0dc1:		jsr vramQueueSet1byteDestToCopy_noData		; 20 b5 e8
+B0_0dc1:		jsr vramQueueSetControlByte1_destToCopy_noData		; 20 b5 e8
 B0_0dc4:		ldy wCurrRoomSection			; a4 33
 B0_0dc6:		iny				; c8 
 B0_0dc7:		lda ($08), y	; b1 08
@@ -932,19 +929,23 @@ B0_0e37:		eor $50			; 45 50
 B0_0e39:	.db $42
 B0_0e3a:	.db $43
 B0_0e3b:	.db $44
-B0_0e3c:		lda #$20		; a9 20
+
+
+vramQueueNumLives:
+B0_0e3c:		lda #>$2097		; a9 20
 B0_0e3e:		sta wVramQueueDest+1			; 85 62
-B0_0e40:		lda #$97		; a9 97
+B0_0e40:		lda #<$2097		; a9 97
 B0_0e42:		sta wVramQueueDest			; 85 61
-B0_0e44:		ldy $35			; a4 35
-B0_0e46:		sty $08			; 84 08
-B0_0e48:		jmp $e8fc		; 4c fc e8
+B0_0e44:		ldy wCurrLivesLeft			; a4 35
+B0_0e46:		sty wCurrNumToVramQueue			; 84 08
+B0_0e48:		jmp vramQueueControlByte1AndNumsDigitTiles		; 4c fc e8
 
 
-B0_0e4b:		lda $3b			; a5 3b
+vramQueueOtherCharImage:
+B0_0e4b:		lda wCurrCharacterIdx			; a5 3b
 B0_0e4d:		eor #$01		; 49 01
 B0_0e4f:		tay				; a8 
-B0_0e50:	.db $b9 $39 $00
+B0_0e50:		lda wUsableChars.w, y
 B0_0e53:		bmi B0_0e5c ; 30 07
 
 B0_0e55:		tay				; a8 
@@ -958,7 +959,7 @@ B0_0e5e:		bpl B0_0e71 ; 10 11
 
 B0_0e60:	.db $12
 B0_0e61:		jsr $8e92		; 20 92 8e
-B0_0e64:		ldy $3b			; a4 3b
+B0_0e64:		ldy wCurrCharacterIdx			; a4 3b
 B0_0e66:		lda $87.w, y
 B0_0e69:		asl a			; 0a
 B0_0e6a:		tay				; a8 
@@ -973,7 +974,7 @@ B0_0e7d:		sty $04c1		; 8c c1 04
 B0_0e80:		lda #$d8		; a9 d8
 B0_0e82:		sta $0451		; 8d 51 04
 B0_0e85:		lda #$24		; a9 24
-B0_0e87:		ldx $68			; a6 68
+B0_0e87:		ldx wCurrRoomMetadataByte			; a6 68
 B0_0e89:		bpl B0_0e8e ; 10 03
 
 B0_0e8b:		sec				; 38 
@@ -982,7 +983,7 @@ B0_0e8e:		sta $0435		; 8d 35 04
 B0_0e91:		rts				; 60 
 
 
-B0_0e92:		ldy $3b			; a4 3b
+B0_0e92:		ldy wCurrCharacterIdx			; a4 3b
 B0_0e94:		lda wCurrSubweapon.w, y
 B0_0e97:		asl a			; 0a
 B0_0e98:		asl a			; 0a
@@ -996,7 +997,7 @@ B0_0ea7:		sta $04a4		; 8d a4 04
 B0_0eaa:		lda $8ed1, y	; b9 d1 8e
 B0_0ead:		sta $0450		; 8d 50 04
 B0_0eb0:		lda $8ed2, y	; b9 d2 8e
-B0_0eb3:		ldx $68			; a6 68
+B0_0eb3:		ldx wCurrRoomMetadataByte			; a6 68
 B0_0eb5:		bpl B0_0eba ; 10 03
 
 B0_0eb7:		sec				; 38 
@@ -1074,11 +1075,11 @@ B0_0f13:		lda $b2			; a5 b2
 B0_0f15:		and #$03		; 29 03
 B0_0f17:		beq B0_0f1f ; f0 06
 
-B0_0f19:		jsr loadCurrRoomsInternalSprPalettes		; 20 9e 85
+B0_0f19:		jsr b0_loadCurrRoomsInternalSprPalettes		; 20 9e 85
 B0_0f1c:		jmp $8f4e		; 4c 4e 8f
 
 
-B0_0f1f:		jsr loadCurrRoomsInternalSprPalettes		; 20 9e 85
+B0_0f1f:		jsr b0_loadCurrRoomsInternalSprPalettes		; 20 9e 85
 B0_0f22:		ldx wVramQueueNextIdxToFill			; a6 1d
 B0_0f24:		lda #$20		; a9 20
 B0_0f26:		sta $02e7, x	; 9d e7 02
@@ -1117,16 +1118,16 @@ B0_0f58:		dey				; 88
 B0_0f59:		beq B0_0f67 ; f0 0c
 
 B0_0f5b:		jsr $8e61		; 20 61 8e
-B0_0f5e:		jmp $8c97		; 4c 97 8c
+B0_0f5e:		jmp vramQueueNumHearts		; 4c 97 8c
 
 
-B0_0f61:		jmp $8ca6		; 4c a6 8c
+B0_0f61:		jmp vramQueueLifeBars		; 4c a6 8c
 
 
-B0_0f64:		jmp $8d21		; 4c 21 8d
+B0_0f64:		jmp vramQueueTimeLeft		; 4c 21 8d
 
 
-B0_0f67:		jmp $8d3b		; 4c 3b 8d
+B0_0f67:		jmp vramQueueCurrScore		; 4c 3b 8d
 
 
 B0_0f6a:		lda #$00		; a9 00
@@ -1146,16 +1147,17 @@ B0_0f7f:		rts				; 60
 
 
 func_00_1f80:
-B0_0f80:		jsr $907f		; 20 7f 90
+B0_0f80:		jsr func_00_107f		; 20 7f 90
 B0_0f83:		lda #$00		; a9 00
 B0_0f85:		sta $36			; 85 36
 B0_0f87:		sta $37			; 85 37
 B0_0f89:		sta $38			; 85 38
 B0_0f8b:		ldy $2e			; a4 2e
-B0_0f8d:		lda $8f9e, y	; b9 9e 8f
+
+B0_0f8d:		lda data_00_0f9e.w, y	; b9 9e 8f
 B0_0f90:		and #$0f		; 29 0f
 B0_0f92:		sta wCurrRoomSection			; 85 33
-B0_0f94:		lda $8f9e, y	; b9 9e 8f
+B0_0f94:		lda data_00_0f9e.w, y	; b9 9e 8f
 B0_0f97:		lsr a			; 4a
 B0_0f98:		lsr a			; 4a
 B0_0f99:		lsr a			; 4a
@@ -1163,47 +1165,48 @@ B0_0f9a:		lsr a			; 4a
 B0_0f9b:		sta wCurrRoomGroup			; 85 32
 B0_0f9d:		rts				; 60 
 
-
-B0_0f9e:		.db $00				; 00
-B0_0f9f:		bpl B0_0fb4 ; 10 13
-
-B0_0fa1:		jsr $3021		; 20 21 30
-B0_0fa4:		rti				; 40 
-
-
-B0_0fa5:		bvc B0_1007 ; 50 60
-
-B0_0fa7:		;removed
-	.db $70 $75
-
-B0_0fa9:	.db $80
-B0_0faa:		;removed
-	.db $90 $a0
-
-B0_0fac:		;removed
-	.db $b0 $c0
-
-B0_0fae:		bne B0_0f90 ; d0 e0
+; nybbles room group - room section
+data_00_0f9e:
+	.db $00
+	.db $10
+	.db $13
+	.db $20
+	.db $21
+	.db $30
+	.db $40
+	.db $50
+	.db $60
+	.db $70
+	.db $75
+	.db $80
+	.db $90
+	.db $a0
+	.db $b0
+	.db $c0
+	.db $d0
+	.db $e0
 
 
 func_00_0fb0:
+; room group * 3
 B0_0fb0:		lda wCurrRoomGroup		; a5 32
 B0_0fb2:		asl a			; 0a
 B0_0fb3:		clc				; 18 
-B0_0fb4:		adc $32			; 65 32
+B0_0fb4:		adc wCurrRoomGroup			; 65 32
 B0_0fb6:		tay				; a8 
-B0_0fb7:		lda $8fd1, y	; b9 d1 8f
+
+; use 2nd val if 1st byte < curr room section
+B0_0fb7:		lda data_00_0fd1.w, y	; b9 d1 8f
 B0_0fba:		cmp wCurrRoomSection			; c5 33
 B0_0fbc:		bcs B0_0fbf ; b0 01
 
 B0_0fbe:		iny				; c8 
-B0_0fbf:		lda $8fd2, y	; b9 d2 8f
+B0_0fbf:		lda data_00_0fd1.w+1, y	; b9 d2 8f
 B0_0fc2:		cmp #$03		; c9 03
 B0_0fc4:		beq B0_0fc9 ; f0 03
 
 B0_0fc6:		sta $2e			; 85 2e
 B0_0fc8:		rts				; 60 
-
 
 B0_0fc9:		ldy $2f			; a4 2f
 B0_0fcb:		beq B0_0fc6 ; f0 f9
@@ -1211,45 +1214,25 @@ B0_0fcb:		beq B0_0fc6 ; f0 f9
 B0_0fcd:		lda #$04		; a9 04
 B0_0fcf:		bne B0_0fc6 ; d0 f5
 
-B0_0fd1:		bpl B0_0fd3 ; 10 00
 
-B0_0fd3:		.db $00				; 00
-B0_0fd4:	.db $02
-B0_0fd5:		ora ($02, x)	; 01 02
-B0_0fd7:		bpl B0_0fdc ; 10 03
+data_00_0fd1:
+	.db $10 $00 $00
+	.db $02 $01 $02
+	.db $10 $03 $04
+	.db $10 $05 $05
+	.db $10 $06 $06
+	.db $10 $07 $07
+	.db $10 $08 $08
+	.db $04 $09 $0a
+	.db $10 $0b $0b
+	.db $10 $0c $0c
+	.db $10 $0d $0d
+	.db $10 $0e $0e
+	.db $10 $0f $0f
+	.db $10 $10 $10
+	.db $10 $11 $11
 
-B0_0fd9:	.db $04
-B0_0fda:		;removed
-	.db $10 $05
 
-B0_0fdc:		ora $10			; 05 10
-B0_0fde:		asl $06			; 06 06
-B0_0fe0:		bpl B0_0fe9 ; 10 07
-
-B0_0fe2:	.db $07
-B0_0fe3:		;removed
-	.db $10 $08
-
-B0_0fe5:		php				; 08 
-B0_0fe6:	.db $04
-B0_0fe7:		ora #$0a		; 09 0a
-B0_0fe9:		;removed
-	.db $10 $0b
-
-B0_0feb:	.db $0b
-B0_0fec:		bpl B0_0ffa ; 10 0c
-
-B0_0fee:	.db $0c
-B0_0fef:		bpl B0_0ffe ; 10 0d
-
-B0_0ff1:		ora $0e10		; 0d 10 0e
-B0_0ff4:		asl $0f10		; 0e 10 0f
-B0_0ff7:	.db $0f
-B0_0ff8:		bpl B0_100a ; 10 10
-
-B0_0ffa:		bpl B0_100c ; 10 10
-
-B0_0ffc:		ora ($11), y	; 11 11
 B0_0ffe:		ldy #$00		; a0 00
 B0_1000:		jsr $9031		; 20 31 90
 B0_1003:		bcs B0_102e ; b0 29
@@ -1323,7 +1306,7 @@ B0_1050:		bcc B0_10b9 ; 90 67
 B0_1052:		;removed
 	.db $90 $6f
 
-B0_1054:		bcc B0_10cd ; 90 77
+B0_1054:		.db $90 $77
 
 B0_1056:		;removed
 	.db $90 $57
@@ -1365,8 +1348,8 @@ B0_107c:		lsr $5e63, x	; 5e 63 5e
 func_00_107f:
 B0_107f:		lda #$b0		; a9 b0
 B0_1081:		sta wPPUCtrl			; 85 ff
-B0_1083:		jsr $90cd		; 20 cd 90
-B0_1086:		jsr $90c0		; 20 c0 90
+B0_1083:		jsr setCommonEffectsChrBanks		; 20 cd 90
+B0_1086:		jsr set5hearts_fullLifeBars		; 20 c0 90
 B0_1089:		lda #$02		; a9 02
 B0_108b:		sta $3e			; 85 3e
 B0_108d:		jsr $8ffe		; 20 fe 8f
@@ -1401,28 +1384,29 @@ B0_10b0:		bne B0_10b7 ; d0 05
 B0_10b2:		lda #$01		; a9 01
 B0_10b4:		sta wHardMode.w		; 8d f6 07
 B0_10b7:		lda #$02		; a9 02
-B0_10b9:		sta $35			; 85 35
+B0_10b9:		sta wCurrLivesLeft			; 85 35
 B0_10bb:		rts				; 60 
 
 
 B0_10bc:		lda #$10		; a9 10
 B0_10be:		bne B0_10b9 ; d0 f9
 
-B0_10c0:		lda #$05		; a9 05
-B0_10c2:		sta $84			; 85 84
-B0_10c4:		lda #$40		; a9 40
-B0_10c6:		sta $3c			; 85 3c
-B0_10c8:		lda #$40		; a9 40
-B0_10ca:		sta $3d			; 85 3d
-B0_10cc:		rts				; 60 
+set5hearts_fullLifeBars:
+	lda #$05
+	sta wNumHearts
+	lda #$40
+	sta wPlayerHealth
+	lda #$40
+	sta wBossHealth
+	rts 
 
 
-func_00_10cd:
-B0_10cd:		lda #$40		; a9 40
-B0_10cf:		sta wChrBankBG_0000			; 85 4a
-B0_10d1:		lda #$43		; a9 43
-B0_10d3:		sta wChrBankBG_0c00			; 85 4d
-B0_10d5:		rts				; 60 
+setCommonEffectsChrBanks:
+	lda #CB_GATE_TORCHES_WHIPUPGRADE_HEARTS_BRICKWALLS		; a9 40
+	sta wChrBankBG_0000
+	lda #CB_SCORE_ITEMS_PROJECTILES_CANDLES
+	sta wChrBankBG_0c00
+	rts
 
 
 B0_10d6:		lda #$00		; a9 00
@@ -1435,7 +1419,7 @@ B0_10e1:		rts				; 60
 
 B0_10e2:		lda #$b0		; a9 b0
 B0_10e4:		sta wPPUCtrl			; 85 ff
-B0_10e6:		jsr func_1f_0666		; 20 66 e6
+B0_10e6:		jsr setVerticalMirroringAndNoIRQsetup		; 20 66 e6
 B0_10e9:		jsr $90c8		; 20 c8 90
 B0_10ec:		lda #$00		; a9 00
 B0_10ee:		sta wOamSpecIdxDoubled.w		; 8d 00 04
@@ -1464,11 +1448,11 @@ B0_111e:		lda #$00		; a9 00
 B0_1120:		sta $74			; 85 74
 B0_1122:		lda #$b0		; a9 b0
 B0_1124:		sta wPPUCtrl			; 85 ff
-B0_1126:		jsr func_1f_0666		; 20 66 e6
+B0_1126:		jsr setVerticalMirroringAndNoIRQsetup		; 20 66 e6
 B0_1129:		lda #$00		; a9 00
 B0_112b:		sta $75			; 85 75
-B0_112d:		jsr $917f		; 20 7f 91
-B0_1130:		jsr $90cd		; 20 cd 90
+B0_112d:		jsr clearCollisionValues		; 20 7f 91
+B0_1130:		jsr setCommonEffectsChrBanks		; 20 cd 90
 B0_1133:		lda #$b0		; a9 b0
 B0_1135:		sta wPPUCtrl			; 85 ff
 B0_1137:		lda wPlayerStateDoubled.w		; ad 65 05
@@ -1507,36 +1491,38 @@ B0_117c:		bne B0_1176 ; d0 f8
 B0_117e:		rts				; 60 
 
 
-B0_117f:		lda #$00		; a9 00
-B0_1181:		tax				; aa 
-B0_1182:		sta $06e0, x	; 9d e0 06
-B0_1185:		inx				; e8 
-B0_1186:		cpx #$90		; e0 90
-B0_1188:		bne B0_1182 ; d0 f8
+clearCollisionValues:
+	lda #$00
+	tax
+-	sta wCurrCollisionValues.w, x
+	inx
+	cpx #$90
+	bne -
 
-B0_118a:		rts				; 60 
+	rts
 
 
 func_00_118b:
-B0_118b:		lda #$b0		; a9 b0
+B0_118b:		lda #PPUCTRL_NMI_ON|PPUCTRL_SPR_16|PPUCTRL_BG_1000		; a9 b0
 B0_118d:		sta wPPUCtrl			; 85 ff
-B0_118f:		jsr func_1f_0666		; 20 66 e6
-B0_1192:		jsr $90cd		; 20 cd 90
-B0_1195:		jsr $e5ca		; 20 ca e5
+B0_118f:		jsr setVerticalMirroringAndNoIRQsetup		; 20 66 e6
+B0_1192:		jsr setCommonEffectsChrBanks		; 20 cd 90
+B0_1195:		jsr set_2c_to_00h		; 20 ca e5
+
 B0_1198:		lda wCurrPlayer.w		; ad 4e 05
 B0_119b:		pha				; 48 
 B0_119c:		lda $bd			; a5 bd
 B0_119e:		pha				; 48 
 B0_119f:		lda $be			; a5 be
 B0_11a1:		pha				; 48 
-B0_11a2:		jsr func_1f_0828		; 20 28 e8
+B0_11a2:		jsr clearAlargePartOfWram_50hUp_todo		; 20 28 e8
 B0_11a5:		pla				; 68 
 B0_11a6:		sta $be			; 85 be
 B0_11a8:		pla				; 68 
 B0_11a9:		sta $bd			; 85 bd
 B0_11ab:		pla				; 68 
 B0_11ac:		sta wCurrPlayer.w		; 8d 4e 05
-B0_11af:		jmp $90c0		; 4c c0 90
+B0_11af:		jmp set5hearts_fullLifeBars		; 4c c0 90
 
 
 func_00_11b2:
@@ -1578,7 +1564,7 @@ B0_11e8:		beq B0_1201 ; f0 17
 B0_11ea:		cmp #$0e		; c9 0e
 B0_11ec:		beq B0_11fb ; f0 0d
 
-B0_11ee:		jsr $90c0		; 20 c0 90
+B0_11ee:		jsr set5hearts_fullLifeBars		; 20 c0 90
 B0_11f1:		lda #$00		; a9 00
 B0_11f3:		sta wPlayerStateDoubled.w		; 8d 65 05
 B0_11f6:		sta $75			; 85 75
@@ -1701,7 +1687,7 @@ B0_128a:		jsr jumpTablePreserveY		; 20 6d e8
 	.dw $942c
 	.dw func_00_1442
 
-B0_1299:		jsr $8ca6			; 20 a6 8c
+B0_1299:		jsr vramQueueLifeBars			; 20 a6 8c
 B0_129c:		jsr func_1f_07f7		; 20 f7 e7
 B0_129f:		lda #$00		; a9 00
 B0_12a1:		sta $0417		; 8d 17 04
@@ -1729,7 +1715,7 @@ B0_12c5:		jsr set_2c_to_01h		; 20 ce e5
 B0_12c8:		lda #$00		; a9 00
 B0_12ca:		sta wEntityState.w		; 8d 70 04
 B0_12cd:		lda #$00		; a9 00
-B0_12cf:		jsr $ef57		; 20 57 ef
+B0_12cf:		jsr setPlayerAnimationDefIdxA_animateNextFrame		; 20 57 ef
 B0_12d2:		inc $6b			; e6 6b
 B0_12d4:		rts				; 60 
 
@@ -1745,8 +1731,8 @@ data_00_12d5:
 
 data_00_12e2:
 	.db $01 GS_IN_GAME $1e $00
-	.db $00 GS_08 $00 $00
-	.db $01 GS_08 $00 $00
+	.db $00 GS_BETWEEN_LEVELS $00 $00
+	.db $01 GS_BETWEEN_LEVELS $00 $00
 	.db $00 GS_IN_GAME $1f $01
 	.db $00 GS_IN_GAME $1f $01
 	.db $01 GS_IN_GAME $1f $01
@@ -1797,20 +1783,20 @@ B0_1339:		jsr playSound		; 20 5f e2
 B0_133c:		lda wEntityFacingLeft.w		; ad a8 04
 B0_133f:		beq B0_1353 ; f0 12
 
-B0_1341:		lda $04c4		; ad c4 04
+B0_1341:		lda wEntityFractionalX.w		; ad c4 04
 B0_1344:		sec				; 38 
 B0_1345:		sbc #$c0		; e9 c0
-B0_1347:		sta $04c4		; 8d c4 04
+B0_1347:		sta wEntityFractionalX.w		; 8d c4 04
 B0_134a:		lda wEntityBaseX.w		; ad 38 04
 B0_134d:		sbc #$00		; e9 00
 B0_134f:		sta wEntityBaseX.w		; 8d 38 04
 B0_1352:		rts				; 60 
 
 
-B0_1353:		lda $04c4		; ad c4 04
+B0_1353:		lda wEntityFractionalX.w		; ad c4 04
 B0_1356:		clc				; 18 
 B0_1357:		adc #$c0		; 69 c0
-B0_1359:		sta $04c4		; 8d c4 04
+B0_1359:		sta wEntityFractionalX.w		; 8d c4 04
 B0_135c:		lda wEntityBaseX.w		; ad 38 04
 B0_135f:		adc #$00		; 69 00
 B0_1361:		sta wEntityBaseX.w		; 8d 38 04
@@ -1825,7 +1811,7 @@ B0_136e:		sta wGenericStateTimer			; 85 30
 B0_1370:		lda #$0c		; a9 0c
 B0_1372:		ldy #$00		; a0 00
 B0_1374:		ldx #$13		; a2 13
-B0_1376:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B0_1376:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B0_1379:		lda #$00		; a9 00
 B0_137b:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B0_137e:		sta wEntityPaletteOverride.w, x	; 9d 54 04
@@ -1871,7 +1857,7 @@ B0_13cf:		ldx #$24		; a2 24
 B0_13d1:		bne B0_13d5 ; d0 02
 
 B0_13d3:		ldx #$20		; a2 20
-B0_13d5:		lda wCurrScrollXRoom			; a5 57
+B0_13d5:		lda wCurrScrollRoomScreen			; a5 57
 B0_13d7:		and #$01		; 29 01
 B0_13d9:		eor $00			; 45 00
 B0_13db:		beq B0_13e1 ; f0 04
@@ -1883,7 +1869,7 @@ B0_13e1:		txa				; 8a
 B0_13e2:		clc				; 18 
 B0_13e3:		adc $62			; 65 62
 B0_13e5:		sta wVramQueueDest+1			; 85 62
-B0_13e7:		jsr vramQueueSet2bytesDestToCopy_noData		; 20 af e8
+B0_13e7:		jsr vramQueueSetControlByte2_destToCopy_noData		; 20 af e8
 B0_13ea:		ldy #$06		; a0 06
 B0_13ec:		lda #$00		; a9 00
 B0_13ee:		sta wVramQueue.w, x	; 9d 00 03
@@ -1911,7 +1897,7 @@ B0_140d:		;removed
 
 B0_140f:	.db $0c
 B0_1410:		lda #$00		; a9 00
-B0_1412:		jsr $ef57		; 20 57 ef
+B0_1412:		jsr setPlayerAnimationDefIdxA_animateNextFrame		; 20 57 ef
 B0_1415:		lda #$14		; a9 14
 B0_1417:		sta wGenericStateTimer			; 85 30
 B0_1419:		inc $6b			; e6 6b
@@ -2112,7 +2098,7 @@ B0_1536:		sta $6b			; 85 6b
 B0_1538:		rts				; 60 
 
 
-B0_1539:		jsr func_1c_150b_clcIfCanJump		; 20 0b 95
+B0_1539:		jsr returnClcIfCanJump		; 20 0b 95
 B0_153c:		bcs B0_1550 ; b0 12
 
 B0_153e:		lda #$0b		; a9 0b
@@ -2228,17 +2214,17 @@ B0_15f0:		bne B0_15f7 ; d0 05
 
 B0_15f2:		lda #$04		; a9 04
 B0_15f4:		sta wOamSpecIdxDoubled.w		; 8d 00 04
-B0_15f7:		lda $3b			; a5 3b
+B0_15f7:		lda wCurrCharacterIdx			; a5 3b
 B0_15f9:		eor #$01		; 49 01
-B0_15fb:		sta $3b			; 85 3b
+B0_15fb:		sta wCurrCharacterIdx			; 85 3b
 B0_15fd:		tay				; a8 
-B0_15fe:	.db $b9 $39 $00
+B0_15fe:		lda wUsableChars.w, y
 B0_1601:		sta wCurrPlayer.w		; 8d 4e 05
-B0_1604:		jsr $8e4b		; 20 4b 8e
+B0_1604:		jsr vramQueueOtherCharImage		; 20 4b 8e
 B0_1607:		jsr $8e61		; 20 61 8e
 B0_160a:		jsr $e61e		; 20 1e e6
 B0_160d:		jsr $8001		; 20 01 80
-B0_1610:		jsr chrSwitch_0_to_c00_1400		; 20 3c e3
+B0_1610:		jsr updateSprChrBanks_0_to_c00_1400		; 20 3c e3
 B0_1613:		lda wCurrPlayer.w		; ad 4e 05
 B0_1616:		asl a			; 0a
 B0_1617:		sta wEntityOamSpecGroupDoubled.w		; 8d 8c 04
@@ -2343,7 +2329,7 @@ B0_16ab:		lda $aa			; a5 aa
 B0_16ad:		sta wInGameSubstate			; 85 2a
 B0_16af:		lda #$00		; a9 00
 B0_16b1:		sta wEntityPaletteOverride.w		; 8d 54 04
-B0_16b4:		jsr $e5ca		; 20 ca e5
+B0_16b4:		jsr set_2c_to_00h		; 20 ca e5
 B0_16b7:		lda #$00		; a9 00
 B0_16b9:		sta $0505		; 8d 05 05
 B0_16bc:		sta $051c		; 8d 1c 05
@@ -2378,11 +2364,11 @@ B0_16e4:		and #$0f		; 29 0f
 B0_16e6:		asl a			; 0a
 B0_16e7:		tay				; a8 
 B0_16e8:		lda data_00_16fa.w, y	; b9 fa 96
-B0_16eb:		cmp wCurrScrollXRoom			; c5 57
+B0_16eb:		cmp wCurrScrollRoomScreen			; c5 57
 B0_16ed:		bne B0_16f8 ; d0 09
 
 B0_16ef:		lda data_00_16fa.w+1, y	; b9 fb 96
-B0_16f2:		cmp wCurrScrollXWithinRoom			; c5 56
+B0_16f2:		cmp wCurrScrollOffsetIntoRoomScreen			; c5 56
 B0_16f4:		bne B0_16f8 ; d0 02
 
 B0_16f6:		sec				; 38 
@@ -2688,12 +2674,12 @@ B0_1e09:		bne B0_1e03 ; d0 f8
 B0_1e0b:		jsr $e795		; 20 95 e7
 B0_1e0e:		lda #$01		; a9 01
 B0_1e10:		sta $2c			; 85 2c
-B0_1e12:		jsr func_1f_0666		; 20 66 e6
+B0_1e12:		jsr setVerticalMirroringAndNoIRQsetup		; 20 66 e6
 B0_1e15:		jsr $a2b4		; 20 b4 a2
 B0_1e18:		jsr initSound		; 20 27 e2
 B0_1e1b:		lda #$44		; a9 44
 B0_1e1d:		sta NAMETABLE_MAPPING.w		; 8d 05 51
-B0_1e20:		jsr func_1f_0bfd		; 20 fd eb
+B0_1e20:		jsr fillFirst3NametablesWith0		; 20 fd eb
 B0_1e23:		jsr $a247		; 20 47 a2
 B0_1e26:		ldy $a4			; a4 a4
 B0_1e28:		lda $a48b, y	; b9 8b a4
@@ -2707,7 +2693,7 @@ B0_1e3c:		jsr $a278		; 20 78 a2
 B0_1e3f:		jsr $a172		; 20 72 a1
 B0_1e42:		jsr $a06d		; 20 6d a0
 B0_1e45:		lda #$04		; a9 04
-B0_1e47:		sta $1c			; 85 1c
+B0_1e47:		sta wCounterUntilCanShowSprBg			; 85 1c
 B0_1e49:		inc $6b			; e6 6b
 B0_1e4b:		lda #$00		; a9 00
 B0_1e4d:		sta $07f3		; 8d f3 07
@@ -2940,15 +2926,15 @@ B0_1fbb:		sta $0403		; 8d 03 04
 B0_1fbe:		ldx #$03		; a2 03
 B0_1fc0:		clc				; 18 
 B0_1fc1:		lda #$24		; a9 24
-B0_1fc3:		adc $04c4, x	; 7d c4 04
-B0_1fc6:		sta $04c4, x	; 9d c4 04
+B0_1fc3:		adc wEntityFractionalX.w, x	; 7d c4 04
+B0_1fc6:		sta wEntityFractionalX.w, x	; 9d c4 04
 B0_1fc9:		lda #$00		; a9 00
 B0_1fcb:		adc wEntityBaseX.w, x	; 7d 38 04
 B0_1fce:		sta wEntityBaseX.w, x	; 9d 38 04
 B0_1fd1:		clc				; 18 
 B0_1fd2:		lda #$f0		; a9 f0
-B0_1fd4:		adc $04db, x	; 7d db 04
-B0_1fd7:		sta $04db, x	; 9d db 04
+B0_1fd4:		adc wEntityFractionalY.w, x	; 7d db 04
+B0_1fd7:		sta wEntityFractionalY.w, x	; 9d db 04
 B0_1fda:		lda #$ff		; a9 ff
 B0_1fdc:		adc wEntityBaseY.w, x	; 7d 1c 04
 B0_1fdf:		sta wEntityBaseY.w, x	; 9d 1c 04

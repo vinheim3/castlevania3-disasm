@@ -28,7 +28,7 @@ B23_1100:		jmp $b9d0		; 4c d0 b9
 B23_1103:		jmp $b888		; 4c 88 b8
 
 
-B23_1106:		lda $0606, x	; bd 06 06
+B23_1106:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B23_1109:		bne B23_110e ; d0 03
 
 B23_110b:		jmp $b17c		; 4c 7c b1
@@ -63,7 +63,7 @@ B23_112f:		jmp $b250		; 4c 50 b2
 B23_1132:		jmp $b25f		; 4c 5f b2
 
 
-B23_1135:		lda $0606, x	; bd 06 06
+B23_1135:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B23_1138:		bne B23_1143 ; d0 09
 
 B23_113a:		lda $0657, x	; bd 57 06
@@ -314,12 +314,12 @@ B23_12bb:		jsr $b301		; 20 01 b3
 B23_12be:		ora $b2fe, y	; 19 fe b2
 B23_12c1:		sta $068d, x	; 9d 8d 06
 B23_12c4:		ldy $9e			; a4 9e
-B23_12c6:		lda $0606, y	; b9 06 06
+B23_12c6:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, y	; b9 06 06
 B23_12c9:		and #$f0		; 29 f0
 B23_12cb:		jsr $b30b		; 20 0b b3
 B23_12ce:		and #$f0		; 29 f0
 B23_12d0:		sta $13			; 85 13
-B23_12d2:		lda $0606, y	; b9 06 06
+B23_12d2:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, y	; b9 06 06
 B23_12d5:		and #$0f		; 29 0f
 B23_12d7:		ora $13			; 05 13
 B23_12d9:		sta $0669, x	; 9d 69 06
@@ -587,7 +587,7 @@ B23_149b:		lda wEntityBaseX.w, x	; bd 38 04
 B23_149e:		sta $10			; 85 10
 B23_14a0:		lda wEntityBaseY.w, x	; bd 1c 04
 B23_14a3:		sta $11			; 85 11
-B23_14a5:		ldx $6c			; a6 6c
+B23_14a5:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B23_14a7:		jmp $b459		; 4c 59 b4
 
 
@@ -765,7 +765,7 @@ B23_15bf:		tax				; aa
 B23_15c0:		jsr $b584		; 20 84 b5
 B23_15c3:		sta $054e, x	; 9d 4e 05
 B23_15c6:		sta wEntityAI_idx.w, x	; 9d ef 05
-B23_15c9:		ldx $6c			; a6 6c
+B23_15c9:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B23_15cb:		jmp $b56f		; 4c 6f b5
 
 
@@ -819,7 +819,7 @@ B23_1629:		lda $01			; a5 01
 B23_162b:		sta wEntityBaseY.w, x	; 9d 1c 04
 B23_162e:		lda #$08		; a9 08
 B23_1630:		sta $8c			; 85 8c
-B23_1632:		ldx $6c			; a6 6c
+B23_1632:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B23_1634:		rts				; 60 
 
 
@@ -980,7 +980,7 @@ B23_171d:		inx				; e8
 B23_171e:		cpx #$09		; e0 09
 B23_1720:		bcc B23_1713 ; 90 f1
 
-B23_1722:		ldx $6c			; a6 6c
+B23_1722:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B23_1724:		rts				; 60 
 
 
@@ -992,7 +992,7 @@ B23_172c:		jsr $b700		; 20 00 b7
 B23_172f:		lda $061d, x	; bd 1d 06
 B23_1732:		tax				; aa 
 B23_1733:		jsr $b700		; 20 00 b7
-B23_1736:		ldx $6c			; a6 6c
+B23_1736:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B23_1738:		rts				; 60 
 
 
@@ -1067,7 +1067,7 @@ B23_17a3:		cmp $03			; c5 03
 B23_17a5:		rts				; 60 
 
 
-func_17_17a6:
+getCollisionTileValUsingOffsetPresets:
 B23_17a6:		tya				; 98 
 B23_17a7:		asl a			; 0a
 B23_17a8:		ldy wEntityFacingLeft.w, x	; bc a8 04
@@ -1090,7 +1090,7 @@ data_17_17bd:
 	.db $08 $f8
 	.db $08 $f8
 	.db $04 $fc
-	.db $08 $f8
+	.db $08 $f8 ; 05
 	.db $04 $fc
 	.db $10 $f0
 	.db $08 $f8
@@ -1098,7 +1098,7 @@ data_17_17bd:
 	.db $fc $04
 	.db $ec $14
 	.db $08 $f7
-	.db $00 $00
+	.db $00 $00 ; 0d
 	.db $00 $00
 	.db $10 $f0
 	.db $18 $e8
@@ -1112,7 +1112,7 @@ data_17_17e3:
 	.db $fc $fc
 	.db $08 $08
 	.db $f8 $f8
-	.db $10 $10
+	.db $10 $10 ; 05
 	.db $10 $10
 	.db $00 $00
 	.db $10 $10
@@ -1120,7 +1120,7 @@ data_17_17e3:
 	.db $10 $10
 	.db $10 $10
 	.db $f4 $f4
-	.db $10 $10
+	.db $10 $10 ; 0d
 	.db $08 $08
 	.db $fc $fc
 	.db $00 $00
@@ -1291,7 +1291,7 @@ B23_18fe:		lda $b9b2, y	; b9 b2 b9
 B23_1901:		clc				; 18 
 B23_1902:		adc wEntityBaseY.w		; 6d 1c 04
 B23_1905:		sta $00			; 85 00
-B23_1907:		lda $0606, x	; bd 06 06
+B23_1907:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B23_190a:		beq B23_195a ; f0 4e
 
 B23_190c:		ldy #$00		; a0 00
@@ -1430,7 +1430,7 @@ B23_19cb:		sbc #$40		; e9 40
 B23_19cd:		jmp $b9e7		; 4c e7 b9
 
 
-B23_19d0:		lda $0606, x	; bd 06 06
+B23_19d0:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B23_19d3:		beq B23_19d6 ; f0 01
 
 B23_19d5:		rts				; 60 
@@ -1466,7 +1466,7 @@ B23_1a06:		bcs B23_19d5 ; b0 cd
 
 B23_1a08:		sta $0a			; 85 0a
 B23_1a0a:		stx $0b			; 86 0b
-B23_1a0c:		ldx $6c			; a6 6c
+B23_1a0c:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B23_1a0e:		lda wEntityBaseY.w, x	; bd 1c 04
 B23_1a11:		ldx $0f			; a6 0f
 B23_1a13:		beq B23_1a1b ; f0 06
@@ -1486,7 +1486,7 @@ B23_1a29:		tax				; aa
 B23_1a2a:		ldy #$00		; a0 00
 B23_1a2c:		lda $0a			; a5 0a
 B23_1a2e:		jsr $b823		; 20 23 b8
-B23_1a31:		ldx $6c			; a6 6c
+B23_1a31:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B23_1a33:		lda $0f			; a5 0f
 B23_1a35:		beq B23_1a3d ; f0 06
 

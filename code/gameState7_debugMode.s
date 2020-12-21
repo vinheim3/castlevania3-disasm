@@ -1,45 +1,56 @@
 
 gameState7_debugMode_body:
-B0_0a1c:		ldy wGameSubstate			; a4 19
-B0_0a1e:		bne B0_0a35 ; d0 15
+	ldy wGameSubstate
+B0_0a1e:		bne B0_0a35 ; @substate1plus
 
 B0_0a20:		jsr func_1f_0819		; 20 19 e8
-B0_0a23:		ldy #$00		; a0 00
-B0_0a25:		sty wChrBankSpr_0000			; 84 46
-B0_0a27:		iny				; c8 
-B0_0a28:		sty wChrBankSpr_0400			; 84 47
-B0_0a2a:		lda #$41		; a9 41
-B0_0a2c:		sta wChrBankBG_0400			; 85 4b
-B0_0a2e:		lda #$00		; a9 00
-B0_0a30:		sta $6b			; 85 6b
-B0_0a32:		inc wGameSubstate			; e6 19
-B0_0a34:		rts				; 60 
+
+	ldy #CB_TREVOR_1
+	sty wChrBankSpr_0000
+; CB_TREVOR_2
+	iny
+	sty wChrBankSpr_0400
+	lda #CB_ASCII_ROUND_RECTANGLE
+	sta wChrBankBG_0400
+
+	lda #$00
+	sta wMenuOptionIdxSelected
+	inc wGameSubstate
+	rts
 
 @substate1plus:
+; clear nametables
 B0_0a35:		dey				; 88 
-B0_0a36:		bne B0_0a3d ; d0 05
+	bne @substate2plus
 
-B0_0a38:		inc wGameSubstate			; e6 19
-B0_0a3a:		jmp func_1f_0bfd		; 4c fd eb
+	inc wGameSubstate
+	jmp fillFirst3NametablesWith0
 
 @substate2plus:
-B0_0a3d:		dey				; 88 
-B0_0a3e:		bne B0_0a62 ; d0 22
+	dey
+	bne B0_0a62 ; @substate3
 
-B0_0a40:		inc wGameSubstate			; e6 19
-B0_0a42:		ldy #$00		; a0 00
-B0_0a44:		lda wCurrRoomGroup			; a5 32
-B0_0a46:		jsr func_00_0b1a		; 20 1a 8b
-B0_0a49:		ldy #$02		; a0 02
-B0_0a4b:		lda wCurrRoomSection			; a5 33
-B0_0a4d:		jsr func_00_0b1a		; 20 1a 8b
-B0_0a50:		ldy #$04		; a0 04
-B0_0a52:		lda wCurrRoomIdx			; a5 34
-B0_0a54:		jsr func_00_0b1a		; 20 1a 8b
-B0_0a57:		ldy #$06		; a0 06
-B0_0a59:		lda wCurrPlayer.w		; ad 4e 05
-B0_0a5c:		jsr func_00_0b1a		; 20 1a 8b
-B0_0a5f:		jmp $8b32		; 4c 32 8b
+	inc wGameSubstate
+
+; display 4 nums
+@display4numsAndUpdateCursorDetails:
+B0_0a42:	ldy #$00
+	lda wCurrRoomGroup
+	jsr vramQueueNumAPositionBasedOnY
+
+	ldy #$02
+	lda wCurrRoomSection
+	jsr vramQueueNumAPositionBasedOnY
+
+	ldy #$04
+	lda wCurrRoomIdx
+	jsr vramQueueNumAPositionBasedOnY
+
+	ldy #$06
+	lda wCurrPlayer.w
+	jsr vramQueueNumAPositionBasedOnY
+
+	jmp setDebugModeScreenMenuCursorEntityDetails
 
 @substate3:
 B0_0a62:		lda wJoy1NewButtonsPressed			; a5 26
@@ -50,20 +61,20 @@ B0_0a68:		lda wJoy1NewButtonsPressed			; a5 26
 B0_0a6a:		and #$20		; 29 20
 B0_0a6c:		beq B0_0a7c ; f0 0e
 
-B0_0a6e:		ldy $6b			; a4 6b
+B0_0a6e:		ldy wMenuOptionIdxSelected			; a4 6b
 B0_0a70:		iny				; c8 
 B0_0a71:		cpy #$04		; c0 04
 B0_0a73:		bne B0_0a77 ; d0 02
 
 B0_0a75:		ldy #$00		; a0 00
-B0_0a77:		sty $6b			; 84 6b
-B0_0a79:		jmp $8a42		; 4c 42 8a
+B0_0a77:		sty wMenuOptionIdxSelected			; 84 6b
+B0_0a79:		jmp B0_0a42		; @display4numsAndUpdateCursorDetails
 
 B0_0a7c:		lda wJoy1NewButtonsPressed			; a5 26
 B0_0a7e:		and #$80		; 29 80
 B0_0a80:		beq B0_0aa8 ; f0 26
 
-B0_0a82:		ldy $6b			; a4 6b
+B0_0a82:		ldy wMenuOptionIdxSelected			; a4 6b
 B0_0a84:		beq B0_0aa3 ; f0 1d
 
 B0_0a86:		dey				; 88 
@@ -77,22 +88,22 @@ B0_0a8f:		iny				; c8
 B0_0a90:		tya				; 98 
 B0_0a91:		and #$03		; 29 03
 B0_0a93:		sta wCurrPlayer.w		; 8d 4e 05
-B0_0a96:		jmp $8a42		; 4c 42 8a
+B0_0a96:		jmp B0_0a42		; @display4numsAndUpdateCursorDetails
 
 B0_0a99:		inc wCurrRoomIdx			; e6 34
-B0_0a9b:		jmp $8a42		; 4c 42 8a
+B0_0a9b:		jmp B0_0a42		; @display4numsAndUpdateCursorDetails
 
 B0_0a9e:		inc wCurrRoomSection			; e6 33
-B0_0aa0:		jmp $8a42		; 4c 42 8a
+B0_0aa0:		jmp B0_0a42		; @display4numsAndUpdateCursorDetails
 
 B0_0aa3:		inc wCurrRoomGroup			; e6 32
-B0_0aa5:		jmp $8a42		; 4c 42 8a
+B0_0aa5:		jmp B0_0a42		; @display4numsAndUpdateCursorDetails
 
 B0_0aa8:		lda wJoy1NewButtonsPressed			; a5 26
 B0_0aaa:		and #$40		; 29 40
-B0_0aac:		beq B0_0a42 ; f0 94
+B0_0aac:		beq B0_0a42 ; @display4numsAndUpdateCursorDetails
 
-B0_0aae:		ldy $6b			; a4 6b
+B0_0aae:		ldy wMenuOptionIdxSelected			; a4 6b
 B0_0ab0:		beq B0_0ad7 ; f0 25
 
 B0_0ab2:		dey				; 88 
@@ -106,25 +117,25 @@ B0_0abb:		dey				; 88
 B0_0abc:		tya				; 98 
 B0_0abd:		and #$03		; 29 03
 B0_0abf:		sta wCurrPlayer.w		; 8d 4e 05
-B0_0ac2:		jmp $8a42		; 4c 42 8a
+B0_0ac2:		jmp B0_0a42		; @display4numsAndUpdateCursorDetails
 
 B0_0ac5:		lda wCurrRoomIdx			; a5 34
 B0_0ac7:		beq B0_0acb ; f0 02
 
 B0_0ac9:		dec wCurrRoomIdx			; c6 34
-B0_0acb:		jmp $8a42		; 4c 42 8a
+B0_0acb:		jmp B0_0a42		; @display4numsAndUpdateCursorDetails
 
 B0_0ace:		lda wCurrRoomSection			; a5 33
 B0_0ad0:		beq B0_0ad4 ; f0 02
 
 B0_0ad2:		dec wCurrRoomSection			; c6 33
-B0_0ad4:		jmp $8a42		; 4c 42 8a
+B0_0ad4:		jmp B0_0a42		; @display4numsAndUpdateCursorDetails
 
 B0_0ad7:		lda wCurrRoomGroup			; a5 32
 B0_0ad9:		beq B0_0add ; f0 02
 
 B0_0adb:		dec wCurrRoomGroup			; c6 32
-B0_0add:		jmp $8a42		; 4c 42 8a
+B0_0add:		jmp B0_0a42		; @display4numsAndUpdateCursorDetails
 
 B0_0ae0:		jsr func_1f_0819		; 20 19 e8
 B0_0ae3:		jsr $e684		; 20 84 e6
@@ -147,72 +158,78 @@ B0_0b01:		sta wInGameSubstate			; 85 2a
 B0_0b03:		rts				; 60 
 
 
-B0_0b04:		asl $108b		; 0e 8b 10
-B0_0b07:	.db $8b
-B0_0b08:		asl a			; 0a
-B0_0b09:	.db $8b
-B0_0b0a:		rts				; 60 
+menuCursorXorYoffsets:
+	.dw titleScreenXoffsets
+	.dw gameOverScreenYoffsets
+	.dw debugModeScreenYoffsets
+
+debugModeScreenYoffsets:
+	.db $60 $70 $80 $90
+	
+titleScreenXoffsets:
+	.db $30 $88
+
+gameOverScreenYoffsets:
+	.db $a4 $bc
 
 
-B0_0b0b:		;removed
-	.db $70 $80
-
-B0_0b0d:		;removed
-	.db $90 $30
-
-B0_0b0f:		dey				; 88 
-B0_0b10:		ldy $bc			; a4 bc
-B0_0b12:		;removed
-	.db $90 $21
-
-B0_0b14:		bne B0_0b37 ; d0 21
-
-B0_0b16:		;removed
-	.db $10 $22
-
-B0_0b18:		bvc B0_0b3c ; 50 22
+debugModeNumberPositions:
+	.dw $2190
+	.dw $21d0
+	.dw $2210
+	.dw $2250
 
 
-func_00_0b1a:
-B0_0b1a:		sta $08			; 85 08
-B0_0b1c:		lda $8b12, y	; b9 12 8b
-B0_0b1f:		sta wVramQueueDest			; 85 61
-B0_0b21:		lda $8b13, y	; b9 13 8b
-B0_0b24:		sta wVramQueueDest+1			; 85 62
-B0_0b26:		jsr $e8fc		; 20 fc e8
+vramQueueNumAPositionBasedOnY:
+	sta wCurrNumToVramQueue
+	lda debugModeNumberPositions.w, y
+	sta wVramQueueDest
+	lda debugModeNumberPositions.w+1, y
+	sta wVramQueueDest+1
+	jsr vramQueueControlByte1AndNumsDigitTiles
 
-func_00_0b29:
-B0_0b29:		lda #$58		; a9 58
-B0_0b2b:		sta wEntityBaseX.w		; 8d 38 04
-B0_0b2e:		ldy #$02		; a0 02
-B0_0b30:		bne B0_0b39 ; d0 07
+setGameOverScreenMenuCursorEntityDetails:
+	lda #$58
+	sta wEntityBaseX.w
+	ldy #$02
+	bne +
 
-B0_0b32:		lda #$70		; a9 70
-B0_0b34:		sta wEntityBaseX.w		; 8d 38 04
-B0_0b37:		ldy #$04		; a0 04
-B0_0b39:		lda $8b04, y	; b9 04 8b
-B0_0b3c:		sta $08			; 85 08
-B0_0b3e:		lda $8b05, y	; b9 05 8b
-B0_0b41:		sta $09			; 85 09
-B0_0b43:		ldy $6b			; a4 6b
-B0_0b45:		lda ($08), y	; b1 08
-B0_0b47:		sta wEntityBaseY.w		; 8d 1c 04
-B0_0b4a:		lda #$00		; a9 00
-B0_0b4c:		sta wEntityOamSpecGroupDoubled.w		; 8d 8c 04
-B0_0b4f:		lda #$40		; a9 40
-B0_0b51:		sta wOamSpecIdxDoubled.w		; 8d 00 04
-B0_0b54:		rts				; 60 
+setDebugModeScreenMenuCursorEntityDetails:
+	lda #$70
+	sta wEntityBaseX.w
+	ldy #$04
+
++	lda menuCursorXorYoffsets.w, y
+	sta wMenuCursorXorYoffsetsAddr
+	lda menuCursorXorYoffsets.w+1, y
+	sta wMenuCursorXorYoffsetsAddr+1
+
+	ldy wMenuOptionIdxSelected
+	lda (wMenuCursorXorYoffsetsAddr), y
+	sta wEntityBaseY.w
+
+setMenuCursorOamSpecGroupAndIdx:
+	lda #$00
+	sta wEntityOamSpecGroupDoubled.w
+	lda #$40
+	sta wOamSpecIdxDoubled.w
+	rts
 
 
-func_00_0b55:
-B0_0b55:		lda #$cb		; a9 cb
-B0_0b57:		sta wEntityBaseY.w		; 8d 1c 04
-B0_0b5a:		ldy #$00		; a0 00
-B0_0b5c:		lda $8b04, y	; b9 04 8b
-B0_0b5f:		sta $08			; 85 08
-B0_0b61:		lda $8b05, y	; b9 05 8b
-B0_0b64:		sta $09			; 85 09
-B0_0b66:		ldy $6b			; a4 6b
-B0_0b68:		lda ($08), y	; b1 08
-B0_0b6a:		sta wEntityBaseX.w		; 8d 38 04
-B0_0b6d:		jmp $8b4a		; 4c 4a 8b
+setTitleScreenMenuCursorEntityDetails:
+; static Y
+	lda #$cb
+	sta wEntityBaseY.w
+
+; X based on option selected
+	ldy #$00
+	lda menuCursorXorYoffsets.w, y
+	sta wMenuCursorXorYoffsetsAddr
+	lda menuCursorXorYoffsets.w+1, y
+	sta wMenuCursorXorYoffsetsAddr+1
+
+	ldy wMenuOptionIdxSelected
+	lda (wMenuCursorXorYoffsetsAddr), y
+	sta wEntityBaseX.w
+
+	jmp setMenuCursorOamSpecGroupAndIdx

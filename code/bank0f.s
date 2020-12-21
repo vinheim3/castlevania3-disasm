@@ -28,7 +28,7 @@ B15_14ad:	.db $0c
 
 
 func_0f_14ae:
-B15_14ae:		lda wCurrScrollXWithinRoom			; a5 56
+B15_14ae:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
 B15_14b0:		bne B15_152c ; d0 7a
 
 B15_14b2:		lda wCurrRoomGroup		; a5 32
@@ -38,6 +38,8 @@ B15_14b6:		lda data_0f_166d.w, y	; b9 6d b6
 B15_14b9:		sta $08			; 85 08
 B15_14bb:		lda data_0f_166d.w+1, y	; b9 6e b6
 B15_14be:		sta $09			; 85 09
+
+; section * 6
 B15_14c0:		lda wCurrRoomSection			; a5 33
 B15_14c2:		asl a			; 0a
 B15_14c3:		sta $00			; 85 00
@@ -45,20 +47,25 @@ B15_14c5:		asl a			; 0a
 B15_14c6:		clc				; 18 
 B15_14c7:		adc $00			; 65 00
 B15_14c9:		tay				; a8 
+
+; 1st byte
 B15_14ca:		lda ($08), y	; b1 08
 B15_14cc:		cmp wCurrRoomIdx			; c5 34
 B15_14ce:		bne B15_152c ; d0 5c
 
+; 2nd byte
 B15_14d0:		iny				; c8 
 B15_14d1:		lda ($08), y	; b1 08
-B15_14d3:		cmp wCurrScrollXRoom			; c5 57
+B15_14d3:		cmp wCurrScrollRoomScreen			; c5 57
 B15_14d5:		bne B15_152c ; d0 55
 
+; 3rd byte
 B15_14d7:		iny				; c8 
 B15_14d8:		txa				; 8a 
 B15_14d9:		cmp ($08), y	; d1 08
 B15_14db:		bne B15_152c ; d0 4f
 
+; 4th byte
 B15_14dd:		iny				; c8 
 B15_14de:		lda ($08), y	; b1 08
 B15_14e0:		iny				; c8 
@@ -72,6 +79,7 @@ B15_14eb:		bcs B15_14ef ; b0 02
 
 B15_14ed:		bcc B15_14fd ; 90 0e
 
+; 5th byte
 B15_14ef:		lda ($08), y	; b1 08
 B15_14f1:		sec				; 38 
 B15_14f2:		sbc wEntityBaseY.w		; ed1c 04
@@ -88,6 +96,7 @@ B15_1502:		beq B15_152e ; f0 2a
 B15_1504:		cmp #$04		; c9 04
 B15_1506:		bne B15_152a ; d0 22
 
+; 6th byte
 B15_1508:		iny				; c8 
 B15_1509:		lda ($08), y	; b1 08
 B15_150b:		sta wCurrRoomIdx			; 85 34
@@ -95,15 +104,18 @@ B15_150d:		stx $65			; 86 65
 B15_150f:		txa				; 8a 
 B15_1510:		eor #$01		; 49 01
 B15_1512:		sta wEntityFacingLeft.w		; 8d a8 04
+
 B15_1515:		lda wPlayerStateDoubled.w		; ad 65 05
 B15_1518:		ora #$80		; 09 80
 B15_151a:		sta wPlayerStateDoubled.w		; 8d 65 05
+
 B15_151d:		lda #$02		; a9 02
 B15_151f:		sta wOamSpecIdxDoubled.w		; 8d 00 04
 B15_1522:		lda #$08		; a9 08
 B15_1524:		sta wInGameSubstate			; 85 2a
 B15_1526:		lda #$00		; a9 00
 B15_1528:		sta $6b			; 85 6b
+
 B15_152a:		sec				; 38 
 B15_152b:		rts				; 60 
 
@@ -111,9 +123,10 @@ B15_152c:		clc				; 18
 B15_152d:		rts				; 60 
 
 B15_152e:		lda wCurrPlayer.w		; ad 4e 05
-B15_1531:		cmp #$03		; c9 03
+B15_1531:		cmp #PLAYER_ALUCARD		; c9 03
 B15_1533:		bne B15_152a ; d0 f5
 
+; alucard
 B15_1535:		lda #$36		; a9 36
 B15_1537:		sta wPlayerStateDoubled.w		; 8d 65 05
 B15_153a:		stx $05d8		; 8e d8 05
@@ -122,37 +135,36 @@ B15_153e:		rts				; 60
 
 
 getAddrOfRoomsStairsData:
-B15_153f:		lda wCurrRoomGroup		; a5 32
-B15_1541:		asl a			; 0a
-B15_1542:		tay				; a8 
-B15_1543:		lda stairsLocationData.w, y	; b9 c6 b7
-B15_1546:		sta $08			; 85 08
-B15_1548:		lda stairsLocationData.w+1, y	; b9 c7 b7
-B15_154b:		sta $09			; 85 09
+	lda wCurrRoomGroup
+	asl a
+	tay
+	lda stairsLocationData.w, y
+	sta wCurrRoomGroupStairsDataAddr
+	lda stairsLocationData.w+1, y
+	sta wCurrRoomGroupStairsDataAddr+1
 
-B15_154d:		lda wCurrRoomSection			; a5 33
-B15_154f:		asl a			; 0a
-B15_1550:		tay				; a8 
-B15_1551:		lda ($08), y	; b1 08
-B15_1553:		sta $0a			; 85 0a
-B15_1555:		iny				; c8 
-B15_1556:		lda ($08), y	; b1 08
-B15_1558:		sta $0b			; 85 0b
+	lda wCurrRoomSection
+	asl a
+	tay
+	lda (wCurrRoomGroupStairsDataAddr), y
+	sta wCurrRoomSectionStairsDataAddr
+	iny
+	lda (wCurrRoomGroupStairsDataAddr), y
+	sta wCurrRoomSectionStairsDataAddr+1
 
-; load 2 room vars into 69/6a
-B15_155a:		lda wCurrRoomIdx			; a5 34
-B15_155c:		asl a			; 0a
-B15_155d:		tay				; a8 
-B15_155e:		lda ($0a), y	; b1 0a
-B15_1560:		sta wCurrRoomStairsDataAddr			; 85 69
-B15_1562:		iny				; c8 
-B15_1563:		lda ($0a), y	; b1 0a
-B15_1565:		sta wCurrRoomStairsDataAddr+1			; 85 6a
-B15_1567:		rts				; 60 
+	lda wCurrRoomIdx
+	asl a
+	tay
+	lda (wCurrRoomSectionStairsDataAddr), y
+	sta wCurrRoomStairsDataAddr
+	iny
+	lda (wCurrRoomSectionStairsDataAddr), y
+	sta wCurrRoomStairsDataAddr+1
+	rts
 
 
 secIfCanClimbStairsInVerticalRoom:
-B15_1568:		lda wCurrScrollXRoom			; a5 57
+B15_1568:		lda wCurrScrollRoomScreen			; a5 57
 B15_156a:		sta $08			; 85 08
 B15_156c:		lda wEntityBaseY.w		; ad 1c 04
 B15_156f:		sec				; 38 
@@ -160,7 +172,7 @@ B15_1570:		sbc #$33		; e9 33
 B15_1572:		bcc B15_15f0 ; 90 7c
 
 B15_1574:		clc				; 18 
-B15_1575:		adc wCurrScrollXWithinRoom			; 65 56
+B15_1575:		adc wCurrScrollOffsetIntoRoomScreen			; 65 56
 B15_1577:		sta $0c			; 85 0c
 B15_1579:		bcs B15_157f ; b0 04
 
@@ -266,11 +278,11 @@ B15_15fe:		jmp secIfCanClimbStairsInVerticalRoom		; 4c 68 b5
 ; store player's exact position within room
 B15_1601:		lda wEntityBaseX.w		; ad 38 04
 B15_1604:		clc				; 18 
-B15_1605:		adc wCurrScrollXWithinRoom			; 65 56
+B15_1605:		adc wCurrScrollOffsetIntoRoomScreen			; 65 56
 B15_1607:		sta $0c			; 85 0c
 
 ; store player's exact room
-B15_1609:		lda wCurrScrollXRoom			; a5 57
+B15_1609:		lda wCurrScrollRoomScreen			; a5 57
 B15_160b:		adc #$00		; 69 00
 B15_160d:		sta $08			; 85 08
 
@@ -378,40 +390,30 @@ B15_166c:		rts				; 60
 
 
 data_0f_166d:
-B15_166d:	.db $8b
-B15_166e:		ldx $9e, y		; b6 9e
-B15_1670:		ldx $bd, y		; b6 bd
-B15_1672:		ldx $d6, y		; b6 d6
-B15_1674:		ldx $ef, y		; b6 ef
-B15_1676:		ldx $fc, y		; b6 fc
-B15_1678:		ldx $0f, y		; b6 0f
-B15_167a:	.db $b7
-B15_167b:	.db $1c
-B15_167c:	.db $b7
-B15_167d:		eor ($b7, x)	; 41 b7
-B15_167f:	.db $5a
-B15_1680:	.db $b7
-B15_1681:		adc ($b7, x)	; 61 b7
-B15_1683:		sty $acb7		; 8c b7 ac
-B15_1686:	.db $b7
-B15_1687:		sta $b9b7, y	; 99 b7 b9
-B15_168a:	.db $b7
-B15_168b:		.db $00				; 00
-B15_168c:	.db $02
-B15_168d:		ora ($b0, x)	; 01 b0
-B15_168f:		bcs B15_1691 ; b0 00
+	.dw @group0
+	.dw $b69e
+	.dw $b6bd
+	.dw $b6d6
+	.dw $b6ef
+	.dw $b6fc
+	.dw $b70f
+	.dw $b71c
+	.dw $b741
+	.dw $b75a
+	.dw $b761
+	.dw $b78c
+	.dw $b7ac
+	.dw $b799
+	.dw $b7b9
 
-B15_1691:	.db $02
-B15_1692:	.db $02
-B15_1693:		ora ($90, x)	; 01 90
-B15_1695:		bcc B15_1698 ; 90 01
+; room - screen - 0/1 - some y vals - next room idx
+@group0:
+	.db $00 $02 $01 $b0 $b0 $00
+	.db $02 $02 $01 $90 $90 $01
+	.db $00 $02 $01 $b0 $b0 $00
+	.db $ff
 
-B15_1697:		.db $00				; 00
-B15_1698:	.db $02
-B15_1699:		ora ($b0, x)	; 01 b0
-B15_169b:		bcs B15_169d ; b0 00
 
-B15_169d:	.db $ff
 B15_169e:	.db $02
 B15_169f:		ora ($01, x)	; 01 01
 B15_16a1:		;removed
@@ -446,7 +448,7 @@ B15_16bf:		cpx #$e0		; e0 e0
 B15_16c1:		cpx #$e0		; e0 e0
 B15_16c3:		.db $00				; 00
 B15_16c4:		ora $01			; 05 01
-B15_16c6:		bcs B15_1678 ; b0 b0
+B15_16c6:		.db $b0 $b0
 
 B15_16c8:		.db $00				; 00
 B15_16c9:		cpx #$e0		; e0 e0

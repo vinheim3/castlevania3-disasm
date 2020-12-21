@@ -53,10 +53,10 @@ B13_1e36:		lda wEntityState.w, x	; bd 70 04
 B13_1e39:		ora #$20		; 09 20
 B13_1e3b:		sta wEntityState.w, x	; 9d 70 04
 B13_1e3e:		ldy $9e			; a4 9e
-B13_1e40:		lda $0606, y	; b9 06 06
+B13_1e40:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, y	; b9 06 06
 B13_1e43:		and #$f0		; 29 f0
 B13_1e45:		sta $00			; 85 00
-B13_1e47:		lda $0606, y	; b9 06 06
+B13_1e47:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, y	; b9 06 06
 B13_1e4a:		and #$0f		; 29 0f
 B13_1e4c:		clc				; 18 
 B13_1e4d:		adc #$01		; 69 01
@@ -65,7 +65,7 @@ B13_1e51:		bcc B13_1e55 ; 90 02
 
 B13_1e53:		lda #$04		; a9 04
 B13_1e55:		ora $00			; 05 00
-B13_1e57:		sta $0606, y	; 99 06 06
+B13_1e57:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, y	; 99 06 06
 B13_1e5a:		and #$0f		; 29 0f
 B13_1e5c:		cmp #$01		; c9 01
 B13_1e5e:		beq B13_1e2f ; f0 cf

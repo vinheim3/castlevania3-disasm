@@ -24,7 +24,7 @@ B6_0023:		sta $ba			; 85 ba
 B6_0025:		lda #$06		; a9 06
 B6_0027:		sta $bb			; 85 bb
 B6_0029:		jsr $993b		; 20 3b 99
-B6_002c:		ldy $0606, x	; bc 06 06
+B6_002c:		ldy wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bc 06 06
 B6_002f:		;removed
 	.db $30 $d0
 
@@ -163,7 +163,7 @@ B6_012d:		bne B6_0106 ; d0 d7
 B6_012f:		rts				; 60 
 
 
-B6_0130:		ldy $0606, x	; bc 06 06
+B6_0130:		ldy wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bc 06 06
 B6_0133:		beq B6_013a ; f0 05
 
 B6_0135:		jmp $81e6		; 4c e6 81
@@ -209,7 +209,7 @@ B6_017e:		lda #$fe		; a9 fe
 B6_0180:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B6_0183:		lda #$30		; a9 30
 B6_0185:		jsr playSound		; 20 5f e2
-B6_0188:		inc $0606, x	; fe 06 06
+B6_0188:		inc wEntityAlarmOrStartYforSinusoidalMovement.w, x	; fe 06 06
 B6_018b:		lda #$00		; a9 00
 B6_018d:		sta $061d, x	; 9d 1d 06
 B6_0190:		inc $0633, x	; fe 33 06
@@ -232,7 +232,7 @@ B6_01b5:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B6_01b8:		jsr $8319		; 20 19 83
 B6_01bb:		lda #$10		; a9 10
 B6_01bd:		ldy #$08		; a0 08
-B6_01bf:		jmp setEntitySpecGroupA_animationDefIdxY_startAnimate		; 4c 5c ef
+B6_01bf:		jmp setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 4c 5c ef
 
 
 B6_01c2:		dec $05d8, x	; de d8 05
@@ -273,7 +273,7 @@ B6_01f9:		cmp wEntityBaseY.w, x	; dd 1c 04
 B6_01fc:		bcc B6_020a ; 90 0c
 
 B6_01fe:		sta wEntityBaseY.w, x	; 9d 1c 04
-B6_0201:		inc $0606, x	; fe 06 06
+B6_0201:		inc wEntityAlarmOrStartYforSinusoidalMovement.w, x	; fe 06 06
 B6_0204:		lda #$20		; a9 20
 B6_0206:		sta $05d8, x	; 9d d8 05
 B6_0209:		rts				; 60 
@@ -310,7 +310,7 @@ B6_0243:		bcs B6_0247 ; b0 02
 
 B6_0245:		ldy #$0a		; a0 0a
 B6_0247:		lda #$10		; a9 10
-B6_0249:		jmp setEntitySpecGroupA_animationDefIdxY_startAnimate		; 4c 5c ef
+B6_0249:		jmp setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 4c 5c ef
 
 
 B6_024c:		dey				; 88 
@@ -372,20 +372,20 @@ B6_02b7:		beq B6_02bd ; f0 04
 B6_02b9:		lda #$08		; a9 08
 B6_02bb:		sta $17			; 85 17
 B6_02bd:		lda $17			; a5 17
-B6_02bf:		sta $0606, y	; 99 06 06
+B6_02bf:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, y	; 99 06 06
 B6_02c2:		inc $12			; e6 12
 B6_02c4:		lda $12			; a5 12
 B6_02c6:		cmp #$02		; c9 02
 B6_02c8:		bcc B6_0264 ; 90 9a
 
-B6_02ca:		inc $0606, x	; fe 06 06
+B6_02ca:		inc wEntityAlarmOrStartYforSinusoidalMovement.w, x	; fe 06 06
 B6_02cd:		lda #$58		; a9 58
 B6_02cf:		sta $05d8, x	; 9d d8 05
 B6_02d2:		lda #$24		; a9 24
 B6_02d4:		jsr playSound		; 20 5f e2
 B6_02d7:		ldy #$0b		; a0 0b
 B6_02d9:		lda #$10		; a9 10
-B6_02db:		jmp setEntitySpecGroupA_animationDefIdxY_startAnimate		; 4c 5c ef
+B6_02db:		jmp setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 4c 5c ef
 
 
 B6_02de:		dey				; 88 
@@ -394,7 +394,7 @@ B6_02df:		bne B6_02f9 ; d0 18
 B6_02e1:		lda $05d8, x	; bd d8 05
 B6_02e4:		bne B6_02f5 ; d0 0f
 
-B6_02e6:		inc $0606, x	; fe 06 06
+B6_02e6:		inc wEntityAlarmOrStartYforSinusoidalMovement.w, x	; fe 06 06
 B6_02e9:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B6_02ec:		lda #$02		; a9 02
 B6_02ee:		sta wEntityVertSpeed.w, x	; 9d 20 05
@@ -412,7 +412,7 @@ B6_02fe:		bcc B6_032f ; 90 2f
 B6_0300:		lda #$31		; a9 31
 B6_0302:		jsr playSound		; 20 5f e2
 B6_0305:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
-B6_0308:		sta $0606, x	; 9d 06 06
+B6_0308:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B6_030b:		lda $1f			; a5 1f
 B6_030d:		adc $0645, x	; 7d 45 06
 B6_0310:		and #$0f		; 29 0f
@@ -481,7 +481,7 @@ B6_0384:		tay				; a8
 B6_0385:		lda $83c7, y	; b9 c7 83
 B6_0388:		tay				; a8 
 B6_0389:		lda #$10		; a9 10
-B6_038b:		jmp setEntitySpecGroupA_animationDefIdxY_startAnimate		; 4c 5c ef
+B6_038b:		jmp setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 4c 5c ef
 
 
 B6_038e:		ldy #$0c		; a0 0c
@@ -496,7 +496,7 @@ B6_039b:		lda #$40		; a9 40
 B6_039d:		sta wEntityState.w, x	; 9d 70 04
 B6_03a0:		lda #$10		; a9 10
 B6_03a2:		ldy #$0d		; a0 0d
-B6_03a4:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B6_03a4:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B6_03a7:		lda #$34		; a9 34
 B6_03a9:		jmp $994c		; 4c 4c 99
 
@@ -531,7 +531,7 @@ B6_03cf:		jsr $996e		; 20 6e 99
 B6_03d2:		lda $0645, x	; bd 45 06
 B6_03d5:		sta $0645, y	; 99 45 06
 B6_03d8:		lda #$80		; a9 80
-B6_03da:		sta $0606, y	; 99 06 06
+B6_03da:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, y	; 99 06 06
 B6_03dd:		jsr $84bb		; 20 bb 84
 B6_03e0:		lda wEntityFacingLeft.w, x	; bd a8 04
 B6_03e3:		sta wEntityFacingLeft.w, y	; 99 a8 04
@@ -579,7 +579,7 @@ B6_040e:		jmp $6c20		; 4c 20 6c
 B6_0411:	.db $7c
 B6_0412:	.db $44
 B6_0413:		bit $5434		; 2c 34 54
-B6_0416:		lda $0606, x	; bd 06 06
+B6_0416:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B6_0419:		cmp #$08		; c9 08
 B6_041b:		bcc B6_0420 ; 90 03
 
@@ -597,7 +597,7 @@ B6_0420:		jsr jumpTablePreserveY		; 20 6d e8
 B6_0433:		jsr $993b
 B6_0436:		jsr $8461
 B6_0439:		bcc B6_043e
-B6_043b:		inc $0606, x	; fe 06 06
+B6_043b:		inc wEntityAlarmOrStartYforSinusoidalMovement.w, x	; fe 06 06
 B6_043e:		rts				; 60 
 
 
@@ -620,14 +620,14 @@ B6_0456:		bcc B6_043e ; 90 e6
 B6_0458:		dec $061d, x	; de 1d 06
 B6_045b:		beq B6_043b ; f0 de
 
-B6_045d:		dec $0606, x	; de 06 06
+B6_045d:		dec wEntityAlarmOrStartYforSinusoidalMovement.w, x	; de 06 06
 B6_0460:		rts				; 60 
 
 
 B6_0461:		dec $05d8, x	; de d8 05
 B6_0464:		bne B6_0488 ; d0 22
 
-B6_0466:		ldy $0606, x	; bc 06 06
+B6_0466:		ldy wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bc 06 06
 B6_0469:		lda #$04		; a9 04
 B6_046b:		sta $05d8, x	; 9d d8 05
 B6_046e:		jsr $848a		; 20 8a 84
@@ -706,7 +706,7 @@ B6_04d8:		jmp $9952		; 4c 52 99
 
 B6_04db:		lda #$0a		; a9 0a
 B6_04dd:		ldy #$43		; a0 43
-B6_04df:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B6_04df:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B6_04e2:		lda #$25		; a9 25
 B6_04e4:		jmp $994c		; 4c 4c 99
 
@@ -730,7 +730,7 @@ B6_04ff:		ldx $01			; a6 01
 B6_0501:		rts				; 60 
 
 
-B6_0502:		lda $0606, x	; bd 06 06
+B6_0502:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B6_0505:		bmi B6_04f8 ; 30 f1
 
 B6_0507:		lda $00			; a5 00
@@ -763,7 +763,7 @@ B6_0531:		sta wEntityBaseY.w, x	; 9d 1c 04
 B6_0534:		inc $061d, x	; fe 1d 06
 B6_0537:		lda #$10		; a9 10
 B6_0539:		ldy #$39		; a0 39
-B6_053b:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B6_053b:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B6_053e:		rts				; 60 
 
 
@@ -792,18 +792,18 @@ B6_055b:		jmp $867f		; 4c 7f 86
 
 B6_055e:		lda #$40		; a9 40
 B6_0560:		sta wEntityState.w, x	; 9d 70 04
-B6_0563:		ldy $0606, x	; bc 06 06
+B6_0563:		ldy wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bc 06 06
 B6_0566:		bne B6_0585 ; d0 1d
 
 B6_0568:		lda #$10		; a9 10
 B6_056a:		ldy #$39		; a0 39
-B6_056c:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B6_056c:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B6_056f:		lda #$26		; a9 26
 B6_0571:		sta wChrBankSpr_0800			; 85 48
 B6_0573:		lda #$29		; a9 29
 B6_0575:		sta wChrBankSpr_0c00			; 85 49
-B6_0577:		jsr chrSwitch_0_to_c00_1400		; 20 3c e3
-B6_057a:		inc $0606, x	; fe 06 06
+B6_0577:		jsr updateSprChrBanks_0_to_c00_1400		; 20 3c e3
+B6_057a:		inc wEntityAlarmOrStartYforSinusoidalMovement.w, x	; fe 06 06
 B6_057d:		lda #$40		; a9 40
 B6_057f:		sta $05d8, x	; 9d d8 05
 B6_0582:		jmp clearEntityHorizVertSpeeds		; 4c c8 fe
@@ -823,7 +823,7 @@ B6_0591:		lda wEntityBaseY.w, x	; bd 1c 04
 B6_0594:		cmp #$70		; c9 70
 B6_0596:		bcs B6_05ce ; b0 36
 
-B6_0598:		inc $0606, x	; fe 06 06
+B6_0598:		inc wEntityAlarmOrStartYforSinusoidalMovement.w, x	; fe 06 06
 B6_059b:		lda #$00		; a9 00
 B6_059d:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B6_05a0:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
@@ -837,7 +837,7 @@ B6_05b1:		asl a			; 0a
 B6_05b2:		asl a			; 0a
 B6_05b3:		sta wPlayerStateDoubled.w, y	; 99 65 05
 B6_05b6:		lda #$02		; a9 02
-B6_05b8:		sta $0606, y	; 99 06 06
+B6_05b8:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, y	; 99 06 06
 B6_05bb:		dec $17			; c6 17
 B6_05bd:		bne B6_05a7 ; d0 e8
 
@@ -855,7 +855,7 @@ B6_05d1:		lda #$fe		; a9 fe
 B6_05d3:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B6_05d6:		lda #$10		; a9 10
 B6_05d8:		ldy #$47		; a0 47
-B6_05da:		jmp setEntitySpecGroupA_animationDefIdxY_startAnimate		; 4c 5c ef
+B6_05da:		jmp setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 4c 5c ef
 
 
 B6_05dd:		jsr $9509		; 20 09 95
@@ -864,7 +864,7 @@ B6_05e2:		beq B6_05f0 ; f0 0c
 
 B6_05e4:		lda #$10		; a9 10
 B6_05e6:		ldy #$3a		; a0 3a
-B6_05e8:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B6_05e8:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B6_05eb:		lda #$da		; a9 da
 B6_05ed:		jmp $994c		; 4c 4c 99
 
@@ -910,7 +910,7 @@ B6_062a:		beq B6_062f ; f0 03
 B6_062c:		jmp $875e		; 4c 5e 87
 
 
-B6_062f:		lda $0606, x	; bd 06 06
+B6_062f:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B6_0632:		and #$80		; 29 80
 B6_0634:		bne B6_063c ; d0 06
 
@@ -924,10 +924,10 @@ B6_063c:		lda $061d, x	; bd 1d 06
 B6_063f:		bne B6_0656 ; d0 15
 
 B6_0641:		lda #$80		; a9 80
-B6_0643:		sta $0606, x	; 9d 06 06
+B6_0643:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B6_0646:		lda #$10		; a9 10
 B6_0648:		ldy #$2b		; a0 2b
-B6_064a:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B6_064a:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B6_064d:		lda #$00		; a9 00
 B6_064f:		jsr $87bf		; 20 bf 87
 B6_0652:		inc $061d, x	; fe 1d 06
@@ -939,7 +939,7 @@ B6_0659:		bcc B6_0675 ; 90 1a
 
 B6_065b:		jsr $8676		; 20 76 86
 B6_065e:		lda #$40		; a9 40
-B6_0660:		sta $3d			; 85 3d
+B6_0660:		sta wBossHealth			; 85 3d
 B6_0662:		sta $067b, x	; 9d 7b 06
 B6_0665:		lda #$00		; a9 00
 B6_0667:		sta wEntityPaletteOverride.w, x	; 9d 54 04
@@ -951,12 +951,12 @@ B6_0675:		rts				; 60
 
 
 B6_0676:		lda #$00		; a9 00
-B6_0678:		sta $0606, x	; 9d 06 06
+B6_0678:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B6_067b:		sta $061d, x	; 9d 1d 06
 B6_067e:		rts				; 60 
 
 
-B6_067f:		lda $0606, x	; bd 06 06
+B6_067f:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B6_0682:		and #$80		; 29 80
 B6_0684:		bne B6_068c ; d0 06
 
@@ -970,10 +970,10 @@ B6_068c:		lda $061d, x	; bd 1d 06
 B6_068f:		bne B6_06ac ; d0 1b
 
 B6_0691:		lda #$80		; a9 80
-B6_0693:		sta $0606, x	; 9d 06 06
+B6_0693:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B6_0696:		lda #$0a		; a9 0a
 B6_0698:		ldy #$06		; a0 06
-B6_069a:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B6_069a:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B6_069d:		lda wCurrRoomGroup		; a5 32
 B6_069f:		cmp #$03		; c9 03
 B6_06a1:		bne B6_06a8 ; d0 05
@@ -994,14 +994,14 @@ B6_06b9:		jsr $8676		; 20 76 86
 B6_06bc:		lda #$02		; a9 02
 B6_06be:		sta $054e, x	; 9d 4e 05
 B6_06c1:		lda #$40		; a9 40
-B6_06c3:		sta $3d			; 85 3d
+B6_06c3:		sta wBossHealth			; 85 3d
 B6_06c5:		sta $067b, x	; 9d 7b 06
 B6_06c8:		lda #$00		; a9 00
 B6_06ca:		sta wEntityPaletteOverride.w, x	; 9d 54 04
 B6_06cd:		jmp $9974		; 4c 74 99
 
 
-B6_06d0:		lda $0606, x	; bd 06 06
+B6_06d0:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B6_06d3:		and #$80		; 29 80
 B6_06d5:		bne B6_06dd ; d0 06
 
@@ -1015,10 +1015,10 @@ B6_06dd:		lda $061d, x	; bd 1d 06
 B6_06e0:		bne B6_06f2 ; d0 10
 
 B6_06e2:		lda #$80		; a9 80
-B6_06e4:		sta $0606, x	; 9d 06 06
+B6_06e4:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B6_06e7:		lda #$10		; a9 10
 B6_06e9:		ldy #$3b		; a0 3b
-B6_06eb:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B6_06eb:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B6_06ee:		inc $061d, x	; fe 1d 06
 B6_06f1:		rts				; 60 
 
@@ -1034,20 +1034,20 @@ B6_0702:		lda #$0e		; a9 0e
 B6_0704:		sta $054e, x	; 9d 4e 05
 B6_0707:		jsr $9968		; 20 68 99
 B6_070a:		lda #$40		; a9 40
-B6_070c:		sta $3d			; 85 3d
+B6_070c:		sta wBossHealth			; 85 3d
 B6_070e:		sta wEntityState.w, y	; 99 70 04
 B6_0711:		lsr a			; 4a
 B6_0712:		sta $067b, y	; 99 7b 06
 B6_0715:		sta $067b, x	; 9d 7b 06
 B6_0718:		lda #$01		; a9 01
-B6_071a:		sta $0606, y	; 99 06 06
+B6_071a:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, y	; 99 06 06
 B6_071d:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B6_0720:		stx $17			; 86 17
 B6_0722:		tya				; 98 
 B6_0723:		tax				; aa 
 B6_0724:		lda #$10		; a9 10
 B6_0726:		ldy #$3b		; a0 3b
-B6_0728:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B6_0728:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B6_072b:		ldx $17			; a6 17
 B6_072d:		lda #$00		; a9 00
 B6_072f:		sta wEntityPaletteOverride.w, x	; 9d 54 04
@@ -1060,10 +1060,10 @@ B6_0738:		sta wEntityState.w, x	; 9d 70 04
 B6_073b:		lda #$02		; a9 02
 B6_073d:		sta $07ee		; 8d ee 07
 B6_0740:		lda #$00		; a9 00
-B6_0742:		sta $0606, x	; 9d 06 06
+B6_0742:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B6_0745:		lda #$40		; a9 40
 B6_0747:		sta $067b, x	; 9d 7b 06
-B6_074a:		sta $3d, x		; 95 3d
+B6_074a:		sta wBossHealth, x		; 95 3d
 B6_074c:		lda #$a0		; a9 a0
 B6_074e:		sta wEntityBaseY.w, x	; 9d 1c 04
 B6_0751:		sta wEntityBaseX.w, x	; 9d 38 04
@@ -1071,10 +1071,10 @@ B6_0754:		ldy #$26		; a0 26
 B6_0756:		sty $48			; 84 48
 B6_0758:		iny				; c8 
 B6_0759:		sty $49			; 84 49
-B6_075b:		jmp chrSwitch_0_to_c00_1400		; 4c 3c e3
+B6_075b:		jmp updateSprChrBanks_0_to_c00_1400		; 4c 3c e3
 
 
-B6_075e:		ldy $0606, x	; bc 06 06
+B6_075e:		ldy wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bc 06 06
 B6_0761:		bne B6_0775 ; d0 12
 
 B6_0763:		lda $061d, x	; bd 1d 06
@@ -1105,7 +1105,7 @@ B6_0794:		sta $05d8, x	; 9d d8 05
 B6_0797:		rts				; 60 
 
 
-B6_0798:		inc $0606, x	; fe 06 06
+B6_0798:		inc wEntityAlarmOrStartYforSinusoidalMovement.w, x	; fe 06 06
 B6_079b:		rts				; 60 
 
 
@@ -1114,7 +1114,7 @@ B6_079d:		bne B6_07ae ; d0 0f
 
 B6_079f:		lda #$10		; a9 10
 B6_07a1:		ldy #$2b		; a0 2b
-B6_07a3:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B6_07a3:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B6_07a6:		lda #$4a		; a9 4a
 B6_07a8:		jsr $994c		; 20 4c 99
 B6_07ab:		jmp $8798		; 4c 98 87
@@ -1139,22 +1139,22 @@ B6_07c4:		sta $c1			; 85 c1
 B6_07c6:		jmp $e61e		; 4c 1e e6
 
 
-B6_07c9:		ldy $0606, x	; bc 06 06
+B6_07c9:		ldy wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bc 06 06
 B6_07cc:		bne B6_07f0 ; d0 22
 
 B6_07ce:		lda #$26		; a9 26
 B6_07d0:		sta wChrBankSpr_0800			; 85 48
 B6_07d2:		lda #$29		; a9 29
 B6_07d4:		sta wChrBankSpr_0c00			; 85 49
-B6_07d6:		jsr chrSwitch_0_to_c00_1400		; 20 3c e3
+B6_07d6:		jsr updateSprChrBanks_0_to_c00_1400		; 20 3c e3
 B6_07d9:		lda #$00		; a9 00
 B6_07db:		sta $061d, x	; 9d 1d 06
 B6_07de:		lda #$40		; a9 40
 B6_07e0:		sta wEntityState.w, x	; 9d 70 04
 B6_07e3:		lda #$10		; a9 10
 B6_07e5:		ldy #$39		; a0 39
-B6_07e7:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
-B6_07ea:		inc $0606, x	; fe 06 06
+B6_07e7:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
+B6_07ea:		inc wEntityAlarmOrStartYforSinusoidalMovement.w, x	; fe 06 06
 B6_07ed:		jmp $88da		; 4c da 88
 
 
@@ -1167,7 +1167,7 @@ B6_07f8:		bcs B6_0805 ; b0 0b
 
 B6_07fa:		lda #$00		; a9 00
 B6_07fc:		sta $061d, x	; 9d 1d 06
-B6_07ff:		inc $0606, x	; fe 06 06
+B6_07ff:		inc wEntityAlarmOrStartYforSinusoidalMovement.w, x	; fe 06 06
 B6_0802:		jmp $88da		; 4c da 88
 
 
@@ -1190,7 +1190,7 @@ B6_0821:		bne B6_082e ; d0 0b
 
 B6_0823:		lda #$80		; a9 80
 B6_0825:		sta wEntityAI_idx.w, x	; 9d ef 05
-B6_0828:		inc $0606, x	; fe 06 06
+B6_0828:		inc wEntityAlarmOrStartYforSinusoidalMovement.w, x	; fe 06 06
 B6_082b:		jmp $88da		; 4c da 88
 
 
@@ -1323,7 +1323,7 @@ B6_08ec:		bcs B6_0896 ; b0 a8
 B6_08ee:		;removed
 	.db $b0 $a0
 
-B6_08f0:		lda $0606, x	; bd 06 06
+B6_08f0:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B6_08f3:		and #$7f		; 29 7f
 B6_08f5:		tay				; a8 
 B6_08f6:		bne B6_0919 ; d0 21
@@ -1339,8 +1339,8 @@ B6_0906:		lda $89c1, y	; b9 c1 89
 B6_0909:		sta wChrBankSpr_0800			; 85 48
 B6_090b:		lda $89c2, y	; b9 c2 89
 B6_090e:		sta wChrBankSpr_0c00			; 85 49
-B6_0910:		jsr chrSwitch_0_to_c00_1400		; 20 3c e3
-B6_0913:		inc $0606, x	; fe 06 06
+B6_0910:		jsr updateSprChrBanks_0_to_c00_1400		; 20 3c e3
+B6_0913:		inc wEntityAlarmOrStartYforSinusoidalMovement.w, x	; fe 06 06
 B6_0916:		jmp $88da		; 4c da 88
 
 
@@ -1377,7 +1377,7 @@ B6_0947:		lda #$02		; a9 02
 B6_0949:		sta $04			; 85 04
 B6_094b:		jsr $8956		; 20 56 89
 B6_094e:		lda #$00		; a9 00
-B6_0950:		sta $0606, x	; 9d 06 06
+B6_0950:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B6_0953:		jmp $88d8		; 4c d8 88
 
 
@@ -1394,7 +1394,7 @@ B6_0965:		asl a			; 0a
 B6_0966:		tay				; a8 
 B6_0967:		lda $8a2a, y	; b9 2a 8a
 B6_096a:		sta wVramQueueDest			; 85 61
-B6_096c:		lda wCurrScrollXRoom			; a5 57
+B6_096c:		lda wCurrScrollRoomScreen			; a5 57
 B6_096e:		and #$01		; 29 01
 B6_0970:		eor $75			; 45 75
 B6_0972:		beq B6_0976 ; f0 02
@@ -1405,13 +1405,13 @@ B6_0979:		sta wVramQueueDest+1			; 85 62
 B6_097b:		jsr $8987		; 20 87 89
 B6_097e:		lda #$04		; a9 04
 B6_0980:		sta $05d8, x	; 9d d8 05
-B6_0983:		inc $0606, x	; fe 06 06
+B6_0983:		inc wEntityAlarmOrStartYforSinusoidalMovement.w, x	; fe 06 06
 B6_0986:		rts				; 60 
 
 
 B6_0987:		lda #$00		; a9 00
 B6_0989:		sta $16			; 85 16
-B6_098b:		jsr vramQueueSet2bytesDestToCopy_noData		; 20 af e8
+B6_098b:		jsr vramQueueSetControlByte2_destToCopy_noData		; 20 af e8
 B6_098e:		lda $16			; a5 16
 B6_0990:		asl a			; 0a
 B6_0991:		asl a			; 0a
@@ -1428,7 +1428,7 @@ B6_09a4:		iny				; c8
 B6_09a5:		dec $15			; c6 15
 B6_09a7:		bne B6_099e ; d0 f5
 
-B6_09a9:		inc $61			; e6 61
+B6_09a9:		inc wVramQueueDest			; e6 61
 B6_09ab:		lda wVramQueueDest			; a5 61
 B6_09ad:		bne B6_09b1 ; d0 02
 
@@ -1440,7 +1440,7 @@ B6_09b8:		lda $16			; a5 16
 B6_09ba:		cmp #$04		; c9 04
 B6_09bc:		bne B6_098b ; d0 cd
 
-B6_09be:		ldx $6c			; a6 6c
+B6_09be:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B6_09c0:		rts				; 60 
 
 
@@ -1569,7 +1569,7 @@ B6_0a6a:		lda #$40		; a9 40
 B6_0a6c:		sta wEntityState.w, x	; 9d 70 04
 B6_0a6f:		lda #$10		; a9 10
 B6_0a71:		ldy #$3f		; a0 3f
-B6_0a73:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B6_0a73:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B6_0a76:		lda #$59		; a9 59
 B6_0a78:		ora #$80		; 09 80
 B6_0a7a:		jmp $994c		; 4c 4c 99
@@ -1579,7 +1579,7 @@ B6_0a7d:		lda wEntityPhase.w, x	; bd c1 05
 B6_0a80:		cmp #$0b		; c9 0b
 B6_0a82:		bne B6_0ac5 ; d0 41
 
-B6_0a84:		lda $3d			; a5 3d
+B6_0a84:		lda wBossHealth			; a5 3d
 B6_0a86:		bne B6_0abd ; d0 35
 
 B6_0a88:		lda $07f1		; ad f1 07
@@ -1589,7 +1589,7 @@ B6_0a8d:		lda #$30		; a9 30
 B6_0a8f:		jsr $9978		; 20 78 99
 B6_0a92:		lda #$10		; a9 10
 B6_0a94:		ldy #$39		; a0 39
-B6_0a96:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B6_0a96:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B6_0a99:		inc $07ee		; ee ee 07
 B6_0a9c:		lda #$09		; a9 09
 B6_0a9e:		sta $054e, x	; 9d 4e 05
@@ -1623,13 +1623,13 @@ B6_0ad0:		sta $0645, x	; 9d 45 06
 B6_0ad3:		dec $0645, x	; de 45 06
 B6_0ad6:		lda #$40		; a9 40
 B6_0ad8:		sta wEntityState.w, x	; 9d 70 04
-B6_0adb:		lda $0606, x	; bd 06 06
+B6_0adb:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B6_0ade:		and #$80		; 29 80
 B6_0ae0:		bne B6_0b42 ; d0 60
 
 B6_0ae2:		lda #$01		; a9 01
 B6_0ae4:		sta $00			; 85 00
-B6_0ae6:		lda $0606, x	; bd 06 06
+B6_0ae6:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B6_0ae9:		and #$7f		; 29 7f
 B6_0aeb:		beq B6_0af3 ; f0 06
 
@@ -1651,14 +1651,14 @@ B6_0b04:		dec $00			; c6 00
 B6_0b06:		cmp #$04		; c9 04
 B6_0b08:		bcs B6_0b1f ; b0 15
 
-B6_0b0a:		lda $0606, x	; bd 06 06
+B6_0b0a:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B6_0b0d:		and #$80		; 29 80
 B6_0b0f:		beq B6_0b14 ; f0 03
 
 B6_0b11:		jsr $8bd2		; 20 d2 8b
-B6_0b14:		lda $0606, x	; bd 06 06
+B6_0b14:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B6_0b17:		ora #$80		; 09 80
-B6_0b19:		sta $0606, x	; 9d 06 06
+B6_0b19:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B6_0b1c:		jmp $8b30		; 4c 30 8b
 
 
@@ -1675,7 +1675,7 @@ B6_0b33:		bne B6_0b41 ; d0 0c
 
 B6_0b35:		lda #$10		; a9 10
 B6_0b37:		ldy #$3b		; a0 3b
-B6_0b39:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B6_0b39:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B6_0b3c:		lda #$57		; a9 57
 B6_0b3e:		jmp $994c		; 4c 4c 99
 
@@ -1686,7 +1686,7 @@ B6_0b41:		rts				; 60
 B6_0b42:		lda $0633, x	; bd 33 06
 B6_0b45:		bne B6_0b75 ; d0 2e
 
-B6_0b47:		lda $0606, x	; bd 06 06
+B6_0b47:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B6_0b4a:		and #$7f		; 29 7f
 B6_0b4c:		asl a			; 0a
 B6_0b4d:		tay				; a8 
@@ -1812,7 +1812,7 @@ B6_0c11:		bne B6_0c21 ; d0 0e
 
 B6_0c13:		lda #$10		; a9 10
 B6_0c15:		ldy #$43		; a0 43
-B6_0c17:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B6_0c17:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B6_0c1a:		lda #$58		; a9 58
 B6_0c1c:		ora #$80		; 09 80
 B6_0c1e:		jmp $994c		; 4c 4c 99
@@ -1866,7 +1866,7 @@ B6_0c66:		jsr $9978		; 20 78 99
 B6_0c69:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B6_0c6c:		lda #$10		; a9 10
 B6_0c6e:		ldy #$45		; a0 45
-B6_0c70:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B6_0c70:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B6_0c73:		lda #$5b		; a9 5b
 B6_0c75:		jmp $994c		; 4c 4c 99
 
@@ -1948,7 +1948,7 @@ B6_0cfc:		lda #$01		; a9 01
 B6_0cfe:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B6_0d01:		lda #$0c		; a9 0c
 B6_0d03:		sta wPlayerStateDoubled.w, x	; 9d 65 05
-B6_0d06:		ldy $0606, x	; bc 06 06
+B6_0d06:		ldy wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bc 06 06
 B6_0d09:		lda $8d8e, y	; b9 8e 8d
 B6_0d0c:		asl a			; 0a
 B6_0d0d:		tay				; a8 
@@ -1956,11 +1956,11 @@ B6_0d0e:		sty $06			; 84 06
 B6_0d10:		lda $8d97, y	; b9 97 8d
 B6_0d13:		tay				; a8 
 B6_0d14:		lda #$10		; a9 10
-B6_0d16:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
-B6_0d19:		inc $0606, x	; fe 06 06
-B6_0d1c:		lda $0606, x	; bd 06 06
+B6_0d16:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
+B6_0d19:		inc wEntityAlarmOrStartYforSinusoidalMovement.w, x	; fe 06 06
+B6_0d1c:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B6_0d1f:		and #$07		; 29 07
-B6_0d21:		sta $0606, x	; 9d 06 06
+B6_0d21:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B6_0d24:		ldy $06			; a4 06
 B6_0d26:		lda $8d96, y	; b9 96 8d
 B6_0d29:		jmp $994c		; 4c 4c 99
@@ -2003,7 +2003,7 @@ B6_0d77:		tya				; 98
 B6_0d78:		tax				; aa 
 B6_0d79:		ldy #$0a		; a0 0a
 B6_0d7b:		lda #$14		; a9 14
-B6_0d7d:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B6_0d7d:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B6_0d80:		jsr updateEntityXanimationFrame		; 20 75 ef
 B6_0d83:		pla				; 68 
 B6_0d84:		tax				; aa 
@@ -2084,7 +2084,7 @@ B6_0df0:		lda #$04		; a9 04
 B6_0df2:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B6_0df5:		lda #$0a		; a9 0a
 B6_0df7:		ldy #$19		; a0 19
-B6_0df9:		jmp $ef6e		; 4c 6e ef
+B6_0df9:		jmp setEntitySpecGroupA_animationDefIdxY_immediatelyAnimate		; 4c 6e ef
 
 
 B6_0dfc:		lda #$00		; a9 00
@@ -2153,7 +2153,7 @@ B6_0e6b:		lda wEntityBaseX.w, x	; bd 38 04
 B6_0e6e:		cmp #$50		; c9 50
 B6_0e70:		bcc B6_0e8a ; 90 18
 
-B6_0e72:		lda $0606, x	; bd 06 06
+B6_0e72:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B6_0e75:		and #$01		; 29 01
 B6_0e77:		beq B6_0e8a ; f0 11
 
@@ -2161,9 +2161,9 @@ B6_0e79:		lda $00			; a5 00
 B6_0e7b:		cmp #$20		; c9 20
 B6_0e7d:		bcs B6_0e8a ; b0 0b
 
-B6_0e7f:		lda $0606, x	; bd 06 06
+B6_0e7f:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B6_0e82:		and #$fe		; 29 fe
-B6_0e84:		sta $0606, x	; 9d 06 06
+B6_0e84:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B6_0e87:		jmp $9159		; 4c 59 91
 
 
@@ -2207,7 +2207,7 @@ B6_0ec5:		sta $061d, x	; 9d 1d 06
 B6_0ec8:		and #$01		; 29 01
 B6_0eca:		bne B6_0f35 ; d0 69
 
-B6_0ecc:		lda $0606, x	; bd 06 06
+B6_0ecc:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B6_0ecf:		and #$01		; 29 01
 B6_0ed1:		bne B6_0f35 ; d0 62
 
@@ -2259,7 +2259,7 @@ B6_0f1f:		ora #$02		; 09 02
 B6_0f21:		sta $061d, x	; 9d 1d 06
 B6_0f24:		lda #$10		; a9 10
 B6_0f26:		ldy #$29		; a0 29
-B6_0f28:		jsr $ef6e		; 20 6e ef
+B6_0f28:		jsr setEntitySpecGroupA_animationDefIdxY_immediatelyAnimate		; 20 6e ef
 B6_0f2b:		lda #$00		; a9 00
 B6_0f2d:		sta wEntityState.w, x	; 9d 70 04
 B6_0f30:		lda #$41		; a9 41
@@ -2420,9 +2420,9 @@ B6_103e:		bcc B6_1043 ; 90 03
 B6_1040:		jmp $9155		; 4c 55 91
 
 
-B6_1043:		lda $0606, x	; bd 06 06
+B6_1043:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B6_1046:		and #$0f		; 29 0f
-B6_1048:		sta $0606, x	; 9d 06 06
+B6_1048:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B6_104b:		lda #$00		; a9 00
 B6_104d:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B6_1050:		lda #$13		; a9 13
@@ -2438,15 +2438,15 @@ B6_105e:		bne B6_1063 ; d0 03
 B6_1060:		jmp $9103		; 4c 03 91
 
 
-B6_1063:		lda $0606, x	; bd 06 06
+B6_1063:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B6_1066:		and #$04		; 29 04
 B6_1068:		bne B6_1075 ; d0 0b
 
-B6_106a:		lda $0606, x	; bd 06 06
+B6_106a:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B6_106d:		clc				; 18 
 B6_106e:		adc #$10		; 69 10
 B6_1070:		ora #$04		; 09 04
-B6_1072:		sta $0606, x	; 9d 06 06
+B6_1072:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B6_1075:		lda $07ed		; ad ed 07
 B6_1078:		cmp #$03		; c9 03
 B6_107a:		bcc B6_1096 ; 90 1a
@@ -2476,9 +2476,9 @@ B6_10a5:		lda #$0c		; a9 0c
 B6_10a7:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B6_10aa:		bne B6_10b4 ; d0 08
 
-B6_10ac:		lda $0606, x	; bd 06 06
+B6_10ac:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B6_10af:		and #$fb		; 29 fb
-B6_10b1:		sta $0606, x	; 9d 06 06
+B6_10b1:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B6_10b4:		jsr $9309		; 20 09 93
 B6_10b7:		cmp #$14		; c9 14
 B6_10b9:		bne B6_10c2 ; d0 07
@@ -2489,7 +2489,7 @@ B6_10c0:		bcc B6_1103 ; 90 41
 
 B6_10c2:		lda #$0a		; a9 0a
 B6_10c4:		ldy #$19		; a0 19
-B6_10c6:		jsr $ef6e		; 20 6e ef
+B6_10c6:		jsr setEntitySpecGroupA_animationDefIdxY_immediatelyAnimate		; 20 6e ef
 B6_10c9:		lda #$1a		; a9 1a
 B6_10cb:		sta $0645, x	; 9d 45 06
 B6_10ce:		lda wEntityState.w, x	; bd 70 04
@@ -2510,7 +2510,7 @@ B6_10f0:		beq B6_10fe ; f0 0c
 
 B6_10f2:		lda #$0a		; a9 0a
 B6_10f4:		ldy #$12		; a0 12
-B6_10f6:		jsr $ef6e		; 20 6e ef
+B6_10f6:		jsr setEntitySpecGroupA_animationDefIdxY_immediatelyAnimate		; 20 6e ef
 B6_10f9:		lda #$1a		; a9 1a
 B6_10fb:		sta $0645, x	; 9d 45 06
 B6_10fe:		lda #$c0		; a9 c0
@@ -2540,15 +2540,15 @@ B6_111a:		lda $00			; a5 00
 B6_111c:		cmp #$18		; c9 18
 B6_111e:		bcc B6_112b ; 90 0b
 
-B6_1120:		lda $0606, x	; bd 06 06
+B6_1120:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B6_1123:		and #$fd		; 29 fd
-B6_1125:		sta $0606, x	; 9d 06 06
+B6_1125:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B6_1128:		jmp $90d6		; 4c d6 90
 
 
-B6_112b:		lda $0606, x	; bd 06 06
+B6_112b:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B6_112e:		and #$fd		; 29 fd
-B6_1130:		sta $0606, x	; 9d 06 06
+B6_1130:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B6_1133:		lda #$94		; a9 94
 B6_1135:		jmp $9215		; 4c 15 92
 
@@ -2584,7 +2584,7 @@ B6_115b:		sta $16			; 85 16
 B6_115d:		jsr $930f		; 20 0f 93
 B6_1160:		lda #$0a		; a9 0a
 B6_1162:		ldy #$19		; a0 19
-B6_1164:		jsr $ef6e		; 20 6e ef
+B6_1164:		jsr setEntitySpecGroupA_animationDefIdxY_immediatelyAnimate		; 20 6e ef
 B6_1167:		lda wEntityState.w, x	; bd 70 04
 B6_116a:		and #$df		; 29 df
 B6_116c:		sta wEntityState.w, x	; 9d 70 04
@@ -2600,9 +2600,9 @@ B6_117a:		lda wPlayerStateDoubled.w, x	; bd 65 05
 B6_117d:		and #$04		; 29 04
 B6_117f:		beq B6_11c5 ; f0 44
 
-B6_1181:		lda $0606, x	; bd 06 06
+B6_1181:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B6_1184:		and #$0f		; 29 0f
-B6_1186:		sta $0606, x	; 9d 06 06
+B6_1186:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B6_1189:		lda #$00		; a9 00
 B6_118b:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B6_118e:		lda wEntityBaseY.w, x	; bd 1c 04
@@ -2638,8 +2638,8 @@ B6_11c3:		bne B6_1207 ; d0 42
 
 B6_11c5:		lda $1f			; a5 1f
 B6_11c7:		and #$01		; 29 01
-B6_11c9:		ora $0606, x	; 1d 06 06
-B6_11cc:		sta $0606, x	; 9d 06 06
+B6_11c9:		ora wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 1d 06 06
+B6_11cc:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B6_11cf:		lda wEntityBaseY.w, x	; bd 1c 04
 B6_11d2:		and #$f0		; 29 f0
 B6_11d4:		sta $01			; 85 01
@@ -2673,7 +2673,7 @@ B6_1204:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B6_1207:		tya				; 98 
 B6_1208:		sta $0633, x	; 9d 33 06
 B6_120b:		lda #$0a		; a9 0a
-B6_120d:		jsr $ef6e		; 20 6e ef
+B6_120d:		jsr setEntitySpecGroupA_animationDefIdxY_immediatelyAnimate		; 20 6e ef
 B6_1210:		jsr updateEntityXanimationFrame		; 20 75 ef
 B6_1213:		lda #$13		; a9 13
 B6_1215:		sta $07			; 85 07
@@ -2719,7 +2719,7 @@ B6_124b:		lda #$20		; a9 20
 B6_124d:		jsr $9978		; 20 78 99
 B6_1250:		lda #$0a		; a9 0a
 B6_1252:		ldy #$18		; a0 18
-B6_1254:		jsr $ef6e		; 20 6e ef
+B6_1254:		jsr setEntitySpecGroupA_animationDefIdxY_immediatelyAnimate		; 20 6e ef
 B6_1257:		lda #$21		; a9 21
 B6_1259:		jmp $994c		; 4c 4c 99
 
@@ -2741,7 +2741,7 @@ B6_1274:		rts				; 60
 
 
 B6_1275:		jsr $993b		; 20 3b 99
-B6_1278:		lda $0606, x	; bd 06 06
+B6_1278:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B6_127b:		bne B6_129c ; d0 1f
 
 B6_127d:		lda #$00		; a9 00
@@ -2780,7 +2780,7 @@ B6_12b6:		jmp $9952		; 4c 52 99
 
 
 B6_12b9:		jsr $993b		; 20 3b 99
-B6_12bc:		lda $0606, x	; bd 06 06
+B6_12bc:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B6_12bf:		bne B6_12f0 ; d0 2f
 
 B6_12c1:		lda #$10		; a9 10
@@ -2815,7 +2815,7 @@ B6_12fc:		lda wEntityBaseY.w, x	; bd 1c 04
 B6_12ff:		clc				; 18 
 B6_1300:		adc $01			; 65 01
 B6_1302:		sta wEntityBaseY.w, x	; 9d 1c 04
-B6_1305:		inc $0606, x	; fe 06 06
+B6_1305:		inc wEntityAlarmOrStartYforSinusoidalMovement.w, x	; fe 06 06
 B6_1308:		rts				; 60 
 
 
@@ -2840,7 +2840,7 @@ B6_1322:		bne B6_1330 ; d0 0c
 
 B6_1324:		lda #$0a		; a9 0a
 B6_1326:		ldy #$49		; a0 49
-B6_1328:		jsr $ef6e		; 20 6e ef
+B6_1328:		jsr setEntitySpecGroupA_animationDefIdxY_immediatelyAnimate		; 20 6e ef
 B6_132b:		lda #$2a		; a9 2a
 B6_132d:		jmp $994c		; 4c 4c 99
 
@@ -2871,7 +2871,7 @@ B6_1354:		lda #$f0		; a9 f0
 B6_1356:		sta wEntityBaseX.w, x	; 9d 38 04
 B6_1359:		lda #$0a		; a9 0a
 B6_135b:		ldy #$49		; a0 49
-B6_135d:		jmp $ef6e		; 4c 6e ef
+B6_135d:		jmp setEntitySpecGroupA_animationDefIdxY_immediatelyAnimate		; 4c 6e ef
 
 
 B6_1360:		lda #$00		; a9 00
@@ -2904,7 +2904,7 @@ B6_1396:		jsr $9978		; 20 78 99
 B6_1399:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B6_139c:		lda #$0a		; a9 0a
 B6_139e:		ldy #$52		; a0 52
-B6_13a0:		jsr $ef6e		; 20 6e ef
+B6_13a0:		jsr setEntitySpecGroupA_animationDefIdxY_immediatelyAnimate		; 20 6e ef
 B6_13a3:		clc				; 18 
 B6_13a4:		lda wEntityBaseY.w, x	; bd 1c 04
 B6_13a7:		adc #$10		; 69 10
@@ -2938,7 +2938,7 @@ B6_13d6:		lda #$01		; a9 01
 B6_13d8:		sta $0633, x	; 9d 33 06
 B6_13db:		lda #$0a		; a9 0a
 B6_13dd:		ldy #$54		; a0 54
-B6_13df:		jsr $ef6e		; 20 6e ef
+B6_13df:		jsr setEntitySpecGroupA_animationDefIdxY_immediatelyAnimate		; 20 6e ef
 B6_13e2:		lda #$2b		; a9 2b
 B6_13e4:		jmp $994c		; 4c 4c 99
 
@@ -2958,30 +2958,30 @@ B6_13fa:		beq B6_13ff ; f0 03
 B6_13fc:		jmp $949c		; 4c 9c 94
 
 
-B6_13ff:		lda $0606, x	; bd 06 06
+B6_13ff:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B6_1402:		bne B6_1427 ; d0 23
 
 B6_1404:		lda #$04		; a9 04
-B6_1406:		sta $0606, x	; 9d 06 06
+B6_1406:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B6_1409:		lda $1f			; a5 1f
 B6_140b:		and #$03		; 29 03
 B6_140d:		bne B6_141b ; d0 0c
 
 B6_140f:		lda #$10		; a9 10
 B6_1411:		ldy #$00		; a0 00
-B6_1413:		jsr $ef6e		; 20 6e ef
+B6_1413:		jsr setEntitySpecGroupA_animationDefIdxY_immediatelyAnimate		; 20 6e ef
 B6_1416:		lda #$29		; a9 29
 B6_1418:		jmp $994c		; 4c 4c 99
 
 
 B6_141b:		lda #$0a		; a9 0a
 B6_141d:		ldy #$4d		; a0 4d
-B6_141f:		jsr $ef6e		; 20 6e ef
+B6_141f:		jsr setEntitySpecGroupA_animationDefIdxY_immediatelyAnimate		; 20 6e ef
 B6_1422:		lda #$28		; a9 28
 B6_1424:		jmp $994c		; 4c 4c 99
 
 
-B6_1427:		dec $0606, x	; de 06 06
+B6_1427:		dec wEntityAlarmOrStartYforSinusoidalMovement.w, x	; de 06 06
 B6_142a:		lda $0633, x	; bd 33 06
 B6_142d:		bne B6_144a ; d0 1b
 
@@ -3013,7 +3013,7 @@ B6_145f:		lda #$00		; a9 00
 B6_1461:		sta $0633, x	; 9d 33 06
 B6_1464:		lda #$0a		; a9 0a
 B6_1466:		ldy #$50		; a0 50
-B6_1468:		jsr $ef6e		; 20 6e ef
+B6_1468:		jsr setEntitySpecGroupA_animationDefIdxY_immediatelyAnimate		; 20 6e ef
 B6_146b:		lda #$27		; a9 27
 B6_146d:		jmp $994c		; 4c 4c 99
 
@@ -3027,7 +3027,7 @@ B6_147c:		beq B6_148a ; f0 0c
 
 B6_147e:		lda #$0a		; a9 0a
 B6_1480:		ldy #$49		; a0 49
-B6_1482:		jsr $ef6e		; 20 6e ef
+B6_1482:		jsr setEntitySpecGroupA_animationDefIdxY_immediatelyAnimate		; 20 6e ef
 B6_1485:		lda #$2a		; a9 2a
 B6_1487:		jmp $994c		; 4c 4c 99
 
@@ -3133,10 +3133,10 @@ B6_1521:		bne B6_152a ; d0 07
 
 B6_1523:		lda #$10		; a9 10
 B6_1525:		ldy #$1b		; a0 1b
-B6_1527:		jmp setEntitySpecGroupA_animationDefIdxY_startAnimate		; 4c 5c ef
+B6_1527:		jmp setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 4c 5c ef
 
 
-B6_152a:		lda $0606, x	; bd 06 06
+B6_152a:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B6_152d:		cmp #$03		; c9 03
 B6_152f:		beq B6_1534 ; f0 03
 
@@ -3185,7 +3185,7 @@ B6_157c:		clc				; 18
 B6_157d:		adc $01			; 65 01
 B6_157f:		sta wEntityBaseY.w, x	; 9d 1c 04
 B6_1582:		lda #$10		; a9 10
-B6_1584:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B6_1584:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B6_1587:		inc $061d, x	; fe 1d 06
 B6_158a:		lda $061d, x	; bd 1d 06
 B6_158d:		cmp #$12		; c9 12
@@ -3203,7 +3203,7 @@ B6_159f:		sta $07ed		; 8d ed 07
 B6_15a2:		sta wEntityAI_idx.w, x	; 9d ef 05
 B6_15a5:		sta wEntityPhase.w, x	; 9d c1 05
 B6_15a8:		lda #$60		; a9 60
-B6_15aa:		sta $0606, x	; 9d 06 06
+B6_15aa:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B6_15ad:		lda #$01		; a9 01
 B6_15af:		sta $061d, x	; 9d 1d 06
 B6_15b2:		lda #$0c		; a9 0c
@@ -3220,7 +3220,7 @@ B6_15c2:		lda #$01		; a9 01
 B6_15c4:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B6_15c7:		lda #$10		; a9 10
 B6_15c9:		ldy #$1c		; a0 1c
-B6_15cb:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B6_15cb:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B6_15ce:		lda #$38		; a9 38
 B6_15d0:		jmp $994c		; 4c 4c 99
 
@@ -3248,14 +3248,14 @@ B6_15f6:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B6_15f9:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
 B6_15fc:		lda #$00		; a9 00
 B6_15fe:		sta $03			; 85 03
-B6_1600:		ldy $0606, x	; bc 06 06
+B6_1600:		ldy wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bc 06 06
 B6_1603:		lda #$b8		; a9 b8
 B6_1605:		sec				; 38 
 B6_1606:		sbc $965c, y	; f9 5c 96
 B6_1609:		cmp wEntityBaseY.w, x	; dd 1c 04
 B6_160c:		bcc B6_161d ; 90 0f
 
-B6_160e:		ldy $0606, x	; bc 06 06
+B6_160e:		ldy wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bc 06 06
 B6_1611:		lda $9654, y	; b9 54 96
 B6_1614:		ora $07ed		; 0d ed 07
 B6_1617:		sta $07ed		; 8d ed 07
@@ -3288,7 +3288,7 @@ B6_1648:		bne B6_1627 ; d0 dd
 B6_164a:		inc $061d, x	; fe 1d 06
 B6_164d:		lda #$10		; a9 10
 B6_164f:		ldy #$1b		; a0 1b
-B6_1651:		jmp setEntitySpecGroupA_animationDefIdxY_startAnimate		; 4c 5c ef
+B6_1651:		jmp setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 4c 5c ef
 
 
 B6_1654:		ora ($02, x)	; 01 02
@@ -3320,7 +3320,7 @@ B6_1674:		jsr $9978		; 20 78 99
 B6_1677:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B6_167a:		lda #$10		; a9 10
 B6_167c:		ldy #$1b		; a0 1b
-B6_167e:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B6_167e:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B6_1681:		clc				; 18 
 B6_1682:		lda wEntityBaseY.w, x	; bd 1c 04
 B6_1685:		adc #$08		; 69 08
@@ -3378,7 +3378,7 @@ B6_16e0:		sta wEntityFacingLeft.w, y	; 99 a8 04
 B6_16e3:		lda $04			; a5 04
 B6_16e5:		sec				; 38 
 B6_16e6:		sbc #$01		; e9 01
-B6_16e8:		sta $0606, y	; 99 06 06
+B6_16e8:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, y	; 99 06 06
 B6_16eb:		dec $04			; c6 04
 B6_16ed:		bne B6_16d2 ; d0 e3
 
@@ -3388,13 +3388,13 @@ B6_16f4:		lda #$01		; a9 01
 B6_16f6:		sta $061d, x	; 9d 1d 06
 B6_16f9:		lda #$10		; a9 10
 B6_16fb:		ldy #$1a		; a0 1a
-B6_16fd:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B6_16fd:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B6_1700:		lda #$39		; a9 39
 B6_1702:		jmp $994c		; 4c 4c 99
 
 
 B6_1705:		dec $061d, x	; de 1d 06
-B6_1708:		lda $0606, x	; bd 06 06
+B6_1708:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B6_170b:		bne B6_173b ; d0 2e
 
 B6_170d:		jsr $97af		; 20 af 97
@@ -3415,12 +3415,12 @@ B6_172d:		bcs B6_1731 ; b0 02
 
 B6_172f:		ldy #$17		; a0 17
 B6_1731:		lda #$10		; a9 10
-B6_1733:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B6_1733:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B6_1736:		lda #$3a		; a9 3a
 B6_1738:		jmp $994c		; 4c 4c 99
 
 
-B6_173b:		dec $0606, x	; de 06 06
+B6_173b:		dec wEntityAlarmOrStartYforSinusoidalMovement.w, x	; de 06 06
 B6_173e:		lda wEntityBaseX.w, x	; bd 38 04
 B6_1741:		cmp #$38		; c9 38
 B6_1743:		bcs B6_1747 ; b0 02
@@ -3443,7 +3443,7 @@ B6_175d:		bne B6_1766 ; d0 07
 
 B6_175f:		lda #$10		; a9 10
 B6_1761:		ldy #$13		; a0 13
-B6_1763:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B6_1763:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B6_1766:		jsr $985b		; 20 5b 98
 B6_1769:		jsr $999c		; 20 9c 99
 B6_176c:		lda $00			; a5 00
@@ -3485,7 +3485,7 @@ B6_179f:		lda wGameStateLoopCounter			; a5 1a
 B6_17a1:		and #$03		; 29 03
 B6_17a3:		tay				; a8 
 B6_17a4:		lda $97ab, y	; b9 ab 97
-B6_17a7:		sta $0606, x	; 9d 06 06
+B6_17a7:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B6_17aa:		rts				; 60 
 
 
@@ -3658,7 +3658,7 @@ B6_18bc:		bcs B6_18c0 ; b0 02
 
 B6_18be:		ldy #$21		; a0 21
 B6_18c0:		lda #$10		; a9 10
-B6_18c2:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B6_18c2:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B6_18c5:		lda #$3e		; a9 3e
 B6_18c7:		jmp $994c		; 4c 4c 99
 
@@ -3715,12 +3715,12 @@ B6_1914:		lda #$40		; a9 40
 B6_1916:		sta wEntityState.w, x	; 9d 70 04
 B6_1919:		lda wEntityBaseX.w, x	; bd 38 04
 B6_191c:		sta $061d, x	; 9d 1d 06
-B6_191f:		ldy $0606, x	; bc 06 06
+B6_191f:		ldy wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bc 06 06
 B6_1922:		lda $9937, y	; b9 37 99
 B6_1925:		sta $05d8, x	; 9d d8 05
 B6_1928:		lda #$10		; a9 10
 B6_192a:		ldy #$23		; a0 23
-B6_192c:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B6_192c:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B6_192f:		lda #$3d		; a9 3d
 B6_1931:		jmp $994c		; 4c 4c 99
 
@@ -3814,7 +3814,7 @@ B6_19b5:		lda wVramQueueDest			; a5 61
 B6_19b7:		stx $31			; 86 31
 B6_19b9:	.db $82
 B6_19ba:		php				; 08 
-B6_19bb:		stx $62			; 86 62
+B6_19bb:		stx wVramQueueDest+1			; 86 62
 B6_19bd:		lda $bd, x		; b5 bd
 B6_19bf:		adc $05			; 65 05
 B6_19c1:		jsr jumpTablePreserveY		; 20 6d e8
@@ -3822,7 +3822,7 @@ B6_19c1:		jsr jumpTablePreserveY		; 20 6d e8
 	.dw $99f1
 B6_19c8:		lda #$10		; a9 10
 B6_19ca:		ldy #$48		; a0 48
-B6_19cc:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B6_19cc:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B6_19cf:		lda #$58		; a9 58
 B6_19d1:		sta wEntityState.w, x	; 9d 70 04
 B6_19d4:		lda $78			; a5 78
@@ -3859,7 +3859,7 @@ B6_1a13:		rts				; 60
 
 
 B6_1a14:		jsr $9a1a		; 20 1a 9a
-B6_1a17:		ldx $6c			; a6 6c
+B6_1a17:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B6_1a19:		rts				; 60 
 
 
@@ -3868,7 +3868,7 @@ B6_1a1c:		jsr $9956		; 20 56 99
 B6_1a1f:		inc $07ed		; ee ed 07
 B6_1a22:		jsr $9b0a		; 20 0a 9b
 B6_1a25:		jsr $9c0e		; 20 0e 9c
-B6_1a28:		ldx $6c			; a6 6c
+B6_1a28:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B6_1a2a:		lda wPlayerStateDoubled.w, x	; bd 65 05
 B6_1a2d:		jsr jumpTablePreserveY		; 20 6d e8
 	.dw $9a48
@@ -3936,7 +3936,7 @@ B6_1ab4:		lda $07f1		; ad f1 07
 B6_1ab7:		bmi B6_1abc ; 30 03
 
 B6_1ab9:		jsr $ff60		; 20 60 ff
-B6_1abc:		ldx $6c			; a6 6c
+B6_1abc:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B6_1abe:		lda wEntityState.w, x	; bd 70 04
 B6_1ac1:		eor #$28		; 49 28
 B6_1ac3:		sta wEntityState.w, x	; 9d 70 04
@@ -3944,7 +3944,7 @@ B6_1ac6:		dec $0645, x	; de 45 06
 B6_1ac9:		bne B6_1b09 ; d0 3e
 
 B6_1acb:		jsr $ff50		; 20 50 ff
-B6_1ace:		ldx $6c			; a6 6c
+B6_1ace:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B6_1ad0:		lda #$78		; a9 78
 B6_1ad2:		sta wEntityState.w, x	; 9d 70 04
 B6_1ad5:		lda #$00		; a9 00
@@ -3952,7 +3952,7 @@ B6_1ad7:		sta $061d, x	; 9d 1d 06
 B6_1ada:		sta $07f3		; 8d f3 07
 B6_1add:		lda #$40		; a9 40
 B6_1adf:		sta $067b, x	; 9d 7b 06
-B6_1ae2:		sta $3d			; 85 3d
+B6_1ae2:		sta wBossHealth			; 85 3d
 B6_1ae4:		lda #$80		; a9 80
 B6_1ae6:		sta wEntityBaseX.w, x	; 9d 38 04
 B6_1ae9:		lda #$84		; a9 84
@@ -4182,7 +4182,7 @@ B6_1c6c:		rts				; 60
 B6_1c6d:		jsr func_1f_1ed7		; 20 d7 fe
 B6_1c70:		lda #$10		; a9 10
 B6_1c72:		ldy #$4a		; a0 4a
-B6_1c74:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B6_1c74:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B6_1c77:		lda #$2b		; a9 2b
 B6_1c79:		sta $054e, x	; 9d 4e 05
 B6_1c7c:		lda #$b8		; a9 b8
@@ -4234,7 +4234,7 @@ B6_1cc8:		cpy #$d0		; c0 d0
 B6_1cca:		jsr func_1f_1ed7		; 20 d7 fe
 B6_1ccd:		lda #$0e		; a9 0e
 B6_1ccf:		ldy #$04		; a0 04
-B6_1cd1:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B6_1cd1:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B6_1cd4:		lda #$03		; a9 03
 B6_1cd6:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B6_1cd9:		lda #$80		; a9 80
@@ -4248,7 +4248,7 @@ B6_1cea:		lsr a			; 4a
 B6_1ceb:		sta wEntityState.w, x	; 9d 70 04
 B6_1cee:		lda #$33		; a9 33
 B6_1cf0:		jsr playSound		; 20 5f e2
-B6_1cf3:		ldx $6c			; a6 6c
+B6_1cf3:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B6_1cf5:		rts				; 60 
 
 
@@ -4361,7 +4361,7 @@ B6_1db7:		lda #$06		; a9 06
 B6_1db9:		sta $b4			; 85 b4
 B6_1dbb:		inc wPlayerStateDoubled.w, x	; fe 65 05
 B6_1dbe:		jsr $ff6d		; 20 6d ff
-B6_1dc1:		jmp chrSwitch_800_c00_1400		; 4c 42 e3
+B6_1dc1:		jmp updateSprChrBanks_800_c00_1400		; 4c 42 e3
 
 
 B6_1dc4:		lda #$5f		; a9 5f
@@ -4379,7 +4379,7 @@ B6_1dda:		lda #$a0		; a9 a0
 B6_1ddc:		sta $0785		; 8d 85 07
 B6_1ddf:		lda #$2c		; a9 2c
 B6_1de1:		sta $0786		; 8d 86 07
-B6_1de4:		ldx $6c			; a6 6c
+B6_1de4:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B6_1de6:		lda wEntityBaseY.w, x	; bd 1c 04
 B6_1de9:		sta $07f0		; 8d f0 07
 B6_1dec:		jsr $9f22		; 20 22 9f
@@ -4396,7 +4396,7 @@ B6_1e00:		jsr $ff60		; 20 60 ff
 B6_1e03:		lda $07f1		; ad f1 07
 B6_1e06:		bpl B6_1e11 ; 10 09
 
-B6_1e08:		ldx $6c			; a6 6c
+B6_1e08:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B6_1e0a:		inc wPlayerStateDoubled.w, x	; fe 65 05
 B6_1e0d:		lda #$00		; a9 00
 B6_1e0f:		sta $b4			; 85 b4
@@ -4407,7 +4407,7 @@ B6_1e12:		lda $0645, x	; bd 45 06
 B6_1e15:		clc				; 18 
 B6_1e16:		adc #$47		; 69 47
 B6_1e18:		jsr displayStaticLayoutA		; 20 e9 ec
-B6_1e1b:		ldx $6c			; a6 6c
+B6_1e1b:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B6_1e1d:		inc $0645, x	; fe 45 06
 B6_1e20:		lda $0645, x	; bd 45 06
 B6_1e23:		cmp #$03		; c9 03
@@ -4421,7 +4421,7 @@ B6_1e2e:		jmp $9f22		; 4c 22 9f
 
 B6_1e31:		lda #$4a		; a9 4a
 B6_1e33:		jsr $9fa1		; 20 a1 9f
-B6_1e36:		ldx $6c			; a6 6c
+B6_1e36:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B6_1e38:		lda $b4			; a5 b4
 B6_1e3a:		bpl B6_1e60 ; 10 24
 
@@ -4448,9 +4448,9 @@ B6_1e64:		jsr $9f22		; 20 22 9f
 B6_1e67:		lda #$48		; a9 48
 B6_1e69:		sta wEntityState.w, x	; 9d 70 04
 B6_1e6c:		sec				; 38 
-B6_1e6d:		lda $04c4, x	; bd c4 04
+B6_1e6d:		lda wEntityFractionalX.w, x	; bd c4 04
 B6_1e70:		sbc #$40		; e9 40
-B6_1e72:		sta $04c4, x	; 9d c4 04
+B6_1e72:		sta wEntityFractionalX.w, x	; 9d c4 04
 B6_1e75:		bcs B6_1e7a ; b0 03
 
 B6_1e77:		dec wEntityBaseX.w, x	; de 38 04
@@ -4541,7 +4541,7 @@ B6_1f13:		lda #$02		; a9 02
 B6_1f15:		sta $07f3		; 8d f3 07
 B6_1f18:		lda #$80		; a9 80
 B6_1f1a:		jsr $9978		; 20 78 99
-B6_1f1d:		ldx $6c			; a6 6c
+B6_1f1d:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B6_1f1f:		jmp $9956		; 4c 56 99
 
 

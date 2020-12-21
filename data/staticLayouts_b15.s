@@ -1,32 +1,19 @@
 
-B21_1a9a:		cpy #$2b		; c0 2b
-B21_1a9c:		asl a			; 0a
-B21_1a9d:	.db $ff
-B21_1a9e:	.db $82
-B21_1a9f:	.db $3f
-B21_1aa0:	.db $cf
-B21_1aa1:		asl $ff			; 06 ff
-B21_1aa3:		sty $13			; 84 13
-B21_1aa5:	.db $44
-B21_1aa6:		sta $04aa, y	; 99 aa 04
-B21_1aa9:	.db $ff
-B21_1aaa:		sty $55			; 84 55
-B21_1aac:	.db $22
-B21_1aad:		dey				; 88 
-B21_1aae:		eor $04, x		; 55 04
-B21_1ab0:	.db $ff
-B21_1ab1:		sty $55			; 84 55
-B21_1ab3:	.db $22
-B21_1ab4:		dey				; 88 
-B21_1ab5:		eor $04, x		; 55 04
-B21_1ab7:	.db $ff
-B21_1ab8:	.db $82
-B21_1ab9:		sbc $f5, x		; f5 f5
-B21_1abb:	.db $0c
-B21_1abc:	.db $ff
-B21_1abd:		php				; 08 
-B21_1abe:	.db $0f
-B21_1abf:	.db $ff
+largeLayout24:
+	.dw $2bc0
+	.db $0a $ff
+	.db $82 $3f $cf
+	.db $06 $ff
+	.db $84 $13 $44 $99 $aa
+	.db $04 $ff
+	.db $84 $55 $22 $88 $55
+	.db $04 $ff
+	.db $84 $55 $22 $88 $55
+	.db $04 $ff
+	.db $82 $f5 $f5
+	.db $0c $ff
+	.db $08 $0f
+	.db $ff
 
 
 data_15_1ac0:
@@ -672,325 +659,88 @@ B21_1df8:	.db $ff
 B21_1df9:		rts				; 60 
 
 
-B21_1dfa:		.db $00				; 00
-B21_1dfb:		jsr $7d7e		; 20 7e 7d
-B21_1dfe:	.db $82
-B21_1dff:		adc $107d, x	; 7d 7d 10
-B21_1e02:	.db $7f
-B21_1e03:		sty $64			; 84 64
-B21_1e05:		ror $67			; 66 67
-B21_1e07:	.db $67
-B21_1e08:		asl $7e			; 06 7e
-B21_1e0a:	.db $83
-B21_1e0b:	.db $67
-B21_1e0c:		ror $66			; 66 66
-B21_1e0e:		ora $7f			; 05 7f
-B21_1e10:	.db $03
-B21_1e11:		adc $0a			; 65 0a
-B21_1e13:	.db $7f
-B21_1e14:	.db $92
-B21_1e15:		adc $67			; 65 67
-B21_1e17:		ror $7e67, x	; 7e 67 7e
-B21_1e1a:		ror $7477, x	; 7e 77 74
-B21_1e1d:		adc $77, x		; 75 77
-B21_1e1f:	.db $77
-B21_1e20:		ror $7e, x		; 76 7e
-B21_1e22:		ror $6767, x	; 7e 67 67
-B21_1e25:		adc $64			; 65 64
-B21_1e27:	.db $04
-B21_1e28:	.db $67
-B21_1e29:	.db $9b
-B21_1e2a:		ror $65			; 66 65
-B21_1e2c:	.db $64
-B21_1e2d:		adc $67			; 65 67
-B21_1e2f:		ror $7f			; 66 7f
-B21_1e31:	.db $7f
-B21_1e32:	.db $7f
-B21_1e33:		adc $65			; 65 65
-B21_1e35:	.db $67
-B21_1e36:		ror $7e7e, x	; 7e 7e 7e
-B21_1e39:	.db $74
-B21_1e3a:		.db $00				; 00
-B21_1e3b:	.db $77
-B21_1e3c:		.db $00				; 00
-B21_1e3d:		.db $00				; 00
-B21_1e3e:		.db $00				; 00
-B21_1e3f:		ror $7e, x		; 76 7e
-B21_1e41:	.db $67
-B21_1e42:		ror $677e, x	; 7e 7e 67
-B21_1e45:		asl $7e			; 06 7e
-B21_1e47:	.db $89
-B21_1e48:	.db $67
-B21_1e49:		ror $7e7e, x	; 7e 7e 7e
-B21_1e4c:	.db $67
-B21_1e4d:		ror $65			; 66 65
-B21_1e4f:	.db $67
-B21_1e50:	.db $67
-B21_1e51:	.db $04
-B21_1e52:		ror $7781, x	; 7e 81 77
-B21_1e55:	.db $07
-B21_1e56:		.db $00				; 00
-B21_1e57:	.db $93
-B21_1e58:		ror $75, x		; 76 75
-B21_1e5a:		adc $7e, x		; 75 7e
-B21_1e5c:		ror $747e, x	; 7e 7e 74
-B21_1e5f:		adc $75, x		; 75 75
-B21_1e61:		ror $7e, x		; 76 7e
-B21_1e63:	.db $77
-B21_1e64:		ror $7e, x		; 76 7e
-B21_1e66:		adc $7e, x		; 75 7e
-B21_1e68:		ror $6767, x	; 7e 67 67
-B21_1e6b:	.db $04
-B21_1e6c:		ror $7582, x	; 7e 82 75
-B21_1e6f:	.db $77
-B21_1e70:	.db $07
-B21_1e71:		.db $00				; 00
-B21_1e72:	.db $03
-B21_1e73:	.db $77
-B21_1e74:		stx $76			; 86 76
-B21_1e76:		adc $77, x		; 75 77
-B21_1e78:	.db $77
-B21_1e79:	.db $77
-B21_1e7a:		.db $00				; 00
-B21_1e7b:		asl $77			; 06 77
-B21_1e7d:		dey				; 88 
-B21_1e7e:		adc $7e, x		; 75 7e
-B21_1e80:		ror $7674, x	; 7e 74 76
-B21_1e83:		ror $747e, x	; 7e 7e 74
-B21_1e86:	.db $0c
-B21_1e87:		.db $00				; 00
-B21_1e88:		sty $77			; 84 77
-B21_1e8a:	.db $77
-B21_1e8b:		eor ($42, x)	; 41 42
-B21_1e8d:		php				; 08 
-B21_1e8e:		.db $00				; 00
-B21_1e8f:	.db $87
-B21_1e90:	.db $77
-B21_1e91:		ror $75, x		; 76 75
-B21_1e93:		adc $77, x		; 75 77
-B21_1e95:		adc $75, x		; 75 75
-B21_1e97:	.db $0f
-B21_1e98:		.db $00				; 00
-B21_1e99:		sty $5251		; 8c 51 52
-B21_1e9c:	.db $42
-B21_1e9d:		lsr $57, x		; 56 57
-B21_1e9f:		eor ($42, x)	; 41 42
-B21_1ea1:		.db $00				; 00
-B21_1ea2:		eor ($42, x)	; 41 42
-B21_1ea4:		.db $00				; 00
-B21_1ea5:	.db $77
-B21_1ea6:		php				; 08 
-B21_1ea7:		.db $00				; 00
-B21_1ea8:		sta ($40, x)	; 81 40
-B21_1eaa:		ora #$00		; 09 00
-B21_1eac:		cld				; d8 
-B21_1ead:		eor ($42, x)	; 41 42
-B21_1eaf:		rts				; 60 
-
-
-B21_1eb0:	.db $62
-B21_1eb1:	.db $63
-B21_1eb2:	.db $54
-B21_1eb3:		lsr $51			; 46 51
-B21_1eb5:	.db $52
-B21_1eb6:	.db $42
-B21_1eb7:		eor ($52), y	; 51 52
-B21_1eb9:	.db $42
-B21_1eba:		.db $00				; 00
-B21_1ebb:		eor ($42, x)	; 41 42
-B21_1ebd:		.db $00				; 00
-B21_1ebe:		.db $00				; 00
-B21_1ebf:		.db $00				; 00
-B21_1ec0:		eor ($42, x)	; 41 42
-B21_1ec2:		.db $00				; 00
-B21_1ec3:	.db $43
-B21_1ec4:		sei				; 78 
-B21_1ec5:	.db $4f
-B21_1ec6:		.db $00				; 00
-B21_1ec7:	.db $7a
-B21_1ec8:	.db $5f
-B21_1ec9:		.db $00				; 00
-B21_1eca:		lsr $57, x		; 56 57
-B21_1ecc:		bvc B21_1f1f ; 50 51
-
-B21_1ece:	.db $52
-B21_1ecf:		adc $7146, x	; 7d 46 71
-B21_1ed2:		lsr $51			; 46 51
-B21_1ed4:	.db $52
-B21_1ed5:	.db $52
-B21_1ed6:		adc $7347, x	; 7d 47 73
-B21_1ed9:		adc $5153, x	; 7d 53 51
-B21_1edc:	.db $52
-B21_1edd:	.db $57
-B21_1ede:		.db $00				; 00
-B21_1edf:		eor ($51, x)	; 41 51
-B21_1ee1:	.db $52
-B21_1ee2:	.db $42
-B21_1ee3:	.db $43
-B21_1ee4:		adc $4f7d, x	; 7d 7d 4f
-B21_1ee7:		adc $4f7d, y	; 79 7d 4f
-B21_1eea:		adc $4463, x	; 7d 63 44
-B21_1eed:		eor $7d			; 45 7d
-B21_1eef:		eor $52, x		; 55 52
-B21_1ef1:	.db $63
-B21_1ef2:		eor ($60), y	; 51 60
-B21_1ef4:		eor $62			; 45 62
-B21_1ef6:		adc $7d7d, x	; 7d 7d 7d
-B21_1ef9:		eor $44, x		; 55 44
-B21_1efb:		eor $72			; 45 72
-B21_1efd:	.db $73
-B21_1efe:	.db $53
-B21_1eff:		eor ($54), y	; 51 54
-B21_1f01:		adc $4d4c, x	; 7d 4c 4d
-B21_1f04:		lsr $7d0b		; 4e 0b 7d
-B21_1f07:		sta $55, x		; 95 55
-B21_1f09:	.db $44
-B21_1f0a:		rts				; 60 
-
-
-B21_1f0b:		adc $7d61, x	; 7d 61 7d
-B21_1f0e:		adc $637d, x	; 7d 7d 63
-B21_1f11:	.db $44
-B21_1f12:	.db $62
-B21_1f13:		adc $6362, x	; 7d 62 63
-B21_1f16:		rts				; 60 
-
-
-B21_1f17:	.db $62
-B21_1f18:	.db $72
-B21_1f19:		adc $7d5c, x	; 7d 5c 7d
-B21_1f1c:		lsr $7d13, x	; 5e 13 7d
-B21_1f1f:	.db $83
-B21_1f20:		rts				; 60 
-
-
-B21_1f21:		adc ($62, x)	; 61 62
-B21_1f23:		asl $7d			; 06 7d
-B21_1f25:		sta $6b			; 85 6b
-B21_1f27:		jmp ($5d6b)		; 6c 6b 5d
-
-
-B21_1f2a:		lsr $7d1a		; 4e 1a 7d
-B21_1f2d:		stx $4e			; 86 4e
-B21_1f2f:	.db $7b
-B21_1f30:	.db $7c
-B21_1f31:	.db $7b
-B21_1f32:		adc $1a5e, x	; 7d 5e 1a
-B21_1f35:		adc $5e84, x	; 7d 84 5e
-B21_1f38:		jmp ($6f6e)		; 6c 6e 6f
-
-
-B21_1f3b:		ora $817d		; 0d 7d 81
-B21_1f3e:	.db $5b
-B21_1f3f:		asl $7d			; 06 7d
-B21_1f41:		sta $5b			; 85 5b
-B21_1f43:		adc $7d7d, x	; 7d 7d 7d
-B21_1f46:	.db $5b
-B21_1f47:	.db $04
-B21_1f48:		adc $6f82, x	; 7d 82 6f
-B21_1f4b:	.db $5a
-B21_1f4c:		ora #$7d		; 09 7d
-B21_1f4e:	.db $03
-B21_1f4f:		pla				; 68 
-B21_1f50:	.db $0c
-B21_1f51:		adc $4a84, x	; 7d 84 4a
-B21_1f54:		pha				; 48 
-B21_1f55:		pha				; 48 
-B21_1f56:		pla				; 68 
-B21_1f57:		ora #$7d		; 09 7d
-B21_1f59:	.db $87
-B21_1f5a:	.db $5b
-B21_1f5b:		adc $687d, x	; 7d 7d 68
-B21_1f5e:		pha				; 48 
-B21_1f5f:		pla				; 68 
-B21_1f60:		pla				; 68 
-B21_1f61:		ora #$7d		; 09 7d
-B21_1f63:		dey				; 88 
-B21_1f64:		eor #$48		; 49 48
-B21_1f66:		lsr a			; 4a
-B21_1f67:		ror $5858, x	; 7e 58 58
-B21_1f6a:		ror $0c49, x	; 7e 49 0c
-B21_1f6d:		adc $6883, x	; 7d 83 68
-B21_1f70:		pha				; 48 
-B21_1f71:		lsr a			; 4a
-B21_1f72:		ora #$7d		; 09 7d
-B21_1f74:	.db $04
-B21_1f75:		ror $5804, x	; 7e 04 58
-B21_1f78:		sta ($48, x)	; 81 48
-B21_1f7a:	.db $0b
-B21_1f7b:		adc $6883, x	; 7d 83 68
-B21_1f7e:		lsr a			; 4a
-B21_1f7f:		adc #$09		; 69 09
-B21_1f81:		adc $588c, x	; 7d 8c 58
-B21_1f84:		ror $6a7e, x	; 7e 7e 6a
-B21_1f87:		ror $7e58, x	; 7e 58 7e
-B21_1f8a:		cli				; 58 
-B21_1f8b:		cli				; 58 
-B21_1f8c:		pha				; 48 
-B21_1f8d:		pha				; 48 
-B21_1f8e:		eor #$04		; 49 04
-B21_1f90:		adc $6887, x	; 7d 87 68
-B21_1f93:	.db $5b
-B21_1f94:	.db $5b
-B21_1f95:		pha				; 48 
-B21_1f96:		pha				; 48 
-B21_1f97:		pha				; 48 
-B21_1f98:		lsr a			; 4a
-B21_1f99:		php				; 08 
-B21_1f9a:		adc $4b98, x	; 7d 98 4b
-B21_1f9d:	.db $4b
-B21_1f9e:		cli				; 58 
-B21_1f9f:	.db $4b
-B21_1fa0:	.db $4b
-B21_1fa1:		adc #$69		; 69 69
-B21_1fa3:	.db $4b
-B21_1fa4:	.db $4b
-B21_1fa5:		ror $6a4b, x	; 7e 4b 6a
-B21_1fa8:		ror $4849, x	; 7e 49 48
-B21_1fab:		pla				; 68 
-B21_1fac:		adc $484a, x	; 7d 4a 48
-B21_1faf:		lsr a			; 4a
-B21_1fb0:		cli				; 58 
-B21_1fb1:		adc #$6a		; 69 6a
-B21_1fb3:		ror $7d08, x	; 7e 08 7d
-B21_1fb6:		tya				; 98 
-B21_1fb7:	.db $4b
-B21_1fb8:		cli				; 58 
-B21_1fb9:		ror $7e58, x	; 7e 58 7e
-B21_1fbc:		cli				; 58 
-B21_1fbd:		ror $7e7e, x	; 7e 7e 7e
-B21_1fc0:		ror a			; 6a
-B21_1fc1:	.db $4b
-B21_1fc2:		ror $7e6a, x	; 7e 6a 7e
-B21_1fc5:		ror $4a49, x	; 7e 49 4a
-B21_1fc8:		eor #$4a		; 49 4a
-B21_1fca:		ror $7e4b, x	; 7e 4b 7e
-B21_1fcd:	.db $4b
-B21_1fce:		cli				; 58 
-B21_1fcf:		ror $827d, x	; 7e 7d 82
-B21_1fd2:		adc $087d, x	; 7d 7d 08
-B21_1fd5:		tax				; aa 
-B21_1fd6:		php				; 08 
-B21_1fd7:		.db $00				; 00
-B21_1fd8:		stx $e0, y		; 96 e0
-B21_1fda:		.db $f0 $20
-
-B21_1fdc:		.db $00				; 00
-B21_1fdd:		.db $00				; 00
-B21_1fde:	.db $ef
-B21_1fdf:	.db $f3
-B21_1fe0:		cpx #$ff		; e0 ff
-B21_1fe2:	.db $ff
-B21_1fe3:		inc $7fff, x	; fe ff 7f
-B21_1fe6:		txs				; 9a 
-B21_1fe7:		tax				; aa 
-B21_1fe8:	.db $af
-B21_1fe9:		tax				; aa 
-B21_1fea:		tax				; aa 
-B21_1feb:	.db $af
-B21_1fec:		tax				; aa 
-B21_1fed:		eor $95, x		; 55 95
-B21_1fef:	.db $12
-B21_1ff0:		tax				; aa 
-B21_1ff1:		php				; 08 
-B21_1ff2:		asl a			; 0a
+largeLayout20:
+	.dw $2000
+	.db $7e $7d
+	.db $82 $7d $7d
+	.db $10 $7f
+	.db $84 $64 $66 $67 $67
+	.db $06 $7e
+	.db $83 $67 $66 $66
+	.db $05 $7f
+	.db $03 $65
+	.db $0a $7f
+	.db $92 $65 $67 $7e $67 $7e $7e $77 $74 $75 $77 $77 $76 $7e $7e $67 $67 $65 $64
+	.db $04 $67
+	.db $9b $66 $65 $64 $65 $67 $66 $7f $7f $7f $65 $65 $67 $7e $7e $7e $74 $00 $77 $00 $00 $00 $76 $7e $67 $7e $7e $67
+	.db $06 $7e
+	.db $89 $67 $7e $7e $7e $67 $66 $65 $67 $67
+	.db $04 $7e
+	.db $81 $77
+	.db $07 $00
+	.db $93 $76 $75 $75 $7e $7e $7e $74 $75 $75 $76 $7e $77 $76 $7e $75 $7e $7e $67 $67
+	.db $04 $7e
+	.db $82 $75 $77
+	.db $07 $00
+	.db $03 $77
+	.db $86 $76 $75 $77 $77 $77 $00
+	.db $06 $77
+	.db $88 $75 $7e $7e $74 $76 $7e $7e $74
+	.db $0c $00
+	.db $84 $77 $77 $41 $42
+	.db $08 $00
+	.db $87 $77 $76 $75 $75 $77 $75 $75
+	.db $0f $00
+	.db $8c $51 $52 $42 $56 $57 $41 $42 $00 $41 $42 $00 $77
+	.db $08 $00
+	.db $81 $40
+	.db $09 $00
+	.db $d8 $41 $42 $60 $62 $63 $54 $46 $51 $52 $42 $51 $52 $42 $00 $41 $42 $00 $00 $00 $41 $42 $00 $43 $78 $4f $00 $7a $5f $00 $56 $57 $50 $51 $52 $7d $46 $71 $46 $51 $52 $52 $7d $47 $73 $7d $53 $51 $52 $57 $00 $41 $51 $52 $42 $43 $7d $7d $4f $79 $7d $4f $7d $63 $44 $45 $7d $55 $52 $63 $51 $60 $45 $62 $7d $7d $7d $55 $44 $45 $72 $73 $53 $51 $54 $7d $4c $4d $4e
+	.db $0b $7d
+	.db $95 $55 $44 $60 $7d $61 $7d $7d $7d $63 $44 $62 $7d $62 $63 $60 $62 $72 $7d $5c $7d $5e
+	.db $13 $7d
+	.db $83 $60 $61 $62
+	.db $06 $7d
+	.db $85 $6b $6c $6b $5d $4e
+	.db $1a $7d
+	.db $86 $4e $7b $7c $7b $7d $5e
+	.db $1a $7d
+	.db $84 $5e $6c $6e $6f
+	.db $0d $7d
+	.db $81 $5b
+	.db $06 $7d
+	.db $85 $5b $7d $7d $7d $5b
+	.db $04 $7d
+	.db $82 $6f $5a
+	.db $09 $7d
+	.db $03 $68
+	.db $0c $7d
+	.db $84 $4a $48 $48 $68
+	.db $09 $7d
+	.db $87 $5b $7d $7d $68 $48 $68 $68
+	.db $09 $7d
+	.db $88 $49 $48 $4a $7e $58 $58 $7e $49
+	.db $0c $7d
+	.db $83 $68 $48 $4a
+	.db $09 $7d
+	.db $04 $7e
+	.db $04 $58
+	.db $81 $48
+	.db $0b $7d
+	.db $83 $68 $4a $69
+	.db $09 $7d
+	.db $8c $58 $7e $7e $6a $7e $58 $7e $58 $58 $48 $48 $49
+	.db $04 $7d
+	.db $87 $68 $5b $5b $48 $48 $48 $4a
+	.db $08 $7d
+	.db $98 $4b $4b $58 $4b $4b $69 $69 $4b $4b $7e $4b $6a $7e $49 $48 $68 $7d $4a $48 $4a $58 $69 $6a $7e
+	.db $08 $7d
+	.db $98 $4b $58 $7e $58 $7e $58 $7e $7e $7e $6a $4b $7e $6a $7e $7e $49 $4a $49 $4a $7e $4b $7e $4b $58
+	.db $7e $7d
+	.db $82 $7d $7d
+	.db $08 $aa
+	.db $08 $00
+	.db $96 $e0 $f0 $20 $00 $00 $ef $f3 $e0 $ff $ff $fe $ff $7f $9a $aa $af $aa $aa $af $aa $55 $95
+	.db $12 $aa
+	.db $08 $0a
+	.db $ff

@@ -137,7 +137,7 @@ B25_0240:		lda #<$232b		; a9 2b
 B25_0242:		sta wVramQueueDest			; 85 61
 B25_0244:		lda #>$232b		; a9 23
 B25_0246:		sta wVramQueueDest+1			; 85 62
-B25_0248:		jsr vramQueueSet1byteDestToCopy_noData		; 20 b5 e8
+B25_0248:		jsr vramQueueSetControlByte1_destToCopy_noData		; 20 b5 e8
 
 ; clear 10 bytes during vblank
 B25_024b:		ldy #$0a		; a0 0a
@@ -164,7 +164,7 @@ B25_0268:		lda #<$232b		; a9 2b
 B25_026a:		sta wVramQueueDest			; 85 61
 B25_026c:		lda #>$232b		; a9 23
 B25_026e:		sta wVramQueueDest+1			; 85 62
-B25_0270:		jsr vramQueueSet1byteDestToCopy_noData		; 20 b5 e8
+B25_0270:		jsr vramQueueSetControlByte1_destToCopy_noData		; 20 b5 e8
 B25_0273:		ldy #$00		; a0 00
 B25_0275:		lda (wSoundModeTextAddr), y	; b1 08
 B25_0277:		cmp #$ff		; c9 ff

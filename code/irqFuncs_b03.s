@@ -1,4 +1,4 @@
-B3_0000:		jsr chrSwitchMirrored_400_800		; 20 6d e3
+B3_0000:		jsr updateSprChrBank_1800_bgChrBanks_400_800		; 20 6d e3
 B3_0003:		ldy #$75		; a0 75
 B3_0005:		sty wChrBankBG_0400			; 84 4b
 B3_0007:		iny				; c8 
@@ -9,8 +9,8 @@ B3_000a:		jmp irqFunc_end		; 4c 3a e1
 irqFunc_17:
 B3_000d:		jsr func_03_0097		; 20 97 a0
 B3_0010:		jsr b2_setNametableVerticalMirroring		; 20 cb 9f
-B3_0013:		jsr chrSwitchMirrored_400_800		; 20 6d e3
-B3_0016:		jsr chrSwitch_0_to_c00_1400		; 20 3c e3
+B3_0013:		jsr updateSprChrBank_1800_bgChrBanks_400_800		; 20 6d e3
+B3_0016:		jsr updateSprChrBanks_0_to_c00_1400		; 20 3c e3
 B3_0019:		lda $89			; a5 89
 B3_001b:		sta SCANLINE_CMP_VALUE.w		; 8d 03 52
 B3_001e:		inc wIRQFuncIdx			; e6 6d
@@ -42,7 +42,7 @@ B3_004e:		lda wGameStateLoopCounter			; a5 1a
 B3_0050:		and #$01		; 29 01
 B3_0052:		bne B3_0057 ; d0 03
 
-B3_0054:		jsr setClearedChrBank_0_to_c00		; 20 13 e3
+B3_0054:		jsr setClearedSprChrBank_0_to_c00		; 20 13 e3
 B3_0057:		jmp irqFunc_end		; 4c 3a e1
 
 
@@ -52,7 +52,7 @@ B3_005d:		beq B3_0071 ; f0 12
 
 B3_005f:		tax				; aa 
 B3_0060:		tay				; a8 
-B3_0061:		jsr setClearedPatternTable		; 20 2d e3
+B3_0061:		jsr setClearedBGPatternTable		; 20 2d e3
 B3_0064:		lda #$0b		; a9 0b
 B3_0066:		sta $44			; 85 44
 B3_0068:		nop				; ea 
@@ -71,18 +71,18 @@ B3_007b:		sta PPUADDR.w		; 8d 06 20
 B3_007e:		lda PPUSTATUS.w		; ad 02 20
 B3_0081:		lda #$00		; a9 00
 B3_0083:		sta PPUSCROLL.w		; 8d 05 20
-B3_0086:		lda wCurrScrollXRoom			; a5 57
+B3_0086:		lda wCurrScrollRoomScreen			; a5 57
 B3_0088:		eor $75			; 45 75
 B3_008a:		and #$01		; 29 01
 B3_008c:		ora wPPUCtrl			; 05 ff
 B3_008e:		sta PPUCTRL.w		; 8d 00 20
-B3_0091:		jsr chrSwitchAllMirrored		; 20 5d e3
+B3_0091:		jsr updateSprChrBank_1000_1800_1c00_bgChrBanks_0_to_c00		; 20 5d e3
 B3_0094:		jmp irqFunc_end		; 4c 3a e1
 
 
 func_03_0097:
 B3_0097:		ldx #$03		; a2 03
-B3_0099:		jsr func_1f_0001		; 20 01 e0
+B3_0099:		jsr wait3xPlus5cycles		; 20 01 e0
 
 ; build new ppu ctrl
 B3_009c:		lda $75			; a5 75
@@ -108,7 +108,7 @@ B3_00bb:		rts				; 60
 irqFunc_01:
 B3_00bc:		jsr func_03_0097		; 20 97 a0
 B3_00bf:		jsr b2_setNametableVerticalMirroring		; 20 cb 9f
-B3_00c2:		jsr chrSwitchMirrored_400_800		; 20 6d e3
+B3_00c2:		jsr updateSprChrBank_1800_bgChrBanks_400_800		; 20 6d e3
 B3_00c5:		lda $7d			; a5 7d
 B3_00c7:		and #$f0		; 29 f0
 B3_00c9:		cmp #$40		; c9 40
@@ -117,7 +117,7 @@ B3_00c9:		cmp #$40		; c9 40
 	lda $b0			; a5 b0
 	beq @end
 
-	jsr chrSwitch_0_to_c00_1400		; 20 3c e3
+	jsr updateSprChrBanks_0_to_c00_1400		; 20 3c e3
 
 @end:
 	jmp irqFunc_end		; 4c 3a e1
@@ -143,7 +143,7 @@ B3_00ef:		jsr func_03_0097		; 20 97 a0
 B3_00f2:		jsr b2_setNametableVerticalMirroring		; 20 cb 9f
 B3_00f5:		sta NAMETABLE_MAPPING.w		; 8d 05 51
 B3_00f8:		sta NAMETABLE_MAPPING.w		; 8d 05 51
-B3_00fb:		jsr chrSwitchMirrored_400_800		; 20 6d e3
+B3_00fb:		jsr updateSprChrBank_1800_bgChrBanks_400_800		; 20 6d e3
 B3_00fe:		lda $89			; a5 89
 B3_0100:		sta SCANLINE_CMP_VALUE.w		; 8d 03 52
 B3_0103:		lda $7d			; a5 7d
@@ -171,7 +171,7 @@ B3_012e:		rts				; 60
 
 irqFunc_03:
 B3_012f:		ldx #$01		; a2 01
-B3_0131:		jsr func_1f_0001		; 20 01 e0
+B3_0131:		jsr wait3xPlus5cycles		; 20 01 e0
 B3_0134:		jsr $a121		; 20 21 a1
 B3_0137:		inc wIRQFuncIdx			; e6 6d
 B3_0139:		jmp $a144		; 4c 44 a1
@@ -179,7 +179,7 @@ B3_0139:		jmp $a144		; 4c 44 a1
 
 irqFunc_04:
 B3_013c:		ldx #$01		; a2 01
-B3_013e:		jsr func_1f_0001		; 20 01 e0
+B3_013e:		jsr wait3xPlus5cycles		; 20 01 e0
 B3_0141:		jsr $a121		; 20 21 a1
 B3_0144:		lda #$00		; a9 00
 B3_0146:		sta NAMETABLE_MAPPING.w		; 8d 05 51
@@ -232,8 +232,8 @@ irqFunc_0c:
 B3_0190:		lda wBaseIRQScanlineCmpVal			; a5 43
 B3_0192:		sta SCANLINE_CMP_VALUE.w		; 8d 03 52
 B3_0195:		ldx #$0c		; a2 0c
-B3_0197:		jsr func_1f_0001		; 20 01 e0
-B3_019a:		jsr setClearedPatternTable		; 20 2d e3
+B3_0197:		jsr wait3xPlus5cycles		; 20 01 e0
+B3_019a:		jsr setClearedBGPatternTable		; 20 2d e3
 B3_019d:		lda #NT_SINGLE_SCREEN_CIRAM_1		; a9 55
 B3_019f:		sta NAMETABLE_MAPPING.w		; 8d 05 51
 B3_01a2:		lda wGameplayScrollXWithinRoom			; a5 6f
@@ -258,7 +258,7 @@ irqFunc_07:
 B3_01bf:		lda wBaseIRQScanlineCmpVal			; a5 43
 B3_01c1:		sta SCANLINE_CMP_VALUE.w		; 8d 03 52
 B3_01c4:		ldx #$02		; a2 02
-B3_01c6:		jsr func_1f_0001		; 20 01 e0
+B3_01c6:		jsr wait3xPlus5cycles		; 20 01 e0
 B3_01c9:		lda PPUSTATUS.w		; ad 02 20
 B3_01cc:		ldx wGameplayScrollXWithinRoom			; a6 6f
 B3_01ce:		lda wGameplayScrollXRoom			; a5 70
@@ -275,7 +275,7 @@ B3_01e5:		jmp irqFunc_resetLowerBank_vectorEnd		; 4c 3f e1
 
 irqFunc_08:
 B3_01e8:		ldx #$01		; a2 01
-B3_01ea:		jsr func_1f_0001		; 20 01 e0
+B3_01ea:		jsr wait3xPlus5cycles		; 20 01 e0
 B3_01ed:		lda wChrBankBG_0400			; a5 4b
 B3_01ef:		ldy wChrBankBG_0800			; a4 4c
 B3_01f1:		ldx wChrBankBG_0000			; a6 4a
@@ -287,7 +287,7 @@ B3_01fe:		sta CHR_BANK_0c00_1c00.w		; 8d 2b 51
 B3_0201:		sta CHR_BANK_1c00.w		; 8d 27 51
 B3_0204:		stx CHR_BANK_1000.w		; 8e 24 51
 B3_0207:		sty CHR_BANK_1800.w		; 8c 26 51
-B3_020a:		jsr chrSwitch_800_c00_1400		; 20 42 e3
+B3_020a:		jsr updateSprChrBanks_800_c00_1400		; 20 42 e3
 B3_020d:		lda $7d			; a5 7d
 B3_020f:		and #$f0		; 29 f0
 B3_0211:		cmp #$40		; c9 40
@@ -303,7 +303,7 @@ irqFunc_0d:
 B3_021e:		lda wBaseIRQScanlineCmpVal			; a5 43
 B3_0220:		sta SCANLINE_CMP_VALUE.w		; 8d 03 52
 B3_0223:		ldx #$01		; a2 01
-B3_0225:		jsr func_1f_0001		; 20 01 e0
+B3_0225:		jsr wait3xPlus5cycles		; 20 01 e0
 B3_0228:		lda PPUSTATUS.w		; ad 02 20
 B3_022b:		ldx wGameplayScrollXWithinRoom			; a6 6f
 B3_022d:		lda wGameplayScrollXRoom			; a5 70
@@ -322,9 +322,9 @@ B3_0248:		jmp irqFunc_resetLowerBank_vectorEnd		; 4c 3f e1
 
 irqFunc_0e:
 B3_024b:		ldx #$01		; a2 01
-B3_024d:		jsr func_1f_0001		; 20 01 e0
-B3_0250:		jsr chrSwitch_800_c00_1400		; 20 42 e3
-B3_0253:		jsr chrSwitchAllMirrored		; 20 5d e3
+B3_024d:		jsr wait3xPlus5cycles		; 20 01 e0
+B3_0250:		jsr updateSprChrBanks_800_c00_1400		; 20 42 e3
+B3_0253:		jsr updateSprChrBank_1000_1800_1c00_bgChrBanks_0_to_c00		; 20 5d e3
 B3_0256:		lda wBaseIRQScanlineCmpVal			; a5 43
 B3_0258:		sta SCANLINE_CMP_VALUE.w		; 8d 03 52
 B3_025b:		jsr func_03_0307		; 20 07 a3
@@ -342,7 +342,7 @@ B3_0271:		jmp irqFunc_resetLowerBank_vectorEnd		; 4c 3f e1
 irqFunc_09:
 B3_0274:		jsr func_03_0097		; 20 97 a0
 B3_0277:		jsr b2_setNametableVerticalMirroring		; 20 cb 9f
-B3_027a:		jsr chrSwitchMirrored_400_800		; 20 6d e3
+B3_027a:		jsr updateSprChrBank_1800_bgChrBanks_400_800		; 20 6d e3
 B3_027d:		lda $89			; a5 89
 B3_027f:		sta SCANLINE_CMP_VALUE.w		; 8d 03 52
 B3_0282:		jsr func_03_0307		; 20 07 a3
@@ -366,21 +366,21 @@ B3_029e:		jmp irqFunc_resetLowerBank_vectorEnd		; 4c 3f e1
 irqFunc_0a:
 irqFunc_0f:
 B3_02a1:		ldy #$05		; a0 05
-B3_02a3:		jsr setClearedChrBank_0_400		; 20 22 e3
-B3_02a6:		jsr func_1f_0005		; 20 05 e0
-B3_02a9:		jsr chrSwitch_0_400		; 20 52 e3
-B3_02ac:		jsr func_1f_0005		; 20 05 e0
-B3_02af:		jsr setClearedChrBank_0_400		; 20 22 e3
-B3_02b2:		jsr func_1f_0005		; 20 05 e0
-B3_02b5:		jsr chrSwitch_0_400		; 20 52 e3
-B3_02b8:		jsr func_1f_0005		; 20 05 e0
-B3_02bb:		jsr setClearedChrBank_0_400		; 20 22 e3
-B3_02be:		jsr func_1f_0005		; 20 05 e0
-B3_02c1:		jsr chrSwitch_0_400		; 20 52 e3
-B3_02c4:		jsr func_1f_0005		; 20 05 e0
-B3_02c7:		jsr setClearedChrBank_0_400		; 20 22 e3
-B3_02ca:		jsr func_1f_0005		; 20 05 e0
-B3_02cd:		jsr chrSwitch_0_400		; 20 52 e3
+B3_02a3:		jsr setClearedSprChrBank_0_400		; 20 22 e3
+B3_02a6:		jsr wait50cycles		; 20 05 e0
+B3_02a9:		jsr updateSprChrBanks_0_400		; 20 52 e3
+B3_02ac:		jsr wait50cycles		; 20 05 e0
+B3_02af:		jsr setClearedSprChrBank_0_400		; 20 22 e3
+B3_02b2:		jsr wait50cycles		; 20 05 e0
+B3_02b5:		jsr updateSprChrBanks_0_400		; 20 52 e3
+B3_02b8:		jsr wait50cycles		; 20 05 e0
+B3_02bb:		jsr setClearedSprChrBank_0_400		; 20 22 e3
+B3_02be:		jsr wait50cycles		; 20 05 e0
+B3_02c1:		jsr updateSprChrBanks_0_400		; 20 52 e3
+B3_02c4:		jsr wait50cycles		; 20 05 e0
+B3_02c7:		jsr setClearedSprChrBank_0_400		; 20 22 e3
+B3_02ca:		jsr wait50cycles		; 20 05 e0
+B3_02cd:		jsr updateSprChrBanks_0_400		; 20 52 e3
 B3_02d0:		ldx #$10		; a2 10
 B3_02d2:		dex				; ca 
 B3_02d3:		bne B3_02d2 ; d0 fd
@@ -395,8 +395,8 @@ B3_02d9:		jmp irqFunc_end		; 4c 3a e1
 irqFunc_10:
 B3_02dc:		jsr func_03_0097		; 20 97 a0
 B3_02df:		jsr b2_setNametableVerticalMirroring		; 20 cb 9f
-B3_02e2:		jsr chrSwitchMirrored_400_800		; 20 6d e3
-B3_02e5:		jsr chrSwitch_0_400		; 20 52 e3
+B3_02e2:		jsr updateSprChrBank_1800_bgChrBanks_400_800		; 20 6d e3
+B3_02e5:		jsr updateSprChrBanks_0_400		; 20 52 e3
 B3_02e8:		lda $89			; a5 89
 B3_02ea:		sta SCANLINE_CMP_VALUE.w		; 8d 03 52
 B3_02ed:		inc wIRQFuncIdx			; e6 6d
@@ -404,15 +404,15 @@ B3_02ef:		jmp irqFunc_resetLowerBank_vectorEnd		; 4c 3f e1
 
 
 irqFunc_11:
-B3_02f2:		jsr setClearedChrBank_0_400		; 20 22 e3
+B3_02f2:		jsr setClearedSprChrBank_0_400		; 20 22 e3
 B3_02f5:		jmp irqFunc_end		; 4c 3a e1
 
 
 irqFunc_12:
 B3_02f8:		jsr func_03_0097		; 20 97 a0
 B3_02fb:		jsr b2_setNametableVerticalMirroring		; 20 cb 9f
-B3_02fe:		jsr chrSwitchMirrored_400_800		; 20 6d e3
-B3_0301:		jsr chrSwitch_0_400		; 20 52 e3
+B3_02fe:		jsr updateSprChrBank_1800_bgChrBanks_400_800		; 20 6d e3
+B3_0301:		jsr updateSprChrBanks_0_400		; 20 52 e3
 B3_0304:		jmp irqFunc_end		; 4c 3a e1
 
 
@@ -460,7 +460,7 @@ irqFunc_13:
 irqFunc_24:
 B3_0345:		jsr func_03_0097		; 20 97 a0
 B3_0348:		jsr b2_setNametableVerticalMirroring		; 20 cb 9f
-B3_034b:		jsr chrSwitchMirrored_400_800		; 20 6d e3
+B3_034b:		jsr updateSprChrBank_1800_bgChrBanks_400_800		; 20 6d e3
 B3_034e:		lda $89			; a5 89
 B3_0350:		sta SCANLINE_CMP_VALUE.w		; 8d 03 52
 B3_0353:		lda $7d			; a5 7d
@@ -527,7 +527,7 @@ B3_03af:		tay				; a8
 B3_03b0:		dey				; 88 
 B3_03b1:		dey				; 88 
 B3_03b2:		lda $a3d4, y	; b9 d4 a3
-B3_03b5:		cmp wCurrScrollXRoom			; c5 57
+B3_03b5:		cmp wCurrScrollRoomScreen			; c5 57
 B3_03b7:		beq B3_03cf ; f0 16
 
 B3_03b9:		lda wGameStateLoopCounter			; a5 1a
@@ -543,7 +543,7 @@ B3_03c6:		lda wGameStateLoopCounter			; a5 1a
 B3_03c8:		and #$01		; 29 01
 B3_03ca:		beq B3_03cf ; f0 03
 
-B3_03cc:		jsr setClearedChrBank_0_to_c00		; 20 13 e3
+B3_03cc:		jsr setClearedSprChrBank_0_to_c00		; 20 13 e3
 B3_03cf:		inc wIRQFuncIdx			; e6 6d
 B3_03d1:		jmp irqFunc_resetLowerBank_vectorEnd		; 4c 3f e1
 
@@ -557,7 +557,7 @@ B3_03d8:		ora ($01, x)	; 01 01
 irqFunc_26:
 B3_03da:		lda wBaseIRQScanlineCmpVal			; a5 43
 B3_03dc:		sta SCANLINE_CMP_VALUE.w		; 8d 03 52
-B3_03df:		jsr chrSwitch_0_to_c00_1400		; 20 3c e3
+B3_03df:		jsr updateSprChrBanks_0_to_c00_1400		; 20 3c e3
 B3_03e2:		lda wBaseIRQScanlineCmpVal			; a5 43
 B3_03e4:		clc				; 18 
 B3_03e5:		adc #$30		; 69 30
@@ -568,7 +568,7 @@ B3_03eb:		jmp irqFunc_resetLowerBank_vectorEnd		; 4c 3f e1
 
 irqFunc_15:
 irqFunc_28:
-B3_03ee:		jsr chrSwitch_0_to_c00_1400		; 20 3c e3
+B3_03ee:		jsr updateSprChrBanks_0_to_c00_1400		; 20 3c e3
 B3_03f1:		jmp irqFunc_end		; 4c 3a e1
 
 
@@ -629,7 +629,7 @@ B3_0455:		jmp irqFunc_resetLowerBank_vectorEnd		; 4c 3f e1
 
 
 irqFunc_1d:
-B3_0458:		jsr setClearedPatternTable		; 20 2d e3
+B3_0458:		jsr setClearedBGPatternTable		; 20 2d e3
 B3_045b:		jmp irqFunc_end		; 4c 3a e1
 
 
@@ -678,7 +678,7 @@ B3_04ad:		lda $0786		; ad 86 07
 B3_04b0:		sta $0792		; 8d 92 07
 B3_04b3:		ldx #$08		; a2 08
 B3_04b5:		jsr $a527		; 20 27 a5
-B3_04b8:		jsr chrSwitchAllMirrored		; 20 5d e3
+B3_04b8:		jsr updateSprChrBank_1000_1800_1c00_bgChrBanks_0_to_c00		; 20 5d e3
 B3_04bb:		lda $078a		; ad 8a 07
 B3_04be:		bne B3_04c5 ; d0 05
 
@@ -697,7 +697,7 @@ B3_04d1:		clc				; 18
 B3_04d2:		adc #$01		; 69 01
 B3_04d4:		ldx #$00		; a2 00
 B3_04d6:		jsr $a527		; 20 27 a5
-B3_04d9:		jsr chrSwitchAllMirrored		; 20 5d e3
+B3_04d9:		jsr updateSprChrBank_1000_1800_1c00_bgChrBanks_0_to_c00		; 20 5d e3
 B3_04dc:		lda $078b		; ad 8b 07
 B3_04df:		bne B3_04c5 ; d0 e4
 
@@ -711,7 +711,7 @@ B3_04e9:		clc				; 18
 B3_04ea:		adc #$02		; 69 02
 B3_04ec:		ldx #$04		; a2 04
 B3_04ee:		jsr $a527		; 20 27 a5
-B3_04f1:		jsr chrSwitchAllMirrored		; 20 5d e3
+B3_04f1:		jsr updateSprChrBank_1000_1800_1c00_bgChrBanks_0_to_c00		; 20 5d e3
 B3_04f4:		lda #$7f		; a9 7f
 B3_04f6:		sta wChrBankBG_0000			; 85 4a
 B3_04f8:		sta wChrBankBG_0400			; 85 4b
@@ -820,7 +820,7 @@ B3_05a3:		sta SCANLINE_CMP_VALUE.w		; 8d 03 52
 B3_05a6:		lda #$55		; a9 55
 B3_05a8:		sta NAMETABLE_MAPPING.w		; 8d 05 51
 B3_05ab:		ldx #$05		; a2 05
-B3_05ad:		jsr func_1f_0001		; 20 01 e0
+B3_05ad:		jsr wait3xPlus5cycles		; 20 01 e0
 B3_05b0:		lda PPUSTATUS.w		; ad 02 20
 B3_05b3:		lda $078d		; ad 8d 07
 B3_05b6:		sta PPUADDR.w		; 8d 06 20
@@ -830,7 +830,7 @@ B3_05bf:		lda $078e		; ad 8e 07
 B3_05c2:		sta PPUSCROLL.w		; 8d 05 20
 B3_05c5:		lda #$00		; a9 00
 B3_05c7:		sta PPUSCROLL.w		; 8d 05 20
-B3_05ca:		jsr setClearedPatternTable		; 20 2d e3
+B3_05ca:		jsr setClearedBGPatternTable		; 20 2d e3
 B3_05cd:		inc wIRQFuncIdx			; e6 6d
 B3_05cf:		jmp irqFunc_resetLowerBank_vectorEnd		; 4c 3f e1
 
@@ -839,15 +839,15 @@ irqFunc_2b:
 B3_05d2:		lda $078b		; ad 8b 07
 B3_05d5:		sta SCANLINE_CMP_VALUE.w		; 8d 03 52
 B3_05d8:		ldx #$0c		; a2 0c
-B3_05da:		jsr func_1f_0001		; 20 01 e0
-B3_05dd:		jsr chrSwitchAllMirrored		; 20 5d e3
+B3_05da:		jsr wait3xPlus5cycles		; 20 01 e0
+B3_05dd:		jsr updateSprChrBank_1000_1800_1c00_bgChrBanks_0_to_c00		; 20 5d e3
 B3_05e0:		inc wIRQFuncIdx			; e6 6d
 B3_05e2:		jmp irqFunc_resetLowerBank_vectorEnd		; 4c 3f e1
 
 
 irqFunc_2c:
 B3_05e5:		ldx #$14		; a2 14
-B3_05e7:		jsr func_1f_0001		; 20 01 e0
+B3_05e7:		jsr wait3xPlus5cycles		; 20 01 e0
 B3_05ea:		lda #$44		; a9 44
 B3_05ec:		sta NAMETABLE_MAPPING.w		; 8d 05 51
 B3_05ef:		lda PPUSTATUS.w		; ad 02 20

@@ -1,5 +1,5 @@
 
-gameState8_body:
+gameState8_betweenLevels_body:
 B1_05b7:		lda wGameSubstate			; a5 19
 B1_05b9:		jsr jumpTablePreserveY		; 20 6d e8
 	.dw gameState8_substate0
@@ -18,7 +18,7 @@ B1_05b9:		jsr jumpTablePreserveY		; 20 6d e8
 
 gameState8_substate0:
 B1_05d6:		jsr initSound		; 20 27 e2
-B1_05d9:		jsr func_1f_0bfd		; 20 fd eb
+B1_05d9:		jsr fillFirst3NametablesWith0		; 20 fd eb
 B1_05dc:		jsr $e78a		; 20 8a e7
 B1_05df:		ldy #$00		; a0 00
 B1_05e1:		lda wCurrRoomGroup		; a5 32
@@ -49,7 +49,7 @@ B1_0608:		lda #$04		; a9 04
 B1_060a:		jsr displayStaticLayoutA		; 20 e9 ec
 B1_060d:		ldx #$0c		; a2 0c
 B1_060f:		lda #$98		; a9 98
-B1_0611:		jsr func_1f_0bd5		; 20 d5 eb
+B1_0611:		jsr loadLargeLayoutDoubledXbankA		; 20 d5 eb
 B1_0614:		lda $0780		; ad 80 07
 B1_0617:		beq B1_061e ; f0 05
 
@@ -447,7 +447,7 @@ B1_08aa:		bne B1_0884 ; d0 d8
 B1_08ac:		rts				; 60 
 
 
-B1_08ad:		jsr func_1f_0716		; 20 16 e7
+B1_08ad:		jsr loadCurrPlayerInternalPalettes		; 20 16 e7
 B1_08b0:		ldy #$00		; a0 00
 B1_08b2:		lda #$08		; a9 08
 B1_08b4:		sta $0c			; 85 0c
@@ -647,13 +647,13 @@ B1_09e7:		jmp func_1f_1baf		; 4c af fb
 
 
 gameState8_substateA:
-B1_09ea:		jsr func_1f_0bfd		; 20 fd eb
+B1_09ea:		jsr fillFirst3NametablesWith0		; 20 fd eb
 B1_09ed:		lda $0780		; ad 80 07
 B1_09f0:		bne B1_09f5 ; d0 03
 
 B1_09f2:		jsr $90c0		; 20 c0 90
 B1_09f5:		jsr $e78a		; 20 8a e7
-B1_09f8:		jsr func_1f_068f		; 20 8f e6
+B1_09f8:		jsr respawnSetTimeLeftPlayerPosAndDir		; 20 8f e6
 B1_09fb:		lda #GS_IN_GAME		; a9 04
 B1_09fd:		sta wGameState			; 85 18
 B1_09ff:		lda #$00		; a9 00
@@ -697,7 +697,7 @@ B1_0a39:		sta wPlayerStateDoubled.w		; 8d 65 05
 B1_0a3c:		lda #$58		; a9 58
 B1_0a3e:		sta $0787		; 8d 87 07
 B1_0a41:		lda #$00		; a9 00
-B1_0a43:		jsr $ef57		; 20 57 ef
+B1_0a43:		jsr setPlayerAnimationDefIdxA_animateNextFrame		; 20 57 ef
 B1_0a46:		ldy wPlayerStateDoubled.w		; ac 65 05
 B1_0a49:		jsr jumpTableNoPreserveY		; 20 86 e8
 	.dw $aa6b
@@ -758,8 +758,8 @@ B1_0ab2:		lda #$44		; a9 44
 B1_0ab4:		sta $0787		; 8d 87 07
 B1_0ab7:		lda #$00		; a9 00
 B1_0ab9:		sta $68			; 85 68
-B1_0abb:		sta wCurrScrollXWithinRoom			; 85 56
-B1_0abd:		sta wCurrScrollXRoom			; 85 57
+B1_0abb:		sta wCurrScrollOffsetIntoRoomScreen			; 85 56
+B1_0abd:		sta wCurrScrollRoomScreen			; 85 57
 B1_0abf:		lda $0780		; ad 80 07
 B1_0ac2:		asl a			; 0a
 B1_0ac3:		tay				; a8 
@@ -768,7 +768,7 @@ B1_0ac7:		sta $69			; 85 69
 B1_0ac9:		lda data_01_0d96.w+1, y	; b9 97 ad
 B1_0acc:		sta $6a			; 85 6a
 B1_0ace:		lda #$00		; a9 00
-B1_0ad0:		jsr $ef57		; 20 57 ef
+B1_0ad0:		jsr setPlayerAnimationDefIdxA_animateNextFrame		; 20 57 ef
 B1_0ad3:		inc wPlayerStateDoubled.w		; ee 65 05
 B1_0ad6:		inc wPlayerStateDoubled.w		; ee 65 05
 B1_0ad9:		rts				; 60 
@@ -800,10 +800,10 @@ B1_0af4:		bne B1_0afb ; d0 05
 B1_0af6:		lda #$09		; a9 09
 B1_0af8:		jsr playSound		; 20 5f e2
 B1_0afb:		jsr updatePlayerAnimationFrame		; 20 73 ef
-B1_0afe:		lda $04c4		; ad c4 04
+B1_0afe:		lda wEntityFractionalX.w		; ad c4 04
 B1_0b01:		clc				; 18 
 B1_0b02:		adc wEntityHorizSubSpeed.w		; 6d 09 05
-B1_0b05:		sta $04c4		; 8d c4 04
+B1_0b05:		sta wEntityFractionalX.w		; 8d c4 04
 B1_0b08:		lda wEntityBaseX.w		; ad 38 04
 B1_0b0b:		adc wEntityHorizSpeed.w		; 6d f2 04
 B1_0b0e:		sta wEntityBaseX.w		; 8d 38 04
@@ -873,7 +873,7 @@ B1_0b71:		asl a			; 0a
 B1_0b72:		bcc B1_0b75 ; 90 01
 
 B1_0b74:		iny				; c8 
-B1_0b75:		sty $0606		; 8c 06 06
+B1_0b75:		sty wEntityAlarmOrStartYforSinusoidalMovement.w		; 8c 06 06
 B1_0b78:		lda $0d			; a5 0d
 B1_0b7a:		beq B1_0b82 ; f0 06
 
@@ -920,10 +920,10 @@ B1_0bc1:		bcs B1_0bfc ; b0 39
 B1_0bc3:		lda #$04		; a9 04
 B1_0bc5:		sta wPlayerStateDoubled.w		; 8d 65 05
 B1_0bc8:		jsr updatePlayerAnimationFrame		; 20 73 ef
-B1_0bcb:		lda $04c4		; ad c4 04
+B1_0bcb:		lda wEntityFractionalX.w		; ad c4 04
 B1_0bce:		clc				; 18 
 B1_0bcf:		adc wEntityHorizSubSpeed.w		; 6d 09 05
-B1_0bd2:		sta $04c4		; 8d c4 04
+B1_0bd2:		sta wEntityFractionalX.w		; 8d c4 04
 B1_0bd5:		lda wEntityBaseX.w		; ad 38 04
 B1_0bd8:		adc wEntityHorizSpeed.w		; 6d f2 04
 B1_0bdb:		sta wEntityBaseX.w		; 8d 38 04
@@ -1100,10 +1100,10 @@ B1_0ce7:		jmp func_01_0d42		; 4c 42 ad
 
 func_01_0cea:
 B1_0cea:		jsr $abcb		; 20 cb ab
-B1_0ced:		lda $04db		; ad db 04
+B1_0ced:		lda wEntityFractionalY.w		; ad db 04
 B1_0cf0:		clc				; 18 
 B1_0cf1:		adc wEntityVertSubSpeed.w		; 6d 37 05
-B1_0cf4:		sta $04db		; 8d db 04
+B1_0cf4:		sta wEntityFractionalY.w		; 8d db 04
 B1_0cf7:		lda wEntityBaseY.w		; ad 1c 04
 B1_0cfa:		adc wEntityVertSpeed.w		; 6d 20 05
 B1_0cfd:		sta wEntityBaseY.w		; 8d 1c 04
@@ -1120,8 +1120,8 @@ B1_0d10:		rts				; 60
 B1_0d11:		jmp $e6ea		; 4c ea e6
 
 B1_0d14:		lda #$00		; a9 00
-B1_0d16:		sta $04c4		; 8d c4 04
-B1_0d19:		sta $04db		; 8d db 04
+B1_0d16:		sta wEntityFractionalX.w		; 8d c4 04
+B1_0d19:		sta wEntityFractionalY.w		; 8d db 04
 B1_0d1c:		jsr $ac46		; 20 46 ac
 B1_0d1f:		bcc B1_0d2d ; 90 0c
 
@@ -1161,7 +1161,7 @@ B1_0d4e:		iny				; c8
 B1_0d4f:		lda ($08), y	; b1 08
 B1_0d51:		sta wVramQueueDest			; 85 61
 B1_0d53:		iny				; c8 
-B1_0d54:		jsr vramQueueSet1byteDestToCopy_noData		; 20 b5 e8
+B1_0d54:		jsr vramQueueSetControlByte1_destToCopy_noData		; 20 b5 e8
 B1_0d57:		lda ($08), y	; b1 08
 B1_0d59:		beq B1_0d76 ; f0 1b
 

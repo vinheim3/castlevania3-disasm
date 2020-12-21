@@ -1,208 +1,64 @@
 
+func_11_1e21:
 B17_1e21:		lda $054e, x	; bd 4e 05
 B17_1e24:		asl a			; 0a
 B17_1e25:		asl a			; 0a
 B17_1e26:		tay				; a8 
-B17_1e27:		lda $be4c, y	; b9 4c be
+B17_1e27:		lda data_11_1e49.w+3, y	; b9 4c be
 B17_1e2a:		sta wEntityPaletteOverride.w, x	; 9d 54 04
-B17_1e2d:		lda $be49, y	; b9 49 be
+B17_1e2d:		lda data_11_1e49.w, y	; b9 49 be
 B17_1e30:		sta wEntityState.w, x	; 9d 70 04
-B17_1e33:		lda $be4a, y	; b9 4a be
+B17_1e33:		lda data_11_1e49.w+1, y	; b9 4a be
 B17_1e36:		sta $01			; 85 01
-B17_1e38:		lda $be4b, y	; b9 4b be
+B17_1e38:		lda data_11_1e49.w+2, y	; b9 4b be
 B17_1e3b:		ldy $01			; a4 01
-B17_1e3d:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B17_1e3d:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B17_1e40:		lda #$80		; a9 80
 B17_1e42:		ora wEntityAI_idx.w, x	; 1d ef 05
 B17_1e45:		sta wEntityAI_idx.w, x	; 9d ef 05
 B17_1e48:		rts				; 60 
 
-
-B17_1e49:		rti				; 40 
-
-
-B17_1e4a:		.db $00				; 00
-B17_1e4b:		asl a			; 0a
-B17_1e4c:		.db $00				; 00
-B17_1e4d:		rti				; 40 
-
-
-B17_1e4e:		.db $00				; 00
-B17_1e4f:		asl a			; 0a
-B17_1e50:		.db $00				; 00
-B17_1e51:		rti				; 40 
-
-
-B17_1e52:		.db $00				; 00
-B17_1e53:		asl a			; 0a
-B17_1e54:		.db $00				; 00
-B17_1e55:		rti				; 40 
-
-
-B17_1e56:	.db $12
-B17_1e57:		asl a			; 0a
-B17_1e58:		.db $00				; 00
-B17_1e59:		rti				; 40 
-
-
-B17_1e5a:		jsr $010a		; 20 0a 01
-B17_1e5d:		rti				; 40 
-
-
-B17_1e5e:		.db $00				; 00
-B17_1e5f:		asl a			; 0a
-B17_1e60:		.db $00				; 00
-B17_1e61:		rti				; 40 
-
-
-B17_1e62:		.db $00				; 00
-B17_1e63:		asl a			; 0a
-B17_1e64:		.db $00				; 00
-B17_1e65:		rti				; 40 
+; entity state - animation def idx - spec group - palette override
+data_11_1e49:
+	.db $40 $00 $0a $00
+	.db $40 $00 $0a $00
+	.db $40 $00 $0a $00
+	.db $40 $12 $0a $00
+	.db $40 $20 $0a $01
+	.db $40 $00 $0a $00
+	.db $40 $00 $0a $00
+	.db $40 $49 $0a $00
+	.db $40 $00 $0a $00
+	.db $40 $00 $0a $00
+	.db $40 $00 $0a $00
+	.db $40 $00 $0a $00
+	.db $40 $00 $0a $00
+	.db $40 $00 $0a $00
+	.db $40 $00 $0a $00
+	.db $40 $00 $0a $00
+	.db $40 $00 $0a $00
+	.db $40 $05 $0a $00
+	.db $c8 $0a $0a $00
+	.db $c8 $0c $0a $00
+	.db $40 $17 $0a $00
+	.db $40 $16 $0a $00
+	.db $40 $0b $0e $00
+	.db $40 $25 $0a $00
+	.db $40 $02 $10 $00
+	.db $40 $02 $10 $00
+	.db $40 $08 $0e $00
+	.db $40 $0e $10 $00
+	.db $00 $43 $0a $00
+	.db $40 $21 $10 $00
+	.db $40 $22 $10 $00
+	.db $c8 $00 $10 $00
+	.db $c8 $00 $10 $00
+	.db $c8 $00 $10 $00
+	.db $c8 $00 $10 $00
+	.db $40 $14 $0e $00
 
 
-B17_1e66:		eor #$0a		; 49 0a
-B17_1e68:		.db $00				; 00
-B17_1e69:		rti				; 40 
-
-
-B17_1e6a:		.db $00				; 00
-B17_1e6b:		asl a			; 0a
-B17_1e6c:		.db $00				; 00
-B17_1e6d:		rti				; 40 
-
-
-B17_1e6e:		.db $00				; 00
-B17_1e6f:		asl a			; 0a
-B17_1e70:		.db $00				; 00
-B17_1e71:		rti				; 40 
-
-
-B17_1e72:		.db $00				; 00
-B17_1e73:		asl a			; 0a
-B17_1e74:		.db $00				; 00
-B17_1e75:		rti				; 40 
-
-
-B17_1e76:		.db $00				; 00
-B17_1e77:		asl a			; 0a
-B17_1e78:		.db $00				; 00
-B17_1e79:		rti				; 40 
-
-
-B17_1e7a:		.db $00				; 00
-B17_1e7b:		asl a			; 0a
-B17_1e7c:		.db $00				; 00
-B17_1e7d:		rti				; 40 
-
-
-B17_1e7e:		.db $00				; 00
-B17_1e7f:		asl a			; 0a
-B17_1e80:		.db $00				; 00
-B17_1e81:		rti				; 40 
-
-
-B17_1e82:		.db $00				; 00
-B17_1e83:		asl a			; 0a
-B17_1e84:		.db $00				; 00
-B17_1e85:		rti				; 40 
-
-
-B17_1e86:		.db $00				; 00
-B17_1e87:		asl a			; 0a
-B17_1e88:		.db $00				; 00
-B17_1e89:		rti				; 40 
-
-
-B17_1e8a:		.db $00				; 00
-B17_1e8b:		asl a			; 0a
-B17_1e8c:		.db $00				; 00
-B17_1e8d:		rti				; 40 
-
-
-B17_1e8e:		ora $0a			; 05 0a
-B17_1e90:		.db $00				; 00
-B17_1e91:		iny				; c8 
-B17_1e92:		asl a			; 0a
-B17_1e93:		asl a			; 0a
-B17_1e94:		.db $00				; 00
-B17_1e95:		iny				; c8 
-B17_1e96:	.db $0c
-B17_1e97:		asl a			; 0a
-B17_1e98:		.db $00				; 00
-B17_1e99:		rti				; 40 
-
-
-B17_1e9a:	.db $17
-B17_1e9b:		asl a			; 0a
-B17_1e9c:		.db $00				; 00
-B17_1e9d:		rti				; 40 
-
-
-B17_1e9e:		asl $0a, x		; 16 0a
-B17_1ea0:		.db $00				; 00
-B17_1ea1:		rti				; 40 
-
-
-B17_1ea2:	.db $0b
-B17_1ea3:		asl $4000		; 0e 00 40
-B17_1ea6:		and $0a			; 25 0a
-B17_1ea8:		.db $00				; 00
-B17_1ea9:		rti				; 40 
-
-
-B17_1eaa:	.db $02
-B17_1eab:		bpl B17_1ead ; 10 00
-
-B17_1ead:		rti				; 40 
-
-
-B17_1eae:	.db $02
-B17_1eaf:		bpl B17_1eb1 ; 10 00
-
-B17_1eb1:		rti				; 40 
-
-
-B17_1eb2:		php				; 08 
-B17_1eb3:		asl $4000		; 0e 00 40
-B17_1eb6:	.db $0e $10 $00
-B17_1eb9:		.db $00				; 00
-B17_1eba:	.db $43
-B17_1ebb:		asl a			; 0a
-B17_1ebc:		.db $00				; 00
-B17_1ebd:		rti				; 40 
-
-
-B17_1ebe:		and ($10, x)	; 21 10
-B17_1ec0:		.db $00				; 00
-B17_1ec1:		rti				; 40 
-
-
-B17_1ec2:	.db $22
-B17_1ec3:		bpl B17_1ec5 ; 10 00
-
-B17_1ec5:		iny				; c8 
-B17_1ec6:		.db $00				; 00
-B17_1ec7:		bpl B17_1ec9 ; 10 00
-
-B17_1ec9:		iny				; c8 
-B17_1eca:		.db $00				; 00
-B17_1ecb:		bpl B17_1ecd ; 10 00
-
-B17_1ecd:		iny				; c8 
-B17_1ece:		.db $00				; 00
-B17_1ecf:		bpl B17_1ed1 ; 10 00
-
-B17_1ed1:		iny				; c8 
-B17_1ed2:		.db $00				; 00
-B17_1ed3:		bpl B17_1ed5 ; 10 00
-
-B17_1ed5:		rti				; 40 
-
-
-B17_1ed6:	.db $14
-B17_1ed7:		asl $a900		; 0e 00 a9
-B17_1eda:		.db $00				; 00
+B17_1ed9:		lda #$00		; a9
 B17_1edb:		sta $0657, x	; 9d 57 06
 B17_1ede:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B17_1ee1:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05

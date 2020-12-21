@@ -5,6 +5,7 @@
 .define PPUCTRL_BG_1000 $10
 .define PPUCTRL_SPR_1000 $08
 .define PPUCTRL_PPUDATA_INC_DOWN $04
+.define PPUCTRL_PPUDATA_INC_RIGHT $00
 .define PPUCTRL_NT_BASE $03
 
 .define PPUMASK $2001
@@ -29,6 +30,7 @@
 .define SND_SWEEP $4001
 .define SND_FREQ_LO $4002
 .define SND_FREQ_HI $4003
+.define LENGTH_COUNTER_LOAD $f8
 
 .define SQ1_VOL $4000
 .define SQ1_SWEEP $4001
@@ -87,6 +89,8 @@
 .define NAMETABLE_MAPPING $5105
 .define NT_VERTICAL_MIRROR $44 ; %01000100
 .define NT_SINGLE_SCREEN_CIRAM_1 $55 ; %01010101
+; vram page 0 - vram page 1
+; internal expansion ram - fill mode data
 .define NT_ALL_MODES $e4 ; %11100100
 .define NT_SINGLE_SCREEN_FILL_MODE $ff ; %11111111
 
@@ -97,6 +101,7 @@
 .define PRG_BANK_c000 $5116
 .define PRG_ROM_SWITCH $80
 
+; in 8x16 mode, the 1st 8 are for sprites, the next 4 for bg
 .define CHR_BANK_0000 $5120
 .define CHR_BANK_0400 $5121
 .define CHR_BANK_0800 $5122

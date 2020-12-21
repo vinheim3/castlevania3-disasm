@@ -81,7 +81,7 @@ B2_0083:	.db $f3
 B2_0084:	.db $07
 B2_0085:		bne B2_00a6 ; d0 1f
 
-B2_0087:		lda $7e			; a5 7e
+B2_0087:		lda wCurrTimeLeft			; a5 7e
 B2_0089:		ora $7f			; 05 7f
 B2_008b:		beq B2_009d ; f0 10
 
@@ -125,19 +125,19 @@ B2_00c0:		jmp $83c1		; 4c c1 83
 B2_00c3:		lda $07f3		; ad f3 07
 B2_00c6:		bne B2_0099 ; d0 d1
 
-B2_00c8:		lda $84			; a5 84
+B2_00c8:		lda wNumHearts			; a5 84
 B2_00ca:		beq B2_00a1 ; f0 d5
 
-B2_00cc:		dec $84			; c6 84
-B2_00ce:		lda $84			; a5 84
+B2_00cc:		dec wNumHearts			; c6 84
+B2_00ce:		lda wNumHearts			; a5 84
 B2_00d0:		and #$0f		; 29 0f
 B2_00d2:		cmp #$0a		; c9 0a
 B2_00d4:		bcc B2_00de ; 90 08
 
-B2_00d6:		lda $84			; a5 84
+B2_00d6:		lda wNumHearts			; a5 84
 B2_00d8:		and #$f0		; 29 f0
 B2_00da:		ora #$09		; 09 09
-B2_00dc:		sta $84			; 85 84
+B2_00dc:		sta wNumHearts			; 85 84
 B2_00de:		jsr $8093		; 20 93 80
 B2_00e1:		lda #$20		; a9 20
 B2_00e3:		sta $00			; 85 00
@@ -145,7 +145,7 @@ B2_00e5:		lda #$1a		; a9 1a
 B2_00e7:		jmp $83be		; 4c be 83
 
 
-B2_00ea:		lda $3c			; a5 3c
+B2_00ea:		lda wPlayerHealth			; a5 3c
 B2_00ec:		cmp #$40		; c9 40
 B2_00ee:		beq B2_00f5 ; f0 05
 
@@ -157,20 +157,20 @@ B2_00f5:		jmp $80a6		; 4c a6 80
 B2_00f8:		lda $07f3		; ad f3 07
 B2_00fb:		bne B2_0099 ; d0 9c
 
-B2_00fd:		lda $3c			; a5 3c
+B2_00fd:		lda wPlayerHealth			; a5 3c
 B2_00ff:		clc				; 18 
 B2_0100:		adc #$04		; 69 04
 B2_0102:		cmp #$40		; c9 40
 B2_0104:		bcs B2_010f ; b0 09
 
-B2_0106:		sta $3c			; 85 3c
+B2_0106:		sta wPlayerHealth			; 85 3c
 B2_0108:		lda #$00		; a9 00
 B2_010a:		sta $00			; 85 00
 B2_010c:		jmp $83c1		; 4c c1 83
 
 
 B2_010f:		lda #$40		; a9 40
-B2_0111:		sta $3c			; 85 3c
+B2_0111:		sta wPlayerHealth			; 85 3c
 B2_0113:		jmp $80a1		; 4c a1 80
 
 
@@ -214,10 +214,10 @@ B2_014c:		lda wCurrRoomGroup		; a5 32
 B2_014e:		cmp #$0e		; c9 0e
 B2_0150:		bne B2_0156 ; d0 04
 
-B2_0152:		lda #GS_0c		; a9 0c
+B2_0152:		lda #GS_ENDING_CUTSCENE		; a9 0c
 B2_0154:		bne B2_0158 ; d0 02
 
-B2_0156:		lda #GS_08		; a9 08
+B2_0156:		lda #GS_BETWEEN_LEVELS		; a9 08
 B2_0158:		sta wGameState			; 85 18
 B2_015a:		lda #$00		; a9 00
 B2_015c:		sta wGameSubstate			; 85 19
@@ -287,7 +287,7 @@ B2_01a9:		jmp $8263		; 4c 63 82
 B2_01ac:		lda $826f, y	; b9 6f 82
 B2_01af:		sta $054e, x	; 9d 4e 05
 B2_01b2:		lda #$03		; a9 03
-B2_01b4:		sta $0606, x	; 9d 06 06
+B2_01b4:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B2_01b7:		jmp $8263		; 4c 63 82
 
 
@@ -308,7 +308,7 @@ B2_01cc:		lda #$02		; a9 02
 B2_01ce:		bne B2_01d2 ; d0 02
 
 B2_01d0:		lda #$01		; a9 01
-B2_01d2:		sta $0606, x	; 9d 06 06
+B2_01d2:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B2_01d5:		ldy wCurrPlayer.w		; ac 4e 05
 B2_01d8:		iny				; c8 
 B2_01d9:		tya				; 98 
@@ -343,7 +343,7 @@ B2_0218:		lda #$02		; a9 02
 B2_021a:		bne B2_021e ; d0 02
 
 B2_021c:		lda #$01		; a9 01
-B2_021e:		sta $0606, x	; 9d 06 06
+B2_021e:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B2_0221:		ldy wCurrPlayer.w		; ac 4e 05
 B2_0224:		bne B2_022a ; d0 04
 
@@ -374,7 +374,7 @@ B2_0252:		sta wEntityState.w, x	; 9d 70 04
 B2_0255:		lda #$00		; a9 00
 B2_0257:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B2_025a:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
-B2_025d:		sta $0606, x	; 9d 06 06
+B2_025d:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B2_0260:		sta $061d, x	; 9d 1d 06
 B2_0263:		inx				; e8 
 B2_0264:		dec $00			; c6 00
@@ -584,12 +584,12 @@ B2_0392:		rts				; 60
 
 B2_0393:		lda #$1d		; a9 1d
 B2_0395:		sta wChrBankSpr_0c00			; 85 49
-B2_0397:		jsr chrSwitch_0_to_c00_1400		; 20 3c e3
+B2_0397:		jsr updateSprChrBanks_0_to_c00_1400		; 20 3c e3
 B2_039a:		lda #$41		; a9 41
 B2_039c:		sta wChrBankBG_0000			; 85 4a
 B2_039e:		lda #$6f		; a9 6f
 B2_03a0:		sta wChrBankBG_0c00			; 85 4d
-B2_03a2:		jsr chrSwitchAllMirrored		; 20 5d e3
+B2_03a2:		jsr updateSprChrBank_1000_1800_1c00_bgChrBanks_0_to_c00		; 20 5d e3
 B2_03a5:		jsr $9181		; 20 81 91
 B2_03a8:		lda #$00		; a9 00
 B2_03aa:		sta $07ed		; 8d ed 07
@@ -628,7 +628,7 @@ B2_03de:		and ($89), y	; 31 89
 B2_03e0:		lda #$0b		; a9 0b
 B2_03e2:		sta $00			; 85 00
 B2_03e4:		ldx #$01		; a2 01
-B2_03e6:		lda $0606, x	; bd 06 06
+B2_03e6:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B2_03e9:		cmp #$01		; c9 01
 B2_03eb:		bne B2_03f4 ; d0 07
 
@@ -648,7 +648,7 @@ B2_03fc:		rts				; 60
 B2_03fd:		lda #$0b		; a9 0b
 B2_03ff:		sta $00			; 85 00
 B2_0401:		ldx #$01		; a2 01
-B2_0403:		lda $0606, x	; bd 06 06
+B2_0403:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B2_0406:		cmp #$02		; c9 02
 B2_0408:		bne B2_0435 ; d0 2b
 
@@ -805,7 +805,7 @@ B2_0514:		ldx #$01		; a2 01
 B2_0516:		ldy $054e, x	; bc 4e 05
 B2_0519:		beq B2_0522 ; f0 07
 
-B2_051b:		lda $0606, x	; bd 06 06
+B2_051b:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B2_051e:		cmp #$03		; c9 03
 B2_0520:		beq B2_0527 ; f0 05
 
@@ -1187,11 +1187,11 @@ B2_0783:		ldx #$01		; a2 01
 B2_0785:		lda $054e, x	; bd 4e 05
 B2_0788:		beq B2_079f ; f0 15
 
-B2_078a:		lda $0606, x	; bd 06 06
+B2_078a:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B2_078d:		cmp #$03		; c9 03
 B2_078f:		bne B2_079f ; d0 0e
 
-B2_0791:		dec $0606, x	; de 06 06
+B2_0791:		dec wEntityAlarmOrStartYforSinusoidalMovement.w, x	; de 06 06
 B2_0794:		lda $054e, x	; bd 4e 05
 B2_0797:		sec				; 38 
 B2_0798:		sbc #$01		; e9 01
@@ -1216,14 +1216,14 @@ B2_07b6:		ldx #$01		; a2 01
 B2_07b8:		lda $054e, x	; bd 4e 05
 B2_07bb:		beq B2_07e6 ; f0 29
 
-B2_07bd:		lda $0606, x	; bd 06 06
+B2_07bd:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B2_07c0:		cmp #$02		; c9 02
 B2_07c2:		beq B2_07e3 ; f0 1f
 
 B2_07c4:		cmp #$03		; c9 03
 B2_07c6:		bne B2_07e6 ; d0 1e
 
-B2_07c8:		dec $0606, x	; de 06 06
+B2_07c8:		dec wEntityAlarmOrStartYforSinusoidalMovement.w, x	; de 06 06
 B2_07cb:		lda $054e, x	; bd 4e 05
 B2_07ce:		sec				; 38 
 B2_07cf:		sbc #$01		; e9 01
@@ -1237,7 +1237,7 @@ B2_07dd:		sta wCurrPlayer.w		; 8d 4e 05
 B2_07e0:		jmp $87e6		; 4c e6 87
 
 
-B2_07e3:		inc $0606, x	; fe 06 06
+B2_07e3:		inc wEntityAlarmOrStartYforSinusoidalMovement.w, x	; fe 06 06
 B2_07e6:		inx				; e8 
 B2_07e7:		cpx #$0d		; e0 0d
 B2_07e9:		bne B2_07b8 ; d0 cd
@@ -1319,7 +1319,7 @@ B2_0864:		sta $07f0		; 8d f0 07
 B2_0867:		sta $07f2		; 8d f2 07
 B2_086a:		lda #$43		; a9 43
 B2_086c:		sta wChrBankBG_0c00			; 85 4d
-B2_086e:		jsr chrSwitchAllMirrored		; 20 5d e3
+B2_086e:		jsr updateSprChrBank_1000_1800_1c00_bgChrBanks_0_to_c00		; 20 5d e3
 B2_0871:		rts				; 60 
 
 
@@ -1335,7 +1335,7 @@ B2_0881:		jsr $feb9		; 20 b9 fe
 B2_0884:		lda #$05		; a9 05
 B2_0886:		sta $054e, x	; 9d 4e 05
 B2_0889:		lda $00			; a5 00
-B2_088b:		sta $0606, x	; 9d 06 06
+B2_088b:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B2_088e:		dec $00			; c6 00
 B2_0890:		bne B2_0881 ; d0 ef
 
@@ -2838,7 +2838,7 @@ B2_11c1:		jsr $9265		; 20 65 92
 B2_11c4:		lda #$24		; a9 24
 B2_11c6:		sta $00			; 85 00
 B2_11c8:		jsr $9265		; 20 65 92
-B2_11cb:		jsr updatePPUCtrl		; 20 66 ed
+B2_11cb:		jsr processVramQueue@updatePPUCtrl		; 20 66 ed
 B2_11ce:		rts				; 60 
 
 
@@ -3083,7 +3083,7 @@ B2_135f:		beq B2_1364 ; f0 03
 B2_1361:		jmp $936c		; 4c 6c 93
 
 
-B2_1364:		lda $0300, x	; bd 00 03
+B2_1364:		lda wVramQueue.w, x	; bd 00 03
 B2_1367:		and $14			; 25 14
 B2_1369:		sta wVramQueue.w, x	; 9d 00 03
 B2_136c:		lda $0b			; a5 0b
@@ -3132,7 +3132,7 @@ B2_13aa:		beq B2_13af ; f0 03
 B2_13ac:		jmp $93b7		; 4c b7 93
 
 
-B2_13af:		lda $0300, x	; bd 00 03
+B2_13af:		lda wVramQueue.w, x	; bd 00 03
 B2_13b2:		and $14			; 25 14
 B2_13b4:		sta wVramQueue.w, x	; 9d 00 03
 B2_13b7:		lda $0b			; a5 0b
@@ -3513,7 +3513,7 @@ B2_15c9:		lda #$88		; a9 88
 B2_15cb:		sta wEntityState.w, x	; 9d 70 04
 B2_15ce:		lda #$00		; a9 00
 B2_15d0:		sta wEntityBaseY.w, x	; 9d 1c 04
-B2_15d3:		lda $0606, x	; bd 06 06
+B2_15d3:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B2_15d6:		clc				; 18 
 B2_15d7:		adc $0633, x	; 7d 33 06
 B2_15da:		and #$0f		; 29 0f
@@ -3530,7 +3530,7 @@ B2_15f4:		lda #$0c		; a9 0c
 B2_15f6:		ldy #$09		; a0 09
 B2_15f8:		jsr $9dfd		; 20 fd 9d
 B2_15fb:		jsr $9e0d		; 20 0d 9e
-B2_15fe:		lda $0606, x	; bd 06 06
+B2_15fe:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B2_1601:		asl a			; 0a
 B2_1602:		asl a			; 0a
 B2_1603:		sta $0645, x	; 9d 45 06
@@ -3560,7 +3560,7 @@ B2_1624:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B2_1627:		lda wEntityVertSpeed.w, x	; bd 20 05
 B2_162a:		adc #$00		; 69 00
 B2_162c:		sta wEntityVertSpeed.w, x	; 9d 20 05
-B2_162f:		jsr $9dd6		; 20 d6 9d
+B2_162f:		jsr addHorizVertSpeedsToEntityBaseAndFractionalX		; 20 d6 9d
 B2_1632:		lda wEntityBaseY.w, x	; bd 1c 04
 B2_1635:		cmp #$b8		; c9 b8
 B2_1637:		bcc B2_1641 ; 90 08
@@ -3604,7 +3604,7 @@ B2_166e:		rts				; 60
 
 B2_166f:		lda #$00		; a9 00
 B2_1671:		sta $054e, x	; 9d 4e 05
-B2_1674:		sta $0606, x	; 9d 06 06
+B2_1674:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B2_1677:		sta $061d, x	; 9d 1d 06
 B2_167a:		sta $0633, x	; 9d 33 06
 B2_167d:		sta $0645, x	; 9d 45 06
@@ -3641,7 +3641,7 @@ B2_16a4:		lda #$0c		; a9 0c
 B2_16a6:		sta $07ef		; 8d ef 07
 B2_16a9:		lda #$7b		; a9 7b
 B2_16ab:		sta wChrBankSpr_0c00			; 85 49
-B2_16ad:		jsr chrSwitch_0_to_c00_1400		; 20 3c e3
+B2_16ad:		jsr updateSprChrBanks_0_to_c00_1400		; 20 3c e3
 B2_16b0:		lda #$00		; a9 00
 B2_16b2:		sta $0633, x	; 9d 33 06
 B2_16b5:		sta $0645, x	; 9d 45 06
@@ -3688,7 +3688,7 @@ B2_1704:		bcc B2_171d ; 90 17
 B2_1706:		lda #$00		; a9 00
 B2_1708:		sta $061d, y	; 99 1d 06
 B2_170b:		lda $01			; a5 01
-B2_170d:		sta $0606, y	; 99 06 06
+B2_170d:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, y	; 99 06 06
 B2_1710:		asl a			; 0a
 B2_1711:		asl a			; 0a
 B2_1712:		clc				; 18 
@@ -3729,7 +3729,7 @@ B2_1747:		sta wEntityState.w, x	; 9d 70 04
 B2_174a:		inc $061d, x	; fe 1d 06
 B2_174d:		lda #$17		; a9 17
 B2_174f:		sta wChrBankSpr_0800			; 85 48
-B2_1751:		jsr chrSwitch_0_to_c00_1400		; 20 3c e3
+B2_1751:		jsr updateSprChrBanks_0_to_c00_1400		; 20 3c e3
 B2_1754:		rts				; 60 
 
 
@@ -3762,7 +3762,7 @@ B2_1780:		lda #$18		; a9 18
 B2_1782:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B2_1785:		lda #$0e		; a9 0e
 B2_1787:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
-B2_178a:		lda $0606, x	; bd 06 06
+B2_178a:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B2_178d:		asl a			; 0a
 B2_178e:		tay				; a8 
 B2_178f:		lda $97ca, y	; b9 ca 97
@@ -3784,7 +3784,7 @@ B2_17b1:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B2_17b4:		lda wEntityVertSpeed.w, x	; bd 20 05
 B2_17b7:		adc #$00		; 69 00
 B2_17b9:		sta wEntityVertSpeed.w, x	; 9d 20 05
-B2_17bc:		jsr $9dd6		; 20 d6 9d
+B2_17bc:		jsr addHorizVertSpeedsToEntityBaseAndFractionalX		; 20 d6 9d
 B2_17bf:		lda wEntityBaseY.w, x	; bd 1c 04
 B2_17c2:		cmp #$f8		; c9 f8
 B2_17c4:		bcc B2_17c9 ; 90 03
@@ -3850,7 +3850,7 @@ B2_1809:		lda #$2a		; a9 2a
 B2_180b:		sta wChrBankSpr_0400			; 85 47
 B2_180d:		lda #$2b		; a9 2b
 B2_180f:		sta wChrBankSpr_0800			; 85 48
-B2_1811:		jsr chrSwitch_0_to_c00_1400		; 20 3c e3
+B2_1811:		jsr updateSprChrBanks_0_to_c00_1400		; 20 3c e3
 B2_1814:		inc $07f0		; ee f0 07
 B2_1817:		lda #$a0		; a9 a0
 B2_1819:		sta $061d, x	; 9d 1d 06
@@ -3924,7 +3924,7 @@ B2_1894:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B2_1897:		lda wEntityVertSpeed.w, x	; bd 20 05
 B2_189a:		adc #$00		; 69 00
 B2_189c:		sta wEntityVertSpeed.w, x	; 9d 20 05
-B2_189f:		jsr $9dd6		; 20 d6 9d
+B2_189f:		jsr addHorizVertSpeedsToEntityBaseAndFractionalX		; 20 d6 9d
 B2_18a2:		lda wEntityBaseY.w, x	; bd 1c 04
 B2_18a5:		cmp $00			; c5 00
 B2_18a7:		bcc B2_18b5 ; 90 0c
@@ -4041,7 +4041,7 @@ B2_1954:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B2_1957:		lda wEntityVertSpeed.w, x	; bd 20 05
 B2_195a:		adc #$00		; 69 00
 B2_195c:		sta wEntityVertSpeed.w, x	; 9d 20 05
-B2_195f:		jsr $9dd6		; 20 d6 9d
+B2_195f:		jsr addHorizVertSpeedsToEntityBaseAndFractionalX		; 20 d6 9d
 B2_1962:		lda wEntityBaseY.w, x	; bd 1c 04
 B2_1965:		cmp #$b8		; c9 b8
 B2_1967:		bcc B2_1978 ; 90 0f
@@ -4093,9 +4093,9 @@ B2_19b4:		lda #$2a		; a9 2a
 B2_19b6:		sta wChrBankSpr_0400			; 85 47
 B2_19b8:		lda #$2b		; a9 2b
 B2_19ba:		sta wChrBankSpr_0800			; 85 48
-B2_19bc:		jsr chrSwitch_0_to_c00_1400		; 20 3c e3
+B2_19bc:		jsr updateSprChrBanks_0_to_c00_1400		; 20 3c e3
 B2_19bf:		lda #$03		; a9 03
-B2_19c1:		sta $0606, x	; 9d 06 06
+B2_19c1:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B2_19c4:		rts				; 60 
 
 
@@ -4112,7 +4112,7 @@ B2_19d5:		lda #$2a		; a9 2a
 B2_19d7:		sta wChrBankSpr_0400			; 85 47
 B2_19d9:		lda #$2b		; a9 2b
 B2_19db:		sta wChrBankSpr_0800			; 85 48
-B2_19dd:		jsr chrSwitch_0_to_c00_1400		; 20 3c e3
+B2_19dd:		jsr updateSprChrBanks_0_to_c00_1400		; 20 3c e3
 B2_19e0:		inc $07f0		; ee f0 07
 B2_19e3:		lda #$0a		; a9 0a
 B2_19e5:		ldy #$18		; a0 18
@@ -4166,7 +4166,7 @@ B2_1a25:		lda #$41		; a9 41
 B2_1a27:		jmp playSound		; 4c 5f e2
 
 
-B2_1a2a:		lda $0606, x	; bd 06 06
+B2_1a2a:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B2_1a2d:		sec				; 38 
 B2_1a2e:		sbc #$01		; e9 01
 B2_1a30:		sta $01			; 85 01
@@ -4260,7 +4260,7 @@ B2_1ad5:		bcc B2_1adc ; 90 05
 
 B2_1ad7:		lda #$01		; a9 01
 B2_1ad9:		sta wEntityFacingLeft.w, x	; 9d a8 04
-B2_1adc:		ldy $0606, x	; bc 06 06
+B2_1adc:		ldy wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bc 06 06
 B2_1adf:		lda $9af8, y	; b9 f8 9a
 B2_1ae2:		ora $07f3		; 0d f3 07
 B2_1ae5:		sta $07f3		; 8d f3 07
@@ -4272,7 +4272,7 @@ B2_1aee:		sta $07ef		; 8d ef 07
 B2_1af1:		rts				; 60 
 
 
-B2_1af2:		jsr $9dd6		; 20 d6 9d
+B2_1af2:		jsr addHorizVertSpeedsToEntityBaseAndFractionalX		; 20 d6 9d
 B2_1af5:		jmp $9e0d		; 4c 0d 9e
 
 
@@ -4297,7 +4297,7 @@ B2_1b06:	.db $04
 B2_1b07:		.db $00				; 00
 B2_1b08:	.db $02
 B2_1b09:		ora ($03, x)	; 01 03
-B2_1b0b:		lda $0606, x	; bd 06 06
+B2_1b0b:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B2_1b0e:		sec				; 38 
 B2_1b0f:		sbc #$01		; e9 01
 B2_1b11:		sta $01			; 85 01
@@ -4316,7 +4316,7 @@ B2_1b23:		bne B2_1b59 ; d0 34
 
 B2_1b25:		lda #$4c		; a9 4c
 B2_1b27:		jsr playSound		; 20 5f e2
-B2_1b2a:		lda $0606, x	; bd 06 06
+B2_1b2a:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B2_1b2d:		cmp #$03		; c9 03
 B2_1b2f:		bne B2_1b97 ; d0 66
 
@@ -4339,7 +4339,7 @@ B2_1b53:		jsr $9dfd		; 20 fd 9d
 B2_1b56:		jmp $9e0d		; 4c 0d 9e
 
 
-B2_1b59:		lda $0606, x	; bd 06 06
+B2_1b59:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B2_1b5c:		cmp #$03		; c9 03
 B2_1b5e:		bne B2_1b97 ; d0 37
 
@@ -4452,7 +4452,7 @@ B2_1c14:		sta $07f3		; 8d f3 07
 B2_1c17:		rts				; 60 
 
 
-B2_1c18:		lda $0606, x	; bd 06 06
+B2_1c18:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B2_1c1b:		cmp #$03		; c9 03
 B2_1c1d:		beq B2_1c20 ; f0 01
 
@@ -4463,7 +4463,7 @@ B2_1c20:		lda #$01		; a9 01
 B2_1c22:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B2_1c25:		lda #$00		; a9 00
 B2_1c27:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
-B2_1c2a:		lda $0606, x	; bd 06 06
+B2_1c2a:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B2_1c2d:		cmp #$03		; c9 03
 B2_1c2f:		bne B2_1c3b ; d0 0a
 
@@ -4471,8 +4471,8 @@ B2_1c31:		lda #$ff		; a9 ff
 B2_1c33:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B2_1c36:		lda #$00		; a9 00
 B2_1c38:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
-B2_1c3b:		jsr $9dd6		; 20 d6 9d
-B2_1c3e:		lda $0606, x	; bd 06 06
+B2_1c3b:		jsr addHorizVertSpeedsToEntityBaseAndFractionalX		; 20 d6 9d
+B2_1c3e:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B2_1c41:		cmp #$03		; c9 03
 B2_1c43:		bne B2_1c53 ; d0 0e
 
@@ -4521,14 +4521,14 @@ B2_1c8e:		rts				; 60
 B2_1c8f:		lda wCurrPlayer.w		; ad 4e 05
 B2_1c92:		beq B2_1c9c ; f0 08
 
-B2_1c94:		lda $0606, x	; bd 06 06
+B2_1c94:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B2_1c97:		cmp #$02		; c9 02
 B2_1c99:		beq B2_1ca4 ; f0 09
 
 B2_1c9b:		rts				; 60 
 
 
-B2_1c9c:		lda $0606, x	; bd 06 06
+B2_1c9c:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B2_1c9f:		cmp #$01		; c9 01
 B2_1ca1:		beq B2_1ca4 ; f0 01
 
@@ -4577,7 +4577,7 @@ B2_1ce5:		lda #$00		; a9 00
 B2_1ce7:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
 B2_1cea:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B2_1ced:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
-B2_1cf0:		jsr $9dd6		; 20 d6 9d
+B2_1cf0:		jsr addHorizVertSpeedsToEntityBaseAndFractionalX		; 20 d6 9d
 B2_1cf3:		rts				; 60 
 
 
@@ -4726,21 +4726,22 @@ B2_1dd4:		sec				; 38
 B2_1dd5:		rts				; 60 
 
 
-B2_1dd6:		clc				; 18 
-B2_1dd7:		lda wEntityHorizSubSpeed.w, x	; bd 09 05
-B2_1dda:		adc $04c4, x	; 7d c4 04
-B2_1ddd:		sta $04c4, x	; 9d c4 04
-B2_1de0:		lda wEntityHorizSpeed.w, x	; bd f2 04
-B2_1de3:		adc wEntityBaseX.w, x	; 7d 38 04
-B2_1de6:		sta wEntityBaseX.w, x	; 9d 38 04
-B2_1de9:		clc				; 18 
-B2_1dea:		lda wEntityVertSubSpeed.w, x	; bd 37 05
-B2_1ded:		adc $04db, x	; 7d db 04
-B2_1df0:		sta $04db, x	; 9d db 04
-B2_1df3:		lda wEntityVertSpeed.w, x	; bd 20 05
-B2_1df6:		adc wEntityBaseY.w, x	; 7d 1c 04
-B2_1df9:		sta wEntityBaseY.w, x	; 9d 1c 04
-B2_1dfc:		rts				; 60 
+addHorizVertSpeedsToEntityBaseAndFractionalX:
+	clc
+	lda wEntityHorizSubSpeed.w, x
+	adc wEntityFractionalX.w, x
+	sta wEntityFractionalX.w, x
+	lda wEntityHorizSpeed.w, x
+	adc wEntityBaseX.w, x
+	sta wEntityBaseX.w, x
+	clc
+	lda wEntityVertSubSpeed.w, x
+	adc wEntityFractionalY.w, x
+	sta wEntityFractionalY.w, x
+	lda wEntityVertSpeed.w, x
+	adc wEntityBaseY.w, x
+	sta wEntityBaseY.w, x
+	rts
 
 
 B2_1dfd:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04

@@ -28,7 +28,7 @@ gameState9_introCutscene_body:
 
 cutsceneSubstate0:
 B3_0630:		lda #$02		; a9 02
-B3_0632:		sta $1c			; 85 1c
+B3_0632:		sta wCounterUntilCanShowSprBg			; 85 1c
 B3_0634:		lda #$67		; a9 67
 B3_0636:		jsr playSound		; 20 5f e2
 B3_0639:		lda #$00		; a9 00
@@ -47,7 +47,7 @@ B3_0651:		lda #$47		; a9 47
 B3_0653:		sta wChrBankBG_0800			; 85 4c
 B3_0655:		lda #$43		; a9 43
 B3_0657:		sta wChrBankBG_0c00			; 85 4d
-B3_0659:		jsr func_1f_0666		; 20 66 e6
+B3_0659:		jsr setVerticalMirroringAndNoIRQsetup		; 20 66 e6
 B3_065c:		jsr func_1f_07f7		; 20 f7 e7
 B3_065f:		inc wGameSubstate			; e6 19
 
@@ -61,7 +61,7 @@ B3_0668:		jmp displayStaticLayoutA		; 4c e9 ec
 cutsceneSubstate1:
 B3_066b:		ldx #$16		; a2 16
 B3_066d:		lda #$88		; a9 88
-B3_066f:		jsr func_1f_0bd5		; 20 d5 eb
+B3_066f:		jsr loadLargeLayoutDoubledXbankA		; 20 d5 eb
 B3_0672:		ldy #$00		; a0 00
 B3_0674:		jsr func_03_076d		; 20 6d a7
 B3_0677:		lda #$01		; a9 01
@@ -144,7 +144,7 @@ B3_06fc:		bne cutsceneRts
 B3_06fe:		ldy #$39		; a0 39
 B3_0700:		lda #$0c		; a9 0c
 B3_0702:		ldx #$00		; a2 00
-B3_0704:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B3_0704:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B3_0707:		ldy #>$0020		; a0 00
 B3_0709:		lda #<$0020		; a9 20
 B3_070b:		jsr setGenericTimerToYA		; 20 8e e5

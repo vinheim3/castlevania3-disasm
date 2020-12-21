@@ -15,7 +15,7 @@ B5_0010:		sta $00			; 85 00
 B5_0012:		iny				; c8 
 B5_0013:		lda $00			; a5 00
 B5_0015:		sec				; 38 
-B5_0016:		sbc wCurrScrollXWithinRoom			; e5 56
+B5_0016:		sbc wCurrScrollOffsetIntoRoomScreen			; e5 56
 B5_0018:		sta $02			; 85 02
 B5_001a:		lda $01			; a5 01
 B5_001c:		sbc $57			; e5 57
@@ -324,7 +324,7 @@ B5_01f4:		lda $cf			; a5 cf
 B5_01f6:		lda $c6			; a5 c6
 B5_01f8:		lda $d8			; a5 d8
 B5_01fa:		lda wChrBankBG_0c00			; a5 4d
-B5_01fc:		lda $3b			; a5 3b
+B5_01fc:		lda wCurrCharacterIdx			; a5 3b
 B5_01fe:		lda wPrgBank_8000			; a5 21
 B5_0200:		ldx $2a			; a6 2a
 B5_0202:		lda wPrgBank_8000			; a5 21
@@ -1434,7 +1434,7 @@ B5_0709:		lda #$30		; a9 30
 B5_070b:		sta $07ed		; 8d ed 07
 B5_070e:		jsr $aa9d		; 20 9d aa
 B5_0711:		lda #$01		; a9 01
-B5_0713:		sta $0606, x	; 9d 06 06
+B5_0713:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B5_0716:		lda #$c0		; a9 c0
 B5_0718:		sta $061d, x	; 9d 1d 06
 B5_071b:		jmp $aace		; 4c ce aa
@@ -1478,7 +1478,7 @@ B5_0758:		bne B5_075f ; d0 05
 B5_075a:		txa				; 8a 
 B5_075b:		sta $0a			; 85 0a
 B5_075d:		lda $09			; a5 09
-B5_075f:		sta $0606, x	; 9d 06 06
+B5_075f:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B5_0762:		lda $08			; a5 08
 B5_0764:		sta $061d, x	; 9d 1d 06
 B5_0767:		lda $0a			; a5 0a
@@ -1531,7 +1531,7 @@ B5_07b9:		lda $a829, y	; b9 29 a8
 B5_07bc:		sta $0c			; 85 0c
 B5_07be:		lda $0b			; a5 0b
 B5_07c0:		sec				; 38 
-B5_07c1:		sbc wCurrScrollXWithinRoom			; e5 56
+B5_07c1:		sbc wCurrScrollOffsetIntoRoomScreen			; e5 56
 B5_07c3:		sta wEntityBaseX.w, x	; 9d 38 04
 B5_07c6:		lda $0a			; a5 0a
 B5_07c8:		sbc $57			; e5 57
@@ -1751,7 +1751,7 @@ B5_08cd:		sta $054e, x	; 9d 4e 05
 B5_08d0:		lda #$00		; a9 00
 B5_08d2:		sta wEntityAI_idx.w, x	; 9d ef 05
 B5_08d5:		lda $0b			; a5 0b
-B5_08d7:		sta $0606, x	; 9d 06 06
+B5_08d7:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B5_08da:		lda $11			; a5 11
 B5_08dc:		sta $061d, x	; 9d 1d 06
 B5_08df:		lda $0c			; a5 0c
@@ -1765,7 +1765,7 @@ B5_08ec:		dey				; 88
 B5_08ed:		lda ($0e), y	; b1 0e
 B5_08ef:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B5_08f2:		lda $0c			; a5 0c
-B5_08f4:		sta $0606, x	; 9d 06 06
+B5_08f4:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B5_08f7:		tya				; 98 
 B5_08f8:		sta $0645, x	; 9d 45 06
 B5_08fb:		lda #$00		; a9 00
@@ -1795,7 +1795,7 @@ B5_0922:		bne B5_0938 ; d0 14
 
 B5_0924:		beq B5_092d ; f0 07
 
-B5_0926:		lda $0606, x	; bd 06 06
+B5_0926:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B5_0929:		cmp $0c			; c5 0c
 B5_092b:		bne B5_0938 ; d0 0b
 
@@ -1807,7 +1807,7 @@ B5_0938:		inx				; e8
 B5_0939:		cpx #$13		; e0 13
 B5_093b:		bne B5_0912 ; d0 d5
 
-B5_093d:		ldx $6c			; a6 6c
+B5_093d:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B5_093f:		lda #$00		; a9 00
 B5_0941:		sta $0782, x	; 9d 82 07
 B5_0944:		stx $07a1		; 8e a1 07
@@ -1863,7 +1863,7 @@ B5_0994:		bne B5_09c0 ; d0 2a
 B5_0996:		jsr $aa9d		; 20 9d aa
 B5_0999:		jsr $aade		; 20 de aa
 B5_099c:		lda $09			; a5 09
-B5_099e:		sta $0606, x	; 9d 06 06
+B5_099e:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B5_09a1:		lda $0a			; a5 0a
 B5_09a3:		sta $061d, x	; 9d 1d 06
 B5_09a6:		lda $0b			; a5 0b
@@ -1928,7 +1928,7 @@ B5_0a0c:		sta wEntityState.w, x	; 9d 70 04
 B5_0a0f:		lda #$04		; a9 04
 B5_0a11:		sta $05d8, x	; 9d d8 05
 B5_0a14:		lda $0b			; a5 0b
-B5_0a16:		sta $0606, x	; 9d 06 06
+B5_0a16:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B5_0a19:		lda #$00		; a9 00
 B5_0a1b:		sta $061d, x	; 9d 1d 06
 B5_0a1e:		inc $09			; e6 09
@@ -1999,7 +1999,7 @@ B5_0a62:		jsr $aa9d		; 20 9d aa
 B5_0a65:		lda $08			; a5 08
 B5_0a67:		sta $061d, x	; 9d 1d 06
 B5_0a6a:		lda #$00		; a9 00
-B5_0a6c:		sta $0606, x	; 9d 06 06
+B5_0a6c:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B5_0a6f:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B5_0a72:		jmp $aace		; 4c ce aa
 
@@ -2142,11 +2142,11 @@ B5_0b5c:		ldy $0c			; a4 0c
 B5_0b5e:		lda ($08), y	; b1 08
 B5_0b60:		sta wEntityAI_idx.w, x	; 9d ef 05
 B5_0b63:		sec				; 38 
-B5_0b64:		sbc wCurrScrollXWithinRoom			; e5 56
+B5_0b64:		sbc wCurrScrollOffsetIntoRoomScreen			; e5 56
 B5_0b66:		sta wEntityBaseX.w, x	; 9d 38 04
 B5_0b69:		iny				; c8 
 B5_0b6a:		lda ($08), y	; b1 08
-B5_0b6c:		sta $0606, x	; 9d 06 06
+B5_0b6c:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B5_0b6f:		iny				; c8 
 B5_0b70:		lda ($08), y	; b1 08
 B5_0b72:		sta wEntityBaseY.w, x	; 9d 1c 04
@@ -2161,7 +2161,7 @@ B5_0b84:		lda #$00		; a9 00
 B5_0b86:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
 B5_0b89:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B5_0b8c:		jsr $ad55		; 20 55 ad
-B5_0b8f:		lda $0606, x	; bd 06 06
+B5_0b8f:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B5_0b92:		and #$01		; 29 01
 B5_0b94:		ora wEntityState.w, x	; 1d 70 04
 B5_0b97:		sta wEntityState.w, x	; 9d 70 04
@@ -2306,8 +2306,8 @@ B5_0c42:		jsr $94e7		; 20 e7 94
 B5_0c45:		ldy $00			; a4 00
 B5_0c47:		lda wEntityAI_idx.w, y	; b9 ef 05
 B5_0c4a:		sta wEntityAI_idx.w, x	; 9d ef 05
-B5_0c4d:		lda $0606, y	; b9 06 06
-B5_0c50:		sta $0606, x	; 9d 06 06
+B5_0c4d:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, y	; b9 06 06
+B5_0c50:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B5_0c53:		lda $0645, y	; b9 45 06
 B5_0c56:		sta $0645, x	; 9d 45 06
 B5_0c59:		lda wPlayerStateDoubled.w, y	; b9 65 05
@@ -2420,11 +2420,11 @@ B5_0d1b:		sta $078f, x	; 9d 8f 07
 B5_0d1e:		rts				; 60 
 
 
-B5_0d1f:		lda wCurrScrollXWithinRoom			; a5 56
+B5_0d1f:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
 B5_0d21:		clc				; 18 
 B5_0d22:		adc #$80		; 69 80
 B5_0d24:		sta $00			; 85 00
-B5_0d26:		lda wCurrScrollXRoom			; a5 57
+B5_0d26:		lda wCurrScrollRoomScreen			; a5 57
 B5_0d28:		adc #$00		; 69 00
 B5_0d2a:		sta $01			; 85 01
 B5_0d2c:		rts				; 60 
@@ -2458,20 +2458,20 @@ B5_0d51:		jsr $adb0		; 20 b0 ad
 B5_0d54:		rts				; 60 
 
 
-B5_0d55:		lda wCurrScrollXRoom			; a5 57
-B5_0d57:		cmp $0606, x	; dd 06 06
+B5_0d55:		lda wCurrScrollRoomScreen			; a5 57
+B5_0d57:		cmp wEntityAlarmOrStartYforSinusoidalMovement.w, x	; dd 06 06
 B5_0d5a:		bne B5_0d61 ; d0 05
 
-B5_0d5c:		lda wCurrScrollXWithinRoom			; a5 56
+B5_0d5c:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
 B5_0d5e:		cmp wEntityAI_idx.w, x	; dd ef 05
 B5_0d61:		bcs B5_0da2 ; b0 3f
 
-B5_0d63:		lda wCurrScrollXRoom			; a5 57
+B5_0d63:		lda wCurrScrollRoomScreen			; a5 57
 B5_0d65:		adc #$01		; 69 01
-B5_0d67:		cmp $0606, x	; dd 06 06
+B5_0d67:		cmp wEntityAlarmOrStartYforSinusoidalMovement.w, x	; dd 06 06
 B5_0d6a:		bne B5_0d71 ; d0 05
 
-B5_0d6c:		lda wCurrScrollXWithinRoom			; a5 56
+B5_0d6c:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
 B5_0d6e:		cmp wEntityAI_idx.w, x	; dd ef 05
 B5_0d71:		beq B5_0da2 ; f0 2f
 
@@ -2482,7 +2482,7 @@ B5_0d75:		jmp $adb0		; 4c b0 ad
 
 B5_0d78:		clc				; 18 
 B5_0d79:		lda $00			; a5 00
-B5_0d7b:		adc $0606, x	; 7d 06 06
+B5_0d7b:		adc wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 7d 06 06
 B5_0d7e:		sta $04			; 85 04
 B5_0d80:		lda $01			; a5 01
 B5_0d82:		adc $061d, x	; 7d 1d 06
@@ -2547,7 +2547,7 @@ B5_0de7:		jmp $aeb8		; 4c b8 ae
 B5_0dea:		rts				; 60 
 
 
-B5_0deb:		lda $0606, x	; bd 06 06
+B5_0deb:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B5_0dee:		sta $00			; 85 00
 B5_0df0:		lda $061d, x	; bd 1d 06
 B5_0df3:		sta $01			; 85 01
@@ -2642,7 +2642,7 @@ B5_0e7d:		tay				; a8
 B5_0e7e:		iny				; c8 
 B5_0e7f:		lda ($9a), y	; b1 9a
 B5_0e81:		sec				; 38 
-B5_0e82:		sbc wCurrScrollXWithinRoom			; e5 56
+B5_0e82:		sbc wCurrScrollOffsetIntoRoomScreen			; e5 56
 B5_0e84:		sta wEntityBaseX.w, x	; 9d 38 04
 B5_0e87:		dey				; 88 
 B5_0e88:		lda ($9a), y	; b1 9a
@@ -2740,8 +2740,8 @@ B5_0f1f:		lda wEntityHorizSubSpeed.w, x	; bd 09 05
 B5_0f22:		adc wEntityAI_idx.w, x	; 7d ef 05
 B5_0f25:		sta wEntityAI_idx.w, x	; 9d ef 05
 B5_0f28:		lda wEntityHorizSpeed.w, x	; bd f2 04
-B5_0f2b:		adc $0606, x	; 7d 06 06
-B5_0f2e:		sta $0606, x	; 9d 06 06
+B5_0f2b:		adc wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 7d 06 06
+B5_0f2e:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B5_0f31:		lda wEntityHorizSpeed.w, x	; bd f2 04
 B5_0f34:		bpl B5_0f38 ; 10 02
 
@@ -2758,8 +2758,8 @@ B5_0f43:		lda wEntityVertSubSpeed.w, x	; bd 37 05
 B5_0f46:		adc wEntityAI_idx.w, x	; 7d ef 05
 B5_0f49:		sta wEntityAI_idx.w, x	; 9d ef 05
 B5_0f4c:		lda wEntityVertSpeed.w, x	; bd 20 05
-B5_0f4f:		adc $0606, x	; 7d 06 06
-B5_0f52:		sta $0606, x	; 9d 06 06
+B5_0f4f:		adc wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 7d 06 06
+B5_0f52:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B5_0f55:		lda wEntityVertSpeed.w, x	; bd 20 05
 B5_0f58:		bpl B5_0f5c ; 10 02
 
@@ -2782,11 +2782,11 @@ B5_0f6d:		lda wEntityBaseX.w, x	; bd 38 04
 B5_0f70:		cmp #$80		; c9 80
 B5_0f72:		bcs B5_0f6b ; b0 f7
 
-B5_0f74:		ldy $57			; a4 57
+B5_0f74:		ldy wCurrScrollRoomScreen			; a4 57
 B5_0f76:		iny				; c8 
 B5_0f77:		sty $0f			; 84 0f
 B5_0f79:		clc				; 18 
-B5_0f7a:		lda wCurrScrollXWithinRoom			; a5 56
+B5_0f7a:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
 B5_0f7c:		adc wEntityBaseX.w, x	; 7d 38 04
 B5_0f7f:		sta $0e			; 85 0e
 B5_0f81:		lda $0f			; a5 0f
@@ -2904,7 +2904,7 @@ B5_103c:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B5_103f:		jmp $afbc		; 4c bc af
 
 
-B5_1042:		ldy $3b			; a4 3b
+B5_1042:		ldy wCurrCharacterIdx			; a4 3b
 B5_1044:	.db $b9 $85 $00
 B5_1047:		tay				; a8 
 B5_1048:		lda $b083, y	; b9 83 b0
@@ -2913,7 +2913,7 @@ B5_104b:		beq B5_1058 ; f0 0b
 B5_104d:		cmp #$ff		; c9 ff
 B5_104f:		beq B5_105f ; f0 0e
 
-B5_1051:		ldy $3b			; a4 3b
+B5_1051:		ldy wCurrCharacterIdx			; a4 3b
 B5_1053:	.db $b9 $87 $00
 B5_1056:		beq B5_105f ; f0 07
 
@@ -2921,7 +2921,7 @@ B5_1058:		lda #$01		; a9 01
 B5_105a:		sta $078b, x	; 9d 8b 07
 B5_105d:		bne B5_1031 ; d0 d2
 
-B5_105f:		ldy $3b			; a4 3b
+B5_105f:		ldy wCurrCharacterIdx			; a4 3b
 B5_1061:	.db $b9 $87 $00
 B5_1064:		beq B5_106c ; f0 06
 
@@ -3229,7 +3229,7 @@ B5_1251:		inx				; e8
 B5_1252:		cpx #$17		; e0 17
 B5_1254:		bcc B5_124a ; 90 f4
 
-B5_1256:		ldx $6c			; a6 6c
+B5_1256:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B5_1258:		rts				; 60 
 
 
@@ -3261,7 +3261,7 @@ B5_1280:		bcs B5_1259 ; b0 d7
 
 B5_1282:		lda #$10		; a9 10
 B5_1284:		sta $061d, x	; 9d 1d 06
-B5_1287:		ldx $6c			; a6 6c
+B5_1287:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B5_1289:		jmp $b1f9		; 4c f9 b1
 
 
@@ -3349,13 +3349,13 @@ B5_1308:		jsr $b348		; 20 48 b3
 B5_130b:		bcs B5_1326 ; b0 19
 
 B5_130d:		lda #$01		; a9 01
-B5_130f:		ldy $3b			; a4 3b
+B5_130f:		ldy wCurrCharacterIdx			; a4 3b
 B5_1311:	.db $99 $87 $00
 B5_1314:		lda #$1c		; a9 1c
 B5_1316:		jsr playSound		; 20 5f e2
 B5_1319:		lda #$00		; a9 00
 B5_131b:		sta $9c			; 85 9c
-B5_131d:		ldx $6c			; a6 6c
+B5_131d:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B5_131f:		rts				; 60 
 
 
@@ -3373,13 +3373,13 @@ B5_1330:		jmp $b31d		; 4c 1d b3
 B5_1333:		lda #$2c		; a9 2c
 B5_1335:		jsr playSound		; 20 5f e2
 B5_1338:		clc				; 18 
-B5_1339:		lda $3c			; a5 3c
+B5_1339:		lda wPlayerHealth			; a5 3c
 B5_133b:		adc #$20		; 69 20
 B5_133d:		cmp #$41		; c9 41
 B5_133f:		bcc B5_1343 ; 90 02
 
 B5_1341:		lda #$40		; a9 40
-B5_1343:		sta $3c			; 85 3c
+B5_1343:		sta wPlayerHealth			; 85 3c
 B5_1345:		jmp $b31d		; 4c 1d b3
 
 
@@ -3390,7 +3390,7 @@ B5_134d:		beq B5_1360 ; f0 11
 B5_134f:		cmp #$03		; c9 03
 B5_1351:		beq B5_1360 ; f0 0d
 
-B5_1353:		ldy $3b			; a4 3b
+B5_1353:		ldy wCurrCharacterIdx			; a4 3b
 B5_1355:	.db $b9 $85 $00
 B5_1358:		tay				; a8 
 B5_1359:		lda $b083, y	; b9 83 b0
@@ -3416,7 +3416,7 @@ B5_1373:		sbc #$33		; e9 33
 B5_1375:		bcs B5_1382 ; b0 0b
 
 B5_1377:		clc				; 18 
-B5_1378:		adc wCurrScrollXWithinRoom			; 65 56
+B5_1378:		adc wCurrScrollOffsetIntoRoomScreen			; 65 56
 B5_137a:		bcs B5_138a ; b0 0e
 
 B5_137c:		sec				; 38 
@@ -3425,7 +3425,7 @@ B5_137f:		jmp $b38a		; 4c 8a b3
 
 
 B5_1382:		clc				; 18 
-B5_1383:		adc wCurrScrollXWithinRoom			; 65 56
+B5_1383:		adc wCurrScrollOffsetIntoRoomScreen			; 65 56
 B5_1385:		bcc B5_138a ; 90 03
 
 B5_1387:		clc				; 18 
@@ -3442,7 +3442,7 @@ B5_1396:		asl a			; 0a
 B5_1397:		rol $62			; 26 62
 B5_1399:		sta wVramQueueDest			; 85 61
 B5_139b:		stx wVramQueueNextIdxToFill			; 86 1d
-B5_139d:		ldx $6c			; a6 6c
+B5_139d:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B5_139f:		lda wEntityBaseX.w, x	; bd 38 04
 B5_13a2:		and #$f0		; 29 f0
 B5_13a4:		lsr a			; 4a
@@ -3475,7 +3475,7 @@ B5_13da:		jsr storeByteInVramQueueIdxedX		; 20 16 ed
 B5_13dd:		jsr storeByteInVramQueueIdxedX		; 20 16 ed
 B5_13e0:		jsr setVramQueueFillIdxAndTerminate		; 20 de e8
 B5_13e3:		ldy $06			; a4 06
-B5_13e5:		ldx $6c			; a6 6c
+B5_13e5:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B5_13e7:	.db $b9 $0d $00
 B5_13ea:		sec				; 38 
 B5_13eb:		sbc wEntityBaseY.w, x	; fd 1c 04
@@ -3486,13 +3486,13 @@ B5_13f4:		lda wEntityBaseX.w, x	; bd 38 04
 B5_13f7:		and #$10		; 29 10
 B5_13f9:		bne B5_1402 ; d0 07
 
-B5_13fb:		lda $06e0, y	; b9 e0 06
+B5_13fb:		lda wCurrCollisionValues.w, y	; b9 e0 06
 B5_13fe:		and #$0f		; 29 0f
 B5_1400:		bpl B5_1407 ; 10 05
 
-B5_1402:		lda $06e0, y	; b9 e0 06
+B5_1402:		lda wCurrCollisionValues.w, y	; b9 e0 06
 B5_1405:		and #$f0		; 29 f0
-B5_1407:		sta $06e0, y	; 99 e0 06
+B5_1407:		sta wCurrCollisionValues.w, y	; 99 e0 06
 B5_140a:		jmp $b4bb		; 4c bb b4
 
 
@@ -3504,10 +3504,10 @@ B5_1411:		jmp $b362		; 4c 62 b3
 
 B5_1414:		lda wEntityBaseX.w, x	; bd 38 04
 B5_1417:		clc				; 18 
-B5_1418:		adc wCurrScrollXWithinRoom			; 65 56
+B5_1418:		adc wCurrScrollOffsetIntoRoomScreen			; 65 56
 B5_141a:		and #$f0		; 29 f0
 B5_141c:		sta $0a			; 85 0a
-B5_141e:		lda wCurrScrollXRoom			; a5 57
+B5_141e:		lda wCurrScrollRoomScreen			; a5 57
 B5_1420:		adc #$00		; 69 00
 B5_1422:		sta $0b			; 85 0b
 B5_1424:		lda #$00		; a9 00
@@ -3539,7 +3539,7 @@ B5_144f:		tya				; 98
 B5_1450:		clc				; 18 
 B5_1451:		adc $62			; 65 62
 B5_1453:		sta wVramQueueDest+1			; 85 62
-B5_1455:		jsr vramQueueSet1byteDestToCopy_noData		; 20 b5 e8
+B5_1455:		jsr vramQueueSetControlByte1_destToCopy_noData		; 20 b5 e8
 B5_1458:		lda #$00		; a9 00
 B5_145a:		jsr storeByteInVramQueueIdxedX		; 20 16 ed
 B5_145d:		jsr storeByteInVramQueueIdxedX		; 20 16 ed
@@ -3548,7 +3548,7 @@ B5_1463:		lda #$20		; a9 20
 B5_1465:		clc				; 18 
 B5_1466:		adc wVramQueueDest			; 65 61
 B5_1468:		sta wVramQueueDest			; 85 61
-B5_146a:		jsr vramQueueSet1byteDestToCopy_noData		; 20 b5 e8
+B5_146a:		jsr vramQueueSetControlByte1_destToCopy_noData		; 20 b5 e8
 B5_146d:		lda #$00		; a9 00
 B5_146f:		jsr storeByteInVramQueueIdxedX		; 20 16 ed
 B5_1472:		jsr storeByteInVramQueueIdxedX		; 20 16 ed
@@ -3570,7 +3570,7 @@ B5_148b:		bcc B5_1490 ; 90 03
 B5_148d:		sec				; 38 
 B5_148e:		sbc #$0c		; e9 0c
 B5_1490:		tay				; a8 
-B5_1491:		lda data_1f_1d4c.w, y	; b9 4c fd
+B5_1491:		lda mult0chTable.w, y	; b9 4c fd
 B5_1494:		sta $00			; 85 00
 B5_1496:		lda $08			; a5 08
 B5_1498:		sec				; 38 
@@ -3586,15 +3586,15 @@ B5_14a3:		lda $0a			; a5 0a
 B5_14a5:		and #$10		; 29 10
 B5_14a7:		bne B5_14b3 ; d0 0a
 
-B5_14a9:		lda $06e0, y	; b9 e0 06
+B5_14a9:		lda wCurrCollisionValues.w, y	; b9 e0 06
 B5_14ac:		and #$0f		; 29 0f
-B5_14ae:		sta $06e0, y	; 99 e0 06
+B5_14ae:		sta wCurrCollisionValues.w, y	; 99 e0 06
 B5_14b1:		bpl B5_14bb ; 10 08
 
-B5_14b3:		lda $06e0, y	; b9 e0 06
+B5_14b3:		lda wCurrCollisionValues.w, y	; b9 e0 06
 B5_14b6:		and #$f0		; 29 f0
-B5_14b8:		sta $06e0, y	; 99 e0 06
-B5_14bb:		ldx $6c			; a6 6c
+B5_14b8:		sta wCurrCollisionValues.w, y	; 99 e0 06
+B5_14bb:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B5_14bd:		lda wEntityBaseX.w, x	; bd 38 04
 B5_14c0:		sta $04			; 85 04
 B5_14c2:		lda wEntityBaseY.w, x	; bd 1c 04
@@ -3614,7 +3614,7 @@ B5_14da:		inx				; e8
 B5_14db:		cpx #$17		; e0 17
 B5_14dd:		bcc B5_14d5 ; 90 f6
 
-B5_14df:		ldx $6c			; a6 6c
+B5_14df:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B5_14e1:		rts				; 60 
 
 
@@ -3703,249 +3703,70 @@ B5_156c:	.db $ff
 B5_156d:		rti				; 40 
 
 
-B5_156e:	.db $fe $40 $00
-B5_1571:	.db $20 $6a $00
-B5_1574:	.db $8b
-B5_1575:		dec $40df, x	; de df 40
-B5_1578:		eor ($42, x)	; 41 42
-B5_157a:	.db $43
-B5_157b:	.db $44
-B5_157c:		eor $e0			; 45 e0
-B5_157e:		sbc ($e2, x)	; e1 e2
-B5_1580:	.db $14
-B5_1581:		.db $00				; 00
-B5_1582:		sta $eeed		; 8d ed ee
-B5_1585:	.db $ef
-B5_1586:		;removed
-	.db $50 $51
-
-B5_1588:	.db $52
-B5_1589:	.db $53
-B5_158a:	.db $54
-B5_158b:		eor $f0, x		; 55 f0
-B5_158d:		sbc ($f2), y	; f1 f2
-B5_158f:	.db $dd $13 $00
-B5_1592:	.db $82
-B5_1593:		sbc $20fe, x	; fd fe 20
-B5_1596:		.db $00				; 00
-B5_1597:	.db $82
-B5_1598:		pla				; 68 
-B5_1599:		adc #$1e		; 69 1e
-B5_159b:		.db $00				; 00
-B5_159c:		txa				; 8a 
-B5_159d:		lsr $47			; 46 47
-B5_159f:		pha				; 48 
-B5_15a0:		eor #$4a		; 49 4a
-B5_15a2:	.db $4b
-B5_15a3:		jmp $4e4d		; 4c 4d 4e
+B5_156e:	.db $fe $40
 
 
-B5_15a6:	.db $4f
-B5_15a7:		asl $00, x		; 16 00
-B5_15a9:		txa				; 8a 
-B5_15aa:		lsr $57, x		; 56 57
-B5_15ac:		cli				; 58 
-B5_15ad:		eor $5b5a, y	; 59 5a 5b
-B5_15b0:	.db $5c
-B5_15b1:		eor $5f5e, x	; 5d 5e 5f
-B5_15b4:		asl $00, x		; 16 00
-B5_15b6:		txa				; 8a 
-B5_15b7:		ror $67			; 66 67
-B5_15b9:		.db $00				; 00
-B5_15ba:		.db $00				; 00
-B5_15bb:		ror a			; 6a
-B5_15bc:		.db $00				; 00
-B5_15bd:		.db $00				; 00
-B5_15be:		adc $6f6e		; 6d 6e 6f
-B5_15c1:	.db $17
-B5_15c2:		.db $00				; 00
-B5_15c3:		sta ($61, x)	; 81 61
-B5_15c5:	.db $1b
-B5_15c6:		.db $00				; 00
-B5_15c7:		;removed
-	.db $90 $70
+largeLayout02:
+	.dw $2000
+	.db $6a $00
+	.db $8b $de $df $40 $41 $42 $43 $44 $45 $e0 $e1 $e2
+	.db $14 $00
+	.db $8d $ed $ee $ef $50 $51 $52 $53 $54 $55 $f0 $f1 $f2 $dd
+	.db $13 $00
+	.db $82 $fd $fe
+	.db $20 $00
+	.db $82 $68 $69
+	.db $1e $00
+	.db $8a $46 $47 $48 $49 $4a $4b $4c $4d $4e $4f
+	.db $16 $00
+	.db $8a $56 $57 $58 $59 $5a $5b $5c $5d $5e $5f
+	.db $16 $00
+	.db $8a $66 $67 $00 $00 $6a $00 $00 $6d $6e $6f
+	.db $17 $00
+	.db $81 $61
+	.db $1b $00
+	.db $90 $70 $71 $72 $73 $74 $75 $76 $77 $78 $79 $7a $7b $7c $7d $7e $7f
+	.db $10 $00
+	.db $90 $80 $81 $82 $83 $84 $85 $86 $87 $88 $89 $8a $8b $8c $8d $8e $8f
+	.db $10 $00
+	.db $90 $90 $91 $92 $93 $94 $95 $96 $97 $98 $99 $9a $9b $9c $9d $9e $9f
+	.db $10 $00
+	.db $90 $a0 $a1 $a2 $a3 $a4 $a5 $a6 $a7 $a8 $a9 $aa $ab $ac $ad $ae $af
+	.db $10 $00
+	.db $8e $b0 $b1 $00 $b3 $b4 $b5 $b6 $b7 $b8 $b9 $ba $bb $bc $fc
+	.db $15 $00
+	.db $8a $c3 $c4 $c5 $c6 $c7 $c8 $c9 $ca $cb $cc
+	.db $16 $00
+	.db $8a $d3 $d4 $d5 $d6 $d7 $d8 $d9 $da $db $dc
+	.db $16 $00
+	.db $8a $e3 $e4 $e5 $e6 $e7 $e8 $e9 $ea $eb $ec
+	.db $16 $00
+	.db $83 $f3 $f4 $f5
+	.db $1b $00
+	.db $8d $23 $1c $00 $10 $1d $13 $00 $37 $00 $02 $0a $0a $01
+	.db $0e $00
+	.db $98 $1a $1e $1d $10 $1c $18 $00 $18 $1d $13 $24 $22 $23 $21 $28 $00 $12 $1e $0b $38 $1b $23 $13 $0b
+	.db $0e $00
+	.db $8b $1b $18 $12 $14 $1d $22 $14 $13 $00 $11 $28
+	.db $0f $00
+	.db $98 $1d $18 $1d $23 $14 $1d $13 $1e $00 $1e $15 $00 $10 $1c $14 $21 $18 $12 $10 $00 $18 $1d $12 $0b
+	.db $7e $00
+	.db $48 $00
+	.db $03 $f0
+	.db $81 $30
+	.db $04 $00
+	.db $84 $0f $4f $9f $23
+	.db $04 $00
+	.db $84 $50 $04 $89 $52
+	.db $04 $00
+	.db $84 $55 $22 $88 $55
+	.db $04 $00
+	.db $84 $44 $22 $88 $11
+	.db $1a $00
+	.db $ff
 
-B5_15c9:		adc ($72), y	; 71 72
-B5_15cb:	.db $73
-B5_15cc:	.db $74
-B5_15cd:		adc $76, x		; 75 76
-B5_15cf:	.db $77
-B5_15d0:		sei				; 78 
-B5_15d1:		adc $7b7a, y	; 79 7a 7b
-B5_15d4:	.db $7c
-B5_15d5:		adc $7f7e, x	; 7d 7e 7f
-B5_15d8:		bpl B5_15da ; 10 00
 
-B5_15da:		bcc B5_155c ; 90 80
 
-B5_15dc:		sta ($82, x)	; 81 82
-B5_15de:	.db $83
-B5_15df:		sty $85			; 84 85
-B5_15e1:		stx $87			; 86 87
-B5_15e3:		dey				; 88 
-B5_15e4:	.db $89
-B5_15e5:		txa				; 8a 
-B5_15e6:	.db $8b
-B5_15e7:		sty $8e8d		; 8c 8d 8e
-B5_15ea:	.db $8f
-B5_15eb:		bpl B5_15ed ; 10 00
-
-B5_15ed:		;removed
-	.db $90 $90
-
-B5_15ef:		sta ($92), y	; 91 92
-B5_15f1:	.db $93
-B5_15f2:		sty $95, x		; 94 95
-B5_15f4:		stx $97, y		; 96 97
-B5_15f6:		tya				; 98 
-B5_15f7:		sta $9b9a, y	; 99 9a 9b
-B5_15fa:	.db $9c
-B5_15fb:		sta $9f9e, x	; 9d 9e 9f
-B5_15fe:		bpl B5_1600 ; 10 00
-
-B5_1600:		bcc B5_15a2 ; 90 a0
-
-B5_1602:		lda ($a2, x)	; a1 a2
-B5_1604:	.db $a3
-B5_1605:		ldy $a5			; a4 a5
-B5_1607:		ldx $a7			; a6 a7
-B5_1609:		tay				; a8 
-B5_160a:		lda #$aa		; a9 aa
-B5_160c:	.db $ab
-B5_160d:		ldy $aead		; ac ad ae
-B5_1610:	.db $af
-B5_1611:		bpl B5_1613 ; 10 00
-
-B5_1613:		stx $b1b0		; 8e b0 b1
-B5_1616:		.db $00				; 00
-B5_1617:	.db $b3
-B5_1618:		ldy $b5, x		; b4 b5
-B5_161a:		ldx $b7, y		; b6 b7
-B5_161c:		clv				; b8 
-B5_161d:		lda $bbba, y	; b9 ba bb
-B5_1620:		ldy $15fc, x	; bc fc 15
-B5_1623:		.db $00				; 00
-B5_1624:		txa				; 8a 
-B5_1625:	.db $c3
-B5_1626:		cpy $c5			; c4 c5
-B5_1628:		dec $c7			; c6 c7
-B5_162a:		iny				; c8 
-B5_162b:		cmp #$ca		; c9 ca
-B5_162d:	.db $cb
-B5_162e:	.db $cc $16 $00
-B5_1631:		txa				; 8a 
-B5_1632:	.db $d3
-B5_1633:	.db $d4
-B5_1634:		cmp $d6, x		; d5 d6
-B5_1636:	.db $d7
-B5_1637:		cld				; d8 
-B5_1638:		cmp $dbda, y	; d9 da db
-B5_163b:	.db $dc
-B5_163c:		asl $00, x		; 16 00
-B5_163e:		txa				; 8a 
-B5_163f:	.db $e3
-B5_1640:		cpx $e5			; e4 e5
-B5_1642:		inc $e7			; e6 e7
-B5_1644:		inx				; e8 
-B5_1645:		sbc #$ea		; e9 ea
-B5_1647:	.db $eb
-B5_1648:	.db $ec $16 $00
-B5_164b:	.db $83
-B5_164c:	.db $f3
-B5_164d:	.db $f4
-B5_164e:		sbc $1b, x		; f5 1b
-B5_1650:		.db $00				; 00
-B5_1651:		sta $1c23		; 8d 23 1c
-B5_1654:		.db $00				; 00
-B5_1655:		;removed
-	.db $10 $1d
-
-B5_1657:	.db $13
-B5_1658:		.db $00				; 00
-B5_1659:	.db $37
-B5_165a:		.db $00				; 00
-B5_165b:	.db $02
-B5_165c:		asl a			; 0a
-B5_165d:		asl a			; 0a
-B5_165e:		ora ($0e, x)	; 01 0e
-B5_1660:		.db $00				; 00
-B5_1661:		tya				; 98 
-B5_1662:	.db $1a
-B5_1663:		asl $101d, x	; 1e 1d 10
-B5_1666:	.db $1c
-B5_1667:		clc				; 18 
-B5_1668:		.db $00				; 00
-B5_1669:		clc				; 18 
-B5_166a:		ora $2413, x	; 1d 13 24
-B5_166d:	.db $22
-B5_166e:	.db $23
-B5_166f:		and ($28, x)	; 21 28
-B5_1671:		.db $00				; 00
-B5_1672:	.db $12
-B5_1673:		asl $380b, x	; 1e 0b 38
-B5_1676:	.db $1b
-B5_1677:	.db $23
-B5_1678:	.db $13
-B5_1679:	.db $0b
-B5_167a:		asl $8b00		; 0e 00 8b
-B5_167d:	.db $1b
-B5_167e:		clc				; 18 
-B5_167f:	.db $12
-B5_1680:	.db $14
-B5_1681:		ora $1422, x	; 1d 22 14
-B5_1684:	.db $13
-B5_1685:		.db $00				; 00
-B5_1686:		ora ($28), y	; 11 28
-B5_1688:	.db $0f
-B5_1689:		.db $00				; 00
-B5_168a:		tya				; 98 
-B5_168b:		ora $1d18, x	; 1d 18 1d
-B5_168e:	.db $23
-B5_168f:	.db $14
-B5_1690:		ora $1e13, x	; 1d 13 1e
-B5_1693:		.db $00				; 00
-B5_1694:	.db $1e $15 $00
-B5_1697:		;removed
-	.db $10 $1c
-
-B5_1699:	.db $14
-B5_169a:		and ($18, x)	; 21 18
-B5_169c:	.db $12
-B5_169d:		bpl B5_169f ; 10 00
-
-B5_169f:		clc				; 18 
-B5_16a0:		ora $0b12, x	; 1d 12 0b
-B5_16a3:		ror $4800, x	; 7e 00 48
-B5_16a6:		.db $00				; 00
-B5_16a7:	.db $03
-B5_16a8:		beq B5_162b ; f0 81
-
-B5_16aa:		bmi B5_16b0 ; 30 04
-
-B5_16ac:		.db $00				; 00
-B5_16ad:		sty $0f			; 84 0f
-B5_16af:	.db $4f
-B5_16b0:	.db $9f
-B5_16b1:	.db $23
-B5_16b2:	.db $04
-B5_16b3:		.db $00				; 00
-B5_16b4:		sty $50			; 84 50
-B5_16b6:	.db $04
-B5_16b7:	.db $89
-B5_16b8:	.db $52
-B5_16b9:	.db $04
-B5_16ba:		.db $00				; 00
-B5_16bb:		sty $55			; 84 55
-B5_16bd:	.db $22
-B5_16be:		dey				; 88 
-B5_16bf:		eor $04, x		; 55 04
-B5_16c1:		.db $00				; 00
-B5_16c2:		sty $44			; 84 44
-B5_16c4:	.db $22
-B5_16c5:		dey				; 88 
-B5_16c6:		ora ($1a), y	; 11 1a
-B5_16c8:		.db $00				; 00
-B5_16c9:	.db $ff
 B5_16ca:		lda $b7dd, x	; bd dd b7
 B5_16cd:		sta $00			; 85 00
 B5_16cf:		lda $b7de, x	; bd de b7

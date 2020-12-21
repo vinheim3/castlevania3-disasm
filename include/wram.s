@@ -34,6 +34,18 @@
 .nextu
     wCurrStaticLayoutAddr: ; $00
         dw
+.nextu
+    wCoreLoadingFuncIdx: ; $00
+        db
+.nextu
+    wCurrLargeLayoutAddr: ; $00
+        dw
+.nextu
+    w000:
+        db
+
+    wLivesLeftLowNybble: ; $01
+        db
 .endu
 
 .union
@@ -66,6 +78,15 @@
 .nextu
     wCurrStaticLayoutTileMask: ; $02
         db
+.nextu
+    wCurrLargeLayoutCountByte: ; $02
+        db
+.nextu
+    wLivesLeftHighNybble: ; $02
+        db
+.nextu
+    wCurrMetatileTilesAddr: ; $02
+        dw
 .endu
 
 .union
@@ -151,6 +172,18 @@
         wRoomSectionInternalSprPalettesAddr: ; $0a
             dw
     .endu
+.nextu
+    wCurrRoomGroupStairsDataAddr: ; $08
+        dw
+
+    wCurrRoomSectionStairsDataAddr: ; $0a
+        dw
+.nextu
+    wMenuCursorXorYoffsetsAddr: ; $08
+        dw
+.nextu
+    wCurrNumToVramQueue: ; $08
+        db
 .endu
 
 .union
@@ -181,11 +214,41 @@
         db
 .endu
 
-wCurrDrawnEntityCachedAttr: ; $10
+.union
+    wCurrDrawnEntityCachedAttr: ; $10
+        db
+.nextu
+    wCollisionPointXinScreen: ; $10
+        db
+
+    .union
+        wCollisionPointYinScreen: ; $11
+            db
+    .nextu
+        wCollisionPointYinScreenDiv16: ; $11
+            db
+    .endu
+
+    wCollisionPointXvalDiv32: ; $12
+        db
+
+    .union
+        wCollisionPointAbsoluteXInRoom: ; $13
+            db
+    .nextu
+        wCollisionPointIsInVertRoomStatusBarRegion: ; $13
+            db
+    .endu
+
+    wCollisionPointAbsoluteXRoom: ; $14
+        db
+.endu
+
+w015:
     db
 
-w011:
-    dsb 7
+wCoreLoadingFuncAddr: ; $16
+    dw
 
 wGameState: ; $18
     db
@@ -196,8 +259,11 @@ wGameSubstate: ; $19
 wGameStateLoopCounter: ; $1a
     db
 
-w01b:
-    dsb 2
+wIsExecutingNMIVector: ; $1b
+    db
+
+wCounterUntilCanShowSprBg: ; $1c
+    db
 
 wVramQueueNextIdxToFill: ; $1d
     db
@@ -263,8 +329,28 @@ wCurrRoomSection: ; $33
 wCurrRoomIdx: ; $34
     db
 
-w035:
-    dsb $f-5
+; bcd
+wCurrLivesLeft: ; $35
+    db
+
+wCurrScore: ; $36
+    dsb 3
+
+wUsableChars: ; $39
+    dsb 2
+
+wCurrCharacterIdx: ; $3b
+    db
+
+; health goes up to 40h, single life bars are 4 health each
+wPlayerHealth: ; $3c
+    db
+
+wBossHealth: ; $3d
+    db
+
+w03e:
+    db
 
 wBaseIRQFuncIdx: ; $3f
     db
@@ -323,10 +409,10 @@ wRoomMetaTilesAddr: ; $50
 w052:
     dsb 4
 
-wCurrScrollXWithinRoom: ; $56
+wCurrScrollOffsetIntoRoomScreen: ; $56
     db
 
-wCurrScrollXRoom: ; $57
+wCurrScrollRoomScreen: ; $57
     db
 
 w058:
@@ -341,8 +427,11 @@ wCurrRoomGroupMetaTilePalettes: ; $5f
 wVramQueueDest: ; $61
     dw
 
-w063
-    dsb 5
+wCurrMetatile: ; $63
+    db
+
+w064:
+    dsb 4
 
 ; if bit 7 set, it's a vertical-scrolling room
 wCurrRoomMetadataByte: ; $68
@@ -359,7 +448,8 @@ wCurrRoomStairsDataAddr: ; $69
         db
 .endu
 
-w06c:
+; 1 to 12 (todo: enemies?)
+wCurrEntityIdxBeingProcessed: ; $6c
     db
 
 wIRQFuncIdx: ; $6d
@@ -377,7 +467,7 @@ wGameplayScrollXRoom: ; $70
 wCurrRoomNumScreens: ; $71
     db
 
-w072:
+wFrameStartChrBankOverrideIdx: ; $72
     db
 
 wPrevRoomMetadataByte: ; $73
@@ -390,7 +480,18 @@ wCurrRoomXQuarter: ; $76
     db
 
 w077:
-    dsb $85-$77
+    dsb $e-7
+
+; bcd
+wCurrTimeLeft: ; $7e
+    dw
+
+w080:
+    dsb 4
+
+; bcd
+wNumHearts: ; $84
+    db
 
 ; 03 - dagger
 wCurrSubweapon: ; $85
@@ -402,16 +503,28 @@ w086:
 wCurrRoomEntityDataAddr: ; $98
     dw
 
+w09a:
+    ds $a5-$9a
+
+wCollisionValIsForRightHalfOf32x16block: ; $a5
+    db
+
 ; b0 - related to stopwatch?
 
-w09a:
-    dsb $b1-$9a
+w0a6:
+    dsb $b1-$a6
 
 wStaticLayoutBank: ; $b1
     db
 
 w0b2:
-    dsb $e0-$b2
+    dsb $d0-$b2
+
+wHighestTileToCheckForCollisionsInVertRoom: ; $d0
+    db
+
+w0d1:
+    ds $e0-$d1
 
 wCurrInstrumentDataAddr: ; $e0
     dw
@@ -442,10 +555,10 @@ wCurrInstrumentDataAddr: ; $e0
         db
 .endu
 
-wSoundBankTempX: ; $e4
+wSoundBankTempVar1: ; $e4
     db
 
-wSoundBankTempY: ; $e5
+wSoundBankTempVar2: ; $e5
     db
 
 ; used just to check 1st byte when loading sound
@@ -513,6 +626,8 @@ w10e:
 
 ; 115 - set to 1 if not 2nd square channels
 ; and 1st instrument metadata byte >= $10
+; when bit 0 set, data bytes are processed in soundEngine
+; otherwise it is processed in soundCommon
 w115:
     dsb 7
 
@@ -629,7 +744,10 @@ w3cf:
     dsb 3
 
 w3d2:
-    dsb $e1-$d2
+    dsb $e-2
+
+wCurrEnvelopeByteTimeUntilNext: ; $3de
+    dsb 3
 
 wInstrumentEnvelopeMultiplier: ; $3e1
     dsb 3
@@ -660,8 +778,11 @@ wEntityOamSpecGroupDoubled: ; $48c
 wEntityFacingLeft: ; $4a8
     dsb NUM_ENTITIES
 
-w4c4:
-    dsb $f2-$c4
+wEntityFractionalX: ; $4c4
+    dsb $17
+
+wEntityFractionalY: ; $4db
+    dsb $17
 
 wEntityHorizSpeed: ; $4f2
     dsb $17
@@ -709,16 +830,16 @@ wEntityAnimationDefIdxInSpecGroup: ; $5aa
 ; which step in their AI to perform
 ; todo: trevor fall switch
 wEntityPhase: ; $5c1
-    dsb NUM_ENTITIES
+    dsb $17
 
-w5dd:
-    dsb $ef-$dd
+w5d8:
+    dsb $17
 
 wEntityAI_idx: ; $5ef
-    dsb NUM_ENTITIES
+    dsb $17
 
-w60b:
-    dsb $1d-$b
+wEntityAlarmOrStartYforSinusoidalMovement: ; $606
+    dsb $17
 
 wPixelsToWalkToStairs: ; $61d
     db
@@ -735,17 +856,24 @@ wInstrumentsCurrEnvelopeInUse: ; $6a3
 wInstrumentsEnvelopeIdx: ; $6a6
     dsb 3
 
-w6a9:
-    dsb $c8-$a9
+wInstrumentsCurrEnvelopeLoops: ; $6a9
+    dsb 3
+
+w6ac:
+    dsb $c8-$ac
 
 ; eg ominous laugh, boss scream, flying heads scream
 wTimeSpecialDMCSoundPlayed: ; $6c8
     db
 
 w6c9:
-    dsb $780-$6c9
+    dsb $e0-$c9
 
-; 6e0-76f
+wCurrCollisionValues: ; $6e0
+    dsb $90
+
+wCurrChrBanksTileCollisionTypeOffsets: ; $770
+    dsb $10
 
 wSoundModeSongSelected: ; $780
     db

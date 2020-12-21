@@ -43,11 +43,11 @@ gameState4_inGame:
 
 inGameSubstate1f:
 B31_13d1:		lda #$02		; a9 02
-B31_13d3:		sta $1c			; 85 1c
+B31_13d3:		sta wCounterUntilCanShowSprBg			; 85 1c
 
 	jsr_8000Func func_00_11d5
 
-B31_13dd:		jmp func_1f_068f		; 4c 8f e6
+B31_13dd:		jmp respawnSetTimeLeftPlayerPosAndDir		; 4c 8f e6
 
 
 inGameSubstate1e:
@@ -59,7 +59,7 @@ inGameSubstate19:
 
 
 inGameSubstate00:
-B31_13f0:		jsr func_1f_0bfd		; 20 fd eb
+B31_13f0:		jsr fillFirst3NametablesWith0		; 20 fd eb
 B31_13f3:		inc wInGameSubstate			; e6 2a
 B31_13f5:		rts				; 60 
 
@@ -123,7 +123,7 @@ B31_145f:		sty $0781		; 8c 81 07
 B31_1462:		bne B31_1425 ; d0 c1
 
 B31_1464:		lda #$02		; a9 02
-B31_1466:		sta $1c			; 85 1c
+B31_1466:		sta wCounterUntilCanShowSprBg			; 85 1c
 B31_1468:		jsr func_1e_0d83		; 20 83 cd
 B31_146b:		jsr func_1f_1757		; 20 57 f7
 B31_146e:		lda #$00		; a9 00
@@ -138,7 +138,7 @@ B31_1479:		bne B31_1474 ; d0 f9
 
 inGameSubstate02:
 B31_147b:		lda #$02		; a9 02
-B31_147d:		sta $1c			; 85 1c
+B31_147d:		sta wCounterUntilCanShowSprBg			; 85 1c
 B31_147f:		lda $8d			; a5 8d
 B31_1481:		bne B31_1491 ; d0 0e
 
@@ -156,7 +156,7 @@ B31_1494:		bcs B31_1497 ; b0 01
 B31_1496:		rts				; 60 
 
 B31_1497:		lda #$00		; a9 00
-B31_1499:		sta $1c			; 85 1c
+B31_1499:		sta wCounterUntilCanShowSprBg			; 85 1c
 B31_149b:		jsr func_1e_0ff9		; 20 f9 cf
 B31_149e:		jsr func_1f_05ec		; 20 ec e5
 B31_14a1:		jsr func_1f_14d4		; 20 d4 f4
@@ -284,7 +284,7 @@ B31_158c:		rts				; 60
 
 inGameSubstate04:
 B31_158d:		lda #$02		; a9 02
-B31_158f:		sta $1c			; 85 1c
+B31_158f:		sta wCounterUntilCanShowSprBg			; 85 1c
 B31_1591:		lda $8d			; a5 8d
 B31_1593:		bne B31_159b ; d0 06
 
@@ -297,7 +297,7 @@ B31_159e:		bcs B31_15a1 ; b0 01
 B31_15a0:		rts				; 60 
 
 B31_15a1:		lda #$00		; a9 00
-B31_15a3:		sta $1c			; 85 1c
+B31_15a3:		sta wCounterUntilCanShowSprBg			; 85 1c
 B31_15a5:		jsr func_1f_14d4		; 20 d4 f4
 B31_15a8:		jsr func_1e_0f8c		; 20 8c cf
 	jsr_8000Func func_14_01f8
@@ -330,7 +330,7 @@ B31_1608:		rts				; 60
 
 inGameSubstate06:
 B31_1609:		lda #$02		; a9 02
-B31_160b:		sta $1c			; 85 1c
+B31_160b:		sta wCounterUntilCanShowSprBg			; 85 1c
 B31_160d:		jsr setBank_c000_toRom1eh		; 20 da e2
 B31_1610:		jsr stairsSetSectionRoomAndScreen		; 20 fb d3
 B31_1613:		lda #$07		; a9 07
@@ -340,7 +340,7 @@ B31_1617:		rts				; 60
 
 inGameSubstate07:
 B31_1618:		lda #$02		; a9 02
-B31_161a:		sta $1c			; 85 1c
+B31_161a:		sta wCounterUntilCanShowSprBg			; 85 1c
 B31_161c:		jsr func_1f_07a0		; 20 a0 e7
 B31_161f:		jsr setNametableVerticalMirroring		; 20 5f f7
 B31_1622:		jsr func_1f_08e3		; 20 e3 e8
@@ -466,22 +466,22 @@ inGameSubstate1d:
 inGameSubstate10_6b_c:
 B31_16e1:		inc $6b			; e6 6b
 B31_16e3:		lda #$03		; a9 03
-B31_16e5:		sta wCurrScrollXRoom			; 85 57
+B31_16e5:		sta wCurrScrollRoomScreen			; 85 57
 B31_16e7:		lda #$00		; a9 00
-B31_16e9:		sta wCurrScrollXWithinRoom			; 85 56
+B31_16e9:		sta wCurrScrollOffsetIntoRoomScreen			; 85 56
 B31_16eb:		jmp $f6f7		; 4c f7 f6
 
 
 inGameSubstate13:
 B31_16ee:		lda #$03		; a9 03
 B31_16f0:		sta wCurrRoomSection			; 85 33
-B31_16f2:		jsr func_1f_068f		; 20 8f e6
+B31_16f2:		jsr respawnSetTimeLeftPlayerPosAndDir		; 20 8f e6
 B31_16f5:		inc wInGameSubstate			; e6 2a
 B31_16f7:		jsr func_1f_1757		; 20 57 f7
 B31_16fa:		lda #$00		; a9 00
 B31_16fc:		sta $c9			; 85 c9
 B31_16fe:		lda #$02		; a9 02
-B31_1700:		sta $1c			; 85 1c
+B31_1700:		sta wCounterUntilCanShowSprBg			; 85 1c
 B31_1702:		rts				; 60 
 
 
@@ -556,7 +556,7 @@ B31_1777:		rts				; 60
 
 inGameSubstate15:
 B31_1778:		lda #$02		; a9 02
-B31_177a:		sta $1c			; 85 1c
+B31_177a:		sta wCounterUntilCanShowSprBg			; 85 1c
 B31_177c:		lda $8d			; a5 8d
 B31_177e:		bne B31_1783 ; d0 03
 
@@ -568,7 +568,7 @@ B31_1786:		bcs B31_1789 ; b0 01
 B31_1788:		rts				; 60 
 
 B31_1789:		lda #$00		; a9 00
-B31_178b:		sta $1c			; 85 1c
+B31_178b:		sta wCounterUntilCanShowSprBg			; 85 1c
 B31_178d:		jsr func_1e_15b9		; 20 b9 d5
 B31_1790:		jsr func_1f_05ec		; 20 ec e5
 B31_1793:		jsr func_1f_1b89		; 20 89 fb
@@ -591,7 +591,7 @@ B31_17ad:		lda wPlayerStateDoubled.w		; ad 65 05
 B31_17b0:		cmp #$02		; c9 02
 B31_17b2:		bne B31_17e4 ; d0 30
 
-B31_17b4:		jsr $e5ca		; 20 ca e5
+B31_17b4:		jsr set_2c_to_00h		; 20 ca e5
 B31_17b7:		lda #$16		; a9 16
 B31_17b9:		sta wInGameSubstate			; 85 2a
 B31_17bb:		rts				; 60 
@@ -692,7 +692,7 @@ B31_1879:		jmp func_1e_1175		; 4c 75 d1
 inGameSubstate10_6b_2:
 inGameSubstate10_6b_a:
 B31_187c:		lda #$02		; a9 02
-B31_187e:		sta $1c			; 85 1c
+B31_187e:		sta wCounterUntilCanShowSprBg			; 85 1c
 B31_1880:		jsr $d3fb		; 20 fb d3
 B31_1883:		inc $6b			; e6 6b
 B31_1885:		rts				; 60 
@@ -701,7 +701,7 @@ B31_1885:		rts				; 60
 inGameSubstate10_6b_3:
 inGameSubstate10_6b_b:
 B31_1886:		lda #$02		; a9 02
-B31_1888:		sta $1c			; 85 1c
+B31_1888:		sta wCounterUntilCanShowSprBg			; 85 1c
 B31_188a:		jsr $e862		; 20 62 e8
 B31_188d:		lda #$80		; a9 80
 B31_188f:		jsr setAndSaveLowerBank		; 20 e6 e2
@@ -731,7 +731,7 @@ B31_18d1:		rts				; 60
 
 inGameSubstate10_6b_5:
 B31_18d2:		lda #$02		; a9 02
-B31_18d4:		sta $1c			; 85 1c
+B31_18d4:		sta wCounterUntilCanShowSprBg			; 85 1c
 B31_18d6:		lda $8d			; a5 8d
 B31_18d8:		bne B31_18dd ; d0 03
 
@@ -745,7 +745,7 @@ B31_18e2:		rts				; 60
 
 
 B31_18e3:		lda #$00		; a9 00
-B31_18e5:		sta $1c			; 85 1c
+B31_18e5:		sta wCounterUntilCanShowSprBg			; 85 1c
 B31_18e7:		jsr func_1e_0ff9		; 20 f9 cf
 B31_18ea:		lda wCurrRoomGroup		; a5 32
 B31_18ec:		cmp #$0c		; c9 0c
@@ -787,7 +787,7 @@ B31_193f:		rts				; 60
 
 
 inGameSubstate10_6b_7:
-B31_1940:		jsr $e5ca		; 20 ca e5
+B31_1940:		jsr set_2c_to_00h		; 20 ca e5
 B31_1943:		jsr func_1e_0ff9		; 20 f9 cf
 B31_1946:		lda #$03		; a9 03
 B31_1948:		sta wInGameSubstate			; 85 2a
@@ -878,7 +878,7 @@ B31_19d9:		clc				; 18
 B31_19da:		adc #$01		; 69 01
 B31_19dc:		sta wEntityBaseX.w		; 8d 38 04
 B31_19df:		jsr func_1f_1b77		; 20 77 fb
-B31_19e2:		lda wCurrScrollXWithinRoom			; a5 56
+B31_19e2:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
 B31_19e4:		and #$7f		; 29 7f
 B31_19e6:		bne B31_19ea ; d0 02
 
@@ -892,7 +892,7 @@ B31_19ed:		lda #$80		; a9 80
 B31_19ef:		jsr setAndSaveLowerBank		; 20 e6 e2
 B31_19f2:		jsr $852c		; 20 2c 85
 B31_19f5:		jsr $8013		; 20 13 80
-B31_19f8:		jsr $83ee		; 20 ee 83
+B31_19f8:		jsr getCurrChrBankTileCollisionTypeOffsets		; 20 ee 83
 B31_19fb:		lda #$0c		; a9 0c
 B31_19fd:		jsr playSound		; 20 5f e2
 B31_1a00:		lda #$3c		; a9 3c
@@ -900,7 +900,7 @@ B31_1a02:		sta wGenericStateTimer			; 85 30
 B31_1a04:		lda #$0c		; a9 0c
 B31_1a06:		ldy #$00		; a0 00
 B31_1a08:		ldx #$13		; a2 13
-B31_1a0a:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B31_1a0a:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B31_1a0d:		lda #$00		; a9 00
 B31_1a0f:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B31_1a12:		sta wEntityPaletteOverride.w, x	; 9d 54 04
@@ -943,7 +943,7 @@ B31_1a5e:		ldx #$24		; a2 24
 B31_1a60:		bne B31_1a64 ; d0 02
 
 B31_1a62:		ldx #$20		; a2 20
-B31_1a64:		lda wCurrScrollXRoom			; a5 57
+B31_1a64:		lda wCurrScrollRoomScreen			; a5 57
 B31_1a66:		and #$01		; 29 01
 B31_1a68:		eor $00			; 45 00
 B31_1a6a:		beq B31_1a70 ; f0 04
@@ -958,7 +958,7 @@ B31_1a74:		sta wVramQueueDest+1			; 85 62
 B31_1a76:		sta $05eb		; 8d eb 05
 B31_1a79:		lda wVramQueueDest			; a5 61
 B31_1a7b:		sta $05d4		; 8d d4 05
-B31_1a7e:		jsr vramQueueSet2bytesDestToCopy_noData		; 20 af e8
+B31_1a7e:		jsr vramQueueSetControlByte2_destToCopy_noData		; 20 af e8
 B31_1a81:		ldy #$06		; a0 06
 B31_1a83:		lda #$00		; a9 00
 B31_1a85:		sta wVramQueue.w, x	; 9d 00 03
@@ -981,7 +981,7 @@ B31_1a99:		dec wGenericStateTimer			; c6 30
 B31_1a9b:		bne B31_1aa9 ; d0 0c
 
 B31_1a9d:		lda #$00		; a9 00
-B31_1a9f:		jsr $ef57		; 20 57 ef
+B31_1a9f:		jsr setPlayerAnimationDefIdxA_animateNextFrame		; 20 57 ef
 B31_1aa2:		lda #$30		; a9 30
 B31_1aa4:		sta wGenericStateTimer			; 85 30
 B31_1aa6:		inc $6b			; e6 6b
@@ -1005,7 +1005,7 @@ B31_1abb:		bne B31_1ac9 ; d0 0c
 B31_1abd:		lda #$0c		; a9 0c
 B31_1abf:		ldy #$01		; a0 01
 B31_1ac1:		ldx #$13		; a2 13
-B31_1ac3:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B31_1ac3:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B31_1ac6:		inc $6b			; e6 6b
 B31_1ac8:		rts				; 60 
 
@@ -1048,7 +1048,7 @@ B31_1b02:		lda $05d4		; ad d4 05
 B31_1b05:		sta wVramQueueDest			; 85 61
 B31_1b07:		lda $05eb		; ad eb 05
 B31_1b0a:		sta wVramQueueDest+1			; 85 62
-B31_1b0c:		jsr vramQueueSet2bytesDestToCopy_noData		; 20 af e8
+B31_1b0c:		jsr vramQueueSetControlByte2_destToCopy_noData		; 20 af e8
 B31_1b0f:		ldy #$00		; a0 00
 B31_1b11:		lda $fb20, y	; b9 20 fb
 B31_1b14:		sta wVramQueue.w, x	; 9d 00 03
@@ -1069,17 +1069,17 @@ B31_1b25:	.db $3c
 
 
 inGameSubstate08_6b_9:
-B31_1b26:		lda wCurrScrollXRoom			; a5 57
+B31_1b26:		lda wCurrScrollRoomScreen			; a5 57
 B31_1b28:		eor $75			; 45 75
 B31_1b2a:		sta $02			; 85 02
 B31_1b2c:		lda #$00		; a9 00
-B31_1b2e:		sta wCurrScrollXWithinRoom			; 85 56
+B31_1b2e:		sta wCurrScrollOffsetIntoRoomScreen			; 85 56
 B31_1b30:		sta $58			; 85 58
 B31_1b32:		ldy wEntityFacingLeft.w		; ac a8 04
 B31_1b35:		beq B31_1b39 ; f0 02
 
 B31_1b37:		lda wCurrRoomNumScreens			; a5 71
-B31_1b39:		sta wCurrScrollXRoom			; 85 57
+B31_1b39:		sta wCurrScrollRoomScreen			; 85 57
 B31_1b3b:		eor $02			; 45 02
 B31_1b3d:		and #$01		; 29 01
 B31_1b3f:		beq B31_1b45 ; f0 04
@@ -1100,29 +1100,29 @@ B31_1b56:		lda #$80		; a9 80
 B31_1b58:		jsr setAndSaveLowerBank		; 20 e6 e2
 B31_1b5b:		jsr $97e1		; 20 e1 97
 B31_1b5e:		jsr func_1f_05ec		; 20 ec e5
-B31_1b61:		jsr $e5ca		; 20 ca e5
+B31_1b61:		jsr set_2c_to_00h		; 20 ca e5
 B31_1b64:		lda #$03		; a9 03
 B31_1b66:		sta wInGameSubstate			; 85 2a
 B31_1b68:		rts				; 60 
 
 
 func_1f_1b69:
-B31_1b69:		lda wCurrScrollXWithinRoom			; a5 56
+B31_1b69:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
 B31_1b6b:		clc				; 18 
 B31_1b6c:		adc #$01		; 69 01
-B31_1b6e:		sta wCurrScrollXWithinRoom			; 85 56
-B31_1b70:		lda wCurrScrollXRoom			; a5 57
+B31_1b6e:		sta wCurrScrollOffsetIntoRoomScreen			; 85 56
+B31_1b70:		lda wCurrScrollRoomScreen			; a5 57
 B31_1b72:		adc #$00		; 69 00
-B31_1b74:		sta wCurrScrollXRoom			; 85 57
+B31_1b74:		sta wCurrScrollRoomScreen			; 85 57
 B31_1b76:		rts				; 60 
 
 
 func_1f_1b77:
-B31_1b77:		lda wCurrScrollXWithinRoom			; a5 56
+B31_1b77:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
 B31_1b79:		sec				; 38 
 B31_1b7a:		sbc #$01		; e9 01
-B31_1b7c:		sta wCurrScrollXWithinRoom			; 85 56
-B31_1b7e:		lda wCurrScrollXRoom			; a5 57
+B31_1b7c:		sta wCurrScrollOffsetIntoRoomScreen			; 85 56
+B31_1b7e:		lda wCurrScrollRoomScreen			; a5 57
 B31_1b80:		sbc #$00		; e9 00
-B31_1b82:		sta wCurrScrollXRoom			; 85 57
+B31_1b82:		sta wCurrScrollRoomScreen			; 85 57
 B31_1b84:		rts				; 60 

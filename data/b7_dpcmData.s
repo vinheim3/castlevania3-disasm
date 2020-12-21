@@ -4334,7 +4334,7 @@ B7_1e15:		cmp ($ff, x)	; c1 ff
 B7_1e17:	.db $82
 B7_1e18:	.db $e2
 B7_1e19:	.db $2b
-B7_1e1a:		ldy $3b			; a4 3b
+B7_1e1a:		ldy wCurrCharacterIdx			; a4 3b
 B7_1e1c:	.db $c3
 B7_1e1d:		sbc ($7b, x)	; e1 7b
 B7_1e1f:		rti				; 40 

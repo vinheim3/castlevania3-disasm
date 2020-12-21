@@ -54,7 +54,7 @@ B18_0044:		beq B18_0054 ; f0 0e
 B18_0046:		lda wEntityAI_idx.w, x	; bd ef 05
 B18_0049:		bmi B18_004e ; 30 03
 
-B18_004b:		jsr $e604		; 20 04 e6
+B18_004b:		jsr func_1f_0604		; 20 04 e6
 B18_004e:		lda $054e, x	; bd 4e 05
 B18_0051:		bne B18_0054 ; d0 01
 
@@ -67,7 +67,7 @@ B18_0056:		bne B18_007a ; d0 22
 B18_0058:		jsr $84bf		; 20 bf 84
 B18_005b:		bcs B18_007a ; b0 1d
 
-B18_005d:		lda wCurrScrollXWithinRoom			; a5 56
+B18_005d:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
 B18_005f:		bne B18_007a ; d0 19
 
 B18_0061:		lda #$01		; a9 01
@@ -109,7 +109,7 @@ B18_00a8:		sta wEntityState.w, x	; 9d 70 04
 B18_00ab:		jmp $80d4		; 4c d4 80
 
 
-B18_00ae:		lda wCurrScrollXWithinRoom			; a5 56
+B18_00ae:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
 B18_00b0:		beq B18_00b3 ; f0 01
 
 B18_00b2:		rts				; 60 
@@ -485,7 +485,7 @@ B18_02de:		lda $84be		; ad be 84
 B18_02e1:		sta $01			; 85 01
 B18_02e3:		lda #$8a		; a9 8a
 B18_02e5:		jsr $e62f		; 20 2f e6
-B18_02e8:		ldx $6c			; a6 6c
+B18_02e8:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B18_02ea:		jsr $873a		; 20 3a 87
 B18_02ed:		jmp $829e		; 4c 9e 82
 
@@ -496,7 +496,7 @@ B18_02f2:		beq B18_030f ; f0 1b
 B18_02f4:		cmp #$08		; c9 08
 B18_02f6:		bne B18_02fd ; d0 05
 
-B18_02f8:		lda $0606, x	; bd 06 06
+B18_02f8:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B18_02fb:		bmi B18_030f ; 30 12
 
 B18_02fd:		lda #$01		; a9 01
@@ -647,7 +647,7 @@ B18_03bd:		inx				; e8
 B18_03be:		cpx #$0d		; e0 0d
 B18_03c0:		bne B18_03b3 ; d0 f1
 
-B18_03c2:		ldx $6c			; a6 6c
+B18_03c2:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B18_03c4:		rts				; 60 
 
 
@@ -692,7 +692,7 @@ B18_0402:		cmp #$06		; c9 06
 B18_0404:		bne B18_0409 ; d0 03
 
 B18_0406:		jsr $840d		; 20 0d 84
-B18_0409:		ldx $6c			; a6 6c
+B18_0409:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B18_040b:		sec				; 38 
 B18_040c:		rts				; 60 
 
@@ -896,7 +896,7 @@ B18_054a:		inx				; e8
 B18_054b:		cpx #$0d		; e0 0d
 B18_054d:		bne B18_0540 ; d0 f1
 
-B18_054f:		ldx $6c			; a6 6c
+B18_054f:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B18_0551:		sec				; 38 
 B18_0552:		rts				; 60 
 
@@ -905,7 +905,7 @@ B18_0553:		clc				; 18
 B18_0554:		rts				; 60 
 
 
-B18_0555:		lda wCurrScrollXWithinRoom			; a5 56
+B18_0555:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
 B18_0557:		bne B18_0553 ; d0 fa
 
 B18_0559:		cpy #$06		; c0 06
@@ -929,7 +929,7 @@ B18_0571:		lda #$01		; a9 01
 B18_0573:		bne B18_0578 ; d0 03
 
 B18_0575:		lda $858a, y	; b9 8a 85
-B18_0578:		cmp wCurrScrollXRoom			; c5 57
+B18_0578:		cmp wCurrScrollRoomScreen			; c5 57
 B18_057a:		beq B18_0553 ; f0 d7
 
 B18_057c:		jmp $850c		; 4c 0c 85
@@ -1206,7 +1206,7 @@ B18_0707:		inc wEntityPhase.w, x	; fe c1 05
 B18_070a:		rts				; 60 
 
 
-B18_070b:		lda $0606, x	; bd 06 06
+B18_070b:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B18_070e:		cmp #$02		; c9 02
 B18_0710:		bcc B18_0714 ; 90 02
 
@@ -1228,7 +1228,7 @@ B18_072a:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B18_072d:		txa				; 8a 
 B18_072e:		tay				; a8 
 B18_072f:		ldx $10			; a6 10
-B18_0731:		inc $0606, x	; fe 06 06
+B18_0731:		inc wEntityAlarmOrStartYforSinusoidalMovement.w, x	; fe 06 06
 B18_0734:		sec				; 38 
 B18_0735:		rts				; 60 
 
@@ -1245,7 +1245,7 @@ B18_0742:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B18_0745:		lda #$00		; a9 00
 B18_0747:		sta $05d8, x	; 9d d8 05
 B18_074a:		sta wEntityAI_idx.w, x	; 9d ef 05
-B18_074d:		sta $0606, x	; 9d 06 06
+B18_074d:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B18_0750:		sta $061d, x	; 9d 1d 06
 B18_0753:		sta $0633, x	; 9d 33 06
 B18_0756:		sta $0645, x	; 9d 45 06
@@ -1504,7 +1504,7 @@ B18_08f8:		bne B18_08fc ; d0 02
 B18_08fa:		lda #$2b		; a9 2b
 B18_08fc:		jsr playSound		; 20 5f e2
 B18_08ff:		jsr $8922		; 20 22 89
-B18_0902:		sta $3d			; 85 3d
+B18_0902:		sta wBossHealth			; 85 3d
 B18_0904:		rts				; 60 
 
 
@@ -1516,13 +1516,13 @@ B18_090c:		beq B18_0921 ; f0 13
 B18_090e:		lda #$2b		; a9 2b
 B18_0910:		jsr playSound		; 20 5f e2
 B18_0913:		jsr $8922		; 20 22 89
-B18_0916:		lda $3d			; a5 3d
+B18_0916:		lda wBossHealth			; a5 3d
 B18_0918:		sec				; 38 
 B18_0919:		sbc $00			; e5 00
 B18_091b:		bcs B18_091f ; b0 02
 
 B18_091d:		lda #$00		; a9 00
-B18_091f:		sta $3d			; 85 3d
+B18_091f:		sta wBossHealth			; 85 3d
 B18_0921:		rts				; 60 
 
 
@@ -1618,7 +1618,7 @@ B18_09a2:		adc #$10		; 69 10
 B18_09a4:		sta wEntityBaseY.w, x	; 9d 1c 04
 B18_09a7:		lda #$0e		; a9 0e
 B18_09a9:		ldy #$08		; a0 08
-B18_09ab:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B18_09ab:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B18_09ae:		lda #$dc		; a9 dc
 B18_09b0:		jmp $864f		; 4c 4f 86
 
@@ -1630,7 +1630,7 @@ B18_09ba:		beq B18_09c8 ; f0 0c
 
 B18_09bc:		lda #$0e		; a9 0e
 B18_09be:		ldy #$08		; a0 08
-B18_09c0:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B18_09c0:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B18_09c3:		lda #$30		; a9 30
 B18_09c5:		jmp $864f		; 4c 4f 86
 
@@ -3377,7 +3377,7 @@ B18_1440:		rts				; 60
 B18_1441:		inc wEntityPhase.w, x	; fe c1 05
 B18_1444:		ldy $0645, x	; bc 45 06
 B18_1447:		lda #$0a		; a9 0a
-B18_1449:		jmp setEntitySpecGroupA_animationDefIdxY_startAnimate		; 4c 5c ef
+B18_1449:		jmp setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 4c 5c ef
 
 
 B18_144c:		ldy #$01		; a0 01
@@ -3442,7 +3442,7 @@ B18_14b4:		and #$77		; 29 77
 B18_14b6:		sta wEntityState.w, x	; 9d 70 04
 B18_14b9:		lda #$0a		; a9 0a
 B18_14bb:		ldy #$0c		; a0 0c
-B18_14bd:		jmp setEntitySpecGroupA_animationDefIdxY_startAnimate		; 4c 5c ef
+B18_14bd:		jmp setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 4c 5c ef
 
 
 B18_14c0:		lda #$01		; a9 01
@@ -3456,7 +3456,7 @@ B18_14d2:		lda #$91		; a9 91
 B18_14d4:		sta wEntityAI_idx.w, x	; 9d ef 05
 B18_14d7:		lda #$0a		; a9 0a
 B18_14d9:		ldy #$0b		; a0 0b
-B18_14db:		jmp setEntitySpecGroupA_animationDefIdxY_startAnimate		; 4c 5c ef
+B18_14db:		jmp setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 4c 5c ef
 
 
 B18_14de:		ldy #$02		; a0 02
@@ -3500,7 +3500,7 @@ B18_1516:		rts				; 60
 B18_1517:		lda wEntityOamSpecGroupDoubled.w, x	; bd 8c 04
 B18_151a:		ldy wEntityAnimationDefIdxInSpecGroup.w, x	; bc aa 05
 B18_151d:		iny				; c8 
-B18_151e:		jsr setEntitySpecGroupA_animationDefIdxY_startAnimate		; 20 5c ef
+B18_151e:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B18_1521:		inc wEntityPhase.w, x	; fe c1 05
 B18_1524:		ldy #$01		; a0 01
 B18_1526:		lda ($02), y	; b1 02
@@ -4876,7 +4876,7 @@ B18_1dc3:		sta wEntityFacingLeft.w, y	; 99 a8 04
 B18_1dc6:		lda wPlayerStateDoubled.w, x	; bd 65 05
 B18_1dc9:		sta wPlayerStateDoubled.w, y	; 99 65 05
 B18_1dcc:		lda #$00		; a9 00
-B18_1dce:		sta $0606, y	; 99 06 06
+B18_1dce:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, y	; 99 06 06
 B18_1dd1:		sta wEntityPhase.w, y	; 99 c1 05
 B18_1dd4:		jmp $9d66		; 4c 66 9d
 
@@ -4996,7 +4996,7 @@ B18_1e94:		sta wEntityVertSubSpeed.w, y	; 99 37 05
 B18_1e97:		lda $01			; a5 01
 B18_1e99:		sec				; 38 
 B18_1e9a:		sbc #$01		; e9 01
-B18_1e9c:		sta $0606, y	; 99 06 06
+B18_1e9c:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, y	; 99 06 06
 B18_1e9f:		lda $02			; a5 02
 B18_1ea1:		cmp #$03		; c9 03
 B18_1ea3:		beq B18_1ea8 ; f0 03

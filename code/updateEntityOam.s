@@ -1,7 +1,7 @@
 
 update_wOam:
 	lda wGameState
-	cmp #GS_0c
+	cmp #GS_ENDING_CUTSCENE
 	bne +
 
 	jmp update_wOam_stateC

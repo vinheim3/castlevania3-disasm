@@ -1,6 +1,6 @@
 
 ; cont.
-B23_0000:		dec $0606, x	; de 06 06
+B23_0000:		dec wEntityAlarmOrStartYforSinusoidalMovement.w, x	; de 06 06
 B23_0003:		bne B23_001e ; d0 19
 
 B23_0005:		lda $061d, x	; bd 1d 06
@@ -12,7 +12,7 @@ B23_0011:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B23_0014:		lda #$00		; a9 00
 B23_0016:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
 B23_0019:		lda #$38		; a9 38
-B23_001b:		sta $0606, x	; 9d 06 06
+B23_001b:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B23_001e:		lda $061d, x	; bd 1d 06
 B23_0021:		beq B23_002e ; f0 0b
 
@@ -64,10 +64,10 @@ B23_0075:		ldy #$08		; a0 08
 B23_0077:		jsr func_1f_1c1e		; 20 1e fc
 B23_007a:		beq B23_008a ; f0 0e
 
-B23_007c:		ldx $6c			; a6 6c
+B23_007c:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B23_007e:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B23_0081:		lda #$a0		; a9 a0
-B23_0083:		sta $0606, x	; 9d 06 06
+B23_0083:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B23_0086:		inc wEntityPhase.w, x	; fe c1 05
 B23_0089:		rts				; 60 
 
@@ -88,7 +88,7 @@ B23_00a0:		jmp $84b2		; 4c b2 84
 
 
 entityPhaseFunc_38:
-B23_00a3:		dec $0606, x	; de 06 06
+B23_00a3:		dec wEntityAlarmOrStartYforSinusoidalMovement.w, x	; de 06 06
 B23_00a6:		beq B23_00b6 ; f0 0e
 
 entityPhaseFunc_71:
@@ -110,12 +110,12 @@ B23_00c4:		ldy #$08		; a0 08
 B23_00c6:		jsr func_1f_1c1e		; 20 1e fc
 B23_00c9:		bne B23_00d3 ; d0 08
 
-B23_00cb:		ldx $6c			; a6 6c
+B23_00cb:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B23_00cd:		lda #$01		; a9 01
 B23_00cf:		sta wEntityPhase.w, x	; 9d c1 05
 B23_00d2:		rts				; 60 
 
-B23_00d3:		ldx $6c			; a6 6c
+B23_00d3:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B23_00d5:		jmp $8120		; 4c 20 81
 
 
@@ -213,7 +213,7 @@ B23_0165:		sbc #$93		; e9 93
 B23_0167:		tay				; a8 
 B23_0168:		lda data_17_0171.w, y	; b9 71 a1
 
-B23_016b:		ldy $3b			; a4 3b
+B23_016b:		ldy wCurrCharacterIdx			; a4 3b
 .ifdef WEAPON_SWAPPING
 	jsr addNewSubweapon
 .else
@@ -235,7 +235,7 @@ B23_017a:		.db $09
 func_17_017b:
 	lda #$00
 B23_017d:		sta $9c			; 85 9c
-B23_017f:		ldy $3b			; a4 3b
+B23_017f:		ldy wCurrCharacterIdx			; a4 3b
 B23_0181:		sta $87.w, y
 B23_0184:		lda #$1c		; a9 1c
 B23_0186:		jmp playSound		; 4c 5f e2
@@ -246,7 +246,7 @@ B23_0189:		lda #$1c		; a9 1c
 B23_018b:		jsr playSound		; 20 5f e2
 B23_018e:		lda #$01		; a9 01
 B23_0190:		sta $b7			; 85 b7
-B23_0192:		ldy $3b			; a4 3b
+B23_0192:		ldy wCurrCharacterIdx			; a4 3b
 B23_0194:		sec				; 38 
 B23_0195:		lda $054e, x	; bd 4e 05
 B23_0198:		sbc #$9c		; e9 9c
@@ -264,7 +264,7 @@ B23_01a9:		lda #$17		; a9 17
 B23_01ab:		jsr playSound		; 20 5f e2
 B23_01ae:		lda #$b4		; a9 b4
 B23_01b0:		sta $ad			; 85 ad
-B23_01b2:		ldx $6c			; a6 6c
+B23_01b2:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B23_01b4:		rts				; 60 
 
 
@@ -299,7 +299,7 @@ B23_01e6:		bcc B23_01bc ; 90 d4
 
 B23_01e8:		lda #$20		; a9 20
 B23_01ea:		sta $b2			; 85 b2
-B23_01ec:		ldx $6c			; a6 6c
+B23_01ec:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B23_01ee:		rts				; 60 
 
 
@@ -318,7 +318,7 @@ B23_0203:		sta $03			; 85 03
 B23_0205:		lda #$00		; a9 00
 B23_0207:		sta $01			; 85 01
 B23_0209:		jsr $e777		; 20 77 e7
-B23_020c:		ldx $6c			; a6 6c
+B23_020c:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B23_020e:		rts				; 60 
 
 
@@ -349,7 +349,7 @@ func_17_0221:
 	lda #$01
 	sta $d7
 B23_0225:		jsr $e748		; 20 48 e7
-B23_0228:		ldx $6c			; a6 6c
+B23_0228:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B23_022a:		rts				; 60 
 
 
@@ -363,7 +363,7 @@ B23_0234:		sbc #$ad		; e9 ad
 B23_0236:		tay				; a8 
 B23_0237:		lda $a240, y	; b9 40 a2
 B23_023a:		jsr $e760		; 20 60 e7
-B23_023d:		ldx $6c			; a6 6c
+B23_023d:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B23_023f:		rts				; 60 
 
 
@@ -374,7 +374,7 @@ B23_0240:		ora $01			; 05 01
 func_17_0242:
 B23_0242:		lda #$1c		; a9 1c
 B23_0244:		jsr playSound		; 20 5f e2
-B23_0247:		ldy $3b			; a4 3b
+B23_0247:		ldy wCurrCharacterIdx			; a4 3b
 B23_0249:	.db $b9 $85 $00
 B23_024c:		cmp #$0b		; c9 0b
 B23_024e:		beq B23_0264 ; f0 14
@@ -388,7 +388,7 @@ B23_0256:		bcc B23_0264 ; 90 0c
 B23_0258:		sec				; 38 
 B23_0259:		lda $054e, x	; bd 4e 05
 B23_025c:		sbc #$ae		; e9 ae
-B23_025e:		ldy $3b			; a4 3b
+B23_025e:		ldy wCurrCharacterIdx			; a4 3b
 B23_0260:	.db $99 $87 $00
 B23_0263:		rts				; 60 
 
@@ -417,7 +417,7 @@ B23_028a:		beq B23_02a5 ; f0 19
 B23_028c:		cmp #$02		; c9 02
 B23_028e:		beq B23_02ab ; f0 1b
 
-B23_0290:		lda $84			; a5 84
+B23_0290:		lda wNumHearts			; a5 84
 B23_0292:		cmp #$08		; c9 08
 B23_0294:		bcc B23_02ab ; 90 15
 
@@ -430,7 +430,7 @@ B23_029f:		lda $00			; a5 00
 B23_02a1:		sta $054e, x	; 9d 4e 05
 B23_02a4:		rts				; 60 
 
-B23_02a5:		lda $84			; a5 84
+B23_02a5:		lda wNumHearts			; a5 84
 B23_02a7:		cmp #$04		; c9 04
 B23_02a9:		bcs B23_0297 ; b0 ec
 
@@ -445,7 +445,7 @@ B23_02b4:		beq B23_02cf ; f0 19
 B23_02b6:		cmp #$02		; c9 02
 B23_02b8:		beq B23_02ab ; f0 f1
 
-B23_02ba:		lda $84			; a5 84
+B23_02ba:		lda wNumHearts			; a5 84
 B23_02bc:		cmp #$08		; c9 08
 B23_02be:		bcc B23_02ab ; 90 eb
 
@@ -459,7 +459,7 @@ B23_02cb:		sta $054e, x	; 9d 4e 05
 B23_02ce:		rts				; 60 
 
 
-B23_02cf:		lda $84			; a5 84
+B23_02cf:		lda wNumHearts			; a5 84
 B23_02d1:		cmp #$04		; c9 04
 B23_02d3:		bcs B23_02c1 ; b0 ec
 
@@ -590,12 +590,12 @@ B23_0394:		lda #$98		; a9 98
 B23_0396:		bne B23_0398 ; d0 00
 
 B23_0398:		sta $10			; 85 10
-B23_039a:		ldy $3b			; a4 3b
+B23_039a:		ldy wCurrCharacterIdx			; a4 3b
 B23_039c:		sec				; 38 
 B23_039d:		sbc #$93		; e9 93
 B23_039f:		tay				; a8 
 B23_03a0:		lda $a171, y	; b9 71 a1
-B23_03a3:		ldy $3b			; a4 3b
+B23_03a3:		ldy wCurrCharacterIdx			; a4 3b
 B23_03a5:	.db $d9 $85 $00
 B23_03a8:		beq B23_0363 ; f0 b9
 
@@ -626,7 +626,7 @@ B23_03cb:		lda wCurrPlayer.w		; ad 4e 05
 B23_03ce:		and #$01		; 29 01
 B23_03d0:		bne B23_03c3 ; d0 f1
 
-B23_03d2:		ldy $3b			; a4 3b
+B23_03d2:		ldy wCurrCharacterIdx			; a4 3b
 B23_03d4:	.db $b9 $87 $00
 B23_03d7:		cmp $a3e6, y	; d9 e6 a3
 B23_03da:		bcs B23_03c3 ; b0 e7
@@ -642,7 +642,7 @@ B23_03e5:		;removed
 	.db $b0 $02
 
 B23_03e7:	.db $02
-B23_03e8:		ldy $3b			; a4 3b
+B23_03e8:		ldy wCurrCharacterIdx			; a4 3b
 B23_03ea:	.db $b9 $85 $00
 B23_03ed:		beq B23_03f5 ; f0 06
 

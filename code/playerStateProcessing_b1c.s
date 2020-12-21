@@ -24,7 +24,7 @@ B28_0027:		sta wEntityHorizSubSpeed.w		; 8d 09 05
 B28_002a:		lda wEntityHorizSpeed.w		; ad f2 04
 B28_002d:		sbc #$00		; e9 00
 B28_002f:		sta wEntityHorizSpeed.w		; 8d f2 04
-B28_0032:		jmp $8047		; 4c 47 80
+B28_0032:		jmp B28_0047		; 4c 47 80
 
 B28_0035:		tay				; a8 
 B28_0036:		lda wEntityHorizSubSpeed.w		; ad 09 05
@@ -34,6 +34,7 @@ B28_003c:		sta wEntityHorizSubSpeed.w		; 8d 09 05
 B28_003f:		lda wEntityHorizSpeed.w		; ad f2 04
 B28_0042:		adc #$00		; 69 00
 B28_0044:		sta wEntityHorizSpeed.w		; 8d f2 04
+
 B28_0047:		cpy #$34		; c0 34
 B28_0049:		bcs B28_005d ; b0 12
 
@@ -73,7 +74,7 @@ B28_0083:		sta wEntityHorizSubSpeed.w		; 8d 09 05
 B28_0086:		lda wEntityHorizSpeed.w		; ad f2 04
 B28_0089:		sbc #$00		; e9 00
 B28_008b:		sta wEntityHorizSpeed.w		; 8d f2 04
-B28_008e:		jmp $80a6		; 4c a6 80
+B28_008e:		jmp B28_00a6		; 4c a6 80
 
 B28_0091:		and #$7f		; 29 7f
 B28_0093:		tay				; a8 
@@ -84,6 +85,7 @@ B28_009b:		sta wEntityHorizSubSpeed.w		; 8d 09 05
 B28_009e:		lda wEntityHorizSpeed.w		; ad f2 04
 B28_00a1:		adc #$00		; 69 00
 B28_00a3:		sta wEntityHorizSpeed.w		; 8d f2 04
+
 B28_00a6:		lda wEntityVertSubSpeed.w		; ad 37 05
 B28_00a9:		clc				; 18 
 B28_00aa:		adc $894d, y	; 79 4d 89
@@ -95,14 +97,16 @@ B28_00b8:		rts				; 60
 
 
 func_1c_00b9:
-B28_00b9:		lda wCurrScrollXWithinRoom			; a5 56
-B28_00bb:		ora $57			; 05 57
+B28_00b9:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
+B28_00bb:		ora wCurrScrollRoomScreen			; 05 57
 B28_00bd:		bne B28_00d8 ; d0 19
 
+; at leftmost part of room
 B28_00bf:		lda wEntityBaseX.w		; ad 38 04
 B28_00c2:		cmp #$40		; c9 40
 B28_00c4:		bcs B28_00d8 ; b0 12
 
+; player X < $40
 B28_00c6:		lda wEntityBaseY.w		; ad 1c 04
 B28_00c9:		sec				; 38 
 B28_00ca:		sbc #$70		; e9 70
@@ -112,39 +116,46 @@ B28_00ce:		eor #$ff		; 49 ff
 B28_00d0:		cmp #$08		; c9 08
 B28_00d2:		bcs B28_00d8 ; b0 04
 
+; if player Y within 8 pixels of $70
+; ie platform after jumping the 3 pendulums
 B28_00d4:		lda #$0e		; a9 0e
 B28_00d6:		sta $81			; 85 81
 B28_00d8:		rts				; 60 
 
 
 func_1c_00d9:
+; check if curr room is castle keep 3 pendulum room
 B28_00d9:		lda wCurrRoomGroup		; a5 32
-B28_00db:		cmp #$0e		; c9 0e
-B28_00dd:		bne B28_00ee ; d0 0f
+B28_00db:		cmp #RG_CASTLE_KEEP		; c9 0e
+B28_00dd:		bne B28_00ee ; @afterCastleKeep3pendulumRoomCheck
 
 B28_00df:		lda wCurrRoomSection			; a5 33
 B28_00e1:		cmp #$01		; c9 01
-B28_00e3:		bne B28_00ee ; d0 09
+B28_00e3:		bne B28_00ee ; @afterCastleKeep3pendulumRoomCheck
 
 B28_00e5:		lda wCurrRoomIdx			; a5 34
 B28_00e7:		cmp #$01		; c9 01
-B28_00e9:		bne B28_00ee ; d0 03
+B28_00e9:		bne B28_00ee ; @afterCastleKeep3pendulumRoomCheck
 
 B28_00eb:		jsr func_1c_00b9		; 20 b9 80
+
+@afterCastleKeep3pendulumRoomCheck:
 B28_00ee:		lda wPlayerStateDoubled.w		; ad 65 05
-B28_00f1:		cmp #$0a		; c9 0a
-B28_00f3:		beq B28_00f9 ; f0 04
+B28_00f1:		cmp #PS_DUCKING		; c9 0a
+B28_00f3:		beq B28_00f9 ; @ducking
 
-B28_00f5:		cmp #$1c		; c9 1c
-B28_00f7:		bne B28_0101 ; d0 08
+B28_00f5:		cmp #PS_DUCK_ATTACK		; c9 1c
+B28_00f7:		bne B28_0101 ; @notDucking
 
+@ducking:
 B28_00f9:		lda wCurrPlayer.w		; ad 4e 05
 B28_00fc:		clc				; 18 
 B28_00fd:		adc #$04		; 69 04
-B28_00ff:		bne B28_0104 ; d0 03
+	bne +
 
+@notDucking:
 B28_0101:		lda wCurrPlayer.w		; ad 4e 05
-B28_0104:		sta $82			; 85 82
++	sta $82			; 85 82
 B28_0106:		lda $af			; a5 af
 B28_0108:		beq B28_010c ; f0 02
 
@@ -199,28 +210,28 @@ B28_0153:		rts				; 60
 
 B28_0154:		lda #$00		; a9 00
 B28_0156:		ldx #$10		; a2 10
-B28_0158:		jsr func_1f_1cdd		; 20 dd fc
+B28_0158:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_015b:		beq B28_0172 ; f0 15
 
 B28_015d:		lda wCurrRoomGroup		; a5 32
 B28_015f:		cmp #$01		; c9 01
 B28_0161:		beq B28_0167 ; f0 04
 
-B28_0163:		lda wCurrScrollXWithinRoom			; a5 56
+B28_0163:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
 B28_0165:		bne B28_0172 ; d0 0b
 
 B28_0167:		lda wPlayerStateDoubled.w		; ad 65 05
-B28_016a:		cmp #$02		; c9 02
+B28_016a:		cmp #PS_IDLE		; c9 02
 B28_016c:		beq B28_0173 ; f0 05
 
-B28_016e:		cmp #$04		; c9 04
+B28_016e:		cmp #PS_WALKING		; c9 04
 B28_0170:		beq B28_0173 ; f0 01
 
 B28_0172:		rts				; 60 
 
 B28_0173:		jsr $8a02		; 20 02 8a
 B28_0176:		lda wCurrPlayer.w		; ad 4e 05
-B28_0179:		cmp #$02		; c9 02
+B28_0179:		cmp #PLAYER_GRANT		; c9 02
 B28_017b:		bne B28_0186 ; d0 09
 
 B28_017d:		lda wEntityBaseY.w		; ad 1c 04
@@ -289,6 +300,8 @@ B28_01f4:		sta $80			; 85 80
 B28_01f6:		lda #$26		; a9 26
 B28_01f8:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_01fb:		rts				; 60 
+
+
 ; unused?
 B28_01fc:		ldy wCurrPlayer.w		; ac 4e 05
 B28_01ff:		lda $8294, y	; b9 94 82
@@ -355,18 +368,18 @@ B28_027a:		beq B28_028e ; f0 12
 B28_027c:		tay				; a8 
 B28_027d:		lda ($08), y	; b1 08
 B28_027f:		tay				; a8 
-B28_0280:		lda $3c			; a5 3c
+B28_0280:		lda wPlayerHealth			; a5 3c
 B28_0282:		sec				; 38 
 B28_0283:		sbc $830c, y	; f9 0c 83
 B28_0286:		bcs B28_028a ; b0 02
 
 B28_0288:		lda #$00		; a9 00
-B28_028a:		sta $3c			; 85 3c
+B28_028a:		sta wPlayerHealth			; 85 3c
 B28_028c:		clc				; 18 
 B28_028d:		rts				; 60 
 
 B28_028e:		lda #$00		; a9 00
-B28_0290:		sta $3c			; 85 3c
+B28_0290:		sta wPlayerHealth			; 85 3c
 B28_0292:		sec				; 38 
 B28_0293:		rts				; 60 
 
@@ -471,7 +484,7 @@ B28_031c:		lda wCurrPlayer.w		; ad 4e 05
 B28_031f:		cmp #$03		; c9 03
 B28_0321:		bne B28_033c ; d0 19
 
-B28_0323:		lda $3c			; a5 3c
+B28_0323:		lda wPlayerHealth			; a5 3c
 B28_0325:		beq B28_034d ; f0 26
 
 B28_0327:		ldy #$00		; a0 00
@@ -514,12 +527,12 @@ B28_0352:		bpl B28_0356 ; 10 02
 B28_0354:		lda #$f8		; a9 f8
 B28_0356:		sta $08			; 85 08
 B28_0358:		ldx #$f0		; a2 f0
-B28_035a:		jsr func_1f_1cdd		; 20 dd fc
+B28_035a:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_035d:		bne B28_0368 ; d0 09
 
 B28_035f:		lda $08			; a5 08
 B28_0361:		ldx #$00		; a2 00
-B28_0363:		jsr func_1f_1cdd		; 20 dd fc
+B28_0363:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_0366:		beq B28_036e ; f0 06
 
 B28_0368:		jsr $97cf		; 20 cf 97
@@ -548,7 +561,7 @@ B28_038a:		lda wEntityBaseY.w		; ad 1c 04
 B28_038d:		clc				; 18 
 B28_038e:		adc #$04		; 69 04
 B28_0390:		sta wEntityBaseY.w		; 8d 1c 04
-B28_0393:		lda $3c			; a5 3c
+B28_0393:		lda wPlayerHealth			; a5 3c
 B28_0395:		beq B28_0398 ; f0 01
 
 B28_0397:		rts				; 60 
@@ -558,7 +571,7 @@ B28_0398:		lda $bf			; a5 bf
 B28_039a:		bne B28_03a9 ; d0 0d
 
 B28_039c:		lda #$00		; a9 00
-B28_039e:		sta $3c			; 85 3c
+B28_039e:		sta wPlayerHealth			; 85 3c
 B28_03a0:		lda #$2e		; a9 2e
 B28_03a2:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_03a5:		lda #$80		; a9 80
@@ -571,7 +584,7 @@ B28_03ac:		bne B28_03bd ; d0 0f
 
 B28_03ae:		ldx #$f8		; a2 f8
 B28_03b0:		lda #$00		; a9 00
-B28_03b2:		jsr func_1f_1cdd		; 20 dd fc
+B28_03b2:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_03b5:		cmp #$05		; c9 05
 B28_03b7:		beq B28_03bf ; f0 06
 
@@ -599,7 +612,7 @@ B28_03d0:		beq B28_03dd ; f0 0b
 
 B28_03d2:		ldx #$0c		; a2 0c
 B28_03d4:		lda #$00		; a9 00
-B28_03d6:		jsr func_1f_1cdd		; 20 dd fc
+B28_03d6:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_03d9:		bne B28_03dd ; d0 02
 
 B28_03db:		sec				; 38 
@@ -613,7 +626,7 @@ B28_03de:		rts				; 60
 B28_03df:		jsr func_1f_1be8		; 20 e8 fb
 B28_03e2:		ldx $08			; a6 08
 B28_03e4:		lda #$fb		; a9 fb
-B28_03e6:		jsr func_1f_1cdd		; 20 dd fc
+B28_03e6:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_03e9:		cmp #$04		; c9 04
 B28_03eb:		beq B28_03ef ; f0 02
 
@@ -630,11 +643,11 @@ B28_03f4:		lda $bf			; a5 bf
 B28_03f6:		bne B28_041c ; d0 24
 
 B28_03f8:		lda #$00		; a9 00
-B28_03fa:		sta $3c			; 85 3c
+B28_03fa:		sta wPlayerHealth			; 85 3c
 B28_03fc:		jmp $820b		; 4c 0b 82
 
 
-B28_03ff:		jsr func_1f_1cdd		; 20 dd fc
+B28_03ff:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_0402:		beq B28_040a ; f0 06
 
 B28_0404:		cmp #$01		; c9 01
@@ -644,12 +657,11 @@ B28_0408:		cmp #$08		; c9 08
 B28_040a:		rts				; 60 
 
 
-func_1c_040b:
-B28_040b:		jsr func_1f_1cdd		; 20 dd fc
-B28_040e:		beq B28_0412 ; f0 02
-
-B28_0410:		cmp #$01		; c9 01
-B28_0412:		rts				; 60 
+retZAndTileAifCollisionAtOffsetAXisEmptyOrMud:
+	jsr getCollisionTileValueAtPlayerXYOffsetAX
+	beq +
+	cmp #COLL_MUD
++	rts
 
 
 B28_0413:		lda $80			; a5 80
@@ -689,8 +701,8 @@ B28_0439:		jmp B28_051e		; 4c 1e 85
 
 ; 8b not 1/5/6
 B28_043c:		lda #$05		; a9 05
-B28_043e:		jsr func_1f_1cdd		; 20 dd fc
-B28_0441:		beq B28_0461 ; f0 1e
+B28_043e:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
+B28_0441:		beq B28_0461 ; @noCollision
 
 B28_0443:		cmp #$01		; c9 01
 B28_0445:		beq B28_04c0 ; f0 79
@@ -715,9 +727,10 @@ B28_045d:		bcs B28_03df ; b0 80
 
 B28_045f:		bcc B28_048c ; 90 2b
 
+@noCollision:
 B28_0461:		ldx $08			; a6 08
 B28_0463:		lda #$fb		; a9 fb
-B28_0465:		jsr func_1f_1cdd		; 20 dd fc
+B28_0465:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_0468:		beq B28_048e ; f0 24
 
 B28_046a:		cmp #$01		; c9 01
@@ -788,15 +801,15 @@ B28_04bf:		rts				; 60
 
 B28_04c0:		ldx $08			; a6 08
 B28_04c2:		lda #$fb		; a9 fb
-B28_04c4:		jsr func_1c_040b		; 20 0b 84
+B28_04c4:		jsr retZAndTileAifCollisionAtOffsetAXisEmptyOrMud		; 20 0b 84
 B28_04c7:		bne B28_048c ; d0 c3
 
 B28_04c9:		lda #$07		; a9 07
 B28_04cb:		sta $8b			; 85 8b
-B28_04cd:		lda $04db		; ad db 04
+B28_04cd:		lda wEntityFractionalY.w		; ad db 04
 B28_04d0:		clc				; 18 
 B28_04d1:		adc #$40		; 69 40
-B28_04d3:		sta $04db		; 8d db 04
+B28_04d3:		sta wEntityFractionalY.w		; 8d db 04
 B28_04d6:		lda wEntityBaseY.w		; ad 1c 04
 B28_04d9:		adc #$00		; 69 00
 B28_04db:		sta wEntityBaseY.w		; 8d 1c 04
@@ -805,12 +818,12 @@ B28_04df:		rts				; 60
 
 B28_04e0:		ldx $08			; a6 08
 B28_04e2:		lda #$05		; a9 05
-B28_04e4:		jsr func_1f_1cdd		; 20 dd fc
+B28_04e4:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_04e7:		bne B28_04f9 ; d0 10
 
 B28_04e9:		ldx $08			; a6 08
 B28_04eb:		lda #$fb		; a9 fb
-B28_04ed:		jsr func_1f_1cdd		; 20 dd fc
+B28_04ed:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_04f0:		bne B28_04f9 ; d0 07
 
 B28_04f2:		ldx $91			; a6 91
@@ -921,7 +934,7 @@ func_1c_0588:
 B28_0588:		lda wCurrRoomMetadataByte			; a5 68
 B28_058a:		bmi B28_05b7 ; 30 2b
 
-B28_058c:		lda wCurrScrollXRoom			; a5 57
+B28_058c:		lda wCurrScrollRoomScreen			; a5 57
 B28_058e:		bmi B28_05a6 ; 30 16
 
 B28_0590:		cmp wCurrRoomNumScreens			; c5 71
@@ -930,22 +943,22 @@ B28_0592:		beq B28_0595 ; f0 01
 B28_0594:		rts				; 60 
 
 
-B28_0595:		lda wCurrScrollXWithinRoom			; a5 56
+B28_0595:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
 B28_0597:		clc				; 18 
 B28_0598:		adc wEntityBaseX.w		; 6d 38 04
 B28_059b:		sta wEntityBaseX.w		; 8d 38 04
 B28_059e:		lda wCurrRoomNumScreens			; a5 71
-B28_05a0:		sta wCurrScrollXRoom			; 85 57
+B28_05a0:		sta wCurrScrollRoomScreen			; 85 57
 B28_05a2:		lda #$00		; a9 00
 B28_05a4:		beq B28_05b3 ; f0 0d
 
-B28_05a6:		lda wCurrScrollXWithinRoom			; a5 56
+B28_05a6:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
 B28_05a8:		clc				; 18 
 B28_05a9:		adc wEntityBaseX.w		; 6d 38 04
 B28_05ac:		sta wEntityBaseX.w		; 8d 38 04
 B28_05af:		lda #$00		; a9 00
-B28_05b1:		sta wCurrScrollXRoom			; 85 57
-B28_05b3:		sta wCurrScrollXWithinRoom			; 85 56
+B28_05b1:		sta wCurrScrollRoomScreen			; 85 57
+B28_05b3:		sta wCurrScrollOffsetIntoRoomScreen			; 85 56
 B28_05b5:		sta $58			; 85 58
 B28_05b7:		rts				; 60 
 
@@ -960,7 +973,7 @@ B28_05c1:		bne B28_0611 ; d0 4e
 B28_05c3:		lda wCurrRoomMetadataByte			; a5 68
 B28_05c5:		bmi B28_0612 ; 30 4b
 
-B28_05c7:		lda $73			; a5 73
+B28_05c7:		lda wPrevRoomMetadataByte			; a5 73
 B28_05c9:		bmi B28_0616 ; 30 4b
 
 B28_05cb:		ldx #$00		; a2 00
@@ -1032,7 +1045,7 @@ B28_0632:		.db $00				; 00
 B28_0633:		.db $00				; 00
 B28_0634:	.db $04
 B28_0635:		.db $00				; 00
-B28_0636:		lda wCurrScrollXWithinRoom			; a5 56
+B28_0636:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
 B28_0638:		beq B28_066f ; f0 35
 
 B28_063a:		clc				; 18 
@@ -1048,20 +1061,20 @@ B28_0644:		bmi B28_0636 ; 30 f0
 B28_0646:		lda wEntityBaseX.w		; ad 38 04
 B28_0649:		bmi B28_067a ; 30 2f
 
-B28_064b:		lda wCurrScrollXWithinRoom			; a5 56
-B28_064d:		ora $57			; 05 57
+B28_064b:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
+B28_064d:		ora wCurrScrollRoomScreen			; 05 57
 B28_064f:		beq B28_0679 ; f0 28
 
 B28_0651:		lda #$80		; a9 80
 B28_0653:		sec				; 38 
 B28_0654:		sbc wEntityBaseX.w		; ed38 04
 B28_0657:		sta $08			; 85 08
-B28_0659:		lda wCurrScrollXWithinRoom			; a5 56
+B28_0659:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
 B28_065b:		sec				; 38 
 B28_065c:		sbc $08			; e5 08
 B28_065e:		bcs B28_0672 ; b0 12
 
-B28_0660:		ldy $57			; a4 57
+B28_0660:		ldy wCurrScrollRoomScreen			; a4 57
 B28_0662:		dey				; 88 
 B28_0663:		bpl B28_0670 ; 10 0b
 
@@ -1069,18 +1082,17 @@ B28_0665:		clc				; 18
 B28_0666:		adc #$80		; 69 80
 B28_0668:		sta wEntityBaseX.w		; 8d 38 04
 B28_066b:		lda #$00		; a9 00
-B28_066d:		sta wCurrScrollXWithinRoom			; 85 56
+B28_066d:		sta wCurrScrollOffsetIntoRoomScreen			; 85 56
 B28_066f:		rts				; 60 
 
-
-B28_0670:		sty $57			; 84 57
-B28_0672:		sta wCurrScrollXWithinRoom			; 85 56
+B28_0670:		sty wCurrScrollRoomScreen			; 84 57
+B28_0672:		sta wCurrScrollOffsetIntoRoomScreen			; 85 56
 B28_0674:		lda #$80		; a9 80
 B28_0676:		sta wEntityBaseX.w		; 8d 38 04
 B28_0679:		rts				; 60 
 
 
-B28_067a:		lda wCurrScrollXRoom			; a5 57
+B28_067a:		lda wCurrScrollRoomScreen			; a5 57
 B28_067c:		cmp wCurrRoomNumScreens			; c5 71
 B28_067e:		beq B28_0679 ; f0 f9
 
@@ -1090,25 +1102,26 @@ B28_0684:		sbc #$80		; e9 80
 B28_0686:		beq B28_0679 ; f0 f1
 
 B28_0688:		sta $08			; 85 08
-B28_068a:		lda wCurrScrollXWithinRoom			; a5 56
+B28_068a:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
 B28_068c:		clc				; 18 
 B28_068d:		adc $08			; 65 08
 B28_068f:		bcc B28_0672 ; 90 e1
 
-B28_0691:		ldy $57			; a4 57
+B28_0691:		ldy wCurrScrollRoomScreen			; a4 57
 B28_0693:		iny				; c8 
-B28_0694:		cpy $71			; c4 71
+B28_0694:		cpy wCurrRoomNumScreens			; c4 71
 B28_0696:		bne B28_0670 ; d0 d8
 
 B28_0698:		clc				; 18 
 B28_0699:		adc #$80		; 69 80
 B28_069b:		sta wEntityBaseX.w		; 8d 38 04
-B28_069e:		sty $57			; 84 57
+B28_069e:		sty wCurrScrollRoomScreen			; 84 57
 B28_06a0:		lda #$00		; a9 00
-B28_06a2:		sta wCurrScrollXWithinRoom			; 85 56
+B28_06a2:		sta wCurrScrollOffsetIntoRoomScreen			; 85 56
 B28_06a4:		rts				; 60 
 
 
+; unused? duplicate
 B28_06a5:		clc				; 18 
 B28_06a6:		adc wEntityVertSubSpeed.w		; 6d 37 05
 B28_06a9:		sta wEntityVertSubSpeed.w		; 8d 37 05
@@ -1122,17 +1135,17 @@ B28_06b5:		lda wCurrRoomMetadataByte			; a5 68
 B28_06b7:		and #$01		; 29 01
 B28_06b9:		beq B28_06c3 ; f0 08
 
-B28_06bb:		lda wCurrScrollXRoom			; a5 57
-B28_06bd:		ora wCurrScrollXWithinRoom			; 05 56
+B28_06bb:		lda wCurrScrollRoomScreen			; a5 57
+B28_06bd:		ora wCurrScrollOffsetIntoRoomScreen			; 05 56
 B28_06bf:		beq B28_06d6 ; f0 15
 
 B28_06c1:		bne B28_06cf ; d0 0c
 
-B28_06c3:		lda wCurrScrollXRoom			; a5 57
+B28_06c3:		lda wCurrScrollRoomScreen			; a5 57
 B28_06c5:		cmp wCurrRoomNumScreens			; c5 71
 B28_06c7:		bne B28_06cf ; d0 06
 
-B28_06c9:		lda wCurrScrollXWithinRoom			; a5 56
+B28_06c9:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
 B28_06cb:		cmp #$30		; c9 30
 B28_06cd:		beq B28_06d6 ; f0 07
 
@@ -1156,10 +1169,10 @@ B28_06e6:		lda wEntityBaseY.w		; ad 1c 04
 B28_06e9:		bpl B28_0716 ; 10 2b
 
 B28_06eb:		lda wCurrRoomNumScreens			; a5 71
-B28_06ed:		cmp wCurrScrollXRoom			; c5 57
+B28_06ed:		cmp wCurrScrollRoomScreen			; c5 57
 B28_06ef:		bne B28_06f7 ; d0 06
 
-B28_06f1:		lda wCurrScrollXWithinRoom			; a5 56
+B28_06f1:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
 B28_06f3:		cmp #$30		; c9 30
 B28_06f5:		beq B28_0716 ; f0 1f
 
@@ -1175,8 +1188,8 @@ B28_0700:		bne B28_0716 ; d0 14
 B28_0702:		lda wEntityBaseY.w		; ad 1c 04
 B28_0705:		bmi B28_0716 ; 30 0f
 
-B28_0707:		lda wCurrScrollXWithinRoom			; a5 56
-B28_0709:		ora $57			; 05 57
+B28_0707:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
+B28_0709:		ora wCurrScrollRoomScreen			; 05 57
 B28_070b:		beq B28_0716 ; f0 09
 
 B28_070d:		lda #$00		; a9 00
@@ -1188,10 +1201,10 @@ func_1c_0712:
 B28_0712:		lda wCurrRoomMetadataByte			; a5 68
 B28_0714:		bmi B28_06d2 ; 30 bc
 
-B28_0716:		lda $04db		; ad db 04
+B28_0716:		lda wEntityFractionalY.w		; ad db 04
 B28_0719:		clc				; 18 
 B28_071a:		adc wEntityVertSubSpeed.w		; 6d 37 05
-B28_071d:		sta $04db		; 8d db 04
+B28_071d:		sta wEntityFractionalY.w		; 8d db 04
 B28_0720:		lda wEntityBaseY.w		; ad 1c 04
 B28_0723:		adc wEntityVertSpeed.w		; 6d 20 05
 B28_0726:		sta wEntityBaseY.w		; 8d 1c 04
@@ -1231,7 +1244,7 @@ B28_074d:		ora wEntityHorizSubSpeed.w		; 0d 09 05
 B28_0750:		beq B28_0781 ; f0 2f
 
 B28_0752:		lda wCurrRoomNumScreens			; a5 71
-B28_0754:		cmp wCurrScrollXRoom			; c5 57
+B28_0754:		cmp wCurrScrollRoomScreen			; c5 57
 B28_0756:		beq B28_0762 ; f0 0a
 
 B28_0758:		lda wEntityBaseX.w		; ad 38 04
@@ -1241,10 +1254,10 @@ B28_075d:		lda #$01		; a9 01
 B28_075f:		sta $65			; 85 65
 B28_0761:		rts				; 60 
 
-B28_0762:		lda $04c4		; ad c4 04
+B28_0762:		lda wEntityFractionalX.w		; ad c4 04
 B28_0765:		clc				; 18 
 B28_0766:		adc wEntityHorizSubSpeed.w		; 6d 09 05
-B28_0769:		sta $04c4		; 8d c4 04
+B28_0769:		sta wEntityFractionalX.w		; 8d c4 04
 B28_076c:		lda wEntityBaseX.w		; ad 38 04
 B28_076f:		adc wEntityHorizSpeed.w		; 6d f2 04
 B28_0772:		sta wEntityBaseX.w		; 8d 38 04
@@ -1263,8 +1276,8 @@ B28_0781:		rts				; 60
 B28_0782:		lda $c8			; a5 c8
 B28_0784:		bne B28_0762 ; d0 dc
 
-B28_0786:		lda wCurrScrollXWithinRoom			; a5 56
-B28_0788:		ora $57			; 05 57
+B28_0786:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
+B28_0788:		ora wCurrScrollRoomScreen			; 05 57
 B28_078a:		beq B28_0762 ; f0 d6
 
 B28_078c:		ldy wEntityBaseX.w		; ac 38 04
@@ -1617,34 +1630,43 @@ B28_096a:	.db $64
 B28_096b:		adc $8076		; 6d 76 80
 
 
-func_1c_096e:
-B28_096e:		lda $35			; a5 35
-B28_0970:		and #$0f		; 29 0f
-B28_0972:		sta $01			; 85 01
-B28_0974:		lda $35			; a5 35
-B28_0976:		and #$f0		; 29 f0
-B28_0978:		sta $02			; 85 02
-B28_097a:		lda $01			; a5 01
-B28_097c:		sec				; 38 
-B28_097d:		sbc #$01		; e9 01
-B28_097f:		bpl B28_0991 ; 10 10
+b1c_sub1fromCurrLivesLeft:
+; store lives left nybbles in separate vars
+	lda wCurrLivesLeft
+	and #$0f
+	sta wLivesLeftLowNybble
+	lda wCurrLivesLeft
+	and #$f0
+	sta wLivesLeftHighNybble
 
-B28_0981:		sec				; 38 
-B28_0982:		sbc #$06		; e9 06
-B28_0984:		sta $01			; 85 01
-B28_0986:		lda $02			; a5 02
-B28_0988:		sec				; 38 
-B28_0989:		sbc #$10		; e9 10
-B28_098b:		sta $02			; 85 02
-B28_098d:		lda $01			; a5 01
-B28_098f:		and #$0f		; 29 0f
-B28_0991:		ora $02			; 05 02
-B28_0993:		sta $35			; 85 35
-B28_0995:		rts				; 60 
+; lower nybble -= 1
+	lda wLivesLeftLowNybble
+	sec
+	sbc #$01
+	bpl +
+
+; if carry found, sub 6 for low nybble to be 9
+	sec
+	sbc #$06
+	sta wLivesLeftLowNybble
+
+; sub high nybble by $10
+	lda wLivesLeftHighNybble
+	sec
+	sbc #$10
+	sta wLivesLeftHighNybble
+
+; combine bcd nybbles again for new lives left
+	lda wLivesLeftLowNybble
+	and #$0f
+
++	ora wLivesLeftHighNybble
+	sta wCurrLivesLeft
+	rts
 
 
 func_1c_0996:
-B28_0996:		lda $7e			; a5 7e
+B28_0996:		lda wCurrTimeLeft			; a5 7e
 B28_0998:		ora $7f			; 05 7f
 B28_099a:		bne B28_09a3 ; d0 07
 
@@ -1652,28 +1674,27 @@ B28_099c:		jsr $8398		; 20 98 83
 B28_099f:		jsr func_1d_1dc4		; 20 c4 bd
 B28_09a2:		rts				; 60 
 
-
-B28_09a3:		lda $7e			; a5 7e
+B28_09a3:		lda wCurrTimeLeft			; a5 7e
 B28_09a5:		and #$0f		; 29 0f
 B28_09a7:		sta $01			; 85 01
-B28_09a9:		lda $7e			; a5 7e
+B28_09a9:		lda wCurrTimeLeft			; a5 7e
 B28_09ab:		and #$f0		; 29 f0
 B28_09ad:		sta $02			; 85 02
-B28_09af:		lda $7f			; a5 7f
+B28_09af:		lda wCurrTimeLeft+1			; a5 7f
 B28_09b1:		and #$0f		; 29 0f
 B28_09b3:		sta $03			; 85 03
-B28_09b5:		lda $7f			; a5 7f
+B28_09b5:		lda wCurrTimeLeft+1			; a5 7f
 B28_09b7:		and #$f0		; 29 f0
 B28_09b9:		sta $04			; 85 04
 B28_09bb:		jsr $89cf		; 20 cf 89
 B28_09be:		lda $01			; a5 01
 B28_09c0:		and #$0f		; 29 0f
 B28_09c2:		ora $02			; 05 02
-B28_09c4:		sta $7e			; 85 7e
+B28_09c4:		sta wCurrTimeLeft			; 85 7e
 B28_09c6:		lda $03			; a5 03
 B28_09c8:		and #$0f		; 29 0f
 B28_09ca:		ora $04			; 05 04
-B28_09cc:		sta $7f			; 85 7f
+B28_09cc:		sta wCurrTimeLeft+1			; 85 7f
 B28_09ce:		rts				; 60 
 
 
@@ -1725,10 +1746,10 @@ B28_0a0e:		rts				; 60
 
 B28_0a0f:		clc				; 18 
 B28_0a10:		lda wEntityBaseY.w		; ad 1c 04
-B28_0a13:		adc wCurrScrollXWithinRoom			; 65 56
+B28_0a13:		adc wCurrScrollOffsetIntoRoomScreen			; 65 56
 B28_0a15:		and #$f0		; 29 f0
 B28_0a17:		sec				; 38 
-B28_0a18:		sbc wCurrScrollXWithinRoom			; e5 56
+B28_0a18:		sbc wCurrScrollOffsetIntoRoomScreen			; e5 56
 B28_0a1a:		clc				; 18 
 B28_0a1b:		adc #$03		; 69 03
 B28_0a1d:		sta wEntityBaseY.w		; 8d 1c 04
@@ -1736,10 +1757,10 @@ B28_0a20:		rts				; 60
 
 
 func_1c_0a21:
-B28_0a21:		lda $7f			; a5 7f
+B28_0a21:		lda wCurrTimeLeft+1			; a5 7f
 B28_0a23:		bne B28_0a36 ; d0 11
 
-B28_0a25:		lda $7e			; a5 7e
+B28_0a25:		lda wCurrTimeLeft			; a5 7e
 B28_0a27:		cmp #$20		; c9 20
 B28_0a29:		bcs B28_0a36 ; b0 0b
 
@@ -1792,13 +1813,13 @@ B28_0a7c:		beq B28_0a8b ; f0 0d
 
 B28_0a7e:		clc				; 18 
 B28_0a7f:		lda #$30		; a9 30
-B28_0a81:		adc wCurrScrollXWithinRoom			; 65 56
+B28_0a81:		adc wCurrScrollOffsetIntoRoomScreen			; 65 56
 B28_0a83:		and #$f0		; 29 f0
 B28_0a85:		sec				; 38 
-B28_0a86:		sbc wCurrScrollXWithinRoom			; e5 56
+B28_0a86:		sbc wCurrScrollOffsetIntoRoomScreen			; e5 56
 B28_0a88:		clc				; 18 
 B28_0a89:		adc #$03		; 69 03
-B28_0a8b:		sta $d0			; 85 d0
+B28_0a8b:		sta wHighestTileToCheckForCollisionsInVertRoom			; 85 d0
 B28_0a8d:		lda #$02		; a9 02
 B28_0a8f:		sta $65			; 85 65
 B28_0a91:		ldy wCurrPlayer.w		; ac 4e 05
@@ -1818,7 +1839,7 @@ B28_0a9f:		jmp B28_0aa5		; 4c a5 8a
 B28_0aa2:		jsr processTrevorState		; 20 7b 93
 
 B28_0aa5:		lda wPlayerStateDoubled.w		; ad 65 05
-B28_0aa8:		bmi B28_0ac4 ; 30 1a
+	bmi +
 
 B28_0aaa:		jsr func_1c_0bc0		; 20 c0 8b
 B28_0aad:		jmp func_1c_0d13		; 4c 13 8d
@@ -1831,12 +1852,11 @@ B28_0ab3:		jmp B28_0aa5		; 4c a5 8a
 B28_0ab6:		jsr processGrantState		; 20 3b 9c
 B28_0ab9:		jmp B28_0aa5		; 4c a5 8a
 
-func_1c_0abc:
-B28_0abc:		lda #$00		; a9 00
-B28_0abe:		sta wEntityVertSpeed.w		; 8d 20 05
-B28_0ac1:		sta wEntityVertSubSpeed.w		; 8d 37 05
-
-B28_0ac4:		rts				; 60 
+clearPlayerVertSpeed:
+	lda #$00
+	sta wEntityVertSpeed.w
+	sta wEntityVertSubSpeed.w
++	rts
 
 
 playerState00_init:
@@ -1994,14 +2014,14 @@ B28_0baa:		beq B28_0bad ; f0 01
 B28_0bac:		rts				; 60 
 
 
-B28_0bad:		lda #GS_05		; a9 05
+B28_0bad:		lda #GS_DIED		; a9 05
 B28_0baf:		sta wGameState			; 85 18
 B28_0bb1:		lda #$00		; a9 00
 B28_0bb3:		sta wGameSubstate			; 85 19
 B28_0bb5:		lda wPlayerStateDoubled.w		; ad 65 05
 B28_0bb8:		ora #$80		; 09 80
 B28_0bba:		sta wPlayerStateDoubled.w		; 8d 65 05
-B28_0bbd:		jmp $e5ca		; 4c ca e5
+B28_0bbd:		jmp set_2c_to_00h		; 4c ca e5
 
 
 func_1c_0bc0:
@@ -2086,9 +2106,9 @@ B28_0c29:		bcc B28_0bfb ; 90 d0
 
 B28_0c2b:		lda wEntityBaseX.w		; ad 38 04
 B28_0c2e:		clc				; 18 
-B28_0c2f:		adc wCurrScrollXWithinRoom			; 65 56
+B28_0c2f:		adc wCurrScrollOffsetIntoRoomScreen			; 65 56
 B28_0c31:		sta $0a			; 85 0a
-B28_0c33:		lda wCurrScrollXRoom			; a5 57
+B28_0c33:		lda wCurrScrollRoomScreen			; a5 57
 B28_0c35:		adc #$00		; 69 00
 B28_0c37:		sta $0b			; 85 0b
 B28_0c39:		cmp #$01		; c9 01
@@ -2257,10 +2277,10 @@ B28_0d37:		lda wGameStateLoopCounter			; a5 1a
 B28_0d39:		and #$0f		; 29 0f
 B28_0d3b:		bne B28_0d7b ; d0 3e
 
-B28_0d3d:		lda wCurrScrollXWithinRoom			; a5 56
+B28_0d3d:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
 B28_0d3f:		adc wEntityBaseX.w		; 6d 38 04
 B28_0d42:		sta $00			; 85 00
-B28_0d44:		lda wCurrScrollXRoom			; a5 57
+B28_0d44:		lda wCurrScrollRoomScreen			; a5 57
 B28_0d46:		adc #$00		; 69 00
 B28_0d48:		sta $01			; 85 01
 B28_0d4a:		lda $7d			; a5 7d
@@ -2441,11 +2461,12 @@ B28_0e78:		ora ($80, x)	; 01 80
 
 
 ; from below (~450 loc func)
-B28_0e7a:		sty wEntityHorizSubSpeed.w		; 8c 09 05
-B28_0e7d:		sta wEntityHorizSpeed.w		; 8d f2 04
-B28_0e80:		jsr func_1c_0abc		; 20 bc 8a
-B28_0e83:		sec				; 38 
-B28_0e84:		rts				; 60 
+setPlayerHorizSpeedAY_clearVertSpeed_sec:
+	sty wEntityHorizSubSpeed.w
+	sta wEntityHorizSpeed.w
+	jsr clearPlayerVertSpeed
+	sec
+	rts
 
 func_1c_0e85:
 B28_0e85:		lda wInGameSubstate			; a5 2a
@@ -2488,7 +2509,7 @@ B28_0eb0:		beq B28_0ef3 ; f0 41
 B28_0eb2:		dey				; 88 
 B28_0eb3:		beq B28_0efa ; f0 45
 
-B28_0eb5:		jsr func_1c_0abc		; 20 bc 8a
+B28_0eb5:		jsr clearPlayerVertSpeed		; 20 bc 8a
 B28_0eb8:		clc				; 18 
 B28_0eb9:		rts				; 60 
 
@@ -2513,23 +2534,23 @@ B28_0edb:		jmp B28_0f57		; 4c 57 8f
 
 B28_0ede:		lda #$00		; a9 00
 B28_0ee0:		ldy #$80		; a0 80
-B28_0ee2:		jmp B28_0e7a		; 4c 7a 8e
+B28_0ee2:		jmp setPlayerHorizSpeedAY_clearVertSpeed_sec		; 4c 7a 8e
 
 B28_0ee5:		lda #$00		; a9 00
 B28_0ee7:		ldy #$40		; a0 40
-B28_0ee9:		jmp B28_0e7a		; 4c 7a 8e
+B28_0ee9:		jmp setPlayerHorizSpeedAY_clearVertSpeed_sec		; 4c 7a 8e
 
 B28_0eec:		lda #$01		; a9 01
 B28_0eee:		ldy #$c0		; a0 c0
-B28_0ef0:		jmp B28_0e7a		; 4c 7a 8e
+B28_0ef0:		jmp setPlayerHorizSpeedAY_clearVertSpeed_sec		; 4c 7a 8e
 
 B28_0ef3:		lda #$00		; a9 00
 B28_0ef5:		ldy #$80		; a0 80
-B28_0ef7:		jmp B28_0e7a		; 4c 7a 8e
+B28_0ef7:		jmp setPlayerHorizSpeedAY_clearVertSpeed_sec		; 4c 7a 8e
 
 B28_0efa:		lda #$01		; a9 01
 B28_0efc:		ldy #$80		; a0 80
-B28_0efe:		jmp B28_0e7a		; 4c 7a 8e
+B28_0efe:		jmp setPlayerHorizSpeedAY_clearVertSpeed_sec		; 4c 7a 8e
 
 func_1c_0f01:
 B28_0f01:		lda wInGameSubstate			; a5 2a
@@ -2572,7 +2593,7 @@ B28_0f2c:		beq B28_0f87 ; f0 59
 B28_0f2e:		dey				; 88 
 B28_0f2f:		beq B28_0f8e ; f0 5d
 
-B28_0f31:		jsr func_1c_0abc		; 20 bc 8a
+B28_0f31:		jsr clearPlayerVertSpeed		; 20 bc 8a
 B28_0f34:		clc				; 18 
 B28_0f35:		rts				; 60 
 
@@ -2602,31 +2623,31 @@ B28_0f61:		bcs B28_0f6c ; b0 09
 
 B28_0f63:		lda wEntityHorizSpeed.w		; ad f2 04
 B28_0f66:		ldy wEntityHorizSubSpeed.w		; ac 09 05
-B28_0f69:		jmp B28_0e7a		; 4c 7a 8e
+B28_0f69:		jmp setPlayerHorizSpeedAY_clearVertSpeed_sec		; 4c 7a 8e
 
 B28_0f6c:		lda #$00		; a9 00
 B28_0f6e:		tay				; a8 
-B28_0f6f:		jmp B28_0e7a		; 4c 7a 8e
+B28_0f6f:		jmp setPlayerHorizSpeedAY_clearVertSpeed_sec		; 4c 7a 8e
 
 B28_0f72:		lda #$ff		; a9 ff
 B28_0f74:		ldy #$80		; a0 80
-B28_0f76:		jmp B28_0e7a		; 4c 7a 8e
+B28_0f76:		jmp setPlayerHorizSpeedAY_clearVertSpeed_sec		; 4c 7a 8e
 
 B28_0f79:		lda #$fe		; a9 fe
 B28_0f7b:		ldy #$40		; a0 40
-B28_0f7d:		jmp B28_0e7a		; 4c 7a 8e
+B28_0f7d:		jmp setPlayerHorizSpeedAY_clearVertSpeed_sec		; 4c 7a 8e
 
 B28_0f80:		lda #$ff		; a9 ff
 B28_0f82:		ldy #$c0		; a0 c0
-B28_0f84:		jmp B28_0e7a		; 4c 7a 8e
+B28_0f84:		jmp setPlayerHorizSpeedAY_clearVertSpeed_sec		; 4c 7a 8e
 
 B28_0f87:		lda #$fe		; a9 fe
 B28_0f89:		ldy #$80		; a0 80
-B28_0f8b:		jmp B28_0e7a		; 4c 7a 8e
+B28_0f8b:		jmp setPlayerHorizSpeedAY_clearVertSpeed_sec		; 4c 7a 8e
 
 B28_0f8e:		lda #$ff		; a9 ff
 B28_0f90:		ldy #$80		; a0 80
-B28_0f92:		jmp B28_0e7a		; 4c 7a 8e
+B28_0f92:		jmp setPlayerHorizSpeedAY_clearVertSpeed_sec		; 4c 7a 8e
 
 B28_0f95:		lda $90			; a5 90
 B28_0f97:		and #$7f		; 29 7f
@@ -2870,7 +2891,7 @@ B28_115a:		bne B28_115e ; d0 02
 B28_115c:		lda #$f8		; a9 f8
 B28_115e:		sta $00			; 85 00
 B28_1160:		ldx #$00		; a2 00
-B28_1162:		jsr func_1f_1cdd		; 20 dd fc
+B28_1162:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_1165:		beq B28_1169 ; f0 02
 
 B28_1167:		sec				; 38 
@@ -2881,7 +2902,7 @@ B28_116b:		sty $01			; 84 01
 B28_116d:		lda $9186, y	; b9 86 91
 B28_1170:		tax				; aa 
 B28_1171:		lda $00			; a5 00
-B28_1173:		jsr func_1f_1cdd		; 20 dd fc
+B28_1173:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_1176:		bne B28_1167 ; d0 ef
 
 B28_1178:		lda $01			; a5 01
@@ -2976,12 +2997,12 @@ B28_11d8:		bpl B28_11d2 ; 10 f8
 
 B28_11da:		lda #$fb		; a9 fb
 B28_11dc:		ldx #$f8		; a2 f8
-B28_11de:		jsr func_1f_1cdd		; 20 dd fc
+B28_11de:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_11e1:		bne B28_11ec ; d0 09
 
 B28_11e3:		lda #$05		; a9 05
 B28_11e5:		ldx #$f8		; a2 f8
-B28_11e7:		jsr func_1f_1cdd		; 20 dd fc
+B28_11e7:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_11ea:		beq B28_11d2 ; f0 e6
 
 B28_11ec:		lda #$10		; a9 10
@@ -3009,14 +3030,14 @@ B28_1210:		bpl B28_121d ; 10 0b
 
 B28_1212:		lda #$f8		; a9 f8
 B28_1214:		ldx #$f0		; a2 f0
-B28_1216:		jsr func_1f_1cdd		; 20 dd fc
+B28_1216:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_1219:		bne B28_1237 ; d0 1c
 
 B28_121b:		beq B28_1226 ; f0 09
 
 B28_121d:		lda #$08		; a9 08
 B28_121f:		ldx #$f0		; a2 f0
-B28_1221:		jsr func_1f_1cdd		; 20 dd fc
+B28_1221:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_1224:		bne B28_1237 ; d0 11
 
 B28_1226:		ldx $91			; a6 91
@@ -3040,12 +3061,12 @@ B28_1246:		beq B28_125a ; f0 12
 
 B28_1248:		ldx #$01		; a2 01
 B28_124a:		lda #$f8		; a9 f8
-B28_124c:		jsr func_1f_1cdd		; 20 dd fc
+B28_124c:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_124f:		bne B28_125a ; d0 09
 
 B28_1251:		ldx #$f0		; a2 f0
 B28_1253:		lda #$f8		; a9 f8
-B28_1255:		jsr func_1f_1cdd		; 20 dd fc
+B28_1255:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_1258:		beq B28_125b ; f0 01
 
 B28_125a:		rts				; 60 
@@ -3079,12 +3100,12 @@ B28_1285:		jmp func_1c_073a		; 4c 3a 87
 func_1c_1288:
 B28_1288:		ldx #$01		; a2 01
 B28_128a:		lda #$08		; a9 08
-B28_128c:		jsr func_1f_1cdd		; 20 dd fc
+B28_128c:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_128f:		bne B28_129a ; d0 09
 
 B28_1291:		ldx #$f0		; a2 f0
 B28_1293:		lda #$08		; a9 08
-B28_1295:		jsr func_1f_1cdd		; 20 dd fc
+B28_1295:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_1298:		beq B28_129b ; f0 01
 
 B28_129a:		rts				; 60 
@@ -3111,12 +3132,12 @@ B28_12b8:		jmp func_1c_073a		; 4c 3a 87
 func_1c_12bb:
 B28_12bb:		ldx #$01		; a2 01
 B28_12bd:		lda #$f8		; a9 f8
-B28_12bf:		jsr func_1f_1cdd		; 20 dd fc
+B28_12bf:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_12c2:		bne B28_12cd ; d0 09
 
 B28_12c4:		ldx #$f0		; a2 f0
 B28_12c6:		lda #$f8		; a9 f8
-B28_12c8:		jsr func_1f_1cdd		; 20 dd fc
+B28_12c8:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_12cb:		beq B28_12ce ; f0 01
 
 B28_12cd:		rts				; 60 
@@ -3143,12 +3164,12 @@ B28_12eb:		jmp func_1c_073a		; 4c 3a 87
 func_1c_12ee:
 B28_12ee:		ldx #$01		; a2 01
 B28_12f0:		lda #$08		; a9 08
-B28_12f2:		jsr func_1f_1cdd		; 20 dd fc
+B28_12f2:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_12f5:		bne B28_1300 ; d0 09
 
 B28_12f7:		ldx #$f0		; a2 f0
 B28_12f9:		lda #$08		; a9 08
-B28_12fb:		jsr func_1f_1cdd		; 20 dd fc
+B28_12fb:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_12fe:		beq B28_1301 ; f0 01
 
 B28_1300:		rts				; 60 
@@ -3195,11 +3216,14 @@ B28_1347:		beq B28_1363 ; f0 1a
 B28_1349:		dey				; 88 
 B28_134a:		beq B28_1363 ; f0 17
 
+; clear curr speeds
 B28_134c:		lda #$00		; a9 00
 B28_134e:		sta wEntityHorizSubSpeed.w		; 8d 09 05
 B28_1351:		sta wEntityHorizSpeed.w		; 8d f2 04
 B28_1354:		sta wEntityVertSubSpeed.w		; 8d 37 05
 B28_1357:		sta wEntityVertSpeed.w		; 8d 20 05
+
+;
 B28_135a:		jsr func_1c_0001		; 20 01 80
 B28_135d:		jsr func_1c_073a		; 20 3a 87
 B28_1360:		jmp func_1c_0712		; 4c 12 87
@@ -3220,23 +3244,23 @@ processTrevorState:
 
 	.dw playerState00_init
 	.dw playerState02_standIdle
-	.dw playerState04_exceptGrant
-	.dw playerState06_exceptGrant
-	.dw playerState08_exceptGrant
+	.dw playerState04_walking_exceptGrant
+	.dw playerState06_jumpStart_exceptGrant
+	.dw playerState08_jumping_exceptGrant
 	.dw playerState0a_ducking_exceptGrant
-	.dw playerState0c_exceptGrant
+	.dw playerState0c_falling_exceptGrant
 	.dw playerState0e_walkToStair
 	.dw playerState10_startClimb
 	.dw playerState12_stairIdle
-	.dw playerState14
+	.dw playerState14_stairClimb
 	.dw playerState16
-	.dw playerState18_trevor_sypha
-	.dw playerState1a_trevor_sypha
-	.dw playerState1c_trevor_sypha
-	.dw playerState1e_exceptAlucard
-	.dw playerState20
-	.dw playerState22_exceptGrant
-	.dw playerState24
+	.dw playerState18_standingAttack_trevor_sypha
+	.dw playerState18_jumpAttack_trevor_sypha
+	.dw playerState1c_duckAttack_trevor_sypha
+	.dw playerState1e_stairAttack_exceptAlucard
+	.dw playerState20_standingItem
+	.dw playerState22_jumpingItem_exceptGrant
+	.dw playerState24_stairItem
 	.dw playerState26
 	.dw playerState28_2a
 	.dw playerState28_2a
@@ -3282,12 +3306,12 @@ B28_13ec:		beq B28_13e5 ; f0 f7
 
 B28_13ee:		ldx #$10		; a2 10
 B28_13f0:		lda #$fb		; a9 fb
-B28_13f2:		jsr func_1f_1cdd		; 20 dd fc
+B28_13f2:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_13f5:		bne B28_1401 ; d0 0a
 
 B28_13f7:		ldx #$10		; a2 10
 B28_13f9:		lda #$05		; a9 05
-B28_13fb:		jsr func_1f_1cdd		; 20 dd fc
+B28_13fb:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_13fe:		bne B28_1401 ; d0 01
 
 B28_1400:		rts				; 60 
@@ -3308,7 +3332,7 @@ B28_1414:		sta $0578		; 8d 78 05
 B28_1417:		rts				; 60 
 
 
-playerState18_trevor_sypha:
+playerState18_standingAttack_trevor_sypha:
 .ifdef WEAPON_SWAPPING
 B28_1418:		jsr shuffleSubweapon_1c_0421		; 20 21 84
 .else
@@ -3336,9 +3360,9 @@ B28_1438:		sec				; 38
 B28_1439:		rts				; 60 
 
 
-playerState1a_trevor_sypha:
+playerState18_jumpAttack_trevor_sypha:
 .ifdef IMPROVED_CONTROLS_TEST
-	jsr playerState1a_11_body
+	jsr playerState18_jumpAttack_11_body
 .else
 B28_143a:		jsr $979c		; 20 9c 97
 .endif
@@ -3369,7 +3393,7 @@ B28_1461:		sta wOamSpecIdxDoubled.w		; 8d 00 04
 B28_1464:		rts				; 60 
 
 
-playerState1c_trevor_sypha:
+playerState1c_duckAttack_trevor_sypha:
 B28_1465:		jsr func_1c_0421		; 20 21 84
 B28_1468:		bcs B28_146d ; b0 03
 
@@ -3406,7 +3430,7 @@ B28_149a:		sta wOamSpecIdxDoubled.w		; 8d 00 04
 B28_149d:		rts				; 60 
 
 
-playerState1e_exceptAlucard:
+playerState1e_stairAttack_exceptAlucard:
 .ifdef WEAPON_SWAPPING
 B28_149e:		jsr shuffleSubweapon_1d_1c89		; 20 89 bc
 .else
@@ -3431,7 +3455,7 @@ setPlayerState_resetAnimation:
 	rts
 
 
-playerState20:
+playerState20_standingItem:
 B28_14b8:		jsr func_1c_0421		; 20 21 84
 B28_14bb:		bcs B28_14c0 ; b0 03
 
@@ -3450,9 +3474,9 @@ B28_14d0:		sta wOamSpecIdxDoubled.w		; 8d 00 04
 B28_14d3:		rts				; 60 
 
 
-playerState22_exceptGrant:
+playerState22_jumpingItem_exceptGrant:
 .ifdef IMPROVED_CONTROLS_TEST
-	jsr playerState1a_11_body
+	jsr playerState18_jumpAttack_11_body
 .else
 B28_14d4:		jsr $979c		; 20 9c 97
 .endif
@@ -3483,49 +3507,58 @@ B28_14fb:		sta wOamSpecIdxDoubled.w		; 8d 00 04
 B28_14fe:		rts				; 60 
 
 
-playerState24:
+playerState24_stairItem:
 B28_14ff:		jsr func_1d_1af2		; 20 f2 ba
 	bcs +
 
 B28_1504:		rts				; 60 
 
-+	lda #$12		; a9 12
++	lda #PS_STAIR_IDLE		; a9 12
 B28_1507:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_150a:		rts				; 60 
 
 
-func_1c_150b_clcIfCanJump:
-B28_150b:		lda wCurrPlayer.w		; ad 4e 05
-B28_150e:		cmp #PLAYER_GRANT		; c9 02
-B28_1510:		beq B28_1534 ; f0 22
+returnClcIfCanJump:
+; grant can always jump
+	lda wCurrPlayer.w
+	cmp #PLAYER_GRANT
+	beq @canJump
 
-B28_1512:		ldx #$e8		; a2 e8
-B28_1514:		lda #$fb		; a9 fb
-B28_1516:		jsr func_1c_040b		; 20 0b 84
-B28_1519:		beq B28_1523 ; f0 08
+; collision at -5, -18
+	ldx #$e8
+	lda #$fb
+	jsr retZAndTileAifCollisionAtOffsetAXisEmptyOrMud
+	beq @emptyMudOrSpike
 
-B28_151b:		cmp #$05		; c9 05
-B28_151d:		beq B28_1523 ; f0 04
+	cmp #COLL_CEILING_SPIKE
+	beq @emptyMudOrSpike
 
-B28_151f:		cmp #$07		; c9 07
-B28_1521:		bne B28_1536 ; d0 13
+; cant jump if tile above is not empty, mud or spike
+	cmp #COLL_FLOOR_SPIKE
+	bne @cantJump
 
-B28_1523:		ldx #$e8		; a2 e8
-B28_1525:		lda #$05		; a9 05
-B28_1527:		jsr func_1c_040b		; 20 0b 84
-B28_152a:		beq B28_1534 ; f0 08
+; so far can jump, check collision on right side
+@emptyMudOrSpike:
+; collision at 5, -18
+	ldx #$e8
+	lda #$05
+	jsr retZAndTileAifCollisionAtOffsetAXisEmptyOrMud
+	beq @canJump
 
-B28_152c:		cmp #$05		; c9 05
-B28_152e:		beq B28_1534 ; f0 04
+	cmp #COLL_CEILING_SPIKE
+	beq @canJump
 
-B28_1530:		cmp #$07		; c9 07
-B28_1532:		bne B28_1536 ; d0 02
+; similar to above, cant jump if some non-empty/mud/spike tile above
+	cmp #COLL_FLOOR_SPIKE
+	bne @cantJump
 
-B28_1534:		clc				; 18 
-B28_1535:		rts				; 60 
+@canJump:
+	clc
+	rts
 
-B28_1536:		sec				; 38 
-B28_1537:		rts				; 60 
+@cantJump:
+	sec
+-	rts
 
 
 playerState02_standIdle:
@@ -3538,7 +3571,7 @@ B28_1540:		lda $b9			; a5 b9
 B28_1542:		beq B28_154d ; f0 09
 
 B28_1544:		dec $b9			; c6 b9
-B28_1546:		bne B28_1537 ; d0 ef
+	bne -
 
 B28_1548:		lda #$02		; a9 02
 B28_154a:		sta wOamSpecIdxDoubled.w		; 8d 00 04
@@ -3549,68 +3582,73 @@ B28_154d:	jsr shuffleSubweapon
 B28_154d:		lda wJoy1NewButtonsPressed			; a5 26
 B28_154f:		asl a			; 0a
 .endif
-B28_1550:		bcs B28_1594 ; b0 42
+; a pressed
+B28_1550:		bcs setStateJumpIfCanJump ; b0 42
 
 B28_1552:		asl a			; 0a
-B28_1553:		bcs B28_1571 ; b0 1c
+B28_1553:		bcs B28_1571 ; @bPressed
 
+@checkDirections:
 B28_1555:		lda wJoy1ButtonsPressed			; a5 28
 B28_1557:		lsr a			; 4a
-B28_1558:		bcc B28_155d ; 90 03
+B28_1558:		bcc B28_155d ; @checkLeft
 
 ; right held
 B28_155a:		jmp B28_1602		; @rightHeld
 
+@checkLeft:
 B28_155d:		lsr a			; 4a
-B28_155e:		bcc B28_1563 ; 90 03
+B28_155e:		bcc B28_1563 ; @checkDown
 
 ; left held
 B28_1560:		jmp B28_1606		; @leftHeld
 
+@checkDown:
 B28_1563:		lsr a			; 4a
-B28_1564:		bcs B28_15aa ; b0 44
+B28_1564:		bcs B28_15aa ; @downHeld
 
 B28_1566:		lsr a			; 4a
-B28_1567:		bcs B28_15b8 ; b0 4f
+B28_1567:		bcs B28_15b8 ; @upHeld
 
 ; nothing
 B28_1569:		lda #$02		; a9 02
 B28_156b:		sta wOamSpecIdxDoubled.w		; 8d 00 04
 B28_156e:		jmp func_1c_118e		; 4c 8e 91
 
-; b pressed
+@bPressed:
 B28_1571:		lda wJoy1ButtonsPressed			; a5 28
 B28_1573:		and #PADF_UP		; 29 08
-B28_1575:		bne B28_158a ; d0 13
+B28_1575:		bne B28_158a ; @bUpPressed
 
 B28_1577:		lda wCurrPlayer.w		; ad 4e 05
-B28_157a:		cmp #$03		; c9 03
-B28_157c:		beq B28_1583 ; f0 05
+B28_157a:		cmp #PLAYER_ALUCARD		; c9 03
+B28_157c:		beq B28_1583 ; @alucardBPressed
 
 B28_157e:		lda #$18		; a9 18
 B28_1580:		jmp func_1c_140a		; 4c 0a 94
 
-B28_1583:		jsr $ba69		; 20 69 ba
-B28_1586:		bcs B28_158f ; b0 07
+@alucardBPressed:
+; set carry if used attack
+B28_1583:		jsr alucardAttacked		; 20 69 ba
+	bcs +
 
-B28_1588:		bcc B28_1555 ; 90 cb
+B28_1588:		bcc B28_1555 ; @checkDirections
 
-; b+up pressed
+@bUpPressed:
 B28_158a:		jsr func_1d_19f5		; 20 f5 b9
 B28_158d:		bcc B28_1577 ; 90 e8
 
-B28_158f:		lda #PS_STANDING_ITEM		; a9 20
++	lda #PS_STANDING_ITEM		; a9 20
 B28_1591:		jmp setPlayerState_resetAnimation		; 4c aa 94
 
-func_1c_1594:
-; a pressed
-B28_1594:		jsr func_1c_150b_clcIfCanJump		; 20 0b 95
+
+setStateJumpIfCanJump:
+	jsr returnClcIfCanJump
 	bcs +
+	lda #PS_JUMP_START
+	sta wPlayerStateDoubled.w
++	rts
 
-B28_1599:		lda #PS_JUMP_START		; a9 06
-B28_159b:		sta wPlayerStateDoubled.w		; 8d 65 05
-
-+	rts				; 60 
 
 B28_159f:		lda #PS_DUCKING		; a9 0a
 B28_15a1:		sta wPlayerStateDoubled.w		; 8d 65 05
@@ -3618,7 +3656,7 @@ B28_15a4:		lda #$0e		; a9 0e
 B28_15a6:		sta wOamSpecIdxDoubled.w		; 8d 00 04
 B28_15a9:		rts				; 60 
 
-; down held
+@downHeld:
 B28_15aa:		jsr secIfcanClimbDownStairs		; 20 d4 e6
 B28_15ad:		bcc B28_159f ; 90 f0
 
@@ -3629,7 +3667,7 @@ B28_15b1:		sta wEntityPhase.w		; 8d c1 05
 B28_15b4:		ldx #$01		; a2 01
 B28_15b6:		bne B28_15c4 ; d0 0c
 
-; up held
+@upHeld:
 B28_15b8:		jsr secIfcanClimbUpStairs		; 20 df e6
 B28_15bb:		bcc B28_1569 ; 90 ac
 
@@ -3660,7 +3698,7 @@ B28_15dd:		asl a			; 0a
 	bcc +
 
 B28_15e0:		iny				; c8 
-+	sty $0606		; 8c 06 06
++	sty wEntityAlarmOrStartYforSinusoidalMovement.w		; 8c 06 06
 B28_15e4:		lda $0d			; a5 0d
 B28_15e6:		beq B28_15ee ; f0 06
 
@@ -3676,7 +3714,7 @@ B28_15f5:		sta wEntityHorizSpeed.w		; 8d f2 04
 B28_15f8:		lda #PS_WALK_TO_STAIR		; a9 0e
 B28_15fa:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_15fd:		lda #$00		; a9 00
-B28_15ff:		jmp func_1f_0f4a		; 4c 4a ef
+B28_15ff:		jmp setPlayerAnimationDefIdxA_oamSpecBase02		; 4c 4a ef
 
 @rightHeld:
 B28_1602:		lda #$00		; a9 00
@@ -3695,10 +3733,10 @@ B28_1613:		lda #PS_WALKING		; a9 04
 B28_1615:		sta wPlayerStateDoubled.w		; 8d 65 05
 
 B28_1618:		lda #$00		; a9 00
-B28_161a:		jmp func_1f_0f4a		; 4c 4a ef
+B28_161a:		jmp setPlayerAnimationDefIdxA_oamSpecBase02		; 4c 4a ef
 
 
-playerState06_exceptGrant:
+playerState06_jumpStart_exceptGrant:
 B28_161d:		lda #PS_JUMPING		; a9 08
 B28_161f:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_1622:		lda wJoy1ButtonsPressed			; a5 28
@@ -3742,7 +3780,7 @@ B28_165c:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
 B28_165f:		rts				; 60 
 
 
-playerState04_exceptGrant:
+playerState04_walking_exceptGrant:
 B28_1660:		jsr func_1c_0421		; 20 21 84
 B28_1663:		bcs B28_1668 ; b0 03
 
@@ -3753,7 +3791,7 @@ B28_166a:		asl a			; 0a
 B28_166b:		bcc B28_1670 ; 90 03
 
 ; a pressed
-B28_166d:		jmp func_1c_1594		; 4c 94 95
+B28_166d:		jmp setStateJumpIfCanJump		; 4c 94 95
 
 B28_1670:		asl a			; 0a
 B28_1671:		bcs B28_168f ; b0 1c
@@ -3772,7 +3810,7 @@ B28_167b:		jmp B28_16f6		; 4c f6 96
 B28_167e:		lda #PS_IDLE		; a9 02
 B28_1680:		sta wPlayerStateDoubled.w		; 8d 65 05
 
-B28_1683:		jsr func_1c_0abc		; 20 bc 8a
+B28_1683:		jsr clearPlayerVertSpeed		; 20 bc 8a
 
 B28_1686:		jsr updatePlayerAnimationFrame		; 20 73 ef
 B28_1689:		jsr func_1c_073a		; 20 3a 87
@@ -3789,7 +3827,7 @@ B28_1698:		bcc B28_16a4 ; 90 0a
 
 B28_169a:		lda #PS_STANDING_ITEM		; a9 20
 B28_169c:		jsr setPlayerState_resetAnimation		; 20 aa 94
-B28_169f:		jsr func_1c_0abc		; 20 bc 8a
+B28_169f:		jsr clearPlayerVertSpeed		; 20 bc 8a
 B28_16a2:		beq B28_1689 ; f0 e5
 
 B28_16a4:		lda wCurrPlayer.w		; ad 4e 05
@@ -3800,7 +3838,7 @@ B28_16ab:		lda #$18		; a9 18
 B28_16ad:		jsr func_1c_140a		; 20 0a 94
 B28_16b0:		jmp B28_1683		; 4c 83 96
 
-B28_16b3:		jsr $ba69		; 20 69 ba
+B28_16b3:		jsr alucardAttacked		; 20 69 ba
 B28_16b6:		bcc B28_1673 ; 90 bb
 
 B28_16b8:		bcs B28_169a ; b0 e0
@@ -3813,24 +3851,24 @@ B28_16c2:		bcc B28_16d9 ; 90 15
 
 B28_16c4:		ldx #$00		; a2 00
 B28_16c6:		lda #$08		; a9 08
-B28_16c8:		jsr func_1f_1cdd		; 20 dd fc
+B28_16c8:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_16cb:		bne B28_16f1 ; d0 24
 
 B28_16cd:		ldx #$f0	 	; a2 f0
 B28_16cf:		lda #$08		; a9 08
-B28_16d1:		jsr func_1f_1cdd		; 20 dd fc
+B28_16d1:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_16d4:		bne B28_16f1 ; d0 1b
 
 B28_16d6:		jmp B28_1686		; 4c 86 96
 
 B28_16d9:		ldx #$00		; a2 00
 B28_16db:		lda #$08		; a9 08
-B28_16dd:		jsr func_1f_1cdd		; 20 dd fc
+B28_16dd:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_16e0:		bne B28_16f1 ; d0 0f
 
 B28_16e2:		ldx #$f0		; a2 f0
 B28_16e4:		lda #$08		; a9 08
-B28_16e6:		jsr func_1f_1cdd		; 20 dd fc
+B28_16e6:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_16e9:		bne B28_16f1 ; d0 06
 
 B28_16eb:		lda #$01		; a9 01
@@ -3849,24 +3887,24 @@ B28_16fe:		bcc B28_1715 ; 90 15
 
 B28_1700:		ldx #$00		; a2 00
 B28_1702:		lda #$f8		; a9 f8
-B28_1704:		jsr func_1f_1cdd		; 20 dd fc
+B28_1704:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_1707:		bne B28_16f1 ; d0 e8
 
 B28_1709:		ldx #$f0		; a2 f0
 B28_170b:		lda #$f8		; a9 f8
-B28_170d:		jsr func_1f_1cdd		; 20 dd fc
+B28_170d:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_1710:		bne B28_16f1 ; d0 df
 
 B28_1712:		jmp B28_1686		; 4c 86 96
 
 B28_1715:		ldx #$00		; a2 00
 B28_1717:		lda #$f8		; a9 f8
-B28_1719:		jsr func_1f_1cdd		; 20 dd fc
+B28_1719:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_171c:		bne B28_16f1 ; d0 d3
 
 B28_171e:		ldx #$f0		; a2 f0
 B28_1720:		lda #$f8		; a9 f8
-B28_1722:		jsr func_1f_1cdd		; 20 dd fc
+B28_1722:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_1725:		bne B28_16f1 ; d0 ca
 
 B28_1727:		lda #$ff		; a9 ff
@@ -3938,9 +3976,9 @@ B28_176e:		bne B28_175e+4 ; d0 f2
 
 
 .ifndef IMPROVED_CONTROLS_TEST
-playerState08_exceptGrant:
+playerState08_jumping_exceptGrant:
 .endif
-playerState0c_exceptGrant:
+playerState0c_falling_exceptGrant:
 B28_1770:		lda wJoy1NewButtonsPressed			; a5 26
 B28_1772:		and #$40		; 29 40
 B28_1774:		beq B28_179c ; f0 26
@@ -3956,7 +3994,7 @@ B28_1781:		lda #$22		; a9 22
 B28_1783:		jsr setPlayerState_resetAnimation		; 20 aa 94
 B28_1786:		jmp $979c		; 4c 9c 97
 
-B28_1789:		jsr $ba69		; 20 69 ba
+B28_1789:		jsr alucardAttacked		; 20 69 ba
 B28_178c:		bcc B28_179c ; 90 0e
 
 B28_178e:		bcs B28_1781 ; b0 f1
@@ -3975,24 +4013,24 @@ B28_17a4:		bpl B28_17ba ; 10 14
 
 B28_17a6:		ldx #$10		; a2 10
 B28_17a8:		lda #$f8		; a9 f8
-B28_17aa:		jsr func_1f_1cdd		; 20 dd fc
+B28_17aa:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_17ad:		bne B28_17cf ; d0 20
 
 B28_17af:		ldx #$08		; a2 08
 B28_17b1:		lda #$f8		; a9 f8
-B28_17b3:		jsr func_1f_1cdd		; 20 dd fc
+B28_17b3:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_17b6:		bne B28_17cf ; d0 17
 
 B28_17b8:		beq B28_17cc ; f0 12
 
 B28_17ba:		ldx #$10		; a2 10
 B28_17bc:		lda #$08		; a9 08
-B28_17be:		jsr func_1f_1cdd		; 20 dd fc
+B28_17be:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_17c1:		bne B28_17cf ; d0 0c
 
 B28_17c3:		ldx #$08		; a2 08
 B28_17c5:		lda #$08		; a9 08
-B28_17c7:		jsr func_1f_1cdd		; 20 dd fc
+B28_17c7:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_17ca:		bne B28_17cf ; d0 03
 
 B28_17cc:		jsr func_1c_073a		; 20 3a 87
@@ -4004,7 +4042,7 @@ B28_17da:		beq B28_1841 ; f0 65
 
 B28_17dc:		ldx #$10		; a2 10
 B28_17de:		lda #$fb		; a9 fb
-B28_17e0:		jsr func_1f_1cdd		; 20 dd fc
+B28_17e0:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_17e3:		beq B28_17f1 ; f0 0c
 
 B28_17e5:		ldx #$08		; a2 08
@@ -4016,7 +4054,7 @@ B28_17ee:		jmp $9841		; 4c 41 98
 
 B28_17f1:		ldx #$10		; a2 10
 B28_17f3:		lda #$05		; a9 05
-B28_17f5:		jsr func_1f_1cdd		; 20 dd fc
+B28_17f5:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_17f8:		beq B28_1806 ; f0 0c
 
 B28_17fa:		ldx #$08		; a2 08
@@ -4148,7 +4186,7 @@ B28_18c4:		;removed
 B28_18c6:		ldx #$00		; a2 00
 B28_18c8:		lda #$00		; a9 00
 B28_18ca:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
-B28_18cd:		sta $04db, x	; 9d db 04
+B28_18cd:		sta wEntityFractionalY.w, x	; 9d db 04
 B28_18d0:		ldy $05d8, x	; bc d8 05
 B28_18d3:		lda wEntityPhase.w, x	; bd c1 05
 B28_18d6:		bne B28_18f4 ; d0 1c
@@ -4185,7 +4223,7 @@ B28_1906:		rts				; 60
 B28_1907:		lda $9875, y	; b9 75 98
 B28_190a:		bne B28_18fe ; d0 f2
 
-B28_190c:		jsr $ba69		; 20 69 ba
+B28_190c:		jsr alucardAttacked		; 20 69 ba
 B28_190f:		bcc B28_1936 ; 90 25
 
 B28_1911:		lda #$1c		; a9 1c
@@ -4210,7 +4248,7 @@ B28_1926:		and #$40		; 29 40
 B28_1928:		beq B28_1936 ; f0 0c
 
 B28_192a:		lda wCurrPlayer.w		; ad 4e 05
-B28_192d:		cmp #$03		; c9 03
+B28_192d:		cmp #PLAYER_ALUCARD		; c9 03
 B28_192f:		beq B28_190c ; f0 db
 
 B28_1931:		lda #$1c		; a9 1c
@@ -4230,7 +4268,6 @@ B28_1945:		lda wEntityVertSpeed.w		; ad 20 05
 B28_1948:		bmi B28_194d ; 30 03
 
 B28_194a:		jmp b1c_setPlayerDetailsWalkingStairsUpRight		; 4c 9a 9b
-
 
 B28_194d:		jmp b1c_setPlayerDetailsWalkingStairsDownRight		; 4c 8e 9b
 
@@ -4368,11 +4405,11 @@ B28_19fc:		bcc B28_1a14 ; 90 16
 B28_19fe:		ldy wCurrRoomMetadataByte			; a4 68
 B28_1a00:		bpl B28_1a14 ; 10 12
 
-B28_1a02:		lda wCurrScrollXRoom			; a5 57
+B28_1a02:		lda wCurrScrollRoomScreen			; a5 57
 B28_1a04:		cmp wCurrRoomNumScreens			; c5 71
 B28_1a06:		bne B28_1a0e ; d0 06
 
-B28_1a08:		lda wCurrScrollXWithinRoom			; a5 56
+B28_1a08:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
 B28_1a0a:		cmp #$30		; c9 30
 B28_1a0c:		beq B28_1a14 ; f0 06
 
@@ -4394,8 +4431,8 @@ B28_1a1b:		bcs B28_1a14 ; b0 f7
 B28_1a1d:		ldy wCurrRoomMetadataByte			; a4 68
 B28_1a1f:		bpl B28_1a14 ; 10 f3
 
-B28_1a21:		lda wCurrScrollXRoom			; a5 57
-B28_1a23:		ora wCurrScrollXWithinRoom			; 05 56
+B28_1a21:		lda wCurrScrollRoomScreen			; a5 57
+B28_1a23:		ora wCurrScrollOffsetIntoRoomScreen			; 05 56
 B28_1a25:		beq B28_1a14 ; f0 ed
 
 B28_1a27:		cpy #$82		; c0 82
@@ -4410,7 +4447,7 @@ B28_1a2d:		lda wEntityBaseY.w		; ad 1c 04
 B28_1a30:		ldx wEntityVertSpeed.w		; ae 20 05
 B28_1a33:		bmi B28_1a45 ; 30 10
 
-B28_1a35:		ldx $68			; a6 68
+B28_1a35:		ldx wCurrRoomMetadataByte			; a6 68
 B28_1a37:		bmi B28_1a3f ; 30 06
 
 B28_1a39:		cmp #$d3		; c9 d3
@@ -4425,7 +4462,7 @@ B28_1a41:		bcs B28_1a6d ; b0 2a
 B28_1a43:		clc				; 18 
 B28_1a44:		rts				; 60 
 
-B28_1a45:		ldx $68			; a6 68
+B28_1a45:		ldx wCurrRoomMetadataByte			; a6 68
 B28_1a47:		bmi B28_1a4f ; 30 06
 
 B28_1a49:		cmp #$29		; c9 29
@@ -4455,11 +4492,11 @@ B28_1a68:		jsr $fb85		; 20 85 fb
 B28_1a6b:		sec				; 38 
 B28_1a6c:		rts				; 60 
 
-B28_1a6d:		lda wCurrScrollXRoom			; a5 57
+B28_1a6d:		lda wCurrScrollRoomScreen			; a5 57
 B28_1a6f:		cmp wCurrRoomNumScreens			; c5 71
 B28_1a71:		bne B28_1a79 ; d0 06
 
-B28_1a73:		lda wCurrScrollXWithinRoom			; a5 56
+B28_1a73:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
 B28_1a75:		cmp #$30		; c9 30
 B28_1a77:		beq B28_1a5f ; f0 e6
 
@@ -4470,8 +4507,8 @@ B28_1a7d:		bne B28_1a53 ; d0 d4
 B28_1a7f:		sec				; 38 
 B28_1a80:		rts				; 60 
 
-B28_1a81:		lda wCurrScrollXWithinRoom			; a5 56
-B28_1a83:		ora $57			; 05 57
+B28_1a81:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
+B28_1a83:		ora wCurrScrollRoomScreen			; 05 57
 B28_1a85:		beq B28_1a5f ; f0 d8
 
 B28_1a87:		lda wCurrRoomMetadataByte			; a5 68
@@ -4485,7 +4522,7 @@ B28_1a91:		sec				; 38
 B28_1a92:		rts				; 60 
 
 
-playerState14:
+playerState14_stairClimb:
 .ifdef IMPROVED_CONTROLS_TEST
 	jsr playerState12_14_body
 .else
@@ -4508,7 +4545,7 @@ B28_1aac:		dec wEntityTimeUntilNextAnimation.w		; ce 7c 05
 B28_1aaf:		rts				; 60 
 
 B28_1ab0:		lda wCurrPlayer.w		; ad 4e 05
-B28_1ab3:		cmp #$02		; c9 02
+B28_1ab3:		cmp #PLAYER_GRANT		; c9 02
 B28_1ab5:		beq B28_1acc ; f0 15
 
 B28_1ab7:		lda wEntityOamSpecIdxBaseOffset.w		; ad 93 05
@@ -4544,8 +4581,8 @@ B28_1aed:		jmp $9b18		; 4c 18 9b
 
 
 B28_1af0:		lda #$00		; a9 00
-B28_1af2:		sta $04c4		; 8d c4 04
-B28_1af5:		sta $04db		; 8d db 04
+B28_1af2:		sta wEntityFractionalX.w		; 8d c4 04
+B28_1af5:		sta wEntityFractionalY.w		; 8d db 04
 B28_1af8:		ldy wCurrRoomMetadataByte			; a4 68
 B28_1afa:		bpl B28_1b1b ; 10 1f
 
@@ -4557,10 +4594,10 @@ B28_1b03:		lda wEntityBaseY.w		; ad 1c 04
 B28_1b06:		clc				; 18 
 B28_1b07:		adc #$03		; 69 03
 B28_1b09:		clc				; 18 
-B28_1b0a:		adc wCurrScrollXWithinRoom			; 65 56
+B28_1b0a:		adc wCurrScrollOffsetIntoRoomScreen			; 65 56
 B28_1b0c:		and #$f8		; 29 f8
 B28_1b0e:		sec				; 38 
-B28_1b0f:		sbc wCurrScrollXWithinRoom			; e5 56
+B28_1b0f:		sbc wCurrScrollOffsetIntoRoomScreen			; e5 56
 B28_1b11:		cpy #$02		; c0 02
 B28_1b13:		beq B28_1aea ; f0 d5
 
@@ -4572,24 +4609,24 @@ B28_1b1e:		bmi B28_1b64 ; 30 44
 
 B28_1b20:		ldx #$12		; a2 12
 B28_1b22:		lda #$02		; a9 02
-B28_1b24:		jsr func_1f_1cdd		; 20 dd fc
+B28_1b24:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_1b27:		bne B28_1b3d ; d0 14
 
 B28_1b29:		ldx #$12		; a2 12
 B28_1b2b:		lda #$fe		; a9 fe
-B28_1b2d:		jsr func_1f_1cdd		; 20 dd fc
+B28_1b2d:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_1b30:		beq B28_1b88 ; f0 56
 
 B28_1b32:		ldx #$1a		; a2 1a
 B28_1b34:		lda #$fe		; a9 fe
-B28_1b36:		jsr func_1f_1cdd		; 20 dd fc
+B28_1b36:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_1b39:		beq B28_1b88 ; f0 4d
 
 B28_1b3b:		bne B28_1b46 ; d0 09
 
 B28_1b3d:		ldx #$1a		; a2 1a
 B28_1b3f:		lda #$02		; a9 02
-B28_1b41:		jsr func_1f_1cdd		; 20 dd fc
+B28_1b41:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_1b44:		beq B28_1b88 ; f0 42
 
 B28_1b46:		jsr $8a02		; 20 02 8a
@@ -4610,22 +4647,22 @@ B28_1b63:		rts				; 60
 
 B28_1b64:		ldx #$12		; a2 12
 B28_1b66:		lda #$02		; a9 02
-B28_1b68:		jsr func_1f_1cdd		; 20 dd fc
+B28_1b68:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_1b6b:		bne B28_1b7f ; d0 12
 
 B28_1b6d:		ldx #$12		; a2 12
 B28_1b6f:		lda #$fe		; a9 fe
-B28_1b71:		jsr func_1f_1cdd		; 20 dd fc
+B28_1b71:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_1b74:		beq B28_1b88 ; f0 12
 
 B28_1b76:		ldx #$0a		; a2 0a
 B28_1b78:		lda #$fe		; a9 fe
-B28_1b7a:		jsr func_1f_1cdd		; 20 dd fc
+B28_1b7a:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_1b7d:		beq B28_1b46 ; f0 c7
 
 B28_1b7f:		ldx #$0a		; a2 0a
 B28_1b81:		lda #$02		; a9 02
-B28_1b83:		jsr func_1f_1cdd		; 20 dd fc
+B28_1b83:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_1b86:		beq B28_1b46 ; f0 be
 
 B28_1b88:		lda #$12		; a9 12
@@ -4711,24 +4748,25 @@ playerStairsMovementSpeeds:
 
 
 processSyphaState:
-B28_1bfc:		ldy wPlayerStateDoubled.w		; ac 65 05
-B28_1bff:		jsr jumpTableNoPreserveY		; 20 86 e8
+	ldy wPlayerStateDoubled.w
+	jsr jumpTableNoPreserveY
+
 	.dw playerState00_init
 	.dw playerState02_standIdle
-	.dw playerState04_exceptGrant
-	.dw playerState06_exceptGrant
-	.dw playerState08_exceptGrant
+	.dw playerState04_walking_exceptGrant
+	.dw playerState06_jumpStart_exceptGrant
+	.dw playerState08_jumping_exceptGrant
 	.dw playerState0a_ducking_exceptGrant
-	.dw playerState0c_exceptGrant
+	.dw playerState0c_falling_exceptGrant
 	.dw playerState0e_walkToStair
 	.dw playerState10_startClimb
 	.dw playerState12_stairIdle
-	.dw playerState14
+	.dw playerState14_stairClimb
 	.dw playerState16
-	.dw playerState18_trevor_sypha
-	.dw playerState1a_trevor_sypha
-	.dw playerState1c_trevor_sypha
-	.dw playerState1e_exceptAlucard
+	.dw playerState18_standingAttack_trevor_sypha
+	.dw playerState18_jumpAttack_trevor_sypha
+	.dw playerState1c_duckAttack_trevor_sypha
+	.dw playerState1e_stairAttack_exceptAlucard
 	.dw +
 	.dw ++
 	.dw +++
@@ -4737,33 +4775,34 @@ B28_1bff:		jsr jumpTableNoPreserveY		; 20 86 e8
 	.dw playerState28_2a
 	.dw playerState2c
 	.dw playerState2e
-+	jmp playerState20
-++	jmp playerState22_exceptGrant
-+++	jmp playerState24
++	jmp playerState20_standingItem
+++	jmp playerState22_jumpingItem_exceptGrant
++++	jmp playerState24_stairItem
 
 
 processGrantState:
-B28_1c3b:		ldy wPlayerStateDoubled.w
-B28_1c3e:		jsr jumpTableNoPreserveY		; 20 86 e8
+	ldy wPlayerStateDoubled.w
+	jsr jumpTableNoPreserveY
+
 	.dw playerState00_init
 	.dw playerState02_standIdle
-	.dw playerState04_grant
-	.dw playerState06_grant
-	.dw playerState08_06_grant
+	.dw playerState04_walking_grant
+	.dw playerState06_jumpStart_grant
+	.dw playerState08_jumping_0c_grant
 	.dw playerState0a_grant
-	.dw playerState08_06_grant
+	.dw playerState08_jumping_0c_grant
 	.dw playerState0e_walkToStair
 	.dw playerState10_startClimb
 	.dw playerState12_stairIdle
-	.dw playerState14
+	.dw playerState14_stairClimb
 	.dw playerState16
-	.dw playerState18_grant
-	.dw playerState1a_grant
-	.dw playerState1c_grant
-	.dw playerState1e_exceptAlucard
-	.dw playerState20
-	.dw playerState22_grant
-	.dw playerState24
+	.dw playerState18_standingAttack_grant
+	.dw playerState18_jumpAttack_grant
+	.dw playerState1c_duckAttack_grant
+	.dw playerState1e_stairAttack_exceptAlucard
+	.dw playerState20_standingItem
+	.dw playerState22_jumpingItem_grant
+	.dw playerState24_stairItem
 	.dw playerState26
 	.dw playerState28_2a
 	.dw playerState28_2a
@@ -4783,7 +4822,7 @@ B28_1c3e:		jsr jumpTableNoPreserveY		; 20 86 e8
 	.dw playerState46_grant
 	.dw playerState48_grant
 
-playerState18_grant:
+playerState18_standingAttack_grant:
 .ifdef WEAPON_SWAPPING
 B28_1c8b:		jsr shuffleSubweapon_1c_041d		; 20 1d 84
 .else
@@ -4803,7 +4842,7 @@ B28_1c9b:		jmp $9428		; 4c 28 94
 B28_1c9e:		rts				; 60 
 
 
-playerState1c_grant:
+playerState1c_duckAttack_grant:
 B28_1c9f:		jsr func_1c_041d		; 20 1d 84
 B28_1ca2:		bcc B28_1c90 ; 90 ec
 
@@ -4888,7 +4927,7 @@ B28_1d27:		rts				; 60
 
 B28_1d28:		lda #$05		; a9 05
 B28_1d2a:		ldx #$0c		; a2 0c
-B28_1d2c:		jsr func_1f_1cdd		; 20 dd fc
+B28_1d2c:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_1d2f:		beq B28_1d35 ; f0 04
 
 B28_1d31:		lda #$01		; a9 01
@@ -4899,7 +4938,7 @@ B28_1d37:		cmp wEntityFacingLeft.w		; cd a8 04
 B28_1d3a:		rts				; 60 
 
 
-playerState04_grant:
+playerState04_walking_grant:
 B28_1d3b:		jsr func_1c_041d		; 20 1d 84
 B28_1d3e:		bcs B28_1d43 ; b0 03
 
@@ -4926,7 +4965,7 @@ B28_1d56:		lda #PS_IDLE		; a9 02
 B28_1d58:		sta wPlayerStateDoubled.w		; 8d 65 05
 
 func_1c_1d5b:
-B28_1d5b:		jsr func_1c_0abc		; 20 bc 8a
+B28_1d5b:		jsr clearPlayerVertSpeed		; 20 bc 8a
 B28_1d5e:		jsr updatePlayerAnimationFrame		; 20 73 ef
 B28_1d61:		jsr func_1c_073a		; 20 3a 87
 B28_1d64:		jmp func_1c_0712		; 4c 12 87
@@ -4946,7 +4985,7 @@ B28_1d78:		bcc B28_1d6d ; 90 f3
 
 B28_1d7a:		lda #PS_STANDING_ITEM		; a9 20
 B28_1d7c:		jsr setPlayerState_resetAnimation		; 20 aa 94
-B28_1d7f:		jsr func_1c_0abc		; 20 bc 8a
+B28_1d7f:		jsr clearPlayerVertSpeed		; 20 bc 8a
 B28_1d82:		jmp $9d61		; 4c 61 9d
 
 ; right held
@@ -4957,24 +4996,24 @@ B28_1d8d:		bcc B28_1da4 ; 90 15
 
 B28_1d8f:		ldx #$00		; a2 00
 B28_1d91:		lda #$08		; a9 08
-B28_1d93:		jsr func_1f_1cdd		; 20 dd fc
+B28_1d93:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_1d96:		bne B28_1dfa ; d0 62
 
 B28_1d98:		ldx #$f4		; a2 f4
 B28_1d9a:		lda #$08		; a9 08
-B28_1d9c:		jsr func_1f_1cdd		; 20 dd fc
+B28_1d9c:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_1d9f:		bne B28_1dfa ; d0 59
 
 B28_1da1:		jmp $9d5e		; 4c 5e 9d
 
 B28_1da4:		ldx #$00		; a2 00
 B28_1da6:		lda #$08		; a9 08
-B28_1da8:		jsr func_1f_1cdd		; 20 dd fc
+B28_1da8:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_1dab:		bne B28_1e1b ; d0 6e
 
 B28_1dad:		ldx #$f4		; a2 f4
 B28_1daf:		lda #$08		; a9 08
-B28_1db1:		jsr func_1f_1cdd		; 20 dd fc
+B28_1db1:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_1db4:		bne B28_1dfa ; d0 44
 
 B28_1db6:		lda #$01		; a9 01
@@ -4989,24 +5028,24 @@ B28_1dc4:		bcc B28_1ddb ; 90 15
 
 B28_1dc6:		ldx #$00		; a2 00
 B28_1dc8:		lda #$f8		; a9 f8
-B28_1dca:		jsr func_1f_1cdd		; 20 dd fc
+B28_1dca:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_1dcd:		bne B28_1dfa ; d0 2b
 
 B28_1dcf:		ldx #$f4		; a2 f4
 B28_1dd1:		lda #$f8		; a9 f8
-B28_1dd3:		jsr func_1f_1cdd		; 20 dd fc
+B28_1dd3:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_1dd6:		bne B28_1dfa ; d0 22
 
 B28_1dd8:		jmp $9d5e		; 4c 5e 9d
 
 B28_1ddb:		ldx #$00		; a2 00
 B28_1ddd:		lda #$f8		; a9 f8
-B28_1ddf:		jsr func_1c_040b		; 20 0b 84
+B28_1ddf:		jsr retZAndTileAifCollisionAtOffsetAXisEmptyOrMud		; 20 0b 84
 B28_1de2:		bne B28_1e0b ; d0 27
 
 B28_1de4:		ldx #$f4		; a2 f4
 B28_1de6:		lda #$f8		; a9 f8
-B28_1de8:		jsr func_1f_1cdd		; 20 dd fc
+B28_1de8:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_1deb:		bne B28_1dfa ; d0 0d
 
 B28_1ded:		lda #$fe		; a9 fe
@@ -5062,10 +5101,10 @@ B28_1e42:		ldy wCurrRoomMetadataByte			; a4 68
 B28_1e44:		bmi B28_1e52 ; 30 0c
 
 B28_1e46:		clc				; 18 
-B28_1e47:		adc wCurrScrollXWithinRoom			; 65 56
+B28_1e47:		adc wCurrScrollOffsetIntoRoomScreen			; 65 56
 B28_1e49:		and #$f8		; 29 f8
 B28_1e4b:		sec				; 38 
-B28_1e4c:		sbc wCurrScrollXWithinRoom			; e5 56
+B28_1e4c:		sbc wCurrScrollOffsetIntoRoomScreen			; e5 56
 B28_1e4e:		sta wEntityBaseX.w		; 8d 38 04
 B28_1e51:		rts				; 60 
 
@@ -5113,7 +5152,7 @@ B28_1e90:		.db $00				; 00
 B28_1e91:		.db $81
 
 
-playerState06_grant:
+playerState06_jumpStart_grant:
 	lda #$0e
 B28_1e94:	sta wOamSpecIdxDoubled.w
 B28_1e97:		lda #$04		; a9 04
@@ -5124,7 +5163,7 @@ B28_1ea0:		lda #$1e		; a9 1e
 B28_1ea2:		sta $05d8		; 8d d8 05
 B28_1ea5:		lda #$00		; a9 00
 B28_1ea7:		sta wEntityAI_idx.w		; 8d ef 05
-B28_1eaa:		sta $0606		; 8d 06 06
+B28_1eaa:		sta wEntityAlarmOrStartYforSinusoidalMovement.w		; 8d 06 06
 B28_1ead:		sta wEntityHorizSubSpeed.w		; 8d 09 05
 B28_1eb0:		sta wEntityHorizSpeed.w		; 8d f2 04
 B28_1eb3:		sta $9d			; 85 9d
@@ -5135,7 +5174,7 @@ B28_1ebc:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_1ebf:		rts				; 60 
 
 
-playerState22_grant:
+playerState22_jumpingItem_grant:
 B28_1ec0:		jsr $9f5a		; 20 5a 9f
 B28_1ec3:		lda wPlayerStateDoubled.w		; ad 65 05
 B28_1ec6:		cmp #$26		; c9 26
@@ -5164,7 +5203,7 @@ B28_1ee7:		sta wOamSpecIdxDoubled.w		; 8d 00 04
 B28_1eea:		rts				; 60 
 
 
-playerState1a_grant:
+playerState18_jumpAttack_grant:
 B28_1eeb:		jsr $9f5a		; 20 5a 9f
 B28_1eee:		lda wPlayerStateDoubled.w		; ad 65 05
 B28_1ef1:		cmp #$26		; c9 26
@@ -5196,7 +5235,7 @@ B28_1f1a:		clc				; 18
 B28_1f1b:		adc #$05		; 69 05
 B28_1f1d:		sta wEntityBaseY.w		; 8d 1c 04
 B28_1f20:		lda #$02		; a9 02
-B28_1f22:		jsr $ef57		; 20 57 ef
+B28_1f22:		jsr setPlayerAnimationDefIdxA_animateNextFrame		; 20 57 ef
 B28_1f25:		lda #$32		; a9 32
 B28_1f27:		sta wPlayerStateDoubled.w		; 8d 65 05
 B28_1f2a:		rts				; 60 
@@ -5207,7 +5246,7 @@ B28_1f2d:		beq B28_1f31 ; f0 02
 
 B28_1f2f:		lda #$ff		; a9 ff
 B28_1f31:		ldx #$00		; a2 00
-B28_1f33:		jsr func_1c_040b		; 20 0b 84
+B28_1f33:		jsr retZAndTileAifCollisionAtOffsetAXisEmptyOrMud		; 20 0b 84
 B28_1f36:		beq B28_1f3a ; f0 02
 
 B28_1f38:		clc				; 18 
@@ -5218,7 +5257,7 @@ B28_1f3a:		sec				; 38
 B28_1f3b:		rts				; 60 
 
 
-playerState08_06_grant:
+playerState08_jumping_0c_grant:
 B28_1f3c:		lda wJoy1NewButtonsPressed			; a5 26
 B28_1f3e:		and #PADF_B		; 29 40
 B28_1f40:		beq B28_1f5a ; f0 18
@@ -5258,7 +5297,7 @@ B28_1f71:		lda #$00		; a9 00
 B28_1f73:		sta wEntityHorizSubSpeed.w		; 8d 09 05
 B28_1f76:		ldx #$00		; a2 00
 B28_1f78:		lda #$f8		; a9 f8
-B28_1f7a:		jsr func_1c_040b		; 20 0b 84
+B28_1f7a:		jsr retZAndTileAifCollisionAtOffsetAXisEmptyOrMud		; 20 0b 84
 B28_1f7d:		beq B28_1fa7 ; f0 28
 
 B28_1f7f:		jsr $9f2f		; 20 2f 9f
@@ -5275,7 +5314,7 @@ B28_1f91:		lda #$00		; a9 00
 B28_1f93:		sta wEntityHorizSubSpeed.w		; 8d 09 05
 B28_1f96:		ldx #$00		; a2 00
 B28_1f98:		lda #$08		; a9 08
-B28_1f9a:		jsr func_1c_040b		; 20 0b 84
+B28_1f9a:		jsr retZAndTileAifCollisionAtOffsetAXisEmptyOrMud		; 20 0b 84
 B28_1f9d:		beq B28_1fa7 ; f0 08
 
 B28_1f9f:		jsr $9f2b		; 20 2b 9f
@@ -5291,12 +5330,12 @@ B28_1fab:		beq B28_1fc1 ; f0 14
 ; up held
 B28_1fad:		ldx #$f8		; a2 f8
 B28_1faf:		lda #$00		; a9 00
-B28_1fb1:		jsr func_1c_040b		; 20 0b 84
+B28_1fb1:		jsr retZAndTileAifCollisionAtOffsetAXisEmptyOrMud		; 20 0b 84
 B28_1fb4:		beq B28_1fc1 ; f0 0b
 
 B28_1fb6:		ldx #$00		; a2 00
 B28_1fb8:		txa				; 8a 
-B28_1fb9:		jsr func_1c_040b		; 20 0b 84
+B28_1fb9:		jsr retZAndTileAifCollisionAtOffsetAXisEmptyOrMud		; 20 0b 84
 B28_1fbc:		bne B28_1fc1 ; d0 03
 
 B28_1fbe:		jmp $9f0b		; 4c 0b 9f
@@ -5307,34 +5346,34 @@ B28_1fc4:		bpl B28_1fe3 ; 10 1d
 
 B28_1fc6:		ldx #$0c		; a2 0c
 B28_1fc8:		lda #$f8		; a9 f8
-B28_1fca:		jsr func_1f_1cdd		; 20 dd fc
+B28_1fca:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_1fcd:		bne B28_1ffe
 
 B28_1fcf:		ldx #$00		; a2 00
 B28_1fd1:		lda #$f8		; a9 f8
-B28_1fd3:		jsr func_1f_1cdd		; 20 dd fc
+B28_1fd3:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_1fd6:		bne B28_1ffe
 
 B28_1fd8:		ldx #$f4		; a2 f4
 B28_1fda:		lda #$f8		; a9 f8
-B28_1fdc:		jsr func_1f_1cdd		; 20 dd fc
+B28_1fdc:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_1fdf:		beq B29_0006
 
 B28_1fe1:		bne B28_1ffe
 
 B28_1fe3:		ldx #$0c		; a2 0c
 B28_1fe5:		lda #$08		; a9 08
-B28_1fe7:		jsr func_1f_1cdd		; 20 dd fc
+B28_1fe7:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_1fea:		bne B28_1ffe
 
 B28_1fec:		ldx #$00		; a2 00
 B28_1fee:		lda #$08		; a9 08
-B28_1ff0:		jsr func_1f_1cdd		; 20 dd fc
+B28_1ff0:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_1ff3:		bne B28_1ffe
 
 B28_1ff5:		ldx #$f4		; a2 f4
 B28_1ff7:		lda #$08		; a9 08
-B28_1ff9:		jsr func_1f_1cdd		; 20 dd fc
+B28_1ff9:		jsr getCollisionTileValueAtPlayerXYOffsetAX		; 20 dd fc
 B28_1ffc:		beq B29_0006
 
 B28_1ffe:		lda #$00

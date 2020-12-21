@@ -1,11 +1,11 @@
 
 staticLayoutsAddresses:
-	.dw $9b43
+	.dw staticLayout_titleScreenOpeningText ; 00
 	.dw $9b33
 	.dw $9b33
 	.dw $9b58
 	.dw staticLayout_internalPaletteDummyWrite ; 04
-	.dw $9b87
+	.dw staticLayout_titleScreenInternalPalettes ; 05
 	.dw $9b25
 	.dw $9b2c
 	.dw $9b7a
@@ -38,7 +38,7 @@ staticLayoutsAddresses:
 	.dw $9d8f
 	.dw $9d74
 	.dw $9d74
-	.dw $9b4d
+	.dw staticLayout_titleScreenPasswordText ; 26
 	.dw $9b64
 	.dw $9b6f
 	.dw $07a0
@@ -374,11 +374,15 @@ B0_1b40:		lsr a			; 4a
 B0_1b41:		eor ($ff, x)	; 41 ff
 
 
+staticLayout_titleScreenOpeningText:
 B0_1b43:	.db $27
 B0_1b44:	.db $23
 B0_1b45:		asl $141f, x	; 1e 1f 14
 B0_1b48:		ora $1d18, x	; 1d 18 1d
 B0_1b4b:		asl $ff, x		; 16 ff
+
+
+staticLayout_titleScreenPasswordText:
 B0_1b4d:	.db $32
 B0_1b4e:	.db $23
 B0_1b4f:	.db $1f
@@ -418,6 +422,9 @@ B0_1b83:		bvc B0_1be6 ; 50 61
 
 B0_1b85:	.db $63
 B0_1b86:	.db $ff
+
+
+staticLayout_titleScreenInternalPalettes:
 B0_1b87:		.db $00				; 00
 B0_1b88:	.db $3f
 B0_1b89:	.db $0f
