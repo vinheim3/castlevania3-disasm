@@ -109,7 +109,7 @@ B31_0085:		jsr setBaseIRQDetails_todo		; 20 03 e1
 	jsr setFrameStartingDefaultChrBanks
 
 B31_008e:		lda $75			; a5 75
-B31_0090:		bpl B31_0098 ; 10 06
+	bpl +
 
 B31_0092:		lsr a			; 4a
 B31_0093:		lsr a			; 4a
@@ -118,7 +118,7 @@ B31_0095:		lsr a			; 4a
 B31_0096:		sta $75			; 85 75
 
 ; update gameplay scroll vars
-B31_0098:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
++	lda wCurrScrollOffsetIntoRoomScreen
 	sta wGameplayScrollXWithinRoom
 	lda wCurrScrollRoomScreen
 	sta wGameplayScrollXRoom
@@ -151,7 +151,7 @@ B31_00be:		jsr setBaseIRQDetails_todo		; 20 03 e1
 	jsr setFrameStartingDefaultChrBanks
 
 B31_00c7:		lda $75			; a5 75
-B31_00c9:		bpl B31_00d1 ; 10 06
+	bpl +
 
 B31_00cb:		lsr a			; 4a
 B31_00cc:		lsr a			; 4a
@@ -160,7 +160,7 @@ B31_00ce:		lsr a			; 4a
 B31_00cf:		sta $75			; 85 75
 
 ; update gameplay scroll vars
-B31_00d1:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
++	lda wCurrScrollOffsetIntoRoomScreen
 	sta wGameplayScrollXWithinRoom
 	lda wCurrScrollRoomScreen
 	sta wGameplayScrollXRoom
@@ -426,33 +426,33 @@ setLowerBank:
 ; scanline irq funcs will change chr banks
 ; these are the ones that need to be set per frame
 setFrameStartingDefaultChrBanks:
-B31_02ec:		ldy wFrameStartChrBankOverrideIdx			; a4 72
-B31_02ee:		beq B31_02fc ; f0 0c
+	ldy wFrameStartChrBankOverrideIdx
+	beq @idxEqu0
 
-B31_02f0:		dey				; 88 
-B31_02f1:		beq B31_0305 ; f0 12
+	dey
+	beq @idxGte1
 
-B31_02f3:		dey				; 88 
-B31_02f4:		bne B31_0302 ; d0 0c
+	dey
+	bne @idxEqu1
 
 ; >= 2
-B31_02f6:		jsr setClearedSprChrBank_800_c00		; 20 19 e3
-B31_02f9:		jmp B31_0305		; 4c 05 e3
+	jsr setClearedSprChrBank_800_c00
+	jmp @idxGte1
 
-; == 0
-B31_02fc:		jsr updateSprChrBanks_0_to_c00_1400		; 20 3c e3
-B31_02ff:		jmp updateSprChrBank_1000_1800_1c00_bgChrBanks_0_to_c00		; 4c 5d e3
+@idxEqu0:
+	jsr updateSprChrBanks_0_to_c00_1400
+	jmp updateSprChrBank_1000_1800_1c00_bgChrBanks_0_to_c00
 
-; == 1
-B31_0302:		jsr updateSprChrBanks_0_to_c00_1400		; 20 3c e3
+@idxEqu1:
+	jsr updateSprChrBanks_0_to_c00_1400
 
-; >= 1
-B31_0305:		lda #CB_ASCII_ROUND_RECTANGLE		; a9 41
-B31_0307:		sta CHR_BANK_0400_1400.w		; 8d 29 51
-B31_030a:		lda #CB_STATUS_BAR_CHAR_FACES		; a9 42
-B31_030c:		sta CHR_BANK_1800.w		; 8d 26 51
-B31_030f:		sta CHR_BANK_0800_1800.w		; 8d 2a 51
-B31_0312:		rts				; 60 
+@idxGte1:
+	lda #CB_ASCII_ROUND_RECTANGLE
+	sta CHR_BANK_0400_1400.w
+	lda #CB_STATUS_BAR_CHAR_FACES
+	sta CHR_BANK_1800.w
+	sta CHR_BANK_0800_1800.w
+	rts
 
 
 setClearedSprChrBank_0_to_c00:
@@ -957,17 +957,17 @@ B31_05d0:		sta $2c			; 85 2c
 B31_05d2:		rts				; 60 
 
 
-func_1f_05d3:
-B31_05d3:		lda CURR_LOWER_BANK.w		; ad 00 80
-B31_05d6:		pha				; 48 
-B31_05d7:		lda #$80		; a9 80
-B31_05d9:		jsr setAndSaveLowerBank		; 20 e6 e2
-B31_05dc:		jsr loadCurrRoomsInternalPalettes		; 20 2c 85
-B31_05df:		jsr $8001		; 20 01 80
-B31_05e2:		jsr getCurrRoomsChrBanks		; 20 13 80
-B31_05e5:		jsr getCurrChrBankTileCollisionTypeOffsets		; 20 ee 83
-B31_05e8:		pla				; 68 
-B31_05e9:		jmp setAndSaveLowerBank		; 4c e6 e2
+getCurrRoomInternalPalettesChrBanksAndCollisionTypeOffsets:
+	lda CURR_LOWER_BANK.w
+	pha
+	lda #$80
+	jsr setAndSaveLowerBank
+	jsr loadCurrRoomsInternalPalettes
+	jsr b0_loadCurrPlayerSprChrBanks
+	jsr getCurrRoomsChrBanks
+	jsr getCurrChrBankTileCollisionTypeOffsets
+	pla
+	jmp setAndSaveLowerBank
 
 
 func_1f_05ec:
@@ -1030,8 +1030,8 @@ B31_0663:		jmp setAndSaveLowerBank		; 4c e6 e2
 
 
 setVerticalMirroringAndNoIRQsetup:
-B31_0666:		lda #NT_VERTICAL_MIRROR		; a9 44
-B31_0668:		sta wNametableMapping			; 85 25
+	lda #NT_VERTICAL_MIRROR
+	sta wNametableMapping
 
 ; no irq setup
 B31_066a:		lda #$00		; a9 00
@@ -1053,10 +1053,8 @@ setBackup8000PrgBank:
 	jmp setAndSaveLowerBank
 
 
-B31_0684:		lda #$88		; a9 88
-B31_0686:		jsr saveAndSetNewLowerBank		; 20 e0 e2
-B31_0689:		jsr $b348		; 20 48 b3
-B31_068c:		jmp setBackup8000PrgBank		; 4c 7f e6
+respawnSetTimeLeftPlayerPosDir_forceRoomIdx:
+	jmp_a000FuncNested b9_respawnSetTimeLeftPlayerPosDir_forceRoomIdx
 
 
 respawnSetTimeLeftPlayerPosAndDir:
@@ -1140,10 +1138,8 @@ loadCurrRoomsInternalSprPalettes:
 	jmp setAndSaveLowerBank
 
 
-B31_073d:		lda #$80		; a9 80
-B31_073f:		jsr saveAndSetNewLowerBank		; 20 e0 e2
-B31_0742:		jsr $8001		; 20 01 80
-B31_0745:		jmp setBackup8000PrgBank		; 4c 7f e6
+loadCurrPlayerSprChrBanks:
+	jmp_8000FuncNested b0_loadCurrPlayerSprChrBanks
 
 
 B31_0748:		lda #$80		; a9 80
@@ -1250,7 +1246,7 @@ B31_0804:		sta wEntityPaletteOverride.w, x	; 9d 54 04
 B31_0807:		sta wEntityState.w, x	; 9d 70 04
 B31_080a:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B31_080d:		sta wEntityFacingLeft.w, x	; 9d a8 04
-B31_0810:		sta $054e, x	; 9d 4e 05
+B31_0810:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B31_0813:		inx				; e8 
 B31_0814:		cpx #$17		; e0 17
 	bcc -
@@ -1424,17 +1420,17 @@ setVramQueueFillIdxAndTerminate:
 
 
 func_1f_08e3:
-B31_08e3:		lda #$80		; a9 80
+B31_08e3:		lda #<$2780		; a9 80
 B31_08e5:		sta wVramQueueDest			; 85 61
-B31_08e7:		lda #$27		; a9 27
+B31_08e7:		lda #>$2780		; a9 27
 B31_08e9:		sta wVramQueueDest+1			; 85 62
 B31_08eb:		jsr vramQueueSetControlByte1_destToCopy_noData		; 20 b5 e8
 B31_08ee:		ldy #$40		; a0 40
 B31_08f0:		lda #$00		; a9 00
-B31_08f2:		sta wVramQueue.w, x	; 9d 00 03
+-	sta wVramQueue.w, x	; 9d 00 03
 B31_08f5:		inx				; e8 
 B31_08f6:		dey				; 88 
-B31_08f7:		bne B31_08f2 ; d0 f9
+	bne -
 
 B31_08f9:		jmp setVramQueueFillIdxAndTerminate		; 4c de e8
 
@@ -1910,7 +1906,7 @@ loadLargeLayoutPPUAddrYXBankAfromCustomAddr:
 
 fillFirst3NametablesWith0:
 ; vram pages 0 and 1
-	lda #NT_ALL_MODES
+	lda #NT_ALL_MODES_VERTICAL_MIRROR
 	sta NAMETABLE_MAPPING.w
 	ldx #$00
 
@@ -2910,7 +2906,7 @@ B31_1de7:		sta $92			; 85 92
 B31_1de9:		ldx #$01		; a2 01
 
 @bigLoop:
-B31_1deb:		lda $054e, x	; bd 4e 05
+B31_1deb:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B31_1dee:		bne B31_1df3 ; d0 03
 
 B31_1df0:		jmp B31_1e7e		; 4c 7e fe
@@ -2927,7 +2923,7 @@ B31_1dfc:		bne B31_1e0b ; d0 0d
 
 B31_1e0b:	jsr func_17_11fb
 B31_1e0e:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
-B31_1e10:		lda $054e, x	; bd 4e 05
+B31_1e10:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B31_1e13:		beq B31_1e7e ; f0 69
 
 B31_1e15:		cmp #$40		; c9 40
@@ -2943,7 +2939,7 @@ B31_1e29:		beq B31_1e31 ; f0 06
 B31_1e2b:		jsr func_1f_1f9a		; 20 9a ff
 B31_1e2e:		jmp B31_1e73		; 4c 73 fe
 
-B31_1e31:		lda $054e, x	; bd 4e 05
+B31_1e31:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B31_1e34:		cmp #$90		; c9 90
 B31_1e36:		bcs B31_1e41 ; b0 09
 
@@ -2956,7 +2952,7 @@ B31_1e3f:		bcs B31_1e73 ; b0 32
 B31_1e41:		jsr execEntityXNextPhaseFunc		; 20 f9 bc
 
 B31_1e44:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
-B31_1e46:		lda $054e, x	; bd 4e 05
+B31_1e46:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B31_1e49:		cmp #$68		; c9 68
 B31_1e4b:		bcs B31_1e55 ; b0 08
 
@@ -2971,7 +2967,7 @@ B31_1e58:		and #ES_MOVING		; 29 40
 B31_1e5a:		beq B31_1e64 ; f0 08
 
 	jsr_8000Func func_16_0001
-B31_1e64:		lda $054e, x	; bd 4e 05
+B31_1e64:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B31_1e67:		beq B31_1e7e ; f0 15
 
 B31_1e69:		lda wEntityState.w, x	; bd 70 04
@@ -3018,7 +3014,7 @@ B31_1eb6:		jmp setAndSaveLowerBank		; 4c e6 e2
 
 
 B31_1eb9:		ldx #$01		; a2 01
-B31_1ebb:		lda $054e, x	; bd 4e 05
+B31_1ebb:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B31_1ebe:		beq B31_1ec7 ; f0 07
 
 B31_1ec0:		inx				; e8 
@@ -3038,7 +3034,7 @@ clearEntityHorizVertSpeeds:
 	rts
 
 
-func_1f_1ed7:
+clearAllEntityVars_todo:
 B31_1ed7:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B31_1eda:		lda #$00		; a9 00
 B31_1edc:		sta $067b, x	; 9d 7b 06
@@ -3055,13 +3051,13 @@ B31_1ef9:		sta $05d8, x	; 9d d8 05
 B31_1efc:		sta wEntityAI_idx.w, x	; 9d ef 05
 B31_1eff:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B31_1f02:		sta $061d, x	; 9d 1d 06
-B31_1f05:		sta $0633, x	; 9d 33 06
+B31_1f05:		sta wEntityGenericCounter.w, x	; 9d 33 06
 B31_1f08:		sta $0645, x	; 9d 45 06
 B31_1f0b:		rts				; 60 
 
 
 func_1f_1f0c:
-B31_1f0c:		lda $054e, x	; bd 4e 05
+B31_1f0c:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B31_1f0f:		cmp #$48		; c9 48
 B31_1f11:		bcc B31_1f2f ; 90 1c
 
@@ -3155,14 +3151,14 @@ B31_1fa7:		jmp setAndSaveLowerBank		; 4c e6 e2
 
 B31_1faa:		lda CURR_LOWER_BANK.w		; ad 00 80
 B31_1fad:		pha				; 48 
-	jsr_a000Func $03 $bd12
+	jsr_a000Func func_03_1d12
 B31_1fb6:		pla				; 68 
 B31_1fb7:		jmp setAndSaveLowerBank		; 4c e6 e2
 
 
 B31_1fba:		lda CURR_LOWER_BANK.w		; ad 00 80
 B31_1fbd:		pha				; 48 
-	jsr_8000Func $14 $8f29
+	jsr_8000Func func_14_0f29
 B31_1fc6:		pla				; 68 
 B31_1fc7:		jmp setAndSaveLowerBank		; 4c e6 e2
 

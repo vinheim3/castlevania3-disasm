@@ -932,8 +932,9 @@ B28_0587:		rts				; 60
 
 func_1c_0588:
 B28_0588:		lda wCurrRoomMetadataByte			; a5 68
-B28_058a:		bmi B28_05b7 ; 30 2b
+B28_058a:		bmi B28_05b7 ; @done
 
+; horizontal room
 B28_058c:		lda wCurrScrollRoomScreen			; a5 57
 B28_058e:		bmi B28_05a6 ; 30 16
 
@@ -941,7 +942,6 @@ B28_0590:		cmp wCurrRoomNumScreens			; c5 71
 B28_0592:		beq B28_0595 ; f0 01
 
 B28_0594:		rts				; 60 
-
 
 B28_0595:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
 B28_0597:		clc				; 18 
@@ -960,6 +960,7 @@ B28_05af:		lda #$00		; a9 00
 B28_05b1:		sta wCurrScrollRoomScreen			; 85 57
 B28_05b3:		sta wCurrScrollOffsetIntoRoomScreen			; 85 56
 B28_05b5:		sta $58			; 85 58
+@done:
 B28_05b7:		rts				; 60 
 
 
@@ -2175,7 +2176,7 @@ B28_0c9f:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B28_0ca2:		lda $8cce, y	; b9 ce 8c
 B28_0ca5:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B28_0ca8:		lda #$0c		; a9 0c
-B28_0caa:		sta $054e, x	; 9d 4e 05
+B28_0caa:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B28_0cad:		lda #$00		; a9 00
 B28_0caf:		sta wEntityState.w, x	; 9d 70 04
 B28_0cb2:		sta wPlayerStateDoubled.w, x	; 9d 65 05
@@ -2515,7 +2516,7 @@ B28_0eb9:		rts				; 60
 
 B28_0eba:		ldx $91			; a6 91
 B28_0ebc:		stx $b8			; 86 b8
-B28_0ebe:		lda $054e, x	; bd 4e 05
+B28_0ebe:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B28_0ec1:		cmp #$79		; c9 79
 B28_0ec3:		bcc B28_0ed7 ; 90 12
 
@@ -2599,7 +2600,7 @@ B28_0f35:		rts				; 60
 
 B28_0f36:		ldx $91			; a6 91
 B28_0f38:		stx $b8			; 86 b8
-B28_0f3a:		lda $054e, x	; bd 4e 05
+B28_0f3a:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B28_0f3d:		cmp #$79		; c9 79
 B28_0f3f:		bcc B28_0f53 ; 90 12
 
@@ -3016,7 +3017,7 @@ B28_11f7:		bne B28_11da ; d0 e1
 
 B28_11f9:		ldx $91			; a6 91
 B28_11fb:		stx $b8			; 86 b8
-B28_11fd:		lda $054e, x	; bd 4e 05
+B28_11fd:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B28_1200:		cmp #$79		; c9 79
 B28_1202:		bcc B28_1237 ; 90 33
 

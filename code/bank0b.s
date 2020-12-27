@@ -184,7 +184,7 @@ largeLayout14:
 
 B11_1bc1:		lda #$38		; a9 38
 B11_1bc3:		jsr playSound		; 20 5f e2
-B11_1bc6:		lda $054e, x	; bd 4e 05
+B11_1bc6:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B11_1bc9:		cmp #$59		; c9 59
 B11_1bcb:		beq B11_1c2c ; f0 5f
 
@@ -192,7 +192,7 @@ B11_1bcd:		cmp #$5d		; c9 5d
 B11_1bcf:		beq B11_1c1a ; f0 49
 
 B11_1bd1:		jsr $bc0b		; 20 0b bc
-B11_1bd4:		sta $054e, x	; 9d 4e 05
+B11_1bd4:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B11_1bd7:		lda wEntityBaseX.w, x	; bd 38 04
 B11_1bda:		sta $00			; 85 00
 B11_1bdc:		sec				; 38 
@@ -207,7 +207,7 @@ B11_1beb:		sta wEntityBaseX.w, x	; 9d 38 04
 B11_1bee:		lda $01			; a5 01
 B11_1bf0:		sta wEntityBaseY.w, x	; 9d 1c 04
 B11_1bf3:		lda #$6c		; a9 6c
-B11_1bf5:		sta $054e, x	; 9d 4e 05
+B11_1bf5:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B11_1bf8:		lda #$1b		; a9 1b
 B11_1bfa:		sta wEntityAI_idx.w, x	; 9d ef 05
 B11_1bfd:		lda #$60		; a9 60
@@ -231,7 +231,7 @@ B11_1c19:		rts				; 60
 B11_1c1a:		lda $061d, x	; bd 1d 06
 B11_1c1d:		tax				; aa 
 B11_1c1e:		jsr $bc0b		; 20 0b bc
-B11_1c21:		sta $054e, x	; 9d 4e 05
+B11_1c21:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B11_1c24:		sta wEntityAI_idx.w, x	; 9d ef 05
 B11_1c27:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B11_1c29:		jmp $bbd1		; 4c d1 bb
@@ -247,7 +247,7 @@ B11_1c3b:		ora #$40		; 09 40
 B11_1c3d:		sta wEntityState.w, x	; 9d 70 04
 B11_1c40:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B11_1c43:		lda #$6c		; a9 6c
-B11_1c45:		sta $054e, x	; 9d 4e 05
+B11_1c45:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B11_1c48:		lda #$6b		; a9 6b
 B11_1c4a:		sta wEntityAI_idx.w, x	; 9d ef 05
 B11_1c4d:		lda #$00		; a9 00
@@ -271,7 +271,7 @@ B11_1c60:		bmi B11_1c8a ; 30 28
 B11_1c62:		jsr $1018		; 20 18 10
 B11_1c65:		php				; 08 
 B11_1c66:		ldx #$09		; a2 09
-B11_1c68:		lda $054e, x	; bd 4e 05
+B11_1c68:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B11_1c6b:		beq B11_1c74 ; f0 07
 
 B11_1c6d:		inx				; e8 
@@ -305,7 +305,7 @@ B11_1c9b:		sta wEntityAI_idx.w, y	; 99 ef 05
 B11_1c9e:		lda #$00		; a9 00
 B11_1ca0:		sta wOamSpecIdxDoubled.w, y	; 99 00 04
 B11_1ca3:		lda #$2c		; a9 2c
-B11_1ca5:		sta $054e, y	; 99 4e 05
+B11_1ca5:		sta wEntityObjectIdxes.w, y	; 99 4e 05
 B11_1ca8:		lda #$01		; a9 01
 B11_1caa:		sta wEntityPhase.w, y	; 99 c1 05
 B11_1cad:		lda $00			; a5 00
@@ -465,10 +465,10 @@ B11_1dc3:		rts				; 60
 
 
 B11_1dc4:		lda #$00		; a9 00
-B11_1dc6:		sta $054e, x	; 9d 4e 05
+B11_1dc6:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B11_1dc9:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B11_1dcc:		inx				; e8 
-B11_1dcd:		lda $054e, x	; bd 4e 05
+B11_1dcd:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B11_1dd0:		cmp #$2c		; c9 2c
 B11_1dd2:		beq B11_1dd7 ; f0 03
 

@@ -1,3 +1,11 @@
+.macro sc_setEntityAIIdxTo0
+    .if nargs == 1
+        .db $00 \1 $00 $00
+    .else
+        .db $00 $00 $00 $00
+    .endif
+.endm
+
 .macro sc_setStateNotMoving
     .db $01 $00 $00 $00
 .endm
@@ -12,6 +20,10 @@
 
 .macro sc_animateGroupAndDefIdx
     .db $13 \1 \2 $00
+.endm
+
+.macro sc_setPhase0
+    .db $18 $00 $00 $00
 .endm
 
 .macro sc_stub
@@ -42,6 +54,10 @@
     .db $2b $00 $00 $00
 .endm
 
+.macro sc_setVertSpeedStartMoving
+    .db $39 \1>>8 \1&$ff $00
+.endm
+
 .macro sc_setStateNotIllusion
     .db $53 $00 $00 $00
 .endm
@@ -68,4 +84,12 @@
 
 .macro sc_stub3
     .db $75 $00 $00 $00
+.endm
+
+.macro sc_setGenericCounter
+    .db $7b \1 $00 $00
+.endm
+
+.macro sc_clearSpeeds
+    .db $97 $00 $00 $00
 .endm

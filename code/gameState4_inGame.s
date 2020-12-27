@@ -59,16 +59,16 @@ inGameSubstate19:
 
 
 inGameSubstate00:
-B31_13f0:		jsr fillFirst3NametablesWith0		; 20 fd eb
-B31_13f3:		inc wInGameSubstate			; e6 2a
-B31_13f5:		rts				; 60 
+	jsr fillFirst3NametablesWith0
+	inc wInGameSubstate
+	rts 
 
 
 inGameSubstate01:
-B31_13f6:		jsr func_1f_1753		; 20 53 f7
-B31_13f9:		jsr setBank_c000_toRom1eh		; 20 da e2
-B31_13fc:		jsr func_1f_05d3		; 20 d3 e5
-B31_13ff:		jsr getCurrRoomMetatileTilesPalettesAndMetadataByte		; 20 67 d0
+	jsr setNametableSingleScreenFillMode
+	jsr setBank_c000_toRom1eh
+	jsr getCurrRoomInternalPalettesChrBanksAndCollisionTypeOffsets
+	jsr getCurrRoomMetatileTilesPalettesAndMetadataByte
 
 	jsr_8000Func func_1c_0588
 B31_140a:		jsr func_1c_05b8		; 20 b8 85
@@ -103,10 +103,10 @@ B31_1442:		cmp #$10		; c9 10
 B31_1444:		beq B31_1464 ; f0 1e
 
 B31_1446:		cmp #$20		; c9 20
-B31_1448:		beq B31_1425 ; f0 db
+B31_1448:		beq B31_1425 ; @loop
 
 B31_144a:		cmp #$30		; c9 30
-B31_144c:		beq B31_1425 ; f0 d7
+B31_144c:		beq B31_1425 ; @loop
 
 B31_144e:		cmp #$40		; c9 40
 B31_1450:		beq B31_1459 ; f0 07
@@ -120,12 +120,12 @@ B31_1459:		ldy #$00		; a0 00
 B31_145b:		sty $0780		; 8c 80 07
 B31_145e:		iny				; c8 
 B31_145f:		sty $0781		; 8c 81 07
-B31_1462:		bne B31_1425 ; d0 c1
+B31_1462:		bne B31_1425 ; @loop
 
 B31_1464:		lda #$02		; a9 02
 B31_1466:		sta wCounterUntilCanShowSprBg			; 85 1c
 B31_1468:		jsr func_1e_0d83		; 20 83 cd
-B31_146b:		jsr func_1f_1757		; 20 57 f7
+B31_146b:		jsr setNametableAllModesVerticalMirror		; 20 57 f7
 B31_146e:		lda #$00		; a9 00
 B31_1470:		sta $64			; 85 64
 B31_1472:		lda #$09		; a9 09
@@ -136,6 +136,7 @@ B31_1476:		rts				; 60
 B31_1477:		lda #$13		; a9 13
 B31_1479:		bne B31_1474 ; d0 f9
 
+
 inGameSubstate02:
 B31_147b:		lda #$02		; a9 02
 B31_147d:		sta wCounterUntilCanShowSprBg			; 85 1c
@@ -143,7 +144,7 @@ B31_147f:		lda $8d			; a5 8d
 B31_1481:		bne B31_1491 ; d0 0e
 
 func_1f_1483:
-B31_1483:		jsr func_1f_1757		; 20 57 f7
+B31_1483:		jsr setNametableAllModesVerticalMirror		; 20 57 f7
 
 func_1f_1486:
 	jsr_8000Func func_00_0d66
@@ -288,7 +289,7 @@ B31_158f:		sta wCounterUntilCanShowSprBg			; 85 1c
 B31_1591:		lda $8d			; a5 8d
 B31_1593:		bne B31_159b ; d0 06
 
-B31_1595:		jsr func_1f_175b		; 20 5b f7
+B31_1595:		jsr setNametableAllModesHorizontalMirror		; 20 5b f7
 B31_1598:		jmp func_1f_1486		; 4c 86 f4
 
 B31_159b:		jsr func_1e_0c47		; 20 47 cc
@@ -409,7 +410,7 @@ B31_1687:		beq B31_16be ; f0 35
 
 B31_1689:		lda $1e			; a5 1e
 B31_168b:		ora wCinematicsController			; 05 2c
-B31_168d:		ora $1c			; 05 1c
+B31_168d:		ora wCounterUntilCanShowSprBg			; 05 1c
 B31_168f:		ora $ab			; 05 ab
 B31_1691:		bne B31_16be ; @done
 
@@ -477,7 +478,7 @@ B31_16ee:		lda #$03		; a9 03
 B31_16f0:		sta wCurrRoomSection			; 85 33
 B31_16f2:		jsr respawnSetTimeLeftPlayerPosAndDir		; 20 8f e6
 B31_16f5:		inc wInGameSubstate			; e6 2a
-B31_16f7:		jsr func_1f_1757		; 20 57 f7
+B31_16f7:		jsr setNametableAllModesVerticalMirror		; 20 57 f7
 B31_16fa:		lda #$00		; a9 00
 B31_16fc:		sta $c9			; 85 c9
 B31_16fe:		lda #$02		; a9 02
@@ -504,8 +505,8 @@ inGameSubstate14:
 	jsr_a000Func func_01_163e
 B31_1720:		bcc B31_16fe ; 90 dc
 
-B31_1722:		jsr func_1f_1753		; 20 53 f7
-B31_1725:		jsr func_1f_05d3		; 20 d3 e5
+B31_1722:		jsr setNametableSingleScreenFillMode		; 20 53 f7
+B31_1725:		jsr getCurrRoomInternalPalettesChrBanksAndCollisionTypeOffsets		; 20 d3 e5
 B31_1728:		jsr getCurrRoomMetatileTilesPalettesAndMetadataByte		; 20 67 d0
 	jsr_8000Func func_1c_0588
 B31_1733:		jsr func_1c_05b8		; 20 b8 85
@@ -519,26 +520,27 @@ B31_1750:		inc wInGameSubstate			; e6 2a
 B31_1752:		rts				; 60 
 
 
-func_1f_1753:
-B31_1753:		lda #$ff		; a9 ff
-B31_1755:		bne B31_1765 ; d0 0e
+setNametableSingleScreenFillMode:
+	lda #NT_SINGLE_SCREEN_FILL_MODE
+	bne +
 
-func_1f_1757:
-B31_1757:		lda #$e4		; a9 e4
-B31_1759:		bne B31_1765 ; d0 0a
+setNametableAllModesVerticalMirror:
+	lda #NT_ALL_MODES_VERTICAL_MIRROR
+	bne +
 
-func_1f_175b:
-B31_175b:		lda #$d8		; a9 d8
-B31_175d:		bne B31_1765 ; d0 06
+setNametableAllModesHorizontalMirror:
+	lda #NT_ALL_MODES_HORIZONTAL_MIRROR
+	bne +
 
 setNametableVerticalMirroring:
-B31_175f:		lda #NT_VERTICAL_MIRROR		; a9 44
-B31_1761:		bne B31_1765 ; d0 02
+	lda #NT_VERTICAL_MIRROR
+	bne +
 
-B31_1763:		lda #$50		; a9 50
+; unused? f763
+	lda #NT_HORIZONTAL_MIRROR
 
-B31_1765:		sta wNametableMapping			; 85 25
-B31_1767:		rts				; 60 
++	sta wNametableMapping
+	rts
 
 
 inGameSubstate10_6b_e:
@@ -713,8 +715,8 @@ B31_189d:		rts				; 60
 
 
 inGameSubstate10_6b_4:
-B31_189e:		jsr func_1f_1753		; 20 53 f7
-B31_18a1:		jsr func_1f_05d3		; 20 d3 e5
+B31_189e:		jsr setNametableSingleScreenFillMode		; 20 53 f7
+B31_18a1:		jsr getCurrRoomInternalPalettesChrBanksAndCollisionTypeOffsets		; 20 d3 e5
 B31_18a4:		jsr getCurrRoomMetatileTilesPalettesAndMetadataByte		; 20 67 d0
 	jsr_8000Func func_1c_0588
 B31_18af:		jsr func_1c_05b8		; 20 b8 85

@@ -233,11 +233,11 @@ B24_08b2:		beq B24_08c8 ; f0 14
 	cpx #INSTR_SQ2_2
 B24_08b6:		beq B24_08c8 ; f0 10
 
-; all instruments except actual noise, sq1/2 #2 (sound effects)
+; music/1st sq1/2, tri and dpcm
 B24_08b8:		sta $0180, x	; 9d 80 01
 B24_08bb:		sta $03d8, x	; 9d d8 03
 B24_08be:		lda #$01		; a9 01
-B24_08c0:		sta wCurrEnvelopeByteTimeUntilNext.w, x	; 9d de 03
+	sta wCurrEnvelopeByteTimeUntilNext.w, x
 B24_08c3:		lda #$80		; a9 80
 B24_08c5:		sta $06ac, x	; 9d ac 06
 
@@ -246,29 +246,30 @@ B24_08c8:		lda wSoundDataBank			; a5 eb
 	sta wInstrumentDataBanks.w, x
 
 ; check 1st instrument data byte
-	sty wSoundBankTempInstMetadataOffset			; 84 e2
-	ldy #$00		; a0 00
-	jsr getCurrInstrument1stDataByte		; 20 b5 e1
+	sty wSoundBankTempInstMetadataOffset
+	ldy #$00
+	jsr getCurrInstrument1stDataByte
 
 ; y remains 1 if above is < $10
 ; or current instrument is not the sq1/2 #2
-B24_08d4:		iny				; c8 
-B24_08d5:		cmp #$10		; c9 10
-B24_08d7:		bcc B24_08e2 ; 90 09
+	iny
+	cmp #$10
+	bcc @setControlByte
 
-B24_08d9:		cpx #INSTR_SQ1_2		; e0 03
-B24_08db:		beq B24_08e2 ; f0 05
-B24_08dd:		cpx #INSTR_SQ2_2		; e0 04
-B24_08df:		beq B24_08e2 ; f0 01
+	cpx #INSTR_SQ1_2
+	beq @setControlByte
+	cpx #INSTR_SQ2_2
+	beq @setControlByte
 
-B24_08e1:		dey				; 88 
+	dey
 
-B24_08e2:		tya				; 98 
-B24_08e3:		sta w115.w, x	; 9d 15 01
-	ldy wSoundBankTempInstMetadataOffset
+@setControlByte:
+	tya
+	sta wSoundControlByte.w, x
 
 ; store sound to play so we can check logic for sound
 ; playing over each other
+	ldy wSoundBankTempInstMetadataOffset
 	lda wSoundToPlay
 B24_08ea:	sta wInstrumentsSoundIdxes.w, x
 
@@ -388,7 +389,7 @@ B24_0981:		jsr b18_waitAFewCycles		; 20 23 8f
 B24_0984:		bne B24_099d ; d0 17
 
 func_18_0986:
-B24_0986:		lda w115.w, x	; bd 15 01
+B24_0986:		lda wSoundControlByte.w, x	; bd 15 01
 B24_0989:		and #$41		; 29 41
 B24_098b:		ora wPauseSoundPlayed.w		; 0d 67 01
 B24_098e:		ora $06c9		; 0d c9 06
@@ -414,24 +415,29 @@ B24_09ae:		jmp b18_waitAFewCycles		; 4c 23 8f
 ; played during update if 160 non-zero
 func_18_09b1:
 B24_09b1:		cmp #$01		; c9 01
-B24_09b3:		bne B24_09b8 ; d0 03
+	bne +
 
+; 160 == 1
 B24_09b5:		jmp b18_initSound		; 4c 5e 87
 
-B24_09b8:		cmp #$02		; c9 02
++	cmp #$02		; c9 02
 B24_09ba:		bne B24_09c8 ; d0 0c
 
+; 160 == 2
 B24_09bc:		lda $0159		; ad 59 01
 B24_09bf:		cmp #$07		; c9 07
 B24_09c1:		bne B24_09c8 ; d0 05
 
+; 159 == 7
 B24_09c3:		lda #$00		; a9 00
-B24_09c5:		sta $010c		; 8d 0c 01
+B24_09c5:		sta wInstrumentsSoundIdxes.w+INSTR_NOISE_1		; 8d 0c 01
+
 B24_09c8:		inc $0159		; ee 59 01
 B24_09cb:		lda #$20		; a9 20
 B24_09cd:		cmp $0159		; cd 59 01
 B24_09d0:		bne B24_09dd ; d0 0b
 
+; 159 == $20
 B24_09d2:		lda #$00		; a9 00
 B24_09d4:		sta $0159		; 8d 59 01
 B24_09d7:		inc $0152		; ee 52 01
@@ -549,16 +555,17 @@ B24_0a6b:		lda $06c9		; ad c9 06
 B24_0a6e:		beq B24_0a76 ; f0 06
 
 ; if 6c9 set, and 115+ bit 0 clear, we're done
-B24_0a70:		lda w115.w, x	; bd 15 01
+B24_0a70:		lda wSoundControlByte.w, x	; bd 15 01
 B24_0a73:		lsr a			; 4a
 B24_0a74:		bcc b18_updateSound@done
 
+; when playing pause, skip above
 B24_0a76:		cpx #INSTR_NOISE_2		; e0 06
 B24_0a78:		beq B24_0a9d ; f0 23
 
 ; if 115+ bit 0 clear, and we should
 ; skip decreasing delay, we're done
-B24_0a7a:		lda w115.w, x	; bd 15 01
+B24_0a7a:		lda wSoundControlByte.w, x	; bd 15 01
 B24_0a7d:		lsr a			; 4a
 B24_0a7e:		bcs B24_0a86 ; b0 06
 
@@ -570,67 +577,71 @@ B24_0a85:		rts				; 60
 B24_0a86:		dec wInstrumentsFramesUntilNextByteProcessed.w, x	; de 00 01
 B24_0a89:		bne B24_0ad0 ; d0 45
 
+; start to process new byte
 B24_0a8b:		ldy #$00		; a0 00
 
 ; cache curr instrument data addr
-B24_0a8d:		lda wInstrumentData_lo.w, x	; bd 23 01
-B24_0a90:		sta wCurrInstrumentDataAddr			; 85 e0
-B24_0a92:		lda wInstrumentData_hi.w, x	; bd 2a 01
-B24_0a95:		sta wCurrInstrumentDataAddr+1			; 85 e1
+	lda wInstrumentData_lo.w, x
+	sta wCurrInstrumentDataAddr
+	lda wInstrumentData_hi.w, x
+	sta wCurrInstrumentDataAddr+1
 
-B24_0a97:		lda w115.w, x	; bd 15 01
-B24_0a9a:		jmp func_18_0dc1		; 4c c1 8d
+B24_0a97:		lda wSoundControlByte.w, x	; bd 15 01
+B24_0a9a:		jmp b18_processNextSoundByte		; 4c c1 8d
 
-; instrument 6 (noise 2) when 6c9 set
+; instrument 6 (noise 2-actual noise) when 6c9 set
 ; skip delay logic for non-percussion
 B24_0a9d:		lda wInstrumentsSoundIdxes.w, x	; bd 07 01
 B24_0aa0:		cmp #SND_START		; c9 06
 B24_0aa2:		bcc B24_0a80 ; 90 dc
-
 B24_0aa4:		bcs B24_0a86 ; b0 e0
 
-;
+; not yet time to process next byte - triangle
 B24_0aa6:		inc $0193		; ee 93 01
 B24_0aa9:		and #$40		; 29 40
-B24_0aab:		bne B24_0ace ; d0 21
+B24_0aab:		bne B24_0ace ; @triDone
 
+; here after 0193 counter >= $40
 B24_0aad:		lda $0193		; ad 93 01
 B24_0ab0:		and #$0f		; 29 0f
-B24_0ab2:		bne B24_0ace ; d0 1a
+B24_0ab2:		bne B24_0ace ; @triDone
 
+; here every $10 frames after 0193 >= $40
 B24_0ab4:		lda $015b, x	; bd 5b 01
-B24_0ab7:		beq B24_0ace ; f0 15
+B24_0ab7:		beq B24_0ace ; @triDone
 
 B24_0ab9:		cmp #$80		; c9 80
-B24_0abb:		bcs B24_0ace ; b0 11
+B24_0abb:		bcs B24_0ace ; @triDone
 
 B24_0abd:		lda $0194		; ad 94 01
 B24_0ac0:		sec				; 38 
 B24_0ac1:		sbc #$40		; e9 40
-B24_0ac3:		bcc B24_0ace ; 90 09
+B24_0ac3:		bcc B24_0ace ; @triDone
 
 B24_0ac5:		sta $0194		; 8d 94 01
 B24_0ac8:		sta TRI_LINEAR.w		; 8d 08 40
 B24_0acb:		jsr b18_waitAFewCycles		; 20 23 8f
+@triDone:
 B24_0ace:		rts				; 60 
 
-B24_0acf:		rts				; 60 
+-	rts				; 60 
 
 ; jumped here if still not yet time to process next byte
-B24_0ad0:		lda w115.w, x	; bd 15 01
-B24_0ad3:		cpx #$02		; e0 02
+B24_0ad0:		lda wSoundControlByte.w, x	; bd 15 01
+B24_0ad3:		cpx #INSTR_TRI		; e0 02
 B24_0ad5:		beq B24_0aa6 ; f0 cf
 
-B24_0ad7:		bcs B24_0acf ; b0 f6
+; dont process 2nd squares/noise/dpcm here
+	bcs -
 
-B24_0ad9:		lda w115.w, x	; bd 15 01
+B24_0ad9:		lda wSoundControlByte.w, x	; bd 15 01
 B24_0adc:		and #$41		; 29 41
-B24_0ade:		bne B24_0acf ; d0 ef
+	bne -
 
 B24_0ae0:		lda $06ac, x	; bd ac 06
 B24_0ae3:		bmi B24_0b09 ; 30 24
 
-B24_0ae5:		lda w10e.w, x	; bd 0e 01
+B24_0ae5:		lda wInstrumentsSpeedCtrler_todo.w, x	; bd 0e 01
 B24_0ae8:		sta $e2			; 85 e2
 B24_0aea:		lda $06ac, x	; bd ac 06
 B24_0aed:		and #$10		; 29 10
@@ -647,7 +658,7 @@ B24_0afc:		beq B24_0b45
 B24_0afe:		bcs B24_0af9 ; b0 f9
 
 func_18_0b00:
-B24_0b00:		lda w115.w, x	; bd 15 01
+B24_0b00:		lda wSoundControlByte.w, x	; bd 15 01
 B24_0b03:		and #$06		; 29 06
 B24_0b05:		cmp #$06		; c9 06
 B24_0b07:		beq B24_0b1e ; f0 15
@@ -663,11 +674,11 @@ B24_0b15:		inc wCurrEnvelopeByteTimeUntilNext.w, x	; fe de 03
 B24_0b18:		jsr b18_processNextEnvelopeByte		; 20 fa 8c
 B24_0b1b:		jsr b18_soundCommon.func_18_01cd		; 20 cd 81
 B24_0b1e:		dec $03c0, x	; de c0 03
-B24_0b21:		bne B24_0b3c ; d0 19
+B24_0b21:		bne B24_0b3c ; @done
 
 B24_0b23:		inc $03c0, x	; fe c0 03
 B24_0b26:		jsr func_18_0c25		; 20 25 8c
-B24_0b29:		lda w115.w, x	; bd 15 01
+B24_0b29:		lda wSoundControlByte.w, x	; bd 15 01
 B24_0b2c:		and #$06		; 29 06
 B24_0b2e:		tay				; a8 
 B24_0b2f:		lda data_18_0b3d.w, y	; b9 3d 8b
@@ -693,18 +704,19 @@ B24_0b52:		jmp func_18_0b00		; 4c 00 8b
 
 
 func_18_0b55:
-B24_0b55:		lda w189.w, x	; bd 89 01
-B24_0b58:		asl a			; 0a
-B24_0b59:		tay				; a8 
-B24_0b5a:		lda data_18_1e25.w, y	; b9 25 9e
-B24_0b5d:		sta $e2			; 85 e2
-B24_0b5f:		lda data_18_1e25.w+1, y	; b9 26 9e
-B24_0b62:		sta $e3			; 85 e3
+; get envelope 1 addr
+	lda wInstrumentEnvelope1Idx.w, x
+	asl a
+	tay
+	lda envelopeData1.w, y
+	sta wEnvelopeAddr
+	lda envelopeData1.w+1, y
+	sta wEnvelopeAddr+1
 
 func_18_0b64:
 B24_0b64:		lda $03c3, x	; bd c3 03
 B24_0b67:		tay				; a8 
-B24_0b68:		lda ($e2), y	; b1 e2
+B24_0b68:		lda (wEnvelopeAddr), y	; b1 e2
 B24_0b6a:		cmp #$fb		; c9 fb
 B24_0b6c:		bcc B24_0b71 ; 90 03
 
@@ -719,7 +731,7 @@ B24_0b77:		lsr a			; 4a
 B24_0b78:		lsr a			; 4a
 B24_0b79:		sta $03c0, x	; 9d c0 03
 B24_0b7c:		inc $03c3, x	; fe c3 03
-B24_0b7f:		lda ($e2), y	; b1 e2
+B24_0b7f:		lda (wEnvelopeAddr), y	; b1 e2
 B24_0b81:		and #$0f		; 29 0f
 B24_0b83:		beq B24_0b91 ; f0 0c
 
@@ -824,12 +836,12 @@ B24_0c1d:		rts				; 60
 
 
 func_18_0c1e:
-B24_0c1e:		lda w115.w, x	; bd 15 01
+B24_0c1e:		lda wSoundControlByte.w, x	; bd 15 01
 B24_0c21:		and #$02		; 29 02
-B24_0c23:		bne B24_0c77 ; d0 52
+B24_0c23:		bne func_18_0c77 ; d0 52
 
 func_18_0c25:
-B24_0c25:		lda w115.w, x	; bd 15 01
+B24_0c25:		lda wSoundControlByte.w, x	; bd 15 01
 B24_0c28:		and #$06		; 29 06
 B24_0c2a:		cmp #$06		; c9 06
 B24_0c2c:		beq B24_0c6a ; f0 3c
@@ -838,9 +850,9 @@ B24_0c2e:		lda wInstrumentsFramesUntilNextByteProcessed.w, x	; bd 00 01
 B24_0c31:		cmp w3cc.w, x	; dd cc 03
 B24_0c34:		bcs B24_0c6a ; b0 34
 
-B24_0c36:		lda w115.w, x	; bd 15 01
+B24_0c36:		lda wSoundControlByte.w, x	; bd 15 01
 B24_0c39:		ora #$06		; 09 06
-B24_0c3b:		sta w115.w, x	; 9d 15 01
+B24_0c3b:		sta wSoundControlByte.w, x	; 9d 15 01
 B24_0c3e:		lda $03d8, x	; bd d8 03
 B24_0c41:		and #$0c		; 29 0c
 B24_0c43:		bne B24_0c6b ; d0 26
@@ -859,10 +871,10 @@ B24_0c54:		sta w16e.w, x	; 9d 6e 01
 B24_0c57:		rts				; 60 
 
 
-B24_0c58:		lda w115.w, x	; bd 15 01
+B24_0c58:		lda wSoundControlByte.w, x	; bd 15 01
 B24_0c5b:		ora #$04		; 09 04
 B24_0c5d:		and #$fd		; 29 fd
-B24_0c5f:		sta w115.w, x	; 9d 15 01
+B24_0c5f:		sta wSoundControlByte.w, x	; 9d 15 01
 B24_0c62:		lda $03c3, x	; bd c3 03
 B24_0c65:		ora #$80		; 09 80
 B24_0c67:		sta $03c3, x	; 9d c3 03
@@ -893,20 +905,20 @@ B24_0c8d:		sec				; 38
 B24_0c8e:		sbc $e4			; e5 e4
 B24_0c90:		and #$03		; 29 03
 B24_0c92:		cpx #$00		; e0 00
-B24_0c94:		beq B24_0c98 ; f0 02
+	beq +
 
 B24_0c96:		ora #$04		; 09 04
-B24_0c98:		tay				; a8 
++	tay				; a8 
 B24_0c99:		lda $06b5, y	; b9 b5 06
-B24_0c9c:		sta $ec			; 85 ec
+B24_0c9c:		sta wSoundFrequency			; 85 ec
 B24_0c9e:		lda $06bf, y	; b9 bf 06
-B24_0ca1:		sta $ed			; 85 ed
+B24_0ca1:		sta wSoundFrequency+1			; 85 ed
 B24_0ca3:		jsr b18_soundCommon.func_18_01e7		; 20 e7 81
 B24_0ca6:		lda $03d8, x	; bd d8 03
 B24_0ca9:		and #$0c		; 29 0c
 B24_0cab:		bne B24_0c6a ; d0 bd
 
-B24_0cad:		lda w189.w, x	; bd 89 01
+B24_0cad:		lda wInstrumentEnvelope1Idx.w, x	; bd 89 01
 B24_0cb0:		bmi B24_0cd7 ; 30 25
 
 B24_0cb2:		lda $03c3, x	; bd c3 03
@@ -916,7 +928,6 @@ B24_0cb7:		dec $03d5, x	; de d5 03
 B24_0cba:		beq B24_0cbf ; f0 03
 
 B24_0cbc:		jmp func_18_0b55		; 4c 55 8b
-
 
 B24_0cbf:		inc $06b2, x	; fe b2 06
 B24_0cc2:		lda $06b2, x	; bd b2 06
@@ -928,7 +939,6 @@ B24_0ccb:		sta $06b2, x	; 9d b2 06
 B24_0cce:		lda $03d2, x	; bd d2 03
 B24_0cd1:		sta $03d5, x	; 9d d5 03
 B24_0cd4:		jmp func_18_0b55		; 4c 55 8b
-
 
 B24_0cd7:		dec $03d5, x	; de d5 03
 B24_0cda:		bne B24_0c6a ; d0 8e
@@ -946,7 +956,6 @@ B24_0cee:		bcs B24_0cf6 ; b0 06
 
 B24_0cf0:		lda $0154, x	; bd 54 01
 B24_0cf3:		jmp func_18_0b94		; 4c 94 8b
-
 
 B24_0cf6:		inc $0154, x	; fe 54 01
 B24_0cf9:		rts				; 60 
@@ -1098,35 +1107,35 @@ envelopControlByte_ff:
 	rts
 
 
-; A is w115+
-func_18_0dc1:
-B24_0dc1:		lsr a			; 4a
+; A is wSoundControlByte
+b18_processNextSoundByte:
+	lsr a
 	bcc +
-B24_0dc4:		jmp b18_processNextSoundByteMain		; 4c de 8d
-+	jmp processNextSoundByteAltAtInstrumentsDataBank		; 4c c5 e1
+	jmp b18_processNextSoundByteMain
++	jmp processNextSoundByteAltAtInstrumentsDataBank
 
 
 controlByteFuncsE6toEF:
-	.dw controlByteE6
-	.dw controlByteE7
-	.dw controlByteE8
-	.dw controlByteE9
+	.dw controlByteE6_setSpeedCtrler
+	.dw controlByteE7_setBit1ofCtrlByte
+	.dw controlByteE8_set_w169
+	.dw controlByteE9_set_w162
 	.dw controlByteEA
-	.dw b18_soundCommon.controlSoundByte_ed_ef
-	.dw b18_soundCommon.controlSoundByte_ed_ef
-	.dw b18_soundCommon.controlSoundByte_ed_ef
-	.dw b18_soundCommon.controlSoundByte_ed_ef
-	.dw controlByteEF
+	.dw b18_soundCommon.controlSoundByte_setFreqAdjust
+	.dw b18_soundCommon.controlSoundByte_setFreqAdjust
+	.dw b18_soundCommon.controlSoundByte_setFreqAdjust
+	.dw b18_soundCommon.controlSoundByte_setFreqAdjust
+	.dw controlByteEF_unsetCtrlBits1and2
 
 
 b18_processNextSoundByteMain:
 B24_0dde:		lda (wCurrInstrumentDataAddr), y		; b1 e0
 B24_0de0:		cmp #$e6		; c9 e6
-B24_0de2:		bcs B24_0de7 ; b0 03
+	bcs +
 
 B24_0de4:		jmp func_18_0e49		; 4c 49 8e
 
-B24_0de7:		cmp #$f0		; c9 f0
++	cmp #$f0		; c9 f0
 B24_0de9:		bcc B24_0df8 ; @controlByteE6toEF
 
 ; instrument data byte >= $f0
@@ -1142,6 +1151,7 @@ B24_0df4:		lda (wCurrInstrumentDataAddr), y	; b1 e0
 B24_0df6:		bne func_18_0e49 ; d0 51
 
 @controlByteE6toEF:
+; no control byte ex's for actual noise
 B24_0df8:		cpx #INSTR_NOISE_2		; e0 06
 B24_0dfa:		beq func_18_0e49 ; f0 4d
 
@@ -1160,35 +1170,36 @@ B24_0dfa:		beq func_18_0e49 ; f0 4d
 	jmp (wSoundBankJumpAddr)
 
 
-controlByteE6:
-B24_0e14:		iny				; c8 
-B24_0e15:		lda (wCurrInstrumentDataAddr), y	; b1 e0
-B24_0e17:		sta w10e.w, x	; 9d 0e 01
+controlByteE6_setSpeedCtrler:
+	iny
+	lda (wCurrInstrumentDataAddr), y
+	sta wInstrumentsSpeedCtrler_todo.w, x
 
-func_18_0e1a:
-B24_0e1a:		iny				; c8 
-B24_0e1b:		jmp b18_processNextSoundByteMain		; 4c de 8d
+_inyToNextSoundByteMain:
+	iny
+	jmp b18_processNextSoundByteMain
 
 
-controlByteE7:
-B24_0e1e:		lda w115.w, x	; bd 15 01
+controlByteE7_setBit1ofCtrlByte:
+B24_0e1e:		lda wSoundControlByte.w, x	; bd 15 01
 B24_0e21:		ora #$02		; 09 02
-B24_0e23:		sta w115.w, x	; 9d 15 01
-B24_0e26:		bne B24_0e1a ; d0 f2
+B24_0e23:		sta wSoundControlByte.w, x	; 9d 15 01
+B24_0e26:		bne _inyToNextSoundByteMain ; d0 f2
 
 
-controlByteE8:
+controlByteE8_set_w169:
 B24_0e28:		iny				; c8 
 B24_0e29:		lda (wCurrInstrumentDataAddr), y	; b1 e0
 B24_0e2b:		sta w169.w, x	; 9d 69 01
-B24_0e2e:		jmp func_18_0e1a		; 4c 1a 8e
+	jmp _inyToNextSoundByteMain
 
 
-controlByteE9:
+controlByteE9_set_w162:
 B24_0e31:		iny				; c8 
 B24_0e32:		lda (wCurrInstrumentDataAddr), y	; b1 e0
 B24_0e34:		sta $0162, x	; 9d 62 01
-B24_0e37:		bne B24_0e1a ; d0 e1
+B24_0e37:		bne _inyToNextSoundByteMain ; d0 e1
+
 
 controlByteEA:
 B24_0e39:		iny				; c8 
@@ -1196,11 +1207,12 @@ B24_0e3a:		lda (wCurrInstrumentDataAddr), y	; b1 e0
 B24_0e3c:		jmp func_18_0e8e		; 4c 8e 8e
 
 
-controlByteEF:
-B24_0e3f:		lda w115.w, x	; bd 15 01
+controlByteEF_unsetCtrlBits1and2:
+B24_0e3f:		lda wSoundControlByte.w, x	; bd 15 01
 B24_0e42:		and #$f9		; 29 f9
-B24_0e44:		sta w115.w, x	; 9d 15 01
-B24_0e47:		beq B24_0e1a ; f0 d1
+B24_0e44:		sta wSoundControlByte.w, x	; 9d 15 01
+B24_0e47:		beq _inyToNextSoundByteMain ; f0 d1
+
 
 ; jumped here for all bytes, except e6 to ef for noise channel
 func_18_0e49:
@@ -1215,13 +1227,13 @@ B24_0e53:		bne B24_0e58 ; d0 03
 
 B24_0e55:		jmp B24_0ebb		; 4c bb 8e
 
-B24_0e58:		sta w10e.w, x	; 9d 0e 01
-B24_0e5b:		lda w115.w, x	; bd 15 01
+B24_0e58:		sta wInstrumentsSpeedCtrler_todo.w, x	; 9d 0e 01
+B24_0e5b:		lda wSoundControlByte.w, x	; bd 15 01
 B24_0e5e:		and #$f9		; 29 f9
-B24_0e60:		sta w115.w, x	; 9d 15 01
+B24_0e60:		sta wSoundControlByte.w, x	; 9d 15 01
 B24_0e63:		iny				; c8 
 B24_0e64:		lda (wCurrInstrumentDataAddr), y	; b1 e0
-B24_0e66:		cpx #$06		; e0 06
+B24_0e66:		cpx #INSTR_NOISE_2		; e0 06
 B24_0e68:		bne B24_0e72 ; d0 08
 
 B24_0e6a:		lda #$30		; a9 30
@@ -1240,13 +1252,13 @@ B24_0e7e:		lda (wCurrInstrumentDataAddr), y	; b1 e0
 B24_0e80:		cmp #$88		; c9 88
 B24_0e82:		beq B24_0ea6 ; f0 22
 
-B24_0e84:		lda w115.w, x	; bd 15 01
+B24_0e84:		lda wSoundControlByte.w, x	; bd 15 01
 B24_0e87:		ora #$80		; 09 80
-B24_0e89:		sta w115.w, x	; 9d 15 01
+B24_0e89:		sta wSoundControlByte.w, x	; 9d 15 01
 B24_0e8c:		lda (wCurrInstrumentDataAddr), y	; b1 e0
 
 func_18_0e8e:
-B24_0e8e:		cpx #$03		; e0 03
+B24_0e8e:		cpx #INSTR_SQ1_2		; e0 03
 B24_0e90:		bne B24_0e95 ; d0 03
 
 B24_0e92:		sta $0190		; 8d 90 01
@@ -1259,9 +1271,9 @@ B24_0ea0:		ldx wCurrInstrumentIdx			; a6 ee
 B24_0ea2:		iny				; c8 
 B24_0ea3:		jmp b18_processNextSoundByteMain		; 4c de 8d
 
-B24_0ea6:		lda w115.w, x	; bd 15 01
+B24_0ea6:		lda wSoundControlByte.w, x	; bd 15 01
 B24_0ea9:		and #$7f		; 29 7f
-B24_0eab:		sta w115.w, x	; 9d 15 01
+B24_0eab:		sta wSoundControlByte.w, x	; 9d 15 01
 B24_0eae:		lda #$7f		; a9 7f
 B24_0eb0:		jmp B24_0e8e		; 4c 8e 8e
 
@@ -1271,7 +1283,7 @@ B24_0eb5:		bne B24_0ea3 ; d0 ec
 B24_0eb7:		iny				; c8 
 B24_0eb8:		jmp b18_processNextSoundByteMain		; 4c de 8d
 
-B24_0ebb:		cpx #$06		; e0 06
+B24_0ebb:		cpx #INSTR_NOISE_2		; e0 06
 B24_0ebd:		bne B24_0ec6 ; d0 07
 
 B24_0ebf:		lda (wCurrInstrumentDataAddr), y	; b1 e0
@@ -1279,7 +1291,7 @@ B24_0ec1:		cmp #$10		; c9 10
 B24_0ec3:		bne B24_0ec6 ; d0 01
 
 B24_0ec5:		iny				; c8 
-B24_0ec6:		lda w10e.w, x	; bd 0e 01
+B24_0ec6:		lda wInstrumentsSpeedCtrler_todo.w, x	; bd 0e 01
 B24_0ec9:		sta wInstrumentsFramesUntilNextByteProcessed.w, x	; 9d 00 01
 B24_0ecc:		lda (wCurrInstrumentDataAddr), y	; b1 e0
 B24_0ece:		lsr a			; 4a
@@ -1310,7 +1322,7 @@ B24_0ef3:		bcs B24_0efb ; b0 06
 B24_0ef5:		sta SND_VOL.w, x	; 9d 00 40
 B24_0ef8:		jsr b18_waitAFewCycles		; 20 23 8f
 B24_0efb:		ldx wCurrInstrumentIdx			; a6 ee
-B24_0efd:		lda w115.w, x	; bd 15 01
+B24_0efd:		lda wSoundControlByte.w, x	; bd 15 01
 B24_0f00:		and #$02		; 29 02
 B24_0f02:		bne B24_0f1a ; d0 16
 
@@ -1319,13 +1331,13 @@ B24_0f06:		and #$0f		; 29 0f
 B24_0f08:		cpx #$06		; e0 06
 B24_0f0a:		beq B24_0f15 ; f0 09
 
-B24_0f0c:		sta $ed			; 85 ed
+B24_0f0c:		sta wSoundFrequency+1			; 85 ed
 B24_0f0e:		lda (wCurrInstrumentDataAddr), y	; b1 e0
 B24_0f10:		beq B24_0f15 ; f0 03
 
 B24_0f12:		iny				; c8 
 B24_0f13:		lda (wCurrInstrumentDataAddr), y	; b1 e0
-B24_0f15:		sta $ec			; 85 ec
+B24_0f15:		sta wSoundFrequency			; 85 ec
 B24_0f17:		jsr b18_soundCommon.func_18_01cd		; 20 cd 81
 B24_0f1a:		jmp b18_soundCommon.updateCurrInstrumentDataAddr_setAndSaveBank18h		; 4c d6 86
 

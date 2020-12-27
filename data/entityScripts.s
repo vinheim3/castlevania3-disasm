@@ -1,2453 +1,930 @@
-B23_0538:	.db $20 $00 $00
-B23_053b:		.db $00				; 00
-B23_053c:		lda ($00, x)	; a1 00
-B23_053e:		.db $00				; 00
-B23_053f:		.db $00				; 00
-B23_0540:		ldx #$00		; a2 00
-B23_0542:		.db $00				; 00
-B23_0543:		.db $00				; 00
-B23_0544:	.db $0b
-B23_0545:	.db $0e $46 $00
-B23_0548:		eor $0f			; 45 0f
-B23_054a:		.db $00				; 00
-B23_054b:		.db $00				; 00
-B23_054c:		lsr $00			; 46 00
-B23_054e:		.db $00				; 00
-B23_054f:		.db $00				; 00
-B23_0550:		dey				; 88 
-B23_0551:	.db $3a
-B23_0552:		.db $00				; 00
-B23_0553:		.db $00				; 00
-B23_0554:	.db $77
-B23_0555:		.db $00				; 00
-B23_0556:		.db $00				; 00
-B23_0557:		.db $00				; 00
-B23_0558:		ror $00, x		; 76 00
-B23_055a:		.db $00				; 00
-B23_055b:		.db $00				; 00
-B23_055c:		sei				; 78 
-B23_055d:		.db $00				; 00
-B23_055e:		.db $00				; 00
-B23_055f:		.db $00				; 00
-B23_0560:		dey				; 88 
-B23_0561:	.db $42
-B23_0562:		.db $00				; 00
-B23_0563:		.db $00				; 00
-B23_0564:		adc $00, x		; 75 00
-B23_0566:		.db $00				; 00
-B23_0567:		.db $00				; 00
-B23_0568:	.db $79 $00 $00
-B23_056b:		.db $00				; 00
-B23_056c:		dey				; 88 
-B23_056d:	.db $42
-B23_056e:		.db $00				; 00
-B23_056f:		.db $00				; 00
-B23_0570:		adc $00, x		; 75 00
-B23_0572:		.db $00				; 00
-B23_0573:		.db $00				; 00
-B23_0574:	.db $79 $00 $00
-B23_0577:		.db $00				; 00
-B23_0578:	.db $7a
-B23_0579:		.db $00				; 00
-B23_057a:		.db $00				; 00
-B23_057b:		.db $00				; 00
-B23_057c:	.db $8b
-B23_057d:		.db $00				; 00
-B23_057e:		.db $00				; 00
-B23_057f:		.db $00				; 00
-B23_0580:		sty $00			; 84 00
-B23_0582:		.db $00				; 00
-B23_0583:		.db $00				; 00
-B23_0584:		sta $00			; 85 00
-B23_0586:		.db $00				; 00
-B23_0587:		.db $00				; 00
-B23_0588:		stx $00			; 86 00
-B23_058a:		.db $00				; 00
-B23_058b:		.db $00				; 00
-B23_058c:		lda $00			; a5 00
-B23_058e:		.db $00				; 00
-B23_058f:		.db $00				; 00
-B23_0590:		sty $00			; 84 00
-B23_0592:		.db $00				; 00
-B23_0593:		.db $00				; 00
-B23_0594:		sta $00			; 85 00
-B23_0596:		.db $00				; 00
-B23_0597:		.db $00				; 00
-B23_0598:		stx $00			; 86 00
-B23_059a:		.db $00				; 00
-B23_059b:		.db $00				; 00
 
+entityScripts_6b:
+	sc_incPhaseWhenAlarm0
+	.db $a1 $00 $00 $00
+	.db $a2 $00 $00 $00
+
+entityScripts_6c:
+	.db $0b $0e $46 $00
+	.db $45 $0f $00 $00
+	.db $46 $00 $00 $00
+
+entityScripts_2c:
+	.db $88 $3a $00 $00
+	.db $77 $00 $00 $00
+	.db $76 $00 $00 $00
+	.db $78 $00 $00 $00
+
+entityScripts_2d:
+	.db $88 $42 $00 $00
+	sc_stub3
+	.db $79 $00 $00 $00
+
+entityScripts_2e:
+	.db $88 $42 $00 $00
+	sc_stub3
+	.db $79 $00 $00 $00
+
+entityScripts_61:
+	.db $7a $00 $00 $00
+
+entityScripts_64:
+	.db $8b $00 $00 $00
+	.db $84 $00 $00 $00
+	.db $85 $00 $00 $00
+	.db $86 $00 $00 $00
+
+entityScripts_6f:
+	.db $a5 $00 $00 $00
+	.db $84 $00 $00 $00
+	.db $85 $00 $00 $00
+	.db $86 $00 $00 $00
 
 entityScripts_01:
-B23_059c:	.db $07
-B23_059d:		.db $00				; 00
-B23_059e:	.db $80
-B23_059f:		.db $00				; 00
-B23_05a0:	.db $1c
-B23_05a1:		.db $00				; 00
-B23_05a2:		.db $00				; 00
-B23_05a3:		.db $00				; 00
-B23_05a4:		ora $0100, x	; 1d 00 01
-B23_05a7:		.db $00				; 00
-B23_05a8:	.db $5d $00 $00
-B23_05ab:		.db $00				; 00
-B23_05ac:	.db $07
-B23_05ad:		.db $00				; 00
-B23_05ae:	.db $80
-B23_05af:		.db $00				; 00
-B23_05b0:	.db $1c
-B23_05b1:		.db $00				; 00
-B23_05b2:		.db $00				; 00
-B23_05b3:		.db $00				; 00
-B23_05b4:		ora $0101, x	; 1d 01 01
-B23_05b7:		.db $00				; 00
-B23_05b8:		ldx $00			; a6 00
-B23_05ba:		ldy #$00		; a0 00
-B23_05bc:	.db $1c
-B23_05bd:		.db $00				; 00
-B23_05be:		.db $00				; 00
-B23_05bf:		.db $00				; 00
-B23_05c0:		ora $0100, x	; 1d 00 01
-B23_05c3:		.db $00				; 00
+	.db $07 $00 $80 $00
+	.db $1c $00 $00 $00
+	.db $1d $00 $01 $00
 
+entityScripts_24:
+	.db $5d $00 $00 $00
+	.db $07 $00 $80 $00
+	.db $1c $00 $00 $00
+	.db $1d $01 $01 $00
+
+entityScripts_70:
+	.db $a6 $00 $a0 $00
+	.db $1c $00 $00 $00
+	.db $1d $00 $01 $00
 
 entityScripts_02:
-B23_05c4:		ora #$00		; 09 00
-B23_05c6:		.db $00				; 00
-B23_05c7:		.db $00				; 00
-B23_05c8:		ora $00			; 05 00
-B23_05ca:		.db $00				; 00
-B23_05cb:		.db $00				; 00
-B23_05cc:	.db $0b
-B23_05cd:		php				; 08 
-B23_05ce:		asl $00			; 06 00
-B23_05d0:	.db $1f
-B23_05d1:		php				; 08 
-B23_05d2:		.db $00				; 00
-B23_05d3:		.db $00				; 00
-B23_05d4:	.db $20 $00 $00
-B23_05d7:		.db $00				; 00
-B23_05d8:	.db $53
-B23_05d9:		.db $00				; 00
-B23_05da:		.db $00				; 00
-B23_05db:		.db $00				; 00
-B23_05dc:	.db $0b
-B23_05dd:		php				; 08 
-B23_05de:		php				; 08 
-B23_05df:		.db $00				; 00
-B23_05e0:	.db $1f
-B23_05e1:		php				; 08 
-B23_05e2:		.db $00				; 00
-B23_05e3:		.db $00				; 00
-B23_05e4:	.db $20 $00 $00
-B23_05e7:		.db $00				; 00
-B23_05e8:		php				; 08 
-B23_05e9:		.db $00				; 00
-B23_05ea:		.db $00				; 00
-B23_05eb:		.db $00				; 00
-B23_05ec:	.db $07
-B23_05ed:		.db $00				; 00
-B23_05ee:	.db $80
-B23_05ef:		.db $00				; 00
-B23_05f0:	.db $1c
-B23_05f1:		.db $00				; 00
-B23_05f2:		.db $00				; 00
-B23_05f3:		.db $00				; 00
-B23_05f4:		ora $0109, x	; 1d 09 01
-B23_05f7:		.db $00				; 00
-B23_05f8:		ora ($00, x)	; 01 00
-B23_05fa:		.db $00				; 00
-B23_05fb:		.db $00				; 00
-B23_05fc:	.db $0b
-B23_05fd:		php				; 08 
-B23_05fe:		php				; 08 
-B23_05ff:		.db $00				; 00
-B23_0600:	.db $1f
-B23_0601:		php				; 08 
-B23_0602:		.db $00				; 00
-B23_0603:		.db $00				; 00
-B23_0604:	.db $20 $00 $00
-B23_0607:		.db $00				; 00
-B23_0608:	.db $0b
-B23_0609:		php				; 08 
-B23_060a:		asl $00			; 06 00
-B23_060c:	.db $1f
-B23_060d:		php				; 08 
-B23_060e:		.db $00				; 00
-B23_060f:		.db $00				; 00
-B23_0610:	.db $20 $00 $00
-B23_0613:		.db $00				; 00
-B23_0614:	.db $27
-B23_0615:		.db $00				; 00
-B23_0616:		.db $00				; 00
-B23_0617:		.db $00				; 00
-
+	.db $09 $00 $00 $00
+	sc_facePlayer
+	.db $0b $08 $06 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $08
+	sc_incPhaseWhenAlarm0
+	sc_setStateNotIllusion
+	.db $0b $08 $08 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $08
+	sc_incPhaseWhenAlarm0
+	.db $08 $00 $00 $00
+	.db $07 $00 $80 $00
+	.db $1c $00 $00 $00
+	.db $1d $09 $01 $00
+	sc_setStateNotMoving
+	.db $0b $08 $08 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $08
+	sc_incPhaseWhenAlarm0
+	.db $0b $08 $06 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $08
+	sc_incPhaseWhenAlarm0
+	sc_end
 
 entityScripts_07:
-B23_0618:	.db $2d $00 $00
-B23_061b:		.db $00				; 00
-B23_061c:		asl $1001, x	; 1e 01 10
-B23_061f:		.db $00				; 00
-B23_0620:		sta $00, x		; 95 00
-B23_0622:		.db $00				; 00
-B23_0623:		.db $00				; 00
-B23_0624:	.db $9c
-B23_0625:	.db $07
-B23_0626:		.db $00				; 00
-B23_0627:		php				; 08 
-B23_0628:	.db $9d $00 $00
-B23_062b:		.db $00				; 00
-B23_062c:	.db $2d $00 $00
-B23_062f:		.db $00				; 00
-B23_0630:		asl $1001, x	; 1e 01 10
-B23_0633:		.db $00				; 00
-B23_0634:	.db $13
-B23_0635:		php				; 08 
-B23_0636:	.db $27
-B23_0637:		.db $00				; 00
-B23_0638:	.db $a3
-B23_0639:		.db $00				; 00
-B23_063a:		.db $00				; 00
-B23_063b:		.db $00				; 00
-B23_063c:		ldy $00			; a4 00
-B23_063e:		.db $00				; 00
-B23_063f:		.db $00				; 00
-B23_0640:	.db $6e $00 $00
-B23_0643:		.db $00				; 00
-B23_0644:	.db $0b
-B23_0645:		php				; 08 
-B23_0646:		rol $9f00, x	; 3e 00 9f
-B23_0649:		.db $00				; 00
-B23_064a:		.db $00				; 00
-B23_064b:		.db $00				; 00
-B23_064c:		rol $08			; 26 08
-B23_064e:	.db $04
-B23_064f:		.db $00				; 00
-B23_0650:	.db $23
-B23_0651:	.db $03
-B23_0652:	.db $04
-B23_0653:		.db $00				; 00
-B23_0654:	.db $52
-B23_0655:		.db $00				; 00
-B23_0656:		.db $00				; 00
-B23_0657:		.db $00				; 00
-B23_0658:	.db $1f
-B23_0659:		bit $00			; 24 00
-B23_065b:		.db $00				; 00
-B23_065c:	.db $20 $00 $00
-B23_065f:		.db $00				; 00
-B23_0660:	.db $52
-B23_0661:		.db $00				; 00
-B23_0662:		.db $00				; 00
-B23_0663:		.db $00				; 00
-B23_0664:		php				; 08 
-B23_0665:		ora ($00, x)	; 01 00
-B23_0667:		.db $00				; 00
-B23_0668:	.db $20 $00 $00
-B23_066b:		.db $00				; 00
-B23_066c:	.db $04
-B23_066d:		ora ($00, x)	; 01 00
-B23_066f:		.db $00				; 00
+	.db $2d $00 $00 $00
+	sc_moveToPlayerSetHorizSpeeds $0110
+	.db $95 $00 $00 $00
+	.db $9c $07 $00 $08
+	.db $9d $00 $00 $00
 
+entityScripts_6d:
+	.db $2d $00 $00 $00
+	sc_moveToPlayerSetHorizSpeeds $0110
+	sc_animateGroupAndDefIdx $08 $27
+	.db $a3 $00 $00 $00
+	.db $a4 $00 $00 $00
+
+entityScripts_1e:
+	.db $6e $00 $00 $00
+	.db $0b $08 $3e $00
+	.db $9f $00 $00 $00
+	.db $26 $08 $04 $00
+	.db $23 $03 $04 $00
+	.db $52 $00 $00 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $24
+	sc_incPhaseWhenAlarm0
+	.db $52 $00 $00 $00
+	.db $08 $01 $00 $00
+	sc_incPhaseWhenAlarm0
+	sc_setPhase $01
 
 entityScripts_12:
-B23_0670:	.db $6e $00 $00
-B23_0673:		.db $00				; 00
-B23_0674:	.db $0b
-B23_0675:		php				; 08 
-B23_0676:		rol $1f00, x	; 3e 00 1f
-B23_0679:	.db $20 $00 $00
-B23_067c:	.db $20 $00 $00
-B23_067f:		.db $00				; 00
-B23_0680:		rol $08			; 26 08
-B23_0682:	.db $04
-B23_0683:		.db $00				; 00
-B23_0684:	.db $23
-B23_0685:	.db $03
-B23_0686:	.db $04
-B23_0687:		.db $00				; 00
-B23_0688:		rol $04			; 26 04
-B23_068a:		php				; 08 
-B23_068b:		.db $00				; 00
-B23_068c:		and $28			; 25 28
-B23_068e:		bit $00			; 24 00
-B23_0690:	.db $04
-B23_0691:	.db $02
-B23_0692:		.db $00				; 00
-B23_0693:		.db $00				; 00
-B23_0694:	.db $6e $00 $00
-B23_0697:		.db $00				; 00
-B23_0698:	.db $0b
-B23_0699:		php				; 08 
-B23_069a:		rti				; 40 
+	.db $6e $00 $00 $00
+	.db $0b $08 $3e $00
+	sc_setAlarmOrStartYforSinusoidalMovement $20
+	sc_incPhaseWhenAlarm0
+	.db $26 $08 $04 $00
+	.db $23 $03 $04 $00
+	.db $26 $04 $08 $00
+	.db $25 $28 $24 $00
+	sc_setPhase $02
 
+entityScripts_2f:
+	.db $6e $00 $00 $00
+	.db $0b $08 $40 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $20
+	sc_incPhaseWhenAlarm0
+	.db $26 $08 $04 $00
+	.db $23 $03 $04 $00
+	.db $26 $04 $08 $00
+	.db $25 $28 $24 $00
+	sc_setPhase $02
 
-B23_069b:		.db $00				; 00
-B23_069c:	.db $1f
-B23_069d:	.db $20 $00 $00
-B23_06a0:	.db $20 $00 $00
-B23_06a3:		.db $00				; 00
-B23_06a4:		rol $08			; 26 08
-B23_06a6:	.db $04
-B23_06a7:		.db $00				; 00
-B23_06a8:	.db $23
-B23_06a9:	.db $03
-B23_06aa:	.db $04
-B23_06ab:		.db $00				; 00
-B23_06ac:		rol $04			; 26 04
-B23_06ae:		php				; 08 
-B23_06af:		.db $00				; 00
-B23_06b0:		and $28			; 25 28
-B23_06b2:		bit $00			; 24 00
-B23_06b4:	.db $04
-B23_06b5:	.db $02
-B23_06b6:		.db $00				; 00
-B23_06b7:		.db $00				; 00
-B23_06b8:	.db $2d $00 $00
-B23_06bb:		.db $00				; 00
-B23_06bc:	.db $1f
-B23_06bd:		bpl B23_06bf ; 10 00
-
-B23_06bf:		.db $00				; 00
-B23_06c0:	.db $20 $00 $00
-B23_06c3:		.db $00				; 00
-B23_06c4:	.db $0b
-B23_06c5:		php				; 08 
-B23_06c6:		jmp $9300		; 4c 00 93
-
-
-B23_06c9:		.db $00				; 00
-B23_06ca:		.db $00				; 00
-B23_06cb:		.db $00				; 00
-B23_06cc:		sty $00, x		; 94 00
-B23_06ce:		.db $00				; 00
-B23_06cf:		.db $00				; 00
-B23_06d0:		and ($00, x)	; 21 00
-B23_06d2:		.db $00				; 00
-B23_06d3:		.db $00				; 00
-B23_06d4:	.db $0b
-B23_06d5:		php				; 08 
-B23_06d6:		lsr $1000		; 4e 00 10
-B23_06d9:		.db $00				; 00
-B23_06da:		.db $00				; 00
-B23_06db:		.db $00				; 00
-B23_06dc:	.db $0b
-B23_06dd:		php				; 08 
-B23_06de:		jmp $1f00		; 4c 00 1f
-
-
-B23_06e1:		php				; 08 
-B23_06e2:		.db $00				; 00
-B23_06e3:		.db $00				; 00
-B23_06e4:	.db $20 $00 $00
-B23_06e7:		.db $00				; 00
-B23_06e8:	.db $04
-B23_06e9:		asl $00			; 06 00
-B23_06eb:		.db $00				; 00
-
+entityScripts_69:
+	.db $2d $00 $00 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $10
+	sc_incPhaseWhenAlarm0
+	.db $0b $08 $4c $00
+	.db $93 $00 $00 $00
+	.db $94 $00 $00 $00
+	.db $21 $00 $00 $00
+	.db $0b $08 $4e $00
+	.db $10 $00 $00 $00
+	.db $0b $08 $4c $00
+	sc_setAlarmOrStartYforSinusoidalMovement $08
+	sc_incPhaseWhenAlarm0
+	sc_setPhase $06
 
 entityScripts_0e:
-B23_06ec:		ora ($00, x)	; 01 00
-B23_06ee:		.db $00				; 00
-B23_06ef:		.db $00				; 00
-B23_06f0:		sta ($00), y	; 91 00
-B23_06f2:		.db $00				; 00
-B23_06f3:		.db $00				; 00
-B23_06f4:		asl $00			; 06 00
-B23_06f6:		.db $00				; 00
-B23_06f7:		.db $00				; 00
-B23_06f8:	.db $1f
-B23_06f9:		plp				; 28 
-B23_06fa:		.db $00				; 00
-B23_06fb:		.db $00				; 00
-B23_06fc:	.db $20 $00 $00
-B23_06ff:		.db $00				; 00
-B23_0700:		and ($00, x)	; 21 00
-B23_0702:		.db $00				; 00
-B23_0703:		.db $00				; 00
-B23_0704:	.db $0b
-B23_0705:		php				; 08 
-B23_0706:		lsr $1000		; 4e 00 10
-B23_0709:		.db $00				; 00
-B23_070a:		.db $00				; 00
-B23_070b:		.db $00				; 00
-B23_070c:	.db $0b
-B23_070d:		php				; 08 
-B23_070e:		jmp $1f00		; 4c 00 1f
-
-
-B23_0711:		php				; 08 
-B23_0712:		.db $00				; 00
-B23_0713:		.db $00				; 00
-B23_0714:	.db $20 $00 $00
-B23_0717:		.db $00				; 00
-B23_0718:	.db $04
-B23_0719:		ora $00			; 05 00
-B23_071b:		.db $00				; 00
-
+	sc_setStateNotMoving
+	.db $91 $00 $00 $00
+	.db $06 $00 $00 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $28
+	sc_incPhaseWhenAlarm0
+	.db $21 $00 $00 $00
+	.db $0b $08 $4e $00
+	.db $10 $00 $00 $00
+	.db $0b $08 $4c $00
+	sc_setAlarmOrStartYforSinusoidalMovement $08
+	sc_incPhaseWhenAlarm0
+	sc_setPhase $05
 
 entityScripts_05:
-B23_071c:	.db $07
-B23_071d:		ora ($40, x)	; 01 40
-B23_071f:		.db $00				; 00
-B23_0720:		ora ($04), y	; 11 04
-B23_0722:		.db $00				; 00
-B23_0723:		.db $00				; 00
-B23_0724:	.db $12
-B23_0725:		.db $00				; 00
-B23_0726:		.db $00				; 00
-B23_0727:		.db $00				; 00
-B23_0728:	.db $2d $00 $00
-B23_072b:		.db $00				; 00
-B23_072c:		asl $4001, x	; 1e 01 40
-B23_072f:		.db $00				; 00
-B23_0730:	.db $13
-B23_0731:		php				; 08 
-B23_0732:		bit $00			; 24 00
-B23_0734:		ora ($04), y	; 11 04
-B23_0736:		.db $00				; 00
-B23_0737:		.db $00				; 00
-B23_0738:	.db $12
-B23_0739:		.db $00				; 00
-B23_073a:		.db $00				; 00
-B23_073b:		.db $00				; 00
+	.db $07 $01 $40 $00
+	.db $11 $04 $00 $00
+	.db $12 $00 $00 $00
 
+entityScripts_66:
+	.db $2d $00 $00 $00
+	sc_moveToPlayerSetHorizSpeeds $0140
+	sc_animateGroupAndDefIdx $08 $24
+	.db $11 $04 $00 $00
+	.db $12 $00 $00 $00
 
 entityScripts_06:
-B23_073c:	.db $0b
-B23_073d:		php				; 08 
-B23_073e:		asl $4d00, x	; 1e 00 4d
-B23_0741:		rts				; 60 
+	.db $0b $08 $1e $00
+	.db $4d $60 $20 $00
+	.db $07 $01 $40 $00
+	.db $6f $00 $20 $00
+	.db $70 $0a $00 $00
+	.db $11 $04 $00 $00
+	.db $12 $00 $00 $00
 
+entityScripts_6e:
+	.db $2d $00 $00 $00
+	sc_moveToPlayerSetHorizSpeeds $0140
+	sc_animateGroupAndDefIdx $14 $06
+	.db $11 $04 $00 $00
+	.db $12 $00 $00 $00
 
-B23_0742:		jsr $0700		; 20 00 07
-B23_0745:		ora ($40, x)	; 01 40
-B23_0747:		.db $00				; 00
-B23_0748:	.db $6f
-B23_0749:		.db $00				; 00
-B23_074a:		jsr $7000		; 20 00 70
-B23_074d:		asl a			; 0a
-B23_074e:		.db $00				; 00
-B23_074f:		.db $00				; 00
-B23_0750:		ora ($04), y	; 11 04
-B23_0752:		.db $00				; 00
-B23_0753:		.db $00				; 00
-B23_0754:	.db $12
-B23_0755:		.db $00				; 00
-B23_0756:		.db $00				; 00
-B23_0757:		.db $00				; 00
-B23_0758:	.db $2d $00 $00
-B23_075b:		.db $00				; 00
-B23_075c:		asl $4001, x	; 1e 01 40
-B23_075f:		.db $00				; 00
-B23_0760:	.db $13
-B23_0761:	.db $14
-B23_0762:		asl $00			; 06 00
-B23_0764:		ora ($04), y	; 11 04
-B23_0766:		.db $00				; 00
-B23_0767:		.db $00				; 00
-B23_0768:	.db $12
-B23_0769:		.db $00				; 00
-B23_076a:		.db $00				; 00
-B23_076b:		.db $00				; 00
-B23_076c:	.db $2d $00 $00
-B23_076f:		.db $00				; 00
-B23_0770:	.db $54
-B23_0771:		.db $00				; 00
-B23_0772:		.db $00				; 00
-B23_0773:		.db $00				; 00
-B23_0774:	.db $0b
-B23_0775:	.db $12
-B23_0776:	.db $02
-B23_0777:		.db $00				; 00
-B23_0778:	.db $7e $00 $00
-B23_077b:		.db $00				; 00
-B23_077c:	.db $7d $40 $00
-B23_077f:		.db $00				; 00
-B23_0780:	.db $0b
-B23_0781:	.db $12
-B23_0782:	.db $04
-B23_0783:		.db $00				; 00
-B23_0784:	.db $1f
-B23_0785:	.db $03
-B23_0786:		.db $00				; 00
-B23_0787:		.db $00				; 00
-B23_0788:	.db $20 $00 $00
-B23_078b:		.db $00				; 00
-B23_078c:	.db $0b
-B23_078d:	.db $12
-B23_078e:		asl $00			; 06 00
-B23_0790:	.db $1f
-B23_0791:		bpl B23_0793 ; 10 00
+entityScripts_63:
+	.db $2d $00 $00 $00
+	sc_setStateIllusion
+	.db $0b $12 $02 $00
+	.db $7e $00 $00 $00
+	.db $7d $40 $00 $00
+	.db $0b $12 $04 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $03
+	sc_incPhaseWhenAlarm0
+	.db $0b $12 $06 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $10
+	sc_incPhaseWhenAlarm0
+	sc_setStateNotIllusion
+	.db $0b $12 $08 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $10
+	sc_incPhaseWhenAlarm0
+	.db $83 $00 $00 $00
+	sc_setStateMoving
+	sc_setAlarmOrStartYforSinusoidalMovement $06
+	sc_incPhaseWhenAlarm0
+	sc_setStateNotMoving
+	sc_setAlarmOrStartYforSinusoidalMovement $04
+	sc_incPhaseWhenAlarm0
+	sc_setStateMoving
+	.db $0b $12 $0a $00
+	.db $7f $00 $00 $00
+	.db $80 $00 $00 $00
+	.db $81 $00 $00 $00
+	sc_setStateNotMoving
+	sc_facePlayer
+	sc_setAlarmOrStartYforSinusoidalMovement $20
+	sc_incPhaseWhenAlarm0
+	.db $0b $12 $0a $00
+	sc_setStateMoving
+	.db $7f $00 $00 $00
+	.db $80 $00 $00 $00
+	.db $82 $00 $00 $00
 
-B23_0793:		.db $00				; 00
-B23_0794:	.db $20 $00 $00
-B23_0797:		.db $00				; 00
-B23_0798:	.db $53
-B23_0799:		.db $00				; 00
-B23_079a:		.db $00				; 00
-B23_079b:		.db $00				; 00
-B23_079c:	.db $0b
-B23_079d:	.db $12
-B23_079e:		php				; 08 
-B23_079f:		.db $00				; 00
-B23_07a0:	.db $1f
-B23_07a1:		bpl B23_07a3 ; 10 00
-
-B23_07a3:		.db $00				; 00
-B23_07a4:	.db $20 $00 $00
-B23_07a7:		.db $00				; 00
-B23_07a8:	.db $83
-B23_07a9:		.db $00				; 00
-B23_07aa:		.db $00				; 00
-B23_07ab:		.db $00				; 00
-B23_07ac:		rol a			; 2a
-B23_07ad:		.db $00				; 00
-B23_07ae:		.db $00				; 00
-B23_07af:		.db $00				; 00
-B23_07b0:	.db $1f
-B23_07b1:		asl $00			; 06 00
-B23_07b3:		.db $00				; 00
-B23_07b4:	.db $20 $00 $00
-B23_07b7:		.db $00				; 00
-B23_07b8:		ora ($00, x)	; 01 00
-B23_07ba:		.db $00				; 00
-B23_07bb:		.db $00				; 00
-B23_07bc:	.db $1f
-B23_07bd:	.db $04
-B23_07be:		.db $00				; 00
-B23_07bf:		.db $00				; 00
-B23_07c0:	.db $20 $00 $00
-B23_07c3:		.db $00				; 00
-B23_07c4:		rol a			; 2a
-B23_07c5:		.db $00				; 00
-B23_07c6:		.db $00				; 00
-B23_07c7:		.db $00				; 00
-B23_07c8:	.db $0b
-B23_07c9:	.db $12
-B23_07ca:		asl a			; 0a
-B23_07cb:		.db $00				; 00
-B23_07cc:	.db $7f
-B23_07cd:		.db $00				; 00
-B23_07ce:		.db $00				; 00
-B23_07cf:		.db $00				; 00
-B23_07d0:	.db $80
-B23_07d1:		.db $00				; 00
-B23_07d2:		.db $00				; 00
-B23_07d3:		.db $00				; 00
-B23_07d4:		sta ($00, x)	; 81 00
-B23_07d6:		.db $00				; 00
-B23_07d7:		.db $00				; 00
-B23_07d8:		ora ($00, x)	; 01 00
-B23_07da:		.db $00				; 00
-B23_07db:		.db $00				; 00
-B23_07dc:		ora $00			; 05 00
-B23_07de:		.db $00				; 00
-B23_07df:		.db $00				; 00
-B23_07e0:	.db $1f
-B23_07e1:	.db $20 $00 $00
-B23_07e4:	.db $20 $00 $00
-B23_07e7:		.db $00				; 00
-B23_07e8:	.db $0b
-B23_07e9:	.db $12
-B23_07ea:		asl a			; 0a
-B23_07eb:		.db $00				; 00
-B23_07ec:		rol a			; 2a
-B23_07ed:		.db $00				; 00
-B23_07ee:		.db $00				; 00
-B23_07ef:		.db $00				; 00
-B23_07f0:	.db $7f
-B23_07f1:		.db $00				; 00
-B23_07f2:		.db $00				; 00
-B23_07f3:		.db $00				; 00
-B23_07f4:	.db $80
-B23_07f5:		.db $00				; 00
-B23_07f6:		.db $00				; 00
-B23_07f7:		.db $00				; 00
-B23_07f8:	.db $82
-B23_07f9:		.db $00				; 00
-B23_07fa:		.db $00				; 00
-B23_07fb:		.db $00				; 00
-B23_07fc:	.db $2d $00 $00
-B23_07ff:		.db $00				; 00
-B23_0800:		asl $1002, x	; 1e 02 10
-B23_0803:		.db $00				; 00
-B23_0804:	.db $13
-B23_0805:	.db $12
-B23_0806:		php				; 08 
-B23_0807:		.db $00				; 00
-B23_0808:	.db $0c
-B23_0809:		rti				; 40 
-
-
-B23_080a:		.db $00				; 00
-B23_080b:		.db $00				; 00
-B23_080c:	.db $92
-B23_080d:		.db $00				; 00
-B23_080e:		.db $00				; 00
-B23_080f:		.db $00				; 00
-B23_0810:	.db $20 $00 $00
-B23_0813:		.db $00				; 00
-B23_0814:	.db $0b
-B23_0815:	.db $12
-B23_0816:		ror $00, x		; 76 00
-B23_0818:	.db $1f
-B23_0819:		bpl B23_081b ; 10 00
-
-B23_081b:		.db $00				; 00
-B23_081c:	.db $20 $00 $00
-B23_081f:		.db $00				; 00
-B23_0820:		rol a			; 2a
-B23_0821:		.db $00				; 00
-B23_0822:		.db $00				; 00
-B23_0823:		.db $00				; 00
-B23_0824:	.db $13
-B23_0825:	.db $12
-B23_0826:		ora #$00		; 09 00
-B23_0828:		.db $00				; 00
-B23_0829:		.db $00				; 00
-B23_082a:		.db $00				; 00
-B23_082b:		.db $00				; 00
-
+entityScripts_65:
+	.db $2d $00 $00 $00
+	sc_moveToPlayerSetHorizSpeeds $0210
+	sc_animateGroupAndDefIdx $12 $08
+	.db $0c $40 $00 $00
+	.db $92 $00 $00 $00
+	sc_incPhaseWhenAlarm0
+	.db $0b $12 $76 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $10
+	sc_incPhaseWhenAlarm0
+	sc_setStateMoving
+	sc_animateGroupAndDefIdx $12 $09
+	sc_setEntityAIIdxTo0
 
 entityScripts_11:
-B23_082c:		plp				; 28 
-B23_082d:		.db $00				; 00
-B23_082e:		.db $00				; 00
-B23_082f:		.db $00				; 00
-B23_0830:		and #$00		; 29 00
-B23_0832:		.db $00				; 00
-B23_0833:		.db $00				; 00
-B23_0834:	.db $1f
-B23_0835:		asl a			; 0a
-B23_0836:		.db $00				; 00
-B23_0837:		.db $00				; 00
-B23_0838:	.db $20 $00 $00
-B23_083b:		.db $00				; 00
-B23_083c:	.db $8f
-B23_083d:		.db $00				; 00
-B23_083e:		.db $00				; 00
-B23_083f:		.db $00				; 00
-B23_0840:	.db $1f
-B23_0841:		php				; 08 
-B23_0842:		.db $00				; 00
-B23_0843:		.db $00				; 00
-B23_0844:	.db $20 $00 $00
-B23_0847:		.db $00				; 00
-B23_0848:	.db $2c $00 $00
-B23_084b:		.db $00				; 00
-B23_084c:	.db $13
-B23_084d:	.db $12
-B23_084e:		ora $00			; 05 00
-B23_0850:		asl $6000, x	; 1e 00 60
-B23_0853:		.db $00				; 00
-B23_0854:	.db $6b
-B23_0855:		.db $00				; 00
-B23_0856:		.db $00				; 00
-B23_0857:		.db $00				; 00
-B23_0858:	.db $6d $00 $00
-B23_085b:		.db $00				; 00
-B23_085c:	.db $04
-B23_085d:		ora ($00, x)	; 01 00
-B23_085f:		.db $00				; 00
-B23_0860:	.db $13
-B23_0861:	.db $14
-B23_0862:		ora #$00		; 09 00
-B23_0864:		asl $9000, x	; 1e 00 90
-B23_0867:		.db $00				; 00
-B23_0868:	.db $6b
-B23_0869:		.db $00				; 00
-B23_086a:		.db $00				; 00
-B23_086b:		.db $00				; 00
-B23_086c:	.db $6d $00 $00
-B23_086f:		.db $00				; 00
-B23_0870:	.db $04
-B23_0871:		.db $00				; 00
-B23_0872:		.db $00				; 00
-B23_0873:		.db $00				; 00
-B23_0874:	.db $0b
-B23_0875:	.db $14
-B23_0876:	.db $64
-B23_0877:		.db $00				; 00
-B23_0878:	.db $1f
-B23_0879:		php				; 08 
-B23_087a:		.db $00				; 00
-B23_087b:		.db $00				; 00
-B23_087c:	.db $20 $00 $00
-B23_087f:		.db $00				; 00
-B23_0880:	.db $0b
-B23_0881:		php				; 08 
-B23_0882:		inc $1f00, x	; fe 00 1f
-B23_0885:		asl $00, x		; 16 00
-B23_0887:		.db $00				; 00
-B23_0888:	.db $20 $00 $00
-B23_088b:		.db $00				; 00
-B23_088c:	.db $0b
-B23_088d:	.db $14
-B23_088e:	.db $64
-B23_088f:		.db $00				; 00
-B23_0890:	.db $1f
-B23_0891:		php				; 08 
-B23_0892:		.db $00				; 00
-B23_0893:		.db $00				; 00
-B23_0894:	.db $20 $00 $00
-B23_0897:		.db $00				; 00
-B23_0898:	.db $04
-B23_0899:		.db $00				; 00
-B23_089a:		.db $00				; 00
-B23_089b:		.db $00				; 00
-B23_089c:	.db $13
-B23_089d:		php				; 08 
-B23_089e:		and $00			; 25 00
-B23_08a0:	.db $54
-B23_08a1:		.db $00				; 00
-B23_08a2:		.db $00				; 00
-B23_08a3:		.db $00				; 00
-B23_08a4:	.db $8e $00 $00
-B23_08a7:		.db $00				; 00
-B23_08a8:	.db $20 $00 $00
-B23_08ab:		.db $00				; 00
-B23_08ac:	.db $53
-B23_08ad:		.db $00				; 00
-B23_08ae:		.db $00				; 00
-B23_08af:		.db $00				; 00
-B23_08b0:		rol a			; 2a
-B23_08b1:		.db $00				; 00
-B23_08b2:		.db $00				; 00
-B23_08b3:		.db $00				; 00
-B23_08b4:	.db $13
-B23_08b5:		php				; 08 
-B23_08b6:	.db $23
-B23_08b7:		.db $00				; 00
-B23_08b8:	.db $1f
-B23_08b9:		asl $00, x		; 16 00
-B23_08bb:		.db $00				; 00
-B23_08bc:	.db $20 $00 $00
-B23_08bf:		.db $00				; 00
-B23_08c0:	.db $13
-B23_08c1:		php				; 08 
-B23_08c2:	.db $02
-B23_08c3:		.db $00				; 00
-B23_08c4:	.db $57
-B23_08c5:		.db $00				; 00
-B23_08c6:		.db $00				; 00
-B23_08c7:		.db $00				; 00
-B23_08c8:	.db $1f
-B23_08c9:	.db $20 $00 $00
-B23_08cc:	.db $20 $00 $00
-B23_08cf:		.db $00				; 00
-B23_08d0:	.db $04
-B23_08d1:		asl a			; 0a
-B23_08d2:		.db $00				; 00
-B23_08d3:		.db $00				; 00
+	.db $28 $00 $00 $00
+	.db $29 $00 $00 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $0a
+	sc_incPhaseWhenAlarm0
+	.db $8f $00 $00 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $08
+	sc_incPhaseWhenAlarm0
+	.db $2c $00 $00 $00
 
+entityScripts_2b:
+	sc_animateGroupAndDefIdx $12 $05
+	sc_moveToPlayerSetHorizSpeeds $0060
+	.db $6b $00 $00 $00
+	sc_tryToFall
+	sc_setPhase $01
+
+entityScripts_71:
+	sc_animateGroupAndDefIdx $14 $09
+	sc_moveToPlayerSetHorizSpeeds $0090
+	.db $6b $00 $00 $00
+	sc_tryToFall
+	sc_setPhase $00
+	.db $0b $14 $64 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $08
+	sc_incPhaseWhenAlarm0
+	.db $0b $08 $fe $00
+	sc_setAlarmOrStartYforSinusoidalMovement $16
+	sc_incPhaseWhenAlarm0
+	.db $0b $14 $64 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $08
+	sc_incPhaseWhenAlarm0
+	sc_setPhase $00
+
+entityScripts_68:
+	sc_animateGroupAndDefIdx $08 $25
+	sc_setStateIllusion
+	.db $8e $00 $00 $00
+	sc_incPhaseWhenAlarm0
+	sc_setStateNotIllusion
+	sc_setStateMoving
+	sc_animateGroupAndDefIdx $08 $23
+	sc_setAlarmOrStartYforSinusoidalMovement $16
+	sc_incPhaseWhenAlarm0
+	sc_animateGroupAndDefIdx $08 $02
+	.db $57 $00 $00 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $20
+	sc_incPhaseWhenAlarm0
+	sc_setPhase $0a
 
 entityScripts_08:
-B23_08d4:	.db $13
-B23_08d5:		php				; 08 
-B23_08d6:	.db $23
-B23_08d7:		.db $00				; 00
-B23_08d8:		rol a			; 2a
-B23_08d9:		.db $00				; 00
-B23_08da:		.db $00				; 00
-B23_08db:		.db $00				; 00
-B23_08dc:	.db $1f
-B23_08dd:		asl $00, x		; 16 00
-B23_08df:		.db $00				; 00
-B23_08e0:	.db $20 $00 $00
-B23_08e3:		.db $00				; 00
-B23_08e4:	.db $13
-B23_08e5:		php				; 08 
-B23_08e6:	.db $02
-B23_08e7:		.db $00				; 00
-B23_08e8:	.db $57
-B23_08e9:		.db $00				; 00
-B23_08ea:		.db $00				; 00
-B23_08eb:		.db $00				; 00
-B23_08ec:	.db $1f
-B23_08ed:	.db $20 $00 $00
-B23_08f0:	.db $20 $00 $00
-B23_08f3:		.db $00				; 00
-B23_08f4:	.db $04
-B23_08f5:		ora $00			; 05 00
-B23_08f7:		.db $00				; 00
-
+	sc_animateGroupAndDefIdx $08 $23
+	sc_setStateMoving
+	sc_setAlarmOrStartYforSinusoidalMovement $16
+	sc_incPhaseWhenAlarm0
+	sc_animateGroupAndDefIdx $08 $02
+	.db $57 $00 $00 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $20
+	sc_incPhaseWhenAlarm0
+	sc_setPhase $05
 
 entityScripts_13:
 	sc_animateGroupAndDefIdx $08 $26
 	sc_moveToPlayerSetHorizSpeeds $0060
 	sc_setAlarmOrStartYforSinusoidalMovement $c0
-	.db $2f $00 $00 $00 ; main logic
+	.db $2f $00 $00 $00
 	sc_tryToFall
 	sc_setPhase $01
 
-
 entityScripts_09:
-B23_0910:	.db $07
-B23_0911:		.db $00				; 00
-B23_0912:		bcc B23_0914 ; 90 00
-
-B23_0914:		and $00, x		; 35 00
-B23_0916:		.db $00				; 00
-B23_0917:		.db $00				; 00
-B23_0918:	.db $34
-B23_0919:		.db $00				; 00
-B23_091a:		.db $00				; 00
-B23_091b:		.db $00				; 00
-B23_091c:	.db $33
-B23_091d:	.db $0b
-B23_091e:		.db $00				; 00
-B23_091f:		.db $00				; 00
-B23_0920:	.db $97
-B23_0921:		.db $00				; 00
-B23_0922:		.db $00				; 00
-B23_0923:		.db $00				; 00
-B23_0924:	.db $13
-B23_0925:		php				; 08 
-B23_0926:	.db $17
-B23_0927:		.db $00				; 00
-B23_0928:	.db $1f
-B23_0929:	.db $0f
-B23_092a:		.db $00				; 00
-B23_092b:		.db $00				; 00
-B23_092c:	.db $20 $00 $00
-B23_092f:		.db $00				; 00
-B23_0930:	.db $0d $04 $00
-B23_0933:		.db $00				; 00
-B23_0934:	.db $1f
-B23_0935:		bmi B23_0937 ; 30 00
-
-B23_0937:		.db $00				; 00
-B23_0938:	.db $04
-B23_0939:		.db $00				; 00
-B23_093a:		.db $00				; 00
-B23_093b:		.db $00				; 00
-B23_093c:		ora $0604, x	; 1d 04 06
-B23_093f:		.db $00				; 00
-
+	.db $07 $00 $90 $00
+	.db $35 $00 $00 $00
+	.db $34 $00 $00 $00
+	.db $33 $0b $00 $00
+	sc_clearSpeeds
+	sc_animateGroupAndDefIdx $08 $17
+	sc_setAlarmOrStartYforSinusoidalMovement $0f
+	sc_incPhaseWhenAlarm0
+	.db $0d $04 $00 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $30
+	sc_setPhase $00
+	.db $1d $04 $06 $00
 
 entityScripts_17:
-B23_0940:		bmi B23_0945 ; 30 03
+	.db $30 $03 $00 $00
+	.db $07 $00 $80 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $60
+	.db $2f $00 $00 $00
+	sc_setPhase $01
+	sc_setStateIllusion
+	sc_setStateNotMoving
+	sc_animateGroupAndDefIdx $08 $22
+	sc_setAlarmOrStartYforSinusoidalMovement $38
+	sc_incPhaseWhenAlarm0
+	.db $2d $00 $00 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $50
+	sc_incPhaseWhenAlarm0
+	.db $0b $08 $9e $00
+	sc_setAlarmOrStartYforSinusoidalMovement $18
+	sc_incPhaseWhenAlarm0
+	.db $0b $08 $9c $00
+	sc_setAlarmOrStartYforSinusoidalMovement $18
+	sc_incPhaseWhenAlarm0
+	sc_setStateNotIllusion
+	sc_setPhase $01
 
-B23_0942:		.db $00				; 00
-B23_0943:		.db $00				; 00
-B23_0944:	.db $07
-B23_0945:		.db $00				; 00
-B23_0946:	.db $80
-B23_0947:		.db $00				; 00
-B23_0948:	.db $1f
-B23_0949:		rts				; 60 
-
-
-B23_094a:		.db $00				; 00
-B23_094b:		.db $00				; 00
-B23_094c:	.db $2f
-B23_094d:		.db $00				; 00
-B23_094e:		.db $00				; 00
-B23_094f:		.db $00				; 00
-B23_0950:	.db $04
-B23_0951:		ora ($00, x)	; 01 00
-B23_0953:		.db $00				; 00
-B23_0954:	.db $54
-B23_0955:		.db $00				; 00
-B23_0956:		.db $00				; 00
-B23_0957:		.db $00				; 00
-B23_0958:		ora ($00, x)	; 01 00
-B23_095a:		.db $00				; 00
-B23_095b:		.db $00				; 00
-B23_095c:	.db $13
-B23_095d:		php				; 08 
-B23_095e:	.db $22
-B23_095f:		.db $00				; 00
-B23_0960:	.db $1f
-B23_0961:		sec				; 38 
-B23_0962:		.db $00				; 00
-B23_0963:		.db $00				; 00
-B23_0964:	.db $20 $00 $00
-B23_0967:		.db $00				; 00
-B23_0968:	.db $2d $00 $00
-B23_096b:		.db $00				; 00
-B23_096c:	.db $1f
-B23_096d:		bvc B23_096f ; 50 00
-
-B23_096f:		.db $00				; 00
-B23_0970:	.db $20 $00 $00
-B23_0973:		.db $00				; 00
-B23_0974:	.db $0b
-B23_0975:		php				; 08 
-B23_0976:	.db $9e
-B23_0977:		.db $00				; 00
-B23_0978:	.db $1f
-B23_0979:		clc				; 18 
-B23_097a:		.db $00				; 00
-B23_097b:		.db $00				; 00
-B23_097c:	.db $20 $00 $00
-B23_097f:		.db $00				; 00
-B23_0980:	.db $0b
-B23_0981:		php				; 08 
-B23_0982:	.db $9c
-B23_0983:		.db $00				; 00
-B23_0984:	.db $1f
-B23_0985:		clc				; 18 
-B23_0986:		.db $00				; 00
-B23_0987:		.db $00				; 00
-B23_0988:	.db $20 $00 $00
-B23_098b:		.db $00				; 00
-B23_098c:	.db $53
-B23_098d:		.db $00				; 00
-B23_098e:		.db $00				; 00
-B23_098f:		.db $00				; 00
-B23_0990:	.db $04
-B23_0991:		ora ($00, x)	; 01 00
-B23_0993:		.db $00				; 00
-B23_0994:		bmi B23_0999 ; 30 03
-
-B23_0996:		.db $00				; 00
-B23_0997:		.db $00				; 00
-B23_0998:	.db $07
-B23_0999:		.db $00				; 00
-B23_099a:	.db $80
-B23_099b:		.db $00				; 00
-B23_099c:		and $00, x		; 35 00
-B23_099e:		.db $00				; 00
-B23_099f:		.db $00				; 00
-B23_09a0:	.db $3b
-B23_09a1:		.db $00				; 00
-B23_09a2:		.db $00				; 00
-B23_09a3:		.db $00				; 00
-B23_09a4:	.db $6d $00 $00
-B23_09a7:		.db $00				; 00
-B23_09a8:	.db $04
-B23_09a9:		.db $00				; 00
-B23_09aa:		.db $00				; 00
-B23_09ab:		.db $00				; 00
-B23_09ac:		rol $48, x		; 36 48
-B23_09ae:		.db $00				; 00
-B23_09af:		.db $00				; 00
-B23_09b0:	.db $97
-B23_09b1:		.db $00				; 00
-B23_09b2:		.db $00				; 00
-B23_09b3:		.db $00				; 00
-B23_09b4:	.db $0b
-B23_09b5:		php				; 08 
-B23_09b6:		ldy $1f00		; ac 00 1f
-B23_09b9:		php				; 08 
-B23_09ba:		.db $00				; 00
-B23_09bb:		.db $00				; 00
-B23_09bc:	.db $20 $00 $00
-B23_09bf:		.db $00				; 00
-B23_09c0:	.db $0b
-B23_09c1:		php				; 08 
-B23_09c2:		inc $1f00		; ee 00 1f
-B23_09c5:		php				; 08 
-B23_09c6:		.db $00				; 00
-B23_09c7:		.db $00				; 00
-B23_09c8:	.db $20 $00 $00
-B23_09cb:		.db $00				; 00
-B23_09cc:	.db $04
-B23_09cd:		.db $00				; 00
-B23_09ce:		.db $00				; 00
-B23_09cf:		.db $00				; 00
-B23_09d0:	.db $54
-B23_09d1:		.db $00				; 00
-B23_09d2:		.db $00				; 00
-B23_09d3:		.db $00				; 00
-B23_09d4:	.db $97
-B23_09d5:		.db $00				; 00
-B23_09d6:		.db $00				; 00
-B23_09d7:		.db $00				; 00
-B23_09d8:	.db $13
-B23_09d9:		php				; 08 
-B23_09da:	.db $22
-B23_09db:		.db $00				; 00
-B23_09dc:	.db $1f
-B23_09dd:		sec				; 38 
-B23_09de:		.db $00				; 00
-B23_09df:		.db $00				; 00
-B23_09e0:	.db $20 $00 $00
-B23_09e3:		.db $00				; 00
-B23_09e4:	.db $2d $00 $00
-B23_09e7:		.db $00				; 00
-B23_09e8:	.db $1f
-B23_09e9:		bvc B23_09eb ; 50 00
-
-B23_09eb:		.db $00				; 00
-B23_09ec:	.db $20 $00 $00
-B23_09ef:		.db $00				; 00
-B23_09f0:	.db $0b
-B23_09f1:		php				; 08 
-B23_09f2:	.db $9e
-B23_09f3:		.db $00				; 00
-B23_09f4:	.db $1f
-B23_09f5:		clc				; 18 
-B23_09f6:		.db $00				; 00
-B23_09f7:		.db $00				; 00
-B23_09f8:	.db $20 $00 $00
-B23_09fb:		.db $00				; 00
-B23_09fc:	.db $0b
-B23_09fd:		php				; 08 
-B23_09fe:	.db $9c
-B23_09ff:		.db $00				; 00
-B23_0a00:	.db $1f
-B23_0a01:		clc				; 18 
-B23_0a02:		.db $00				; 00
-B23_0a03:		.db $00				; 00
-B23_0a04:	.db $20 $00 $00
-B23_0a07:		.db $00				; 00
-B23_0a08:	.db $53
-B23_0a09:		.db $00				; 00
-B23_0a0a:		.db $00				; 00
-B23_0a0b:		.db $00				; 00
-B23_0a0c:	.db $04
-B23_0a0d:		ora ($00, x)	; 01 00
-B23_0a0f:		.db $00				; 00
-
+entityScripts_21:
+	.db $30 $03 $00 $00
+	.db $07 $00 $80 $00
+	.db $35 $00 $00 $00
+	.db $3b $00 $00 $00
+	sc_tryToFall
+	sc_setPhase $00
+	.db $36 $48 $00 $00
+	sc_clearSpeeds
+	.db $0b $08 $ac $00
+	sc_setAlarmOrStartYforSinusoidalMovement $08
+	sc_incPhaseWhenAlarm0
+	.db $0b $08 $ee $00
+	sc_setAlarmOrStartYforSinusoidalMovement $08
+	sc_incPhaseWhenAlarm0
+	sc_setPhase $00
+	sc_setStateIllusion
+	sc_clearSpeeds
+	sc_animateGroupAndDefIdx $08 $22
+	sc_setAlarmOrStartYforSinusoidalMovement $38
+	sc_incPhaseWhenAlarm0
+	.db $2d $00 $00 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $50
+	sc_incPhaseWhenAlarm0
+	.db $0b $08 $9e $00
+	sc_setAlarmOrStartYforSinusoidalMovement $18
+	sc_incPhaseWhenAlarm0
+	.db $0b $08 $9c $00
+	sc_setAlarmOrStartYforSinusoidalMovement $18
+	sc_incPhaseWhenAlarm0
+	sc_setStateNotIllusion
+	sc_setPhase $01
 
 entityScripts_0a:
-B23_0a10:	.db $07
-B23_0a11:		.db $00				; 00
-B23_0a12:		bcc B23_0a14 ; 90 00
-
-B23_0a14:		and $00, x		; 35 00
-B23_0a16:		.db $00				; 00
-B23_0a17:		.db $00				; 00
-B23_0a18:	.db $34
-B23_0a19:		.db $00				; 00
-B23_0a1a:		.db $00				; 00
-B23_0a1b:		.db $00				; 00
-B23_0a1c:	.db $33
-B23_0a1d:	.db $12
-B23_0a1e:		.db $00				; 00
-B23_0a1f:		.db $00				; 00
-B23_0a20:		rol $40, x		; 36 40
-B23_0a22:		.db $00				; 00
-B23_0a23:		.db $00				; 00
-B23_0a24:	.db $97
-B23_0a25:		.db $00				; 00
-B23_0a26:		.db $00				; 00
-B23_0a27:		.db $00				; 00
-B23_0a28:	.db $0b
-B23_0a29:		php				; 08 
-B23_0a2a:		ldy $1f00		; ac 00 1f
-B23_0a2d:		php				; 08 
-B23_0a2e:		.db $00				; 00
-B23_0a2f:		.db $00				; 00
-B23_0a30:	.db $20 $00 $00
-B23_0a33:		.db $00				; 00
-B23_0a34:	.db $0b
-B23_0a35:		php				; 08 
-B23_0a36:		inc $1f00		; ee 00 1f
-B23_0a39:		php				; 08 
-B23_0a3a:		.db $00				; 00
-B23_0a3b:		.db $00				; 00
-B23_0a3c:	.db $20 $00 $00
-B23_0a3f:		.db $00				; 00
-B23_0a40:	.db $04
-B23_0a41:		.db $00				; 00
-B23_0a42:		.db $00				; 00
-B23_0a43:		.db $00				; 00
-B23_0a44:		ora $0604, x	; 1d 04 06
-B23_0a47:		.db $00				; 00
-
+	.db $07 $00 $90 $00
+	.db $35 $00 $00 $00
+	.db $34 $00 $00 $00
+	.db $33 $12 $00 $00
+	.db $36 $40 $00 $00
+	sc_clearSpeeds
+	.db $0b $08 $ac $00
+	sc_setAlarmOrStartYforSinusoidalMovement $08
+	sc_incPhaseWhenAlarm0
+	.db $0b $08 $ee $00
+	sc_setAlarmOrStartYforSinusoidalMovement $08
+	sc_incPhaseWhenAlarm0
+	sc_setPhase $00
+	.db $1d $04 $06 $00
 
 entityScripts_0b:
-B23_0a48:	.db $07
-B23_0a49:		ora ($14, x)	; 01 14
-B23_0a4b:		.db $00				; 00
-B23_0a4c:	.db $1f
-B23_0a4d:	.db $20 $00 $00
-B23_0a50:	.db $20 $00 $00
-B23_0a53:		.db $00				; 00
-B23_0a54:	.db $2d $00 $00
-B23_0a57:		.db $00				; 00
-B23_0a58:	.db $0b
-B23_0a59:		php				; 08 
-B23_0a5a:	.db $5c
-B23_0a5b:		.db $00				; 00
-B23_0a5c:	.db $1f
-B23_0a5d:		bpl B23_0a5f ; 10 00
-
-B23_0a5f:		.db $00				; 00
-B23_0a60:	.db $20 $00 $00
-B23_0a63:		.db $00				; 00
-B23_0a64:	.db $0b
-B23_0a65:		php				; 08 
-B23_0a66:		lsr $1f00, x	; 5e 00 1f
-B23_0a69:		bpl B23_0a6b ; 10 00
-
-B23_0a6b:		.db $00				; 00
-B23_0a6c:	.db $20 $00 $00
-B23_0a6f:		.db $00				; 00
-B23_0a70:	.db $0b
-B23_0a71:		php				; 08 
-B23_0a72:	.db $5c
-B23_0a73:		.db $00				; 00
-B23_0a74:	.db $1f
-B23_0a75:	.db $04
-B23_0a76:		.db $00				; 00
-B23_0a77:		.db $00				; 00
-B23_0a78:	.db $20 $00 $00
-B23_0a7b:		.db $00				; 00
-B23_0a7c:	.db $0d $02 $00
-B23_0a7f:		.db $00				; 00
-B23_0a80:	.db $04
-B23_0a81:		.db $00				; 00
-B23_0a82:		.db $00				; 00
-B23_0a83:		.db $00				; 00
-
+	.db $07 $01 $14 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $20
+	sc_incPhaseWhenAlarm0
+	.db $2d $00 $00 $00
+	.db $0b $08 $5c $00
+	sc_setAlarmOrStartYforSinusoidalMovement $10
+	sc_incPhaseWhenAlarm0
+	.db $0b $08 $5e $00
+	sc_setAlarmOrStartYforSinusoidalMovement $10
+	sc_incPhaseWhenAlarm0
+	.db $0b $08 $5c $00
+	sc_setAlarmOrStartYforSinusoidalMovement $04
+	sc_incPhaseWhenAlarm0
+	.db $0d $02 $00 $00
+	sc_setPhase $00
 
 entityScripts_0c:
-B23_0a84:	.db $07
-B23_0a85:		.db $00				; 00
-B23_0a86:		rts				; 60 
+	.db $07 $00 $60 $00
+	.db $58 $04 $ff $ff
+	.db $59 $00 $00 $00
+	.db $57 $00 $00 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $20
+	sc_incPhaseWhenAlarm0
+	sc_setPhase $00
 
+entityScripts_22:
+	sc_animateGroupAndDefIdx $08 $20
+	.db $4d $20 $20 $00
 
-B23_0a87:		.db $00				; 00
-B23_0a88:		cli				; 58 
-B23_0a89:	.db $04
-B23_0a8a:	.db $ff
-B23_0a8b:	.db $ff
-B23_0a8c:	.db $59 $00 $00
-B23_0a8f:		.db $00				; 00
-B23_0a90:	.db $57
-B23_0a91:		.db $00				; 00
-B23_0a92:		.db $00				; 00
-B23_0a93:		.db $00				; 00
-B23_0a94:	.db $1f
-B23_0a95:	.db $20 $00 $00
-B23_0a98:	.db $20 $00 $00
-B23_0a9b:		.db $00				; 00
-B23_0a9c:	.db $04
-B23_0a9d:		.db $00				; 00
-B23_0a9e:		.db $00				; 00
-B23_0a9f:		.db $00				; 00
-B23_0aa0:	.db $13
-B23_0aa1:		php				; 08 
-B23_0aa2:		jsr $4d00		; 20 00 4d
-B23_0aa5:	.db $20 $20 $00
-B23_0aa8:	.db $13
-B23_0aa9:		php				; 08 
-B23_0aaa:		and ($00, x)	; 21 00
-B23_0aac:	.db $1f
-B23_0aad:	.db $2e $00 $00
-B23_0ab0:	.db $20 $00 $00
-B23_0ab3:		.db $00				; 00
-B23_0ab4:	.db $02
-B23_0ab5:		.db $00				; 00
-B23_0ab6:		.db $00				; 00
-B23_0ab7:		.db $00				; 00
-B23_0ab8:	.db $27
-B23_0ab9:		.db $00				; 00
-B23_0aba:		.db $00				; 00
-B23_0abb:		.db $00				; 00
-B23_0abc:	.db $13
-B23_0abd:		php				; 08 
-B23_0abe:		asl $1f00, x	; 1e 00 1f
-B23_0ac1:	.db $2e $00 $00
-B23_0ac4:	.db $20 $00 $00
-B23_0ac7:		.db $00				; 00
-B23_0ac8:	.db $02
-B23_0ac9:		.db $00				; 00
-B23_0aca:		.db $00				; 00
-B23_0acb:		.db $00				; 00
-B23_0acc:	.db $27
-B23_0acd:		.db $00				; 00
-B23_0ace:		.db $00				; 00
-B23_0acf:		.db $00				; 00
+entityScripts_23:
+	sc_animateGroupAndDefIdx $08 $21
+	sc_setAlarmOrStartYforSinusoidalMovement $2e
+	sc_incPhaseWhenAlarm0
+	.db $02 $00 $00 $00
+	sc_end
 
+entityScripts_20:
+	sc_animateGroupAndDefIdx $08 $1e
+	sc_setAlarmOrStartYforSinusoidalMovement $2e
+	sc_incPhaseWhenAlarm0
+	.db $02 $00 $00 $00
+	sc_end
 
 entityScripts_0d:
-B23_0ad0:	.db $07
-B23_0ad1:		ora ($10, x)	; 01 10
-B23_0ad3:		.db $00				; 00
-B23_0ad4:	.db $73
-B23_0ad5:		.db $00				; 00
-B23_0ad6:		.db $00				; 00
-B23_0ad7:		.db $00				; 00
-B23_0ad8:	.db $74
-B23_0ad9:		.db $00				; 00
-B23_0ada:		.db $00				; 00
-B23_0adb:		.db $00				; 00
-
+	.db $07 $01 $10 $00
+	.db $73 $00 $00 $00
+	.db $74 $00 $00 $00
 
 entityScripts_03:
 entityScripts_04:
-B23_0adc:	.db $8d $00 $00
-B23_0adf:		.db $00				; 00
-B23_0ae0:		eor $8078		; 4d 78 80
-B23_0ae3:		.db $00				; 00
-B23_0ae4:	.db $8c $00 $00
-B23_0ae7:		.db $00				; 00
-B23_0ae8:	.db $47
-B23_0ae9:		.db $00				; 00
-B23_0aea:		.db $00				; 00
-B23_0aeb:		.db $00				; 00
-B23_0aec:		pha				; 48 
-B23_0aed:		.db $00				; 00
-B23_0aee:		.db $00				; 00
-B23_0aef:		.db $00				; 00
-B23_0af0:		eor #$00		; 49 00
-B23_0af2:		.db $00				; 00
-B23_0af3:		.db $00				; 00
-
+	.db $8d $00 $00 $00
+	.db $4d $78 $80 $00
+	.db $8c $00 $00 $00
+	.db $47 $00 $00 $00
+	.db $48 $00 $00 $00
+	.db $49 $00 $00 $00
 
 entityScripts_0f:
-B23_0af4:	.db $0b
-B23_0af5:		php				; 08 
-B23_0af6:	.db $62
-B23_0af7:		.db $00				; 00
-B23_0af8:	.db $1f
-B23_0af9:	.db $20 $00 $00
-B23_0afc:	.db $20 $00 $00
-B23_0aff:		.db $00				; 00
-B23_0b00:	.db $0f
-B23_0b01:		.db $00				; 00
-B23_0b02:		.db $00				; 00
-B23_0b03:		.db $00				; 00
-B23_0b04:	.db $0b
-B23_0b05:		php				; 08 
-B23_0b06:	.db $64
-B23_0b07:		.db $00				; 00
-B23_0b08:	.db $44
-B23_0b09:	.db $17
-B23_0b0a:		.db $00				; 00
-B23_0b0b:		.db $00				; 00
-B23_0b0c:	.db $0b
-B23_0b0d:		php				; 08 
-B23_0b0e:	.db $62
-B23_0b0f:		.db $00				; 00
-B23_0b10:	.db $1f
-B23_0b11:		bpl B23_0b13 ; 10 00
-
-B23_0b13:		.db $00				; 00
-B23_0b14:	.db $20 $00 $00
-B23_0b17:		.db $00				; 00
-B23_0b18:	.db $3c
-B23_0b19:		ora ($0a, x)	; 01 0a
-B23_0b1b:		.db $00				; 00
-B23_0b1c:	.db $0b
-B23_0b1d:		php				; 08 
-B23_0b1e:		ror $00			; 66 00
-B23_0b20:	.db $3e $00 $00
-B23_0b23:		.db $00				; 00
-B23_0b24:	.db $3d $17 $00
-B23_0b27:		.db $00				; 00
-B23_0b28:	.db $0b
-B23_0b29:		php				; 08 
-B23_0b2a:		sec				; 38 
-B23_0b2b:		.db $00				; 00
-B23_0b2c:	.db $1f
-B23_0b2d:		bpl B23_0b2f ; 10 00
-
-B23_0b2f:		.db $00				; 00
-B23_0b30:	.db $20 $00 $00
-B23_0b33:		.db $00				; 00
-B23_0b34:	.db $0b
-B23_0b35:		php				; 08 
-B23_0b36:	.db $3a
-B23_0b37:		.db $00				; 00
-B23_0b38:		rti				; 40 
-
-
-B23_0b39:		.db $00				; 00
-B23_0b3a:		.db $00				; 00
-B23_0b3b:		.db $00				; 00
-B23_0b3c:		eor ($00, x)	; 41 00
-B23_0b3e:		.db $00				; 00
-B23_0b3f:		.db $00				; 00
-B23_0b40:	.db $3c
-B23_0b41:	.db $0d $14 $00
-B23_0b44:	.db $43
-B23_0b45:		ora ($80, x)	; 01 80
-B23_0b47:		.db $00				; 00
-B23_0b48:	.db $3f
-B23_0b49:		.db $00				; 00
-B23_0b4a:		.db $00				; 00
-B23_0b4b:		.db $00				; 00
-B23_0b4c:	.db $04
-B23_0b4d:		.db $00				; 00
-B23_0b4e:		.db $00				; 00
-B23_0b4f:		.db $00				; 00
-B23_0b50:	.db $1f
-B23_0b51:		rti				; 40 
-
-
-B23_0b52:		.db $00				; 00
-B23_0b53:		.db $00				; 00
-B23_0b54:	.db $20 $00 $00
-B23_0b57:		.db $00				; 00
-B23_0b58:	.db $42
-B23_0b59:		ora ($80, x)	; 01 80
-B23_0b5b:		.db $00				; 00
-B23_0b5c:	.db $0b
-B23_0b5d:		php				; 08 
-B23_0b5e:	.db $3c
-B23_0b5f:		.db $00				; 00
-B23_0b60:	.db $3f
-B23_0b61:		.db $00				; 00
-B23_0b62:		.db $00				; 00
-B23_0b63:		.db $00				; 00
-B23_0b64:	.db $04
-B23_0b65:		.db $00				; 00
-B23_0b66:		.db $00				; 00
-B23_0b67:		.db $00				; 00
-
+	.db $0b $08 $62 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $20
+	sc_incPhaseWhenAlarm0
+	.db $0f $00 $00 $00
+	.db $0b $08 $64 $00
+	.db $44 $17 $00 $00
+	.db $0b $08 $62 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $10
+	sc_incPhaseWhenAlarm0
+	.db $3c $01 $0a $00
+	.db $0b $08 $66 $00
+	.db $3e $00 $00 $00
+	.db $3d $17 $00 $00
+	.db $0b $08 $38 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $10
+	sc_incPhaseWhenAlarm0
+	.db $0b $08 $3a $00
+	.db $40 $00 $00 $00
+	.db $41 $00 $00 $00
+	.db $3c $0d $14 $00
+	.db $43 $01 $80 $00
+	.db $3f $00 $00 $00
+	sc_setPhase $00
+	sc_setAlarmOrStartYforSinusoidalMovement $40
+	sc_incPhaseWhenAlarm0
+	.db $42 $01 $80 $00
+	.db $0b $08 $3c $00
+	.db $3f $00 $00 $00
+	sc_setPhase $00
 
 entityScripts_10:
-B23_0b68:	.db $07
-B23_0b69:		.db $00				; 00
-B23_0b6a:	.db $80
-B23_0b6b:		.db $00				; 00
-B23_0b6c:		and $00, x		; 35 00
-B23_0b6e:		.db $00				; 00
-B23_0b6f:		.db $00				; 00
-B23_0b70:	.db $3b
-B23_0b71:		.db $00				; 00
-B23_0b72:		.db $00				; 00
-B23_0b73:		.db $00				; 00
-B23_0b74:	.db $6d $00 $00
-B23_0b77:		.db $00				; 00
-B23_0b78:	.db $04
-B23_0b79:		.db $00				; 00
-B23_0b7a:		.db $00				; 00
-B23_0b7b:		.db $00				; 00
-B23_0b7c:	.db $0b
-B23_0b7d:		php				; 08 
-B23_0b7e:		ldy $00, x		; b4 00
-B23_0b80:	.db $1f
-B23_0b81:		php				; 08 
-B23_0b82:		.db $00				; 00
-B23_0b83:		.db $00				; 00
-B23_0b84:	.db $20 $00 $00
-B23_0b87:		.db $00				; 00
-B23_0b88:	.db $3a
-B23_0b89:		php				; 08 
-B23_0b8a:		ldx $00, y		; b6 00
-B23_0b8c:	.db $1f
-B23_0b8d:		php				; 08 
-B23_0b8e:		.db $00				; 00
-B23_0b8f:		.db $00				; 00
-B23_0b90:	.db $20 $00 $00
-B23_0b93:		.db $00				; 00
-B23_0b94:	.db $3a
-B23_0b95:		php				; 08 
-B23_0b96:		beq B23_0b98 ; f0 00
+	.db $07 $00 $80 $00
+	.db $35 $00 $00 $00
+	.db $3b $00 $00 $00
+	sc_tryToFall
+	sc_setPhase $00
+	.db $0b $08 $b4 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $08
+	sc_incPhaseWhenAlarm0
+	.db $3a $08 $b6 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $08
+	sc_incPhaseWhenAlarm0
+	.db $3a $08 $f0 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $10
+	sc_incPhaseWhenAlarm0
+	.db $3a $08 $b4 $02
+	sc_setAlarmOrStartYforSinusoidalMovement $08
+	sc_incPhaseWhenAlarm0
+	sc_setPhase $00
 
-B23_0b98:	.db $1f
-B23_0b99:		bpl B23_0b9b ; 10 00
+entityScripts_1c:
+	.db $07 $00 $60 $00
+	.db $35 $00 $00 $00
+	.db $3b $00 $00 $00
+	sc_tryToFall
+	sc_setPhase $00
+	.db $3a $08 $f2 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $04
+	sc_incPhaseWhenAlarm0
+	.db $3a $08 $f8 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $04
+	sc_incPhaseWhenAlarm0
+	.db $0b $08 $f4 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $08
+	sc_incPhaseWhenAlarm0
+	.db $3a $08 $f2 $02
+	sc_setAlarmOrStartYforSinusoidalMovement $04
+	sc_incPhaseWhenAlarm0
+	sc_setPhase $00
 
-B23_0b9b:		.db $00				; 00
-B23_0b9c:	.db $20 $00 $00
-B23_0b9f:		.db $00				; 00
-B23_0ba0:	.db $3a
-B23_0ba1:		php				; 08 
-B23_0ba2:		ldy $02, x		; b4 02
-B23_0ba4:	.db $1f
-B23_0ba5:		php				; 08 
-B23_0ba6:		.db $00				; 00
-B23_0ba7:		.db $00				; 00
-B23_0ba8:	.db $20 $00 $00
-B23_0bab:		.db $00				; 00
-B23_0bac:	.db $04
-B23_0bad:		.db $00				; 00
-B23_0bae:		.db $00				; 00
-B23_0baf:		.db $00				; 00
-B23_0bb0:	.db $07
-B23_0bb1:		.db $00				; 00
-B23_0bb2:		rts				; 60 
-
-
-B23_0bb3:		.db $00				; 00
-B23_0bb4:		and $00, x		; 35 00
-B23_0bb6:		.db $00				; 00
-B23_0bb7:		.db $00				; 00
-B23_0bb8:	.db $3b
-B23_0bb9:		.db $00				; 00
-B23_0bba:		.db $00				; 00
-B23_0bbb:		.db $00				; 00
-B23_0bbc:	.db $6d $00 $00
-B23_0bbf:		.db $00				; 00
-B23_0bc0:	.db $04
-B23_0bc1:		.db $00				; 00
-B23_0bc2:		.db $00				; 00
-B23_0bc3:		.db $00				; 00
-B23_0bc4:	.db $3a
-B23_0bc5:		php				; 08 
-B23_0bc6:	.db $f2
-B23_0bc7:		.db $00				; 00
-B23_0bc8:	.db $1f
-B23_0bc9:	.db $04
-B23_0bca:		.db $00				; 00
-B23_0bcb:		.db $00				; 00
-B23_0bcc:	.db $20 $00 $00
-B23_0bcf:		.db $00				; 00
-B23_0bd0:	.db $3a
-B23_0bd1:		php				; 08 
-B23_0bd2:		sed				; f8 
-B23_0bd3:		.db $00				; 00
-B23_0bd4:	.db $1f
-B23_0bd5:	.db $04
-B23_0bd6:		.db $00				; 00
-B23_0bd7:		.db $00				; 00
-B23_0bd8:	.db $20 $00 $00
-B23_0bdb:		.db $00				; 00
-B23_0bdc:	.db $0b
-B23_0bdd:		php				; 08 
-B23_0bde:	.db $f4
-B23_0bdf:		.db $00				; 00
-B23_0be0:	.db $1f
-B23_0be1:		php				; 08 
-B23_0be2:		.db $00				; 00
-B23_0be3:		.db $00				; 00
-B23_0be4:	.db $20 $00 $00
-B23_0be7:		.db $00				; 00
-B23_0be8:	.db $3a
-B23_0be9:		php				; 08 
-B23_0bea:	.db $f2
-B23_0beb:	.db $02
-B23_0bec:	.db $1f
-B23_0bed:	.db $04
-B23_0bee:		.db $00				; 00
-B23_0bef:		.db $00				; 00
-B23_0bf0:	.db $20 $00 $00
-B23_0bf3:		.db $00				; 00
-B23_0bf4:	.db $04
-B23_0bf5:		.db $00				; 00
-B23_0bf6:		.db $00				; 00
-B23_0bf7:		.db $00				; 00
-B23_0bf8:		tya				; 98 
-B23_0bf9:		.db $00				; 00
-B23_0bfa:		.db $00				; 00
-B23_0bfb:		.db $00				; 00
-B23_0bfc:		pla				; 68 
-B23_0bfd:		clc				; 18 
-B23_0bfe:		rol a			; 2a
-B23_0bff:		.db $00				; 00
-B23_0c00:	.db $99 $00 $00
-B23_0c03:		.db $00				; 00
-B23_0c04:	.db $0b
-B23_0c05:		php				; 08 
-B23_0c06:		pha				; 48 
-B23_0c07:		.db $00				; 00
-B23_0c08:	.db $1f
-B23_0c09:		asl $00			; 06 00
-B23_0c0b:		.db $00				; 00
-B23_0c0c:	.db $20 $00 $00
-B23_0c0f:		.db $00				; 00
-B23_0c10:	.db $07
-B23_0c11:		.db $00				; 00
-B23_0c12:		bvs B23_0c14 ; 70 00
-
-B23_0c14:	.db $1f
-B23_0c15:		bcc B23_0c17 ; 90 00
-
-B23_0c17:		.db $00				; 00
-B23_0c18:	.db $2f
-B23_0c19:		.db $00				; 00
-B23_0c1a:		.db $00				; 00
-B23_0c1b:		.db $00				; 00
-B23_0c1c:		ora $00			; 05 00
-B23_0c1e:		.db $00				; 00
-B23_0c1f:		.db $00				; 00
-B23_0c20:	.db $2d $00 $00
-B23_0c23:		.db $00				; 00
-B23_0c24:	.db $0b
-B23_0c25:		php				; 08 
-B23_0c26:		lsr a			; 4a
-B23_0c27:		.db $00				; 00
-B23_0c28:	.db $1f
-B23_0c29:		clc				; 18 
-B23_0c2a:		.db $00				; 00
-B23_0c2b:		.db $00				; 00
-B23_0c2c:	.db $20 $00 $00
-B23_0c2f:		.db $00				; 00
-B23_0c30:	.db $0d $03 $00
-B23_0c33:		.db $00				; 00
-B23_0c34:	.db $1f
-B23_0c35:		clc				; 18 
-B23_0c36:		.db $00				; 00
-B23_0c37:		.db $00				; 00
-B23_0c38:	.db $20 $00 $00
-B23_0c3b:		.db $00				; 00
-B23_0c3c:		tya				; 98 
-B23_0c3d:		ora ($00, x)	; 01 00
-B23_0c3f:		.db $00				; 00
-B23_0c40:		rol a			; 2a
-B23_0c41:		.db $00				; 00
-B23_0c42:		.db $00				; 00
-B23_0c43:		.db $00				; 00
-B23_0c44:	.db $99 $01 $00
-B23_0c47:		.db $00				; 00
-B23_0c48:	.db $6c $23 $00
-B23_0c4b:		.db $00				; 00
-B23_0c4c:	.db $27
-B23_0c4d:		.db $00				; 00
-B23_0c4e:		.db $00				; 00
-B23_0c4f:		.db $00				; 00
-
+entityScripts_6a:
+	.db $98 $00 $00 $00
+	.db $68 $18 $2a $00
+	.db $99 $00 $00 $00
+	.db $0b $08 $48 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $06
+	sc_incPhaseWhenAlarm0
+	.db $07 $00 $70 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $90
+	.db $2f $00 $00 $00
+	sc_facePlayer
+	.db $2d $00 $00 $00
+	.db $0b $08 $4a $00
+	sc_setAlarmOrStartYforSinusoidalMovement $18
+	sc_incPhaseWhenAlarm0
+	.db $0d $03 $00 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $18
+	sc_incPhaseWhenAlarm0
+	.db $98 $01 $00 $00
+	sc_setStateMoving
+	.db $99 $01 $00 $00
+	sc_playSound $23
+	sc_end
 
 entityScripts_14:
-B23_0c50:		ora #$00		; 09 00
-B23_0c52:		.db $00				; 00
-B23_0c53:		.db $00				; 00
-B23_0c54:		ora $00			; 05 00
-B23_0c56:		.db $00				; 00
-B23_0c57:		.db $00				; 00
-B23_0c58:	.db $0b
-B23_0c59:		php				; 08 
-B23_0c5a:		lsr $00			; 46 00
-B23_0c5c:		rol a			; 2a
-B23_0c5d:		.db $00				; 00
-B23_0c5e:		.db $00				; 00
-B23_0c5f:		.db $00				; 00
-B23_0c60:	.db $6c $22 $00
-B23_0c63:		.db $00				; 00
-B23_0c64:	.db $63
-B23_0c65:	.db $f9 $2c $00
-B23_0c68:	.db $64
-B23_0c69:		.db $00				; 00
-B23_0c6a:		.db $00				; 00
-B23_0c6b:		.db $00				; 00
-B23_0c6c:	.db $0b
-B23_0c6d:		php				; 08 
-B23_0c6e:		pha				; 48 
-B23_0c6f:		.db $00				; 00
-B23_0c70:	.db $1f
-B23_0c71:		asl $00			; 06 00
-B23_0c73:		.db $00				; 00
-B23_0c74:	.db $20 $00 $00
-B23_0c77:		.db $00				; 00
-B23_0c78:	.db $07
-B23_0c79:		.db $00				; 00
-B23_0c7a:		bvs B23_0c7c ; 70 00
+	.db $09 $00 $00 $00
+	sc_facePlayer
+	.db $0b $08 $46 $00
+	sc_setStateMoving
+	sc_playSound $22
+	.db $63 $f9 $2c $00
+	.db $64 $00 $00 $00
+	.db $0b $08 $48 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $06
+	sc_incPhaseWhenAlarm0
+	.db $07 $00 $70 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $90
+	.db $2f $00 $00 $00
+	sc_facePlayer
+	.db $2d $00 $00 $00
+	.db $0b $08 $4a $00
+	sc_setAlarmOrStartYforSinusoidalMovement $18
+	sc_incPhaseWhenAlarm0
+	.db $0d $03 $00 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $18
+	sc_incPhaseWhenAlarm0
+	.db $07 $00 $70 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $90
+	.db $2f $00 $00 $00
+	sc_facePlayer
+	.db $2d $00 $00 $00
+	.db $0b $08 $4a $00
+	sc_setAlarmOrStartYforSinusoidalMovement $18
+	sc_incPhaseWhenAlarm0
+	.db $0d $03 $00 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $18
+	sc_incPhaseWhenAlarm0
+	.db $63 $ff $20 $00
+	sc_setStateMoving
+	.db $64 $01 $00 $00
+	sc_playSound $23
+	sc_end
+	.db $9e $00 $00 $00
+	sc_end
 
-B23_0c7c:	.db $1f
-B23_0c7d:		bcc B23_0c7f ; 90 00
+entityScripts_27:
+	.db $65 $00 $00 $00
+	sc_animateGroupAndDefIdx $12 $02
+	sc_moveToPlayerSetHorizSpeeds $0120
+	.db $58 $05 $00 $60
+	.db $60 $00 $00 $00
+	sc_setStateNotMoving
+	sc_facePlayer
+	sc_addOffsetsToXY $00 $f8
+	.db $2d $00 $00 $00
+	.db $0b $08 $42 $00
+	sc_playSound $22
+	.db $68 $18 $62 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $18
+	sc_incPhaseWhenAlarm0
+	.db $0b $08 $4a $00
+	sc_setAlarmOrStartYforSinusoidalMovement $10
+	sc_incPhaseWhenAlarm0
+	.db $0d $03 $00 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $18
+	sc_incPhaseWhenAlarm0
+	sc_addOffsetsToXY $00 $08
+	sc_setPhase $01
+	.db $61 $01 $0a $00
 
-B23_0c7f:		.db $00				; 00
-B23_0c80:	.db $2f
-B23_0c81:		.db $00				; 00
-B23_0c82:		.db $00				; 00
-B23_0c83:		.db $00				; 00
-B23_0c84:		ora $00			; 05 00
-B23_0c86:		.db $00				; 00
-B23_0c87:		.db $00				; 00
-B23_0c88:	.db $2d $00 $00
-B23_0c8b:		.db $00				; 00
-B23_0c8c:	.db $0b
-B23_0c8d:		php				; 08 
-B23_0c8e:		lsr a			; 4a
-B23_0c8f:		.db $00				; 00
-B23_0c90:	.db $1f
-B23_0c91:		clc				; 18 
-B23_0c92:		.db $00				; 00
-B23_0c93:		.db $00				; 00
-B23_0c94:	.db $20 $00 $00
-B23_0c97:		.db $00				; 00
-B23_0c98:	.db $0d $03 $00
-B23_0c9b:		.db $00				; 00
-B23_0c9c:	.db $1f
-B23_0c9d:		clc				; 18 
-B23_0c9e:		.db $00				; 00
-B23_0c9f:		.db $00				; 00
-B23_0ca0:	.db $20 $00 $00
-B23_0ca3:		.db $00				; 00
-B23_0ca4:	.db $07
-B23_0ca5:		.db $00				; 00
-B23_0ca6:		bvs B23_0ca8 ; 70 00
+entityScripts_29:
+	.db $65 $00 $00 $00
+	sc_animateGroupAndDefIdx $12 $02
+	sc_moveToPlayerSetHorizSpeeds $0180
+	.db $90 $06 $00 $60
+	.db $67 $00 $00 $00
+	.db $03 $00 $00 $00
+	sc_setStateNotMoving
+	sc_facePlayer
+	.db $0b $08 $46 $00
+	sc_setStateMoving
+	sc_playSound $22
+	.db $63 $fa $24 $00
+	.db $68 $18 $2a $00
+	.db $64 $03 $2a $00
+	.db $0b $08 $48 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $06
+	sc_incPhaseWhenAlarm0
+	.db $07 $00 $70 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $90
+	.db $2f $00 $00 $00
+	sc_facePlayer
+	.db $2d $00 $00 $00
+	.db $0b $08 $4a $00
+	sc_setAlarmOrStartYforSinusoidalMovement $18
+	sc_incPhaseWhenAlarm0
+	.db $0d $03 $00 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $18
+	sc_incPhaseWhenAlarm0
+	.db $07 $00 $70 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $90
+	.db $2f $00 $00 $00
+	sc_facePlayer
+	.db $2d $00 $00 $00
+	.db $0b $08 $4a $00
+	sc_setAlarmOrStartYforSinusoidalMovement $18
+	sc_incPhaseWhenAlarm0
+	.db $0d $03 $00 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $18
+	sc_incPhaseWhenAlarm0
+	.db $63 $ff $20 $00
+	sc_setStateMoving
+	.db $64 $02 $b0 $00
+	sc_playSound $23
+	sc_end
 
-B23_0ca8:	.db $1f
-B23_0ca9:		bcc B23_0cab ; 90 00
+entityScripts_28:
+	sc_animateGroupAndDefIdx $12 $03
+	sc_moveToPlayerSetHorizSpeeds $0080
+	sc_setAlarmOrStartYforSinusoidalMovement $40
+	.db $66 $00 $00 $00
 
-B23_0cab:		.db $00				; 00
-B23_0cac:	.db $2f
-B23_0cad:		.db $00				; 00
-B23_0cae:		.db $00				; 00
-B23_0caf:		.db $00				; 00
-B23_0cb0:		ora $00			; 05 00
-B23_0cb2:		.db $00				; 00
-B23_0cb3:		.db $00				; 00
-B23_0cb4:	.db $2d $00 $00
-B23_0cb7:		.db $00				; 00
-B23_0cb8:	.db $0b
-B23_0cb9:		php				; 08 
-B23_0cba:		lsr a			; 4a
-B23_0cbb:		.db $00				; 00
-B23_0cbc:	.db $1f
-B23_0cbd:		clc				; 18 
-B23_0cbe:		.db $00				; 00
-B23_0cbf:		.db $00				; 00
-B23_0cc0:	.db $20 $00 $00
-B23_0cc3:		.db $00				; 00
-B23_0cc4:	.db $0d $03 $00
-B23_0cc7:		.db $00				; 00
-B23_0cc8:	.db $1f
-B23_0cc9:		clc				; 18 
-B23_0cca:		.db $00				; 00
-B23_0ccb:		.db $00				; 00
-B23_0ccc:	.db $20 $00 $00
-B23_0ccf:		.db $00				; 00
-B23_0cd0:	.db $63
-B23_0cd1:	.db $ff
-B23_0cd2:		jsr $2a00		; 20 00 2a
-B23_0cd5:		.db $00				; 00
-B23_0cd6:		.db $00				; 00
-B23_0cd7:		.db $00				; 00
-B23_0cd8:	.db $64
-B23_0cd9:		ora ($00, x)	; 01 00
-B23_0cdb:		.db $00				; 00
-B23_0cdc:	.db $6c $23 $00
-B23_0cdf:		.db $00				; 00
-B23_0ce0:	.db $27
-B23_0ce1:		.db $00				; 00
-B23_0ce2:		.db $00				; 00
-B23_0ce3:		.db $00				; 00
-B23_0ce4:	.db $9e
-B23_0ce5:		.db $00				; 00
-B23_0ce6:		.db $00				; 00
-B23_0ce7:		.db $00				; 00
-B23_0ce8:	.db $27
-B23_0ce9:		.db $00				; 00
-B23_0cea:		.db $00				; 00
-B23_0ceb:		.db $00				; 00
-B23_0cec:		adc $00			; 65 00
-B23_0cee:		.db $00				; 00
-B23_0cef:		.db $00				; 00
-B23_0cf0:	.db $13
-B23_0cf1:	.db $12
-B23_0cf2:	.db $02
-B23_0cf3:		.db $00				; 00
-B23_0cf4:		asl $2001, x	; 1e 01 20
-B23_0cf7:		.db $00				; 00
-B23_0cf8:		cli				; 58 
-B23_0cf9:		ora $00			; 05 00
-B23_0cfb:		rts				; 60 
+entityScripts_25:
+	.db $5f $00 $00 $00
+	sc_playSound $0f
+	.db $0b $12 $20 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $12
+	sc_incPhaseWhenAlarm0
+	sc_setStateNotIllusion
+	.db $0b $12 $22 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $08
+	sc_incPhaseWhenAlarm0
+	.db $08 $01 $00 $00
+	sc_animateGroupAndDefIdx $12 $00
+	sc_moveToPlayerSetHorizSpeeds $0060
+	.db $5e $00 $00 $00
+	.db $0b $12 $22 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $08
+	sc_incPhaseWhenAlarm0
+	.db $0b $12 $20 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $08
+	sc_incPhaseWhenAlarm0
+	sc_end
 
+entityScripts_26:
+	.db $a7 $05 $00 $00
+	.db $89 $a8 $00 $00
+	sc_facePlayer
+	sc_playSound $22
+	.db $5b $01 $00 $00
+	.db $68 $00 $67 $00
+	sc_setStateMoving
+	.db $0b $12 $12 $00
+	.db $5c $00 $00 $00
+	.db $68 $00 $67 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $06
+	sc_incPhaseWhenAlarm0
+	.db $0b $12 $10 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $20
+	sc_incPhaseWhenAlarm0
+	sc_facePlayer
+	.db $5b $00 $00 $00
+	.db $68 $00 $67 $00
+	sc_setStateMoving
+	.db $0b $12 $12 $00
+	.db $5c $00 $00 $00
+	.db $68 $00 $67 $00
+	sc_setPhase $0a
+	.db $0b $12 $60 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $02
+	sc_incPhaseWhenAlarm0
+	.db $0b $12 $62 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $02
+	sc_incPhaseWhenAlarm0
+	.db $0b $08 $fa $00
+	sc_setAlarmOrStartYforSinusoidalMovement $02
+	sc_incPhaseWhenAlarm0
+	.db $0b $08 $fc $00
+	sc_setAlarmOrStartYforSinusoidalMovement $02
+	sc_incPhaseWhenAlarm0
+	.db $0b $08 $fa $00
+	sc_setAlarmOrStartYforSinusoidalMovement $02
+	sc_incPhaseWhenAlarm0
+	.db $0b $12 $62 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $02
+	sc_incPhaseWhenAlarm0
+	sc_setPhase $0a
+	.db $68 $00 $67 $00
+	.db $8a $00 $00 $00
+	.db $a8 $c0 $00 $00
 
-B23_0cfc:		rts				; 60 
-
-
-B23_0cfd:		.db $00				; 00
-B23_0cfe:		.db $00				; 00
-B23_0cff:		.db $00				; 00
-B23_0d00:		ora ($00, x)	; 01 00
-B23_0d02:		.db $00				; 00
-B23_0d03:		.db $00				; 00
-B23_0d04:		ora $00			; 05 00
-B23_0d06:		.db $00				; 00
-B23_0d07:		.db $00				; 00
-B23_0d08:	.db $62
-B23_0d09:		.db $00				; 00
-B23_0d0a:		sed				; f8 
-B23_0d0b:		.db $00				; 00
-B23_0d0c:	.db $2d $00 $00
-B23_0d0f:		.db $00				; 00
-B23_0d10:	.db $0b
-B23_0d11:		php				; 08 
-B23_0d12:	.db $42
-B23_0d13:		.db $00				; 00
-B23_0d14:	.db $6c $22 $00
-B23_0d17:		.db $00				; 00
-B23_0d18:		pla				; 68 
-B23_0d19:		clc				; 18 
-B23_0d1a:	.db $62
-B23_0d1b:		.db $00				; 00
-B23_0d1c:	.db $1f
-B23_0d1d:		clc				; 18 
-B23_0d1e:		.db $00				; 00
-B23_0d1f:		.db $00				; 00
-B23_0d20:	.db $20 $00 $00
-B23_0d23:		.db $00				; 00
-B23_0d24:	.db $0b
-B23_0d25:		php				; 08 
-B23_0d26:		lsr a			; 4a
-B23_0d27:		.db $00				; 00
-B23_0d28:	.db $1f
-B23_0d29:		bpl B23_0d2b ; 10 00
-
-B23_0d2b:		.db $00				; 00
-B23_0d2c:	.db $20 $00 $00
-B23_0d2f:		.db $00				; 00
-B23_0d30:	.db $0d $03 $00
-B23_0d33:		.db $00				; 00
-B23_0d34:	.db $1f
-B23_0d35:		clc				; 18 
-B23_0d36:		.db $00				; 00
-B23_0d37:		.db $00				; 00
-B23_0d38:	.db $20 $00 $00
-B23_0d3b:		.db $00				; 00
-B23_0d3c:	.db $62
-B23_0d3d:		.db $00				; 00
-B23_0d3e:		php				; 08 
-B23_0d3f:		.db $00				; 00
-B23_0d40:	.db $04
-B23_0d41:		ora ($00, x)	; 01 00
-B23_0d43:		.db $00				; 00
-B23_0d44:		adc ($01, x)	; 61 01
-B23_0d46:		asl a			; 0a
-B23_0d47:		.db $00				; 00
-B23_0d48:		adc $00			; 65 00
-B23_0d4a:		.db $00				; 00
-B23_0d4b:		.db $00				; 00
-B23_0d4c:	.db $13
-B23_0d4d:	.db $12
-B23_0d4e:	.db $02
-B23_0d4f:		.db $00				; 00
-B23_0d50:		asl $8001, x	; 1e 01 80
-B23_0d53:		.db $00				; 00
-B23_0d54:		bcc B23_0d5c ; 90 06
-
-B23_0d56:		.db $00				; 00
-B23_0d57:		rts				; 60 
-
-
-B23_0d58:	.db $67
-B23_0d59:		.db $00				; 00
-B23_0d5a:		.db $00				; 00
-B23_0d5b:		.db $00				; 00
-B23_0d5c:	.db $03
-B23_0d5d:		.db $00				; 00
-B23_0d5e:		.db $00				; 00
-B23_0d5f:		.db $00				; 00
-B23_0d60:		ora ($00, x)	; 01 00
-B23_0d62:		.db $00				; 00
-B23_0d63:		.db $00				; 00
-B23_0d64:		ora $00			; 05 00
-B23_0d66:		.db $00				; 00
-B23_0d67:		.db $00				; 00
-B23_0d68:	.db $0b
-B23_0d69:		php				; 08 
-B23_0d6a:		lsr $00			; 46 00
-B23_0d6c:		rol a			; 2a
-B23_0d6d:		.db $00				; 00
-B23_0d6e:		.db $00				; 00
-B23_0d6f:		.db $00				; 00
-B23_0d70:	.db $6c $22 $00
-B23_0d73:		.db $00				; 00
-B23_0d74:	.db $63
-B23_0d75:	.db $fa
-B23_0d76:		bit $00			; 24 00
-B23_0d78:		pla				; 68 
-B23_0d79:		clc				; 18 
-B23_0d7a:		rol a			; 2a
-B23_0d7b:		.db $00				; 00
-B23_0d7c:	.db $64
-B23_0d7d:	.db $03
-B23_0d7e:		rol a			; 2a
-B23_0d7f:		.db $00				; 00
-B23_0d80:	.db $0b
-B23_0d81:		php				; 08 
-B23_0d82:		pha				; 48 
-B23_0d83:		.db $00				; 00
-B23_0d84:	.db $1f
-B23_0d85:		asl $00			; 06 00
-B23_0d87:		.db $00				; 00
-B23_0d88:	.db $20 $00 $00
-B23_0d8b:		.db $00				; 00
-B23_0d8c:	.db $07
-B23_0d8d:		.db $00				; 00
-B23_0d8e:		bvs B23_0d90 ; 70 00
-
-B23_0d90:	.db $1f
-B23_0d91:		bcc B23_0d93 ; 90 00
-
-B23_0d93:		.db $00				; 00
-B23_0d94:	.db $2f
-B23_0d95:		.db $00				; 00
-B23_0d96:		.db $00				; 00
-B23_0d97:		.db $00				; 00
-B23_0d98:		ora $00			; 05 00
-B23_0d9a:		.db $00				; 00
-B23_0d9b:		.db $00				; 00
-B23_0d9c:	.db $2d $00 $00
-B23_0d9f:		.db $00				; 00
-B23_0da0:	.db $0b
-B23_0da1:		php				; 08 
-B23_0da2:		lsr a			; 4a
-B23_0da3:		.db $00				; 00
-B23_0da4:	.db $1f
-B23_0da5:		clc				; 18 
-B23_0da6:		.db $00				; 00
-B23_0da7:		.db $00				; 00
-B23_0da8:	.db $20 $00 $00
-B23_0dab:		.db $00				; 00
-B23_0dac:	.db $0d $03 $00
-B23_0daf:		.db $00				; 00
-B23_0db0:	.db $1f
-B23_0db1:		clc				; 18 
-B23_0db2:		.db $00				; 00
-B23_0db3:		.db $00				; 00
-B23_0db4:	.db $20 $00 $00
-B23_0db7:		.db $00				; 00
-B23_0db8:	.db $07
-B23_0db9:		.db $00				; 00
-B23_0dba:		bvs B23_0dbc ; 70 00
-
-B23_0dbc:	.db $1f
-B23_0dbd:		bcc B23_0dbf ; 90 00
-
-B23_0dbf:		.db $00				; 00
-B23_0dc0:	.db $2f
-B23_0dc1:		.db $00				; 00
-B23_0dc2:		.db $00				; 00
-B23_0dc3:		.db $00				; 00
-B23_0dc4:		ora $00			; 05 00
-B23_0dc6:		.db $00				; 00
-B23_0dc7:		.db $00				; 00
-B23_0dc8:	.db $2d $00 $00
-B23_0dcb:		.db $00				; 00
-B23_0dcc:	.db $0b
-B23_0dcd:		php				; 08 
-B23_0dce:		lsr a			; 4a
-B23_0dcf:		.db $00				; 00
-B23_0dd0:	.db $1f
-B23_0dd1:		clc				; 18 
-B23_0dd2:		.db $00				; 00
-B23_0dd3:		.db $00				; 00
-B23_0dd4:	.db $20 $00 $00
-B23_0dd7:		.db $00				; 00
-B23_0dd8:	.db $0d $03 $00
-B23_0ddb:		.db $00				; 00
-B23_0ddc:	.db $1f
-B23_0ddd:		clc				; 18 
-B23_0dde:		.db $00				; 00
-B23_0ddf:		.db $00				; 00
-B23_0de0:	.db $20 $00 $00
-B23_0de3:		.db $00				; 00
-B23_0de4:	.db $63
-B23_0de5:	.db $ff
-B23_0de6:		jsr $2a00		; 20 00 2a
-B23_0de9:		.db $00				; 00
-B23_0dea:		.db $00				; 00
-B23_0deb:		.db $00				; 00
-B23_0dec:	.db $64
-B23_0ded:	.db $02
-B23_0dee:		bcs B23_0df0 ; b0 00
-
-B23_0df0:	.db $6c $23 $00
-B23_0df3:		.db $00				; 00
-B23_0df4:	.db $27
-B23_0df5:		.db $00				; 00
-B23_0df6:		.db $00				; 00
-B23_0df7:		.db $00				; 00
-B23_0df8:	.db $13
-B23_0df9:	.db $12
-B23_0dfa:	.db $03
-B23_0dfb:		.db $00				; 00
-B23_0dfc:		asl $8000, x	; 1e 00 80
-B23_0dff:		.db $00				; 00
-B23_0e00:	.db $1f
-B23_0e01:		rti				; 40 
-
-
-B23_0e02:		.db $00				; 00
-B23_0e03:		.db $00				; 00
-B23_0e04:		ror $00			; 66 00
-B23_0e06:		.db $00				; 00
-B23_0e07:		.db $00				; 00
-B23_0e08:	.db $5f
-B23_0e09:		.db $00				; 00
-B23_0e0a:		.db $00				; 00
-B23_0e0b:		.db $00				; 00
-B23_0e0c:	.db $6c $0f $00
-B23_0e0f:		.db $00				; 00
-B23_0e10:	.db $0b
-B23_0e11:	.db $12
-B23_0e12:		jsr $1f00		; 20 00 1f
-B23_0e15:	.db $12
-B23_0e16:		.db $00				; 00
-B23_0e17:		.db $00				; 00
-B23_0e18:	.db $20 $00 $00
-B23_0e1b:		.db $00				; 00
-B23_0e1c:	.db $53
-B23_0e1d:		.db $00				; 00
-B23_0e1e:		.db $00				; 00
-B23_0e1f:		.db $00				; 00
-B23_0e20:	.db $0b
-B23_0e21:	.db $12
-B23_0e22:	.db $22
-B23_0e23:		.db $00				; 00
-B23_0e24:	.db $1f
-B23_0e25:		php				; 08 
-B23_0e26:		.db $00				; 00
-B23_0e27:		.db $00				; 00
-B23_0e28:	.db $20 $00 $00
-B23_0e2b:		.db $00				; 00
-B23_0e2c:		php				; 08 
-B23_0e2d:		ora ($00, x)	; 01 00
-B23_0e2f:		.db $00				; 00
-B23_0e30:	.db $13
-B23_0e31:	.db $12
-B23_0e32:		.db $00				; 00
-B23_0e33:		.db $00				; 00
-B23_0e34:		asl $6000, x	; 1e 00 60
-B23_0e37:		.db $00				; 00
-B23_0e38:	.db $5e $00 $00
-B23_0e3b:		.db $00				; 00
-B23_0e3c:	.db $0b
-B23_0e3d:	.db $12
-B23_0e3e:	.db $22
-B23_0e3f:		.db $00				; 00
-B23_0e40:	.db $1f
-B23_0e41:		php				; 08 
-B23_0e42:		.db $00				; 00
-B23_0e43:		.db $00				; 00
-B23_0e44:	.db $20 $00 $00
-B23_0e47:		.db $00				; 00
-B23_0e48:	.db $0b
-B23_0e49:	.db $12
-B23_0e4a:		jsr $1f00		; 20 00 1f
-B23_0e4d:		php				; 08 
-B23_0e4e:		.db $00				; 00
-B23_0e4f:		.db $00				; 00
-B23_0e50:	.db $20 $00 $00
-B23_0e53:		.db $00				; 00
-B23_0e54:	.db $27
-B23_0e55:		.db $00				; 00
-B23_0e56:		.db $00				; 00
-B23_0e57:		.db $00				; 00
-B23_0e58:	.db $a7
-B23_0e59:		ora $00			; 05 00
-B23_0e5b:		.db $00				; 00
-B23_0e5c:	.db $89
-B23_0e5d:		tay				; a8 
-B23_0e5e:		.db $00				; 00
-B23_0e5f:		.db $00				; 00
-B23_0e60:		ora $00			; 05 00
-B23_0e62:		.db $00				; 00
-B23_0e63:		.db $00				; 00
-B23_0e64:	.db $6c $22 $00
-B23_0e67:		.db $00				; 00
-B23_0e68:	.db $5b
-B23_0e69:		ora ($00, x)	; 01 00
-B23_0e6b:		.db $00				; 00
-B23_0e6c:		pla				; 68 
-B23_0e6d:		.db $00				; 00
-B23_0e6e:	.db $67
-B23_0e6f:		.db $00				; 00
-B23_0e70:		rol a			; 2a
-B23_0e71:		.db $00				; 00
-B23_0e72:		.db $00				; 00
-B23_0e73:		.db $00				; 00
-B23_0e74:	.db $0b
-B23_0e75:	.db $12
-B23_0e76:	.db $12
-B23_0e77:		.db $00				; 00
-B23_0e78:	.db $5c
-B23_0e79:		.db $00				; 00
-B23_0e7a:		.db $00				; 00
-B23_0e7b:		.db $00				; 00
-B23_0e7c:		pla				; 68 
-B23_0e7d:		.db $00				; 00
-B23_0e7e:	.db $67
-B23_0e7f:		.db $00				; 00
-B23_0e80:	.db $1f
-B23_0e81:		asl $00			; 06 00
-B23_0e83:		.db $00				; 00
-B23_0e84:	.db $20 $00 $00
-B23_0e87:		.db $00				; 00
-B23_0e88:	.db $0b
-B23_0e89:	.db $12
-B23_0e8a:		bpl B23_0e8c ; 10 00
-
-B23_0e8c:	.db $1f
-B23_0e8d:	.db $20 $00 $00
-B23_0e90:	.db $20 $00 $00
-B23_0e93:		.db $00				; 00
-B23_0e94:		ora $00			; 05 00
-B23_0e96:		.db $00				; 00
-B23_0e97:		.db $00				; 00
-B23_0e98:	.db $5b
-B23_0e99:		.db $00				; 00
-B23_0e9a:		.db $00				; 00
-B23_0e9b:		.db $00				; 00
-B23_0e9c:		pla				; 68 
-B23_0e9d:		.db $00				; 00
-B23_0e9e:	.db $67
-B23_0e9f:		.db $00				; 00
-B23_0ea0:		rol a			; 2a
-B23_0ea1:		.db $00				; 00
-B23_0ea2:		.db $00				; 00
-B23_0ea3:		.db $00				; 00
-B23_0ea4:	.db $0b
-B23_0ea5:	.db $12
-B23_0ea6:	.db $12
-B23_0ea7:		.db $00				; 00
-B23_0ea8:	.db $5c
-B23_0ea9:		.db $00				; 00
-B23_0eaa:		.db $00				; 00
-B23_0eab:		.db $00				; 00
-B23_0eac:		pla				; 68 
-B23_0ead:		.db $00				; 00
-B23_0eae:	.db $67
-B23_0eaf:		.db $00				; 00
-B23_0eb0:	.db $04
-B23_0eb1:		asl a			; 0a
-B23_0eb2:		.db $00				; 00
-B23_0eb3:		.db $00				; 00
-B23_0eb4:	.db $0b
-B23_0eb5:	.db $12
-B23_0eb6:		rts				; 60 
-
-
-B23_0eb7:		.db $00				; 00
-B23_0eb8:	.db $1f
-B23_0eb9:	.db $02
-B23_0eba:		.db $00				; 00
-B23_0ebb:		.db $00				; 00
-B23_0ebc:	.db $20 $00 $00
-B23_0ebf:		.db $00				; 00
-B23_0ec0:	.db $0b
-B23_0ec1:	.db $12
-B23_0ec2:	.db $62
-B23_0ec3:		.db $00				; 00
-B23_0ec4:	.db $1f
-B23_0ec5:	.db $02
-B23_0ec6:		.db $00				; 00
-B23_0ec7:		.db $00				; 00
-B23_0ec8:	.db $20 $00 $00
-B23_0ecb:		.db $00				; 00
-B23_0ecc:	.db $0b
-B23_0ecd:		php				; 08 
-B23_0ece:	.db $fa
-B23_0ecf:		.db $00				; 00
-B23_0ed0:	.db $1f
-B23_0ed1:	.db $02
-B23_0ed2:		.db $00				; 00
-B23_0ed3:		.db $00				; 00
-B23_0ed4:	.db $20 $00 $00
-B23_0ed7:		.db $00				; 00
-B23_0ed8:	.db $0b
-B23_0ed9:		php				; 08 
-B23_0eda:	.db $fc
-B23_0edb:		.db $00				; 00
-B23_0edc:	.db $1f
-B23_0edd:	.db $02
-B23_0ede:		.db $00				; 00
-B23_0edf:		.db $00				; 00
-B23_0ee0:	.db $20 $00 $00
-B23_0ee3:		.db $00				; 00
-B23_0ee4:	.db $0b
-B23_0ee5:		php				; 08 
-B23_0ee6:	.db $fa
-B23_0ee7:		.db $00				; 00
-B23_0ee8:	.db $1f
-B23_0ee9:	.db $02
-B23_0eea:		.db $00				; 00
-B23_0eeb:		.db $00				; 00
-B23_0eec:	.db $20 $00 $00
-B23_0eef:		.db $00				; 00
-B23_0ef0:	.db $0b
-B23_0ef1:	.db $12
-B23_0ef2:	.db $62
-B23_0ef3:		.db $00				; 00
-B23_0ef4:	.db $1f
-B23_0ef5:	.db $02
-B23_0ef6:		.db $00				; 00
-B23_0ef7:		.db $00				; 00
-B23_0ef8:	.db $20 $00 $00
-B23_0efb:		.db $00				; 00
-B23_0efc:	.db $04
-B23_0efd:		asl a			; 0a
-B23_0efe:		.db $00				; 00
-B23_0eff:		.db $00				; 00
-B23_0f00:		pla				; 68 
-B23_0f01:		.db $00				; 00
-B23_0f02:	.db $67
-B23_0f03:		.db $00				; 00
-B23_0f04:		txa				; 8a 
-B23_0f05:		.db $00				; 00
-B23_0f06:		.db $00				; 00
-B23_0f07:		.db $00				; 00
-B23_0f08:		tay				; a8 
-B23_0f09:		cpy #$00		; c0 00
-B23_0f0b:		.db $00				; 00
-B23_0f0c:		stx $00, y		; 96 00
-B23_0f0e:		.db $00				; 00
-B23_0f0f:		.db $00				; 00
-B23_0f10:		bvc B23_0f12 ; 50 00
-
-B23_0f12:		.db $00				; 00
-B23_0f13:		.db $00				; 00
-B23_0f14:	.db $53
-B23_0f15:		.db $00				; 00
-B23_0f16:		.db $00				; 00
-B23_0f17:		.db $00				; 00
-B23_0f18:		eor ($00), y	; 51 00
-B23_0f1a:		.db $00				; 00
-B23_0f1b:		.db $00				; 00
-B23_0f1c:		ora ($00, x)	; 01 00
-B23_0f1e:		.db $00				; 00
-B23_0f1f:		.db $00				; 00
-B23_0f20:	.db $1f
-B23_0f21:		bpl B23_0f23 ; 10 00
-
-B23_0f23:		.db $00				; 00
-B23_0f24:	.db $20 $00 $00
-B23_0f27:		.db $00				; 00
-B23_0f28:		txs				; 9a 
-B23_0f29:		asl $00			; 06 00
-B23_0f2b:		.db $00				; 00
-B23_0f2c:	.db $1f
-B23_0f2d:		bpl B23_0f2f ; 10 00
-
-B23_0f2f:		.db $00				; 00
-B23_0f30:	.db $20 $00 $00
-B23_0f33:		.db $00				; 00
-B23_0f34:		bvc B23_0f37 ; 50 01
-
-B23_0f36:		.db $00				; 00
-B23_0f37:		.db $00				; 00
-B23_0f38:		eor ($00), y	; 51 00
-B23_0f3a:		.db $00				; 00
-B23_0f3b:		.db $00				; 00
-B23_0f3c:	.db $22
-B23_0f3d:		php				; 08 
-B23_0f3e:		.db $00				; 00
-B23_0f3f:		.db $00				; 00
-B23_0f40:		ora $00			; 05 00
-B23_0f42:		.db $00				; 00
-B23_0f43:		.db $00				; 00
-B23_0f44:		php				; 08 
-B23_0f45:		.db $00				; 00
-B23_0f46:		.db $00				; 00
-B23_0f47:		.db $00				; 00
-B23_0f48:	.db $20 $00 $00
-B23_0f4b:		.db $00				; 00
-B23_0f4c:	.db $04
-B23_0f4d:		.db $00				; 00
-B23_0f4e:		.db $00				; 00
-B23_0f4f:		.db $00				; 00
-
+entityScripts_1d:
+	.db $96 $00 $00 $00
+	.db $50 $00 $00 $00
+	sc_setStateNotIllusion
+	.db $51 $00 $00 $00
+	sc_setStateNotMoving
+	sc_setAlarmOrStartYforSinusoidalMovement $10
+	sc_incPhaseWhenAlarm0
+	.db $9a $06 $00 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $10
+	sc_incPhaseWhenAlarm0
+	.db $50 $01 $00 $00
+	.db $51 $00 $00 $00
+	.db $22 $08 $00 $00
+	sc_facePlayer
+	.db $08 $00 $00 $00
+	sc_incPhaseWhenAlarm0
+	sc_setPhase $00
 
 entityScripts_16:
-B23_0f50:	.db $13
-B23_0f51:		php				; 08 
-B23_0f52:	.db $14
-B23_0f53:		.db $00				; 00
-B23_0f54:	.db $54
-B23_0f55:		.db $00				; 00
-B23_0f56:		.db $00				; 00
-B23_0f57:		.db $00				; 00
-B23_0f58:	.db $1f
-B23_0f59:	.db $3a
-B23_0f5a:		.db $00				; 00
-B23_0f5b:		.db $00				; 00
-B23_0f5c:	.db $20 $00 $00
-B23_0f5f:		.db $00				; 00
-B23_0f60:	.db $53
-B23_0f61:		.db $00				; 00
-B23_0f62:		.db $00				; 00
-B23_0f63:		.db $00				; 00
-B23_0f64:	.db $1f
-B23_0f65:	.db $20 $00 $00
-B23_0f68:	.db $07
-B23_0f69:		.db $00				; 00
-B23_0f6a:		bvs B23_0f6c ; 70 00
+	sc_animateGroupAndDefIdx $08 $14
+	sc_setStateIllusion
+	sc_setAlarmOrStartYforSinusoidalMovement $3a
+	sc_incPhaseWhenAlarm0
+	sc_setStateNotIllusion
+	sc_setAlarmOrStartYforSinusoidalMovement $20
+	.db $07 $00 $70 $00
+	.db $2f $00 $00 $00
+	sc_facePlayer
+	.db $2d $00 $00 $00
+	sc_clearSpeeds
+	.db $0d $05 $00 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $18
+	sc_incPhaseWhenAlarm0
+	.db $08 $03 $00 $00
+	sc_setPhase $06
 
-B23_0f6c:	.db $2f
-B23_0f6d:		.db $00				; 00
-B23_0f6e:		.db $00				; 00
-B23_0f6f:		.db $00				; 00
-B23_0f70:		ora $00			; 05 00
-B23_0f72:		.db $00				; 00
-B23_0f73:		.db $00				; 00
-B23_0f74:	.db $2d $00 $00
-B23_0f77:		.db $00				; 00
-B23_0f78:	.db $97
-B23_0f79:		.db $00				; 00
-B23_0f7a:		.db $00				; 00
-B23_0f7b:		.db $00				; 00
-B23_0f7c:	.db $0d $05 $00
-B23_0f7f:		.db $00				; 00
-B23_0f80:	.db $1f
-B23_0f81:		clc				; 18 
-B23_0f82:		.db $00				; 00
-B23_0f83:		.db $00				; 00
-B23_0f84:	.db $20 $00 $00
-B23_0f87:		.db $00				; 00
-B23_0f88:		php				; 08 
-B23_0f89:	.db $03
-B23_0f8a:		.db $00				; 00
-B23_0f8b:		.db $00				; 00
-B23_0f8c:	.db $04
-B23_0f8d:		asl $00			; 06 00
-B23_0f8f:		.db $00				; 00
-B23_0f90:	.db $13
-B23_0f91:	.db $0e $00 $00
-B23_0f94:		eor $01, x		; 55 01
-B23_0f96:		.db $00				; 00
-B23_0f97:		.db $00				; 00
-B23_0f98:		ldy #$00		; a0 00
-B23_0f9a:		.db $00				; 00
-B23_0f9b:		.db $00				; 00
-B23_0f9c:	.db $13
-B23_0f9d:	.db $0e $02 $00
-B23_0fa0:		eor $01, x		; 55 01
-B23_0fa2:		.db $00				; 00
-B23_0fa3:		.db $00				; 00
-B23_0fa4:		.db $00				; 00
-B23_0fa5:	.db $80
-B23_0fa6:		.db $00				; 00
-B23_0fa7:		.db $00				; 00
-B23_0fa8:	.db $4e $00 $00
-B23_0fab:		.db $00				; 00
-B23_0fac:		eor $01, x		; 55 01
-B23_0fae:		.db $00				; 00
-B23_0faf:		.db $00				; 00
-B23_0fb0:		.db $00				; 00
-B23_0fb1:	.db $80
-B23_0fb2:		.db $00				; 00
-B23_0fb3:		.db $00				; 00
-B23_0fb4:	.db $0b
-B23_0fb5:	.db $0e $14 $00
-B23_0fb8:	.db $0e $00 $00
-B23_0fbb:		.db $00				; 00
-B23_0fbc:	.db $13
-B23_0fbd:	.db $0e $03 $00
-B23_0fc0:	.db $1f
-B23_0fc1:		sec				; 38 
-B23_0fc2:		.db $00				; 00
-B23_0fc3:		.db $00				; 00
-B23_0fc4:	.db $20 $00 $00
-B23_0fc7:		.db $00				; 00
-B23_0fc8:	.db $2b
-B23_0fc9:		.db $00				; 00
-B23_0fca:		.db $00				; 00
-B23_0fcb:		.db $00				; 00
-B23_0fcc:		.db $00				; 00
-B23_0fcd:	.db $80
-B23_0fce:		.db $00				; 00
-B23_0fcf:		.db $00				; 00
-B23_0fd0:	.db $0b
-B23_0fd1:		php				; 08 
-B23_0fd2:		rts				; 60 
+entityScripts_30:
+	sc_animateGroupAndDefIdx $0e $00
+	.db $55 $01 $00 $00
+	.db $a0 $00 $00 $00
 
+entityScripts_31:
+	sc_animateGroupAndDefIdx $0e $02
+	.db $55 $01 $00 $00
+	sc_setEntityAIIdxTo0 $80
 
-B23_0fd3:		.db $00				; 00
-B23_0fd4:	.db $2e $00 $00
-B23_0fd7:		.db $00				; 00
-B23_0fd8:	.db $13
-B23_0fd9:		php				; 08 
-B23_0fda:		asl $00, x		; 16 00
-B23_0fdc:	.db $32
-B23_0fdd:	.db $1a
-B23_0fde:		.db $00				; 00
-B23_0fdf:		.db $00				; 00
-B23_0fe0:	.db $13
-B23_0fe1:		php				; 08 
-B23_0fe2:		clc				; 18 
-B23_0fe3:		.db $00				; 00
-B23_0fe4:		ora ($03), y	; 11 03
-B23_0fe6:		.db $00				; 00
-B23_0fe7:		.db $00				; 00
-B23_0fe8:	.db $12
-B23_0fe9:		.db $00				; 00
-B23_0fea:		.db $00				; 00
-B23_0feb:		.db $00				; 00
-B23_0fec:	.db $13
-B23_0fed:		php				; 08 
-B23_0fee:		ora $5600, x	; 1d 00 56
-B23_0ff1:		ora ($00, x)	; 01 00
-B23_0ff3:		.db $00				; 00
-B23_0ff4:	.db $0e $00 $00
-B23_0ff7:		.db $00				; 00
+entityScripts_32:
+	.db $4e $00 $00 $00
+	.db $55 $01 $00 $00
+	sc_setEntityAIIdxTo0 $80
 
+entityScripts_58:
+	.db $0b $0e $14 $00
+	.db $0e $00 $00 $00
+
+entityScripts_59:
+	sc_animateGroupAndDefIdx $0e $03
+	sc_setAlarmOrStartYforSinusoidalMovement $38
+	sc_incPhaseWhenAlarm0
+	sc_reverseHorizontally
+	sc_setEntityAIIdxTo0 $80
+
+entityScripts_5a:
+	.db $0b $08 $60 $00
+	.db $2e $00 $00 $00
+
+entityScripts_5b:
+	sc_animateGroupAndDefIdx $08 $16
+	.db $32 $1a $00 $00
+
+entityScripts_5c:
+	sc_animateGroupAndDefIdx $08 $18
+	.db $11 $03 $00 $00
+	.db $12 $00 $00 $00
+
+entityScripts_5d:
+	sc_animateGroupAndDefIdx $08 $1d
+	.db $56 $01 $00 $00
+	.db $0e $00 $00 $00
 
 entityScripts_18:
 entityScripts_72:
-B23_0ff8:	.db $13
-B23_0ff9:	.db $0e $04 $00
-B23_0ffc:	.db $1f
-B23_0ffd:		bpl B23_0fff ; 10 00
-
-B23_0fff:		.db $00				; 00
-B23_1000:	.db $20 $00 $00
-B23_1003:		.db $00				; 00
-B23_1004:	.db $27
-B23_1005:		.db $00				; 00
-B23_1006:		.db $00				; 00
-B23_1007:		.db $00				; 00
-B23_1008:	.db $04
-B23_1009:		.db $00				; 00
-B23_100a:		.db $00				; 00
-B23_100b:		.db $00				; 00
-
+	sc_animateGroupAndDefIdx $0e $04
+	sc_setAlarmOrStartYforSinusoidalMovement $10
+	sc_incPhaseWhenAlarm0
+	sc_end
+	sc_setPhase $00
 
 entityScripts_19:
-B23_100c:	.db $13
-B23_100d:		php				; 08 
-B23_100e:		ora $1f00, y	; 19 00 1f
-B23_1011:		bpl B23_1013 ; 10 00
-
-B23_1013:		.db $00				; 00
-B23_1014:	.db $20 $00 $00
-B23_1017:		.db $00				; 00
-B23_1018:	.db $27
-B23_1019:		.db $00				; 00
-B23_101a:		.db $00				; 00
-B23_101b:		.db $00				; 00
-
+	sc_animateGroupAndDefIdx $08 $19
+	sc_setAlarmOrStartYforSinusoidalMovement $10
+	sc_incPhaseWhenAlarm0
+	sc_end
 
 entityScripts_1a:
-B23_101c:	.db $13
-B23_101d:		php				; 08 
-B23_101e:	.db $1a
-B23_101f:		.db $00				; 00
-B23_1020:	.db $6c $27 $00
-B23_1023:		.db $00				; 00
-B23_1024:	.db $1f
-B23_1025:	.db $20 $00 $00
-B23_1028:	.db $20 $00 $00
-B23_102b:		.db $00				; 00
-B23_102c:	.db $27
-B23_102d:		.db $00				; 00
-B23_102e:		.db $00				; 00
-B23_102f:		.db $00				; 00
-
+	sc_animateGroupAndDefIdx $08 $1a
+	sc_playSound $27
+	sc_setAlarmOrStartYforSinusoidalMovement $20
+	sc_incPhaseWhenAlarm0
+	sc_end
 
 entityScripts_1b:
-B23_1030:		bmi B23_1032 ; 30 00
+	.db $30 $00 $00 $00
+	.db $0b $0e $46 $00
+	.db $45 $30 $00 $00
+	.db $46 $00 $00 $00
 
-B23_1032:		.db $00				; 00
-B23_1033:		.db $00				; 00
-B23_1034:	.db $0b
-B23_1035:	.db $0e $46 $00
-B23_1038:		eor $30			; 45 30
-B23_103a:		.db $00				; 00
-B23_103b:		.db $00				; 00
-B23_103c:		lsr $00			; 46 00
-B23_103e:		.db $00				; 00
-B23_103f:		.db $00				; 00
-B23_1040:	.db $0b
-B23_1041:	.db $0e $1a $00
-B23_1044:		eor $20			; 45 20
-B23_1046:		.db $00				; 00
-B23_1047:		.db $00				; 00
-B23_1048:		lsr $00			; 46 00
-B23_104a:		.db $00				; 00
-B23_104b:		.db $00				; 00
+entityScripts_2a:
+	.db $0b $0e $1a $00
+	.db $45 $20 $00 $00
+	.db $46 $00 $00 $00
 
+entityScripts_67:
+	.db $30 $02 $00 $00
 
+entityScripts_62:
+	.db $0b $0e $1a $00
+	.db $45 $10 $00 $00
+	.db $46 $00 $00 $00
 
-B23_104c:		bmi B23_1050 ; 30 02
+entityScripts_5e:
+	sc_animateGroupAndDefIdx $08 $1f
+	sc_setAlarmOrStartYforSinusoidalMovement $28
+	sc_incPhaseWhenAlarm0
+	.db $5a $08 $00 $00
 
-B23_104e:		.db $00				; 00
-B23_104f:		.db $00				; 00
-B23_1050:	.db $0b
-B23_1051:	.db $0e $1a $00
-B23_1054:		eor $10			; 45 10
-B23_1056:		.db $00				; 00
-B23_1057:		.db $00				; 00
-B23_1058:		lsr $00			; 46 00
-B23_105a:		.db $00				; 00
-B23_105b:		.db $00				; 00
-B23_105c:	.db $13
-B23_105d:		php				; 08 
-B23_105e:	.db $1f
-B23_105f:		.db $00				; 00
-B23_1060:	.db $1f
-B23_1061:		plp				; 28 
-B23_1062:		.db $00				; 00
-B23_1063:		.db $00				; 00
-B23_1064:	.db $20 $00 $00
-B23_1067:		.db $00				; 00
-B23_1068:	.db $5a
-B23_1069:		php				; 08 
-B23_106a:		.db $00				; 00
-B23_106b:		.db $00				; 00
-B23_106c:	.db $13
-B23_106d:	.db $12
-B23_106e:	.db $04
-B23_106f:		.db $00				; 00
-B23_1070:	.db $1f
-B23_1071:	.db $ff
-B23_1072:		.db $00				; 00
-B23_1073:		.db $00				; 00
-B23_1074:	.db $20 $00 $00
-B23_1077:		.db $00				; 00
-B23_1078:	.db $0b
-B23_1079:	.db $12
-B23_107a:	.db $32
-B23_107b:		.db $00				; 00
-B23_107c:	.db $1f
-B23_107d:		asl a			; 0a
-B23_107e:		.db $00				; 00
-B23_107f:		.db $00				; 00
-B23_1080:	.db $20 $00 $00
-B23_1083:		.db $00				; 00
-B23_1084:	.db $27
-B23_1085:		.db $00				; 00
-B23_1086:		.db $00				; 00
-B23_1087:		.db $00				; 00
-B23_1088:	.db $4f
-B23_1089:		.db $00				; 00
-B23_108a:		.db $00				; 00
-B23_108b:		.db $00				; 00
-B23_108c:		and $4000, y	; 39 00 40
-B23_108f:		.db $00				; 00
-B23_1090:		adc #$00		; 69 00
-B23_1092:		ora ($00, x)	; 01 00
-B23_1094:		ror a			; 6a
-B23_1095:		.db $00				; 00
-B23_1096:		.db $00				; 00
-B23_1097:		.db $00				; 00
-B23_1098:		sec				; 38 
-B23_1099:		.db $00				; 00
-B23_109a:		.db $00				; 00
-B23_109b:		.db $00				; 00
-B23_109c:	.db $27
-B23_109d:		.db $00				; 00
-B23_109e:		.db $00				; 00
-B23_109f:		.db $00				; 00
+entityScripts_5f:
+	sc_animateGroupAndDefIdx $12 $04
+	sc_setAlarmOrStartYforSinusoidalMovement $ff
+	sc_incPhaseWhenAlarm0
+	.db $0b $12 $32 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $0a
+	sc_incPhaseWhenAlarm0
+	sc_end
 
-
-entityScripts_10a0:
+entityScripts_4e:
 	.db $4f $00 $00 $00
-	.db $39 $01 $00 $00
+	sc_setVertSpeedStartMoving $0040
+	.db $69 $00 $01 $00
+	.db $6a $00 $00 $00
+	.db $38 $00 $00 $00
+	sc_end
+
+entityScripts_33:
+entityScripts_34:
+entityScripts_35:
+entityScripts_36:
+entityScripts_37:
+entityScripts_38:
+entityScripts_39:
+entityScripts_3a:
+entityScripts_3b:
+entityScripts_3c:
+entityScripts_3d:
+entityScripts_3e:
+entityScripts_3f:
+entityScripts_40:
+entityScripts_41:
+entityScripts_42:
+entityScripts_4c:
+entityScripts_4d:
+entityScripts_4f:
+entityScripts_50:
+	.db $4f $00 $00 $00
+	sc_setVertSpeedStartMoving $0100
 	.db $37 $00 $00 $00
 	.db $38 $00 $00 $00
 	sc_end
 
+entityScripts_43:
+entityScripts_44:
+entityScripts_45:
+entityScripts_46:
+entityScripts_47:
+entityScripts_48:
+entityScripts_49:
+entityScripts_4a:
+entityScripts_4b:
+	.db $4f $00 $00 $00
+	sc_setVertSpeedStartMoving $0100
+	.db $37 $00 $00 $00
+	.db $38 $00 $00 $00
+	.db $87 $00 $00 $00
+	sc_setAlarmOrStartYforSinusoidalMovement $38
+	sc_incPhaseWhenAlarm0
+	sc_end
 
-entityScripts_10b4:
-B23_10b4:	.db $4f
-B23_10b5:		.db $00				; 00
-B23_10b6:		.db $00				; 00
-B23_10b7:		.db $00				; 00
-B23_10b8:	.db $39 $01 $00
-B23_10bb:		.db $00				; 00
-B23_10bc:	.db $37
-B23_10bd:		.db $00				; 00
-B23_10be:		.db $00				; 00
-B23_10bf:		.db $00				; 00
-B23_10c0:		sec				; 38 
-B23_10c1:		.db $00				; 00
-B23_10c2:		.db $00				; 00
-B23_10c3:		.db $00				; 00
-B23_10c4:	.db $87
-B23_10c5:		.db $00				; 00
-B23_10c6:		.db $00				; 00
-B23_10c7:		.db $00				; 00
-B23_10c8:	.db $1f
-B23_10c9:		sec				; 38 
-B23_10ca:		.db $00				; 00
-B23_10cb:		.db $00				; 00
-B23_10cc:	.db $20 $00 $00
-B23_10cf:		.db $00				; 00
-B23_10d0:	.db $27
-B23_10d1:		.db $00				; 00
-B23_10d2:		.db $00				; 00
-B23_10d3:		.db $00				; 00
+entityScripts_51:
+entityScripts_52:
+entityScripts_53:
+	sc_setEntityAIIdxTo0
 
-
-entityScripts_10d4:
-B23_10d4:		.db $00				; 00
-B23_10d5:		.db $00				; 00
-B23_10d6:		.db $00				; 00
-B23_10d7:		.db $00				; 00
-
-B23_10d8:	.db $9b
-B23_10d9:		.db $00				; 00
-B23_10da:		.db $00				; 00
-B23_10db:		.db $00				; 00
+entityScripts_57:
+	.db $9b $00 $00 $00

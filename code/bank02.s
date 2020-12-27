@@ -47,7 +47,7 @@ B2_0048:		ldy wCurrRoomGroup			; a4 32
 B2_004a:		lda $8078, y	; b9 78 80
 B2_004d:		sta $00			; 85 00
 B2_004f:		ldx #$01		; a2 01
-B2_0051:		lda $054e, x	; bd 4e 05
+B2_0051:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B2_0054:		cmp $00			; c5 00
 B2_0056:		beq B2_005b ; f0 03
 
@@ -273,7 +273,7 @@ B2_0193:		sta $00			; 85 00
 B2_0195:		lda #$00		; a9 00
 B2_0197:		sta $01			; 85 01
 B2_0199:		ldx #$01		; a2 01
-B2_019b:		lda $054e, x	; bd 4e 05
+B2_019b:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B2_019e:		beq B2_01ba ; f0 1a
 
 B2_01a0:		ldy wCurrRoomGroup			; a4 32
@@ -285,7 +285,7 @@ B2_01a9:		jmp $8263		; 4c 63 82
 
 
 B2_01ac:		lda $826f, y	; b9 6f 82
-B2_01af:		sta $054e, x	; 9d 4e 05
+B2_01af:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B2_01b2:		lda #$03		; a9 03
 B2_01b4:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B2_01b7:		jmp $8263		; 4c 63 82
@@ -312,7 +312,7 @@ B2_01d2:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B2_01d5:		ldy wCurrPlayer.w		; ac 4e 05
 B2_01d8:		iny				; c8 
 B2_01d9:		tya				; 98 
-B2_01da:		sta $054e, x	; 9d 4e 05
+B2_01da:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B2_01dd:		lda wOamSpecIdxDoubled.w		; ad 00 04
 B2_01e0:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B2_01e3:		lda wEntityOamSpecGroupDoubled.w		; ad 8c 04
@@ -357,7 +357,7 @@ B2_0232:		lda $828a, y	; b9 8a 82
 B2_0235:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B2_0238:		iny				; c8 
 B2_0239:		tya				; 98 
-B2_023a:		sta $054e, x	; 9d 4e 05
+B2_023a:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B2_023d:		lda #$80		; a9 80
 B2_023f:		sta wEntityState.w, x	; 9d 70 04
 B2_0242:		jmp $8263		; 4c 63 82
@@ -368,7 +368,7 @@ B2_0247:		cmp #$02		; c9 02
 B2_0249:		bne B2_0263 ; d0 18
 
 B2_024b:		lda #$06		; a9 06
-B2_024d:		sta $054e, x	; 9d 4e 05
+B2_024d:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B2_0250:		lda #$80		; a9 80
 B2_0252:		sta wEntityState.w, x	; 9d 70 04
 B2_0255:		lda #$00		; a9 00
@@ -554,7 +554,7 @@ B2_035d:		sta $07ef		; 8d ef 07
 B2_0360:		lda #$00		; a9 00
 B2_0362:		sta $00			; 85 00
 B2_0364:		ldx #$01		; a2 01
-B2_0366:		lda $054e, x	; bd 4e 05
+B2_0366:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B2_0369:		beq B2_036d ; f0 02
 
 B2_036b:		inc $00			; e6 00
@@ -802,7 +802,7 @@ B2_0513:		rts				; 60
 
 
 B2_0514:		ldx #$01		; a2 01
-B2_0516:		ldy $054e, x	; bc 4e 05
+B2_0516:		ldy wEntityObjectIdxes.w, x	; bc 4e 05
 B2_0519:		beq B2_0522 ; f0 07
 
 B2_051b:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
@@ -1184,7 +1184,7 @@ B2_0782:		rts				; 60
 
 
 B2_0783:		ldx #$01		; a2 01
-B2_0785:		lda $054e, x	; bd 4e 05
+B2_0785:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B2_0788:		beq B2_079f ; f0 15
 
 B2_078a:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
@@ -1192,7 +1192,7 @@ B2_078d:		cmp #$03		; c9 03
 B2_078f:		bne B2_079f ; d0 0e
 
 B2_0791:		dec wEntityAlarmOrStartYforSinusoidalMovement.w, x	; de 06 06
-B2_0794:		lda $054e, x	; bd 4e 05
+B2_0794:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B2_0797:		sec				; 38 
 B2_0798:		sbc #$01		; e9 01
 B2_079a:		sta $3a			; 85 3a
@@ -1213,7 +1213,7 @@ B2_07b1:		bne B2_07eb ; d0 38
 
 B2_07b3:		inc $07ed		; ee ed 07
 B2_07b6:		ldx #$01		; a2 01
-B2_07b8:		lda $054e, x	; bd 4e 05
+B2_07b8:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B2_07bb:		beq B2_07e6 ; f0 29
 
 B2_07bd:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
@@ -1224,7 +1224,7 @@ B2_07c4:		cmp #$03		; c9 03
 B2_07c6:		bne B2_07e6 ; d0 1e
 
 B2_07c8:		dec wEntityAlarmOrStartYforSinusoidalMovement.w, x	; de 06 06
-B2_07cb:		lda $054e, x	; bd 4e 05
+B2_07cb:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B2_07ce:		sec				; 38 
 B2_07cf:		sbc #$01		; e9 01
 B2_07d1:		sta $3a			; 85 3a
@@ -1333,7 +1333,7 @@ B2_087d:		lda #$03		; a9 03
 B2_087f:		sta $00			; 85 00
 B2_0881:		jsr $feb9		; 20 b9 fe
 B2_0884:		lda #$05		; a9 05
-B2_0886:		sta $054e, x	; 9d 4e 05
+B2_0886:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B2_0889:		lda $00			; a5 00
 B2_088b:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B2_088e:		dec $00			; c6 00
@@ -1442,7 +1442,7 @@ data_02_0929:
 B2_0931:		ldx #$0d
 B2_0933:		lda #$00
 B2_0935:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
-B2_0938:		sta $054e, x	; 9d 4e 05
+B2_0938:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B2_093b:		sta wEntityState.w, x	; 9d 70 04
 B2_093e:		inx				; e8 
 B2_093f:		cpx #$13		; e0 13
@@ -3319,7 +3319,7 @@ B2_14bd:		rts				; 60
 B2_14be:		lda #$00		; a9 00
 B2_14c0:		sta $07			; 85 07
 B2_14c2:		ldx #$01		; a2 01
-B2_14c4:		lda $054e, x	; bd 4e 05
+B2_14c4:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B2_14c7:		beq B2_14d8 ; f0 0f
 
 B2_14c9:		asl a			; 0a
@@ -3515,7 +3515,7 @@ B2_15ce:		lda #$00		; a9 00
 B2_15d0:		sta wEntityBaseY.w, x	; 9d 1c 04
 B2_15d3:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B2_15d6:		clc				; 18 
-B2_15d7:		adc $0633, x	; 7d 33 06
+B2_15d7:		adc wEntityGenericCounter.w, x	; 7d 33 06
 B2_15da:		and #$0f		; 29 0f
 B2_15dc:		tay				; a8 
 B2_15dd:		lda $968a, y	; b9 8a 96
@@ -3594,8 +3594,8 @@ B2_165e:		rts				; 60
 
 B2_165f:		lda #$00		; a9 00
 B2_1661:		sta $061d, x	; 9d 1d 06
-B2_1664:		inc $0633, x	; fe 33 06
-B2_1667:		lda $0633, x	; bd 33 06
+B2_1664:		inc wEntityGenericCounter.w, x	; fe 33 06
+B2_1667:		lda wEntityGenericCounter.w, x	; bd 33 06
 B2_166a:		cmp #$02		; c9 02
 B2_166c:		beq B2_166f ; f0 01
 
@@ -3603,10 +3603,10 @@ B2_166e:		rts				; 60
 
 
 B2_166f:		lda #$00		; a9 00
-B2_1671:		sta $054e, x	; 9d 4e 05
+B2_1671:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B2_1674:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B2_1677:		sta $061d, x	; 9d 1d 06
-B2_167a:		sta $0633, x	; 9d 33 06
+B2_167a:		sta wEntityGenericCounter.w, x	; 9d 33 06
 B2_167d:		sta $0645, x	; 9d 45 06
 B2_1680:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B2_1683:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
@@ -3643,7 +3643,7 @@ B2_16a9:		lda #$7b		; a9 7b
 B2_16ab:		sta wChrBankSpr_0c00			; 85 49
 B2_16ad:		jsr updateSprChrBanks_0_to_c00_1400		; 20 3c e3
 B2_16b0:		lda #$00		; a9 00
-B2_16b2:		sta $0633, x	; 9d 33 06
+B2_16b2:		sta wEntityGenericCounter.w, x	; 9d 33 06
 B2_16b5:		sta $0645, x	; 9d 45 06
 B2_16b8:		sta $05d8, x	; 9d d8 05
 B2_16bb:		lda #$80		; a9 80
@@ -3664,12 +3664,12 @@ B2_16d5:		bne B2_1732 ; d0 5b
 B2_16d7:		lda $05d8, x	; bd d8 05
 B2_16da:		bne B2_172c ; d0 50
 
-B2_16dc:		lda $0633, x	; bd 33 06
+B2_16dc:		lda wEntityGenericCounter.w, x	; bd 33 06
 B2_16df:		asl a			; 0a
 B2_16e0:		tay				; a8 
 B2_16e1:		lda $976c, y	; b9 6c 97
 B2_16e4:		sta $05d8, x	; 9d d8 05
-B2_16e7:		inc $0633, x	; fe 33 06
+B2_16e7:		inc wEntityGenericCounter.w, x	; fe 33 06
 B2_16ea:		lda $976b, y	; b9 6b 97
 B2_16ed:		beq B2_1725 ; f0 36
 
@@ -3738,7 +3738,7 @@ B2_1758:		lda #$00		; a9 00
 B2_175a:		sta $07f0		; 8d f0 07
 B2_175d:		jsr $966f		; 20 6f 96
 B2_1760:		lda #$02		; a9 02
-B2_1762:		sta $054e, x	; 9d 4e 05
+B2_1762:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B2_1765:		lda #$80		; a9 80
 B2_1767:		sta wEntityState.w, x	; 9d 70 04
 B2_176a:		rts				; 60 
@@ -3909,7 +3909,7 @@ B2_1876:		rts				; 60
 
 B2_1877:		ldy wCurrRoomGroup			; a4 32
 B2_1879:		lda $98b6, y	; b9 b6 98
-B2_187c:		ldy $054e, x	; bc 4e 05
+B2_187c:		ldy wEntityObjectIdxes.w, x	; bc 4e 05
 B2_187f:		dey				; 88 
 B2_1880:		clc				; 18 
 B2_1881:		adc $98be, y	; 79 be 98
@@ -4190,7 +4190,7 @@ B2_1a4c:		sta $00			; 85 00
 B2_1a4e:		lda $061d, x	; bd 1d 06
 B2_1a51:		bne B2_1a70 ; d0 1d
 
-B2_1a53:		lda $054e, x	; bd 4e 05
+B2_1a53:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B2_1a56:		sec				; 38 
 B2_1a57:		sbc #$01		; e9 01
 B2_1a59:		tay				; a8 
@@ -4328,7 +4328,7 @@ B2_1b3b:		sta wEntityBaseX.w, x	; 9d 38 04
 B2_1b3e:		lda wEntityFacingLeft.w, x	; bd a8 04
 B2_1b41:		eor #$01		; 49 01
 B2_1b43:		sta wEntityFacingLeft.w, x	; 9d a8 04
-B2_1b46:		lda $054e, x	; bd 4e 05
+B2_1b46:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B2_1b49:		sec				; 38 
 B2_1b4a:		sbc #$01		; e9 01
 B2_1b4c:		tay				; a8 
@@ -4347,7 +4347,7 @@ B2_1b60:		lda $07f0		; ad f0 07
 B2_1b63:		cmp #$80		; c9 80
 B2_1b65:		bcc B2_1b91 ; 90 2a
 
-B2_1b67:		lda $054e, x	; bd 4e 05
+B2_1b67:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B2_1b6a:		sec				; 38 
 B2_1b6b:		sbc #$01		; e9 01
 B2_1b6d:		tay				; a8 
@@ -4436,7 +4436,7 @@ B2_1bf5:		lda #$00		; a9 00
 B2_1bf7:		sta wEntityState.w, x	; 9d 70 04
 B2_1bfa:		lda #$00		; a9 00
 B2_1bfc:		sta $061d, x	; 9d 1d 06
-B2_1bff:		lda $054e, x	; bd 4e 05
+B2_1bff:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B2_1c02:		sec				; 38 
 B2_1c03:		sbc #$01		; e9 01
 B2_1c05:		tay				; a8 
@@ -4494,7 +4494,7 @@ B2_1c5f:		lda $061d, x	; bd 1d 06
 B2_1c62:		bne B2_1c7c ; d0 18
 
 B2_1c64:		inc $061d, x	; fe 1d 06
-B2_1c67:		lda $054e, x	; bd 4e 05
+B2_1c67:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B2_1c6a:		sec				; 38 
 B2_1c6b:		sbc #$01		; e9 01
 B2_1c6d:		tay				; a8 
@@ -4511,7 +4511,7 @@ B2_1c7f:		rts				; 60
 
 
 B2_1c80:		lda #$00		; a9 00
-B2_1c82:		sta $054e, x	; 9d 4e 05
+B2_1c82:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B2_1c85:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B2_1c88:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B2_1c8b:		sta wEntityAnimationDefIdxInSpecGroup.w, x	; 9d aa 05
@@ -4540,7 +4540,7 @@ B2_1ca7:		bne B2_1cba ; d0 11
 
 B2_1ca9:		jsr $9cc0		; 20 c0 9c
 B2_1cac:		inc $061d, x	; fe 1d 06
-B2_1caf:		ldy $054e, x	; bc 4e 05
+B2_1caf:		ldy wEntityObjectIdxes.w, x	; bc 4e 05
 B2_1cb2:		dey				; 88 
 B2_1cb3:		tya				; 98 
 B2_1cb4:		asl a			; 0a
@@ -4603,7 +4603,7 @@ B2_1d15:		sta wEntityBaseX.w, y	; 99 38 04
 B2_1d18:		lda wEntityBaseY.w, x	; bd 1c 04
 B2_1d1b:		sta wEntityBaseY.w, y	; 99 1c 04
 B2_1d1e:		lda $10			; a5 10
-B2_1d20:		sta $054e, y	; 99 4e 05
+B2_1d20:		sta wEntityObjectIdxes.w, y	; 99 4e 05
 B2_1d23:		lda #$00		; a9 00
 B2_1d25:		sta wEntityPaletteOverride.w, y	; 99 54 04
 B2_1d28:		sec				; 38 

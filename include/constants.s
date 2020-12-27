@@ -48,6 +48,7 @@
 .define GS_SOUND_MODE $0f
 
 .define NUM_ENTITIES $1c
+.define NUM_SPAWNERS 6
 
 ; static layouts
 .define SL_TITLE_SCREEN_OPENING_TEXT $00
@@ -70,6 +71,7 @@
 .define ES_MOVING $40
 .define ES_UNANIMATED $20
 .define ES_ILLUSION $10
+.define ES_FROZEN $02
 .define ES_DESTROYED $01 ; wrong?
 
 ; collision

@@ -76,10 +76,10 @@ roomEntityDataAddresses:
 	.dw $949b
 
 @group0section0:
-	.dw $949d
+	.dw data_14_149d
 
 @group0section1:
-	.dw $94b9
+	.dw data_14_14b9
 
 
 B20_13f5:		.db $34
@@ -163,37 +163,24 @@ B20_1499:		adc $999b		; 6d 9b 99
 B20_149c:	.db $9b
 
 ; entities in group 0 section 0 room 0
-B20_149d:		.db $00				; 00
-B20_149e:		.db $00				; 00
-B20_149f:		.db $00				; 00
-B20_14a0:		.db $00				; 00
-B20_14a1:		.db $00				; 00
-B20_14a2:		.db $00				; 00
-B20_14a3:		.db $00				; 00
-B20_14a4:	.db $0f
-
-B20_14a5:		.db $00				; 00
-B20_14a6:		.db $00				; 00
-B20_14a7:		cmp ($46), y	; d1 46
-B20_14a9:		.db $00				; 00
-B20_14aa:		.db $00				; 00
-B20_14ab:		cmp ($0c), y	; d1 0c
-
-B20_14ad:		bne B20_14e4 ; d0 35
-B20_14af:		.db $00				; 00
-B20_14b0:		.db $00				; 00
-B20_14b1:		.db $00				; 00
-B20_14b2:		.db $00				; 00
-B20_14b3:		.db $00				; 00
-B20_14b4:	.db $0b
-
-B20_14b5:		.db $00				; 00
-B20_14b6:		.db $00				; 00
-B20_14b7:		.db $00				; 00
-B20_14b8:		.db $00				; 00
+data_14_149d:
+	.db $00 $00
+	.db $00 $00
+	.db $00 $00
+	.db $00 $0f
+	.db $00 $00
+	.db $d1 $46
+	.db $00 $00
+	.db $d1 $0c
+	.db $d0 $35
+	.db $00 $00
+	.db $00 $00
+	.db $00 $0b
+	.db $00 $00
+	.db $00 $00
 
 
-
+data_14_14b9:
 B20_14b9:		.db $00				; 00
 B20_14ba:		.db $00				; 00
 B20_14bb:		.db $00				; 00

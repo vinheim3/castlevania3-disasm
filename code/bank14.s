@@ -66,7 +66,7 @@ B20_0050:		bcc B20_0049 ; 90 f7
 B20_0052:		jsr getCurrRoomX_roomQuarterIdx		; 20 11 80
 B20_0055:		jsr getRoomEntityDataAddr		; 20 1e 80
 
-; 6 luminaries
+; 6 spawners
 B20_0058:		lda #$06		; a9 06
 B20_005a:		sta $0c			; 85 0c
 
@@ -207,6 +207,9 @@ B20_0121:		bcc B20_0127 ; 90 04
 B20_0123:		lda #$00		; a9 00
 B20_0125:		beq B20_010c ; f0 e5
 
+; 2nd table if byte >= $80 and
+; either hard mode, or byte was < #$d0
+; ie still use 1st table's 1st entry if easy mode and >= #$d0
 B20_0127:		tay				; a8 
 B20_0128:		lda data_15_013f.w, y	; b9 3f a1
 B20_012b:		sta $00			; 85 00
@@ -216,7 +219,7 @@ B20_0130:		sta $01			; 85 01
 ; 1st byte in 7c2
 B20_0132:		ldy #$00		; a0 00
 B20_0134:		lda ($00), y	; b1 00
-B20_0136:		sta $07c2, x	; 9d c2 07
+B20_0136:		sta wSpawnerID.w, x	; 9d c2 07
 B20_0139:		beq B20_0178 ; f0 3d
 
 ; 2nd byte
@@ -224,33 +227,33 @@ B20_013b:		iny				; c8
 B20_013c:		lda ($00), y	; b1 00
 B20_013e:		clc				; 18 
 B20_013f:		adc $09			; 65 09
-B20_0141:		sta $07da, x	; 9d da 07
+B20_0141:		sta wSpawnerXCoord.w, x	; 9d da 07
 
 B20_0144:		lda $0a			; a5 0a
 B20_0146:		adc #$00		; 69 00
 B20_0148:		and #$01		; 29 01
-B20_014a:		sta $07e0, x	; 9d e0 07
+B20_014a:		sta wSpawnerOffScreenStatus.w, x	; 9d e0 07
 
 ; 3rd byte in 7d4
 B20_014d:		iny				; c8 
 B20_014e:		lda ($00), y	; b1 00
-B20_0150:		sta $07d4, x	; 9d d4 07
+B20_0150:		sta wSpawnerYCoord.w, x	; 9d d4 07
 
 ; 4th byte in 7e6
 B20_0153:		iny				; c8 
 B20_0154:		lda ($00), y	; b1 00
-B20_0156:		sta $07e6, x	; 9d e6 07
+B20_0156:		sta wSpawner_var7e6.w, x	; 9d e6 07
 
 ; 5th byte in 7ce
 B20_0159:		iny				; c8 
 B20_015a:		lda ($00), y	; b1 00
-B20_015c:		sta $07ce, x	; 9d ce 07
+B20_015c:		sta wSpawner_var7ce.w, x	; 9d ce 07
 
 ; preserve X
 B20_015f:		txa				; 8a 
 B20_0160:		pha				; 48 
 
-B20_0161:		lda $07c8, x	; bd c8 07
+B20_0161:		lda wSpawner_var7c8.w, x	; bd c8 07
 B20_0164:		lsr a			; 4a
 B20_0165:		lsr a			; 4a
 B20_0166:		lsr a			; 4a
@@ -265,7 +268,7 @@ B20_0171:		pla				; 68
 B20_0172:		tax				; aa 
 
 B20_0173:		lda #$00		; a9 00
-B20_0175:		sta $07c8, x	; 9d c8 07
+B20_0175:		sta wSpawner_var7c8.w, x	; 9d c8 07
 
 B20_0178:		jsr retZifPendulumRoomBeforeDracula		; 20 8d 84
 B20_017b:		bne B20_017e ; d0 01
@@ -302,12 +305,12 @@ B20_01a4:		sta $00			; 85 00
 B20_01a6:		lda data_15_0744.w+1, y	; b9 45 a7
 B20_01a9:		sta $01			; 85 01
 
-B20_01ab:		jsr func_1f_1ed7	; sets entity vals to 0
+B20_01ab:		jsr clearAllEntityVars_todo	; sets entity vals to 0
 
 ; 1st byte
 B20_01ae:		ldy #$00		; a0 00
 B20_01b0:		lda ($00), y	; b1 00
-B20_01b2:		sta $054e, x	; 9d 4e 05
+B20_01b2:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 
 ; 2nd byte is luminary contents
 B20_01b5:		iny				; c8 
@@ -331,7 +334,7 @@ B20_01cd:		iny				; c8
 B20_01ce:		lda ($00), y	; b1 00
 B20_01d0:		sta wEntityBaseY.w, x	; 9d 1c 04
 
-B20_01d3:		lda $054e, x	; bd 4e 05
+B20_01d3:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B20_01d6:		sec				; 38 
 B20_01d7:		sbc #$90		; e9 90
 B20_01d9:		tay				; a8 
@@ -342,9 +345,9 @@ B20_01e2:		sta $0645, x	; 9d 45 06
 B20_01e5:		rts				; 60 
 
 @done:
-B20_01e6:		jsr func_1f_1ed7		; 20 d7 fe
+B20_01e6:		jsr clearAllEntityVars_todo		; 20 d7 fe
 B20_01e9:		lda #$00		; a9 00
-B20_01eb:		sta $054e, x	; 9d 4e 05
+B20_01eb:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B20_01ee:		sta wEntityState.w, x	; 9d 70 04
 B20_01f1:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B20_01f4:		sta wEntityAI_idx.w, x	; 9d ef 05
@@ -441,32 +444,32 @@ B20_027d:		jsr $835b		; 20 5b 83
 B20_0280:		bne B20_02d6 ; d0 54
 
 B20_0282:		lda (wCurrRoomEntityDataAddr), y	; b1 98
-B20_0284:		sta $07c2, x	; 9d c2 07
+B20_0284:		sta wSpawnerID.w, x	; 9d c2 07
 B20_0287:		iny				; c8 
 B20_0288:		lda (wCurrRoomEntityDataAddr), y	; b1 98
-B20_028a:		sta $07da, x	; 9d da 07
+B20_028a:		sta wSpawnerXCoord.w, x	; 9d da 07
 B20_028d:		iny				; c8 
 B20_028e:		iny				; c8 
 B20_028f:		lda (wCurrRoomEntityDataAddr), y	; b1 98
-B20_0291:		sta $07e6, x	; 9d e6 07
+B20_0291:		sta wSpawner_var7e6.w, x	; 9d e6 07
 B20_0294:		iny				; c8 
 B20_0295:		lda (wCurrRoomEntityDataAddr), y	; b1 98
-B20_0297:		sta $07ce, x	; 9d ce 07
+B20_0297:		sta wSpawner_var7ce.w, x	; 9d ce 07
 B20_029a:		lda $0a			; a5 0a
-B20_029c:		sta $07d4, x	; 9d d4 07
+B20_029c:		sta wSpawnerYCoord.w, x	; 9d d4 07
 B20_029f:		lda #$00		; a9 00
-B20_02a1:		sta $07e0, x	; 9d e0 07
-B20_02a4:		sta $07c8, x	; 9d c8 07
+B20_02a1:		sta wSpawnerOffScreenStatus.w, x	; 9d e0 07
+B20_02a4:		sta wSpawner_var7c8.w, x	; 9d c8 07
 B20_02a7:		rts				; 60 
 
 
 B20_02a8:		jsr $834d		; 20 4d 83
 B20_02ab:		bne B20_02d6 ; d0 29
 
-B20_02ad:		jsr func_1f_1ed7		; 20 d7 fe
+B20_02ad:		jsr clearAllEntityVars_todo		; 20 d7 fe
 B20_02b0:		sta wEntityState.w, x	; 9d 70 04
 B20_02b3:		lda (wCurrRoomEntityDataAddr), y	; b1 98
-B20_02b5:		sta $054e, x	; 9d 4e 05
+B20_02b5:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B20_02b8:		iny				; c8 
 B20_02b9:		lda (wCurrRoomEntityDataAddr), y	; b1 98
 B20_02bb:		sta wEntityBaseX.w, x	; 9d 38 04
@@ -475,7 +478,7 @@ B20_02bf:		lda (wCurrRoomEntityDataAddr), y	; b1 98
 B20_02c1:		sta $05d8, x	; 9d d8 05
 B20_02c4:		lda $0a			; a5 0a
 B20_02c6:		sta wEntityBaseY.w, x	; 9d 1c 04
-B20_02c9:		lda $054e, x	; bd 4e 05
+B20_02c9:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B20_02cc:		sec				; 38 
 B20_02cd:		sbc #$90		; e9 90
 B20_02cf:		tay				; a8 
@@ -582,7 +585,7 @@ B20_034a:		.db $00				; 00
 B20_034b:		.db $00				; 00
 B20_034c:		.db $00				; 00
 B20_034d:		ldx #$0d		; a2 0d
-B20_034f:		lda $054e, x	; bd 4e 05
+B20_034f:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B20_0352:		beq B20_0391 ; f0 3d
 
 B20_0354:		inx				; e8 
@@ -592,7 +595,7 @@ B20_0357:		bcc B20_034f ; 90 f6
 B20_0359:		bcs B20_038f ; b0 34
 
 B20_035b:		ldx #$00		; a2 00
-B20_035d:		lda $07c2, x	; bd c2 07
+B20_035d:		lda wSpawnerID.w, x	; bd c2 07
 B20_0360:		beq B20_0391 ; f0 2f
 
 B20_0362:		inx				; e8 
@@ -603,7 +606,7 @@ B20_0367:		bcs B20_038f ; b0 26
 
 B20_0369:		ldx #$00		; a2 00
 B20_036b:		txa				; 8a 
-B20_036c:		sta $07c2, x	; 9d c2 07
+B20_036c:		sta wSpawnerID.w, x	; 9d c2 07
 B20_036f:		inx				; e8 
 B20_0370:		cpx #$06		; e0 06
 B20_0372:		bcc B20_036c ; 90 f8
@@ -612,7 +615,7 @@ B20_0374:		rts				; 60
 
 
 B20_0375:		ldx #$01		; a2 01
-B20_0377:		lda $054e, x	; bd 4e 05
+B20_0377:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B20_037a:		beq B20_0391 ; f0 15
 
 B20_037c:		inx				; e8 
@@ -622,7 +625,7 @@ B20_037f:		bcc B20_0377 ; 90 f6
 B20_0381:		bcs B20_038f ; b0 0c
 
 B20_0383:		ldx #$01		; a2 01
-B20_0385:		lda $054e, x	; bd 4e 05
+B20_0385:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B20_0388:		beq B20_0391 ; f0 07
 
 B20_038a:		inx				; e8 
@@ -634,7 +637,7 @@ B20_0391:		rts				; 60
 
 
 B20_0392:		ldx #$07		; a2 07
-B20_0394:		lda $054e, x	; bd 4e 05
+B20_0394:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B20_0397:		beq B20_0391 ; f0 f8
 
 B20_0399:		inx				; e8 
@@ -644,7 +647,7 @@ B20_039c:		bcc B20_0394 ; 90 f6
 B20_039e:		bcs B20_038f ; b0 ef
 
 B20_03a0:		ldx #$04		; a2 04
-B20_03a2:		lda $054e, x	; bd 4e 05
+B20_03a2:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B20_03a5:		beq B20_0391 ; f0 ea
 
 B20_03a7:		inx				; e8 
@@ -654,7 +657,7 @@ B20_03aa:		bcc B20_03a2 ; 90 f6
 B20_03ac:		bcs B20_038f ; b0 e1
 
 B20_03ae:		ldx #$0a		; a2 0a
-B20_03b0:		lda $054e, x	; bd 4e 05
+B20_03b0:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B20_03b3:		beq B20_0391 ; f0 dc
 
 B20_03b5:		inx				; e8 
@@ -684,29 +687,29 @@ B20_03d6:		lda wCurrRoomMetadataByte			; a5 68
 B20_03d8:		bmi B20_03ee ; 30 14
 
 B20_03da:		sec				; 38 
-B20_03db:		lda $07da, x	; bd da 07
+B20_03db:		lda wSpawnerXCoord.w, x	; bd da 07
 B20_03de:		sbc $6e			; e5 6e
-B20_03e0:		sta $07da, x	; 9d da 07
-B20_03e3:		lda $07e0, x	; bd e0 07
+B20_03e0:		sta wSpawnerXCoord.w, x	; 9d da 07
+B20_03e3:		lda wSpawnerOffScreenStatus.w, x	; bd e0 07
 B20_03e6:		sbc $00			; e5 00
 B20_03e8:		and #$01		; 29 01
-B20_03ea:		sta $07e0, x	; 9d e0 07
+B20_03ea:		sta wSpawnerOffScreenStatus.w, x	; 9d e0 07
 B20_03ed:		rts				; 60 
 
 
 B20_03ee:		clc				; 18 
-B20_03ef:		lda $07d4, x	; bd d4 07
+B20_03ef:		lda wSpawnerYCoord.w, x	; bd d4 07
 B20_03f2:		adc $6e			; 65 6e
-B20_03f4:		sta $07d4, x	; 9d d4 07
-B20_03f7:		lda $07e0, x	; bd e0 07
+B20_03f4:		sta wSpawnerYCoord.w, x	; 9d d4 07
+B20_03f7:		lda wSpawnerOffScreenStatus.w, x	; bd e0 07
 B20_03fa:		adc $00			; 65 00
 B20_03fc:		and #$01		; 29 01
-B20_03fe:		sta $07e0, x	; 9d e0 07
-B20_0401:		lda $07e0, x	; bd e0 07
+B20_03fe:		sta wSpawnerOffScreenStatus.w, x	; 9d e0 07
+B20_0401:		lda wSpawnerOffScreenStatus.w, x	; bd e0 07
 B20_0404:		beq B20_040b ; f0 05
 
 B20_0406:		lda #$00		; a9 00
-B20_0408:		sta $07c2, x	; 9d c2 07
+B20_0408:		sta wSpawnerID.w, x	; 9d c2 07
 B20_040b:		rts				; 60 
 
 
@@ -814,7 +817,7 @@ retZifPendulumRoomBeforeDracula:
 
 
 B20_049e:		ldx #$01		; a2 01
-B20_04a0:		lda $054e, x	; bd 4e 05
+B20_04a0:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B20_04a3:		cmp #$93		; c9 93
 B20_04a5:		bcc B20_04c0 ; 90 19
 
@@ -856,7 +859,7 @@ B20_04d4:		bne B20_04bd ; d0 e7
 B20_04d6:		beq B20_04c0 ; f0 e8
 
 B20_04d8:		lda #$00		; a9 00
-B20_04da:		sta $054e, x	; 9d 4e 05
+B20_04da:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B20_04dd:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B20_04e0:		sta wEntityState.w, x	; 9d 70 04
 B20_04e3:		sta wEntityBaseX.w, x	; 9d 38 04
@@ -866,7 +869,7 @@ B20_04e9:		rts				; 60
 
 func_14_04ea:
 B20_04ea:		ldx #$00		; a2 00
-B20_04ec:		lda $07c2, x	; bd c2 07
+B20_04ec:		lda wSpawnerID.w, x	; bd c2 07
 B20_04ef:		beq B20_04ff ; f0 0e
 
 B20_04f1:		stx $6c			; 86 6c
@@ -884,7 +887,7 @@ B20_0504:		rts				; 60
 
 
 func_14_0505:
-B20_0505:		lda $07c2, x	; bd c2 07
+B20_0505:		lda wSpawnerID.w, x	; bd c2 07
 B20_0508:		asl a			; 0a
 B20_0509:		tay				; a8 
 B20_050a:		lda data_14_0527.w, y	; b9 27 85
@@ -892,7 +895,7 @@ B20_050d:		sta $00			; 85 00
 B20_050f:		lda data_14_0527.w+1, y	; b9 28 85
 B20_0512:		sta $01			; 85 01
 
-B20_0514:		lda $07c8, x	; bd c8 07
+B20_0514:		lda wSpawner_var7c8.w, x	; bd c8 07
 B20_0517:		and #$0f		; 29 0f
 B20_0519:		asl a			; 0a
 B20_051a:		tay				; a8 
@@ -923,13 +926,13 @@ data_14_0527:
 	.dw $8bf9
 	.dw $8b16
 	.dw $86bf
-	.dw $8bab
+	.dw funcs_14_0bab
 	.dw $8bf9
-	.dw $8bab
-	.dw $8bab
-	.dw $8bab
+	.dw funcs_14_0bab
+	.dw funcs_14_0bab
+	.dw funcs_14_0bab
 	.dw $8aad
-	.dw $8bab
+	.dw funcs_14_0bab
 	.dw $8a5f
 	.dw $8ed1
 	.dw $914a
@@ -944,7 +947,7 @@ data_14_0527:
 	.dw $8ed1
 	.dw $8ed1
 	.dw $8bf9
-	.dw $8bab
+	.dw funcs_14_0bab
 	.dw $8c0f
 	.dw $8c9c
 	.dw $8970
@@ -954,7 +957,7 @@ data_14_0527:
 	.dw $85d3
 	.dw $85d3
 	.dw $85d3
-	.dw $8bab
+	.dw funcs_14_0bab
 	.dw $85d3
 	.dw $85d3
 	.dw $85d3
@@ -967,7 +970,7 @@ data_14_0527:
 	.dw $8769
 	.dw $86b3
 	.dw $86b9
-	.dw $8bab
+	.dw funcs_14_0bab
 	.dw $8b61
 	.dw $8c76
 
@@ -1019,10 +1022,10 @@ B20_05e3:		rts				; 60
 
 B20_05e4:		php				; 08 
 B20_05e5:		sed				; f8 
-B20_05e6:		dec $07ce, x	; de ce 07
+B20_05e6:		dec wSpawner_var7ce.w, x	; de ce 07
 B20_05e9:		bne B20_05e3 ; d0 f8
 
-B20_05eb:		jsr func_14_0de7		; 20 e7 8d
+B20_05eb:		jsr storeSpawnerPosAIObjectIdxIntoTempVars		; 20 e7 8d
 B20_05ee:		jsr $8d73		; 20 73 8d
 B20_05f1:		bne B20_0621 ; d0 2e
 
@@ -1036,20 +1039,20 @@ B20_0602:		lda wEntityBaseX.w, x	; bd 38 04
 B20_0605:		sta $08			; 85 08
 B20_0607:		txa				; 8a 
 B20_0608:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
-B20_060a:		sta $07e6, x	; 9d e6 07
+B20_060a:		sta wSpawner_var7e6.w, x	; 9d e6 07
 B20_060d:		ldy #$a4		; a0 a4
 B20_060f:		lda $08			; a5 08
 B20_0611:		jsr $fc16		; 20 16 fc
 B20_0614:		beq B20_0621 ; f0 0b
 
 B20_0616:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
-B20_0618:		lda $07e6, x	; bd e6 07
+B20_0618:		lda wSpawner_var7e6.w, x	; bd e6 07
 B20_061b:		tax				; aa 
 B20_061c:		lda #$90		; a9 90
 B20_061e:		sta wEntityBaseY.w, x	; 9d 1c 04
 B20_0621:		lda #$81		; a9 81
 B20_0623:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
-B20_0625:		sta $07ce, x	; 9d ce 07
+B20_0625:		sta wSpawner_var7ce.w, x	; 9d ce 07
 B20_0628:		rts				; 60 
 
 
@@ -1057,7 +1060,7 @@ B20_0629:		and $4b86		; 2d 86 4b
 B20_062c:		stx $fe			; 86 fe
 B20_062e:		iny				; c8 
 B20_062f:	.db $07
-B20_0630:		jsr func_14_0de7		; 20 e7 8d
+B20_0630:		jsr storeSpawnerPosAIObjectIdxIntoTempVars		; 20 e7 8d
 B20_0633:		jsr $8d73		; 20 73 8d
 B20_0636:		bne B20_0643 ; d0 0b
 
@@ -1067,11 +1070,11 @@ B20_063e:		ora #$20		; 09 20
 B20_0640:		sta wEntityState.w, x	; 9d 70 04
 B20_0643:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B20_0645:		lda #$81		; a9 81
-B20_0647:		sta $07ce, x	; 9d ce 07
+B20_0647:		sta wSpawner_var7ce.w, x	; 9d ce 07
 B20_064a:		rts				; 60 
 
 
-B20_064b:		dec $07ce, x	; de ce 07
+B20_064b:		dec wSpawner_var7ce.w, x	; de ce 07
 B20_064e:		bne B20_0628 ; d0 d8
 
 B20_0650:		beq B20_0630 ; f0 de
@@ -1083,10 +1086,10 @@ B20_0657:		adc ($86, x)	; 61 86
 B20_0659:		jmp $85de		; 4c de 85
 
 
-B20_065c:		dec $07ce, x	; de ce 07
+B20_065c:		dec wSpawner_var7ce.w, x	; de ce 07
 B20_065f:		bne B20_064a ; d0 e9
 
-B20_0661:		jsr func_14_0de7		; 20 e7 8d
+B20_0661:		jsr storeSpawnerPosAIObjectIdxIntoTempVars		; 20 e7 8d
 B20_0664:		jsr $8d73		; 20 73 8d
 B20_0667:		bne B20_0674 ; d0 0b
 
@@ -1096,7 +1099,7 @@ B20_066f:		sta $00			; 85 00
 B20_0671:		jsr $8dde		; 20 de 8d
 B20_0674:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B20_0676:		lda #$47		; a9 47
-B20_0678:		sta $07ce, x	; 9d ce 07
+B20_0678:		sta wSpawner_var7ce.w, x	; 9d ce 07
 B20_067b:		rts				; 60 
 
 
@@ -1108,7 +1111,7 @@ B20_0682:		stx $4c			; 86 4c
 B20_0684:		dec $de85, x	; de 85 de
 B20_0687:		dec $d007		; ce 07 d0
 B20_068a:	.db $27
-B20_068b:		jsr func_14_0de7		; 20 e7 8d
+B20_068b:		jsr storeSpawnerPosAIObjectIdxIntoTempVars		; 20 e7 8d
 B20_068e:		jsr $8d73		; 20 73 8d
 B20_0691:		bne B20_06ab ; d0 18
 
@@ -1125,7 +1128,7 @@ B20_06a6:		sta $03			; 85 03
 B20_06a8:		jsr $8dde		; 20 de 8d
 B20_06ab:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B20_06ad:		lda #$41		; a9 41
-B20_06af:		sta $07ce, x	; 9d ce 07
+B20_06af:		sta wSpawner_var7ce.w, x	; 9d ce 07
 B20_06b2:		rts				; 60 
 
 
@@ -1143,10 +1146,10 @@ B20_06c4:		rol a			; 2a
 B20_06c5:		cmp #$1b		; c9 1b
 B20_06c7:		beq B20_06ee ; f0 25
 
-B20_06c9:		lda $07e0, x	; bd e0 07
+B20_06c9:		lda wSpawnerOffScreenStatus.w, x	; bd e0 07
 B20_06cc:		bne B20_06ee ; d0 20
 
-B20_06ce:		jsr func_14_0de7		; 20 e7 8d
+B20_06ce:		jsr storeSpawnerPosAIObjectIdxIntoTempVars		; 20 e7 8d
 B20_06d1:		jsr func_14_0e54		; 20 54 8e
 B20_06d4:		bne B20_06ee ; d0 18
 
@@ -1160,34 +1163,34 @@ B20_06e2:		sta $00			; 85 00
 B20_06e4:		jsr $8dde		; 20 de 8d
 B20_06e7:		txa				; 8a 
 B20_06e8:		jsr $85de		; 20 de 85
-B20_06eb:		sta $07e6, x	; 9d e6 07
+B20_06eb:		sta wSpawner_var7e6.w, x	; 9d e6 07
 B20_06ee:		rts				; 60 
 
 
-B20_06ef:		ldy $07e6, x	; bc e6 07
-B20_06f2:		lda $054e, y	; b9 4e 05
+B20_06ef:		ldy wSpawner_var7e6.w, x	; bc e6 07
+B20_06f2:		lda wEntityObjectIdxes.w, y	; b9 4e 05
 B20_06f5:		bne B20_06ee ; d0 f7
 
 B20_06f7:		lda #$00		; a9 00
-B20_06f9:		sta $07c8, x	; 9d c8 07
+B20_06f9:		sta wSpawner_var7c8.w, x	; 9d c8 07
 B20_06fc:		rts				; 60 
 
 
-B20_06fd:		ldy $07e6, x	; bc e6 07
-B20_0700:		lda $054e, y	; b9 4e 05
+B20_06fd:		ldy wSpawner_var7e6.w, x	; bc e6 07
+B20_0700:		lda wEntityObjectIdxes.w, y	; b9 4e 05
 B20_0703:		bne B20_06ee ; d0 e9
 
 B20_0705:		lda #$40		; a9 40
-B20_0707:		sta $07ce, x	; 9d ce 07
-B20_070a:		inc $07c8, x	; fe c8 07
+B20_0707:		sta wSpawner_var7ce.w, x	; 9d ce 07
+B20_070a:		inc wSpawner_var7c8.w, x	; fe c8 07
 B20_070d:		rts				; 60 
 
 
-B20_070e:		dec $07ce, x	; de ce 07
+B20_070e:		dec wSpawner_var7ce.w, x	; de ce 07
 B20_0711:		bne B20_06ee ; d0 db
 
 B20_0713:		lda #$00		; a9 00
-B20_0715:		sta $07c8, x	; 9d c8 07
+B20_0715:		sta wSpawner_var7c8.w, x	; 9d c8 07
 B20_0718:		rts				; 60 
 
 
@@ -1200,12 +1203,12 @@ B20_0720:		dex				; ca
 B20_0721:		cmp #$80		; c9 80
 B20_0723:		bcc B20_0749 ; 90 24
 
-B20_0725:		jsr func_14_0de7		; 20 e7 8d
+B20_0725:		jsr storeSpawnerPosAIObjectIdxIntoTempVars		; 20 e7 8d
 B20_0728:		jsr $8d73		; 20 73 8d
 B20_072b:		bne B20_0749 ; d0 1c
 
 B20_072d:		ldy wEntityFacingLeft.w		; ac a8 04
-B20_0730:		lda $1f			; a5 1f
+B20_0730:		lda wRandomVal			; a5 1f
 B20_0732:		and #$07		; 29 07
 B20_0734:		clc				; 18 
 B20_0735:		adc $875a, y	; 79 5a 87
@@ -1239,8 +1242,8 @@ B20_0758:		bcs B20_071a ; b0 c0
 
 B20_075a:		.db $00				; 00
 B20_075b:		php				; 08 
-B20_075c:		ldy $07e6, x	; bc e6 07
-B20_075f:		lda $054e, y	; b9 4e 05
+B20_075c:		ldy wSpawner_var7e6.w, x	; bc e6 07
+B20_075f:		lda wEntityObjectIdxes.w, y	; b9 4e 05
 B20_0762:		bne B20_06ee ; d0 8a
 
 B20_0764:		lda #$81		; a9 81
@@ -1261,7 +1264,7 @@ B20_0776:		adc wEntityBaseX.w, x	; 7d 38 04
 B20_0779:		and #$03		; 29 03
 B20_077b:		tay				; a8 
 B20_077c:		lda $8783, y	; b9 83 87
-B20_077f:		sta $07ce, x	; 9d ce 07
+B20_077f:		sta wSpawner_var7ce.w, x	; 9d ce 07
 B20_0782:		rts				; 60 
 
 
@@ -1269,10 +1272,10 @@ B20_0783:		php				; 08
 B20_0784:		sec				; 38 
 B20_0785:		clc				; 18 
 B20_0786:		plp				; 28 
-B20_0787:		dec $07ce, x	; de ce 07
+B20_0787:		dec wSpawner_var7ce.w, x	; de ce 07
 B20_078a:		bne B20_07fc ; d0 70
 
-B20_078c:		jsr func_14_0de7		; 20 e7 8d
+B20_078c:		jsr storeSpawnerPosAIObjectIdxIntoTempVars		; 20 e7 8d
 B20_078f:		jsr $8383		; 20 83 83
 B20_0792:		;removed
 	.db $d0 $de
@@ -1310,10 +1313,10 @@ B20_07c0:		jsr $87cb		; 20 cb 87
 B20_07c3:		jmp $85de		; 4c de 85
 
 
-B20_07c6:		dec $07ce, x	; de ce 07
+B20_07c6:		dec wSpawner_var7ce.w, x	; de ce 07
 B20_07c9:		bne B20_07fc ; d0 31
 
-B20_07cb:		jsr func_14_0de7		; 20 e7 8d
+B20_07cb:		jsr storeSpawnerPosAIObjectIdxIntoTempVars		; 20 e7 8d
 B20_07ce:		jsr $8d73		; 20 73 8d
 B20_07d1:		bne B20_07ee ; d0 1b
 
@@ -1335,7 +1338,7 @@ B20_07f2:		ldy wHardMode.w		; ac f6 07
 B20_07f5:		beq B20_07f9 ; f0 02
 
 B20_07f7:		lda #$30		; a9 30
-B20_07f9:		sta $07ce, x	; 9d ce 07
+B20_07f9:		sta wSpawner_var7ce.w, x	; 9d ce 07
 B20_07fc:		rts				; 60 
 
 
@@ -1361,8 +1364,8 @@ B20_080e:		php				; 08
 B20_080f:	.db $13
 B20_0810:		dey				; 88 
 B20_0811:		bit $88			; 24 88
-B20_0813:		inc $07c8, x	; fe c8 07
-B20_0816:		jsr func_14_0de7		; 20 e7 8d
+B20_0813:		inc wSpawner_var7c8.w, x	; fe c8 07
+B20_0816:		jsr storeSpawnerPosAIObjectIdxIntoTempVars		; 20 e7 8d
 B20_0819:		jsr $83ae		; 20 ae 83
 B20_081c:		bne B20_0821 ; d0 03
 
@@ -1370,7 +1373,7 @@ B20_081e:		jsr $883c		; 20 3c 88
 B20_0821:		jmp $88b6		; 4c b6 88
 
 
-B20_0824:		dec $07ce, x	; de ce 07
+B20_0824:		dec wSpawner_var7ce.w, x	; de ce 07
 B20_0827:		beq B20_0816 ; f0 ed
 
 B20_0829:		rts				; 60 
@@ -1378,9 +1381,9 @@ B20_0829:		rts				; 60
 
 B20_082a:		rol $7288		; 2e 88 72
 B20_082d:		dey				; 88 
-B20_082e:		inc $07c8, x	; fe c8 07
+B20_082e:		inc wSpawner_var7c8.w, x	; fe c8 07
 B20_0831:		jsr $88b6		; 20 b6 88
-B20_0834:		jsr func_14_0de7		; 20 e7 8d
+B20_0834:		jsr storeSpawnerPosAIObjectIdxIntoTempVars		; 20 e7 8d
 B20_0837:		jsr $8d73		; 20 73 8d
 B20_083a:		bne B20_0829 ; d0 ed
 
@@ -1438,7 +1441,7 @@ B20_0883:		sed				; f8
 B20_0884:		jsr $8e28		; 20 28 8e
 B20_0887:		bne B20_08c3 ; d0 3a
 
-B20_0889:		jsr func_14_0de7		; 20 e7 8d
+B20_0889:		jsr storeSpawnerPosAIObjectIdxIntoTempVars		; 20 e7 8d
 B20_088c:		jsr func_14_0e54		; 20 54 8e
 B20_088f:		bne B20_08b6 ; d0 25
 
@@ -1486,30 +1489,30 @@ B20_08d1:		dey				; 88
 B20_08d2:	.db $df
 B20_08d3:		dey				; 88 
 B20_08d4:		lda #$00		; a9 00
-B20_08d6:		sta $07e6, x	; 9d e6 07
+B20_08d6:		sta wSpawner_var7e6.w, x	; 9d e6 07
 B20_08d9:		jsr $88e4		; 20 e4 88
 B20_08dc:		jmp $85de		; 4c de 85
 
 
-B20_08df:		dec $07ce, x	; de ce 07
+B20_08df:		dec wSpawner_var7ce.w, x	; de ce 07
 B20_08e2:		bne B20_0877 ; d0 93
 
-B20_08e4:		jsr func_14_0de7		; 20 e7 8d
+B20_08e4:		jsr storeSpawnerPosAIObjectIdxIntoTempVars		; 20 e7 8d
 B20_08e7:		jsr $83a0		; 20 a0 83
 B20_08ea:		bne B20_0910 ; d0 24
 
-B20_08ec:		lda $07e6, x	; bd e6 07
+B20_08ec:		lda wSpawner_var7e6.w, x	; bd e6 07
 B20_08ef:		cmp #$08		; c9 08
 B20_08f1:		bcc B20_08f8 ; 90 05
 
 B20_08f3:		lda #$00		; a9 00
-B20_08f5:		sta $07e6, x	; 9d e6 07
-B20_08f8:		ldy $07e6, x	; bc e6 07
+B20_08f5:		sta wSpawner_var7e6.w, x	; 9d e6 07
+B20_08f8:		ldy wSpawner_var7e6.w, x	; bc e6 07
 B20_08fb:		lda $8925, y	; b9 25 89
 B20_08fe:		sta $01			; 85 01
 B20_0900:		lda $891d, y	; b9 1d 89
 B20_0903:		sta $00			; 85 00
-B20_0905:		inc $07e6, x	; fe e6 07
+B20_0905:		inc wSpawner_var7e6.w, x	; fe e6 07
 B20_0908:		jsr $892d		; 20 2d 89
 B20_090b:		bne B20_0910 ; d0 03
 
@@ -1586,12 +1589,12 @@ B20_094c:		jsr $8957		; 20 57 89
 B20_094f:		jmp $85de		; 4c de 85
 
 
-B20_0952:		dec $07ce, x	; de ce 07
+B20_0952:		dec wSpawner_var7ce.w, x	; de ce 07
 B20_0955:		bne B20_096d ; d0 16
 
 B20_0957:		lda #$80		; a9 80
-B20_0959:		sta $07ce, x	; 9d ce 07
-B20_095c:		jsr func_14_0de7		; 20 e7 8d
+B20_0959:		sta wSpawner_var7ce.w, x	; 9d ce 07
+B20_095c:		jsr storeSpawnerPosAIObjectIdxIntoTempVars		; 20 e7 8d
 B20_095f:		jsr $8d7b		; 20 7b 8d
 B20_0962:		bne B20_096d ; d0 09
 
@@ -1617,8 +1620,8 @@ B20_097a:		jsr $8e28		; 20 28 8e
 B20_097d:		bne B20_09d9 ; d0 5a
 
 B20_097f:		lda #$c0		; a9 c0
-B20_0981:		sta $07ce, x	; 9d ce 07
-B20_0984:		jsr func_14_0de7		; 20 e7 8d
+B20_0981:		sta wSpawner_var7ce.w, x	; 9d ce 07
+B20_0984:		jsr storeSpawnerPosAIObjectIdxIntoTempVars		; 20 e7 8d
 B20_0987:		jsr retZifPendulumRoomBeforeDracula		; 20 8d 84
 B20_098a:		bne B20_0992 ; d0 06
 
@@ -1730,8 +1733,8 @@ B20_0a20:		;removed
 	.db $d0 $f0
 
 B20_0a22:		lda #$90		; a9 90
-B20_0a24:		sta $07ce, x	; 9d ce 07
-B20_0a27:		jsr func_14_0de7		; 20 e7 8d
+B20_0a24:		sta wSpawner_var7ce.w, x	; 9d ce 07
+B20_0a27:		jsr storeSpawnerPosAIObjectIdxIntoTempVars		; 20 e7 8d
 B20_0a2a:		jsr $8d7b		; 20 7b 8d
 B20_0a2d:		bne B20_0aa1 ; d0 72
 
@@ -1759,11 +1762,11 @@ B20_0a51:		sta $00			; 85 00
 B20_0a53:		rts				; 60 
 
 
-B20_0a54:		dec $07ce, x	; de ce 07
+B20_0a54:		dec wSpawner_var7ce.w, x	; de ce 07
 B20_0a57:		bne B20_0a5e ; d0 05
 
 B20_0a59:		lda #$00		; a9 00
-B20_0a5b:		sta $07c8, x	; 9d c8 07
+B20_0a5b:		sta wSpawner_var7c8.w, x	; 9d c8 07
 B20_0a5e:		rts				; 60 
 
 
@@ -1771,7 +1774,7 @@ B20_0a5f:	.db $63
 B20_0a60:		txa				; 8a 
 B20_0a61:	.db $54
 B20_0a62:		txa				; 8a 
-B20_0a63:		lda $07e0, x	; bd e0 07
+B20_0a63:		lda wSpawnerOffScreenStatus.w, x	; bd e0 07
 B20_0a66:		bne B20_0aa1 ; d0 39
 
 B20_0a68:		jsr $8e1a		; 20 1a 8e
@@ -1779,9 +1782,9 @@ B20_0a6b:		cmp #$20		; c9 20
 B20_0a6d:		bcs B20_0aa1 ; b0 32
 
 B20_0a6f:		lda #$02		; a9 02
-B20_0a71:		sta $07e6, x	; 9d e6 07
+B20_0a71:		sta wSpawner_var7e6.w, x	; 9d e6 07
 B20_0a74:		jsr $85de		; 20 de 85
-B20_0a77:		jsr func_14_0de7		; 20 e7 8d
+B20_0a77:		jsr storeSpawnerPosAIObjectIdxIntoTempVars		; 20 e7 8d
 B20_0a7a:		jsr func_14_0e54		; 20 54 8e
 B20_0a7d:		bne B20_0a95 ; d0 16
 
@@ -1789,17 +1792,17 @@ B20_0a7f:		jsr $8dde		; 20 de 8d
 B20_0a82:		stx $09			; 86 09
 B20_0a84:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B20_0a86:		clc				; 18 
-B20_0a87:		ldy $07e6, x	; bc e6 07
+B20_0a87:		ldy wSpawner_var7e6.w, x	; bc e6 07
 B20_0a8a:		lda $8aa2, y	; b9 a2 8a
-B20_0a8d:		adc $07da, x	; 7d da 07
+B20_0a8d:		adc wSpawnerXCoord.w, x	; 7d da 07
 B20_0a90:		ldx $09			; a6 09
 B20_0a92:		sta wEntityBaseX.w, x	; 9d 38 04
 B20_0a95:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
-B20_0a97:		dec $07e6, x	; de e6 07
+B20_0a97:		dec wSpawner_var7e6.w, x	; de e6 07
 B20_0a9a:		bne B20_0a77 ; d0 db
 
 B20_0a9c:		lda #$28		; a9 28
-B20_0a9e:		sta $07ce, x	; 9d ce 07
+B20_0a9e:		sta wSpawner_var7ce.w, x	; 9d ce 07
 B20_0aa1:		rts				; 60 
 
 
@@ -1823,11 +1826,11 @@ B20_0ab8:		bne B20_0ad7 ; d0 1d
 B20_0aba:		jmp $85de		; 4c de 85
 
 
-B20_0abd:		dec $07ce, x	; de ce 07
+B20_0abd:		dec wSpawner_var7ce.w, x	; de ce 07
 B20_0ac0:		bne B20_0ad7 ; d0 15
 
-B20_0ac2:		jsr func_14_0de7		; 20 e7 8d
-B20_0ac5:		lda $07e0, x	; bd e0 07
+B20_0ac2:		jsr storeSpawnerPosAIObjectIdxIntoTempVars		; 20 e7 8d
+B20_0ac5:		lda wSpawnerOffScreenStatus.w, x	; bd e0 07
 B20_0ac8:		bne B20_0ad2 ; d0 08
 
 B20_0aca:		jsr func_14_0e54		; 20 54 8e
@@ -1835,14 +1838,14 @@ B20_0acd:		bne B20_0ad2 ; d0 03
 
 B20_0acf:		jsr $8bbe		; 20 be 8b
 B20_0ad2:		lda #$80		; a9 80
-B20_0ad4:		sta $07ce, x	; 9d ce 07
+B20_0ad4:		sta wSpawner_var7ce.w, x	; 9d ce 07
 B20_0ad7:		rts				; 60 
 
 
 B20_0ad8:		dec $ee8a, x	; de 8a ee
 B20_0adb:		txa				; 8a 
 B20_0adc:		sbc #$8a		; e9 8a
-B20_0ade:		jsr func_14_0de7		; 20 e7 8d
+B20_0ade:		jsr storeSpawnerPosAIObjectIdxIntoTempVars		; 20 e7 8d
 B20_0ae1:		jsr $8d8b		; 20 8b 8d
 B20_0ae4:		bne B20_0ad7 ; d0 f1
 
@@ -1850,7 +1853,7 @@ B20_0ae6:		jmp $8bbe		; 4c be 8b
 
 
 B20_0ae9:		lda #$00		; a9 00
-B20_0aeb:		sta $07c8, x	; 9d c8 07
+B20_0aeb:		sta wSpawner_var7c8.w, x	; 9d c8 07
 B20_0aee:		rts				; 60 
 
 
@@ -1861,8 +1864,8 @@ B20_0af4:		sty $e0bd		; 8c bd e0
 B20_0af7:	.db $07
 B20_0af8:		bne B20_0b15 ; d0 1b
 
-B20_0afa:		jsr func_14_0de7		; 20 e7 8d
-B20_0afd:		lda $07e6, x	; bd e6 07
+B20_0afa:		jsr storeSpawnerPosAIObjectIdxIntoTempVars		; 20 e7 8d
+B20_0afd:		lda wSpawner_var7e6.w, x	; bd e6 07
 B20_0b00:		sta $04			; 85 04
 B20_0b02:		jsr $feb9		; 20 b9 fe
 B20_0b05:		bne B20_0b15 ; d0 0e
@@ -1870,7 +1873,7 @@ B20_0b05:		bne B20_0b15 ; d0 0e
 B20_0b07:		jsr $8dde		; 20 de 8d
 B20_0b0a:		jsr $8bd5		; 20 d5 8b
 B20_0b0d:		lda $04			; a5 04
-B20_0b0f:		sta $0633, x	; 9d 33 06
+B20_0b0f:		sta wEntityGenericCounter.w, x	; 9d 33 06
 B20_0b12:		jmp $85de		; 4c de 85
 
 
@@ -1886,7 +1889,7 @@ B20_0b1b:		sty $e0bd		; 8c bd e0
 B20_0b1e:	.db $07
 B20_0b1f:		bne B20_0b60 ; d0 3f
 
-B20_0b21:		jsr func_14_0de7		; 20 e7 8d
+B20_0b21:		jsr storeSpawnerPosAIObjectIdxIntoTempVars		; 20 e7 8d
 B20_0b24:		jsr $83ae		; 20 ae 83
 B20_0b27:		bne B20_0b60 ; d0 37
 
@@ -1905,11 +1908,11 @@ B20_0b35:		bne B20_0b60 ; d0 29
 B20_0b37:		jsr $8e9c		; 20 9c 8e
 B20_0b3a:		bne B20_0b4a ; d0 0e
 
-B20_0b3c:		jsr func_14_0de7		; 20 e7 8d
+B20_0b3c:		jsr storeSpawnerPosAIObjectIdxIntoTempVars		; 20 e7 8d
 B20_0b3f:		jsr $8e50		; 20 50 8e
 B20_0b42:		bne B20_0b4a ; d0 06
 
-B20_0b44:		jsr func_14_0dff		; 20 ff 8d
+B20_0b44:		jsr clearAllEntityVarsSetPosAIObjectIdxFromSpawner		; 20 ff 8d
 B20_0b47:		jmp $8bc1		; 4c c1 8b
 
 
@@ -1925,7 +1928,7 @@ B20_0b52:		sty $e0bd		; 8c bd e0
 B20_0b55:	.db $07
 B20_0b56:		bne B20_0b60 ; d0 08
 
-B20_0b58:		jsr func_14_0de7		; 20 e7 8d
+B20_0b58:		jsr storeSpawnerPosAIObjectIdxIntoTempVars		; 20 e7 8d
 B20_0b5b:		jsr $83ae		; 20 ae 83
 B20_0b5e:		beq B20_0bbe ; f0 5e
 
@@ -1941,7 +1944,7 @@ B20_0b66:		sty $e0bd		; 8c bd e0
 B20_0b69:	.db $07
 B20_0b6a:		bne B20_0baa ; d0 3e
 
-B20_0b6c:		jsr func_14_0de7		; 20 e7 8d
+B20_0b6c:		jsr storeSpawnerPosAIObjectIdxIntoTempVars		; 20 e7 8d
 B20_0b6f:		jsr func_14_0e54		; 20 54 8e
 B20_0b72:		bne B20_0baa ; d0 36
 
@@ -1967,7 +1970,7 @@ B20_0b8f:		lda #$71		; a9 71
 B20_0b91:		sta $02			; 85 02
 B20_0b93:		lda #$67		; a9 67
 B20_0b95:		sta $03			; 85 03
-B20_0b97:		jsr func_14_0dff		; 20 ff 8d
+B20_0b97:		jsr clearAllEntityVarsSetPosAIObjectIdxFromSpawner		; 20 ff 8d
 B20_0b9a:		lda #$10		; a9 10
 B20_0b9c:		sta $067b, x	; 9d 7b 06
 B20_0b9f:		lda #$33		; a9 33
@@ -1979,28 +1982,28 @@ B20_0ba7:		jmp $85de		; 4c de 85
 B20_0baa:		rts				; 60 
 
 
-B20_0bab:		lda ($8b), y	; b1 8b
-B20_0bad:		sed				; f8 
-B20_0bae:	.db $8b
-B20_0baf:	.db $57
-B20_0bb0:		sty $e0bd		; 8c bd e0
-B20_0bb3:	.db $07
+funcs_14_0bab:
+	.dw func_14_0bb1
+	.dw $8bf8
+	.dw $8c57
+
+func_14_0bb1:
+B20_0bb1:		lda wSpawnerOffScreenStatus.w, x		; bd e0
 B20_0bb4:		bne B20_0bf8 ; d0 42
 
-B20_0bb6:		jsr func_14_0de7		; 20 e7 8d
+B20_0bb6:		jsr storeSpawnerPosAIObjectIdxIntoTempVars		; 20 e7 8d
 B20_0bb9:		jsr func_14_0e54		; 20 54 8e
 B20_0bbc:		bne B20_0bcd ; d0 0f
 
-B20_0bbe:		jsr func_14_0dff		; 20 ff 8d
+B20_0bbe:		jsr clearAllEntityVarsSetPosAIObjectIdxFromSpawner		; 20 ff 8d
 B20_0bc1:		jsr $9332		; 20 32 93
 B20_0bc4:		jsr $e7ec		; 20 ec e7
 B20_0bc7:		jsr $8bd5		; 20 d5 8b
 B20_0bca:		jmp $85de		; 4c de 85
 
-
 B20_0bcd:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B20_0bcf:		lda #$02		; a9 02
-B20_0bd1:		sta $07c8, x	; 9d c8 07
+B20_0bd1:		sta wSpawner_var7c8.w, x	; 9d c8 07
 B20_0bd4:		rts				; 60 
 
 
@@ -2017,10 +2020,10 @@ B20_0be7:		asl a			; 0a
 B20_0be8:		asl a			; 0a
 B20_0be9:		asl a			; 0a
 B20_0bea:		sta $06			; 85 06
-B20_0bec:		lda $07c8, x	; bd c8 07
+B20_0bec:		lda wSpawner_var7c8.w, x	; bd c8 07
 B20_0bef:		and #$0f		; 29 0f
 B20_0bf1:		ora $06			; 05 06
-B20_0bf3:		sta $07c8, x	; 9d c8 07
+B20_0bf3:		sta wSpawner_var7c8.w, x	; 9d c8 07
 B20_0bf6:		pla				; 68 
 B20_0bf7:		tax				; aa 
 B20_0bf8:		rts				; 60 
@@ -2055,25 +2058,25 @@ B20_0c1b:		bne B20_0c64 ; d0 47
 B20_0c1d:		jsr func_14_0e54		; 20 54 8e
 B20_0c20:		bne B20_0c64 ; d0 42
 
-B20_0c22:		jsr func_14_0dff		; 20 ff 8d
+B20_0c22:		jsr clearAllEntityVarsSetPosAIObjectIdxFromSpawner		; 20 ff 8d
 B20_0c25:		jsr $9332		; 20 32 93
 B20_0c28:		jsr $e7ec		; 20 ec e7
 B20_0c2b:		txa				; 8a 
 B20_0c2c:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
-B20_0c2e:		sta $07e6, x	; 9d e6 07
-B20_0c31:		inc $07c8, x	; fe c8 07
+B20_0c2e:		sta wSpawner_var7e6.w, x	; 9d e6 07
+B20_0c31:		inc wSpawner_var7c8.w, x	; fe c8 07
 B20_0c34:		rts				; 60 
 
 
-B20_0c35:		lda $07e6, x	; bd e6 07
+B20_0c35:		lda wSpawner_var7e6.w, x	; bd e6 07
 B20_0c38:		tax				; aa 
-B20_0c39:		lda $054e, x	; bd 4e 05
+B20_0c39:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B20_0c3c:		bne B20_0c49 ; d0 0b
 
 B20_0c3e:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
-B20_0c40:		inc $07c8, x	; fe c8 07
+B20_0c40:		inc wSpawner_var7c8.w, x	; fe c8 07
 B20_0c43:		lda #$80		; a9 80
-B20_0c45:		sta $07ce, x	; 9d ce 07
+B20_0c45:		sta wSpawner_var7ce.w, x	; 9d ce 07
 B20_0c48:		rts				; 60 
 
 
@@ -2081,20 +2084,20 @@ B20_0c49:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B20_0c4b:		rts				; 60 
 
 
-B20_0c4c:		dec $07ce, x	; de ce 07
+B20_0c4c:		dec wSpawner_var7ce.w, x	; de ce 07
 B20_0c4f:		bne B20_0c4b ; d0 fa
 
 B20_0c51:		lda #$00		; a9 00
-B20_0c53:		sta $07c8, x	; 9d c8 07
+B20_0c53:		sta wSpawner_var7c8.w, x	; 9d c8 07
 B20_0c56:		rts				; 60 
 
 
-B20_0c57:		lda $07e0, x	; bd e0 07
+B20_0c57:		lda wSpawnerOffScreenStatus.w, x	; bd e0 07
 B20_0c5a:		beq B20_0bf8 ; f0 9c
 
-B20_0c5c:		lda $07c8, x	; bd c8 07
+B20_0c5c:		lda wSpawner_var7c8.w, x	; bd c8 07
 B20_0c5f:		and #$f0		; 29 f0
-B20_0c61:		sta $07c8, x	; 9d c8 07
+B20_0c61:		sta wSpawner_var7c8.w, x	; 9d c8 07
 B20_0c64:		rts				; 60 
 
 
@@ -2114,7 +2117,7 @@ B20_0c7b:		sty $e720		; 8c 20 e7
 B20_0c7e:		sta $cebd		; 8d bd ce
 B20_0c81:	.db $07
 B20_0c82:		sta $04			; 85 04
-B20_0c84:		lda $07e0, x	; bd e0 07
+B20_0c84:		lda wSpawnerOffScreenStatus.w, x	; bd e0 07
 B20_0c87:		bne B20_0c64 ; d0 db
 
 B20_0c89:		jsr func_14_0e54		; 20 54 8e
@@ -2123,7 +2126,7 @@ B20_0c8c:		bne B20_0c64 ; d0 d6
 B20_0c8e:		jsr $8dde		; 20 de 8d
 B20_0c91:		jsr $8bd5		; 20 d5 8b
 B20_0c94:		lda $04			; a5 04
-B20_0c96:		sta $0633, x	; 9d 33 06
+B20_0c96:		sta wEntityGenericCounter.w, x	; 9d 33 06
 B20_0c99:		jmp $85de		; 4c de 85
 
 
@@ -2158,20 +2161,20 @@ B20_0cc8:		jmp $85de		; 4c de 85
 
 B20_0ccb:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B20_0ccd:		lda #$02		; a9 02
-B20_0ccf:		sta $07c8, x	; 9d c8 07
+B20_0ccf:		sta wSpawner_var7c8.w, x	; 9d c8 07
 B20_0cd2:		rts				; 60 
 
 
 B20_0cd3:		cmp $618c, y	; d9 8c 61
 B20_0cd6:		sta $8c57		; 8d 57 8c
-B20_0cd9:		lda $07e0, x	; bd e0 07
+B20_0cd9:		lda wSpawnerOffScreenStatus.w, x	; bd e0 07
 B20_0cdc:		bne B20_0cd2 ; d0 f4
 
-B20_0cde:		lda $07e6, x	; bd e6 07
+B20_0cde:		lda wSpawner_var7e6.w, x	; bd e6 07
 B20_0ce1:		sta $17			; 85 17
-B20_0ce3:		jsr func_14_0de7		; 20 e7 8d
+B20_0ce3:		jsr storeSpawnerPosAIObjectIdxIntoTempVars		; 20 e7 8d
 B20_0ce6:		ldx #$01		; a2 01
-B20_0ce8:		jsr func_1f_1ed7		; 20 d7 fe
+B20_0ce8:		jsr clearAllEntityVars_todo		; 20 d7 fe
 B20_0ceb:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B20_0cee:		lda $01			; a5 01
 B20_0cf0:		sta wEntityBaseY.w, x	; 9d 1c 04
@@ -2179,7 +2182,7 @@ B20_0cf3:		sec				; 38
 B20_0cf4:		lda $00			; a5 00
 B20_0cf6:		sta wEntityBaseX.w, x	; 9d 38 04
 B20_0cf9:		lda $03			; a5 03
-B20_0cfb:		sta $054e, x	; 9d 4e 05
+B20_0cfb:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B20_0cfe:		lda #$2e		; a9 2e
 B20_0d00:		sta wEntityAI_idx.w, x	; 9d ef 05
 B20_0d03:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
@@ -2190,7 +2193,7 @@ B20_0d0d:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B20_0d10:		jsr $9332		; 20 32 93
 B20_0d13:		jsr $e7ec		; 20 ec e7
 B20_0d16:		ldx #$08		; a2 08
-B20_0d18:		jsr func_1f_1ed7		; 20 d7 fe
+B20_0d18:		jsr clearAllEntityVars_todo		; 20 d7 fe
 B20_0d1b:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B20_0d1e:		lda $01			; a5 01
 B20_0d20:		sta wEntityBaseY.w, x	; 9d 1c 04
@@ -2205,7 +2208,7 @@ B20_0d33:		ora #$60		; 09 60
 B20_0d35:		and #$61		; 29 61
 B20_0d37:		sta wEntityState.w, x	; 9d 70 04
 B20_0d3a:		lda $03			; a5 03
-B20_0d3c:		sta $054e, x	; 9d 4e 05
+B20_0d3c:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B20_0d3f:		lda #$2c		; a9 2c
 B20_0d41:		sta wEntityAI_idx.w, x	; 9d ef 05
 B20_0d44:		lda $17			; a5 17
@@ -2217,8 +2220,8 @@ B20_0d51:		sta $0645, x	; 9d 45 06
 B20_0d54:		txa				; 8a 
 B20_0d55:		tay				; a8 
 B20_0d56:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
-B20_0d58:		lda $07e6, x	; bd e6 07
-B20_0d5b:		sta $0633, y	; 99 33 06
+B20_0d58:		lda wSpawner_var7e6.w, x	; bd e6 07
+B20_0d5b:		sta wEntityGenericCounter.w, y	; 99 33 06
 B20_0d5e:		jmp $85de		; 4c de 85
 
 
@@ -2232,7 +2235,7 @@ B20_0d65:	.db $ff
 B20_0d66:		lda wCurrScrollOffsetIntoRoomScreen			; a5 56
 B20_0d68:		bne B20_0d72 ; d0 08
 
-B20_0d6a:		lda $07e0, x	; bd e0 07
+B20_0d6a:		lda wSpawnerOffScreenStatus.w, x	; bd e0 07
 B20_0d6d:		bne B20_0d72 ; d0 03
 
 B20_0d6f:		jmp $feb9		; 4c b9 fe
@@ -2241,25 +2244,25 @@ B20_0d6f:		jmp $feb9		; 4c b9 fe
 B20_0d72:		rts				; 60 
 
 
-B20_0d73:		lda $07e0, x	; bd e0 07
+B20_0d73:		lda wSpawnerOffScreenStatus.w, x	; bd e0 07
 B20_0d76:		bne B20_0d72 ; d0 fa
 
 B20_0d78:		jmp $8383		; 4c 83 83
 
 
-B20_0d7b:		lda $07e0, x	; bd e0 07
+B20_0d7b:		lda wSpawnerOffScreenStatus.w, x	; bd e0 07
 B20_0d7e:		bne B20_0d72 ; d0 f2
 
 B20_0d80:		jmp $83a0		; 4c a0 83
 
 
-B20_0d83:		lda $07e0, x	; bd e0 07
+B20_0d83:		lda wSpawnerOffScreenStatus.w, x	; bd e0 07
 B20_0d86:		bne B20_0d72 ; d0 ea
 
 B20_0d88:		jmp $8392		; 4c 92 83
 
 
-B20_0d8b:		lda $07e0, x	; bd e0 07
+B20_0d8b:		lda wSpawnerOffScreenStatus.w, x	; bd e0 07
 B20_0d8e:		bne B20_0d72 ; d0 e2
 
 B20_0d90:		jmp $feb9		; 4c b9 fe
@@ -2267,14 +2270,14 @@ B20_0d90:		jmp $feb9		; 4c b9 fe
 
 B20_0d93:		sta $c48d, y	; 99 8d c4
 B20_0d96:		sta $8c57		; 8d 57 8c
-B20_0d99:		lda $07e0, x	; bd e0 07
+B20_0d99:		lda wSpawnerOffScreenStatus.w, x	; bd e0 07
 B20_0d9c:		bne B20_0dc4 ; d0 26
 
-B20_0d9e:		jsr func_14_0de7		; 20 e7 8d
+B20_0d9e:		jsr storeSpawnerPosAIObjectIdxIntoTempVars		; 20 e7 8d
 B20_0da1:		jsr $feb9		; 20 b9 fe
 B20_0da4:		lda #$08		; a9 08
 B20_0da6:		sta $0657, x	; 9d 57 06
-B20_0da9:		jsr func_14_0dff		; 20 ff 8d
+B20_0da9:		jsr clearAllEntityVarsSetPosAIObjectIdxFromSpawner		; 20 ff 8d
 B20_0dac:		lda #$08		; a9 08
 B20_0dae:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B20_0db1:		lda #$00		; a9 00
@@ -2296,48 +2299,50 @@ B20_0dca:		sty $e0bd		; 8c bd e0
 B20_0dcd:	.db $07
 B20_0dce:		bne B20_0dc4 ; d0 f4
 
-B20_0dd0:		jsr func_14_0de7		; 20 e7 8d
+B20_0dd0:		jsr storeSpawnerPosAIObjectIdxIntoTempVars		; 20 e7 8d
 B20_0dd3:		jsr $feb9		; 20 b9 fe
 B20_0dd6:		lda #$0e		; a9 0e
 B20_0dd8:		sta $0657, x	; 9d 57 06
 B20_0ddb:		jmp $8da9		; 4c a9 8d
 
 
-B20_0dde:		jsr func_14_0dff		; 20 ff 8d
+B20_0dde:		jsr clearAllEntityVarsSetPosAIObjectIdxFromSpawner		; 20 ff 8d
 B20_0de1:		jsr $9332		; 20 32 93
 B20_0de4:		jmp $e7ec		; 4c ec e7
 
 
-func_14_0de7:
-B20_0de7:		lda $07da, x	; bd da 07
-B20_0dea:		sta $00			; 85 00
-B20_0dec:		lda $07d4, x	; bd d4 07
-B20_0def:		sta $01			; 85 01
-B20_0df1:		ldy $07c2, x	; bc c2 07
-; 02 becomes entity AI
-B20_0df4:		lda data_14_1282.w, y	; b9 82 92
-B20_0df7:		sta $02			; 85 02
-B20_0df9:		lda data_14_12da.w, y	; b9 da 92
-B20_0dfc:		sta $03			; 85 03
-B20_0dfe:		rts				; 60 
+storeSpawnerPosAIObjectIdxIntoTempVars:
+	lda wSpawnerXCoord.w, x
+	sta wTempSpawnerXCoord
+	lda wSpawnerYCoord.w, x
+	sta wTempSpawnerYCoord
+
+	ldy wSpawnerID.w, x
+	lda spawnerEntityAI_Idxes.w, y
+	sta wTempSpawnerAI_Idx
+	lda spawnerEntityObject_Idxes.w, y
+	sta wTempSpawnerObjectIdx
+	rts
 
 
-func_14_0dff:
-B20_0dff:		jsr func_1f_1ed7		; 20 d7 fe
-B20_0e02:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
-B20_0e05:		lda $00			; a5 00
-B20_0e07:		sta wEntityBaseX.w, x	; 9d 38 04
-B20_0e0a:		lda $01			; a5 01
-B20_0e0c:		sta wEntityBaseY.w, x	; 9d 1c 04
-B20_0e0f:		lda $02			; a5 02
-B20_0e11:		sta wEntityAI_idx.w, x	; 9d ef 05
-B20_0e14:		lda $03			; a5 03
-B20_0e16:		sta $054e, x	; 9d 4e 05
-B20_0e19:		rts				; 60 
+clearAllEntityVarsSetPosAIObjectIdxFromSpawner:
+	jsr clearAllEntityVars_todo
+	sta wOamSpecIdxDoubled.w, x
+
+	lda wTempSpawnerXCoord
+	sta wEntityBaseX.w, x
+	lda wTempSpawnerYCoord
+	sta wEntityBaseY.w, x
+
+	lda wTempSpawnerAI_Idx
+	sta wEntityAI_idx.w, x
+	lda wTempSpawnerObjectIdx
+	sta wEntityObjectIdxes.w, x
+	rts
 
 
 B20_0e1a:		sec				; 38 
-B20_0e1b:		lda $07da, x	; bd da 07
+B20_0e1b:		lda wSpawnerXCoord.w, x	; bd da 07
 B20_0e1e:		sbc wEntityBaseX.w		; ed38 04
 B20_0e21:		bcs B20_0e27 ; b0 04
 
@@ -2362,7 +2367,7 @@ B20_0e3b:		bne B20_0e4c ; d0 0f
 
 B20_0e3d:		beq B20_0e46 ; f0 07
 
-B20_0e3f:		lda $07c2, x	; bd c2 07
+B20_0e3f:		lda wSpawnerID.w, x	; bd c2 07
 B20_0e42:		cmp #$0c		; c9 0c
 B20_0e44:		bne B20_0e4c ; d0 06
 
@@ -2370,7 +2375,7 @@ B20_0e46:		lda wGameStateLoopCounter			; a5 1a
 B20_0e48:		and #$01		; 29 01
 B20_0e4a:		bne B20_0e4f ; d0 03
 
-B20_0e4c:		dec $07ce, x	; de ce 07
+B20_0e4c:		dec wSpawner_var7ce.w, x	; de ce 07
 B20_0e4f:		rts				; 60 
 
 
@@ -2387,7 +2392,7 @@ B20_0e5e:		sta $0c			; 85 0c
 B20_0e60:		lda #$09		; a9 09
 B20_0e62:		sta $0b			; 85 0b
 B20_0e64:		ldx $0c			; a6 0c
-B20_0e66:		lda $054e, x	; bd 4e 05
+B20_0e66:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B20_0e69:		cmp $03			; c5 03
 B20_0e6b:		bne B20_0e6f ; d0 02
 
@@ -2425,11 +2430,11 @@ B20_0e97:		sta $0e			; 85 0e
 B20_0e99:		jmp $8e64		; 4c 64 8e
 
 
-B20_0e9c:		ldy $07c2, x	; bc c2 07
+B20_0e9c:		ldy wSpawnerID.w, x	; bc c2 07
 B20_0e9f:		lda $92da, y	; b9 da 92
 B20_0ea2:		sta $0a			; 85 0a
 B20_0ea4:		ldx #$01		; a2 01
-B20_0ea6:		lda $054e, x	; bd 4e 05
+B20_0ea6:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B20_0ea9:		cmp $0a			; c5 0a
 B20_0eab:		bne B20_0eb4 ; d0 07
 
@@ -2452,7 +2457,7 @@ B20_0ec2:		rts				; 60
 
 
 B20_0ec3:		ldx #$0b		; a2 0b
-B20_0ec5:		lda $054e, x	; bd 4e 05
+B20_0ec5:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B20_0ec8:		beq B20_0ec2 ; f0 f8
 
 B20_0eca:		inx				; e8 
@@ -2470,7 +2475,7 @@ B20_0eda:		bcc B20_0edd ; 90 01
 B20_0edc:		rts				; 60 
 
 
-B20_0edd:		lda $07e0, x	; bd e0 07
+B20_0edd:		lda wSpawnerOffScreenStatus.w, x	; bd e0 07
 B20_0ee0:		bne B20_0f15 ; d0 33
 
 B20_0ee2:		jsr $9274		; 20 74 92
@@ -2484,20 +2489,20 @@ B20_0eee:		bcc B20_0ef1 ; 90 01
 B20_0ef0:		rts				; 60 
 
 
-B20_0ef1:		jsr func_14_0de7		; 20 e7 8d
-B20_0ef4:		lda $07e0, x	; bd e0 07
+B20_0ef1:		jsr storeSpawnerPosAIObjectIdxIntoTempVars		; 20 e7 8d
+B20_0ef4:		lda wSpawnerOffScreenStatus.w, x	; bd e0 07
 B20_0ef7:		bne B20_0f15 ; d0 1c
 
 B20_0ef9:		lda #$80		; a9 80
 B20_0efb:		sta $07f3		; 8d f3 07
 B20_0efe:		ldx #$01		; a2 01
-B20_0f00:		jsr func_14_0dff		; 20 ff 8d
+B20_0f00:		jsr clearAllEntityVarsSetPosAIObjectIdxFromSpawner		; 20 ff 8d
 B20_0f03:		jsr $9332		; 20 32 93
 B20_0f06:		sta wBossHealth			; 85 3d
 B20_0f08:		jsr $8f16		; 20 16 8f
 B20_0f0b:		jsr func_14_0f73		; 20 73 8f
 B20_0f0e:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
-B20_0f10:		inc $07c8, x	; fe c8 07
+B20_0f10:		inc wSpawner_var7c8.w, x	; fe c8 07
 B20_0f13:		stx $c3			; 86 c3
 B20_0f15:		rts				; 60 
 
@@ -2514,12 +2519,13 @@ B20_0f24:		sta wChrBankSpr_0c00			; 85 49
 B20_0f26:		jmp updateSprChrBanks_0_to_c00_1400		; 4c 3c e3
 
 
-B20_0f29:		ldy $054e, x	; bc 4e 05
+func_14_0f29:
+B20_0f29:		ldy wEntityObjectIdxes.w, x	; bc 4e 05
 B20_0f2c:		jsr $8f1b		; 20 1b 8f
 B20_0f2f:		jmp $8f78		; 4c 78 8f
 
 
-B20_0f32:		ldy $054e, x	; bc 4e 05
+B20_0f32:		ldy wEntityObjectIdxes.w, x	; bc 4e 05
 B20_0f35:		cpy #$0b		; c0 0b
 B20_0f37:		beq B20_0f43 ; f0 0a
 
@@ -2575,7 +2581,7 @@ func_14_0f73:
 B20_0f73:		jsr $8f32
 B20_0f76:		bcc B20_0fa7 ; 90 2f
 
-B20_0f78:		lda $054e, x	; bd 4e 05
+B20_0f78:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B20_0f7b:		sta $c1			; 85 c1
 B20_0f7d:		stx $0f			; 86 0f
 B20_0f7f:		jsr loadCurrRoomsInternalSprPalettes		; 20 30 e7
@@ -2707,7 +2713,7 @@ B20_1017:		bne B20_1011 ; d0 f8
 B20_1019:		jmp $8f0e		; 4c 0e 8f
 
 
-B20_101c:		jsr func_14_0de7		; 20 e7 8d
+B20_101c:		jsr storeSpawnerPosAIObjectIdxIntoTempVars		; 20 e7 8d
 B20_101f:		lda $bd			; a5 bd
 B20_1021:		sta $16			; 85 16
 B20_1023:		lda #$0c		; a9 0c
@@ -2726,7 +2732,7 @@ B20_1037:		lda #$80		; a9 80
 B20_1039:		sta $07f3		; 8d f3 07
 B20_103c:		lda #$00		; a9 00
 B20_103e:		sta $17			; 85 17
-B20_1040:		jsr func_14_0dff		; 20 ff 8d
+B20_1040:		jsr clearAllEntityVarsSetPosAIObjectIdxFromSpawner		; 20 ff 8d
 B20_1043:		jsr $9332		; 20 32 93
 B20_1046:		sta wBossHealth			; 85 3d
 B20_1048:		lda #$2d		; a9 2d
@@ -2776,7 +2782,7 @@ B20_1092:		lda $15			; a5 15
 B20_1094:		sta $061d, x	; 9d 1d 06
 B20_1097:		jsr func_14_0f73		; 20 73 8f
 B20_109a:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
-B20_109c:		inc $07c8, x	; fe c8 07
+B20_109c:		inc wSpawner_var7c8.w, x	; fe c8 07
 B20_109f:		rts				; 60 
 
 
@@ -2800,7 +2806,7 @@ B20_10b0:		sta $07f3		; 8d f3 07
 B20_10b3:		ldx #$01		; a2 01
 B20_10b5:		lda #$02		; a9 02
 B20_10b7:		sta $16			; 85 16
-B20_10b9:		jsr func_14_0dff		; 20 ff 8d
+B20_10b9:		jsr clearAllEntityVarsSetPosAIObjectIdxFromSpawner		; 20 ff 8d
 B20_10bc:		jsr $9332		; 20 32 93
 B20_10bf:		lda #$40		; a9 40
 B20_10c1:		sta wBossHealth			; 85 3d
@@ -2815,7 +2821,7 @@ B20_10d0:		dex				; ca
 B20_10d1:		jsr $8f16		; 20 16 8f
 B20_10d4:		jsr func_14_0f73		; 20 73 8f
 B20_10d7:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
-B20_10d9:		inc $07c8, x	; fe c8 07
+B20_10d9:		inc wSpawner_var7c8.w, x	; fe c8 07
 B20_10dc:		rts				; 60 
 
 
@@ -2835,7 +2841,7 @@ B20_10ed:		sta $07f3		; 8d f3 07
 B20_10f0:		ldx #$01		; a2 01
 B20_10f2:		lda #$00		; a9 00
 B20_10f4:		sta $16			; 85 16
-B20_10f6:		jsr func_14_0dff		; 20 ff 8d
+B20_10f6:		jsr clearAllEntityVarsSetPosAIObjectIdxFromSpawner		; 20 ff 8d
 B20_10f9:		jsr $9332		; 20 32 93
 B20_10fc:		sta wBossHealth			; 85 3d
 B20_10fe:		lda $16			; a5 16
@@ -2872,7 +2878,7 @@ B20_1135:		dex				; ca
 B20_1136:		jsr $8f16		; 20 16 8f
 B20_1139:		jsr func_14_0f73		; 20 73 8f
 B20_113c:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
-B20_113e:		inc $07c8, x	; fe c8 07
+B20_113e:		inc wSpawner_var7c8.w, x	; fe c8 07
 B20_1141:		rts				; 60 
 
 
@@ -2896,7 +2902,7 @@ B20_115a:		sta $07f3		; 8d f3 07
 B20_115d:		ldx #$01		; a2 01
 B20_115f:		lda #$00		; a9 00
 B20_1161:		sta $16			; 85 16
-B20_1163:		jsr func_14_0dff		; 20 ff 8d
+B20_1163:		jsr clearAllEntityVarsSetPosAIObjectIdxFromSpawner		; 20 ff 8d
 B20_1166:		jsr $9332		; 20 32 93
 B20_1169:		lda #$40		; a9 40
 B20_116b:		sta wBossHealth			; 85 3d
@@ -2926,7 +2932,7 @@ B20_1196:		dex				; ca
 B20_1197:		jsr $8f16		; 20 16 8f
 B20_119a:		jsr func_14_0f73		; 20 73 8f
 B20_119d:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
-B20_119f:		inc $07c8, x	; fe c8 07
+B20_119f:		inc wSpawner_var7c8.w, x	; fe c8 07
 B20_11a2:		rts				; 60 
 
 
@@ -2952,7 +2958,7 @@ B20_11bc:		jsr $feb9		; 20 b9 fe
 B20_11bf:		bne B20_1216 ; d0 55
 
 B20_11c1:		lda #$13		; a9 13
-B20_11c3:		sta $054e, x	; 9d 4e 05
+B20_11c3:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B20_11c6:		lda #$00		; a9 00
 B20_11c8:		sta wEntityAI_idx.w, x	; 9d ef 05
 B20_11cb:		beq B20_11e5 ; f0 18
@@ -2966,7 +2972,7 @@ B20_11d6:		jsr $feb9		; 20 b9 fe
 B20_11d9:		bne B20_1216 ; d0 3b
 
 B20_11db:		lda #$78		; a9 78
-B20_11dd:		sta $054e, x	; 9d 4e 05
+B20_11dd:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B20_11e0:		lda #$60		; a9 60
 B20_11e2:		sta wEntityAI_idx.w, x	; 9d ef 05
 B20_11e5:		ldy $10			; a4 10
@@ -2989,7 +2995,7 @@ B20_120d:		dec $10			; c6 10
 B20_120f:		bne B20_11d6 ; d0 c5
 
 B20_1211:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
-B20_1213:		inc $07c8, x	; fe c8 07
+B20_1213:		inc wSpawner_var7c8.w, x	; fe c8 07
 B20_1216:		rts				; 60 
 
 
@@ -3011,7 +3017,7 @@ B20_122a:		jsr $feb9		; 20 b9 fe
 B20_122d:		bne B20_1269 ; d0 3a
 
 B20_122f:		lda #$12		; a9 12
-B20_1231:		sta $054e, x	; 9d 4e 05
+B20_1231:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B20_1234:		lda #$00		; a9 00
 B20_1236:		sta wEntityAI_idx.w, x	; 9d ef 05
 B20_1239:		ldy $10			; a4 10
@@ -3033,7 +3039,7 @@ B20_1260:		dec $10			; c6 10
 B20_1262:		bpl B20_122a ; 10 c6
 
 B20_1264:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
-B20_1266:		inc $07c8, x	; fe c8 07
+B20_1266:		inc wSpawner_var7c8.w, x	; fe c8 07
 B20_1269:		rts				; 60 
 
 
@@ -3058,7 +3064,7 @@ B20_127e:		sta $07ec		; 8d ec 07
 B20_1281:		rts				; 60 
 
 
-data_14_1282:
+spawnerEntityAI_Idxes:
 B20_1282:		.db $00				; 00
 B20_1283:		ora ($02, x)	; 01 02
 B20_1285:	.db $07
@@ -3129,7 +3135,7 @@ B20_12d8:		.db $00				; 00
 B20_12d9:		.db $00				; 00
 
 
-data_14_12da:
+spawnerEntityObject_Idxes:
 B20_12da:		.db $00				; 00
 B20_12db:		pha				; 48 
 B20_12dc:		pha				; 48 
@@ -3198,7 +3204,7 @@ B20_132f:		.db $00				; 00
 B20_1330:		.db $00				; 00
 B20_1331:		.db $00				; 00
 B20_1332:		lda #$40		; a9 40
-B20_1334:		ldy $054e, x	; bc 4e 05
+B20_1334:		ldy wEntityObjectIdxes.w, x	; bc 4e 05
 B20_1337:		cpy #$08		; c0 08
 B20_1339:		bne B20_133f ; d0 04
 

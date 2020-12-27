@@ -175,7 +175,7 @@ B19_00fe:		jmp $9d66		; 4c 66 9d
 B19_0101:		lda #$00		; a9 00
 B19_0103:		sta $00			; 85 00
 B19_0105:		ldy #$01		; a0 01
-B19_0107:		lda $054e, y	; b9 4e 05
+B19_0107:		lda wEntityObjectIdxes.w, y	; b9 4e 05
 B19_010a:		cmp #$1a		; c9 1a
 B19_010c:		bne B19_0110 ; d0 02
 
@@ -211,17 +211,17 @@ B19_0137:		sta $07f3		; 8d f3 07
 B19_013a:		rts				; 60 
 
 
-B19_013b:		lda $1f			; a5 1f
+B19_013b:		lda wRandomVal			; a5 1f
 B19_013d:		bne B19_0141 ; d0 02
 
 B19_013f:		lda #$65		; a9 65
 B19_0141:		asl a			; 0a
 B19_0142:		sta $00			; 85 00
-B19_0144:		lda $1f			; a5 1f
+B19_0144:		lda wRandomVal			; a5 1f
 B19_0146:		lsr a			; 4a
 B19_0147:		clc				; 18 
 B19_0148:		adc $00			; 65 00
-B19_014a:		sta $1f			; 85 1f
+B19_014a:		sta wRandomVal			; 85 1f
 B19_014c:		and #$0f		; 29 0f
 B19_014e:		rts				; 60 
 
@@ -252,7 +252,7 @@ B19_017b:		cmp #$08		; c9 08
 B19_017d:		bne B19_0192 ; d0 13
 
 B19_017f:		lda #$00		; a9 00
-B19_0181:		sta $0633, x	; 9d 33 06
+B19_0181:		sta wEntityGenericCounter.w, x	; 9d 33 06
 B19_0184:		sta wEntityAI_idx.w, x	; 9d ef 05
 B19_0187:		sta wEntityPhase.w, x	; 9d c1 05
 B19_018a:		lda $07f3		; ad f3 07
@@ -465,7 +465,7 @@ B19_02e6:		cmp #$0a		; c9 0a
 B19_02e8:		beq B19_02ef ; f0 05
 
 B19_02ea:		lda #$00		; a9 00
-B19_02ec:		sta $0633, x	; 9d 33 06
+B19_02ec:		sta wEntityGenericCounter.w, x	; 9d 33 06
 B19_02ef:		rts				; 60 
 
 
@@ -537,7 +537,7 @@ B19_0356:		lda wJoy1ButtonsPressed			; a5 28
 B19_0358:		and #$40		; 29 40
 B19_035a:		bne B19_03b0 ; d0 54
 
-B19_035c:		lda $0633, x	; bd 33 06
+B19_035c:		lda wEntityGenericCounter.w, x	; bd 33 06
 B19_035f:		bne B19_03c5 ; d0 64
 
 B19_0361:		lda #$22		; a9 22
@@ -552,7 +552,7 @@ B19_0371:		lda $061d, x	; bd 1d 06
 B19_0374:		and #$7f		; 29 7f
 B19_0376:		sta $061d, x	; 9d 1d 06
 B19_0379:		lda #$01		; a9 01
-B19_037b:		sta $0633, x	; 9d 33 06
+B19_037b:		sta wEntityGenericCounter.w, x	; 9d 33 06
 B19_037e:		lda #$0a		; a9 0a
 B19_0380:		ldy #$01		; a0 01
 B19_0382:		jsr setEntitySpecGroupA_animationDefIdxY_immediatelyAnimate		; 20 6e ef
@@ -590,7 +590,7 @@ B19_03c0:		lda #$09		; a9 09
 B19_03c2:		jmp $864f		; 4c 4f 86
 
 
-B19_03c5:		lda $054e, x	; bd 4e 05
+B19_03c5:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B19_03c8:		and #$1f		; 29 1f
 B19_03ca:		cmp #$01		; c9 01
 B19_03cc:		bne B19_0408 ; d0 3a
@@ -628,7 +628,7 @@ B19_0402:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B19_0405:		jmp $a43c		; 4c 3c a4
 
 
-B19_0408:		lda $1f			; a5 1f
+B19_0408:		lda wRandomVal			; a5 1f
 B19_040a:		cmp #$80		; c9 80
 B19_040c:		bcc B19_041f ; 90 11
 
@@ -785,7 +785,7 @@ B19_0511:		sta $061d, y	; 99 1d 06
 B19_0514:		lda #$c8		; a9 c8
 B19_0516:		sta wEntityState.w, y	; 99 70 04
 B19_0519:		txa				; 8a 
-B19_051a:		sta $0633, y	; 99 33 06
+B19_051a:		sta wEntityGenericCounter.w, y	; 99 33 06
 B19_051d:		lda #$40		; a9 40
 B19_051f:		sta $067b, y	; 99 7b 06
 B19_0522:		inc $13			; e6 13
@@ -806,7 +806,7 @@ B19_0535:		jmp $a5dc		; 4c dc a5
 B19_0538:		lda #$00		; a9 00
 B19_053a:		sta $0657, x	; 9d 57 06
 B19_053d:		sta $0669, x	; 9d 69 06
-B19_0540:		ldy $0633, x	; bc 33 06
+B19_0540:		ldy wEntityGenericCounter.w, x	; bc 33 06
 B19_0543:		lda wEntityAI_idx.w, y	; b9 ef 05
 B19_0546:		and #$7f		; 29 7f
 B19_0548:		cmp #$0e		; c9 0e
@@ -818,7 +818,7 @@ B19_0551:		bcc B19_057b ; 90 28
 
 B19_0553:		lda #$30		; a9 30
 B19_0555:		sta $0657, x	; 9d 57 06
-B19_0558:		ldy $0633, x	; bc 33 06
+B19_0558:		ldy wEntityGenericCounter.w, x	; bc 33 06
 B19_055b:		lda #$10		; a9 10
 B19_055d:		sta $00			; 85 00
 B19_055f:		lda wEntityFacingLeft.w, y	; b9 a8 04
@@ -846,7 +846,7 @@ B19_0583:		rts				; 60
 B19_0584:		lda $07f3		; ad f3 07
 B19_0587:		bne B19_05dc ; d0 53
 
-B19_0589:		ldy $0633, x	; bc 33 06
+B19_0589:		ldy wEntityGenericCounter.w, x	; bc 33 06
 B19_058c:		lda wEntityAI_idx.w, y	; b9 ef 05
 B19_058f:		and #$7f		; 29 7f
 B19_0591:		cmp #$2f		; c9 2f
@@ -863,7 +863,7 @@ B19_05a7:		lda wBossHealth			; a5 3d
 B19_05a9:		sta $067b, x	; 9d 7b 06
 B19_05ac:		lda #$02		; a9 02
 B19_05ae:		jsr $88e0		; 20 e0 88
-B19_05b1:		ldy $0633, x	; bc 33 06
+B19_05b1:		ldy wEntityGenericCounter.w, x	; bc 33 06
 B19_05b4:		lda $067b, x	; bd 7b 06
 B19_05b7:		sta $067b, y	; 99 7b 06
 B19_05ba:		lda #$00		; a9 00
@@ -920,7 +920,7 @@ B19_0612:		lda #$00		; a9 00
 B19_0614:		sta $067b, x	; 9d 7b 06
 B19_0617:		sta wBossHealth			; 85 3d
 B19_0619:		ldy #$0d		; a0 0d
-B19_061b:		lda $054e, y	; b9 4e 05
+B19_061b:		lda wEntityObjectIdxes.w, y	; b9 4e 05
 B19_061e:		cmp #$02		; c9 02
 B19_0620:		bne B19_0632 ; d0 10
 
@@ -988,13 +988,13 @@ B19_0685:		cpy $00			; c4 00
 B19_0687:		beq B19_06a3 ; f0 1a
 
 B19_0689:		lda #$00		; a9 00
-B19_068b:		sta $054e, y	; 99 4e 05
+B19_068b:		sta wEntityObjectIdxes.w, y	; 99 4e 05
 B19_068e:		sta wEntityAI_idx.w, y	; 99 ef 05
 B19_0691:		sta wOamSpecIdxDoubled.w, y	; 99 00 04
 B19_0694:		sta wEntityOamSpecGroupDoubled.w, y	; 99 8c 04
 B19_0697:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, y	; 99 06 06
 B19_069a:		sta $061d, y	; 99 1d 06
-B19_069d:		sta $0633, y	; 99 33 06
+B19_069d:		sta wEntityGenericCounter.w, y	; 99 33 06
 B19_06a0:		sta $0645, y	; 99 45 06
 B19_06a3:		iny				; c8 
 B19_06a4:		cpy #$0d		; c0 0d
@@ -1032,11 +1032,11 @@ B19_06da:		sta $07f3		; 8d f3 07
 B19_06dd:		lda #$00		; a9 00
 B19_06df:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B19_06e2:		sta $061d, x	; 9d 1d 06
-B19_06e5:		sta $0633, x	; 9d 33 06
+B19_06e5:		sta wEntityGenericCounter.w, x	; 9d 33 06
 B19_06e8:		sta wEntityAI_idx.w, x	; 9d ef 05
 B19_06eb:		sta wEntityPhase.w, x	; 9d c1 05
 B19_06ee:		lda #$09		; a9 09
-B19_06f0:		sta $054e, x	; 9d 4e 05
+B19_06f0:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B19_06f3:		lda wEntityBaseY.w, x	; bd 1c 04
 B19_06f6:		sec				; 38 
 B19_06f7:		sbc #$10		; e9 10
@@ -1123,7 +1123,7 @@ B19_077e:		bne B19_0781 ; d0 01
 B19_0780:		rts				; 60 
 
 
-B19_0781:		lda $0633, x	; bd 33 06
+B19_0781:		lda wEntityGenericCounter.w, x	; bd 33 06
 B19_0784:		bne B19_079f ; d0 19
 
 B19_0786:		lda wEntityBaseX.w, x	; bd 38 04
@@ -1134,14 +1134,14 @@ B19_078d:		cmp #$e8		; c9 e8
 B19_078f:		bcs B19_07a2 ; b0 11
 
 B19_0791:		lda #$48		; a9 48
-B19_0793:		sta $0633, x	; 9d 33 06
+B19_0793:		sta wEntityGenericCounter.w, x	; 9d 33 06
 B19_0796:		jsr $a13b		; 20 3b a1
 B19_0799:		cmp #$0a		; c9 0a
 B19_079b:		bcs B19_079f ; b0 02
 
 B19_079d:		bcc B19_07c7 ; 90 28
 
-B19_079f:		dec $0633, x	; de 33 06
+B19_079f:		dec wEntityGenericCounter.w, x	; de 33 06
 B19_07a2:		lda $17			; a5 17
 B19_07a4:		cmp wEntityFacingLeft.w, x	; dd a8 04
 B19_07a7:		beq B19_07ba ; f0 11
@@ -1149,7 +1149,7 @@ B19_07a7:		beq B19_07ba ; f0 11
 B19_07a9:		lda $0645, x	; bd 45 06
 B19_07ac:		bne B19_07b5 ; d0 07
 
-B19_07ae:		lda $1f			; a5 1f
+B19_07ae:		lda wRandomVal			; a5 1f
 B19_07b0:		asl a			; 0a
 B19_07b1:		asl a			; 0a
 B19_07b2:		sta $0645, x	; 9d 45 06
@@ -1233,11 +1233,11 @@ B19_0828:		lda $0645, x	; bd 45 06
 B19_082b:		and #$80		; 29 80
 B19_082d:		bne B19_084b ; d0 1c
 
-B19_082f:		lda $0633, x	; bd 33 06
+B19_082f:		lda wEntityGenericCounter.w, x	; bd 33 06
 B19_0832:		bne B19_0847 ; d0 13
 
 B19_0834:		lda #$08		; a9 08
-B19_0836:		sta $0633, x	; 9d 33 06
+B19_0836:		sta wEntityGenericCounter.w, x	; 9d 33 06
 B19_0839:		lda #$50		; a9 50
 B19_083b:		sta wEntityState.w, x	; 9d 70 04
 B19_083e:		lda $0645, x	; bd 45 06
@@ -1246,11 +1246,11 @@ B19_0843:		sta $0645, x	; 9d 45 06
 B19_0846:		rts				; 60 
 
 
-B19_0847:		dec $0633, x	; de 33 06
+B19_0847:		dec wEntityGenericCounter.w, x	; de 33 06
 B19_084a:		rts				; 60 
 
 
-B19_084b:		lda $0633, x	; bd 33 06
+B19_084b:		lda wEntityGenericCounter.w, x	; bd 33 06
 B19_084e:		bne B19_0847 ; d0 f7
 
 B19_0850:		lda #$58		; a9 58
@@ -1266,7 +1266,7 @@ B19_0862:		ldy #$00		; a0 00
 B19_0864:		tya				; 98 
 B19_0865:		sta $0645, x	; 9d 45 06
 B19_0868:		lda $a86f, y	; b9 6f a8
-B19_086b:		sta $0633, x	; 9d 33 06
+B19_086b:		sta wEntityGenericCounter.w, x	; 9d 33 06
 B19_086e:		rts				; 60 
 
 
@@ -1439,7 +1439,7 @@ B19_097f:		rts				; 60
 
 
 B19_0980:		lda #$00		; a9 00
-B19_0982:		sta $054e, x	; 9d 4e 05
+B19_0982:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B19_0985:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B19_0988:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B19_098b:		beq B19_0979 ; f0 ec
@@ -1615,7 +1615,7 @@ B19_0abe:		beq B19_0ad7 ; f0 17
 B19_0ac0:		jsr $a4c3		; 20 c3 a4
 B19_0ac3:		bne B19_0ad7 ; d0 12
 
-B19_0ac5:		lda $1f			; a5 1f
+B19_0ac5:		lda wRandomVal			; a5 1f
 B19_0ac7:		and #$01		; 29 01
 B19_0ac9:		beq B19_0ad7 ; f0 0c
 
@@ -1630,7 +1630,7 @@ B19_0ad7:		jsr $a4c3		; 20 c3 a4
 B19_0ada:		bne B19_0b30 ; d0 54
 
 B19_0adc:		ldy #$01		; a0 01
-B19_0ade:		lda $054e, y	; b9 4e 05
+B19_0ade:		lda wEntityObjectIdxes.w, y	; b9 4e 05
 B19_0ae1:		bne B19_0ae8 ; d0 05
 
 B19_0ae3:		iny				; c8 
@@ -1650,7 +1650,7 @@ B19_0af5:		beq B19_0b16 ; f0 1f
 B19_0af7:		rts				; 60 
 
 
-B19_0af8:		lda $1f			; a5 1f
+B19_0af8:		lda wRandomVal			; a5 1f
 B19_0afa:		cmp #$20		; c9 20
 B19_0afc:		bcs B19_0b16 ; b0 18
 
@@ -1668,8 +1668,8 @@ B19_0b12:		lda #$1a		; a9 1a
 B19_0b14:		bne B19_0b26 ; d0 10
 
 B19_0b16:		lda #$00		; a9 00
-B19_0b18:		sta $0633, x	; 9d 33 06
-B19_0b1b:		lda $1f			; a5 1f
+B19_0b18:		sta wEntityGenericCounter.w, x	; 9d 33 06
+B19_0b1b:		lda wRandomVal			; a5 1f
 B19_0b1d:		and #$01		; 29 01
 B19_0b1f:		beq B19_0b29 ; f0 08
 
@@ -1694,7 +1694,7 @@ B19_0b3a:		jmp setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 4c 5c ef
 
 
 B19_0b3d:		ldy #$01		; a0 01
-B19_0b3f:		lda $054e, y	; b9 4e 05
+B19_0b3f:		lda wEntityObjectIdxes.w, y	; b9 4e 05
 B19_0b42:		cmp #$04		; c9 04
 B19_0b44:		bne B19_0b50 ; d0 0a
 
@@ -1716,7 +1716,7 @@ B19_0b5b:		beq B19_0b55 ; f0 f8
 B19_0b5d:		lda #$00		; a9 00
 B19_0b5f:		sta $10			; 85 10
 B19_0b61:		ldy #$01		; a0 01
-B19_0b63:		lda $054e, y	; b9 4e 05
+B19_0b63:		lda wEntityObjectIdxes.w, y	; b9 4e 05
 B19_0b66:		cmp #$04		; c9 04
 B19_0b68:		bne B19_0b6c ; d0 02
 
@@ -1731,7 +1731,7 @@ B19_0b73:		bne B19_0b78 ; d0 03
 B19_0b75:		jsr $ab98		; 20 98 ab
 B19_0b78:		jsr $a980		; 20 80 a9
 B19_0b7b:		lda #$68		; a9 68
-B19_0b7d:		sta $054e, x	; 9d 4e 05
+B19_0b7d:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B19_0b80:		lda #$65		; a9 65
 B19_0b82:		sta wEntityAI_idx.w, x	; 9d ef 05
 B19_0b85:		rts				; 60 
@@ -2058,7 +2058,7 @@ B19_0dc5:		rts				; 60
 B19_0dc6:		lda #$03		; a9 03
 B19_0dc8:		sta $07ef		; 8d ef 07
 B19_0dcb:		ldy $07ec		; ac ec 07
-B19_0dce:		lda $054e, y	; b9 4e 05
+B19_0dce:		lda wEntityObjectIdxes.w, y	; b9 4e 05
 B19_0dd1:		cmp #$05		; c9 05
 B19_0dd3:		bne B19_0ddf ; d0 0a
 
@@ -2094,7 +2094,7 @@ B19_0e00:		cpx $07ec		; ec ec 07
 B19_0e03:		beq B19_0e17 ; f0 12
 
 B19_0e05:		lda #$00		; a9 00
-B19_0e07:		sta $054e, x	; 9d 4e 05
+B19_0e07:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B19_0e0a:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B19_0e0d:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B19_0e10:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
@@ -2130,7 +2130,7 @@ B19_0e48:		jmp $864f		; 4c 4f 86
 
 
 B19_0e4b:		ldy #$01		; a0 01
-B19_0e4d:		lda $054e, y	; b9 4e 05
+B19_0e4d:		lda wEntityObjectIdxes.w, y	; b9 4e 05
 B19_0e50:		cmp #$05		; c9 05
 B19_0e52:		bne B19_0e5e ; d0 0a
 
@@ -2173,14 +2173,14 @@ B19_0e93:		jmp $87f4		; 4c f4 87
 
 
 B19_0e96:		ldy #$01		; a0 01
-B19_0e98:		lda $054e, y	; b9 4e 05
+B19_0e98:		lda wEntityObjectIdxes.w, y	; b9 4e 05
 B19_0e9b:		beq B19_0eb5 ; f0 18
 
 B19_0e9d:		cmp #$05		; c9 05
 B19_0e9f:		beq B19_0eb5 ; f0 14
 
 B19_0ea1:		lda #$00		; a9 00
-B19_0ea3:		sta $054e, y	; 99 4e 05
+B19_0ea3:		sta wEntityObjectIdxes.w, y	; 99 4e 05
 B19_0ea6:		sta wEntityAI_idx.w, y	; 99 ef 05
 B19_0ea9:		sta wOamSpecIdxDoubled.w, y	; 99 00 04
 B19_0eac:		sta wEntityOamSpecGroupDoubled.w, y	; 99 8c 04
@@ -2361,7 +2361,7 @@ B19_0fc0:		bcc B19_0fd6 ; 90 14
 B19_0fc2:		lda #$30		; a9 30
 B19_0fc4:		jsr $8661		; 20 61 86
 B19_0fc7:		lda #$06		; a9 06
-B19_0fc9:		sta $054e, x	; 9d 4e 05
+B19_0fc9:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B19_0fcc:		lda #$02		; a9 02
 B19_0fce:		sta $07f3		; 8d f3 07
 B19_0fd1:		lda #$00		; a9 00
@@ -2399,7 +2399,7 @@ B19_1005:		lda wEntityAI_idx.w, x	; bd ef 05
 B19_1008:		and #$7f		; 29 7f
 B19_100a:		bne B19_0fde ; d0 d2
 
-B19_100c:		lda $1f			; a5 1f
+B19_100c:		lda wRandomVal			; a5 1f
 B19_100e:		cmp #$a0		; c9 a0
 B19_1010:		bcs B19_1017 ; b0 05
 
@@ -2452,7 +2452,7 @@ B19_105d:		cmp #$18		; c9 18
 B19_105f:		bcs B19_1072 ; b0 11
 
 B19_1061:		jsr $b2bd		; 20 bd b2
-B19_1064:		lda $054e, x	; bd 4e 05
+B19_1064:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B19_1067:		bne B19_106a ; d0 01
 
 B19_1069:		rts				; 60 
@@ -2538,7 +2538,7 @@ B19_10e4:		and #$7f		; 29 7f
 B19_10e6:		bne B19_10f3 ; d0 0b
 
 B19_10e8:		lda #$00		; a9 00
-B19_10ea:		sta $054e, x	; 9d 4e 05
+B19_10ea:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B19_10ed:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B19_10f0:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B19_10f3:		rts				; 60 
@@ -2577,7 +2577,7 @@ B19_1137:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
 B19_113a:		sta $05d8, x	; 9d d8 05
 B19_113d:		lda $0521		; ad 21 05
 B19_1140:		sta wEntityVertSpeed.w, x	; 9d 20 05
-B19_1143:		sta $0633, x	; 9d 33 06
+B19_1143:		sta wEntityGenericCounter.w, x	; 9d 33 06
 B19_1146:		lda $0538		; ad 38 05
 B19_1149:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
 B19_114c:		sta $0645, x	; 9d 45 06
@@ -2620,7 +2620,7 @@ B19_1191:		ora wEntityState.w, x	; 1d 70 04
 B19_1194:		sta wEntityState.w, x	; 9d 70 04
 B19_1197:		jsr $b2b7		; 20 b7 b2
 B19_119a:		jsr $b158		; 20 58 b1
-B19_119d:		lda $054e, y	; b9 4e 05
+B19_119d:		lda wEntityObjectIdxes.w, y	; b9 4e 05
 B19_11a0:		bne B19_11a5 ; d0 03
 
 B19_11a2:		jsr $b33d		; 20 3d b3
@@ -2632,7 +2632,7 @@ B19_11ad:		lda wEntityPhase.w, x	; bd c1 05
 B19_11b0:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B19_11b3:		lda $05d8, x	; bd d8 05
 B19_11b6:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
-B19_11b9:		lda $0633, x	; bd 33 06
+B19_11b9:		lda wEntityGenericCounter.w, x	; bd 33 06
 B19_11bc:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B19_11bf:		lda $0645, x	; bd 45 06
 B19_11c2:		sta wEntityVertSubSpeed.w, x	; 9d 37 05
@@ -2641,7 +2641,7 @@ B19_11c8:		sta wEntityPhase.w, x	; 9d c1 05
 B19_11cb:		lda wEntityHorizSubSpeed.w, y	; b9 09 05
 B19_11ce:		sta $05d8, x	; 9d d8 05
 B19_11d1:		lda wEntityVertSpeed.w, y	; b9 20 05
-B19_11d4:		sta $0633, x	; 9d 33 06
+B19_11d4:		sta wEntityGenericCounter.w, x	; 9d 33 06
 B19_11d7:		lda wEntityVertSubSpeed.w, y	; b9 37 05
 B19_11da:		sta $0645, x	; 9d 45 06
 B19_11dd:		jsr $b43b		; 20 3b b4
@@ -2866,7 +2866,7 @@ B19_1337:		lda wEntityBaseX.w, x	; bd 38 04
 B19_133a:		lsr a			; 4a
 B19_133b:		sta $d1			; 85 d1
 B19_133d:		lda #$00		; a9 00
-B19_133f:		sta $054e, x	; 9d 4e 05
+B19_133f:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B19_1342:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B19_1345:		sta wEntityAnimationDefIdxInSpecGroup.w, x	; 9d aa 05
 B19_1348:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
@@ -2895,7 +2895,7 @@ B19_1368:		beq B19_1363 ; f0 f9
 B19_136a:		tya				; 98 
 B19_136b:		sta $061d, x	; 9d 1d 06
 B19_136e:		ldy #$02		; a0 02
-B19_1370:		lda $054e, y	; b9 4e 05
+B19_1370:		lda wEntityObjectIdxes.w, y	; b9 4e 05
 B19_1373:		cmp #$2d		; c9 2d
 B19_1375:		bne B19_138e ; d0 17
 
@@ -2925,7 +2925,7 @@ B19_139d:		rts				; 60
 B19_139e:		lda #$00		; a9 00
 B19_13a0:		sta $00			; 85 00
 B19_13a2:		ldy #$01		; a0 01
-B19_13a4:		lda $054e, y	; b9 4e 05
+B19_13a4:		lda wEntityObjectIdxes.w, y	; b9 4e 05
 B19_13a7:		beq B19_13ab ; f0 02
 
 B19_13a9:		inc $00			; e6 00
@@ -2946,7 +2946,7 @@ B19_13c1:		rts				; 60
 
 
 B19_13c2:		ldy #$01		; a0 01
-B19_13c4:		lda $054e, y	; b9 4e 05
+B19_13c4:		lda wEntityObjectIdxes.w, y	; b9 4e 05
 B19_13c7:		cmp #$06		; c9 06
 B19_13c9:		beq B19_13cf ; f0 04
 
@@ -3197,7 +3197,7 @@ B19_1561:		rts				; 60
 B19_1562:		lda #$00		; a9 00
 B19_1564:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B19_1567:		sta $061d, x	; 9d 1d 06
-B19_156a:		sta $0633, x	; 9d 33 06
+B19_156a:		sta wEntityGenericCounter.w, x	; 9d 33 06
 B19_156d:		rts				; 60 
 
 
@@ -3483,7 +3483,7 @@ B19_1764:		sta $0645, x	; 9d 45 06
 B19_1767:		lda #$00		; a9 00
 B19_1769:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B19_176c:		sta wEntityPhase.w, x	; 9d c1 05
-B19_176f:		ldy $0633, x	; bc 33 06
+B19_176f:		ldy wEntityGenericCounter.w, x	; bc 33 06
 B19_1772:		lda $b8a1, y	; b9 a1 b8
 B19_1775:		cmp $061d, x	; dd 1d 06
 B19_1778:		bcs B19_177d ; b0 03
@@ -3539,7 +3539,7 @@ B19_17cd:		bne B19_17fb ; d0 2c
 
 B19_17cf:		lda #$00		; a9 00
 B19_17d1:		sta wEntityPhase.w, x	; 9d c1 05
-B19_17d4:		ldy $0633, x	; bc 33 06
+B19_17d4:		ldy wEntityGenericCounter.w, x	; bc 33 06
 B19_17d7:		lda $b8a1, y	; b9 a1 b8
 B19_17da:		cmp $0645, x	; dd 45 06
 B19_17dd:		bne B19_17e3 ; d0 04
@@ -3618,10 +3618,10 @@ B19_185b:		bne B19_186e ; d0 11
 
 B19_185d:		lda #$00		; a9 00
 B19_185f:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
-B19_1862:		inc $0633, x	; fe 33 06
-B19_1865:		lda $0633, x	; bd 33 06
+B19_1862:		inc wEntityGenericCounter.w, x	; fe 33 06
+B19_1865:		lda wEntityGenericCounter.w, x	; bd 33 06
 B19_1868:		and #$07		; 29 07
-B19_186a:		sta $0633, x	; 9d 33 06
+B19_186a:		sta wEntityGenericCounter.w, x	; 9d 33 06
 B19_186d:		rts				; 60 
 
 
@@ -3828,7 +3828,7 @@ B19_19ac:		jsr $bbd4		; 20 d4 bb
 B19_19af:		lda #$80		; a9 80
 B19_19b1:		sta wEntityAI_idx.w, y	; 99 ef 05
 B19_19b4:		lda $17			; a5 17
-B19_19b6:		sta $0633, y	; 99 33 06
+B19_19b6:		sta wEntityGenericCounter.w, y	; 99 33 06
 B19_19b9:		lda #$01		; a9 01
 B19_19bb:		sta $061d, y	; 99 1d 06
 B19_19be:		lda #$20		; a9 20
@@ -3839,7 +3839,7 @@ B19_19c8:		dec $17			; c6 17
 B19_19ca:		bne B19_199c ; d0 d0
 
 B19_19cc:		lda #$00		; a9 00
-B19_19ce:		sta $0633, x	; 9d 33 06
+B19_19ce:		sta wEntityGenericCounter.w, x	; 9d 33 06
 B19_19d1:		lda #$01		; a9 01
 B19_19d3:		sta $061d, x	; 9d 1d 06
 B19_19d6:		inc $0645, x	; fe 45 06
@@ -3940,7 +3940,7 @@ B19_1a90:		lsr a			; 4a
 B19_1a91:		lsr a			; 4a
 B19_1a92:		tay				; a8 
 B19_1a93:		lda $bd1f, y	; b9 1f bd
-B19_1a96:		sta $0633, x	; 9d 33 06
+B19_1a96:		sta wEntityGenericCounter.w, x	; 9d 33 06
 B19_1a99:		lda $bd20, y	; b9 20 bd
 B19_1a9c:		sta $061d, x	; 9d 1d 06
 B19_1a9f:		lda $bd27, y	; b9 27 bd
@@ -4045,7 +4045,7 @@ B19_1b4b:		jsr $bbed		; 20 ed bb
 B19_1b4e:		bne B19_1b61 ; d0 11
 
 B19_1b50:		lda #$08		; a9 08
-B19_1b52:		sta $0633, x	; 9d 33 06
+B19_1b52:		sta wEntityGenericCounter.w, x	; 9d 33 06
 B19_1b55:		jsr $bcab		; 20 ab bc
 B19_1b58:		clc				; 18 
 B19_1b59:		adc #$02		; 69 02
@@ -4057,11 +4057,11 @@ B19_1b61:		rts				; 60
 B19_1b62:		dey				; 88 
 B19_1b63:		bne B19_1b87 ; d0 22
 
-B19_1b65:		dec $0633, x	; de 33 06
+B19_1b65:		dec wEntityGenericCounter.w, x	; de 33 06
 B19_1b68:		bne B19_1b61 ; d0 f7
 
 B19_1b6a:		lda #$40		; a9 40
-B19_1b6c:		sta $0633, x	; 9d 33 06
+B19_1b6c:		sta wEntityGenericCounter.w, x	; 9d 33 06
 B19_1b6f:		lda #$29		; a9 29
 B19_1b71:		jsr $8766		; 20 66 87
 B19_1b74:		lda #$df		; a9 df
@@ -4074,7 +4074,7 @@ B19_1b83:		inc $0645, x	; fe 45 06
 B19_1b86:		rts				; 60 
 
 
-B19_1b87:		dec $0633, x	; de 33 06
+B19_1b87:		dec wEntityGenericCounter.w, x	; de 33 06
 B19_1b8a:		bne B19_1b61 ; d0 d5
 
 B19_1b8c:		lda #$00		; a9 00
@@ -4089,7 +4089,7 @@ B19_1b9b:		and #$03		; 29 03
 B19_1b9d:		asl a			; 0a
 B19_1b9e:		tay				; a8 
 B19_1b9f:		lda $bd53, y	; b9 53 bd
-B19_1ba2:		sta $0633, x	; 9d 33 06
+B19_1ba2:		sta wEntityGenericCounter.w, x	; 9d 33 06
 B19_1ba5:		lda $bd54, y	; b9 54 bd
 B19_1ba8:		sta $061d, x	; 9d 1d 06
 B19_1bab:		rts				; 60 
@@ -4099,7 +4099,7 @@ B19_1bac:		lda $0669, x	; bd 69 06
 B19_1baf:		beq B19_1bca ; f0 19
 
 B19_1bb1:		ldy #$01		; a0 01
-B19_1bb3:		lda $054e, y	; b9 4e 05
+B19_1bb3:		lda wEntityObjectIdxes.w, y	; b9 4e 05
 B19_1bb6:		cmp #$0d		; c9 0d
 B19_1bb8:		bne B19_1bc5 ; d0 0b
 
@@ -4126,7 +4126,7 @@ B19_1bd9:		sta wEntityOamSpecGroupDoubled.w, y	; 99 8c 04
 B19_1bdc:		rts				; 60 
 
 
-B19_1bdd:		lda $0633, x	; bd 33 06
+B19_1bdd:		lda wEntityGenericCounter.w, x	; bd 33 06
 B19_1be0:		and #$03		; 29 03
 B19_1be2:		bne B19_1be7 ; d0 03
 
@@ -4139,11 +4139,11 @@ B19_1bec:		rts				; 60
 
 
 B19_1bed:		lda $061d, x	; bd 1d 06
-B19_1bf0:		ora $0633, x	; 1d 33 06
+B19_1bf0:		ora wEntityGenericCounter.w, x	; 1d 33 06
 B19_1bf3:		beq B19_1c03 ; f0 0e
 
-B19_1bf5:		dec $0633, x	; de 33 06
-B19_1bf8:		ldy $0633, x	; bc 33 06
+B19_1bf5:		dec wEntityGenericCounter.w, x	; de 33 06
+B19_1bf8:		ldy wEntityGenericCounter.w, x	; bc 33 06
 B19_1bfb:		iny				; c8 
 B19_1bfc:		bne B19_1c01 ; d0 03
 
@@ -4495,7 +4495,7 @@ B19_1e50:		lda $17			; a5 17
 B19_1e52:		beq B19_1e56 ; f0 02
 
 B19_1e54:		lda #$04		; a9 04
-B19_1e56:		sta $0633, y	; 99 33 06
+B19_1e56:		sta wEntityGenericCounter.w, y	; 99 33 06
 B19_1e59:		lda #$60		; a9 60
 B19_1e5b:		sta wEntityState.w, y	; 99 70 04
 B19_1e5e:		dec $17			; c6 17
@@ -4547,7 +4547,7 @@ B19_1eb5:		lda $07f1		; ad f1 07
 B19_1eb8:		and #$07		; 29 07
 B19_1eba:		sta $07f1		; 8d f1 07
 B19_1ebd:		lda #$c0		; a9 c0
-B19_1ebf:		sta $0633, x	; 9d 33 06
+B19_1ebf:		sta wEntityGenericCounter.w, x	; 9d 33 06
 B19_1ec2:		lda #$00		; a9 00
 B19_1ec4:		sta $061d, x	; 9d 1d 06
 B19_1ec7:		lda #$20		; a9 20

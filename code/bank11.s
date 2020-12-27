@@ -1,6 +1,6 @@
 
 func_11_1e21:
-B17_1e21:		lda $054e, x	; bd 4e 05
+B17_1e21:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B17_1e24:		asl a			; 0a
 B17_1e25:		asl a			; 0a
 B17_1e26:		tay				; a8 
@@ -113,7 +113,7 @@ B17_1f33:		lda #$63		; a9 63
 B17_1f35:		jsr playSound		; 20 5f e2
 B17_1f38:		lda #$00		; a9 00
 B17_1f3a:		sta $c1			; 85 c1
-B17_1f3c:		sta $054e, x	; 9d 4e 05
+B17_1f3c:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B17_1f3f:		sta wEntityState.w, x	; 9d 70 04
 B17_1f42:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B17_1f45:		ldy #$07		; a0 07
@@ -157,7 +157,7 @@ B17_1f80:		adc #$01		; 69 01
 B17_1f82:		cmp #$28		; c9 28
 B17_1f84:		bcc B17_1f92 ; 90 0c
 
-B17_1f86:		lda $054e, x	; bd 4e 05
+B17_1f86:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B17_1f89:		cmp #$01		; c9 01
 B17_1f8b:		bne B17_1f92 ; d0 05
 

@@ -1,4 +1,4 @@
-data_18_1e25:
+envelopeData1:
 	.dw $9ebb
 	.dw $9ebd
 	.dw $9ec8

@@ -14,7 +14,7 @@ B4_000c:		lda $78			; a5 78
 B4_000e:		bne B4_0001
 
 B4_0010:		ldx #$01		; a2 01
-B4_0012:		lda $054e, x	; bd 4e 05
+B4_0012:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B4_0015:		cmp #$90		; c9 90
 B4_0017:		bcs B4_002d ; b0 14
 
@@ -748,7 +748,7 @@ B4_0436:		sta $061d, x	; 9d 1d 06
 B4_0439:		rts				; 60 
 
 
-B4_043a:		ldy $0633, x	; bc 33 06
+B4_043a:		ldy wEntityGenericCounter.w, x	; bc 33 06
 B4_043d:		lda $061d, y	; b9 1d 06
 B4_0440:		cmp #$ff		; c9 ff
 B4_0442:		bne B4_0447 ; d0 03
@@ -759,7 +759,7 @@ B4_0444:		jmp $94e2		; 4c e2 94
 B4_0447:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
 B4_044a:		beq B4_0455 ; f0 09
 
-B4_044c:		ldy $0633, x	; bc 33 06
+B4_044c:		ldy wEntityGenericCounter.w, x	; bc 33 06
 B4_044f:		lda wPlayerStateDoubled.w, y	; b9 65 05
 B4_0452:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B4_0455:		lda #$01		; a9 01
@@ -805,7 +805,7 @@ B4_049d:		lda $8561, y	; b9 61 85
 B4_04a0:		sta $02			; 85 02
 B4_04a2:		lda $8562, y	; b9 62 85
 B4_04a5:		sta $03			; 85 03
-B4_04a7:		ldy $0633, x	; bc 33 06
+B4_04a7:		ldy wEntityGenericCounter.w, x	; bc 33 06
 B4_04aa:		lda wPlayerStateDoubled.w, y	; b9 65 05
 B4_04ad:		jsr $93f7		; 20 f7 93
 B4_04b0:		lda $00			; a5 00
@@ -1729,7 +1729,7 @@ B4_0a40:		bne B4_0a76 ; d0 34
 B4_0a42:		lda $01			; a5 01
 B4_0a44:		beq B4_0a76 ; f0 30
 
-B4_0a46:		lda $0633, x	; bd 33 06
+B4_0a46:		lda wEntityGenericCounter.w, x	; bd 33 06
 B4_0a49:		bne B4_0a75 ; d0 2a
 
 B4_0a4b:		lda $a3			; a5 a3
@@ -1737,7 +1737,7 @@ B4_0a4d:		and #$01		; 29 01
 B4_0a4f:		bne B4_0a75 ; d0 24
 
 B4_0a51:		lda #$01		; a9 01
-B4_0a53:		sta $0633, x	; 9d 33 06
+B4_0a53:		sta wEntityGenericCounter.w, x	; 9d 33 06
 B4_0a56:		stx $16			; 86 16
 B4_0a58:		jsr $8ccf		; 20 cf 8c
 B4_0a5b:		ldx $16			; a6 16
@@ -1754,7 +1754,7 @@ B4_0a75:		rts				; 60
 
 
 B4_0a76:		lda #$00		; a9 00
-B4_0a78:		sta $0633, x	; 9d 33 06
+B4_0a78:		sta wEntityGenericCounter.w, x	; 9d 33 06
 B4_0a7b:		sta wEntityHorizSpeed.w, x	; 9d f2 04
 B4_0a7e:		sta wEntityHorizSubSpeed.w, x	; 9d 09 05
 B4_0a81:		sta wEntityVertSpeed.w, x	; 9d 20 05
@@ -2235,7 +2235,7 @@ B4_0da4:		lda wEntityBaseY.w, x	; bd 1c 04
 B4_0da7:		sta $11			; 85 11
 B4_0da9:		lda #$01		; a9 01
 B4_0dab:		sta $0657, x	; 9d 57 06
-B4_0dae:		lda $0633, x	; bd 33 06
+B4_0dae:		lda wEntityGenericCounter.w, x	; bd 33 06
 B4_0db1:		sta $12			; 85 12
 B4_0db3:		jsr $8ed6		; 20 d6 8e
 B4_0db6:		lda $0c			; a5 0c
@@ -2253,7 +2253,7 @@ B4_0dc9:		sta $07ec, y	; 99 ec 07
 B4_0dcc:		rts				; 60 
 
 
-B4_0dcd:		ldy $0633, x	; bc 33 06
+B4_0dcd:		ldy wEntityGenericCounter.w, x	; bc 33 06
 B4_0dd0:		lda $07ec, y	; b9 ec 07
 B4_0dd3:		cmp #$ff		; c9 ff
 B4_0dd5:		bne B4_0dda ; d0 03
@@ -2300,7 +2300,7 @@ B4_0e1f:		jmp $8e25		; 4c 25 8e
 
 
 B4_0e22:		dec $05d8, x	; de d8 05
-B4_0e25:		ldy $0633, x	; bc 33 06
+B4_0e25:		ldy wEntityGenericCounter.w, x	; bc 33 06
 B4_0e28:		lda $8f21, y	; b9 21 8f
 B4_0e2b:		tay				; a8 
 B4_0e2c:		lda $8f26, y	; b9 26 8f
@@ -2390,7 +2390,7 @@ B4_0ed0:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B4_0ed3:		jmp updateEntityXanimationFrame		; 4c 75 ef
 
 
-B4_0ed6:		lda $0633, x	; bd 33 06
+B4_0ed6:		lda wEntityGenericCounter.w, x	; bd 33 06
 B4_0ed9:		asl a			; 0a
 B4_0eda:		tay				; a8 
 B4_0edb:		lda $8efd, y	; b9 fd 8e
@@ -2778,7 +2778,7 @@ B4_1102:		pha				; 48
 B4_1103:		pha				; 48 
 B4_1104:		pha				; 48 
 B4_1105:		pha				; 48 
-B4_1106:		lda $0633, x	; bd 33 06
+B4_1106:		lda wEntityGenericCounter.w, x	; bd 33 06
 B4_1109:		tay				; a8 
 B4_110a:		lda $92af, y	; b9 af 92
 B4_110d:		beq B4_1120 ; f0 11
@@ -2816,7 +2816,7 @@ B4_1141:		rts				; 60
 
 
 B4_1142:		ldy $061d, x	; bc 1d 06
-B4_1145:		lda $054e, y	; b9 4e 05
+B4_1145:		lda wEntityObjectIdxes.w, y	; b9 4e 05
 B4_1148:		bne B4_114d ; d0 03
 
 B4_114a:		jmp $94e2		; 4c e2 94
@@ -2843,10 +2843,10 @@ B4_1172:		bne B4_1179 ; d0 05
 
 B4_1174:		lda #$55		; a9 55
 B4_1176:		sta wPlayerStateDoubled.w, x	; 9d 65 05
-B4_1179:		lda $0633, x	; bd 33 06
+B4_1179:		lda wEntityGenericCounter.w, x	; bd 33 06
 B4_117c:		sec				; 38 
 B4_117d:		sbc #$80		; e9 80
-B4_117f:		sta $0633, x	; 9d 33 06
+B4_117f:		sta wEntityGenericCounter.w, x	; 9d 33 06
 B4_1182:		bcs B4_11ac ; b0 28
 
 B4_1184:		dec wPlayerStateDoubled.w, x	; de 65 05
@@ -2863,10 +2863,10 @@ B4_1197:		bne B4_119e ; d0 05
 
 B4_1199:		lda #$aa		; a9 aa
 B4_119b:		sta wPlayerStateDoubled.w, x	; 9d 65 05
-B4_119e:		lda $0633, x	; bd 33 06
+B4_119e:		lda wEntityGenericCounter.w, x	; bd 33 06
 B4_11a1:		clc				; 18 
 B4_11a2:		adc #$80		; 69 80
-B4_11a4:		sta $0633, x	; 9d 33 06
+B4_11a4:		sta wEntityGenericCounter.w, x	; 9d 33 06
 B4_11a7:		bcc B4_11ac ; 90 03
 
 B4_11a9:		inc wPlayerStateDoubled.w, x	; fe 65 05
@@ -3367,7 +3367,7 @@ B4_14b8:		sta wEntityBaseY.w, x	; 9d 1c 04
 B4_14bb:		txa				; 8a 
 B4_14bc:		tay				; a8 
 B4_14bd:		lda $11			; a5 11
-B4_14bf:		sta $054e, x	; 9d 4e 05
+B4_14bf:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B4_14c2:		ldx $10			; a6 10
 B4_14c4:		sec				; 38 
 B4_14c5:		rts				; 60 
@@ -3392,10 +3392,10 @@ B4_14df:		jmp $946a		; 4c 6a 94
 
 
 B4_14e2:		lda #$00		; a9 00
-B4_14e4:		sta $054e, x	; 9d 4e 05
+B4_14e4:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B4_14e7:		lda #$00		; a9 00
 B4_14e9:		sta wEntityAI_idx.w, x	; 9d ef 05
-B4_14ec:		jsr func_1f_1ed7		; 20 d7 fe
+B4_14ec:		jsr clearAllEntityVars_todo		; 20 d7 fe
 B4_14ef:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B4_14f2:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B4_14f5:		sta wEntityAnimationDefIdxInSpecGroup.w, x	; 9d aa 05
@@ -4255,28 +4255,28 @@ B4_1acd:		lda wEntityAI_idx.w, x	; bd ef 05
 B4_1ad0:		sta $0645, x	; 9d 45 06
 B4_1ad3:		inc wEntityPhase.w, x	; fe c1 05
 B4_1ad6:		lda wEntityPhase.w, x	; bd c1 05
-B4_1ad9:		sta $0633, x	; 9d 33 06
+B4_1ad9:		sta wEntityGenericCounter.w, x	; 9d 33 06
 B4_1adc:		jmp $9539		; 4c 39 95
 
 
 B4_1adf:		lda $0645, x	; bd 45 06
 B4_1ae2:		sta wEntityAI_idx.w, x	; 9d ef 05
-B4_1ae5:		lda $0633, x	; bd 33 06
+B4_1ae5:		lda wEntityGenericCounter.w, x	; bd 33 06
 B4_1ae8:		sta wEntityPhase.w, x	; 9d c1 05
 B4_1aeb:		rts				; 60 
 
 
-B4_1aec:		lda $1f			; a5 1f
+B4_1aec:		lda wRandomVal			; a5 1f
 B4_1aee:		bne B4_1af2 ; d0 02
 
 B4_1af0:		lda #$65		; a9 65
 B4_1af2:		asl a			; 0a
 B4_1af3:		sta $00			; 85 00
-B4_1af5:		lda $1f			; a5 1f
+B4_1af5:		lda wRandomVal			; a5 1f
 B4_1af7:		lsr a			; 4a
 B4_1af8:		clc				; 18 
 B4_1af9:		adc $00			; 65 00
-B4_1afb:		sta $1f			; 85 1f
+B4_1afb:		sta wRandomVal			; 85 1f
 B4_1afd:		and #$0f		; 29 0f
 B4_1aff:		rts				; 60 
 

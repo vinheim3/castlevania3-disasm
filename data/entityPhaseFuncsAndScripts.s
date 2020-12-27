@@ -23,7 +23,7 @@ entityPhaseFuncsAddresses:
 	.dw entityPhaseFunc_15
 	.dw entityPhaseFunc_16
 	.dw entityPhaseFunc_17
-	.dw entityPhaseFunc_18
+	.dw entityPhaseFunc_18_setPhase0
 	.dw entityPhaseFunc_19_stub
 	.dw entityPhaseFunc_1a
 	.dw entityPhaseFunc_1b
@@ -56,7 +56,7 @@ entityPhaseFuncsAddresses:
 	.dw entityPhaseFunc_36
 	.dw entityPhaseFunc_37
 	.dw entityPhaseFunc_38
-	.dw entityPhaseFunc_39
+	.dw entityPhaseFunc_39_setVertSpeedStartMoving
 	.dw entityPhaseFunc_3a
 	.dw entityPhaseFunc_3b
 	.dw entityPhaseFunc_3c
@@ -122,7 +122,7 @@ entityPhaseFuncsAddresses:
 	.dw entityPhaseFunc_78
 	.dw entityPhaseFunc_79
 	.dw entityPhaseFunc_7a
-	.dw entityPhaseFunc_7b
+	.dw entityPhaseFunc_7b_setGenericCounter
 	.dw entityPhaseFunc_7c
 	.dw entityPhaseFunc_7d
 	.dw entityPhaseFunc_7e
@@ -152,7 +152,7 @@ entityPhaseFuncsAddresses2:
 	.dw entityPhaseFunc_94
 	.dw entityPhaseFunc_95
 	.dw entityPhaseFunc_96
-	.dw entityPhaseFunc_97
+	.dw entityPhaseFunc_97_clearSpeeds
 	.dw entityPhaseFunc_98
 	.dw entityPhaseFunc_99
 	.dw entityPhaseFunc_9a
@@ -201,92 +201,92 @@ entityScriptsAddresses:
 	.dw entityScripts_19
 	.dw entityScripts_1a
 	.dw entityScripts_1b
-	.dw $abb0
-	.dw $af0c
-	.dw $a640
+	.dw entityScripts_1c
+	.dw entityScripts_1d
+	.dw entityScripts_1e
 	.dw entityScripts_stub
-	.dw $aabc
-	.dw $a994
-	.dw $aaa0
-	.dw $aaa8
-	.dw $a5a8
-	.dw $ae08
-	.dw $ae58
-	.dw $acec
-	.dw $adf8
-	.dw $ad48
-	.dw $b040
-	.dw $a84c
-	.dw $a550
-	.dw $a560
-	.dw $a56c
-	.dw $a694
-	.dw $af90
-	.dw $af9c
-	.dw $afa8
-	.dw entityScripts_10a0
-	.dw entityScripts_10a0
-	.dw entityScripts_10a0
-	.dw entityScripts_10a0
-	.dw entityScripts_10a0
-	.dw entityScripts_10a0
-	.dw entityScripts_10a0
-	.dw entityScripts_10a0
-	.dw entityScripts_10a0
-	.dw entityScripts_10a0
-	.dw entityScripts_10a0
-	.dw entityScripts_10a0
-	.dw entityScripts_10a0
-	.dw entityScripts_10a0
-	.dw entityScripts_10a0
-	.dw entityScripts_10a0
-	.dw entityScripts_10b4
-	.dw entityScripts_10b4
-	.dw entityScripts_10b4
-	.dw entityScripts_10b4
-	.dw entityScripts_10b4
-	.dw entityScripts_10b4
-	.dw entityScripts_10b4
-	.dw entityScripts_10b4
-	.dw entityScripts_10b4
-	.dw entityScripts_10a0
-	.dw entityScripts_10a0
-	.dw $b088
-	.dw entityScripts_10a0
-	.dw entityScripts_10a0
-	.dw entityScripts_10d4;
-	.dw entityScripts_10d4;
-	.dw entityScripts_10d4;
+	.dw entityScripts_20
+	.dw entityScripts_21
+	.dw entityScripts_22
+	.dw entityScripts_23
+	.dw entityScripts_24
+	.dw entityScripts_25
+	.dw entityScripts_26
+	.dw entityScripts_27
+	.dw entityScripts_28
+	.dw entityScripts_29
+	.dw entityScripts_2a
+	.dw entityScripts_2b
+	.dw entityScripts_2c
+	.dw entityScripts_2d
+	.dw entityScripts_2e
+	.dw entityScripts_2f
+	.dw entityScripts_30
+	.dw entityScripts_31
+	.dw entityScripts_32
+	.dw entityScripts_33
+	.dw entityScripts_34
+	.dw entityScripts_35
+	.dw entityScripts_36
+	.dw entityScripts_37
+	.dw entityScripts_38
+	.dw entityScripts_39
+	.dw entityScripts_3a
+	.dw entityScripts_3b
+	.dw entityScripts_3c
+	.dw entityScripts_3d
+	.dw entityScripts_3e
+	.dw entityScripts_3f
+	.dw entityScripts_40
+	.dw entityScripts_41
+	.dw entityScripts_42
+	.dw entityScripts_43
+	.dw entityScripts_44
+	.dw entityScripts_45
+	.dw entityScripts_46
+	.dw entityScripts_47
+	.dw entityScripts_48
+	.dw entityScripts_49
+	.dw entityScripts_4a
+	.dw entityScripts_4b
+	.dw entityScripts_4c
+	.dw entityScripts_4d
+	.dw entityScripts_4e
+	.dw entityScripts_4f
+	.dw entityScripts_50
+	.dw entityScripts_51
+	.dw entityScripts_52
+	.dw entityScripts_53
 	.dw entityScripts_stub
 	.dw entityScripts_stub
 	.dw entityScripts_stub
-	.dw $b0d8
-	.dw $afb4
-	.dw $afbc
-	.dw $afd0
-	.dw $afd8
-	.dw $afe0
-	.dw $afec
-	.dw $b05c
-	.dw $b06c
-	.dw $a40b
-	.dw $a578
-	.dw $b050
-	.dw $a76c
-	.dw $a57c
-	.dw $a7fc
-	.dw $a728
-	.dw $b04c
-	.dw $a89c
-	.dw $a6b8
-	.dw $abf8
-	.dw $a538
-	.dw $a544
-	.dw $a62c
-	.dw $a758
-	.dw $a58c
-	.dw $a5b8
-	.dw $a860
+	.dw entityScripts_57
+	.dw entityScripts_58
+	.dw entityScripts_59
+	.dw entityScripts_5a
+	.dw entityScripts_5b
+	.dw entityScripts_5c
+	.dw entityScripts_5d
+	.dw entityScripts_5e
+	.dw entityScripts_5f
+	.dw entityScripts_60
+	.dw entityScripts_61
+	.dw entityScripts_62
+	.dw entityScripts_63
+	.dw entityScripts_64
+	.dw entityScripts_65
+	.dw entityScripts_66
+	.dw entityScripts_67
+	.dw entityScripts_68
+	.dw entityScripts_69
+	.dw entityScripts_6a
+	.dw entityScripts_6b
+	.dw entityScripts_6c
+	.dw entityScripts_6d
+	.dw entityScripts_6e
+	.dw entityScripts_6f
+	.dw entityScripts_70
+	.dw entityScripts_71
 	.dw entityScripts_72
 
 

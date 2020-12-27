@@ -1482,7 +1482,7 @@ B5_075f:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B5_0762:		lda $08			; a5 08
 B5_0764:		sta $061d, x	; 9d 1d 06
 B5_0767:		lda $0a			; a5 0a
-B5_0769:		sta $0633, x	; 9d 33 06
+B5_0769:		sta wEntityGenericCounter.w, x	; 9d 33 06
 B5_076c:		ldy $08			; a4 08
 B5_076e:		lda $a780, y	; b9 80 a7
 B5_0771:		sta wPlayerStateDoubled.w, x	; 9d 65 05
@@ -1747,7 +1747,7 @@ B5_08c7:		bne B5_08ec ; d0 23
 
 B5_08c9:		stx $12			; 86 12
 B5_08cb:		lda #$85		; a9 85
-B5_08cd:		sta $054e, x	; 9d 4e 05
+B5_08cd:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B5_08d0:		lda #$00		; a9 00
 B5_08d2:		sta wEntityAI_idx.w, x	; 9d ef 05
 B5_08d5:		lda $0b			; a5 0b
@@ -1755,7 +1755,7 @@ B5_08d7:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B5_08da:		lda $11			; a5 11
 B5_08dc:		sta $061d, x	; 9d 1d 06
 B5_08df:		lda $0c			; a5 0c
-B5_08e1:		sta $0633, x	; 9d 33 06
+B5_08e1:		sta wEntityGenericCounter.w, x	; 9d 33 06
 B5_08e4:		lda $6c			; a5 6c
 B5_08e6:		sta $078f, x	; 9d 8f 07
 B5_08e9:		jmp $a905		; 4c 05 a9
@@ -1769,7 +1769,7 @@ B5_08f4:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B5_08f7:		tya				; 98 
 B5_08f8:		sta $0645, x	; 9d 45 06
 B5_08fb:		lda #$00		; a9 00
-B5_08fd:		sta $0633, x	; 9d 33 06
+B5_08fd:		sta wEntityGenericCounter.w, x	; 9d 33 06
 B5_0900:		lda $12			; a5 12
 B5_0902:		sta $061d, x	; 9d 1d 06
 B5_0905:		dec $09			; c6 09
@@ -1782,14 +1782,14 @@ B5_090c:		ldx #$03		; a2 03
 B5_090e:		bne B5_0912 ; d0 02
 
 B5_0910:		ldx #$01		; a2 01
-B5_0912:		lda $054e, x	; bd 4e 05
+B5_0912:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B5_0915:		cmp #$80		; c9 80
 B5_0917:		beq B5_0926 ; f0 0d
 
 B5_0919:		cmp #$85		; c9 85
 B5_091b:		bne B5_0938 ; d0 1b
 
-B5_091d:		lda $0633, x	; bd 33 06
+B5_091d:		lda wEntityGenericCounter.w, x	; bd 33 06
 B5_0920:		cmp $0c			; c5 0c
 B5_0922:		bne B5_0938 ; d0 14
 
@@ -1800,7 +1800,7 @@ B5_0929:		cmp $0c			; c5 0c
 B5_092b:		bne B5_0938 ; d0 0b
 
 B5_092d:		lda #$00		; a9 00
-B5_092f:		sta $054e, x	; 9d 4e 05
+B5_092f:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B5_0932:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B5_0935:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B5_0938:		inx				; e8 
@@ -1869,7 +1869,7 @@ B5_09a3:		sta $061d, x	; 9d 1d 06
 B5_09a6:		lda $0b			; a5 0b
 B5_09a8:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B5_09ab:		lda $0c			; a5 0c
-B5_09ad:		sta $0633, x	; 9d 33 06
+B5_09ad:		sta wEntityGenericCounter.w, x	; 9d 33 06
 B5_09b0:		lda #$00		; a9 00
 B5_09b2:		sta $0645, x	; 9d 45 06
 B5_09b5:		inc $09			; e6 09
@@ -2035,7 +2035,7 @@ B5_0a9c:		rts				; 60
 
 B5_0a9d:		lda $6c			; a5 6c
 B5_0a9f:		sta $078f, x	; 9d 8f 07
-B5_0aa2:		jsr func_1f_1ed7		; 20 d7 fe
+B5_0aa2:		jsr clearAllEntityVars_todo		; 20 d7 fe
 B5_0aa5:		lda $03			; a5 03
 B5_0aa7:		beq B5_0aae ; f0 05
 
@@ -2055,12 +2055,12 @@ B5_0ac1:		sta wEntityBaseY.w, x	; 9d 1c 04
 B5_0ac4:		lda #$00		; a9 00
 B5_0ac6:		sta wEntityAI_idx.w, x	; 9d ef 05
 B5_0ac9:		lda $01			; a5 01
-B5_0acb:		sta $054e, x	; 9d 4e 05
+B5_0acb:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B5_0ace:		rts				; 60 
 
 
 B5_0acf:		ldx #$03		; a2 03
-B5_0ad1:		lda $054e, x	; bd 4e 05
+B5_0ad1:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B5_0ad4:		beq B5_0add ; f0 07
 
 B5_0ad6:		inx				; e8 
@@ -2090,8 +2090,8 @@ B5_0afb:		sta wEntityVertSpeed.w, x	; 9d 20 05
 B5_0afe:		rts				; 60 
 
 
-B5_0aff:		jsr func_1f_1ed7		; 20 d7 fe
-B5_0b02:		sta $054e, x	; 9d 4e 05
+B5_0aff:		jsr clearAllEntityVars_todo		; 20 d7 fe
+B5_0b02:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B5_0b05:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B5_0b08:		rts				; 60 
 
@@ -2099,7 +2099,7 @@ B5_0b08:		rts				; 60
 B5_0b09:		ldy #$86		; a0 86
 B5_0b0b:		jsr $feb9		; 20 b9 fe
 B5_0b0e:		tya				; 98 
-B5_0b0f:		sta $054e, x	; 9d 4e 05
+B5_0b0f:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B5_0b12:		jsr $94e7		; 20 e7 94
 B5_0b15:		jmp $ae75		; 4c 75 ae
 
@@ -2109,7 +2109,7 @@ B5_0b1a:		bne B5_0b0b ; d0 ef
 
 B5_0b1c:		jsr $feb9		; 20 b9 fe
 B5_0b1f:		lda #$88		; a9 88
-B5_0b21:		sta $054e, x	; 9d 4e 05
+B5_0b21:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B5_0b24:		lda #$00		; a9 00
 B5_0b26:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B5_0b29:		lda #$f9		; a9 f9
@@ -2135,7 +2135,7 @@ B5_0b4c:		iny				; c8
 B5_0b4d:		sty $0c			; 84 0c
 B5_0b4f:		jsr $feb9		; 20 b9 fe
 B5_0b52:		lda #$88		; a9 88
-B5_0b54:		sta $054e, x	; 9d 4e 05
+B5_0b54:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B5_0b57:		lda #$01		; a9 01
 B5_0b59:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B5_0b5c:		ldy $0c			; a4 0c
@@ -2301,7 +2301,7 @@ B5_0c36:		stx $00			; 86 00
 B5_0c38:		jsr $feb9		; 20 b9 fe
 B5_0c3b:		stx $01			; 86 01
 B5_0c3d:		lda #$88		; a9 88
-B5_0c3f:		sta $054e, x	; 9d 4e 05
+B5_0c3f:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B5_0c42:		jsr $94e7		; 20 e7 94
 B5_0c45:		ldy $00			; a4 00
 B5_0c47:		lda wEntityAI_idx.w, y	; b9 ef 05
@@ -2568,7 +2568,7 @@ B5_0e07:		cmp #$00		; c9 00
 B5_0e09:		bne B5_0e10 ; d0 05
 
 B5_0e0b:		lda $00			; a5 00
-B5_0e0d:		cmp $0633, x	; dd 33 06
+B5_0e0d:		cmp wEntityGenericCounter.w, x	; dd 33 06
 B5_0e10:		rts				; 60 
 
 
@@ -2661,7 +2661,7 @@ B5_0e9c:		lda ($9a), y	; b1 9a
 B5_0e9e:		sta wEntityBaseY.w, x	; 9d 1c 04
 B5_0ea1:		iny				; c8 
 B5_0ea2:		lda ($9a), y	; b1 9a
-B5_0ea4:		sta $0633, x	; 9d 33 06
+B5_0ea4:		sta wEntityGenericCounter.w, x	; 9d 33 06
 B5_0ea7:		iny				; c8 
 B5_0ea8:		lda ($9a), y	; b1 9a
 B5_0eaa:		sta $0645, x	; 9d 45 06
@@ -3221,7 +3221,7 @@ B5_1241:		sta $04			; 85 04
 B5_1243:		lda wEntityBaseY.w, x	; bd 1c 04
 B5_1246:		sta $05			; 85 05
 B5_1248:		ldx #$14		; a2 14
-B5_124a:		lda $054e, x	; bd 4e 05
+B5_124a:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B5_124d:		cmp #$0a		; c9 0a
 B5_124f:		beq B5_1260 ; f0 0f
 
@@ -3607,7 +3607,7 @@ B5_14ce:		clc				; 18
 B5_14cf:		adc $00			; 65 00
 B5_14d1:		sta $00			; 85 00
 B5_14d3:		ldx #$14		; a2 14
-B5_14d5:		lda $054e, x	; bd 4e 05
+B5_14d5:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B5_14d8:		beq B5_14e2 ; f0 08
 
 B5_14da:		inx				; e8 
@@ -3619,7 +3619,7 @@ B5_14e1:		rts				; 60
 
 
 B5_14e2:		lda #$0d		; a9 0d
-B5_14e4:		sta $054e, x	; 9d 4e 05
+B5_14e4:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B5_14e7:		lda #$00		; a9 00
 B5_14e9:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B5_14ec:		ldy $00			; a4 00

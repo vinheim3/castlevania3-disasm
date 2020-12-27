@@ -41,6 +41,12 @@
     wCurrLargeLayoutAddr: ; $00
         dw
 .nextu
+    wTempSpawnerXCoord: ; $00
+        db
+
+    wTempSpawnerYCoord: ; $01
+        db
+.nextu
     w000:
         db
 
@@ -87,6 +93,12 @@
 .nextu
     wCurrMetatileTilesAddr: ; $02
         dw
+.nextu
+    wTempSpawnerAI_Idx: ; $02
+        db
+
+    wTempSpawnerObjectIdx: ; $03
+        db
 .endu
 
 .union
@@ -184,6 +196,15 @@
 .nextu
     wCurrNumToVramQueue: ; $08
         db
+.nextu
+    wCurrRoomGroupRespawnTimeLeftAddr: ; $08
+        dw
+.nextu
+    wCurrRoomGroupPlayerPosAndScreenAddr: ; $08
+        dw
+
+    wCurrRoomSectionPlayerPosAndScreenAddr: ; $0a
+        dw
 .endu
 
 .union
@@ -615,20 +636,24 @@ wPPUMask: ; $fe
 wPPUCtrl: ; $ff
     db
 
-wInstrumentsFramesUntilNextByteProcessed:
+wInstrumentsFramesUntilNextByteProcessed: ; $100
     dsb 7
 
 wInstrumentsSoundIdxes: ; $107
     dsb 7
 
-w10e:
+; multiplied by time for a note to give actual frames
+; until next sound byte processed, ie higher = slower
+wInstrumentsSpeedCtrler_todo: ; $10e
     dsb 7
 
 ; 115 - set to 1 if not 2nd square channels
 ; and 1st instrument metadata byte >= $10
 ; when bit 0 set, data bytes are processed in soundEngine
 ; otherwise it is processed in soundCommon
-w115:
+; bit 0 - are codes processed in soundEngine?
+; bit 3 - is looping
+wSoundControlByte: ; $115
     dsb 7
 
 wSoundCtrsForLastLoop: ; $11c
@@ -666,21 +691,18 @@ w169:
     dsb 5
 
 ; control bits?
+; when bit 4 set, envelope restarted
 w16e:
     dsb 5
 
 wInstrumentFrequencyAdjust: ; $173
-    dsb 3
+    dsb 5
 
-w176:
-    dsb 2
-
-; todo: unknown size
 wInstrumentLastFreq_lo: ; $178
-    dsb 7
+    dsb 5
 
-w17f:
-    dsb $83-$7f
+wOctaveIncreasedBy5minusThis: ; $17d
+    dsb 6
 
 wInstrumentFrequency_lo: ; $183
     dsb 3
@@ -688,8 +710,7 @@ wInstrumentFrequency_lo: ; $183
 wInstrumentFrequency_hi: ; $186
     dsb 3
 
-; todo: unknown size
-w189:
+wInstrumentEnvelope1Idx: ; $189
     dsb 3
 
 wCurrInstrumentHwRegOffset: ; $18c
@@ -797,12 +818,12 @@ wEntityVertSubSpeed: ; $537
     dsb $17
 
 ; trevor, sypha, grant, alucard 
-; todo: also used by other entities
 wCurrPlayer: ; $54e
-    db
+    .db
 
-w54f:
-    dsb $65-$4f
+; todo: better name?
+wEntityObjectIdxes: ; $54e
+    dsb $17
 
 wPlayerStateDoubled: ; $565
     db
@@ -845,7 +866,13 @@ wPixelsToWalkToStairs: ; $61d
     db
 
 w61e:
-    dsb $a0-$1e
+    dsb $33-$1e
+
+wEntityGenericCounter: ; $633
+    dsb $17
+
+w64a:
+    dsb $a0-$4a
 
 wInstrumentEnvelopeLoopToIdx: ; $6a0
     dsb 3
@@ -879,7 +906,31 @@ wSoundModeSongSelected: ; $780
     db
 
 w781:
-    dsb $f6-$81
+    dsb $c2-$81
+
+wSpawnerID: ; $7c2
+    dsb NUM_SPAWNERS
+
+wSpawner_var7c8: ; $7c8
+    dsb NUM_SPAWNERS
+
+wSpawner_var7ce: ; $7ce
+    dsb NUM_SPAWNERS
+
+wSpawnerYCoord: ; $7d4
+    dsb NUM_SPAWNERS
+
+wSpawnerXCoord: ; $7da
+    dsb NUM_SPAWNERS
+
+wSpawnerOffScreenStatus: ; $7e0
+    dsb NUM_SPAWNERS
+
+wSpawner_var7e6: ; $7e6
+    dsb NUM_SPAWNERS
+
+w7ec:
+    dsb $f6-$ec
 
 wHardMode: ; $7f6
     db

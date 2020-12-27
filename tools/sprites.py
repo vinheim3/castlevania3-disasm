@@ -98,4 +98,5 @@ for i, spr in enumerate(sprites):
     new_im.paste(mapping[f'{i}.png'], (xOffset, yOffset))
 
 new_im.save('spr_new.png')
+os.system('mv spr_new.png spr_ent.png')
 os.system('rm pieces/*')

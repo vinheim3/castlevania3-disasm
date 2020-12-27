@@ -138,7 +138,7 @@ B0_0adb:		dec wCurrRoomGroup			; c6 32
 B0_0add:		jmp B0_0a42		; @display4numsAndUpdateCursorDetails
 
 B0_0ae0:		jsr func_1f_0819		; 20 19 e8
-B0_0ae3:		jsr $e684		; 20 84 e6
+B0_0ae3:		jsr respawnSetTimeLeftPlayerPosDir_forceRoomIdx		; 20 84 e6
 B0_0ae6:		lda #$00		; a9 00
 B0_0ae8:		sta $39			; 85 39
 B0_0aea:		lda wCurrPlayer.w		; ad 4e 05

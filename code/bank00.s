@@ -1,5 +1,5 @@
 
-loadCurrPlayerSprChrBanks:
+b0_loadCurrPlayerSprChrBanks:
 	ldy wCurrPlayer.w
 	lda @playerBaseChrBank.w, y
 	sta wChrBankSpr_0000
@@ -2223,7 +2223,7 @@ B0_1601:		sta wCurrPlayer.w		; 8d 4e 05
 B0_1604:		jsr vramQueueOtherCharImage		; 20 4b 8e
 B0_1607:		jsr $8e61		; 20 61 8e
 B0_160a:		jsr $e61e		; 20 1e e6
-B0_160d:		jsr $8001		; 20 01 80
+B0_160d:		jsr b0_loadCurrPlayerSprChrBanks		; 20 01 80
 B0_1610:		jsr updateSprChrBanks_0_to_c00_1400		; 20 3c e3
 B0_1613:		lda wCurrPlayer.w		; ad 4e 05
 B0_1616:		asl a			; 0a

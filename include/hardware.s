@@ -88,10 +88,10 @@
 ; 11 - fill mode data (unused due to 5106/5107 unset)
 .define NAMETABLE_MAPPING $5105
 .define NT_VERTICAL_MIRROR $44 ; %01000100
+.define NT_HORIZONTAL_MIRROR $50 ; %01010000
 .define NT_SINGLE_SCREEN_CIRAM_1 $55 ; %01010101
-; vram page 0 - vram page 1
-; internal expansion ram - fill mode data
-.define NT_ALL_MODES $e4 ; %11100100
+.define NT_ALL_MODES_HORIZONTAL_MIRROR $d8; %11011000
+.define NT_ALL_MODES_VERTICAL_MIRROR $e4 ; %11100100
 .define NT_SINGLE_SCREEN_FILL_MODE $ff ; %11111111
 
 .define FILL_MODE_TILE $5106

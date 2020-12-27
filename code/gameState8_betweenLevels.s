@@ -35,7 +35,7 @@ B1_05f0:		inc wGameSubstate			; e6 19
 B1_05f2:		rts				; 60 
 
 gameState8_substate1:
-B1_05f3:		jsr $e73d		; 20 3d e7
+B1_05f3:		jsr loadCurrPlayerSprChrBanks		; 20 3d e7
 B1_05f6:		ldy #$00		; a0 00
 B1_05f8:		lda $a63f, y	; b9 3f a6
 B1_05fb:	.db $99 $48 $00

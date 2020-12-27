@@ -147,7 +147,7 @@ B6_010b:		sta wEntityState.w, y	; 99 70 04
 B6_010e:		lda $09			; a5 09
 B6_0110:		sta $061d, y	; 99 1d 06
 B6_0113:		txa				; 8a 
-B6_0114:		sta $0633, y	; 99 33 06
+B6_0114:		sta wEntityGenericCounter.w, y	; 99 33 06
 B6_0117:		sty $08			; 84 08
 B6_0119:		ldy $09			; a4 09
 B6_011b:		lda $83c0, y	; b9 c0 83
@@ -182,7 +182,7 @@ B6_0144:		jmp $81c2		; 4c c2 81
 B6_0147:		lda wHardMode.w		; ad f6 07
 B6_014a:		bne B6_015c ; d0 10
 
-B6_014c:		lda $0633, x	; bd 33 06
+B6_014c:		lda wEntityGenericCounter.w, x	; bd 33 06
 B6_014f:		clc				; 18 
 B6_0150:		adc $0645, x	; 7d 45 06
 B6_0153:		and #$0f		; 29 0f
@@ -191,8 +191,8 @@ B6_0156:		lda $81d6, y	; b9 d6 81
 B6_0159:		jmp $816a		; 4c 6a 81
 
 
-B6_015c:		lda $1f			; a5 1f
-B6_015e:		adc $0633, x	; 7d 33 06
+B6_015c:		lda wRandomVal			; a5 1f
+B6_015e:		adc wEntityGenericCounter.w, x	; 7d 33 06
 B6_0161:		adc $0645, x	; 7d 45 06
 B6_0164:		and #$0f		; 29 0f
 B6_0166:		tay				; a8 
@@ -212,10 +212,10 @@ B6_0185:		jsr playSound		; 20 5f e2
 B6_0188:		inc wEntityAlarmOrStartYforSinusoidalMovement.w, x	; fe 06 06
 B6_018b:		lda #$00		; a9 00
 B6_018d:		sta $061d, x	; 9d 1d 06
-B6_0190:		inc $0633, x	; fe 33 06
-B6_0193:		lda $0633, x	; bd 33 06
+B6_0190:		inc wEntityGenericCounter.w, x	; fe 33 06
+B6_0193:		lda wEntityGenericCounter.w, x	; bd 33 06
 B6_0196:		and #$07		; 29 07
-B6_0198:		sta $0633, x	; 9d 33 06
+B6_0198:		sta wEntityGenericCounter.w, x	; 9d 33 06
 B6_019b:		lda $0645, x	; bd 45 06
 B6_019e:		asl a			; 0a
 B6_019f:		tay				; a8 
@@ -264,7 +264,7 @@ B6_01e7:		bne B6_024c ; d0 63
 
 B6_01e9:		lda #$40		; a9 40
 B6_01eb:		sta wEntityState.w, x	; 9d 70 04
-B6_01ee:		lda $0633, x	; bd 33 06
+B6_01ee:		lda wEntityGenericCounter.w, x	; bd 33 06
 B6_01f1:		clc				; 18 
 B6_01f2:		adc $0645, x	; 7d 45 06
 B6_01f5:		tay				; a8 
@@ -294,7 +294,7 @@ B6_0220:		sta wEntityState.w, y	; 99 70 04
 B6_0223:		lda $061d, x	; bd 1d 06
 B6_0226:		sta $061d, y	; 99 1d 06
 B6_0229:		txa				; 8a 
-B6_022a:		sta $0633, y	; 99 33 06
+B6_022a:		sta wEntityGenericCounter.w, y	; 99 33 06
 B6_022d:		lda wEntityBaseY.w, y	; b9 1c 04
 B6_0230:		clc				; 18 
 B6_0231:		adc #$10		; 69 10
@@ -362,7 +362,7 @@ B6_02a2:		lda wEntityBaseX.w, y	; b9 38 04
 B6_02a5:		clc				; 18 
 B6_02a6:		adc $11			; 65 11
 B6_02a8:		sta wEntityBaseX.w, y	; 99 38 04
-B6_02ab:		sta $0633, y	; 99 33 06
+B6_02ab:		sta wEntityGenericCounter.w, y	; 99 33 06
 B6_02ae:		jsr $84bb		; 20 bb 84
 B6_02b1:		lda #$00		; a9 00
 B6_02b3:		sta $17			; 85 17
@@ -413,7 +413,7 @@ B6_0300:		lda #$31		; a9 31
 B6_0302:		jsr playSound		; 20 5f e2
 B6_0305:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B6_0308:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
-B6_030b:		lda $1f			; a5 1f
+B6_030b:		lda wRandomVal			; a5 1f
 B6_030d:		adc $0645, x	; 7d 45 06
 B6_0310:		and #$0f		; 29 0f
 B6_0312:		tay				; a8 
@@ -466,7 +466,7 @@ B6_0363:		jmp $9952		; 4c 52 99
 
 B6_0366:		ldy $061d, x	; bc 1d 06
 B6_0369:		lda $83c0, y	; b9 c0 83
-B6_036c:		ldy $0633, x	; bc 33 06
+B6_036c:		ldy wEntityGenericCounter.w, x	; bc 33 06
 B6_036f:		clc				; 18 
 B6_0370:		adc wEntityBaseY.w, y	; 79 1c 04
 B6_0373:		sta wEntityBaseY.w, x	; 9d 1c 04
@@ -654,14 +654,14 @@ B6_048a:		lda wEntityFacingLeft.w, x	; bd a8 04
 B6_048d:		bne B6_049a ; d0 0b
 
 B6_048f:		clc				; 18 
-B6_0490:		lda $0633, x	; bd 33 06
+B6_0490:		lda wEntityGenericCounter.w, x	; bd 33 06
 B6_0493:		adc $84ac, y	; 79 ac 84
 B6_0496:		sta wEntityBaseX.w, x	; 9d 38 04
 B6_0499:		rts				; 60 
 
 
 B6_049a:		sec				; 38 
-B6_049b:		lda $0633, x	; bd 33 06
+B6_049b:		lda wEntityGenericCounter.w, x	; bd 33 06
 B6_049e:		sbc $84ac, y	; f9 ac 84
 B6_04a1:		sta wEntityBaseX.w, x	; 9d 38 04
 B6_04a4:		rts				; 60 
@@ -717,7 +717,7 @@ B6_04eb:		ldx #$01		; a2 01
 B6_04ed:		cpx $01			; e4 01
 B6_04ef:		beq B6_04f8 ; f0 07
 
-B6_04f1:		lda $054e, x	; bd 4e 05
+B6_04f1:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B6_04f4:		cmp #$08		; c9 08
 B6_04f6:		beq B6_0502 ; f0 0a
 
@@ -888,19 +888,19 @@ B6_0606:		rts				; 60
 
 B6_0607:		jsr $9952		; 20 52 99
 B6_060a:		ldy #$0d		; a0 0d
-B6_060c:		lda $054e, y	; b9 4e 05
+B6_060c:		lda wEntityObjectIdxes.w, y	; b9 4e 05
 B6_060f:		bne B6_0626 ; d0 15
 
 B6_0611:		dey				; 88 
 B6_0612:		bne B6_060c ; d0 f8
 
 B6_0614:		lda #$09		; a9 09
-B6_0616:		sta $054e, x	; 9d 4e 05
+B6_0616:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B6_0619:		lda #$02		; a9 02
 B6_061b:		sta $07f3		; 8d f3 07
 B6_061e:		jsr $9956		; 20 56 99
 B6_0621:		lda #$00		; a9 00
-B6_0623:		sta $054e, x	; 9d 4e 05
+B6_0623:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B6_0626:		rts				; 60 
 
 
@@ -992,7 +992,7 @@ B6_06b4:		and #$7f		; 29 7f
 B6_06b6:		sta $07f3		; 8d f3 07
 B6_06b9:		jsr $8676		; 20 76 86
 B6_06bc:		lda #$02		; a9 02
-B6_06be:		sta $054e, x	; 9d 4e 05
+B6_06be:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B6_06c1:		lda #$40		; a9 40
 B6_06c3:		sta wBossHealth			; 85 3d
 B6_06c5:		sta $067b, x	; 9d 7b 06
@@ -1031,7 +1031,7 @@ B6_06fa:		and #$7f		; 29 7f
 B6_06fc:		sta $07f3		; 8d f3 07
 B6_06ff:		jsr $8676		; 20 76 86
 B6_0702:		lda #$0e		; a9 0e
-B6_0704:		sta $054e, x	; 9d 4e 05
+B6_0704:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B6_0707:		jsr $9968		; 20 68 99
 B6_070a:		lda #$40		; a9 40
 B6_070c:		sta wBossHealth			; 85 3d
@@ -1592,7 +1592,7 @@ B6_0a94:		ldy #$39		; a0 39
 B6_0a96:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B6_0a99:		inc $07ee		; ee ee 07
 B6_0a9c:		lda #$09		; a9 09
-B6_0a9e:		sta $054e, x	; 9d 4e 05
+B6_0a9e:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B6_0aa1:		lda #$00		; a9 00
 B6_0aa3:		sta $07f1		; 8d f1 07
 B6_0aa6:		sta wEntityAI_idx.w, x	; 9d ef 05
@@ -1683,7 +1683,7 @@ B6_0b3e:		jmp $994c		; 4c 4c 99
 B6_0b41:		rts				; 60 
 
 
-B6_0b42:		lda $0633, x	; bd 33 06
+B6_0b42:		lda wEntityGenericCounter.w, x	; bd 33 06
 B6_0b45:		bne B6_0b75 ; d0 2e
 
 B6_0b47:		lda wEntityAlarmOrStartYforSinusoidalMovement.w, x	; bd 06 06
@@ -1706,13 +1706,13 @@ B6_0b67:		jmp $8af7		; 4c f7 8a
 
 
 B6_0b6a:		lda #$40		; a9 40
-B6_0b6c:		sta $0633, x	; 9d 33 06
+B6_0b6c:		sta wEntityGenericCounter.w, x	; 9d 33 06
 B6_0b6f:		lda #$20		; a9 20
 B6_0b71:		sta wEntityState.w, x	; 9d 70 04
 B6_0b74:		rts				; 60 
 
 
-B6_0b75:		dec $0633, x	; de 33 06
+B6_0b75:		dec wEntityGenericCounter.w, x	; de 33 06
 B6_0b78:		bne B6_0b82 ; d0 08
 
 B6_0b7a:		lda #$40		; a9 40
@@ -1884,7 +1884,7 @@ B6_0c8d:		lda #$00		; a9 00
 B6_0c8f:		sta wEntityAI_idx.w, x	; 9d ef 05
 B6_0c92:		sta wEntityPhase.w, x	; 9d c1 05
 B6_0c95:		lda #$09		; a9 09
-B6_0c97:		sta $054e, x	; 9d 4e 05
+B6_0c97:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B6_0c9a:		rts				; 60 
 
 
@@ -2426,7 +2426,7 @@ B6_1048:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
 B6_104b:		lda #$00		; a9 00
 B6_104d:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B6_1050:		lda #$13		; a9 13
-B6_1052:		sta $0633, x	; 9d 33 06
+B6_1052:		sta wEntityGenericCounter.w, x	; 9d 33 06
 B6_1055:		lda #$12		; a9 12
 B6_1057:		jmp $9215		; 4c 15 92
 
@@ -2636,7 +2636,7 @@ B6_11bf:		bne B6_1207 ; d0 46
 B6_11c1:		ldy #$13		; a0 13
 B6_11c3:		bne B6_1207 ; d0 42
 
-B6_11c5:		lda $1f			; a5 1f
+B6_11c5:		lda wRandomVal			; a5 1f
 B6_11c7:		and #$01		; 29 01
 B6_11c9:		ora wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 1d 06 06
 B6_11cc:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
@@ -2671,7 +2671,7 @@ B6_1200:		bne B6_1204 ; d0 02
 B6_1202:		lda #$0c		; a9 0c
 B6_1204:		sta wPlayerStateDoubled.w, x	; 9d 65 05
 B6_1207:		tya				; 98 
-B6_1208:		sta $0633, x	; 9d 33 06
+B6_1208:		sta wEntityGenericCounter.w, x	; 9d 33 06
 B6_120b:		lda #$0a		; a9 0a
 B6_120d:		jsr setEntitySpecGroupA_animationDefIdxY_immediatelyAnimate		; 20 6e ef
 B6_1210:		jsr updateEntityXanimationFrame		; 20 75 ef
@@ -2876,7 +2876,7 @@ B6_135d:		jmp setEntitySpecGroupA_animationDefIdxY_immediatelyAnimate		; 4c 6e e
 
 B6_1360:		lda #$00		; a9 00
 B6_1362:		sta $05d8, x	; 9d d8 05
-B6_1365:		sta $0633, x	; 9d 33 06
+B6_1365:		sta wEntityGenericCounter.w, x	; 9d 33 06
 B6_1368:		sta wEntityAI_idx.w, x	; 9d ef 05
 B6_136b:		sta wEntityPhase.w, x	; 9d c1 05
 B6_136e:		lda #$40		; a9 40
@@ -2935,7 +2935,7 @@ B6_13cf:		bne B6_13e7 ; d0 16
 B6_13d1:		lda #$0f		; a9 0f
 B6_13d3:		sta $068d, x	; 9d 8d 06
 B6_13d6:		lda #$01		; a9 01
-B6_13d8:		sta $0633, x	; 9d 33 06
+B6_13d8:		sta wEntityGenericCounter.w, x	; 9d 33 06
 B6_13db:		lda #$0a		; a9 0a
 B6_13dd:		ldy #$54		; a0 54
 B6_13df:		jsr setEntitySpecGroupA_animationDefIdxY_immediatelyAnimate		; 20 6e ef
@@ -2963,7 +2963,7 @@ B6_1402:		bne B6_1427 ; d0 23
 
 B6_1404:		lda #$04		; a9 04
 B6_1406:		sta wEntityAlarmOrStartYforSinusoidalMovement.w, x	; 9d 06 06
-B6_1409:		lda $1f			; a5 1f
+B6_1409:		lda wRandomVal			; a5 1f
 B6_140b:		and #$03		; 29 03
 B6_140d:		bne B6_141b ; d0 0c
 
@@ -2982,7 +2982,7 @@ B6_1424:		jmp $994c		; 4c 4c 99
 
 
 B6_1427:		dec wEntityAlarmOrStartYforSinusoidalMovement.w, x	; de 06 06
-B6_142a:		lda $0633, x	; bd 33 06
+B6_142a:		lda wEntityGenericCounter.w, x	; bd 33 06
 B6_142d:		bne B6_144a ; d0 1b
 
 B6_142f:		lda #$18		; a9 18
@@ -3010,7 +3010,7 @@ B6_1457:		jsr $948f		; 20 8f 94
 B6_145a:		lda #$0a		; a9 0a
 B6_145c:		sta $061d, x	; 9d 1d 06
 B6_145f:		lda #$00		; a9 00
-B6_1461:		sta $0633, x	; 9d 33 06
+B6_1461:		sta wEntityGenericCounter.w, x	; 9d 33 06
 B6_1464:		lda #$0a		; a9 0a
 B6_1466:		ldy #$50		; a0 50
 B6_1468:		jsr setEntitySpecGroupA_animationDefIdxY_immediatelyAnimate		; 20 6e ef
@@ -3020,7 +3020,7 @@ B6_146d:		jmp $994c		; 4c 4c 99
 
 B6_1470:		dec $061d, x	; de 1d 06
 B6_1473:		jsr $9948		; 20 48 99
-B6_1476:		lda $1f			; a5 1f
+B6_1476:		lda wRandomVal			; a5 1f
 B6_1478:		and #$03		; 29 03
 B6_147a:		cmp #$01		; c9 01
 B6_147c:		beq B6_148a ; f0 0c
@@ -3152,16 +3152,16 @@ B6_153e:		lda wEntityPhase.w, x	; bd c1 05
 B6_1541:		cmp #$0e		; c9 0e
 B6_1543:		bne B6_15b8 ; d0 73
 
-B6_1545:		lda $0633, x	; bd 33 06
+B6_1545:		lda wEntityGenericCounter.w, x	; bd 33 06
 B6_1548:		cmp #$04		; c9 04
 B6_154a:		bcs B6_1550 ; b0 04
 
-B6_154c:		inc $0633, x	; fe 33 06
+B6_154c:		inc wEntityGenericCounter.w, x	; fe 33 06
 B6_154f:		rts				; 60 
 
 
 B6_1550:		lda #$00		; a9 00
-B6_1552:		sta $0633, x	; 9d 33 06
+B6_1552:		sta wEntityGenericCounter.w, x	; 9d 33 06
 B6_1555:		lda #$08		; a9 08
 B6_1557:		sta $00			; 85 00
 B6_1559:		lda #$10		; a9 10
@@ -3460,7 +3460,7 @@ B6_177b:		bcc B6_1781 ; 90 04
 B6_177d:		lda #$3f		; a9 3f
 B6_177f:		bne B6_1790 ; d0 0f
 
-B6_1781:		lda $1f			; a5 1f
+B6_1781:		lda wRandomVal			; a5 1f
 B6_1783:		and #$01		; 29 01
 B6_1785:		beq B6_177d ; f0 f6
 
@@ -3962,12 +3962,12 @@ B6_1af1:		rts				; 60
 
 
 B6_1af2:		ldx #$01		; a2 01
-B6_1af4:		lda $054e, x	; bd 4e 05
+B6_1af4:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B6_1af7:		cmp #$2b		; c9 2b
 B6_1af9:		bne B6_1b04 ; d0 09
 
-B6_1afb:		jsr func_1f_1ed7		; 20 d7 fe
-B6_1afe:		sta $054e, x	; 9d 4e 05
+B6_1afb:		jsr clearAllEntityVars_todo		; 20 d7 fe
+B6_1afe:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B6_1b01:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B6_1b04:		inx				; e8 
 B6_1b05:		cpx #$17		; e0 17
@@ -4167,7 +4167,7 @@ B6_1c57:		rts				; 60
 B6_1c58:		lda #$00		; a9 00
 B6_1c5a:		sta $03			; 85 03
 B6_1c5c:		ldy #$02		; a0 02
-B6_1c5e:		lda $054e, y	; b9 4e 05
+B6_1c5e:		lda wEntityObjectIdxes.w, y	; b9 4e 05
 B6_1c61:		cmp #$2b		; c9 2b
 B6_1c63:		bne B6_1c67 ; d0 02
 
@@ -4179,12 +4179,12 @@ B6_1c6a:		bcc B6_1c5e ; 90 f2
 B6_1c6c:		rts				; 60 
 
 
-B6_1c6d:		jsr func_1f_1ed7		; 20 d7 fe
+B6_1c6d:		jsr clearAllEntityVars_todo		; 20 d7 fe
 B6_1c70:		lda #$10		; a9 10
 B6_1c72:		ldy #$4a		; a0 4a
 B6_1c74:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
 B6_1c77:		lda #$2b		; a9 2b
-B6_1c79:		sta $054e, x	; 9d 4e 05
+B6_1c79:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B6_1c7c:		lda #$b8		; a9 b8
 B6_1c7e:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B6_1c81:		lda #$30		; a9 30
@@ -4231,7 +4231,7 @@ B6_1cc1:		ldy #$98		; a0 98
 B6_1cc3:		jsr $1000		; 20 00 10
 B6_1cc6:		ldy #$10		; a0 10
 B6_1cc8:		cpy #$d0		; c0 d0
-B6_1cca:		jsr func_1f_1ed7		; 20 d7 fe
+B6_1cca:		jsr clearAllEntityVars_todo		; 20 d7 fe
 B6_1ccd:		lda #$0e		; a9 0e
 B6_1ccf:		ldy #$04		; a0 04
 B6_1cd1:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef
@@ -4300,8 +4300,8 @@ B6_1d4b:		dec $0645, x	; de 45 06
 B6_1d4e:		dec $0645, x	; de 45 06
 B6_1d51:		bne B6_1d59 ; d0 06
 
-B6_1d53:		jsr func_1f_1ed7		; 20 d7 fe
-B6_1d56:		sta $054e, x	; 9d 4e 05
+B6_1d53:		jsr clearAllEntityVars_todo		; 20 d7 fe
+B6_1d56:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B6_1d59:		rts				; 60 
 
 
@@ -4331,7 +4331,7 @@ B6_1d81:		lsr a			; 4a
 B6_1d82:		bcc B6_1d59 ; 90 d5
 
 B6_1d84:		lda #$00		; a9 00
-B6_1d86:		sta $054e, x	; 9d 4e 05
+B6_1d86:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B6_1d89:		lda #$f8		; a9 f8
 B6_1d8b:		sta wEntityState.w, x	; 9d 70 04
 B6_1d8e:		rts				; 60 
@@ -4348,7 +4348,7 @@ B6_1d9e:		lda #$00		; a9 00
 B6_1da0:		sta $c1			; 85 c1
 B6_1da2:		lda #$40		; a9 40
 B6_1da4:		sta $0657, x	; 9d 57 06
-B6_1da7:		jsr func_1f_05d3		; 20 d3 e5
+B6_1da7:		jsr getCurrRoomInternalPalettesChrBanksAndCollisionTypeOffsets		; 20 d3 e5
 B6_1daa:		lda #$2d		; a9 2d
 B6_1dac:		sta wChrBankSpr_0c00			; 85 49
 B6_1dae:		rts				; 60 
@@ -4498,7 +4498,7 @@ B6_1ec0:		lda $03			; a5 03
 B6_1ec2:		bne B6_1e60 ; d0 9c
 
 B6_1ec4:		jsr $feb9		; 20 b9 fe
-B6_1ec7:		jsr func_1f_1ed7		; 20 d7 fe
+B6_1ec7:		jsr clearAllEntityVars_todo		; 20 d7 fe
 B6_1eca:		jsr $9c6d		; 20 6d 9c
 B6_1ecd:		ldy $6c			; a4 6c
 B6_1ecf:		lda wEntityBaseY.w, y	; b9 1c 04

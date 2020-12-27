@@ -39,7 +39,7 @@ B13_1e20:	.db $0b
 func_0d_1e21:
 B13_1e21:		jsr clearEntityHorizVertSpeeds		; 20 c8 fe
 B13_1e24:		ldy $9e			; a4 9e
-B13_1e26:		lda $054e, y	; b9 4e 05
+B13_1e26:		lda wEntityObjectIdxes.w, y	; b9 4e 05
 B13_1e29:		tay				; a8 
 B13_1e2a:		lda $be82, y	; b9 82 be
 B13_1e2d:		bne B13_1e31 ; d0 02
@@ -73,7 +73,7 @@ B13_1e5e:		beq B13_1e2f ; f0 cf
 B13_1e60:		asl a			; 0a
 B13_1e61:		tay				; a8 
 B13_1e62:		lda $be75, y	; b9 75 be
-B13_1e65:		sta $054e, x	; 9d 4e 05
+B13_1e65:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B13_1e68:		lda $be76, y	; b9 76 be
 B13_1e6b:		sta wEntityAI_idx.w, x	; 9d ef 05
 B13_1e6e:		lda #$04		; a9 04

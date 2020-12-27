@@ -151,52 +151,6 @@
 .org 0
 
     .db $96
-
-func_16_0001:
-; store state without destroyed var
-	lda wEntityState.w, x
-B22_0004:		and #$ff-ES_DESTROYED		; 29 fe
-B22_0006:		sta $00			; 85 00
-
-; y = 0 if moving right, else $ff
-B22_0008:		ldy #$00		; a0 00
-B22_000a:		lda wEntityHorizSpeed.w, x	; bd f2 04
-	bpl +
-
-B22_000f:		dey				; 88 
-+	sty $01			; 84 01
-	jsr entityApplyHorizSpeedToX
-
-; destroyed var is set if orig set and moving right
-; or not orig set and moving left
-B22_0015:		lda wEntityState.w, x	; bd 70 04
-B22_0018:		and #ES_DESTROYED		; 29 01
-B22_001a:		adc $01			; 65 01
-B22_001c:		and #$01		; 29 01
-
-B22_001e:		ora $00			; 05 00
-B22_0020:		sta wEntityState.w, x	; 9d 70 04
-
-; apply vert speed to Y
-	clc				; 18 
-	lda wEntityFractionalY.w, x	; bd db 04
-	adc wEntityVertSubSpeed.w, x	; 7d 37 05
-	sta wEntityFractionalY.w, x	; 9d db 04
-	lda wEntityBaseY.w, x	; bd 1c 04
-	adc wEntityVertSpeed.w, x	; 7d 20 05
-	sta wEntityBaseY.w, x	; 9d 1c 04
-	rts				; 60 
-
-entityApplyHorizSpeedToX:
-	clc
-	lda wEntityFractionalX.w, x
-	adc wEntityHorizSubSpeed.w, x	; 7d 09 05
-	sta wEntityFractionalX.w, x	; 9d c4 04
-	lda wEntityBaseX.w, x	; bd 38 04
-	adc wEntityHorizSpeed.w, x	; 7d f2 04
-	sta wEntityBaseX.w, x	; 9d 38 04
-	rts				; 60 
-
     .include "code/entityPhaseFuncs_b16.s"
 
 .bank $17 slot 2

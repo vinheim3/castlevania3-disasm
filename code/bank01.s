@@ -467,7 +467,7 @@ B1_02c5:		sta $07a0		; 8d a0 07
 B1_02c8:		lda #$3f		; a9 3f
 B1_02ca:		sta $07a1		; 8d a1 07
 B1_02cd:		lda #$ff		; a9 ff
-B1_02cf:		sta $07c2		; 8d c2 07
+B1_02cf:		sta wSpawnerID.w		; 8d c2 07
 B1_02d2:		rts				; 60 
 
 
@@ -1064,7 +1064,7 @@ B1_149f:		bcs B1_14bc ; b0 1b
 B1_14a1:		jsr $b7ee		; 20 ee b7
 B1_14a4:		bcs B1_14b0 ; b0 0a
 
-B1_14a6:		lda $054e, x	; bd 4e 05
+B1_14a6:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B1_14a9:		cmp #$05		; c9 05
 B1_14ab:		beq B1_14bc ; f0 0f
 
@@ -1156,7 +1156,7 @@ B1_153e:		bcs B1_1557 ; b0 17
 B1_1540:		jsr $b7ee		; 20 ee b7
 B1_1543:		bcs B1_154b ; b0 06
 
-B1_1545:		lda $054e, x	; bd 4e 05
+B1_1545:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B1_1548:		jsr $b716		; 20 16 b7
 B1_154b:		jsr $b72a		; 20 2a b7
 B1_154e:		jsr $b42d		; 20 2d b4
@@ -1430,7 +1430,7 @@ B1_170e:		and $3d3d, x	; 3d 3d 3d
 B1_1711:		and $3d3d, x	; 3d 3d 3d
 B1_1714:		and $483d, x	; 3d 3d 48
 B1_1717:		lda #$00		; a9 00
-B1_1719:		sta $054e, x	; 9d 4e 05
+B1_1719:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B1_171c:		pla				; 68 
 B1_171d:		sta $0781		; 8d 81 07
 B1_1720:		ldy #$00		; a0 00
@@ -1554,7 +1554,7 @@ B1_17e1:		lda ($08), y	; b1 08
 B1_17e3:		sta wEntityBaseY.w, x	; 9d 1c 04
 B1_17e6:		iny				; c8 
 B1_17e7:		lda ($08), y	; b1 08
-B1_17e9:		sta $054e, x	; 9d 4e 05
+B1_17e9:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B1_17ec:		iny				; c8 
 B1_17ed:		rts				; 60 
 
@@ -1570,7 +1570,7 @@ B1_17f9:		rts				; 60
 
 
 B1_17fa:		ldx #$01		; a2 01
-B1_17fc:		lda $054e, x	; bd 4e 05
+B1_17fc:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B1_17ff:		bne B1_1807 ; d0 06
 
 B1_1801:		inx				; e8 

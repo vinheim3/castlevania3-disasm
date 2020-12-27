@@ -1054,7 +1054,7 @@ B3_1632:		sta wEntityPaletteOverride.w, x	; 9d 54 04
 B3_1635:		sta wEntityState.w, x	; 9d 70 04
 B3_1638:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04
 B3_163b:		sta wEntityFacingLeft.w, x	; 9d a8 04
-B3_163e:		sta $054e, x	; 9d 4e 05
+B3_163e:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B3_1641:		inx				; e8 
 B3_1642:		cpx #$17		; e0 17
 B3_1644:		bcc B3_1629 ; 90 e3

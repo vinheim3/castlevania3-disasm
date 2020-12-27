@@ -822,7 +822,7 @@ callCoreLoadingFunc:
 @coreLoadingFuncs:
 	.table word byte
 	.row loadCurrRoomsInternalPalettes $80
-	.row loadCurrPlayerSprChrBanks $80
+	.row b0_loadCurrPlayerSprChrBanks $80
 	.row getCurrRoomsChrBanks $80
 	.row getCurrRoomMetatileTilesPalettesAndMetadataByte $00
 	.row func_1e_10f8 $00
@@ -911,7 +911,7 @@ B21_169f:		rts				; 60
 
 func_15_16a0:
 B21_16a0:		ldx #$01		; a2 01
-B21_16a2:		lda $054e, x	; bd 4e 05
+B21_16a2:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B21_16a5:		bne B21_16ad ; d0 06
 
 B21_16a7:		inx				; e8 
@@ -939,7 +939,7 @@ B21_16c8:		bpl B21_16a7 ; 10 dd
 
 B21_16ca:		lda #$00		; a9 00
 B21_16cc:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
-B21_16cf:		sta $054e, x	; 9d 4e 05
+B21_16cf:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B21_16d2:		jmp $b6a7		; 4c a7 b6
 
 
@@ -1437,7 +1437,7 @@ B21_19c7:		jsr func_1f_1b95		; 20 95 fb
 B21_19ca:		sta wEntityFacingLeft.w, x	; 9d a8 04
 B21_19cd:		iny				; c8 
 B21_19ce:		lda #$01		; a9 01
-B21_19d0:		sta $054e, x	; 9d 4e 05
+B21_19d0:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B21_19d3:		inx				; e8 
 B21_19d4:		jmp B21_19a7		; @loop
 

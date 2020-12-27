@@ -267,39 +267,45 @@ B9_1324:		.db $00				; 00
 
 
 respawnSetTimeLeft:
-B9_1325:		lda wCurrRoomGroup		; a5 32
-B9_1327:		asl a			; 0a
-B9_1328:		tay				; a8 
-B9_1329:		lda $b3ad, y	; b9 ad b3
-B9_132c:		sta $08			; 85 08
-B9_132e:		lda $b3ae, y	; b9 ae b3
-B9_1331:		sta $09			; 85 09
-B9_1333:		ldy wCurrRoomSection			; a4 33
-B9_1335:		lda ($08), y	; b1 08
-B9_1337:		and #$0f		; 29 0f
-B9_1339:		sta wCurrRoomIdx			; 85 34
-B9_133b:		lda ($08), y	; b1 08
-B9_133d:		lsr a			; 4a
-B9_133e:		lsr a			; 4a
-B9_133f:		lsr a			; 4a
-B9_1340:		lsr a			; 4a
-B9_1341:		sta wCurrTimeLeft+1			; 85 7f
-B9_1343:		lda #$00		; a9 00
-B9_1345:		sta wCurrTimeLeft			; 85 7e
-B9_1347:		rts				; 60 
+; get gruop addr
+	lda wCurrRoomGroup
+	asl a
+	tay
+	lda respawnTimeLeftData.w, y
+	sta wCurrRoomGroupRespawnTimeLeftAddr
+	lda respawnTimeLeftData.w+1, y
+	sta wCurrRoomGroupRespawnTimeLeftAddr+1
+
+; low byte is section's room idx
+	ldy wCurrRoomSection
+	lda (wCurrRoomGroupRespawnTimeLeftAddr), y
+	and #$0f
+	sta wCurrRoomIdx
+
+; high byte is section's time left * 10
+	lda (wCurrRoomGroupRespawnTimeLeftAddr), y
+	lsr a
+	lsr a
+	lsr a
+	lsr a
+	sta wCurrTimeLeft+1
+	lda #$00
+	sta wCurrTimeLeft
+	rts
 
 
-B9_1348:		lda wCurrRoomIdx			; a5 34
-B9_134a:		pha				; 48 
-B9_134b:		jsr respawnSetTimeLeft		; 20 25 b3
-B9_134e:		pla				; 68 
-B9_134f:		sta wCurrRoomIdx			; 85 34
-B9_1351:		jmp $b357		; 4c 57 b3
+b9_respawnSetTimeLeftPlayerPosDir_forceRoomIdx:
+	lda wCurrRoomIdx
+	pha
+	jsr respawnSetTimeLeft
+	pla
+	sta wCurrRoomIdx
+	jmp +
 
 
 b9_respawnSetTimeLeftPlayerPosAndDir:
 	jsr respawnSetTimeLeft
-	jsr respawnSetPlayerPositionAndDirection
++	jsr respawnSetPlayerPositionAndDirection
 
 ; if grant, add 4 to base Y
 	lda wCurrPlayer.w
@@ -315,69 +321,76 @@ b9_respawnSetTimeLeftPlayerPosAndDir:
 
 
 respawnSetPlayerPositionAndDirection:
-B9_136b:		lda wCurrRoomGroup		; a5 32
-B9_136d:		asl a			; 0a
-B9_136e:		tay				; a8 
-B9_136f:		lda $b40b, y	; b9 0b b4
-B9_1372:		sta $08			; 85 08
-B9_1374:		lda $b40c, y	; b9 0c b4
-B9_1377:		sta $09			; 85 09
-B9_1379:		lda wCurrRoomSection			; a5 33
-B9_137b:		asl a			; 0a
-B9_137c:		tay				; a8 
-B9_137d:		lda ($08), y	; b1 08
-B9_137f:		sta $0a			; 85 0a
-B9_1381:		iny				; c8 
-B9_1382:		lda ($08), y	; b1 08
-B9_1384:		sta $0b			; 85 0b
-B9_1386:		lda wCurrRoomIdx			; a5 34
-B9_1388:		asl a			; 0a
-B9_1389:		tay				; a8 
-B9_138a:		lda ($0a), y	; b1 0a
-B9_138c:		and #$f0		; 29 f0
-B9_138e:		sta wEntityBaseX.w		; 8d 38 04
-B9_1391:		lda ($0a), y	; b1 0a
-B9_1393:		asl a			; 0a
-B9_1394:		asl a			; 0a
-B9_1395:		asl a			; 0a
-B9_1396:		asl a			; 0a
-B9_1397:		sta wEntityBaseY.w		; 8d 1c 04
-B9_139a:		iny				; c8 
-B9_139b:		lda ($0a), y	; b1 0a
-B9_139d:		sta wCurrScrollRoomScreen			; 85 57
-B9_139f:		ldy #$00		; a0 00
-B9_13a1:		sty wCurrScrollOffsetIntoRoomScreen			; 84 56
+; get group addr
+	lda wCurrRoomGroup
+	asl a
+	tay
+	lda respawnPlayerPosAndScreenData.w, y
+	sta wCurrRoomGroupPlayerPosAndScreenAddr
+	lda respawnPlayerPosAndScreenData.w+1, y
+	sta wCurrRoomGroupPlayerPosAndScreenAddr+1
 
-B9_13a3:		lda wEntityBaseX.w		; ad 38 04
-B9_13a6:		bpl B9_13a9 ; 10 01
+; get section addr
+	lda wCurrRoomSection
+	asl a
+	tay
+	lda (wCurrRoomGroupPlayerPosAndScreenAddr), y
+	sta wCurrRoomSectionPlayerPosAndScreenAddr
+	iny
+	lda (wCurrRoomGroupPlayerPosAndScreenAddr), y
+	sta wCurrRoomSectionPlayerPosAndScreenAddr+1
 
-B9_13a8:		iny				; c8 
-B9_13a9:		sty wEntityFacingLeft.w		; 8c a8 04
-B9_13ac:		rts				; 60 
+; get 2 bytes for rom
+	lda wCurrRoomIdx
+	asl a
+	tay
+
+; 1st byte nybbles are player XY
+	lda (wCurrRoomSectionPlayerPosAndScreenAddr), y
+	and #$f0
+	sta wEntityBaseX.w
+	lda (wCurrRoomSectionPlayerPosAndScreenAddr), y
+	asl a
+	asl a
+	asl a
+	asl a
+	sta wEntityBaseY.w
+
+; 2nd byte is for which room screen to start in
+	iny
+	lda (wCurrRoomSectionPlayerPosAndScreenAddr), y
+	sta wCurrScrollRoomScreen
+	ldy #$00
+	sty wCurrScrollOffsetIntoRoomScreen
+
+; if starting on the left side of the screen, face right
+	lda wEntityBaseX.w
+	bpl +
+
+	iny
++	sty wEntityFacingLeft.w
+	rts
 
 
-B9_13ad:	.db $cb
-B9_13ae:	.db $b3
-B9_13af:	.db $cf
-B9_13b0:	.db $b3
-B9_13b1:		cmp $b3, x		; d5 b3
-B9_13b3:	.db $da
-B9_13b4:	.db $b3
-B9_13b5:	.db $df
-B9_13b6:	.db $b3
-B9_13b7:	.db $e2
-B9_13b8:	.db $b3
-B9_13b9:		inc $b3			; e6 b3
-B9_13bb:		sbc #$b3		; e9 b3
-B9_13bd:		beq B9_1372 ; f0 b3
-
-B9_13bf:		sbc $b3, x		; f5 b3
-B9_13c1:	.db $f7
-B9_13c2:	.db $b3
-B9_13c3:		inc $01b3, x	; fe b3 01
-B9_13c6:		ldy $04, x		; b4 04
-B9_13c8:		ldy $08, x		; b4 08
-B9_13ca:		ldy $50, x		; b4 50
+respawnTimeLeftData:
+	.dw @group0
+	.dw $b3cf
+	.dw $b3d5
+	.dw $b3da
+	.dw $b3df
+	.dw $b3e2
+	.dw $b3e6
+	.dw $b3e9
+	.dw $b3f0
+	.dw $b3f5
+	.dw $b3f7
+	.dw $b3fe
+	.dw $b401
+	.dw $b404
+	.dw $b408
+	
+@group0:
+	.db $50
 B9_13cc:		rti				; 40 
 
 
@@ -405,7 +418,7 @@ B9_13df:		rti				; 40
 
 B9_13e0:		bmi B9_1402 ; 30 20
 
-B9_13e2:		bvc B9_1424 ; 50 40
+B9_13e2:		.db $50 $40
 
 B9_13e4:		and ($21), y	; 31 21
 B9_13e6:		eor ($30, x)	; 41 30
@@ -441,29 +454,35 @@ B9_1400:	.db $32
 B9_1401:		rti				; 40 
 
 
-B9_1402:		bmi B9_1424 ; 30 20
+B9_1402:		.db $30 $20
 
 B9_1404:		bvc B9_1446 ; 50 40
 
-B9_1406:		bmi B9_1428 ; 30 20
+B9_1406:		.db $30 $20
 
 B9_1408:	.db $32
-B9_1409:		jsr $2930		; 20 30 29
-B9_140c:		ldy $31, x		; b4 31
-B9_140e:		ldy $3d, x		; b4 3d
-B9_1410:		ldy $47, x		; b4 47
-B9_1412:		ldy $51, x		; b4 51
-B9_1414:		ldy wCurrScrollRoomScreen, x		; b4 57
-B9_1416:		ldy $5f, x		; b4 5f
-B9_1418:		ldy $65, x		; b4 65
-B9_141a:		ldy $73, x		; b4 73
-B9_141c:		ldy $7d, x		; b4 7d
-B9_141e:		ldy $81, x		; b4 81
-B9_1420:		ldy $8f, x		; b4 8f
-B9_1422:		ldy $95, x		; b4 95
-B9_1424:		ldy $9b, x		; b4 9b
-B9_1426:		ldy $a3, x		; b4 a3
-B9_1428:		ldy $a9, x		; b4 a9
+B9_1409:		.db $20 $30
+
+
+respawnPlayerPosAndScreenData:
+	.dw @group0
+	.dw $b431
+	.dw $b43d
+	.dw $b447
+	.dw $b451
+	.dw $b457
+	.dw $b45f
+	.dw $b465
+	.dw $b473
+	.dw $b47d
+	.dw $b481
+	.dw $b48f
+	.dw $b495
+	.dw $b49b
+	.dw $b4a3
+	
+@group0:
+	.db $a9
 B9_142a:		ldy $ab, x		; b4 ab
 B9_142c:		ldy $b3, x		; b4 b3
 B9_142e:		ldy $b7, x		; b4 b7
@@ -488,7 +507,7 @@ B9_1452:		lda $0f, x		; b5 0f
 B9_1454:		lda $15, x		; b5 15
 B9_1456:		lda $1b, x		; b5 1b
 B9_1458:		lda $1d, x		; b5 1d
-B9_145a:		lda $1f, x		; b5 1f
+B9_145a:		lda wRandomVal, x		; b5 1f
 B9_145c:		lda $23, x		; b5 23
 B9_145e:		lda $27, x		; b5 27
 B9_1460:		lda $2b, x		; b5 2b
@@ -749,7 +768,7 @@ B9_15c1:		clc				; 18
 B9_15c2:		adc $09			; 65 09
 B9_15c4:		tay				; a8 
 B9_15c5:		lda $b5cc, y	; b9 cc b5
-B9_15c8:		sta $054e, x	; 9d 4e 05
+B9_15c8:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B9_15cb:		rts				; 60 
 
 
@@ -900,13 +919,13 @@ B9_168b:	.db $ff
 B9_168c:	.db $ff
 B9_168d:	.db $ff
 B9_168e:		sec				; 38 
-B9_168f:		lda $054e, x	; bd 4e 05
+B9_168f:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B9_1692:		sbc #$40		; e9 40
 B9_1694:		tay				; a8 
 B9_1695:		lda $b6a1, y	; b9 a1 b6
 B9_1698:		sta wEntityAI_idx.w, x	; 9d ef 05
 B9_169b:		lda #$68		; a9 68
-B9_169d:		sta $054e, x	; 9d 4e 05
+B9_169d:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B9_16a0:		rts				; 60 
 
 
@@ -1012,7 +1031,7 @@ B9_170d:		.db $00				; 00
 B9_170e:		.db $00				; 00
 B9_170f:		.db $00				; 00
 B9_1710:		.db $00				; 00
-B9_1711:		lda $054e, x	; bd 4e 05
+B9_1711:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B9_1714:		cmp #$48		; c9 48
 B9_1716:		bcc B9_172f ; 90 17
 
@@ -1052,7 +1071,7 @@ B9_174f:		lda wEntityState.w, x	; bd 70 04
 B9_1752:		and #$01		; 29 01
 B9_1754:		beq B9_178a ; f0 34
 
-B9_1756:		lda $054e, x	; bd 4e 05
+B9_1756:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B9_1759:		cmp #$90		; c9 90
 B9_175b:		bcs B9_176c ; b0 0f
 
@@ -1064,12 +1083,12 @@ B9_1765:		and #$04		; 29 04
 B9_1767:		beq B9_176c ; f0 03
 
 B9_1769:		jsr $b83e		; 20 3e b8
-B9_176c:		lda $054e, x	; bd 4e 05
+B9_176c:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B9_176f:		cmp #$5d		; c9 5d
 B9_1771:		beq B9_178b ; f0 18
 
 B9_1773:		lda #$00		; a9 00
-B9_1775:		sta $054e, x	; 9d 4e 05
+B9_1775:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B9_1778:		sta wEntityState.w, x	; 9d 70 04
 B9_177b:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B9_177e:		sta wEntityAI_idx.w, x	; 9d ef 05
@@ -1095,7 +1114,7 @@ B9_179d:		sta $0657, x	; 9d 57 06
 B9_17a0:		sta wEntityState.w, x	; 9d 70 04
 B9_17a3:		sta wEntityPhase.w, x	; 9d c1 05
 B9_17a6:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
-B9_17a9:		sta $054e, x	; 9d 4e 05
+B9_17a9:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B9_17ac:		rts				; 60 
 
 
@@ -1134,7 +1153,7 @@ B9_17dc:		jmp $b7e7		; 4c e7 b7
 B9_17df:		lda wEntityState.w, x	; bd 70 04
 B9_17e2:		and #$bf		; 29 bf
 B9_17e4:		sta wEntityState.w, x	; 9d 70 04
-B9_17e7:		lda $054e, x	; bd 4e 05
+B9_17e7:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B9_17ea:		cmp #$59		; c9 59
 B9_17ec:		beq B9_17fa ; f0 0c
 
@@ -1214,7 +1233,7 @@ B9_183d:	.db $02
 B9_183e:		lda $0645, x	; bd 45 06
 B9_1841:		tax				; aa 
 B9_1842:		lda #$03		; a9 03
-B9_1844:		ldy $07c2, x	; bc c2 07
+B9_1844:		ldy wSpawnerID.w, x	; bc c2 07
 B9_1847:		cpy #$18		; c0 18
 B9_1849:		beq B9_1851 ; f0 06
 
@@ -1222,13 +1241,13 @@ B9_184b:		cpy #$4b		; c0 4b
 B9_184d:		beq B9_1851 ; f0 02
 
 B9_184f:		lda #$02		; a9 02
-B9_1851:		sta $07c8, x	; 9d c8 07
+B9_1851:		sta wSpawner_var7c8.w, x	; 9d c8 07
 B9_1854:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B9_1856:		rts				; 60 
 
 
 func_09_1857:
-B9_1857:		lda $054e, x	; bd 4e 05
+B9_1857:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B9_185a:		cmp #$40		; c9 40
 B9_185c:		bcc B9_186c ; 90 0e
 
@@ -1245,7 +1264,7 @@ B9_1869:		jmp $b76c		; 4c 6c b7
 B9_186c:		rts				; 60 
 
 
-B9_186d:		lda $054e, x	; bd 4e 05
+B9_186d:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B9_1870:		lsr a			; 4a
 B9_1871:		bcc B9_187a ; 90 07
 
@@ -1361,7 +1380,7 @@ B9_18ea:		rts				; 60
 
 
 B9_18eb:		ldx #$01		; a2 01
-B9_18ed:		lda $054e, x	; bd 4e 05
+B9_18ed:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B9_18f0:		beq B9_18fd ; f0 0b
 
 B9_18f2:		cmp #$6c		; c9 6c
@@ -1424,7 +1443,7 @@ B9_194a:		sta wEntityState.w, x	; 9d 70 04
 B9_194d:		and #$01		; 29 01
 B9_194f:		beq B9_1983 ; f0 32
 
-B9_1951:		lda $054e, x	; bd 4e 05
+B9_1951:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B9_1954:		cmp #$90		; c9 90
 B9_1956:		bcs B9_195c ; b0 04
 
@@ -1432,7 +1451,7 @@ B9_1958:		cmp #$78		; c9 78
 B9_195a:		bcs B9_1964 ; b0 08
 
 B9_195c:		lda #$00		; a9 00
-B9_195e:		sta $054e, x	; 9d 4e 05
+B9_195e:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B9_1961:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B9_1964:		rts				; 60 
 
@@ -1453,7 +1472,7 @@ B9_1981:		bcc B9_1951 ; 90 ce
 B9_1983:		lda $6e			; a5 6e
 B9_1985:		beq B9_19ab ; f0 24
 
-B9_1987:		lda $054e, x	; bd 4e 05
+B9_1987:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B9_198a:		cmp #$4b		; c9 4b
 B9_198c:		bne B9_19ab ; d0 1d
 
@@ -1479,7 +1498,7 @@ B9_19ac:		lda $ba			; a5 ba
 B9_19ae:		cmp #$ff		; c9 ff
 B9_19b0:		beq B9_1a28 ; f0 76
 
-B9_19b2:		lda $054e, x	; bd 4e 05
+B9_19b2:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B9_19b5:		sta $09			; 85 09
 B9_19b7:		lda $ba			; a5 ba
 B9_19b9:		sta $08			; 85 08
@@ -1522,7 +1541,7 @@ B9_19f3:		beq B9_1a16 ; f0 21
 
 B9_19f5:		dey				; 88 
 B9_19f6:		lda $ba46, y	; b9 46 ba
-B9_19f9:		cmp $054e, x	; dd 4e 05
+B9_19f9:		cmp wEntityObjectIdxes.w, x	; dd 4e 05
 B9_19fc:		bne B9_1a16 ; d0 18
 
 B9_19fe:		tya				; 98 
@@ -1648,7 +1667,7 @@ B9_1a9f:		pha				; 48
 B9_1aa0:		lda #$65		; a9 65
 B9_1aa2:		jsr $babb		; 20 bb ba
 B9_1aa5:		ldx #$01		; a2 01
-B9_1aa7:		lda $054e, x	; bd 4e 05
+B9_1aa7:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B9_1aaa:		cmp #$04		; c9 04
 B9_1aac:		bne B9_1ab1 ; d0 03
 
@@ -1665,7 +1684,7 @@ B9_1ab8:		rts				; 60
 B9_1ab9:		lda #$18		; a9 18
 B9_1abb:		sta wEntityAI_idx.w, x	; 9d ef 05
 B9_1abe:		lda #$68		; a9 68
-B9_1ac0:		sta $054e, x	; 9d 4e 05
+B9_1ac0:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B9_1ac3:		lda #$00		; a9 00
 B9_1ac5:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B9_1ac8:		sta wEntityOamSpecGroupDoubled.w, x	; 9d 8c 04

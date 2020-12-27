@@ -61,12 +61,12 @@ processNextEnvelopeByte:
 	jmp setAndSaveLowerBank
 
 
-func_1f_01fa:
-B31_01fa:		pha				; 48 
-B31_01fb:		lda #PRG_ROM_SWITCH|:func_18_0dc1		; a9 98
-B31_01fd:		jsr setAndSaveLowerBank		; 20 e6 e2
-B31_0200:		pla				; 68 
-B31_0201:		jmp func_18_0dc1		; 4c c1 8d
+processNextSoundByte:
+	pha
+	lda #PRG_ROM_SWITCH|:b18_processNextSoundByte
+	jsr setAndSaveLowerBank
+	pla
+	jmp b18_processNextSoundByte
 
 
 processNextSoundByteMain:

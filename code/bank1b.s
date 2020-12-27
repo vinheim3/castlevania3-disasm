@@ -166,7 +166,7 @@ B27_1882:		rts				; 60
 
 
 B27_1883:		ldx #$01		; a2 01
-B27_1885:		lda $054e, x	; bd 4e 05
+B27_1885:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B27_1888:		beq B27_1890 ; f0 06
 
 B27_188a:		inx				; e8 
@@ -177,9 +177,9 @@ B27_188f:		inx				; e8
 B27_1890:		rts				; 60 
 
 
-B27_1891:		jsr func_1f_1ed7		; 20 d7 fe
+B27_1891:		jsr clearAllEntityVars_todo		; 20 d7 fe
 B27_1894:		lda #$89		; a9 89
-B27_1896:		sta $054e, x	; 9d 4e 05
+B27_1896:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B27_1899:		lda #$0c		; a9 0c
 B27_189b:		ldy #$00		; a0 00
 B27_189d:		jsr setEntitySpecGroupA_animationDefIdxY_animateNextFrame		; 20 5c ef

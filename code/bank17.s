@@ -44,7 +44,7 @@ B23_1113:		beq B23_1132 ; f0 1d
 B23_1115:		jsr $b84c		; 20 4c b8
 B23_1118:		bcs B23_1132 ; b0 18
 
-B23_111a:		lda $054e, x	; bd 4e 05
+B23_111a:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B23_111d:		cmp #$7d		; c9 7d
 B23_111f:		beq B23_114f ; f0 2e
 
@@ -118,7 +118,7 @@ B23_117f:		bcc B23_1184 ; 90 03
 
 B23_1181:		jmp $b10f		; 4c 0f b1
 
-B23_1184:		lda $054e, x	; bd 4e 05
+B23_1184:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B23_1187:		cmp #$7e		; c9 7e
 B23_1189:		beq B23_119f ; f0 14
 
@@ -209,7 +209,7 @@ B23_1200:		bne B23_11fa ; d0 f8
 B23_1202:		lda wOamSpecIdxDoubled.w, x	; bd 00 04
 B23_1205:		beq B23_11fa ; f0 f3
 
-B23_1207:		lda $054e, x	; bd 4e 05
+B23_1207:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B23_120a:		cmp #$1c		; c9 1c
 B23_120c:		beq B23_11fa ; f0 ec
 
@@ -229,7 +229,7 @@ B23_121e:		lda $81			; a5 81
 B23_1220:		and #$f0		; 29 f0
 B23_1222:		bne B23_125f ; d0 3b
 
-B23_1224:		lda $054e, x	; bd 4e 05
+B23_1224:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B23_1227:		cmp #$79		; c9 79
 B23_1229:		bcc B23_122e ; 90 03
 
@@ -247,7 +247,7 @@ B23_123c:		bcs B23_125f ; b0 21
 
 B23_123e:		lda $0657, x	; bd 57 06
 B23_1241:		sta $81			; 85 81
-B23_1243:		lda $054e, x	; bd 4e 05
+B23_1243:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B23_1246:		cmp #$49		; c9 49
 B23_1248:		bne B23_1250 ; d0 06
 
@@ -261,7 +261,7 @@ B23_125a:		bcs B23_125d ; b0 01
 
 B23_125c:		iny				; c8 
 B23_125d:		sty $90			; 84 90
-B23_125f:		lda $054e, x	; bd 4e 05
+B23_125f:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B23_1262:		cmp #$16		; c9 16
 B23_1264:		beq B23_11fa ; f0 94
 
@@ -299,7 +299,7 @@ B23_129d:		jsr $b4c4		; 20 c4 b4
 B23_12a0:		lda #$14		; a9 14
 B23_12a2:		sta $9e			; 85 9e
 B23_12a4:		ldy $9e			; a4 9e
-B23_12a6:		lda $054e, y	; b9 4e 05
+B23_12a6:		lda wEntityObjectIdxes.w, y	; b9 4e 05
 B23_12a9:		beq B23_12f5 ; f0 4a
 
 B23_12ab:		jsr $b301		; 20 01 b3
@@ -325,7 +325,7 @@ B23_12d7:		ora $13			; 05 13
 B23_12d9:		sta $0669, x	; 9d 69 06
 B23_12dc:		jsr $b33a		; 20 3a b3
 B23_12df:		jsr $b31a		; 20 1a b3
-B23_12e2:		lda $054e, y	; b9 4e 05
+B23_12e2:		lda wEntityObjectIdxes.w, y	; b9 4e 05
 B23_12e5:		cmp #$06		; c9 06
 B23_12e7:		bne B23_12ef ; d0 06
 
@@ -368,7 +368,7 @@ B23_131a:		and #$0f		; 29 0f
 B23_131c:		cmp #$03		; c9 03
 B23_131e:		bne B23_1339 ; d0 19
 
-B23_1320:		lda $054e, y	; b9 4e 05
+B23_1320:		lda wEntityObjectIdxes.w, y	; b9 4e 05
 B23_1323:		cmp #$02		; c9 02
 B23_1325:		bne B23_1339 ; d0 12
 
@@ -382,7 +382,7 @@ B23_1336:		sta $0669, x	; 9d 69 06
 B23_1339:		rts				; 60 
 
 
-B23_133a:		lda $054e, x	; bd 4e 05
+B23_133a:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B23_133d:		cmp #$67		; c9 67
 B23_133f:		beq B23_1358 ; f0 17
 
@@ -426,7 +426,7 @@ B23_1379:		lda $bb43, y	; b9 43 bb
 B23_137c:		sta $00			; 85 00
 B23_137e:		lda $bb4c, y	; b9 4c bb
 B23_1381:		sta $01			; 85 01
-B23_1383:		ldy $054e, x	; bc 4e 05
+B23_1383:		ldy wEntityObjectIdxes.w, x	; bc 4e 05
 B23_1386:		lda wEntityOamSpecGroupDoubled.w, x	; bd 8c 04
 B23_1389:		cmp #$08		; c9 08
 B23_138b:		bne B23_1394 ; d0 07
@@ -446,7 +446,7 @@ B23_139d:		jmp $b763		; 4c 63 b7
 
 
 B23_13a0:		clc				; 18 
-B23_13a1:		ldy $054e, x	; bc 4e 05
+B23_13a1:		ldy wEntityObjectIdxes.w, x	; bc 4e 05
 B23_13a4:		lda $bbc8, y	; b9 c8 bb
 B23_13a7:		adc $00			; 65 00
 B23_13a9:		sta $02			; 85 02
@@ -554,7 +554,7 @@ B23_1460:		bcc B23_1465 ; 90 03
 B23_1462:		jmp $b78d		; 4c 8d b7
 
 
-B23_1465:		ldy $054e, x	; bc 4e 05
+B23_1465:		ldy wEntityObjectIdxes.w, x	; bc 4e 05
 B23_1468:		clc				; 18 
 B23_1469:		lda $bbc8, y	; b9 c8 bb
 B23_146c:		adc $00			; 65 00
@@ -573,7 +573,7 @@ B23_1484:		rts				; 60
 
 
 B23_1485:		ldy $9e			; a4 9e
-B23_1487:		lda $054e, y	; b9 4e 05
+B23_1487:		lda wEntityObjectIdxes.w, y	; b9 4e 05
 B23_148a:		cmp #$05		; c9 05
 B23_148c:		beq B23_14aa ; f0 1c
 
@@ -608,7 +608,7 @@ B23_14bf:		bcs B23_151d ; b0 5c
 B23_14c1:		jmp $a2e2		; 4c e2 a2
 
 
-B23_14c4:		lda $054e, x	; bd 4e 05
+B23_14c4:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B23_14c7:		cmp #$40		; c9 40
 B23_14c9:		bcc B23_151d ; 90 52
 
@@ -650,7 +650,7 @@ B23_1503:		bmi B23_153e ; 30 39
 B23_1505:		lda #$29		; a9 29
 B23_1507:		jsr playSound		; 20 5f e2
 B23_150a:		ldy #$00		; a0 00
-B23_150c:		lda $054e, x	; bd 4e 05
+B23_150c:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B23_150f:		cmp #$64		; c9 64
 B23_1511:		bne B23_1514 ; d0 01
 
@@ -681,7 +681,7 @@ B23_153d:		rts				; 60
 
 
 B23_153e:		lda #$27		; a9 27
-B23_1540:		ldy $054e, x	; bc 4e 05
+B23_1540:		ldy wEntityObjectIdxes.w, x	; bc 4e 05
 B23_1543:		cpy #$4d		; c0 4d
 B23_1545:		beq B23_1555 ; f0 0e
 
@@ -696,7 +696,7 @@ B23_1551:		beq B23_1555 ; f0 02
 
 B23_1553:		lda #$33		; a9 33
 B23_1555:		jsr playSound		; 20 5f e2
-B23_1558:		lda $054e, x	; bd 4e 05
+B23_1558:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B23_155b:		cmp #$5b		; c9 5b
 B23_155d:		beq B23_1596 ; f0 37
 
@@ -732,7 +732,7 @@ B23_158f:		sta wOamSpecIdxDoubled.w, x	; 9d 00 04
 B23_1592:		rts				; 60 
 
 
-B23_1593:		jmp func_17_00fc		; 4c fc a0
+B23_1593:		jmp processItemGotten		; 4c fc a0
 
 
 B23_1596:		lda #$05		; a9 05
@@ -751,7 +751,7 @@ B23_15a4:		jmp $b5ce		; 4c ce b5
 B23_15a7:		lda #$00		; a9 00
 B23_15a9:		sta $ce			; 85 ce
 B23_15ab:		jsr $e7ab		; 20 ab e7
-B23_15ae:		lda $054e, x	; bd 4e 05
+B23_15ae:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B23_15b1:		jsr $a30b		; 20 0b a3
 B23_15b4:		jmp $b5d1		; 4c d1 b5
 
@@ -763,14 +763,14 @@ B23_15b9:		jmp $b598		; 4c 98 b5
 B23_15bc:		lda $061d, x	; bd 1d 06
 B23_15bf:		tax				; aa 
 B23_15c0:		jsr $b584		; 20 84 b5
-B23_15c3:		sta $054e, x	; 9d 4e 05
+B23_15c3:		sta wEntityObjectIdxes.w, x	; 9d 4e 05
 B23_15c6:		sta wEntityAI_idx.w, x	; 9d ef 05
 B23_15c9:		ldx wCurrEntityIdxBeingProcessed			; a6 6c
 B23_15cb:		jmp $b56f		; 4c 6f b5
 
 
 B23_15ce:		jsr $a278		; 20 78 a2
-B23_15d1:		lda $054e, x	; bd 4e 05
+B23_15d1:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B23_15d4:		sec				; 38 
 B23_15d5:		sbc #$60		; e9 60
 B23_15d7:		sta wEntityAI_idx.w, x	; 9d ef 05
@@ -827,7 +827,7 @@ B23_1635:		sec				; 38
 B23_1636:		rts				; 60 
 
 
-B23_1637:		lda $054e, x	; bd 4e 05
+B23_1637:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B23_163a:		cmp #$1b		; c9 1b
 B23_163c:		beq B23_1649 ; f0 0b
 
@@ -842,7 +842,7 @@ B23_1649:		lda #$01		; a9 01
 B23_164b:		rts				; 60 
 
 
-B23_164c:		ldy $054e, x	; bc 4e 05
+B23_164c:		ldy wEntityObjectIdxes.w, x	; bc 4e 05
 B23_164f:		jsr getDistanceBetweenPlayerAndEntityX		; 20 b3 80
 B23_1652:		sta $0e			; 85 0e
 B23_1654:		lda $bbc8, y	; b9 c8 bb
@@ -854,7 +854,7 @@ B23_165f:		bcc B23_1635 ; 90 d4
 
 B23_1661:		bcs B23_166e ; b0 0b
 
-B23_1663:		ldy $054e, x	; bc 4e 05
+B23_1663:		ldy wEntityObjectIdxes.w, x	; bc 4e 05
 B23_1666:		jsr getDistanceBetweenPlayerAndEntityX		; 20 b3 80
 B23_1669:		cmp $bbc8, y	; d9 c8 bb
 B23_166c:		bcs B23_168a ; b0 1c
@@ -864,7 +864,7 @@ B23_1670:		lda $b68b, y	; b9 8b b6
 B23_1673:		clc				; 18 
 B23_1674:		adc wEntityBaseY.w		; 6d 1c 04
 B23_1677:		sta $10			; 85 10
-B23_1679:		ldy $054e, x	; bc 4e 05
+B23_1679:		ldy wEntityObjectIdxes.w, x	; bc 4e 05
 B23_167c:		sec				; 38 
 B23_167d:		lda wEntityBaseY.w, x	; bd 1c 04
 B23_1680:		sbc $bc60, y	; f9 60 bc
@@ -902,7 +902,7 @@ B23_16ab:		lda $b6da, y	; b9 da b6
 B23_16ae:		adc wEntityBaseY.w		; 6d 1c 04
 B23_16b1:		sta $10			; 85 10
 B23_16b3:		sec				; 38 
-B23_16b4:		ldy $054e, x	; bc 4e 05
+B23_16b4:		ldy wEntityObjectIdxes.w, x	; bc 4e 05
 B23_16b7:		lda wEntityBaseY.w, x	; bd 1c 04
 B23_16ba:		sbc $bc60, y	; f9 60 bc
 B23_16bd:		sta $11			; 85 11
@@ -944,7 +944,7 @@ B23_16e2:		php				; 08
 B23_16e3:		php				; 08 
 B23_16e4:		php				; 08 
 B23_16e5:		php				; 08 
-B23_16e6:		lda $054e, x	; bd 4e 05
+B23_16e6:		lda wEntityObjectIdxes.w, x	; bd 4e 05
 B23_16e9:		cmp #$40		; c9 40
 B23_16eb:		bcc B23_1710 ; 90 23
 
@@ -1083,7 +1083,7 @@ B23_17b8:		tay				; a8
 B23_17b9:		pla				; 68 
 B23_17ba:		jmp func_1f_1c1e		; 4c 1e fc
 
-; into A
+; into A, facing right - facing left
 data_17_17bd:
 	.db $08 $f8
 	.db $f8 $08
@@ -1178,7 +1178,7 @@ B23_184b:		rts				; 60
 B23_184c:		ldy $82			; a4 82
 B23_184e:		lda $bb43, y	; b9 43 bb
 B23_1851:		sta $00			; 85 00
-B23_1853:		ldy $054e, x	; bc 4e 05
+B23_1853:		ldy wEntityObjectIdxes.w, x	; bc 4e 05
 B23_1856:		clc				; 18 
 B23_1857:		lda $bbc8, y	; b9 c8 bb
 B23_185a:		adc $00			; 65 00
@@ -1192,7 +1192,7 @@ B23_1867:		lda wEntityBaseY.w		; ad 1c 04
 B23_186a:		sec				; 38 
 B23_186b:		sbc $b9bb, y	; f9 bb b9
 B23_186e:		sta $03			; 85 03
-B23_1870:		ldy $054e, x	; bc 4e 05
+B23_1870:		ldy wEntityObjectIdxes.w, x	; bc 4e 05
 B23_1873:		clc				; 18 
 B23_1874:		lda $bc60, y	; b9 60 bc
 B23_1877:		adc #$03		; 69 03

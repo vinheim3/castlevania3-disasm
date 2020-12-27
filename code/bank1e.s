@@ -1707,7 +1707,7 @@ B30_13a2:		jmp func_1e_157e		; 4c 7e d5
 
 B30_13a5:		lda #$00		; a9 00
 B30_13a7:		sta wCounterUntilCanShowSprBg			; 85 1c
-B30_13a9:		jsr func_1f_1753		; 20 53 f7
+B30_13a9:		jsr setNametableSingleScreenFillMode		; 20 53 f7
 B30_13ac:		lda #$0c		; a9 0c
 B30_13ae:		sta $64			; 85 64
 B30_13b0:		lda #$00		; a9 00
