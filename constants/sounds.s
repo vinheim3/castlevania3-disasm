@@ -63,3 +63,16 @@
 .define MUS_ENCOUNTER $6b
 .define MUS_DESTINY $6c
 .define SND_ATTACK_OR_MAIN_MENU_SELECT $72
+
+.ifdef SOUND_ENGINE
+.define NSE_SQ1 $00
+.define NSE_SQ2 $01
+.define NSE_TRI $02
+.define NSE_NOISE $03
+.define NSE_DPCM $04
+.define NSE_PULSE1 $05
+.define NSE_PULSE2 $06
+.define NSE_CONDUCTOR $07
+.define NUM_NON_CONDUCTOR_CHANS $07
+.define NUM_CHANS $08
+.endif

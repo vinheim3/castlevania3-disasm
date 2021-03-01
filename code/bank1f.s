@@ -395,6 +395,7 @@ pollInputs_noBounceCheck:
 
 
 setBank_c000_toRom07h:
+; or ifdef many other things like sound engine
 .ifdef WEAPON_SWAPPING
 	rts
 	rts

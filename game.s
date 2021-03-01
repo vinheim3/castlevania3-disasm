@@ -211,6 +211,14 @@
     .include "code/bank1e.s"
 
 .ifdef IS_EXTENDED_ROM
+
+.ifdef SOUND_ENGINE
+.bank $20 slot 1
+.org 0
+
+    .include "code/newSoundEngine.s"
+.endif
+
     .bank $7f slot 4
 .else
     .bank $1f slot 4

@@ -63,5 +63,14 @@ def getOutstandingLines():
                 total += 1
     print(total)
 
+def groupBytes(_bytes, groups):
+    # todo: 0 bytes is word
+    comps = []
+    for i in range(len(_bytes[::groups])):
+        rowBytes = _bytes[i*groups:(i+1)*groups]
+        joined = ' '.join(f'${b:02x}' for b in rowBytes)
+        comps.append(f'\t.db {joined}')
+    return '\n'.join(comps)
+
 if __name__ == '__main__':
     getOutstandingLines()

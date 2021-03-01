@@ -1,7 +1,7 @@
 
 processNextSoundByteAlt:
 ; start reading metabytes
-B24_0001:		cpx #INSTR_NOISE_1		; e0 05
+	cpx #INSTR_NOISE_1
 B24_0003:		beq B24_0037 ; @instrument5
 
 B24_0005:		lda (wCurrInstrumentDataAddr), y	; b1 e0
@@ -319,53 +319,62 @@ B24_01c7:		jsr func_18_01cd		; sets frequency
 
 
 func_18_01cd:
-B24_01cd:		cpx #$06		; e0 06
-B24_01cf:		beq func_18_01fe ; f0 2d
+; both tri and noise don't get interrupted by sound effects
+; so always update hw snd channels for them
+	cpx #INSTR_NOISE_2
+	beq updateSndFreqForChannelIf2ndChannelsNotInUse
 
-; not instrument 6
+; tri needs to consider fine freq adjust
 	jsr adjustInstrumentFrequency
-B24_01d4:		cpx #INSTR_TRI		; e0 02
-B24_01d6:		beq func_18_01fe ; f0 26
+	cpx #INSTR_TRI
+	beq updateSndFreqForChannelIf2ndChannelsNotInUse
 
+; for pulse, jump if envelope restarted,...
 B24_01d8:		lda w16e.w, x	; bd 6e 01
 B24_01db:		and #$10		; 29 10
-B24_01dd:		beq B24_01e7 ; f0 08
+B24_01dd:		beq func_18_01e7 ; f0 08
 
+; or envelope time not ff
 B24_01df:		lda wCurrEnvelopeByteTimeUntilNext.w, x	; bd de 03
 B24_01e2:		cmp #$ff		; c9 ff
-B24_01e4:		bne B24_01e7 ; d0 01
+B24_01e4:		bne func_18_01e7 ; d0 01
 
 B24_01e6:		rts				; 60 
 
 func_18_01e7:
+; update hw snd channels if freq is new
 B24_01e7:		lda wSoundFrequency+1			; a5 ed
 B24_01e9:		cmp wInstrumentLastFreq_hi.w, x	; dd 4d 01
-B24_01ec:		bne B24_0200 ; d0 12
+	bne +
 
+; if the same,...
 B24_01ee:		lda wSoundControlByte.w, x	; bd 15 01
 B24_01f1:		and #$81		; 29 81
 B24_01f3:		cmp #$81		; c9 81
-B24_01f5:		beq func_18_01fe ; f0 07
+B24_01f5:		beq updateSndFreqForChannelIf2ndChannelsNotInUse ; f0 07
 
 B24_01f7:		lda $0162, x	; bd 62 01
 B24_01fa:		and #$10		; 29 10
-B24_01fc:		bne B24_0210 ; d0 12
+B24_01fc:		bne updateSndFreqForChannelIf2ndChannelsNotInUse_skipHi ; d0 12
 
-func_18_01fe:
-B24_01fe:		lda wSoundFrequency+1			; a5 ed
-B24_0200:		sta wInstrumentLastFreq_hi.w, x	; 9d 4d 01
-B24_0203:		ora #$08		; 09 08
+updateSndFreqForChannelIf2ndChannelsNotInUse:
+; lowest length counter load
+	lda wSoundFrequency+1
++	sta wInstrumentLastFreq_hi.w, x
+	ora #$08
 
-B24_0205:		jsr secIf2ndSquareInUseElseRetHwRegOffset		; 20 13 83
-B24_0208:		bcs B24_0210 ; b0 06
+; update freq hi only if sound effect not playing
+	jsr secIf2ndSquareInUseElseRetHwRegOffset
+	bcs updateSndFreqForChannelIf2ndChannelsNotInUse_skipHi
 
-B24_020a:		sta SND_FREQ_HI.w, x	; 9d 03 40
-B24_020d:		jsr b18_waitAFewCycles2		; 20 53 87
+	sta SND_FREQ_HI.w, x
+	jsr b18_waitAFewCycles2
 
+updateSndFreqForChannelIf2ndChannelsNotInUse_skipHi:
 ; update last freq lo, only if 1st channels
-B24_0210:		lda wSoundFrequency			; a5 ec
-B24_0212:		ldx wCurrInstrumentIdx			; a6 ee
-B24_0214:		cpx #INSTR_SQ1_2		; e0 03
++	lda wSoundFrequency
+	ldx wCurrInstrumentIdx
+	cpx #INSTR_SQ1_2
 	bcs +
 
 ; instrument is 1st sq1, 1st sq2, tri
@@ -505,10 +514,10 @@ B24_02c8:		sta wCurrEnvelopeByteTimeUntilNext.w, x	; 9d de 03
 B24_02cb:		inc wCurrEnvelopeByteTimeUntilNext.w, x	; fe de 03
 
 ; reset envelope details
-B24_02ce:		lda #$00		; a9 00
-B24_02d0:		sta wInstrumentsEnvelopeIdx.w, x	; 9d a6 06
-B24_02d3:		sta wInstrumentsCurrEnvelopeLoops.w, x	; 9d a9 06
-B24_02d6:		sta wInstrumentEnvelopeLoopToIdx.w, x	; 9d a0 06
+	lda #$00
+	sta wInstrumentsEnvelopeIdx.w, x
+	sta wInstrumentsCurrEnvelopeLoops.w, x
+	sta wInstrumentEnvelopeLoopToIdx.w, x
 
 ; a fraction of frames until next byte
 B24_02d9:		lda w3cf.w, x	; bd cf 03
@@ -1085,7 +1094,7 @@ B24_05f0:		jsr func_18_00e5		; 20 e5 80
 	lsr wSoundFrequency+1
 	ror wSoundFrequency
 
-B24_0601:		jsr func_18_01fe		; 20 fe 81
+B24_0601:		jsr updateSndFreqForChannelIf2ndChannelsNotInUse		; 20 fe 81
 B24_0604:		lda w16e.w, x	; bd 6e 01
 B24_0607:		and #$7f		; 29 7f
 B24_0609:		sta w16e.w, x	; 9d 6e 01

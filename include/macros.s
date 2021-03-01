@@ -78,3 +78,28 @@
 -   lda PPUSTATUS.w
     bpl -
 .endm
+
+
+.macro jeq
+    bne +
+    jmp \1
++
+.endm
+
+.macro jne
+    beq +
+    jmp \1
++
+.endm
+
+.macro jcs
+    bcc +
+    jmp \1
++
+.endm
+
+.macro jpl
+    bmi +
+    jmp \1
++
+.endm

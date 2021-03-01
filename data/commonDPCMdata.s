@@ -1,4 +1,63 @@
 
+.ifdef SOUND_ENGINE
+	.db $f1 $6b $1b $1f $1c $3e $f0 $1f $00 $0e $80 $87 $e3 $03 $c4 $07
+	.db $74 $e0 $77 $07 $f0 $f1 $e3 $7f $fe $7f $ff $0f $e0 $ff $f1 $ff
+	.db $f8 $01 $38 $00 $78 $00 $00 $00 $0c $1c $20 $1c $1b $00 $00 $00
+	.db $00 $00 $00 $80 $1f $0f $fe $ff $ff $ff $ff $ff $ff $ff $ff $ff
+	.db $ff $ff $ff $ff $ff $ff $ff $1f $00 $00 $00 $00 $00 $00 $00 $00
+	.db $00 $00 $00 $00 $00 $00 $00 $00 $c0 $ef $cf $bf $bf $b6 $3f $fb
+	.db $f9 $fe $d3 $5f $2d $fc $dc $19 $b6 $6b $34 $c0 $23 $13 $12 $15
+	.db $2a $a4 $0a $26 $32 $33 $82 $23 $71 $b4 $10 $2e $8c $64 $8b $f1
+	.db $87 $0f $af $3c $e0 $0f $bf $ea $43 $7d $b9 $b2 $96 $a6 $8e $35
+	.db $8d $ea $60 $54 $c5 $23 $4c $55 $8e $ae $12 $97 $97 $2b $46 $37
+	.db $ba $d6 $64 $49 $d3 $d6 $52 $af $aa $aa $ab $c7 $1b $73 $b5 $ea
+	.db $55 $ab $94 $f3 $69 $9c $b5 $46 $6d $2a $25 $49 $4c $8d $14 $1a
+	.db $13 $99 $14 $59 $94 $52 $2a $29 $49 $92 $14 $55 $54 $4a $96 $aa
+	.db $56 $6b $59 $b5 $d6 $4e $56 $f5 $b5 $79 $b9 $ae $d3 $d7 $ac $ad
+	.db $f5 $5c $5d $dd $5c $a5 $ae $5a $ae $96 $56 $b5 $d5 $d2 $92 $55
+	.db $55 $55 $a5 $4a $2d $d5 $aa $52 $c5 $a6 $92 $52 $49 $51 $55 $52
+	.db $94 $a4 $24 $95 $a4 $a4 $28 $45 $29 $a5 $94 $52 $26 $55 $a5 $56
+	.db $aa $5a $aa $5a $ad $74 $55 $ab $55 $ae $da $d6 $5a $55 $57 $ab
+	.db $b5 $5a $6b $ab $5a $ab $b5 $b6 $56 $ab $ab $65 $ab $aa $56 $55
+	.db $55 $55 $56 $95 $4a $55 $a9 $aa $54 $49 $55 $51 $a5 $52 $95 $52
+	.db $95 $aa $94 $56 $2a $55 $aa $54 $55 $55 $a9 $aa $aa $a9 $5a $5a
+	.db $69 $55 $ad $ac $56 $55 $4d $6b $55 $55 $55 $b5 $aa $aa $54 $55
+	.db $55 $55 $55 $96 $aa $ac $aa $b4 $52 $55 $d5 $54 $55 $a5 $55 $55
+	.db $5a $55 $55 $ab $d5 $aa $6a $55 $ad $56 $35 $ad $55 $cb $4a $ab
+	.db $aa $aa $a6 $aa $aa $aa $52 $95 $aa $54 $a9 $52 $99 $aa $4a $a5
+	.db $2a $55 $a5 $aa $4a $55 $95 $a5 $aa $aa $55 $55 $55 $55 $69 $55
+	.db $b5 $aa $aa $6a $55 $b5 $aa $aa $55 $ab $aa $aa $aa $b4 $54 $55
+	.db $55 $cd $d2 $aa $aa $aa $aa $aa $aa $6a $55 $55 $55 $55 $b5 $aa
+	.db $aa $9a $a6 $55 $55 $55 $55 $55 $55 $55 $55 $55 $55 $55 $59 $aa
+	.db $aa $aa $4a $55 $a9 $aa $aa $aa $aa $2a $55 $55 $a5 $aa $aa $54
+	.db $55 $55 $55 $55 $56 $69 $95 $55 $55 $55 $55 $ad $aa $aa $aa $5a
+	.db $55 $55 $d5 $aa $aa $aa $aa $6a $55 $55 $55 $55 $55 $55 $55 $ab
+	.db $aa $ca $2a $55 $55 $55 $55 $a9 $aa $aa $aa $aa $aa $aa $aa $aa
+	.db $aa $aa $aa $aa $aa $aa $aa $aa $aa $55 $55 $55 $55 $55 $ab $aa
+	.db $aa $aa $52 $55 $55 $55 $55 $95 $aa $aa $aa $aa $aa $4a $55 $55
+	.db $a5 $aa $aa $4a $55 $55 $55 $55 $55 $55 $55 $55 $55 $55 $55 $d3
+	.db $aa $aa $aa $aa $aa $aa $aa $a6 $5a $55 $55 $55 $b5 $aa $aa $aa
+	.db $aa $aa $aa $aa $aa $aa $5a $55 $55 $55 $55 $55 $55 $55 $55 $55
+	.db $55 $55 $55 $d5 $52 $55 $55 $55 $55 $55 $55 $55 $99 $aa $aa $aa
+	.db $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa
+	.db $52 $55 $55 $55 $55 $55 $55 $55 $55 $55 $55 $55 $55 $55 $55 $55
+	.db $55 $55 $55 $ad $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa
+	.db $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $9a $5a $55 $55
+	.db $55 $55 $55 $55 $a5 $a9 $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa
+	.db $aa $aa $aa $aa $aa $aa $aa $aa $2a $55 $55 $55 $55 $55 $55 $55
+	.db $55 $55 $55 $55 $55 $55 $55 $55 $55 $ab $aa $aa $aa $aa $aa $aa
+	.db $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa
+	.db $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $56 $5a $55 $55
+	.db $55 $55 $55 $55 $55 $55 $55 $55 $55 $a5 $aa $aa $aa $aa $aa $aa
+	.db $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa
+	.db $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa
+	.db $aa $aa $aa $aa $aa $aa $52 $55 $d5 $aa $aa $aa $aa $aa $aa $aa
+	.db $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa
+	.db $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa
+	.db $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa
+	.db $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa $aa
+	.db $aa
+.else
 	.db $3f $fc $7f $dc $e1 $f9 $0f $df $f7 $00 $00 $00 $80 $fd $ff $ff $ff $fe $fe $7e $00 $00 $04 $21 $12 $fc $ff $ff $ff $07 $00 $00
 	.db $00 $00 $c0 $b7 $fb $ff $ff $ff $ff $fe $fe $fe $02 $00 $80 $20 $44 $21 $49 $32 $46 $19 $23 $f8 $ff $ff $ff $ff $00 $00 $00 $00
 	.db $af $5f $e6 $b3 $18 $1b $60 $c7 $79 $50 $38 $11 $58 $5f $f8 $ed $d1 $16 $bf $ac $25 $1c $09 $32 $78 $9a $5e $9e $be $75 $86 $83
@@ -63,3 +122,4 @@
 	.db $e0 $ff $01 $fe $03 $fe $03 $80 $07 $80 $ff $07 $ff $0f $c0 $3f $fe $03 $00 $00 $80 $ff $ff $ff $0f $c0 $ff $3f $00 $00 $00 $f0
 	.db $ff $fe $ff $00 $cc $ff $03 $00 $00 $00 $ff $f7 $ff $0f $e0 $e7 $3f $00 $00 $00 $f8 $ff $ff $7f $00 $3e $fc $07 $00 $00 $00 $ff
 	.db $e7 $ff $0f $60 $fe $7f $00 $00 $00 $f0 $ff $fc $ff $01 $dc $f1 $1f $00 $00 $00 $fc $bf $ff $3f $80 $79 $fc $0f $00 $08 $00 $fe
+.endif

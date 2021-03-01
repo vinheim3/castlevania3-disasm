@@ -568,6 +568,9 @@ wCurrInstrumentDataAddr: ; $e0
 .nextu
     wGenericTempVar: ; $e2
         db
+
+    wGenericTempVar2: ; $e3
+        db
 .nextu
     wEnvelopeAddr: ; $e2
         dw
@@ -576,18 +579,31 @@ wCurrInstrumentDataAddr: ; $e0
         db
 .endu
 
-wSoundBankTempVar1: ; $e4
-    db
+.union
+    wSoundBankTempVar1: ; $e4
+        db
 
-wSoundBankTempVar2: ; $e5
-    db
+    wSoundBankTempVar2: ; $e5
+        db
+.nextu
+    wSoundBankTempAddr2: ; $e4
+        dw
+.endu
 
-; used just to check 1st byte when loading sound
-wTempCurrInstrumentDataAddr: ; $e6
-    dw
+.union
+    ; used just to check 1st byte when loading sound
+    wTempCurrInstrumentDataAddr: ; $e6
+        dw
 
-wSoundMetadataAddr: ; $e8
-    dw
+    wSoundMetadataAddr: ; $e8
+        dw
+.nextu
+    wSoundBankTempAddr1: ; $e6
+        dw
+
+    wSoundBankTempAddr3: ; $e8
+        dw
+.endu
 
 wSoundNumInstrumentsMinus1: ; $ea
     db
@@ -986,6 +1002,132 @@ wramEnd:
 
     wIsShaking: ; $603e
         db
+.endif
+
+.ifdef SOUND_ENGINE
+    wGrooveIdx:
+        db
+
+    wCurrFrameNumRows:
+        db
+
+    wCurrFrameRow:
+        db
+
+    wCurrFrameIdx:
+        db
+
+    wTicksToNextRow:
+        db
+
+    wGrooveValIdx:
+        db
+
+    wSongJustPlayed:
+        db
+
+    wNSEInstrEnded:
+        dsb NUM_CHANS
+
+    wNSEInstrPhrase:
+        dsb NUM_CHANS
+
+    wNSEInstrDataAddr_lo:
+        dsb NUM_CHANS
+
+    wNSEInstrDataAddr_hi:
+        dsb NUM_CHANS
+
+    wNSEInstrWaitRows:
+        dsb NUM_CHANS
+
+    ; not conductor
+    wNoteFreqIdx:
+        dsb NUM_NON_CONDUCTOR_CHANS
+
+    wNoteFreq_lo:
+        dsb NUM_NON_CONDUCTOR_CHANS
+
+    wNoteFreq_hi:
+        dsb NUM_NON_CONDUCTOR_CHANS
+
+    wNoteLastFreq_hi:
+        dsb NUM_NON_CONDUCTOR_CHANS
+
+    wNoteInstrument:
+        dsb NUM_NON_CONDUCTOR_CHANS
+
+    wNoteVolume:
+        dsb NUM_NON_CONDUCTOR_CHANS
+
+    ; 0 - not released
+    ; 1 - just released
+    ; 2 - released
+    wNoteReleased:
+        dsb NUM_NON_CONDUCTOR_CHANS
+
+    wEchoBufferIdx:
+        dsb NUM_NON_CONDUCTOR_CHANS
+
+    wDelayedVolChangeCounter:
+        dsb NUM_NON_CONDUCTOR_CHANS
+
+    wDelayedVolChangeVol:
+        dsb NUM_NON_CONDUCTOR_CHANS
+
+    wArpeggioXY:
+        dsb NUM_NON_CONDUCTOR_CHANS
+
+    ; points to all macros for instrument
+    wInstrAddr_lo:
+        dsb NUM_NON_CONDUCTOR_CHANS
+    wInstrAddr_hi:
+        dsb NUM_NON_CONDUCTOR_CHANS
+
+    ; address here points to metadata and list of values
+    wInstrVolAddr_lo:
+        dsb NUM_NON_CONDUCTOR_CHANS
+    wInstrVolAddr_hi:
+        dsb NUM_NON_CONDUCTOR_CHANS
+    wInstrVolTick:
+        dsb NUM_NON_CONDUCTOR_CHANS
+    wCurrInstrVolVal:
+        dsb NUM_NON_CONDUCTOR_CHANS
+
+    wInstrArpAddr_lo:
+        dsb NUM_NON_CONDUCTOR_CHANS
+    wInstrArpAddr_hi:
+        dsb NUM_NON_CONDUCTOR_CHANS
+    wInstrArpTick:
+        dsb NUM_NON_CONDUCTOR_CHANS
+    wCurrInstrArpVal:
+        dsb NUM_NON_CONDUCTOR_CHANS
+
+    wInstrPitchAddr_lo:
+        dsb NUM_NON_CONDUCTOR_CHANS
+    wInstrPitchAddr_hi:
+        dsb NUM_NON_CONDUCTOR_CHANS
+    wInstrPitchTick:
+        dsb NUM_NON_CONDUCTOR_CHANS
+    wCurrInstrPitchVal:
+        dsb NUM_NON_CONDUCTOR_CHANS
+
+    wInstrDutyAddr_lo:
+        dsb NUM_NON_CONDUCTOR_CHANS
+    wInstrDutyAddr_hi:
+        dsb NUM_NON_CONDUCTOR_CHANS
+    wInstrDutyTick:
+        dsb NUM_NON_CONDUCTOR_CHANS
+    wCurrInstrDutyVal:
+        dsb NUM_NON_CONDUCTOR_CHANS
+
+    ; centered at $80
+    wSndChannelPitchOffset:
+        dsb NUM_NON_CONDUCTOR_CHANS
+
+    ; populated from $00-$5d, $60-$6f, $70-$7f
+    wEchoBuffer:
+        dsb NUM_NON_CONDUCTOR_CHANS * $10
 .endif
 .ends
 

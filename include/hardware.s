@@ -1,3 +1,4 @@
+; PPU
 .define PPUCTRL $2000
 .define PPUCTRL_NMI_ON $80
 .define PPUCTRL_COLOR_ON_EXT_PINS $40
@@ -25,6 +26,9 @@
 .define PPUDATA $2007
 .define OAMDMA $4014
 
+.define NAMETABLE0 $2000
+.define INTERNAL_PALETTES $3f00
+
 ; for instances where any channel is referenced
 .define SND_VOL $4000
 .define SND_SWEEP $4001
@@ -32,6 +36,7 @@
 .define SND_FREQ_HI $4003
 .define LENGTH_COUNTER_LOAD $f8
 
+; Audio
 .define SQ1_VOL $4000
 .define SQ1_SWEEP $4001
 .define SQ1_LO $4002
@@ -58,6 +63,7 @@
 .define SNDENA_SQ1 $01
 .define APU_FRAME_CTR $4017
 
+; Joypad
 .define JOY1 $4016
 .define JOY2 $4017
 .define PADF_A $80
@@ -69,17 +75,23 @@
 .define PADF_LEFT $02
 .define PADF_RIGHT $01
 
-.define NAMETABLE0 $2000
-.define INTERNAL_PALETTES $3f00
-
 ; MMC5
 .define PCM_MODE $5010
-
 .define PRG_MODE $5100
 .define PRG_MODE_16_8_8 $02
-
 .define CHR_MODE $5101
 .define EXTENDED_RAM_MODE $5104
+
+; MMC5 audio
+.define MMC5_PULSE1_VOL $5000
+.define MMC5_PULSE1_LO $5002
+.define MMC5_PULSE1_HI $5003
+.define MMC5_PULSE2_VOL $5004
+.define MMC5_PULSE2_LO $5006
+.define MMC5_PULSE2_HI $5007
+.define MMC5_STATUS $5015
+.define SNDENA_MMC5_PULSE1 $01
+.define SNDENA_MMC5_PULSE2 $02
 
 ; nametable bits - DDCCBBAA
 ; 00 - vram page 0
@@ -93,11 +105,9 @@
 .define NT_ALL_MODES_HORIZONTAL_MIRROR $d8; %11011000
 .define NT_ALL_MODES_VERTICAL_MIRROR $e4 ; %11100100
 .define NT_SINGLE_SCREEN_FILL_MODE $ff ; %11111111
-
 .define FILL_MODE_TILE $5106
 .define FILL_MODE_COLOUR $5107
 .define PRG_BANK_8000 $5115
-
 .define PRG_BANK_c000 $5116
 .define PRG_ROM_SWITCH $80
 

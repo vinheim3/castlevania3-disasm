@@ -1,8 +1,14 @@
 
 silenceAllSoundChannels:
+.ifdef SOUND_ENGINE
+	lda #PRG_ROM_SWITCH|:nse_silenceAllSoundChannels
+	jsr saveAndSetNewLowerBank
+	jsr nse_silenceAllSoundChannels
+.else
 	lda #PRG_ROM_SWITCH|:b18_silenceAllSoundChannels
 	jsr saveAndSetNewLowerBank
 	jsr b18_silenceAllSoundChannels
+.endif
 	lda wPrgBankBkup_8000
 	jmp setAndSaveLowerBank
 
@@ -100,7 +106,11 @@ initSound:
 
 	lda wPrgBank_8000
 	sta wPrgBankBkup2_8000
+.ifdef SOUND_ENGINE
+	jsr_8000Func nse_initSound
+.else
 	jsr_8000Func b18_initSound
+.endif
 	jmp soundFunc_setNotExecuting
 
 
@@ -110,7 +120,11 @@ updateSoundIfNotExecutingSoundFunc:
 
 	lda wPrgBank_8000
 	pha
+.ifdef SOUND_ENGINE
+	jsr_8000Func nse_updateSound
+.else
 	jsr_8000Func b18_updateSound
+.endif
 	pla
 	jmp setAndSaveLowerBank
 
@@ -120,9 +134,11 @@ updateSoundIfNotExecutingSoundFunc:
 updateSound:
 	lda #$ff
 	sta wIsExecutingSoundFunc
-
+.ifdef SOUND_ENGINE
+	jsr_8000Func nse_updateSound
+.else
 	jsr_8000Func b18_updateSound
-	
+.endif
 	lda #$00
 	sta wIsExecutingSoundFunc
 	rts
@@ -136,11 +152,19 @@ playSound:
 
 	lda wPrgBank_8000
 	sta wPrgBankBkup2_8000
+.ifdef SOUND_ENGINE
+	lda #PRG_ROM_SWITCH|:nse_playSound
+	jsr setAndSaveLowerBank
+
+	pla
+	jsr nse_playSound
+.else
 	lda #PRG_ROM_SWITCH|:b18_playSound
 	jsr setAndSaveLowerBank
 
 	pla
 	jsr b18_playSound
+.endif
 
 soundFunc_setNotExecuting:
 	lda #$00
